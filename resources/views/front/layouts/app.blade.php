@@ -27,11 +27,16 @@
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
 <!-- Topbar-->
-<div class="topbar topbar-light bg-light">
+<div class="topbar topbar-light bg-light d-none d-md-block">
     <div class="container">
-        <div class="topbar-text text-nowrap "><i class="ci-phone"></i><a class="topbar-link me-4" href="tel:+38514816574">+385 1 48 16 574</a> <i class="ci-location"></i><a class="topbar-link" href="Palmotićeva 28, Zagreb ">Palmotićeva 28, Zagreb </a></div>
+        <div class="topbar-text text-nowrap ">
+            <a class="topbar-link me-4" href="tel:+38514816574"><i class="ci-phone"></i> +385 1 48 16 574</a>
+            <a class="topbar-link me-4" href="Palmotićeva 28, Zagreb "><i class="ci-location"></i> Palmotićeva 28, Zagreb </a>
+           <a class="topbar-link d-none d-md-inline-block" href="order-tracking.html">  <i class="ci-time"></i> PON-PET: 9-20 | SUB: 9-14</a></div>
 
-        <div class="ms-3 text-nowrap"><a class="topbar-link d-none d-md-inline-block" href="order-tracking.html"><i class="ci-time"></i>PON-PET: 9-20 | SUB: 9-14</a>
+        <div class="ms-3 text-nowrap">
+            <a class="topbar-link d-none d-md-inline-block" href="order-tracking.html">O nama</a>
+            <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="comparison.html">Kontakt</a>
         </div>
     </div>
 </div>
@@ -42,10 +47,10 @@
 
 @include('front.layouts.partials.footer')
 
-<!-- Toolbar for handheld devices (Marketplace)-->
-<div class="handheld-toolbar">
-    <div class="d-table table-layout-fixed w-100"><a class="d-table-cell handheld-toolbar-item" href="dashboard-favorites.html"><span class="handheld-toolbar-icon"><i class="ci-heart"></i></span><span class="handheld-toolbar-label">Lista želja</span></a><a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)"><span class="handheld-toolbar-icon"><i class="ci-menu"></i></span><span class="handheld-toolbar-label">Menu</span></a><a class="d-table-cell handheld-toolbar-item" href="marketplace-cart.html"><span class="handheld-toolbar-icon"><i class="ci-cart"></i><span class="badge bg-primary rounded-pill ms-1">1</span></span><span class="handheld-toolbar-label">80.00kn</span></a></div>
-</div>
+
+@include('front.layouts.partials.handheld')
+
+
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor scrits: js libraries and plugins-->

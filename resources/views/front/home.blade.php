@@ -43,20 +43,20 @@
                         <div>
                             <div class="card product-card-alt">
                                 <div class="product-thumb">
-                                    <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                                 Wroblewski David </a></div>
                                         <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                         </div>
                                     </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="product.html">Priča o Edgaru Sawtelleu</a></h3>
+                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                         <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                         <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -68,20 +68,20 @@
                         <div>
                             <div class="card product-card-alt">
                                 <div class="product-thumb">
-                                    <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                                 Lynds Gayle </a></div>
                                         <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                         </div>
                                     </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="product.html">Mozaik</a></h3>
+                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                         <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                         <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -93,20 +93,20 @@
                         <div>
                             <div class="card product-card-alt">
                                 <div class="product-thumb">
-                                    <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                                 Gall Zlatko </a></div>
                                         <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                         </div>
                                     </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                         <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                         <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -118,20 +118,20 @@
                         <div>
                             <div class="card product-card-alt">
                                 <div class="product-thumb">
-                                    <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                                 Camus Albert </a></div>
                                         <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                         </div>
                                     </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="product.html">Stranac</a></h3>
+                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                         <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                         <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -143,20 +143,20 @@
                         <div>
                             <div class="card product-card-alt">
                                 <div class="product-thumb">
-                                    <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                                 Gall Zlatko </a></div>
                                         <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                         </div>
                                     </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                         <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                         <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -185,19 +185,19 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Wroblewski David </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Priča o Edgaru Sawtelleu</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -210,19 +210,19 @@
                     <div class="card product-card-alt">
                         <div class="product-thumb">
 
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Lynds Gayle </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Mozaik</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -235,19 +235,19 @@
                     <div class="card product-card-alt">
                         <div class="product-thumb">
 
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Gall Zlatko </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -259,20 +259,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Camus Albert </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Stranac</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -284,20 +284,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Gall Zlatko </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -368,20 +368,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
+
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="#"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Wroblewski David </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Priča o Edgaru Sawtelleu</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -393,20 +393,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Lynds Gayle </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Mozaik</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
@@ -418,20 +418,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Gall Zlatko </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -443,20 +443,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Camus Albert </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Stranac</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -468,20 +468,20 @@
                 <div>
                     <div class="card product-card-alt">
                         <div class="product-thumb">
-                            <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
+
+                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="product.html">
+                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
 
                                         Gall Zlatko </a></div>
                                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                 </div>
                             </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="product.html">Velika svjetska rock enciklopedija</a></h3>
+                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
                                 <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
@@ -505,7 +505,7 @@
                     <div>
                         <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti.jpg" alt="Post"></a>
                             <div class="card-body">
-                                <h2 class="h6 blog-entry-title"><a href="product.html">Vlasnik Daniel: Trudim se naći najstarije primjerke naših djela</a></h2>
+                                <h2 class="h6 blog-entry-title"><a href="{{ route('knjiga') }}">Vlasnik Daniel: Trudim se naći najstarije primjerke naših djela</a></h2>
                                 <p class="fs-sm">Bavimo se vraćanju hrvatske knjižne građe koja svjedoči našoj povijesti i običajima. Većina tih knjiga tiskana je vani te ih je teško naći...</p>
                                 <div class="fs-xs text-nowrap"><a class="blog-entry-meta-link text-nowrap" href="#">23. Lip 2021</a><span class="blog-entry-meta-divider mx-2"></span> 24 sata</div>
                             </div>

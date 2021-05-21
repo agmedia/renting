@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="d-flex">
-                        <i class="ci-support text-primary" style="font-size: 2.25rem;"></i>
+                        <i class="ci-message text-primary" style="font-size: 2.25rem;"></i>
                         <div class="ps-3">
                             <h6 class="fs-base text-light mb-1">Korisnička podrška</h6>
                             <p class="mb-0 fs-ms text-light opacity-50">Prije i nakon vaše kupnje</p>
