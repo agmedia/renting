@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Hero section-->
-    <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url('img/indexslika.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+    <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url('media/img/lightslider.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="pb-lg-5 mb-lg-3">
             <div class="container py-lg-4 my-lg-5">
                 <div class="row mb-3 mb-sm-3">
@@ -46,7 +46,7 @@
                                     <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                                     <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -71,7 +71,7 @@
                                     <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                                     <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga2.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -96,7 +96,7 @@
                                     <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                                     <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -121,7 +121,7 @@
                                     <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                                     <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga4.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -146,7 +146,7 @@
                                     <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                                     <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                         <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                                    </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -187,7 +187,7 @@
                         <div class="product-thumb">
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -212,7 +212,7 @@
 
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga2.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -237,7 +237,7 @@
 
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -262,7 +262,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga4.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -287,7 +287,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -313,24 +313,43 @@
 
     <section class="container pb-3 mb-md-3">
         <div class="row">
-            <div class="col-md-8 mb-4">
-                <div class="d-sm-flex justify-content-between align-items-center bg-third overflow-hidden rounded-3">
-                    <div class="py-4 my-2 my-md-0 py-md-5 px-4 ms-md-3 text-center text-sm-start">
+            <div class="col-md-6 mb-4">
 
-                        <h3 class="mb-4">Stare i rijetke knjige</h3><a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
-                    </div><img class="d-block ms-auto" src="img/bannerstaro.jpg" alt="Stare i rijetke knjige">
+
+                <div class="card bg-third" >
+                    <div class="row g-0 d-sm-flex justify-content-between align-items-center">
+
+                        <div class="col-7">
+                            <div class="card-body ps-md-4">
+                                <h3 class="mb-4 ">Stare i rijetke knjige</h3>
+                                <a class="btn btn-primary btn-shadow btn-sm  " href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <img src="media/img/canvas1.jpg" class="rounded-start" alt="Card image">
+                        </div>
+                    </div>
                 </div>
+
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="d-flex flex-column h-100 justify-content-center bg-size-cover bg-position-center rounded-3" style="background-image: url('img/bannerkarte.jpg');">
-                    <div class="py-4 my-2 px-4 text-center">
-                        <div class="py-1">
-                            <h3 class="mb-4 text-white">Vedute i karte</h3>
-                            <a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
+
+            <div class="col-md-6 mb-4">
+                <!-- Gallery inside card -->
+                <div class="card bg-third" >
+                    <div class="row g-0 d-sm-flex justify-content-between align-items-center">
+                        <div class="col-5">
+                            <img src="media/img/canvas.jpg" class="rounded-start" alt="Card image">
+                        </div>
+                        <div class="col-7">
+                            <div class="card-body ps-md-4">
+                                <h3 class="mb-4 ">Vedute i karte</h3>
+                                <a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -352,7 +371,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="#"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -377,7 +396,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga2.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga2.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -402,7 +421,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -427,7 +446,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga4.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga4.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -452,7 +471,7 @@
                             <button class="btn-wishlist btn-sm" type="button"><i class="ci-heart"></i></button>
                             <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="product.html"><i class="ci-eye"></i></a>
                                 <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="img/knjiga3.jpg" alt="Product">
+                            </div><a class="product-thumb-overlay" href="product.html"></a><img src="media/img/knjiga3.jpg" alt="Product">
                         </div>
                         <div class="card-body">
                             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
@@ -477,14 +496,14 @@
     </section>
 
     <!-- Blog posts carousel-->
-    <section class=" border-top mb-0 pb-5 py-5" style="background-image: url('img/glag.png');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+    <section class=" border-top mb-0 pb-5 py-5" style="background-image: url('media/img/glag.png');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="container py-lg-3">
             <h2 class="h3 text-center">Iz medija</h2>
             <p class="text-muted-light text-center mb-3 pb-4">Medijske objave, članci i obavijesti</p>
             <div class="tns-carousel pb-5">
                 <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;gutter&quot;: 15, &quot;controls&quot;: false, &quot;nav&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3}, &quot;992&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">
                     <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="img/novosti.jpg" alt="Post"></a>
+                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti.jpg" alt="Post"></a>
                             <div class="card-body">
                                 <h2 class="h6 blog-entry-title"><a href="product.html">Vlasnik Daniel: Trudim se naći najstarije primjerke naših djela</a></h2>
                                 <p class="fs-sm">Bavimo se vraćanju hrvatske knjižne građe koja svjedoči našoj povijesti i običajima. Većina tih knjiga tiskana je vani te ih je teško naći...</p>
@@ -493,7 +512,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="img/novosti2.jpg" alt="Post"></a>
+                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti2.jpg" alt="Post"></a>
                             <div class="card-body">
                                 <h2 class="h6 blog-entry-title"><a href="#">Dvostruki je užitak spasiti vrijednu staru knjigu i još zaraditi na tome</a></h2>
                                 <p class="fs-sm">Zagrebački antikvarijat Biblos uspješno posluje već sedamnaest godina, što je za vrijeme u kojem su knjige sve manje na cijeni impresivan broj.</p>
@@ -502,7 +521,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="img/novosti3.jpg" alt="Post"></a>
+                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti3.jpg" alt="Post"></a>
                             <div class="card-body">
                                 <h2 class="h6 blog-entry-title"><a href="#">Od štanda na Britancu do poznatog antikvarijata</a></h2>
                                 <p class="fs-sm">Daniel Glavan o svom putu, opsesiji i rijetkim knjigama koje dovlači iz Europe. Neke spektakularne pronašao je i u zagrebačkim podrumima... </p>

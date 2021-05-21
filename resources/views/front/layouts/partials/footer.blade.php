@@ -4,7 +4,7 @@
     <div class="container pt-2 pb-3">
         <div class="row">
             <div class="col-md-6 text-center text-md-start mb-4">
-                <div class="text-nowrap mb-3"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="img/logobijeli.svg" width="260" alt="Antikvarijat Biblos"></a></div>
+                <div class="text-nowrap mb-3"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="media/img/logobijeli.svg" width="180" alt="Antikvarijat Biblos"></a></div>
                 <p class="fs-sm text-white opacity-70 pb-1">Otkup i prodaja starih i rijetkih izdanja hrvatskih i stranih knjiga,<br> te zemljovida i veduta</p>
                 <h6 class="d-inline-block pe-3 me-3 border-end border-light"><span class="text-primary">65,478 </span><span class="fw-normal text-white">Artikala</span></h6>
                 <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">2,521 </span><span class="fw-normal text-white">Kupaca</span></h6>
@@ -97,7 +97,7 @@
             <div class="d-md-flex justify-content-between pt-2">
                 <div class="pb-4 fs-xs text-light opacity-50 text-center text-md-start">© Sva prava pridržana. Web by <a class="text-light" href="https://www.agmedia.hr" target="_blank" rel="noopener">AG media</a></div>
                 <div class="widget widget-links widget-light pb-4 text-center text-md-end">
-                    <img class="d-inline-block" width="187" src="img/cards-alt.png" alt="Payment methods"/>
+                    <img class="d-inline-block" width="187" src="media/img/cards-alt.png" alt="Payment methods"/>
                 </div>
             </div>
         </div>

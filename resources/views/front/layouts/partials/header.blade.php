@@ -1,7 +1,7 @@
 <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
 <header class="bg-dark shadow-sm navbar-sticky">
     <div class="navbar navbar-expand-lg navbar-dark">
-        <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0 me-4 order-lg-1" href="index.html"><img src="img/logobijeli.svg" width="280" alt="Antikvarijat Biblos"></a><a class="navbar-brand d-sm-none me-0 order-lg-1" href="index.html"><img src="img/logobijeli.svg" width="160" alt="Antikvarijat Biblos"></a>
+        <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0 me-4 order-lg-1 p-0"" href="index.html"><img src="media/img/logobijeli.svg" width="180" alt="Antikvarijat Biblos"></a><a class="navbar-brand d-sm-none me-0 order-lg-1" href="index.html"><img src="media/img/logobijeli.svg" width="160" alt="Antikvarijat Biblos"></a>
             <!-- Toolbar-->
             <div class="navbar-toolbar d-flex align-items-center order-lg-3">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-tool d-none d-lg-flex" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#searchBox" role="button" aria-expanded="false" aria-controls="searchBox"><span class="navbar-tool-tooltip">Pretraži</span>
@@ -14,7 +14,7 @@
                             <div style="height: 5rem;" data-simplebar data-simplebar-auto-hide="false">
                                 <div class="widget-cart-item pb-2 border-bottom">
                                     <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
-                                    <div class="d-flex align-items-center"><a class="d-block" href="#"><img src="img/knjigakosarica.jpg" width="64" alt="Pizza"></a>
+                                    <div class="d-flex align-items-center"><a class="d-block" href="#"><img src="media/img/knjigakosarica.jpg" width="64" alt="Pizza"></a>
                                         <div class="ps-2">
                                             <h6 class="widget-product-title"><a href="#">Priča o Edgaru Sawtelleu</a></h6>
                                             <div class="widget-product-meta"><span class="text-accent me-2">80.<small>00kn</small></span><span class="text-muted">x 1</span></div>
@@ -37,9 +37,11 @@
                 </div>
                 <!-- Categories dropdown-->
                 <ul class="navbar-nav  pe-lg-2 me-lg-2 ">
-                    <li class="nav-item "><a class="nav-link " href="category.html" ><i class="ci-book align-middle mt-n1 me-2"></i>Knjige</a>
-                    <li class="nav-item"><a class="nav-link " href="category.html"><i class="ci-map align-middle mt-n1 me-2"></i> Vedute & zemljovidi</a></li>
-                    <li class="nav-item"><a class="nav-link " href="category.html"><i class="ci-discount align-middle mt-n1 me-2"></i> Na sniženju </a></li>
+                    <li class="nav-item "><a class="nav-link " href="category.html" ><i class="ci-book d-none d-xl-inline-block  align-middle mt-n1 me-1"></i>Knjige</a>
+                    <li class="nav-item "><a class="nav-link " href="category.html" ><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Autori</a>
+                    <li class="nav-item "><a class="nav-link " href="category.html" ><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Nakladnici</a>
+                    <li class="nav-item"><a class="nav-link " href="category.html"><i class="ci-map d-none d-xl-inline-block align-middle mt-n1 me-1"></i> Vedute & zemljovidi</a></li>
+                    <li class="nav-item"><a class="nav-link " href="category.html"><i class="ci-discount d-none d-xl-inline-block align-middle mt-n1 me-1"></i> Sniženje </a></li>
 
 
                     </li>
