@@ -203,6 +203,91 @@
                             </ul>
                         </div>
 
+
+
+                        <!-- Filter by NAkladnik-->
+                        <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                            <h3 class="widget-title">Nakladnici</h3>
+                            <div class="input-group input-group-sm mb-2">
+                                <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                            </div>
+                            <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="adidas">
+                                        <label class="form-check-label widget-filter-item-text" for="adidas">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">425</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="ataylor">
+                                        <label class="form-check-label widget-filter-item-text" for="ataylor">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">15</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="armani">
+                                        <label class="form-check-label widget-filter-item-text" for="armani">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">18</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="banana">
+                                        <label class="form-check-label widget-filter-item-text" for="banana">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">103</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="bilabong">
+                                        <label class="form-check-label widget-filter-item-text" for="bilabong">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">27</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="birkenstock">
+                                        <label class="form-check-label widget-filter-item-text" for="birkenstock">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">10</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="klein">
+                                        <label class="form-check-label widget-filter-item-text" for="klein">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">365</span>
+                                </li>
+                                <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="columbia">
+                                        <label class="form-check-label widget-filter-item-text" for="columbia">Algoritam</label>
+                                    </div><span class="fs-xs text-muted">508</span>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+
+                        <!-- Price range-->
+                        <div class="widget mb-4 pb-4 border-bottom">
+                            <h3 class="widget-title">Godina izdanja</h3>
+                            <div class="range-slider" data-start-min="1500" data-start-max="2020" data-min="1500" data-max="2021" data-step="1">
+                                <div class="range-slider-ui"></div>
+                                <div class="d-flex pb-1">
+                                    <div class="w-50 pe-2 me-2">
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control range-slider-value-min" type="text">
+                                            <span class="input-group-text">g</span>
+                                        </div>
+                                    </div>
+                                    <div class="w-50 ps-2">
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control range-slider-value-max" type="text">
+                                            <span class="input-group-text">g</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </aside>
