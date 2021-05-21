@@ -34,8 +34,10 @@
     <section class="container position-relative pt-3 pt-lg-0 pb-5 mt-lg-n10" style="z-index: 10;">
         <div class="card px-lg-2 border-0 shadow-lg">
             <div class="card-body px-4 pt-5 pb-4">
-                <h2 class="h3 text-center">Izdvojeno iz naše ponude</h2>
-                <p class="text-muted-light text-center">Svakog tjedna ručno odabiremo neke od najatraktivnijih knjiga iz naše kolekcije</p>
+
+                <h2 class="h3 text-center">Novo u ponudi</h2>
+                <p class="text-muted-light text-center ">Svakodnevno nove knjige u ponudi</p>
+
                 <!-- Carousel-->
                 <div class="tns-carousel pt-4">
                     <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
@@ -174,9 +176,9 @@
     <section class="container pb-4 mb-lg-3">
         <!-- Heading-->
 
-        <h2 class="h3 text-center">Novo u ponudi</h2>
-        <p class="text-muted-light text-center ">Svakodnevno nove knjige u ponudi</p>
 
+        <h2 class="h3 text-center">Izdvojeno iz naše ponude</h2>
+        <p class="text-muted-light text-center">Svakog tjedna ručno odabiremo neke od najatraktivnijih knjiga iz naše kolekcije</p>
 
         <!-- Grid-->
         <div class="tns-carousel pt-4">

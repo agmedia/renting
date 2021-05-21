@@ -106,13 +106,13 @@
             <!-- Navigation (desktop)-->
             <div class="d-none d-lg-flex pt-4 mt-3">
                 <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('kosarica') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na košaricu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
-                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="checkout-shipping.html"><span class="d-none d-sm-inline">Dovrši kupnju</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('dostava') }}"><span class="d-none d-sm-inline">Na odabir dostave</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
             </div>
 
 
         </section>
         <!-- Sidebar-->
-        <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5">
+        <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5 d-none d-lg-block">
             <div class="bg-white rounded-3 shadow-lg p-4 ms-lg-auto">
                 <div class="py-2 px-xl-2">
                     <div class="widget mb-3">
@@ -135,6 +135,15 @@
                 </div>
             </div>
         </aside>
+    </div>
+    <!-- Navigation (mobile)-->
+    <div class="row d-lg-none">
+        <div class="col-lg-8">
+            <div class="d-flex pt-4 mt-3">
+                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('kosarica') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na košaricu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
+                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('dostava') }}"><span class="d-none d-sm-inline">Na odabir dostave</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+            </div>
+        </div>
     </div>
 </div>
 

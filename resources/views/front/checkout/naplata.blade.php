@@ -12,12 +12,12 @@
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
                     <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
 
-                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Način dostave</li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Način plaćanja</li>
                 </ol>
             </nav>
         </div>
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="h3 text-light mb-0">Način dostave</h1>
+            <h1 class="h3 text-light mb-0">Način plaćanja</h1>
         </div>
     </div>
 </div>
@@ -33,31 +33,48 @@
 
 
         <!-- Shipping address-->
-            <h2 class="h6 pt-1 pb-3 mb-3 ">Odaberite način dostave</h2>
+            <h2 class="h6 pt-1 pb-3 mb-3 ">Odaberite način plaćanja</h2>
 
 
             <div class="table-responsive">
                 <table class="table table-hover fs-sm border-top">
-                    <thead>
-                    <tr>
-                        <th class="align-middle"></th>
-                        <th class="align-middle">Dostava</th>
-                        <th class="align-middle">Vrijeme dostave</th>
-                        <th class="align-middle">Cijena</th>
-                    </tr>
-                    </thead>
+
                     <tbody>
                     <tr>
                         <td>
-                            <div class="form-check mb-4">
+                            <div class="form-check mb-2  ">
                                 <input class="form-check-input" type="radio" id="courier" name="shipping-method" checked>
                                 <label class="form-check-label" for="courier"></label>
                             </div>
                         </td>
-                        <td class="align-middle"><span class="text-dark fw-medium">GLS-Croatia.</span><br><span class="text-muted">Dostava se vrši putem GLS dostavne službe. </span></td>
-                        <td class="align-middle">1-2 radna dana</td>
-                        <td class="align-middle">25kn</td>
+                        <td class="align-middle"><span class="text-dark fw-medium">Kreditnom karticom</span><br><span class="text-muted">T-Com Payway sustav za internet autorizaciju i naplatu kreditnih i debitnih kartica. </span></td>
+
                     </tr>
+
+                    <tr>
+                        <td>
+                            <div class="form-check mb-2 mt-2">
+                                <input class="form-check-input" type="radio" id="courier" name="shipping-method" >
+                                <label class="form-check-label" for="courier"></label>
+                            </div>
+                        </td>
+                        <td class="align-middle"><span class="text-dark fw-medium">Općom uplatnicom / Virmanom / Internet bankarstvom</span><br><span class="text-muted">Uplatite direktno na naš bankovni račun. Uputstva i uplatnice vam stiže putem maila.</span></td>
+
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <div class="form-check mb-2 mt-2">
+                                <input class="form-check-input" type="radio" id="courier" name="shipping-method" >
+                                <label class="form-check-label" for="courier"></label>
+                            </div>
+                        </td>
+                        <td class="align-middle"><span class="text-dark fw-medium">Gotovinom prilikom pouzeća</span><br><span class="text-muted">Plaćanje gotovinom prilikom preuzimanja. </span></td>
+
+                    </tr>
+
+
 
                     </tbody>
                 </table>
@@ -66,8 +83,8 @@
 
             <!-- Navigation (desktop)-->
             <div class="d-none d-lg-flex pt-4 mt-3">
-                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('adresa-isporuke') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
-                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('naplata') }}"><span class="d-none d-sm-inline">Na odabir plaćanja</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('dostava') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
+                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('pregled') }}"><span class="d-none d-sm-inline">Pregledajte narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
             </div>
 
 
@@ -101,8 +118,8 @@
     <div class="row d-lg-none">
         <div class="col-lg-8">
             <div class="d-flex pt-4 mt-3">
-                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('adresa-isporuke') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
-                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('naplata') }}"><span class="d-none d-sm-inline">Na odabir plaćanja</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('dostava') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
+                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('pregled') }}"><span class="d-none d-sm-inline">Pregledajte narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
             </div>
         </div>
     </div>

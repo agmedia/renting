@@ -38,6 +38,14 @@ Route::get('/kosarica', function() { return view('front.checkout.cart'); })->nam
 
 Route::get('/adresa-isporuke', function() { return view('front.checkout.podaci'); })->name('adresa-isporuke');
 
+Route::get('/dostava', function() { return view('front.checkout.dostava'); })->name('dostava');
+
+Route::get('/naplata', function() { return view('front.checkout.naplata'); })->name('naplata');
+
+Route::get('/pregled', function() { return view('front.checkout.pregled'); })->name('pregled');
+
+Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
+
 /**
  * BACK ROUTES
  */
