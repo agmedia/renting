@@ -5,16 +5,16 @@
     <div class="row no-gutters justify-content-center bg-body-dark">
         <div class="hero-static col-sm-10 col-md-8 col-xl-6 d-flex align-items-center p-2 px-sm-0">
             <!-- Sign In Block -->
-            <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/photos/photo20@2x.jpg') }});">
+            <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/img/lightslider.jpg') }});">
                 <div class="row no-gutters">
                     <div class="col-md-6 order-md-1 bg-white">
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <!-- Header -->
                             <div class="mb-2 text-center">
-                                <a class="link-fx font-w700 font-size-h1" href="{{ route('index') }}">
-                                    <span class="text-dark">Antikvarijat</span><span class="text-primary">biblos</span>
+                                <a class="link-fx font-w700 font-size-h2" href="{{ route('index') }}">
+                                    <span class="text-dark">Antikvarijat</span> <span class="text-primary">Biblos</span>
                                 </a>
-                                <p class="text-uppercase font-w700 font-size-sm text-muted">Sign In</p>
+                                <p class="text-uppercase font-w700 font-size-sm text-muted">PRIJAVA</p>
                             </div>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
@@ -22,17 +22,17 @@
                                     <input type="text" class="form-control form-control-alt" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-alt" id="password" name="password" placeholder="Password">
+                                    <input type="password" class="form-control form-control-alt" id="password" name="password" placeholder="Lozinka">
                                 </div>
                                 <div class="form-group">
                                     <label for="remember_me" class="flex items-center">
                                         <x-jet-checkbox id="remember_me" name="remember" />
-                                        <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                                        <span class="ml-2 text-sm text-gray-600">{{ __('Zapamti me') }}</span>
                                     </label>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-block btn-hero-primary">
-                                        <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Sign In
+                                        <i class="fa fa-fw fa-sign-in-alt mr-1"></i> Prijavi se
                                     </button>
                                 </div>
                             </form>
@@ -40,7 +40,7 @@
                             <div class="mb-2 text-center">
                                 @if (Route::has('password.request'))
                                     <a class="link-fx font-size-sm" href="{{ route('password.request') }}">
-                                        {{ __('Forgot your password?') }}
+                                        {{ __('Zaboravili ste lozinku?') }}
                                     </a>
                                 @endif
                             </div>
@@ -54,9 +54,9 @@
                                 </a>
                                 <div class="media-body">
                                     <p class="text-white font-w600 mb-1">
-                                        Amazing framework with tons of options! It helped us build our project!
+                                        Knjige, vedute & zemljovidi
                                     </p>
-                                    <a class="text-white-75 font-w600" href="javascript:void(0)">Scott Young, Web Developer</a>
+                                    <a class="text-white-75 font-w600" href="javascript:void(0)">Antikvarijat Biblos</a>
                                 </div>
                             </div>
                         </div>
