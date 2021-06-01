@@ -2,7 +2,7 @@
 
 @push('css_before')
 
-    <link rel="stylesheet" href="{{ asset('js/s/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
 
 
 @endpush
@@ -54,7 +54,7 @@
                                 <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
                                 <!-- For more info and examples you can check out https://github.com/select2/select2 -->
                                 <label for="dm-ecom-product-category">Glavna kategorija</label>
-                                <select class="js-select2 form-control" id="dm-ecom-product-category" name="dm-ecom-product-category" style="width: 100%;" data-placeholder="Odaberi">
+                                <select class="js-select2 form-control" id="category-select" name="dm-ecom-product-category" style="width: 100%;" data-placeholder="Odaberi">
                                     <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                     <option value="1">Knjige</option>
                                     <option value="2">Zemljovidi i vedute</option>
@@ -95,7 +95,13 @@
 
 @push('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script>jQuery(function(){Dashmix.helpers(['select2']);});</script>
+    <script>
+        $(() => {
+          $('#category-select').select2({
+            placeholder: 'Odaberite...'
+          });
+        })
+    </script>
 
 
 @endpush
