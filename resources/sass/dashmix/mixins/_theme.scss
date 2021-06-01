@@ -96,7 +96,7 @@
     @include bg-variant('.bg-primary', $brand-primary);
     @include bg-variant('.bg-primary-op', rgba($brand-primary, .75));
     @include bg-variant('.bg-primary-dark', $brand-dark);
-    @include bg-variant('.bg-primary-dark-op', rgba($brand-dark, .8));
+    @include bg-variant('.bg-primary-dark-op', rgba($brand-dark, .2));
     @include bg-variant('.bg-primary-darker', $brand-darker);
     @include bg-variant('.bg-primary-light', $brand-light);
     @include bg-variant('.bg-primary-lighter', $brand-lighter);
@@ -833,7 +833,7 @@
         .nav-main-heading {
             color: lighten($sidebar-dark-bg, 30%);
         }
-        
+
         // Default links
         .nav-main-link {
             color: lighten($sidebar-dark-bg, 55%);
@@ -885,7 +885,7 @@
         .nav-main-dark.nav-main-horizontal.nav-main-hover,
         .sidebar-dark #sidebar .nav-main-horizontal.nav-main-hover,
         .page-header-dark #page-header .nav-main-horizontal.nav-main-hover {
-            .nav-main-link {    
+            .nav-main-link {
                 &:hover,
                 &.active {
                     background-color: darken($header-dark-bg, 5%);
@@ -1032,7 +1032,7 @@
             background-color: $brand-primary;
             border: $brand-primary;
         }
-    
+
         .fc-col-header-cell {
             background-color: $body-bg-light;
         }

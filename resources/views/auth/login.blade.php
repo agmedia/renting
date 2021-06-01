@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="row no-gutters justify-content-center bg-body-dark">
+    <div class="row no-gutters justify-content-center bg-body-dark bckimagelogin">
         <div class="hero-static col-sm-10 col-md-8 col-xl-6 d-flex align-items-center p-2 px-sm-0">
             <!-- Sign In Block -->
             <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/img/lightslider.jpg') }});">
@@ -50,7 +50,7 @@
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <div class="media">
                                 <a class="img-link mr-3" href="javascript:void(0)">
-                                    <img class="img-avatar img-avatar-thumb" src="{{ asset('media/avatars/avatar16.jpg') }}" alt="">
+                                    <img class="img-avatar img-avatar-thumb" src="{{ asset('media/img/faviconbiblos.png') }}" alt="Antikvarijat Biblos">
                                 </a>
                                 <div class="media-body">
                                     <p class="text-white font-w600 mb-1">

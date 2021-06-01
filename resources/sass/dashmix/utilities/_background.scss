@@ -50,7 +50,7 @@
 // Contextual colors
 @include bg-variant('.bg-primary-op', rgba(theme-color("primary"), .75));
 @include bg-variant('.bg-primary-dark', theme-color("primary-dark"));
-@include bg-variant('.bg-primary-dark-op', rgba(theme-color("primary-dark"), .8));
+@include bg-variant('.bg-primary-dark-op', rgba(theme-color("primary-dark"), .2));
 @include bg-variant('.bg-primary-darker', theme-color("primary-darker"));
 @include bg-variant('.bg-primary-light', theme-color("primary-light"));
 @include bg-variant('.bg-primary-lighter', theme-color("primary-lighter"));

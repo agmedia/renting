@@ -41,7 +41,7 @@ mix
   .js('resources/js/pages/tables_datatables.js', 'public/js/pages/tables_datatables.js')
 
   /* Tools */
-  .browserSync('http://antikvarijat.agm/')
+  .browserSync('http://127.0.0.1:8000/')
   .disableNotifications()
 
   /* Options */

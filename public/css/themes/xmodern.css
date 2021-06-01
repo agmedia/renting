@@ -1,3 +1,8 @@
+.bckimagelogin {
+  background-color: #ccc !important;
+  background-image: url("../media/img/glag.png");
+}
+
 body {
   color: #495057;
   background-color: #f2f3f7;
@@ -203,13 +208,13 @@ button.bg-primary-dark:focus {
 }
 
 .bg-primary-dark-op {
-  background-color: rgba(45, 67, 115, 0.8) !important;
+  background-color: rgba(45, 67, 115, 0.2) !important;
 }
 
 a.bg-primary-dark-op:hover, a.bg-primary-dark-op:focus,
 button.bg-primary-dark-op:hover,
 button.bg-primary-dark-op:focus {
-  background-color: rgba(30, 46, 79, 0.8) !important;
+  background-color: rgba(30, 46, 79, 0.2) !important;
 }
 
 .bg-primary-darker {
@@ -1178,19 +1183,19 @@ select.form-control:focus::-ms-value {
 }
 
 .border-primary-light {
-  border-color: #2a8bf9 !important;
+  border-color: #50765a !important;
 }
 
 .border-primary-lighter {
-  border-color: #74b3fb !important;
+  border-color: #739f7e !important;
 }
 
 .border-primary-dark {
-  border-color: #054d9e !important;
+  border-color: #1c2a20 !important;
 }
 
 .border-primary-darker {
-  border-color: #022954 !important;
+  border-color: black !important;
 }
 
 .border-success-light {
@@ -1210,7 +1215,7 @@ select.form-control:focus::-ms-value {
 }
 
 .border-primary {
-  border-color: #0665d0 !important;
+  border-color: #314837 !important;
 }
 
 .border-secondary {
