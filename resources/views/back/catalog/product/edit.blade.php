@@ -155,6 +155,8 @@
 @push('js_after')
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/plugins/dropzone/min/dropzone.min.js') }}"></script>
+
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
     <script>jQuery(function(){Dashmix.helpers(['ckeditor5']);});</script>
