@@ -1,5 +1,16 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/dropzone/min/dropzone.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+
+
+
+@endpush
+
 @section('content')
 
     <div class="bg-body-light">
@@ -16,12 +27,12 @@
         </div>
     </div>
     <!-- Page Content -->
-    <div class="content content-full content-boxed">
+    <div class="content content-full ">
 
         <!-- END Page Content -->
     @include('back.layouts.partials.session')
     <!-- New Post -->
-        <form action="be_pages_blog_post_edit.html" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+
             <div class="block">
                 <div class="block-header block-header-default">
                     <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
@@ -38,28 +49,189 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
 
-                            <div class="form-group">
-                                <label for="dm-post-edit-title">Naziv autora</label>
-                                <input type="text" class="form-control" id="dm-post-edit-title" name="dm-post-edit-title" placeholder="Upišite naziv autora" value="Murkett Tracey">
+                            <div class="form-group row items-push mb-2">
+                                <div class="col-md-8">
+                                    <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Upišite naziv artikla" value="Vukovi jedu pse">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">Šifra <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="Upišite šifru artikla" value="65908">
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="dm-post-edit-slug">SEO link (url)</label>
-                                <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="murkett-tracey" disabled>
+
+                            <div class="form-group row items-push mb-2">
+                                <div class="col-md-3">
+                                    <label for="price">Cijena <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+
+                                        <input type="text" class="form-control" id="price" name="price" placeholder="00.00">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">kn</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="price">Akcija </label>
+                                    <div class="input-group">
+
+                                        <input type="text" class="form-control" id="special" name="special" placeholder="00.00">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">kn</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="price">Akcija vrijedi</label>
+                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="specialfrom" name="specialfrom" placeholder="od" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <div class="input-group-prepend input-group-append">
+                                        <span class="input-group-text font-w600">
+                                            <i class="fa fa-fw fa-arrow-right"></i>
+                                        </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="specialto" name="specialto" placeholder="do" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    </div>
+                                </div>
+
+
+
                             </div>
+
+
 
 
                             <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
                             <!-- For more info and examples you can check out http://ckeditor.com -->
-                            <label for="dm-post-edit-slug">Opis autora</label>
 
-                            <div class="form-group">
+
+                            <div class="form-group row  mb-4">
+                                <div class="col-md-12">
+                                <label for="dm-post-edit-slug">Opis</label>
                                 <!-- CKEditor 5 Classic Container -->
-                                <div id="js-ckeditor5-classic"></div>
+                                <div id="js-ckeditor5-classic" name="description">Peti nastavak serijala o Arkadiju Renku “Vukovi jedu pse” iz pera Martina Cruza Smitha pokazati će da melankolični, beskompromisni, povučeni Renko nije izgubio ništa od svojega šarma kojim je opsjeo čitatelje u doba hladnog rata, još tamo daleke 1981. kada je objavljen prvi roman u seriji, “Park Gorkoga”.</div>
+                                </div>
                             </div>
 
 
                             <!-- END CKEditor 5 Classic-->
+
+
+                            <div class="form-group row items-push   mb-3">
+                                <div class="col-md-4">
+
+                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                        <label for="dm-post-edit-slug">Kategorija</label>
+                                        <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            <option value="1">Knjige</option>
+                                            <option value="2">Zemljovidi i vedute</option>
+
+                                        </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                        <label for="dm-post-edit-slug">Autor</label>
+                                        <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi ili upiši novog">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            <option value="1">Smith Martin Cruz</option>
+                                            <option value="2">Miroslav Krleža</option>
+
+                                        </select>
+
+
+                                </div>
+                                <div class="col-md-4">
+
+
+                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                        <label for="dm-post-edit-slug">Izdavač</label>
+                                        <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi ili upiši novog">
+                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                            <option value="1">Algoritam</option>
+                                            <option value="2">Ljevak</option>
+
+                                        </select>
+
+
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group row items-push mb-3">
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">Broj stranica </label>
+                                    <input type="text" class="form-control" id="title" name="numpages" placeholder="Upišite broj stranica" value="354">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">Dimenzije </label>
+                                    <input type="text" class="form-control" id="sku" name="dimensions" placeholder="Upišite dimenzije" value="6×24">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">Mjesto izdavanja </label>
+                                    <input type="text" class="form-control" id="sku" name="publishcity" placeholder="Upišite mjesto izdavanja" value="Zagreb">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row items-push   mb-3">
+                                <div class="col-md-4">
+
+                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                    <label for="dm-post-edit-slug">Pismo</label>
+                                    <select class="js-select2 form-control" id="type-select" name="type" style="width: 100%;" data-placeholder="Odaberi ili upiši">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Latinica</option>
+                                        <option value="2">Ćirilica</option>
+                                        <option value="3">Glagoljica</option>
+
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                    <label for="dm-post-edit-slug">Stanje</label>
+                                    <select class="js-select2 form-control" id="condition-select" name="condition" style="width: 100%;" data-placeholder="Odaberi ili upiši">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Odlično</option>
+                                        <option value="2">Oštećeno</option>
+
+                                    </select>
+
+
+                                </div>
+                                <div class="col-md-4">
+
+
+                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
+                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                                    <label for="dm-post-edit-slug">Uvez</label>
+                                    <select class="js-select2 form-control" id="binding-select" name="binding" style="width: 100%;" data-placeholder="Odaberi ili upiši">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="1">Tvrdi</option>
+                                        <option value="2">Meki</option>
+
+                                    </select>
+
+
+
+                                </div>
+
+                            </div>
 
 
                         </div>
@@ -69,6 +241,28 @@
                 <!-- Meta Data -->
 
                 <!-- END Meta Data -->
+
+            </div>
+            <div class="block ">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Slike</h3>
+                </div>
+                <div class="block-content block-content-full">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 ">
+                            <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
+                            <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
+                            <form class="dropzone" action="be_pages_ecom_product_edit.html">
+
+                                <div class="dz-message" data-dz-message><span>Klikni ovdje ili dovuci slike za uplad</span></div>
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <div class="block ">
@@ -99,20 +293,9 @@
                                     </small>
                                 </div>
 
-                                <div class="form-group row">
-                                    <div class="col-xl-6">
-                                        <label>Open Graph slika</label>
-                                        <div class="custom-file">
-
-                                            <input type="file" class="custom-file-input" id="dm-post-edit-image" name="dm-post-edit-image" data-toggle="custom-file-input">
-                                            <label class="custom-file-label" for="dm-post-edit-image">Odaberite sliku</label>
-                                        </div>
-                                        <div class="mt-2">
-                                            <img class="img-fluid" src="{{ asset('media/img/lightslider.jpg') }}" alt="">
-                                        </div>
-
-                                        <div class="form-text text-muted font-size-sm font-italic">Slika koja se pokazuje kada se link dijeli (facebook, twitter, itd.)</div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="dm-post-edit-slug">SEO link (url)</label>
+                                    <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="murkett-tracey" disabled>
                                 </div>
 
                             </form>
@@ -128,24 +311,10 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Media -->
-            <div class="block block-rounded">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Media</h3>
-                </div>
-                <div class="block-content block-content-full">
-                    <div class="row justify-content-center">
-                        <div class="col-md-10 col-lg-8">
-                            <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
-                            <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
-                            <form class="dropzone" action="be_pages_ecom_product_edit.html"></form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+
         <!-- END New Post -->
     </div>
 
@@ -154,12 +323,44 @@
 
 @push('js_after')
     <!-- Page JS Plugins -->
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/dropzone/min/dropzone.min.js') }}"></script>
-
+    <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['ckeditor5']);});</script>
+    <script>jQuery(function(){Dashmix.helpers(['select2','ckeditor5','datepicker']);});</script>
+
+
+
+    <script>
+        $(() => {
+            $('#category-select').select2({
+                placeholder: 'Odaberite kategoriju'
+            });
+            $('#author-select').select2({
+                placeholder: 'Odaberite autora',
+                tags: true
+            });
+            $('#publisher-select').select2({
+                placeholder: 'Odaberite izdavača',
+                tags: true
+            });
+            $('#type-select').select2({
+                placeholder: 'Odaberite pismo',
+                tags: true
+            });
+            $('#binding-select').select2({
+                placeholder: 'Odaberite pismo',
+                tags: true
+            });
+            $('#condition-select').select2({
+                placeholder: 'Odaberite pismo',
+                tags: true
+            });
+        })
+    </script>
+
 
 
 @endpush
