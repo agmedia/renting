@@ -129,6 +129,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Media -->
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Media</h3>
+                </div>
+                <div class="block-content block-content-full">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 col-lg-8">
+                            <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
+                            <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
+                            <form class="dropzone" action="be_pages_ecom_product_edit.html"></form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
         <!-- END New Post -->
     </div>
