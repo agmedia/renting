@@ -28,12 +28,15 @@
 
     <!-- Page Content -->
     <div class="content content-full content-boxed">
+
+        <!-- END Page Content -->
+    @include('back.layouts.partials.session')
         <!-- New Post -->
         <form action="be_pages_blog_post_edit.html" method="POST" enctype="multipart/form-data" onsubmit="return false;">
             <div class="block">
                 <div class="block-header block-header-default">
-                    <a class="btn btn-light" href="{{ route('categories') }}">
-                        <i class="fa fa-arrow-left mr-1"></i> Lista kategorija
+                    <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
+                        <i class="fa fa-arrow-left mr-1"></i> Povratak
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
@@ -48,7 +51,7 @@
 
                             <div class="form-group">
                                 <label for="dm-post-edit-title">Naziv kategorije</label>
-                                <input type="text" class="form-control" id="dm-post-edit-title" name="dm-post-edit-title" placeholder="Enter a title.." value="An adventure of a lifetime">
+                                <input type="text" class="form-control" id="dm-post-edit-title" name="dm-post-edit-title" placeholder="Upišite naziv" value="Alternativa">
                             </div>
                             <div class="form-group">
                                 <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
@@ -58,20 +61,94 @@
                                     <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                     <option value="1">Knjige</option>
                                     <option value="2">Zemljovidi i vedute</option>
-                                  o
+
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="dm-post-edit-slug">SEO link (url)</label>
-                                <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="an-adventure-of-a-lifetime" disabled>
+                                <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="alternativa" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="dm-post-edit-excerpt">Opis kategorije</label>
-                                <textarea class="form-control" id="dm-post-edit-excerpt" name="dm-post-edit-excerpt" rows="3" placeholder="Enter an excerpt..">Etiam egestas fringilla enim, id convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam tincidunt sollicitudin sem nec ultrices.</textarea>
-                                <div class="form-text text-muted font-size-sm font-italic">Meta Opis - bitno za google</div>
-                            </div>
+                         <!--   <div class="form-group row">
+                                <div class="col-xl-6">
+                                    <label>Featured Image</label>
+                                    <div class="custom-file">
+
+                                        <input type="file" class="custom-file-input" id="dm-post-edit-image" name="dm-post-edit-image" data-toggle="custom-file-input">
+                                        <label class="custom-file-label" for="dm-post-edit-image">Choose a new image</label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <img class="img-fluid" src="assets/media/photos/photo19.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
+                            <!-- For more info and examples you can check out http://ckeditor.com -->
+                            <label for="dm-post-edit-slug">Opis kategorije</label>
+
+                                        <div class="form-group">
+                                            <!-- CKEditor 5 Classic Container -->
+                                            <div id="js-ckeditor5-classic"></div>
+                                        </div>
 
 
+                            <!-- END CKEditor 5 Classic-->
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Data -->
+
+                <!-- END Meta Data -->
+
+            </div>
+            <div class="block ">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Meta Data - SEO</h3>
+                </div>
+                <div class="block-content">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 ">
+                            <form action="be_pages_ecom_product_edit.html" method="POST" onsubmit="return false;">
+                                <div class="form-group">
+                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
+                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
+                                    <label for="dm-ecom-product-meta-title">Meta naslov</label>
+                                    <input type="text" class="js-maxlength form-control" id="dm-ecom-product-meta-title" name="dm-ecom-product-meta-title" value="" maxlength="70" data-always-show="true" data-placement="top">
+                                    <small class="form-text text-muted">
+                                        70 znakova max
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
+                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
+                                    <label for="dm-ecom-product-meta-description">Meta opis</label>
+                                    <textarea class="js-maxlength form-control" id="dm-ecom-product-meta-description" name="dm-ecom-product-meta-description" rows="4" maxlength="160" data-always-show="true" data-placement="top"></textarea>
+                                    <small class="form-text text-muted">
+                                       160 znakova max
+                                    </small>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-xl-6">
+                                        <label>Open Graph slika</label>
+                                        <div class="custom-file">
+
+                                            <input type="file" class="custom-file-input" id="dm-post-edit-image" name="dm-post-edit-image" data-toggle="custom-file-input">
+                                            <label class="custom-file-label" for="dm-post-edit-image">Odaberite sliku</label>
+                                        </div>
+                                        <div class="mt-2">
+                                            <img class="img-fluid" src="{{ asset('media/img/lightslider.jpg') }}" alt="">
+                                        </div>
+
+                                        <div class="form-text text-muted font-size-sm font-italic">Slika koja se pokazuje kada se link dijeli (facebook, twitter, itd.)</div>
+                                    </div>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -88,12 +165,18 @@
         </form>
         <!-- END New Post -->
     </div>
-    <!-- END Page Content -->
-    @include('back.layouts.partials.session')
+
 
 @endsection
 
 @push('js_after')
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
+
+    <!-- Page JS Helpers (CKEditor 5 plugins) -->
+    <script>jQuery(function(){Dashmix.helpers(['ckeditor5']);});</script>
+
+
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(() => {

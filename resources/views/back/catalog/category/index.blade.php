@@ -15,7 +15,7 @@
 
     <!-- Page Content -->
     <div class="row no-gutters flex-md-10-auto">
-
+        @include('back.layouts.partials.session')
         <div class="col-md-12 order-md-0 bg-body-dark">
             <!-- Main Content -->
             <div class="content content-full">
@@ -100,7 +100,7 @@
     </div>
 
 
-    @include('back.layouts.partials.session')
+
 
 @endsection
 

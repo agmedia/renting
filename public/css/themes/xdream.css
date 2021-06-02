@@ -3,6 +3,29 @@
   background-image: url("../media/img/glag.png");
 }
 
+.ck-editor__editable {
+  min-height: 200px !important;
+}
+
+.form-control:focus {
+  background-color: #fff;
+  border-color: #e4e9f3 !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(49, 72, 55, 0.1) !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--multiple, .select2-container--default.select2-container--open .select2-selection--single {
+  border-color: #e4e9f3 !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(49, 72, 55, 0.1) !important;
+}
+
+.select2-container .select2-dropdown .select2-search__field:focus {
+  border-color: #e4e9f3 !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(49, 72, 55, 0.1) !important;
+}
+
 body {
   color: #495057;
   background-color: #f0f1f7;
