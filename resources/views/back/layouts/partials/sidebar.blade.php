@@ -52,6 +52,8 @@
         <!-- Side Navigation -->
         <div class="content-side content-side-full">
             <ul class="nav-main">
+                {{--<li class="nav-main-heading">Katalog</li>--}}
+
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs('dashboard') ? ' active' : '' }}" href="{{ route('dashboard') }}">
                         <i class="nav-main-link-icon si si-grid"></i>
@@ -96,6 +98,25 @@
                     </a>
                 </li>
 
+                <li class="nav-main-item{{ request()->is(['admin/marketing/*']) ? ' open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
+                        <i class="nav-main-link-icon si si-layers"></i>
+                        <span class="nav-main-link-name">Marketing</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['actions', 'action.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
+                                <span class="nav-main-link-name">Akcije</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['blogs', 'blog.*']) ? ' active' : '' }}" href="{{ route('blogs') }}">
+                                <span class="nav-main-link-name">Blog</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['users', 'users.*']) ? ' active' : '' }}" href="{{ route('users') }}">
                         <i class="nav-main-link-icon si si-users"></i>
@@ -103,7 +124,7 @@
                     </a>
                 </li>
 
-                <li class="nav-main-heading">Postavke</li>
+                <li class="nav-main-heading">Aplikacija</li>
 
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['profile', 'profile.*']) ? ' active' : '' }}" href="{{ route('profile.show') }}">
@@ -112,12 +133,25 @@
                     </a>
                 </li>
 
-                <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->routeIs(['settings', 'settings.*']) ? ' active' : '' }}" href="{{ route('settings') }}">
+                <li class="nav-main-item{{ request()->is(['admin/settings/*']) ? ' open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-settings"></i>
                         <span class="nav-main-link-name">Postavke</span>
                     </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['faqs', 'faq.*']) ? ' active' : '' }}" href="{{ route('faqs') }}">
+                                <span class="nav-main-link-name">FAQ</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['settings', 'settings.*']) ? ' active' : '' }}" href="{{ route('settings') }}">
+                                <span class="nav-main-link-name">Postavke Aplikacije</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
             </ul>
         </div>
         <!-- END Side Navigation -->

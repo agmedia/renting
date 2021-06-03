@@ -5,6 +5,9 @@ use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
 use App\Http\Controllers\Back\OrderController;
+use App\Http\Controllers\Back\Marketing\ActionController;
+use App\Http\Controllers\Back\Marketing\BlogController;
+use App\Http\Controllers\Back\Settings\FaqController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
 use App\Http\Controllers\Back\Settings\SettingsController;
 use App\Http\Controllers\Back\UserController;
@@ -89,6 +92,23 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
     Route::post('order', [OrderController::class, 'store'])->name('orders.store');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+    
+    // MARKETING
+    Route::prefix('marketing')->group(function () {
+        // AKCIJE
+        Route::get('actions', [ActionController::class, 'index'])->name('actions');
+        Route::get('action/create', [ActionController::class, 'create'])->name('actions.create');
+        Route::post('action', [ActionController::class, 'store'])->name('actions.store');
+        Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
+        Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
+        
+        // BLOG
+        Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
+        Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
+        Route::post('blog', [BlogController::class, 'store'])->name('blogs.store');
+        Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+        Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+    });
 
     // KORISNICI
     Route::get('users', [UserController::class, 'index'])->name('users');
@@ -99,7 +119,14 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
 
     // POSTAVKE
     Route::prefix('settings')->group(function () {
-        Route::get('/', [SettingsController::class, 'index'])->name('settings');
+        // FAQ
+        Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
+        Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
+        Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
+        Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
+        Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
+
+        Route::get('application', [SettingsController::class, 'index'])->name('settings');
     });
 
     // SETTINGS

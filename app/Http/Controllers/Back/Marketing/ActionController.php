@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Back\Settings;
+namespace App\Http\Controllers\Back\Marketing;
 
 use App\Http\Controllers\Controller;
-use App\Models\Back\Settings\Faq;
+use App\Models\Back\Marketing\Action;
 use Illuminate\Http\Request;
 
-class FaqController extends Controller
+class ActionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.settings.faq.index');
+        return view('back.marketing.action.index');
     }
 
 
@@ -26,7 +26,7 @@ class FaqController extends Controller
      */
     public function create()
     {
-        return view('back.settings.faq.edit');
+        return view('back.marketing.action.edit');
     }
 
 
@@ -47,9 +47,9 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Faq $faq)
+    public function edit(Action $action)
     {
-        return view('back.settings.faq.edit', compact('faq'));
+        return view('back.marketing.action.edit', compact('action'));
     }
 
 
@@ -61,7 +61,7 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faq $faq) {}
+    public function update(Request $request, Action $action) {}
 
 
     /**
