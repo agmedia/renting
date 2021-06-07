@@ -13,7 +13,9 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Akcije</h1>
-
+                <a class="btn btn-hero-success my-2" href="{{ route('actions.create') }}">
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova akcija</span>
+                </a>
             </div>
         </div>
     </div>
@@ -26,104 +28,10 @@
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Sve akcije (152)</h3>
+                <h3 class="block-title">Sve akcije (1)</h3>
 
             </div>
 
-                <div class="block-content bg-body-dark">
-
-                    <!-- Search Form -->
-                    <form action="db_booking.html" method="POST" onsubmit="return false;">
-
-                        <div class="form-group row items-push mb-0">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Knjige</option>
-                                        <option value="2">Zemljovidi i vedute</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Joža horvat</option>
-                                        <option value="2">Miroslav Krleža</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-
-                                <div class="form-group">
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Algoritam</option>
-                                        <option value="2">Ljevak</option>
-
-                                    </select>
-                                </div>
-
-                            </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-block">Pretraži</button>
-                            </div>
-
-                            <div class="col-md-2">
-
-                                <div class="form-group">
-
-                                    <select class="form-control" id="example-select" name="example-select">
-                                        <option value="0">Vrsta akcije</option>
-                                        <option value="1">Postotak</option>
-                                        <option value="2">Fiksno</option>
-
-                                    </select>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-md-2">
-
-
-
-                                    <input type="text" class="form-control" id="special" name="special" placeholder="Popust">
-
-
-                            </div>
-
-                            <div class="col-md-5">
-
-                                <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    <input type="text" class="form-control" id="specialfrom" name="specialfrom" placeholder="Vrijedi od" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-w600">
-                                            <i class="fa fa-fw fa-arrow-right"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="specialto" name="specialto" placeholder="Vrijedi do" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-block ">Dodaj akcije</button>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- END Search Form -->
-                </div>
 
             <div class="block-content">
                 <!-- All Products Table -->
@@ -131,18 +39,12 @@
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
                         <tr>
-                            <th class="text-center" style="width: 30px;">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
-                                    </div>
-                                </div>
-                            </th>
-                            <th class="text-center" style="width: 100px;">Slika</th>
-                            <th>Naziv</th>
-                            <th>Šifra</th>
-                            <th>Cijena</th>
-                            <th>Akcija</th>
+
+
+                            <th class="text-left">Naziv</th>
+                            <th>Vrijedi od</th>
+                            <th>Vrijedi do</th>
+                            <th>Popust</th>
 
                             <th class="text-center font-size-sm">Status</th>
 
@@ -152,71 +54,30 @@
                         <tbody>
                         <!-- row -->
                         <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center font-size-sm">
-                                <img src="{{ asset('media/img/knjiga.jpg') }}" height="80px"/>
-                            </td>
+
+
                             <td class="font-size-sm">
-                                <a class="font-w600" href="{{ route('products.create') }}">Nove tajne sretne djece</a><br>
-                                <span class="badge badge-secondary">Shaaron Biddulph</span>
-                                <span class="badge badge-secondary">Mozaik knjiga</span>
+                                <a class="font-w600" href="{{ route('actions.create') }}">20% na sve knjige</a>
 
                             </td>
-                            <td class="font-size-sm">60593</td>
-                            <td class="font-size-sm"><strike>120,00kn</strike></td>
-                            <td class="font-size-sm">80,00kn</td>
+                            <td class="font-size-sm">15.05.2021.</td>
+                            <td class="font-size-sm">25.05.2021.</td>
+                            <td class="font-size-sm">20%</td>
                             <td class="text-center font-size-sm">
                                 <i class="fa fa-fw fa-check text-success"></i>
                             </td>
                             <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.create') }}">
+                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.create') }}">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </a>
+                                <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
+                                    <i class="fa fa-fw fa-times text-danger"></i>
+                                </a>
+
                             </td>
                         </tr>
                         <!-- end row -->
-                        <!-- row -->
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center font-size-sm">
-                                <img src="{{ asset('media/img/knjiga2.jpg') }}" height="80px"/>
-                            </td>
-                            <td class="font-size-sm">
-                                <a class="font-w600" href="{{ route('products.create') }}">Hrvatsko domobranstvo u Drugom svjetskom ratu II. dio</a><br>
-                                <span class="badge badge-secondary">Shaaron Biddulph</span>
-                                <span class="badge badge-secondary">Mozaik knjiga</span>
-                            </td>
-                            <td class="font-size-sm">60593</td>
-                            <td class="font-size-sm"><strike>120,00kn</strike></td>
-                            <td class="font-size-sm">80,00kn</td>
-                            <td class="text-center font-size-sm">
-                                <i class="fa fa-fw fa-times text-danger"></i>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.create') }}">
-                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- end row -->
+
 
 
                         </tbody>
