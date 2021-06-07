@@ -160,7 +160,7 @@
                             </td>
 
                             <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
+                                <a class="font-w600" href="{{ route('orders.create') }}">
                                     <strong>019265</strong>
                                 </a>
                             </td>
