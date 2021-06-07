@@ -141,11 +141,11 @@
                                 </div>
                             </th>
                             <th class="text-center" style="width: 120px;">Br. narudžbe</th>
-                            <th class="d-none d-sm-table-cell text-center">Datum</th>
+                            <th class="text-center">Datum</th>
                             <th>Status</th>
-                            <th class="d-none d-xl-table-cell">Kupac</th>
-                            <th class="d-none d-xl-table-cell text-center">Artikli</th>
-                            <th class="d-none d-sm-table-cell text-right">Vrijednost</th>
+                            <th>Kupac</th>
+                            <th class="text-center">Artikli</th>
+                            <th class="text-right">Vrijednost</th>
                             <th class="text-center">Detalji</th>
                         </tr>
                         </thead>
@@ -197,7 +197,7 @@
                                     <strong>019265</strong>
                                 </a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-center">08/10/2020</td>
+                            <td class="text-center">08/10/2020</td>
                             <td class="font-size-base">
                                 <span class="badge badge-pill badge-success">Plaćeno</span>
                             </td>
@@ -207,7 +207,7 @@
                             <td class="d-none d-xl-table-cell text-center">
                                 <a class="font-w600" href="be_pages_ecom_order.html">5</a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-right">
+                            <td class="text-right">
                                 <strong>1334,50 kn</strong>
                             </td>
                             <td class="text-center font-size-base">
@@ -230,7 +230,7 @@
                                     <strong>019265</strong>
                                 </a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-center">08/10/2020</td>
+                            <td class="text-center">08/10/2020</td>
                             <td class="font-size-base">
                                 <span class="badge badge-pill badge-warning">Čeka naplatu</span>
                             </td>
@@ -240,7 +240,7 @@
                             <td class="d-none d-xl-table-cell text-center">
                                 <a class="font-w600" href="be_pages_ecom_order.html">5</a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-right">
+                            <td class="text-right">
                                 <strong>1334,50 kn</strong>
                             </td>
                             <td class="text-center font-size-base">
@@ -263,7 +263,7 @@
                                     <strong>019265</strong>
                                 </a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-center">08/10/2020</td>
+                            <td class="text-center">08/10/2020</td>
                             <td class="font-size-base">
                                 <span class="badge badge-pill badge-info">Dovršeno</span>
                             </td>
@@ -273,7 +273,7 @@
                             <td class="d-none d-xl-table-cell text-center">
                                 <a class="font-w600" href="be_pages_ecom_order.html">5</a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-right">
+                            <td class="text-right">
                                 <strong>1334,50 kn</strong>
                             </td>
                             <td class="text-center font-size-base">
@@ -296,7 +296,7 @@
                                     <strong>019265</strong>
                                 </a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-center">08/10/2020</td>
+                            <td class="text-center">08/10/2020</td>
                             <td class="font-size-base">
                                 <span class="badge badge-pill badge-danger">Otkazano</span>
                             </td>
@@ -306,7 +306,7 @@
                             <td class="d-none d-xl-table-cell text-center">
                                 <a class="font-w600" href="be_pages_ecom_order.html">5</a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-right">
+                            <td class="text-right">
                                 <strong>1334,50 kn</strong>
                             </td>
                             <td class="text-center font-size-base">
@@ -329,7 +329,7 @@
                                     <strong>019265</strong>
                                 </a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-center">08/10/2020</td>
+                            <td class="text-center">08/10/2020</td>
                             <td class="font-size-base">
                                 <span class="badge badge-pill badge-dark">Poslano</span>
                             </td>
@@ -339,7 +339,7 @@
                             <td class="d-none d-xl-table-cell text-center">
                                 <a class="font-w600" href="be_pages_ecom_order.html">5</a>
                             </td>
-                            <td class="d-none d-sm-table-cell text-right">
+                            <td class="text-right">
                                 <strong>1334,50 kn</strong>
                             </td>
                             <td class="text-center font-size-base">
