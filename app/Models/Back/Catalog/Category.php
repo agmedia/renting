@@ -71,7 +71,7 @@ class Category extends Model
      */
     public function scopeGroups(Builder $query): Builder
     {
-        return $query->active()->groupBy('group');
+        return $query->groupBy('group');
     }
 
 
