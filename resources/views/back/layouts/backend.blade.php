@@ -62,12 +62,25 @@
             <!-- END Footer -->
         </div>
         <!-- END Page Container -->
-
-        <!-- Dashmix Core JS -->
         <script src="{{ asset('js/dashmix.app.js') }}"></script>
-
-        <!-- Laravel Scaffolding JS -->
         <script src="{{ asset('/js/laravel.app.js') }}"></script>
+
+        <script>
+            function slugify(string) {
+                const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
+                const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz------'
+                const p = new RegExp(a.split('').join('|'), 'g')
+
+                return string.toString().toLowerCase()
+                .replace(/\s+/g, '-') // Replace spaces with -
+                .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+                .replace(/&/g, '-and-') // Replace & with 'and'
+                .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+                .replace(/\-\-+/g, '-') // Replace multiple - with single -
+                .replace(/^-+/, '') // Trim - from start of text
+                .replace(/-+$/, '') // Trim - from end of text
+            }
+        </script>
 
         @stack('js_after')
     </body>

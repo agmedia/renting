@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Models\Back\Catalog\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -22,8 +23,19 @@ class CategoryController extends Controller
         } else {
             $categories = $category['admin_list'];
         }*/
+
+        $category = new Category();
+
+        $categories = collect();
+        $groups = $category->groups()->pluck('group');
+
+        foreach ($groups as $group) {
+            $categories->put($group,
+                $category->topList($group)->with('subcategories')->get()
+            );
+        }
         
-        return view('back.catalog.category.index'/*, compact('categories', 'groups')*/);
+        return view('back.catalog.category.index', compact('categories'));
     }
     
     
@@ -34,10 +46,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        /*$parents = Category::parents();
-        $groups  = Category::active()->groupBy('group')->pluck('group', 'id');*/
+        $groups = Category::groups()->pluck('group');
+        $parents = Category::topList()->pluck('title', 'id');
         
-        return view('back.catalog.category.edit'/*, compact('parents', 'groups')*/);
+        return view('back.catalog.category.edit', compact('parents', 'groups'));
     }
     
     
@@ -50,6 +62,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $category = new Category();
+
+        $stored = $category->validateRequest($request)->create();
+
+        if ($stored) {
+            return redirect()->back()->with(['success' => 'Category was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);
         /*$request->validate(['name' => 'required']);
         
         $category = Category::store($request);
@@ -77,10 +98,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        /*$parents = Category::parents();
-        $groups  = Category::active()->groupBy('group')->pluck('group', 'id');*/
+        $groups = Category::groups()->pluck('group');
+        $parents = Category::topList()->pluck('title', 'id');
         
-        return view('back.catalog.category.edit', compact('category'/*, 'parents', 'groups'*/));
+        return view('back.catalog.category.edit', compact('category', 'parents', 'groups'));
     }
     
     
