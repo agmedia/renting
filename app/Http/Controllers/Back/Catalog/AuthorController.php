@@ -15,10 +15,16 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.catalog.author.index');
+        if ($request->has('search') && ! empty($request->search)) {
+            $authors = Author::where('title', 'like', '%' . $request->search . '%')->paginate(12);
+        } else {
+            $authors = Author::paginate(12);
+        }
+
+        return view('back.catalog.author.index', compact('authors'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -28,8 +34,8 @@ class AuthorController extends Controller
     {
         return view('back.catalog.author.edit');
     }
-    
-    
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -37,13 +43,26 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
-    
-    
+    public function store(Request $request)
+    {
+        $author = new Author();
+
+        $stored = $author->validateRequest($request)->create();
+
+        if ($stored) {
+            $author->resolveImage($stored);
+
+            return redirect()->route('authors.edit', ['author' => $stored])->with(['success' => 'Author was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the author.']);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Author $author
+     * @param Publisher $publisher
      *
      * @return \Illuminate\Http\Response
      */
@@ -51,19 +70,30 @@ class AuthorController extends Controller
     {
         return view('back.catalog.author.edit', compact('author'));
     }
-    
-    
+
+
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Author                   $author
+     * @param Publisher                $publisher
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author) {}
-    
-    
+    public function update(Request $request, Author $author)
+    {
+        $updated = $author->validateRequest($request)->edit();
+
+        if ($updated) {
+            $author->resolveImage($updated);
+
+            return redirect()->route('authors.edit', ['author' => $updated])->with(['success' => 'Author was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the author.']);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -71,5 +101,14 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {}
+    public function destroy(Request $request, Author $author)
+    {
+        $destroyed = Author::destroy($author->id);
+
+        if ($destroyed) {
+            return redirect()->route('authors')->with(['success' => 'Author was succesfully deleted!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the author.']);
+    }
 }

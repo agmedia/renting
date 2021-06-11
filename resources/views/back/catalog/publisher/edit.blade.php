@@ -22,7 +22,11 @@
         <!-- END Page Content -->
     @include('back.layouts.partials.session')
     <!-- New Post -->
-        <form action="be_pages_blog_post_edit.html" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+        <form action="{{ isset($publisher) ? route('publishers.update', ['publisher' => $publisher]) : route('publishers.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @if (isset($publisher))
+                {{ method_field('PATCH') }}
+            @endif
             <div class="block">
                 <div class="block-header block-header-default">
                     <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
@@ -30,8 +34,8 @@
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
-                            <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active" >
-                            <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
+                            <input type="checkbox" class="custom-control-input" id="publisher-switch" name="status"{{ (isset($publisher->status) and $publisher->status) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="publisher-switch">Aktiviraj</label>
                         </div>
                     </div>
                 </div>
@@ -40,100 +44,91 @@
                         <div class="col-md-10">
 
                             <div class="form-group">
-                                <label for="dm-post-edit-title">Naziv izdavača</label>
-                                <input type="text" class="form-control" id="dm-post-edit-title" name="dm-post-edit-title" placeholder="Upišite naziv autora" value="Algoritam">
+                                <label for="title-input">Naziv izdavača</label>
+                                <input type="text" class="form-control" id="title-input" name="title" placeholder="Upišite naziv autora" value="{{ isset($publisher) ? $publisher->title : old('title') }}" onkeyup="SetSEOPreview()">
                             </div>
 
                             <div class="form-group">
-                                <label for="dm-post-edit-slug">SEO link (url)</label>
-                                <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="algoritam" disabled>
+                                <label for="slug-input">SEO link (url)</label>
+                                <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($publisher) ? $publisher->slug : old('slug') }}" disabled>
                             </div>
-
-
-                            <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
-                            <!-- For more info and examples you can check out http://ckeditor.com -->
-                            <label for="dm-post-edit-slug">Opis izdavača</label>
 
                             <div class="form-group">
-                                <!-- CKEditor 5 Classic Container -->
-                                <div id="js-ckeditor5-classic"></div>
+                                <label for="description-editor">Opis izdavača</label>
+                                <textarea id="description-editor" name="description">{!! isset($publisher) ? $publisher->description : old('description') !!}</textarea>
                             </div>
-
-
-                            <!-- END CKEditor 5 Classic-->
-
 
                         </div>
                     </div>
                 </div>
-
-                <!-- Meta Data -->
-
-                <!-- END Meta Data -->
-
             </div>
-            <div class="block ">
+
+            <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Meta Data - SEO</h3>
                 </div>
                 <div class="block-content">
                     <div class="row justify-content-center">
                         <div class="col-md-10 ">
-                            <form action="be_pages_ecom_product_edit.html" method="POST" onsubmit="return false;">
-                                <div class="form-group">
-                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
-                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
-                                    <label for="dm-ecom-product-meta-title">Meta naslov</label>
-                                    <input type="text" class="js-maxlength form-control" id="dm-ecom-product-meta-title" name="dm-ecom-product-meta-title" value="" maxlength="70" data-always-show="true" data-placement="top">
-                                    <small class="form-text text-muted">
-                                        70 znakova max
-                                    </small>
-                                </div>
+                            <div class="form-group">
+                                <label for="meta-title-input">Meta naslov</label>
+                                <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($publisher) ? $publisher->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
+                                <small class="form-text text-muted">
+                                    70 znakova max
+                                </small>
+                            </div>
 
-                                <div class="form-group">
-                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
-                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
-                                    <label for="dm-ecom-product-meta-description">Meta opis</label>
-                                    <textarea class="js-maxlength form-control" id="dm-ecom-product-meta-description" name="dm-ecom-product-meta-description" rows="4" maxlength="160" data-always-show="true" data-placement="top"></textarea>
-                                    <small class="form-text text-muted">
-                                        160 znakova max
-                                    </small>
-                                </div>
+                            <div class="form-group">
+                                <label for="meta-description-input">Meta opis</label>
+                                <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($publisher) ? $publisher->meta_description : old('meta_description') }}</textarea>
+                                <small class="form-text text-muted">
+                                    160 znakova max
+                                </small>
+                            </div>
 
-                                <div class="form-group row">
-                                    <div class="col-xl-6">
-                                        <label>Open Graph slika</label>
-                                        <div class="custom-file">
-
-                                            <input type="file" class="custom-file-input" id="dm-post-edit-image" name="dm-post-edit-image" data-toggle="custom-file-input">
-                                            <label class="custom-file-label" for="dm-post-edit-image">Odaberite sliku</label>
-                                        </div>
-                                        <div class="mt-2">
-                                            <img class="img-fluid" src="{{ asset('media/img/lightslider.jpg') }}" alt="">
-                                        </div>
-
-                                        <div class="form-text text-muted font-size-sm font-italic">Slika koja se pokazuje kada se link dijeli (facebook, twitter, itd.)</div>
+                            <div class="form-group row">
+                                <div class="col-xl-6">
+                                    <label>Open Graph slika</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="image-input" name="image" data-toggle="custom-file-input" onchange="readURL(this);">
+                                        <label class="custom-file-label" for="image-input">Odaberite sliku</label>
                                     </div>
+                                    <div class="mt-2">
+                                        <img class="img-fluid" id="image-view" src="{{ isset($publisher) ? asset($publisher->image) : asset('media/img/lightslider.jpg') }}" alt="">
+                                    </div>
+                                    <div class="form-text text-muted font-size-sm font-italic">Slika koja se pokazuje kada se link dijeli (facebook, twitter, itd.)</div>
                                 </div>
-
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
-                        <div class="col-md-10">
+                        <div class="col-md-6">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
+                        @if (isset($publisher))
+                            <div class="col-md-6 text-right">
+                                <a href="{{ route('publishers.destroy', ['publisher' => $publisher]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-publisher-form{{ $publisher->id }}').submit();">
+                                    <i class="fa fa-trash-alt"></i> Obriši
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </form>
         <!-- END New Post -->
-    </div>
+        @if (isset($publisher))
+            <form id="delete-publisher-form{{ $publisher->id }}" action="{{ route('publishers.destroy', ['publisher' => $publisher]) }}" method="POST" style="display: none;">
+                @csrf
+                {{ method_field('DELETE') }}
+            </form>
+        @endif
 
+    </div>
 
 @endsection
 
@@ -141,11 +136,36 @@
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
 
-    <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['ckeditor5']);});</script>
+    <script>
+        $(() => {
+            ClassicEditor
+            .create( document.querySelector('#description-editor'))
+            .then( editor => {
+                console.log(editor);
+            } )
+            .catch( error => {
+                console.error(error);
+            } );
+        })
+    </script>
 
+    <script>
+        function SetSEOPreview() {
+            let title = $('#title-input').val();
+            $('#slug-input').val(slugify(title));
+        }
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
+                reader.onload = function (e) {
+                    $('#image-view')
+                    .attr('src', e.target.result);
+                };
 
-
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 @endpush

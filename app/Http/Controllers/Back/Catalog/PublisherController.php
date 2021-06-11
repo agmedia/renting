@@ -15,7 +15,13 @@ class PublisherController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.catalog.publisher.index');
+        if ($request->has('search') && ! empty($request->search)) {
+            $publishers = Publisher::where('title', 'like', '%' . $request->search . '%')->paginate(1);
+        } else {
+            $publishers = Publisher::paginate(1);
+        }
+
+        return view('back.catalog.publisher.index', compact('publishers'));
     }
     
     
@@ -37,7 +43,20 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $publisher = new Publisher();
+
+        $stored = $publisher->validateRequest($request)->create();
+
+        if ($stored) {
+            $publisher->resolveImage($stored);
+
+            return redirect()->route('publishers.edit', ['publisher' => $stored])->with(['success' => 'Publisher was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the publisher.']);
+    }
     
     
     /**
@@ -61,7 +80,18 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Publisher $publisher) {}
+    public function update(Request $request, Publisher $publisher)
+    {
+        $updated = $publisher->validateRequest($request)->edit();
+
+        if ($updated) {
+            $publisher->resolveImage($updated);
+
+            return redirect()->route('publishers.edit', ['publisher' => $updated])->with(['success' => 'Publisher was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the publisher.']);
+    }
     
     
     /**
@@ -71,5 +101,14 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {}
+    public function destroy(Request $request, Publisher $publisher)
+    {
+        $destroyed = Publisher::destroy($publisher->id);
+
+        if ($destroyed) {
+            return redirect()->route('publishers')->with(['success' => 'Publisher was succesfully deleted!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the publisher.']);
+    }
 }

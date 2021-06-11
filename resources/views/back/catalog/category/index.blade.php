@@ -14,10 +14,10 @@
 
     <!-- Page Content -->
     <div class="row no-gutters flex-md-10-auto">
-        @include('back.layouts.partials.session')
         <div class="col-md-12 order-md-0 bg-body-dark">
             <!-- Main Content -->
             <div class="content content-full">
+            @include('back.layouts.partials.session')
                 <!-- Tasks, custom functionality is initialized in js/pages/be_pages_projects_tasks.min.js which was auto compiled from _js/pages/be_pages_projects_tasks.js -->
                 <h2 class="content-heading pb-0 mb-3 border-0">
                     Ukupno <span class="js-task-badge badge badge-pill badge-light animated fadeIn">2</span>

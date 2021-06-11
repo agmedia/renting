@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -15,15 +16,6 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        /*$category = Category::getMenu(true);
-        $groups   = Category::active()->groupBy('group')->pluck('group', 'id');
-        
-        if ($request->has('group')) {
-            $categories = collect($category['admin_list'])->where('group', $request->input('group'));
-        } else {
-            $categories = $category['admin_list'];
-        }*/
-
         $category = new Category();
 
         $categories = collect();
@@ -67,25 +59,12 @@ class CategoryController extends Controller
         $stored = $category->validateRequest($request)->create();
 
         if ($stored) {
-            return redirect()->back()->with(['success' => 'Category was succesfully saved!']);
+            $category->resolveImage($stored);
+
+            return redirect()->route('category.edit', ['category' => $stored])->with(['success' => 'Category was succesfully saved!']);
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);
-        /*$request->validate(['name' => 'required']);
-        
-        $category = Category::store($request);
-        
-        Cache::forget('cats');
-        
-        if ($category) {
-            if ($request->has('image') && $request->input('image')) {
-                $category->resolveImage($request);
-            }
-            
-            return redirect()->route('categories')->with(['success' => 'Category was succesfully saved!']);
-        }
-        
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);*/
     }
     
     
@@ -115,21 +94,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        /*$request->validate(['name' => 'required']);
-        
-        $updated = Category::edit($request, $category);
-        
-        Cache::forget('cats');
-        
+        $updated = $category->validateRequest($request)->edit();
+
         if ($updated) {
-            if ($request->has('image') && $request->input('image')) {
-                $updated->resolveImage($request);
-            }
-            
-            return redirect()->route('categories')->with(['success' => 'Category was succesfully saved!']);
+            $category->resolveImage($updated);
+
+            return redirect()->route('category.edit', ['category' => $updated])->with(['success' => 'Category was succesfully saved!']);
         }
-        
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);*/
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);
     }
     
     
@@ -140,14 +113,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Category $category)
     {
-        /*if (isset($request['data']['id'])) {
-            Cache::forget('cats');
-            
-            return response()->json(
-                Category::withSubDestroy($request['data']['id'])
-            );
-        }*/
+        $destroyed = Category::destroy($category->id);
+
+        if ($destroyed) {
+            return redirect()->route('categories')->with(['success' => 'Category was succesfully deleted!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the category.']);
     }
 }

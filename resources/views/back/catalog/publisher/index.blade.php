@@ -21,16 +21,17 @@
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Svi izdavači</h3>
-
-            </div>
-            <div class="block-content bg-body-dark">
-                <!-- Search Form -->
-                <form action="be_pages_ecom_products.html" method="POST" onsubmit="return false;">
-                    <div class="form-group">
-                        <input type="text" class="form-control " id="dm-ecom-products-search" name="dm-ecom-products-search" placeholder="Pretraži izdavače">
-                    </div>
-                </form>
-                <!-- END Search Form -->
+                <div class="block-options">
+                    <!-- Search Form -->
+                    <form action="{{ route('publishers') }}" method="GET">
+                        <div class="block-options-item">
+                            <input type="text" class="form-control" id="search-input" name="search" placeholder="Pretraži izdavače" value="{{ request()->query('search') }}">
+                        </div>
+                        <div class="block-options-item">
+                            <a href="{{ route('publishers') }}" class="btn btn-hero-sm btn-secondary"><i class="fa fa-search-minus"></i> Očisti</a>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="block-content">
                 <!-- All Products Table -->
@@ -44,169 +45,38 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr> <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=" font-size-sm">
-                                <a class="font-w600" href="{{ route('publishers.create') }}">
-                                    <strong>Algoritam</strong>
-                                </a>
-                            </td>
-                            <td class="text-right" >
-                                <span class="badge badge-success">Aktivan</span>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-
-
-
+                        @forelse($publishers as $publisher)
+                            <tr>
+                                <td class="font-size-sm">{{ $publisher->title }}</td>
+                                <td class="text-right">
+                                    @if ($publisher->status)
+                                        <span class="badge badge-success">Aktivan</span>
+                                    @else
+                                        <span class="badge badge-secondary">Neaktivan</span>
+                                    @endif
+                                </td>
+                                <td class="text-right font-size-sm">
+                                    <div class="btn-group">
+                                        <a href="{{ route('publishers.edit', ['publisher' => $publisher]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">
+                                    Nema izdavača.
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
                 <!-- END All Products Table -->
 
                 <!-- Pagination -->
-                <nav aria-label="Photos Search Navigation">
+                {{--<nav aria-label="Photos Search Navigation">
                     <ul class="pagination justify-content-end mt-2">
                         <li class="page-item">
                             <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
@@ -231,7 +101,8 @@
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav>--}}
+                {{ $publishers->links() }}
                 <!-- END Pagination -->
             </div>
         </div>
@@ -240,5 +111,9 @@
 @endsection
 
 @push('js_after')
-
+    <script>
+        function Search(event) {
+            console.log(event.key)
+        }
+    </script>
 @endpush

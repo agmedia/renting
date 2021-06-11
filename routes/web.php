@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('category', [CategoryController::class, 'store'])->name('category.store');
         Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
         Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
+        Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
         // IZDAVAČI
         Route::get('publishers', [PublisherController::class, 'index'])->name('publishers');
@@ -70,6 +71,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('publisher', [PublisherController::class, 'store'])->name('publishers.store');
         Route::get('publisher/{publisher}/edit', [PublisherController::class, 'edit'])->name('publishers.edit');
         Route::patch('publisher/{publisher}', [PublisherController::class, 'update'])->name('publishers.update');
+        Route::delete('publisher/{publisher}', [PublisherController::class, 'destroy'])->name('publishers.destroy');
 
         // AUTORI
         Route::get('authors', [AuthorController::class, 'index'])->name('authors');
@@ -77,6 +79,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('author', [AuthorController::class, 'store'])->name('authors.store');
         Route::get('author/{author}/edit', [AuthorController::class, 'edit'])->name('authors.edit');
         Route::patch('author/{author}', [AuthorController::class, 'update'])->name('authors.update');
+        Route::delete('author/{author}', [AuthorController::class, 'destroy'])->name('authors.destroy');
 
         // ARTIKLI
         Route::get('products', [ProductController::class, 'index'])->name('products');

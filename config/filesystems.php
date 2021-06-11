@@ -65,6 +65,33 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        //
+        // Specific folders
+        //
+        'category' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/category/'),
+            'url' => 'media/img/category/'
+        ],
+        //
+        'publisher' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/publisher/'),
+            'url' => 'media/img/publisher/'
+        ],
+        //
+        'author' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/author/'),
+            'url' => 'media/img/author/'
+        ],
+        //
+        'products' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/products/'),
+            'url' => 'media/img/products/'
+        ],
+
     ],
 
     /*

@@ -32,6 +32,9 @@ class Category extends Model
     protected $request;
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subcategories()
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
@@ -51,6 +54,7 @@ class Category extends Model
 
     /**
      * @param Builder $query
+     * @param string  $group
      *
      * @return Builder
      */
@@ -134,31 +138,28 @@ class Category extends Model
 
 
     /**
-     * Update category.
+     * @param Category $category
      *
      * @return false
      */
-    public function edit(Category $category)
+    public function edit()
     {
-        $top    = (isset($this->request->top) and $this->request->top == 'on') ? 1 : 0;
-        $parent = ( ! $top and isset($this->request->parent)) ? intval($this->request->parent) : 0;
+        $parent = $this->request->parent ?: 0;
         $group  = isset($this->request->group) ? $this->request->group : 0;
-
-        //dd($top, $parent, $group, $request);
 
         if ($parent) {
             $topcat = $this->where('id', $parent)->first();
             $group  = $topcat->group;
         }
 
-        $id = $category->update([
+        $id = $this->update([
+            'parent_id'        => $parent,
             'title'            => $this->request->title,
             'description'      => $this->request->description,
             'meta_title'       => $this->request->meta_title,
             'meta_description' => $this->request->meta_description,
-            'parent_id'        => $parent,
             'group'            => $group,
-            'top'              => $top,
+            'lang'             => 'hr',
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
             'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
             'updated_at'       => Carbon::now()
@@ -173,34 +174,23 @@ class Category extends Model
 
 
     /**
+     * @param Category $category
+     *
      * @return bool
      */
-    public function resolveImage()
+    public function resolveImage(Category $category)
     {
-        /*if ($this->request->hasFile('image')) {
-            $path
-        }*/
+        if ($this->request->hasFile('image')) {
+            $name = Str::slug($category->title) . '.' . $this->request->image->extension();
 
-        $data = json_decode($this->request->image);
-        $type = str_replace('image/', '', $data->output->type);
-        $name = str_replace('.' . $type, '', $data->output->title);
+            $this->request->image->storeAs('/', $name, 'category');
 
-        $path = time() . '_' . Str::slug($name) . '.' . $type;
-        $img  = Image::make($data->output->image)->encode($type);
-
-        Storage::disk('category')->put($path, $img);
-
-        $default_path = config('filesystems.disks.category.url') . 'default.jpg';
-
-        if ($this->image && $this->image != $default_path) {
-            $delete_path = str_replace(config('filesystems.disks.category.url'), '', $this->image);
-
-            Storage::disk('category')->delete($delete_path);
+            return $category->update([
+                'image' => config('filesystems.disks.category.url') . $name
+            ]);
         }
 
-        return $this->update([
-            'image' => config('filesystems.disks.category.url') . $path
-        ]);
+        return false;
     }
 
 }
