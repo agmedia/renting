@@ -13,8 +13,6 @@
         </div>
     </div>
 
-
-
     <div class="content">
     @include('back.layouts.partials.session')
     <!-- All Products -->
@@ -73,37 +71,8 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Products Table -->
-
                 <!-- Pagination -->
-                {{--<nav aria-label="Photos Search Navigation">
-                    <ul class="pagination justify-content-end mt-2">
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                Prethodna
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0)">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                Sljedeća
-                            </a>
-                        </li>
-                    </ul>
-                </nav>--}}
                 {{ $publishers->links() }}
-                <!-- END Pagination -->
             </div>
         </div>
         <!-- END All Products -->
@@ -111,9 +80,5 @@
 @endsection
 
 @push('js_after')
-    <script>
-        function Search(event) {
-            console.log(event.key)
-        }
-    </script>
+
 @endpush
