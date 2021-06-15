@@ -1,14 +1,12 @@
 @extends('back.layouts.backend')
 
 @push('css_before')
-
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/dropzone/min/dropzone.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/plugins/slim/slim.css') }}">
 
-
-
+    @stack('product_css')
 @endpush
 
 @section('content')
@@ -27,11 +25,14 @@
         </div>
     </div>
     <!-- Page Content -->
-    <div class="content content-full ">
+    <div class="content content-full">
+        @include('back.layouts.partials.session')
 
-        <!-- END Page Content -->
-    @include('back.layouts.partials.session')
-    <!-- New Post -->
+        <form action="{{ isset($product) ? route('products.update', ['product' => $product]) : route('products.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @if (isset($product))
+                {{ method_field('PATCH') }}
+            @endif
 
             <div class="block">
                 <div class="block-header block-header-default">
@@ -40,265 +41,212 @@
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
-                            <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active" >
-                            <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
+                            <input type="checkbox" class="custom-control-input" id="product-switch" name="status"{{ (isset($product->status) and $product->status) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="product-switch">Aktiviraj</label>
                         </div>
                     </div>
                 </div>
                 <div class="block-content">
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
-
                             <div class="form-group row items-push mb-2">
                                 <div class="col-md-8">
                                     <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Upišite naziv artikla" value="Vukovi jedu pse">
+                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="Upišite naziv artikla" value="{{ isset($product) ? $product->name : old('name') }}" onkeyup="SetSEOPreview()">
+                                    @error('name')
+                                    <span class="text-danger font-italic">Naziv je potreban...</span>
+                                    @enderror
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Šifra <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="Upišite šifru artikla" value="65908">
+                                    <label for="sku-input">Šifra <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="sku-input" name="sku" placeholder="Upišite šifru artikla" value="{{ isset($product) ? $product->sku : old('sku') }}">
+                                    @error('sku')
+                                    <span class="text-danger font-italic">Šifra je potrebna...</span>
+                                    @enderror
                                 </div>
                             </div>
-
 
                             <div class="form-group row items-push mb-2">
                                 <div class="col-md-3">
-                                    <label for="price">Cijena <span class="text-danger">*</span></label>
+                                    <label for="price-input">Cijena <span class="text-danger">*</span></label>
                                     <div class="input-group">
-
-                                        <input type="text" class="form-control" id="price" name="price" placeholder="00.00">
+                                        <input type="text" class="form-control" id="price-input" name="price" placeholder="00.00" value="{{ isset($product) ? $product->price : old('price') }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">kn</span>
                                         </div>
                                     </div>
+                                    @error('price')
+                                    <span class="text-danger font-italic">Cijena je potrebna...</span>
+                                    @enderror
                                 </div>
-
                                 <div class="col-md-3">
-                                    <label for="price">Akcija </label>
+                                    <label for="special-input">Akcija</label>
                                     <div class="input-group">
-
-                                        <input type="text" class="form-control" id="special" name="special" placeholder="00.00">
+                                        <input type="text" class="form-control" id="special-input" name="special" placeholder="00.00" value="{{ isset($product) ? $product->special : old('special') }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">kn</span>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
-                                    <label for="price">Akcija vrijedi</label>
+                                    <label for="special-from-input">Akcija vrijedi</label>
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="specialfrom" name="specialfrom" placeholder="od" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="od" value="{{ isset($product->special_from) ? \Carbon\Carbon::make($product->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-w600">
-                                            <i class="fa fa-fw fa-arrow-right"></i>
-                                        </span>
+                                            <span class="input-group-text font-w600"><i class="fa fa-fw fa-arrow-right"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" id="specialto" name="specialto" placeholder="do" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="do" value="{{ isset($product->special_to) ? \Carbon\Carbon::make($product->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                     </div>
                                 </div>
-
-
-
                             </div>
-
-
-
-
                             <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
                             <!-- For more info and examples you can check out http://ckeditor.com -->
-
-
-                            <div class="form-group row  mb-4">
+                            <div class="form-group row mb-4">
                                 <div class="col-md-12">
-                                <label for="dm-post-edit-slug">Opis</label>
-                                <!-- CKEditor 5 Classic Container -->
-                                <div id="js-ckeditor5-classic" name="description">Peti nastavak serijala o Arkadiju Renku “Vukovi jedu pse” iz pera Martina Cruza Smitha pokazati će da melankolični, beskompromisni, povučeni Renko nije izgubio ništa od svojega šarma kojim je opsjeo čitatelje u doba hladnog rata, još tamo daleke 1981. kada je objavljen prvi roman u seriji, “Park Gorkoga”.</div>
+                                    <label for="description-editor">Opis</label>
+                                    <textarea id="description-editor" name="description">{!! isset($product) ? $product->description : old('description') !!}</textarea>
                                 </div>
                             </div>
-
-
-                            <!-- END CKEditor 5 Classic-->
-
-
-                            <div class="form-group row items-push   mb-3">
-                                <div class="col-md-4">
-
-                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-                                        <label for="dm-post-edit-slug">Kategorija</label>
-                                        <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                            <option value="1">Knjige</option>
-                                            <option value="2">Zemljovidi i vedute</option>
-
-                                        </select>
-
-                                </div>
-                                <div class="col-md-4">
-
-                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-                                        <label for="dm-post-edit-slug">Autor</label>
-                                        <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi ili upiši novog">
-                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                            <option value="1">Smith Martin Cruz</option>
-                                            <option value="2">Miroslav Krleža</option>
-
-                                        </select>
-
-
-                                </div>
-                                <div class="col-md-4">
-
-
-                                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-                                        <label for="dm-post-edit-slug">Izdavač</label>
-                                        <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi ili upiši novog">
-                                            <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                            <option value="1">Algoritam</option>
-                                            <option value="2">Ljevak</option>
-
-                                        </select>
-
-
-
-                                </div>
-
-                            </div>
-
 
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Broj stranica </label>
-                                    <input type="text" class="form-control" id="title" name="numpages" placeholder="Upišite broj stranica" value="354">
+                                    <label for="dm-post-edit-slug">Kategorija</label>
+                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberite kategoriju">
+                                        <option></option>
+                                        @foreach ($data['categories'] as $group => $cats)
+                                            @foreach ($cats as $id => $category)
+                                                <option value="{{ $id }}" class="font-weight-bold small" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
+                                                @if ( ! empty($category['subs']))
+                                                    @foreach ($category['subs'] as $sub_id => $subcategory)
+                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ ((isset($product)) and (in_array($id, $product->categories()->pluck('id')->toArray()))) ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Dimenzije </label>
-                                    <input type="text" class="form-control" id="sku" name="dimensions" placeholder="Upišite dimenzije" value="6×24">
+                                    <label for="dm-post-edit-slug">Autor</label>
+                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">
+                                        <option></option>
+                                        @foreach ($data['authors'] as $id => $author)
+                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->author_id)) ? 'selected' : '' }}>{{ $author }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Mjesto izdavanja </label>
-                                    <input type="text" class="form-control" id="sku" name="publishcity" placeholder="Upišite mjesto izdavanja" value="Zagreb">
+                                    <label for="dm-post-edit-slug">Izdavač</label>
+                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">
+                                        <option></option>
+                                        @foreach ($data['publishers'] as $id => $publisher)
+                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->publisher_id)) ? 'selected' : '' }}>{{ $publisher }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
-
-                            <div class="form-group row items-push   mb-3">
+                            <div class="form-group row items-push mb-3">
                                 <div class="col-md-4">
-
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-                                    <label for="dm-post-edit-slug">Pismo</label>
-                                    <select class="js-select2 form-control" id="type-select" name="type" style="width: 100%;" data-placeholder="Odaberi ili upiši">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Latinica</option>
-                                        <option value="2">Ćirilica</option>
-                                        <option value="3">Glagoljica</option>
-
-                                    </select>
-
+                                    <label for="pages-input">Broj stranica</label>
+                                    <input type="text" class="form-control" id="pages-input" name="pages" placeholder="Upišite broj stranica" value="{{ isset($product) ? $product->pages : old('pages') }}">
                                 </div>
                                 <div class="col-md-4">
+                                    <label for="dimensions-input">Dimenzije</label>
+                                    <input type="text" class="form-control" id="dimensions-input" name="dimensions" placeholder="Upišite dimenzije" value="{{ isset($product) ? $product->dimensions : old('dimensions') }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="origin-input">Mjesto izdavanja</label>
+                                    <input type="text" class="form-control" id="origin-input" name="origin" placeholder="Upišite mjesto izdavanja" value="{{ isset($product) ? $product->origin : old('origin') }}">
+                                </div>
+                            </div>
 
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
+                            <div class="form-group row items-push mb-3">
+                                <div class="col-md-4">
+                                    <label for="letter-select">Pismo</label>
+                                    <select class="js-select2 form-control" id="letter-select" name="letter" style="width: 100%;" data-placeholder="Odaberite ili upišite pismo">
+                                        <option></option>
+                                        @if ($data['letters'])
+                                            @foreach ($data['letters'] as $letter)
+                                                <option value="{{ $letter }}" {{ ((isset($product)) and ($letter == $product->letter)) ? 'selected' : '' }}>{{ $letter }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
                                     <label for="dm-post-edit-slug">Stanje</label>
-                                    <select class="js-select2 form-control" id="condition-select" name="condition" style="width: 100%;" data-placeholder="Odaberi ili upiši">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Odlično</option>
-                                        <option value="2">Oštećeno</option>
-
+                                    <select class="js-select2 form-control" id="condition-select" name="condition" style="width: 100%;" data-placeholder="Odaberite ili upišite stanje">
+                                        <option></option>
+                                        @if ($data['conditions'])
+                                            @foreach ($data['conditions'] as $condition)
+                                                <option value="{{ $condition }}" {{ ((isset($product)) and ($condition == $product->condition)) ? 'selected' : '' }}>{{ $condition }}</option>
+                                            @endforeach
+                                        @endif
+                                        <option value="Odlično">Odlično</option>
+                                        <option value="Oštećeno">Oštećeno</option>
                                     </select>
-
-
                                 </div>
                                 <div class="col-md-4">
-
-
-                                    <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                    <!-- For more info and examples you can check out https://github.com/select2/select2 -->
                                     <label for="dm-post-edit-slug">Uvez</label>
-                                    <select class="js-select2 form-control" id="binding-select" name="binding" style="width: 100%;" data-placeholder="Odaberi ili upiši">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="1">Tvrdi</option>
-                                        <option value="2">Meki</option>
-
+                                    <select class="js-select2 form-control" id="binding-select" name="binding" style="width: 100%;" data-placeholder="Odaberite ili upišite uvez">
+                                        <option></option>
+                                        @if ($data['bindings'])
+                                            @foreach ($data['bindings'] as $binding)
+                                                <option value="{{ $binding }}" {{ ((isset($product)) and ($binding == $product->binding)) ? 'selected' : '' }}>{{ $binding }}</option>
+                                            @endforeach
+                                        @endif
+                                        <option value="Tvrdi">Tvrdi</option>
+                                        <option value="Meki">Meki</option>
                                     </select>
-
-
-
                                 </div>
-
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-                <!-- Meta Data -->
-
-                <!-- END Meta Data -->
-
             </div>
-            <div class="block ">
+
+            <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Slike</h3>
                 </div>
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 ">
+                        <div class="col-md-10">
                             <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
                             <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
-                            <form class="dropzone" action="be_pages_ecom_product_edit.html">
-
+<!--                            <div class="dropzone">
                                 <div class="dz-message" data-dz-message><span>Klikni ovdje ili dovuci slike za uplad</span></div>
-
-                            </form>
-
-
-
+                            </div>-->
+                            @include('back.catalog.product.edit-photos')
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="block ">
+
+            <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Meta Data - SEO</h3>
                 </div>
                 <div class="block-content">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 ">
-                            <form action="be_pages_ecom_product_edit.html" method="POST" onsubmit="return false;">
-                                <div class="form-group">
-                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
-                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
-                                    <label for="dm-ecom-product-meta-title">Meta naslov</label>
-                                    <input type="text" class="js-maxlength form-control" id="dm-ecom-product-meta-title" name="dm-ecom-product-meta-title" value="" maxlength="70" data-always-show="true" data-placement="top">
-                                    <small class="form-text text-muted">
-                                        70 znakova max
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <!-- Bootstrap Maxlength (.js-maxlength class is initialized in Helpers.maxlength()) -->
-                                    <!-- For more info and examples you can check out https://github.com/mimo84/bootstrap-maxlength -->
-                                    <label for="dm-ecom-product-meta-description">Meta opis</label>
-                                    <textarea class="js-maxlength form-control" id="dm-ecom-product-meta-description" name="dm-ecom-product-meta-description" rows="4" maxlength="160" data-always-show="true" data-placement="top"></textarea>
-                                    <small class="form-text text-muted">
-                                        160 znakova max
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="dm-post-edit-slug">SEO link (url)</label>
-                                    <input type="text" class="form-control" id="dm-post-edit-slug" name="dm-post-edit-slug" value="murkett-tracey" disabled>
-                                </div>
-
-                            </form>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="meta-title-input">Meta naslov</label>
+                                <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($product) ? $product->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
+                                <small class="form-text text-muted">
+                                    70 znakova max
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="meta-description-input">Meta opis</label>
+                                <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($product) ? $product->meta_description : old('meta_description') }}</textarea>
+                                <small class="form-text text-muted">
+                                    160 znakova max
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="slug-input">SEO link (url)</label>
+                                <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($product) ? $product->slug : old('slug') }}" disabled>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,14 +259,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
-        <!-- END New Post -->
+        </form>
     </div>
-
-
 @endsection
 
 @push('js_after')
@@ -327,40 +270,48 @@
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/dropzone/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/slim/slim.kickstart.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['select2','ckeditor5','datepicker']);});</script>
-
-
+    <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
 
     <script>
         $(() => {
-            $('#category-select').select2({
-                placeholder: 'Odaberite kategoriju'
+            ClassicEditor
+            .create(document.querySelector('#description-editor'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
             });
+
+            $('#category-select').select2({});
             $('#author-select').select2({
-                placeholder: 'Odaberite autora',
                 tags: true
             });
             $('#publisher-select').select2({
-                placeholder: 'Odaberite izdavača',
                 tags: true
             });
-            $('#type-select').select2({
-                placeholder: 'Odaberite pismo',
+            $('#letter-select').select2({
                 tags: true
             });
             $('#binding-select').select2({
-                placeholder: 'Odaberite pismo',
                 tags: true
             });
             $('#condition-select').select2({
-                placeholder: 'Odaberite pismo',
                 tags: true
             });
         })
     </script>
 
+    <script>
+        function SetSEOPreview() {
+            let title = $('#name-input').val();
+            $('#slug-input').val(slugify(title));
+        }
+    </script>
 
+    @stack('product_scripts')
 
 @endpush

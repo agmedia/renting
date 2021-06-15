@@ -80,6 +80,46 @@ class Category extends Model
 
 
     /**
+     * @param bool $full
+     *
+     * @return Collection
+     */
+    public function getList(bool $full = true): Collection
+    {
+        $categories = collect();
+
+        $groups = $this->groups()->pluck('group');
+
+        foreach ($groups as $group) {
+            if ($full) {
+                $cats = $this->topList($group)->with('subcategories')->get();
+            } else {
+                $cats = [];
+                $fill = $this->topList($group)->with('subcategories')->get();
+
+                foreach ($fill as $cat) {
+                    $cats[$cat->id] = ['title' => $cat->title];
+
+                    if ($cat->subcategories) {
+                        $subcats = [];
+
+                        foreach ($cat->subcategories as $subcategory) {
+                            $subcats[$subcategory->id] = ['title' => $subcategory->title];
+                        }
+                    }
+
+                    $cats[$cat->id]['subs'] = $subcats;
+                }
+            }
+
+            $categories->put($group, $cats);
+        }
+
+        return $categories;
+    }
+
+
+    /**
      * Validate new category Request.
      *
      * @param Request $request

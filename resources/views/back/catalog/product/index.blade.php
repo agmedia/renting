@@ -177,61 +177,41 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- row -->
-                        <tr>
-                            <td class="text-center font-size-sm">
-                                <img src="{{ asset('media/img/knjiga.jpg') }}" height="80px"/>
-                            </td>
-                            <td class="font-size-sm">
-                                <a class="font-w600" href="{{ route('products.create') }}">Nove tajne sretne djece</a><br>
-                                <span class="badge badge-secondary">Shaaron Biddulph</span>
-                                <span class="badge badge-secondary">Mozaik knjiga</span>
-
-                            </td>
-                            <td class="font-size-sm">60593</td>
-                            <td class="font-size-sm"><strong>120,00kn</strong></td>
-                            <td class="font-size-sm">28/12/2019</td>
-                            <td class="text-center font-size-sm">
-                                <i class="fa fa-fw fa-check text-success"></i>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.create') }}">
-                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- end row -->
-                        <!-- row -->
-                        <tr>
-                            <td class="text-center font-size-sm">
-                                <img src="{{ asset('media/img/knjiga2.jpg') }}" height="80px"/>
-                            </td>
-                            <td class="font-size-sm">
-                                <a class="font-w600" href="{{ route('products.create') }}">Hrvatsko domobranstvo u Drugom svjetskom ratu II. dio</a><br>
-                                <span class="badge badge-secondary">Shaaron Biddulph</span>
-                                <span class="badge badge-secondary">Mozaik knjiga</span>
-                            </td>
-                            <td class="font-size-sm">60593</td>
-                            <td class="font-size-sm"><strong>120,00kn</strong></td>
-                            <td class="font-size-sm">28/12/2019</td>
-                            <td class="text-center font-size-sm">
-                                <i class="fa fa-fw fa-times text-danger"></i>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.create') }}">
-                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- end row -->
-
-
+                        @forelse ($products as $product)
+                            <tr>
+                                <td class="text-center font-size-sm">
+                                    <img src="{{ asset($product->image) }}" height="80px"/>
+                                </td>
+                                <td class="font-size-sm">
+                                    <a class="font-w600" href="{{ route('products.edit', ['product' => $product]) }}">{{ $product->name }}</a><br>
+                                    @if ($product->categories)
+                                        @foreach ($product->categories as $cat)
+                                            <span class="badge badge-secondary">{{ $cat->title }}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td class="font-size-sm">{{ $product->sku }}</td>
+                                <td class="font-size-sm"><strong>{{ number_format($product->price, 2) }}kn</strong></td>
+                                <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
+                                <td class="text-center font-size-sm">
+                                    <i class="fa fa-fw fa-check text-success"></i>
+                                </td>
+                                <td class="text-right font-size-sm">
+                                    <a class="btn btn-sm btn-alt-secondary" href="">
+                                        <i class="fa fa-fw fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.edit', ['product' => $product]) }}">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="text-center font-size-sm" colspan="7">
+                                    <label>Nema proizvoda...</label>
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

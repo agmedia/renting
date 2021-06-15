@@ -17,15 +17,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $category = new Category();
-
-        $categories = collect();
-        $groups = $category->groups()->pluck('group');
-
-        foreach ($groups as $group) {
-            $categories->put($group,
-                $category->topList($group)->with('subcategories')->get()
-            );
-        }
+        $categories = $category->getList();
         
         return view('back.catalog.category.index', compact('categories'));
     }
