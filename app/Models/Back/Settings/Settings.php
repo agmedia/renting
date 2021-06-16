@@ -34,6 +34,28 @@ class Settings extends Model
      *******************************************************************************/
 
     /**
+     * @param string $code
+     * @param string $key
+     *
+     * @return false|Collection
+     */
+    public static function get(string $code, string $key)
+    {
+        $styles = Settings::where('code', $code)->where('key', $key)->first();
+
+        if ($styles) {
+            if ($styles->json) {
+                return collect(json_decode($styles->value));
+            }
+
+            return $styles->value;
+        }
+
+        return false;
+    }
+
+
+    /**
      * @param string $key
      *
      * @return mixed
@@ -56,12 +78,12 @@ class Settings extends Model
 
     /**
      * @param string $key
-     * @param null   $value
+     * @param mixed  $value
      * @param bool   $json
      *
      * @return mixed
      */
-    public static function setProduct(string $key, $value = null, bool $json = true)
+    public static function setProduct(string $key, $value, bool $json = true)
     {
         $styles = Settings::where('code', 'product')->where('key', $key)->first();
 

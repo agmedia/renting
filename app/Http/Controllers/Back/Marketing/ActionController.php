@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back\Marketing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Back\Marketing\Action;
+use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 
 class ActionController extends Controller
@@ -15,7 +16,9 @@ class ActionController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.marketing.action.index');
+        $actions = Action::paginate(12);
+
+        return view('back.marketing.action.index', compact('actions'));
     }
 
 
@@ -26,7 +29,10 @@ class ActionController extends Controller
      */
     public function create()
     {
-        return view('back.marketing.action.edit');
+        $groups = Settings::get('action', 'group_list');
+        $types = Settings::get('action', 'type_list');
+
+        return view('back.marketing.action.edit', compact('groups', 'types'));
     }
 
 
@@ -37,7 +43,18 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $action = new Action();
+
+        $stored = $action->validateRequest($request)->create();
+
+        if ($stored) {
+            return redirect()->route('actions.edit', ['action' => $stored])->with(['success' => 'Action was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
+    }
 
 
     /**
@@ -49,7 +66,10 @@ class ActionController extends Controller
      */
     public function edit(Action $action)
     {
-        return view('back.marketing.action.edit', compact('action'));
+        $groups = Settings::get('action', 'group_list');
+        $types = Settings::get('action', 'type_list');
+
+        return view('back.marketing.action.edit', compact('action', 'groups', 'types'));
     }
 
 
@@ -61,7 +81,16 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Action $action) {}
+    public function update(Request $request, Action $action)
+    {
+        $updated = $action->validateRequest($request)->edit();
+
+        if ($updated) {
+            return redirect()->route('actions.edit', ['action' => $updated])->with(['success' => 'Action was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
+    }
 
 
     /**
@@ -71,5 +100,8 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {}
+    public function destroy(Request $request)
+    {
+        dd($request);
+    }
 }

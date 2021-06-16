@@ -39,80 +39,43 @@
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
                         <tr>
-
-
                             <th class="text-left">Naziv</th>
                             <th>Vrijedi od</th>
                             <th>Vrijedi do</th>
                             <th>Popust</th>
-
                             <th class="text-center font-size-sm">Status</th>
-
                             <th class="text-right" style="width: 100px;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- row -->
-                        <tr>
-
-
-                            <td class="font-size-sm">
-                                <a class="font-w600" href="{{ route('actions.create') }}">20% na sve knjige</a>
-
-                            </td>
-                            <td class="font-size-sm">15.05.2021.</td>
-                            <td class="font-size-sm">25.05.2021.</td>
-                            <td class="font-size-sm">20%</td>
-                            <td class="text-center font-size-sm">
-                                <i class="fa fa-fw fa-check text-success"></i>
-                            </td>
-                            <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.create') }}">
-                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
-                                    <i class="fa fa-fw fa-times text-danger"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <!-- end row -->
-
-
-
+                        @forelse ($actions as $action)
+                            <tr>
+                                <td class="font-size-sm">
+                                    <a class="font-w600" href="{{ route('actions.edit', ['action' => $action]) }}">{{ $action->title }}</a>
+                                </td>
+                                <td class="font-size-sm">{{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : '' }}</td>
+                                <td class="font-size-sm">{{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : '' }}</td>
+                                <td class="font-size-sm">{{ $action->discount }}</td>
+                                <td class="text-center font-size-sm">
+                                    <i class="fa fa-fw fa-check text-success"></i>
+                                </td>
+                                <td class="text-right font-size-sm">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="font-size-sm text-center" colspan="6">
+                                    <label for="">Nema Akcija...</label>
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Products Table -->
-
-                <!-- Pagination -->
-                <nav aria-label="Photos Search Navigation">
-                    <ul class="pagination justify-content-end mt-2">
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                Prethodna
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0)">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                Sljedeća
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- END Pagination -->
+                {{ $actions->links() }}
             </div>
         </div>
         <!-- END All Products -->

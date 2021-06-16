@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSedder::class);
         $this->command->line('Users created!');
 
+        $this->call(SettingsSeeder::class);
+        $this->command->line('Settings created!');
+
         $this->command->comment('Enjoy your app!');
         $this->command->comment('...');
 

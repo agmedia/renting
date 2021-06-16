@@ -1,17 +1,11 @@
 @extends('back.layouts.backend')
+
 @push('css_before')
-
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-
-
     <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
-
-
-
 @endpush
 
 @section('content')
-
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
@@ -27,261 +21,166 @@
     </div>
     <div class="content content-full ">
 
-        <!-- END Page Content -->
-    @include('back.layouts.partials.session')
+        @include('back.layouts.partials.session')
 
+        <form action="{{ isset($action) ? route('actions.update', ['action' => $action]) : route('actions.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @if (isset($action))
+                {{ method_field('PATCH') }}
+            @endif
+            <div class="row">
 
-
-        <div class="row">
-
-            <div class="col-md-6">
-
-            <div class="block">
-            <div class="block-header block-header-default">
-                <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
-                    <i class="fa fa-arrow-left mr-1"></i> Povratak
-                </a>
-                <div class="block-options">
-                    <div class="custom-control custom-switch custom-control-success">
-                        <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active" >
-                        <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
-                    </div>
-                </div>
-            </div>
-            <div class="block-content">
-                <div class="row justify-content-center push">
-                    <div class="col-md-12">
-
-                        <div class="form-group row items-push mb-2">
-                            <div class="col-md-8">
-                                <label for="dm-post-edit-title">Naziv akcije <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="Upišite naziv akcije" value="20% na sve knjige">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="dm-post-edit-title">Tip akcije <span class="text-danger">*</span></label>
-                                <select class="form-control" id="example-select" name="example-select">
-                                    <option value="0">-- Molimo odaberite --</option>
-                                    <option value="1" selected>Kategorija</option>
-                                    <option value="2">Nakladnik</option>
-                                    <option value="3">Autor</option>
-                                    <option value="4">Artikl</option>
-
-                                </select>
-
+                <div class="col-md-7">
+                    <div class="block">
+                        <div class="block-header block-header-default">
+                            <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
+                                <i class="fa fa-arrow-left mr-1"></i> Povratak
+                            </a>
+                            <div class="block-options">
+                                <div class="custom-control custom-switch custom-control-success">
+                                    <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($action) and $action->status) checked @endif>
+                                    <label class="custom-control-label" for="status-switch">Aktiviraj</label>
+                                </div>
                             </div>
                         </div>
-
-
-                        <div class="form-group row items-push mb-2">
-                            <div class="col-md-6">
-                                <label for="dm-post-edit-title">Vrsta popusta <span class="text-danger">*</span></label>
-                                <select class="form-control" id="example-select" name="example-select">
-                                    <option value="0">-- Molimo odaberite --</option>
-                                    <option value="1" selected>Postotak</option>
-                                    <option value="2">Fiksni</option>
-
-
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="price">Akcija <span class="text-danger">*</span></label>
-                                <div class="input-group">
-
-                                    <input type="text" class="form-control" id="special" name="special" placeholder="Unesite popust" value="20">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">%</span>
+                        <div class="block-content">
+                            <div class="row justify-content-center push">
+                                <div class="col-md-12">
+                                    <div class="form-group row items-push mb-2">
+                                        <div class="col-md-8">
+                                            <label for="title-input">Naziv akcije <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="title-input" name="title" placeholder="Upišite naziv akcije" value="{{ isset($action) ? $action->title : old('title') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="group-select">Grupa akcije <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="group-select" name="group">
+                                                <option></option>
+                                                @foreach ($groups as $group)
+                                                    <option value="{{ $group->id }}" {{ (isset($action) and $group->id == $action->group) ? 'selected="selected"' : '' }}>{{ $group->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row items-push mb-2">
+                                        <div class="col-md-6">
+                                            <label for="type-select">Vrsta popusta <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="type-select" name="type">
+                                                <option></option>
+                                                @foreach ($types as $type)
+                                                    <option value="{{ $type->id }}" {{ (isset($action) and $type->id == $action->type) ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="discount-input">Akcija <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="discount-input" name="discount" placeholder="Unesite popust" value="{{ isset($action) ? $action->discount : old('discount') }}">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="discount-append-badge">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row items-push mb-2">
+                                        <div class="col-md-12">
+                                            <label for="date-start-input">Akcija vrijedi<span class="text-danger">*</span></label>
+                                            <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                                <input type="text" class="form-control" id="date-start-input" name="date_start"
+                                                       value="{{ isset($action) && $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : '' }}"
+                                                       placeholder="od" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                                <div class="input-group-prepend input-group-append">
+                                                    <span class="input-group-text font-w600">
+                                                        <i class="fa fa-fw fa-arrow-right"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control" id="date-end-input" name="date_end"
+                                                       value="{{ isset($action) && $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : '' }}"
+                                                       placeholder="do" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row items-push mb-2">
-                            <div class="col-md-12">
-                                <label for="price">Akcija vrijedi<span class="text-danger">*</span></label>
-                                <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    <input type="text" class="form-control" id="specialfrom" name="specialfrom" placeholder="od" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-w600">
-                                            <i class="fa fa-fw fa-arrow-right"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" id="specialto" name="specialto" placeholder="do" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                        <div class="block-content bg-body-light">
+                            <div class="row push">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-hero-success my-2">
+                                        <i class="fas fa-save mr-1"></i> Snimi
+                                    </button>
                                 </div>
+                                @if (isset($action))
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ route('actions.destroy', ['action' => $action]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-action-form{{ $action->id }}').submit();">
+                                            <i class="fa fa-trash-alt"></i> Obriši
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
-
-
-
                         </div>
-
-
-                        <div class="form-group row items-push   mb-3">
-                            <div class="col-md-12">
-
-                                <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-                                <label for="dm-post-edit-slug">Kategorija<span class="text-danger">*</span></label>
-                                <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                    <option value="1" selected>Knjige</option>
-                                    <option value="2">Zemljovidi i vedute</option>
-
-                                </select>
-
-                            </div>
-
-
-
-                        </div>
-
-
                     </div>
                 </div>
-            </div>
-
-            <!-- Meta Data -->
-
-            <!-- END Meta Data -->
-
-        </div>
-
-            </div>
-
-            <div class="col-md-6">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Akcije</h3>
-                    </div>
-                    <div class="block-content">
-                        <!-- All Products Table -->
-                        <div class="table-responsive">
-                            <table class="table table-borderless table-striped table-vcenter">
-                                <thead>
-                                <tr>
-
-                                    <th>Naziv</th>
 
 
-
-                                    <th class="text-right" style="width: 100px;">Izbriši</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- row -->
-                                <tr>
-
-                                    <td class="font-size-sm">
-                                        <a class="font-w600" href="{{ route('products.create') }}">Nove tajne sretne djece</a><br>
-
-
-                                    </td>
-
-
-                                    <td class="text-right font-size-sm">
-
-                                        <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
-                                            <i class="fa fa-fw fa-times text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <!-- end row -->
-                                <!-- row -->
-                                <tr>
-
-                                    <td class="font-size-sm">
-                                        <a class="font-w600" href="{{ route('products.create') }}">Hrvatsko domobranstvo u Drugom svjetskom ratu II. dio</a><br>
-
-                                    </td>
-
-                                    <td class="text-right font-size-sm">
-
-                                        <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
-                                            <i class="fa fa-fw fa-times text-danger"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <!-- end row -->
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- END All Products Table -->
-
-                        <!-- Pagination -->
-                        <nav aria-label="Photos Search Navigation">
-                            <ul class="pagination justify-content-end mt-2">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                        Prethodna
-                                    </a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="javascript:void(0)">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                        Sljedeća
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- END Pagination -->
-                    </div>
+                <div class="col-md-5" id="action-list-view">
+                    @if (isset($action))
+                        @livewire('back.marketing.action-group-list', ['group' => $action->group, 'list' => json_decode($action->links)])
+                    @else
+                        @livewire('back.marketing.action-group-list', ['group' => 'products'])
+                    @endif
                 </div>
             </div>
+        </form>
 
-        </div>
-
-
+        @if (isset($action))
+            <form id="delete-category-form{{ $action->id }}" action="{{ route('actions.destroy', ['action' => $action]) }}" method="POST" style="display: none;">
+                @csrf
+                {{ method_field('DELETE') }}
+            </form>
+        @endif
     </div>
-
 @endsection
 
 @push('js_after')
-    <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
-
     <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
-    <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['select2','datepicker']);});</script>
-
-
+    <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
 
     <script>
         $(() => {
-            $('#category-select').select2({
-                placeholder: 'Odaberite kategoriju'
+            /**
+             *
+             */
+            $('#group-select').select2({
+                placeholder: '-- Molimo odaberite --',
+                minimumResultsForSearch: Infinity
             });
-            $('#author-select').select2({
-                placeholder: 'Odaberite autora',
-                tags: true
+            $('#group-select').on('change', function (e) {
+                Livewire.emit('groupUpdated', e.currentTarget.value);
             });
-            $('#publisher-select').select2({
-                placeholder: 'Odaberite izdavača',
-                tags: true
+
+            Livewire.on('list_full', () => {
+                $('#group-select').attr("disabled", true);
             });
+            Livewire.on('list_empty', () => {
+                $('#group-select').attr("disabled", false);
+            });
+            /**
+             *
+             */
             $('#type-select').select2({
-                placeholder: 'Odaberite pismo',
-                tags: true
+                placeholder: '-- Molimo odaberite --',
+                minimumResultsForSearch: Infinity
             });
-            $('#binding-select').select2({
-                placeholder: 'Odaberite pismo',
-                tags: true
+            $('#type-select').on('change', function (e) {
+                if (e.currentTarget.value == 'F') {
+                    $('#discount-append-badge').text('kn');
+                } else {
+                    $('#discount-append-badge').text('%');
+                }
             });
-            $('#condition-select').select2({
-                placeholder: 'Odaberite pismo',
-                tags: true
-            });
+
         })
     </script>
 

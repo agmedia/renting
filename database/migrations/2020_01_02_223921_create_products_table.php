@@ -57,13 +57,17 @@ class CreateProductsTable extends Migration
 
         Schema::create('product_actions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('price', 15, 4)->nullable();
-            $table->integer('discount')->unsigned()->nullable();
+            $table->string('title');
+            $table->string('type');
+            $table->decimal('discount', 15, 4);
+            $table->string('group');
+            $table->text('links')->nullable();
             $table->timestamp('date_start')->nullable();
             $table->timestamp('date_end')->nullable();
-            $table->string('link')->nullable();
-            $table->integer('link_id')->nullable();
             $table->string('badge')->nullable();
+            $table->decimal('min_cart', 15, 4)->nullable();
+            $table->boolean('logged')->default(0);
+            $table->integer('uses_customer')->unsigned()->default(1);
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('clicked')->unsigned()->default(0);
             $table->boolean('status')->default(0);

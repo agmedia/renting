@@ -29,6 +29,8 @@
 
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
+
+        @livewireStyles
     </head>
     <body>
 
@@ -61,6 +63,9 @@
             </footer>
             <!-- END Footer -->
         </div>
+
+        @livewireScripts
+
         <!-- END Page Container -->
         <script src="{{ asset('js/dashmix.app.js') }}"></script>
         <script src="{{ asset('/js/laravel.app.js') }}"></script>

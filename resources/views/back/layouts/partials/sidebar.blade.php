@@ -105,12 +105,12 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['actions', 'action.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
+                            <a class="nav-main-link{{ request()->routeIs(['actions', 'actions.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
                                 <span class="nav-main-link-name">Akcije</span>
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['blogs', 'blog.*']) ? ' active' : '' }}" href="{{ route('blogs') }}">
+                            <a class="nav-main-link{{ request()->routeIs(['blogs', 'blogs.*']) ? ' active' : '' }}" href="{{ route('blogs') }}">
                                 <span class="nav-main-link-name">Blog</span>
                             </a>
                         </li>

@@ -87,6 +87,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('product', [ProductController::class, 'store'])->name('products.store');
         Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
         Route::patch('product/{product}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     });
 
     // NARUDŽBE
@@ -104,6 +105,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('action', [ActionController::class, 'store'])->name('actions.store');
         Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
         Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
+        Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
         
         // BLOG
         Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
