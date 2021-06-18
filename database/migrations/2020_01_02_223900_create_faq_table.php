@@ -18,8 +18,8 @@ class CreateFaqTable extends Migration
             $table->string('title');
             $table->string('category')->nullable();
             $table->longText('description')->nullable();
-            $table->string('sortorder')->nullable();
             $table->string('lang')->default('hr');
+            $table->string('sort_order')->nullable();
             $table->boolean('status')->nullable();
             $table->timestamps();
         });

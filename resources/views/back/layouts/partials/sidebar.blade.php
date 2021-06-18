@@ -140,7 +140,12 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['faqs', 'faq.*']) ? ' active' : '' }}" href="{{ route('faqs') }}">
+                            <a class="nav-main-link{{ request()->routeIs(['pages', 'pages.*']) ? ' active' : '' }}" href="{{ route('pages') }}">
+                                <span class="nav-main-link-name">Info Stranice</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['faqs', 'faqs.*']) ? ' active' : '' }}" href="{{ route('faqs') }}">
                                 <span class="nav-main-link-name">FAQ</span>
                             </a>
                         </li>

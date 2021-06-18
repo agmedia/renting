@@ -181,8 +181,6 @@
                                                 <option value="{{ $condition }}" {{ ((isset($product)) and ($condition == $product->condition)) ? 'selected' : '' }}>{{ $condition }}</option>
                                             @endforeach
                                         @endif
-                                        <option value="Odlično">Odlično</option>
-                                        <option value="Oštećeno">Oštećeno</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -194,8 +192,6 @@
                                                 <option value="{{ $binding }}" {{ ((isset($product)) and ($binding == $product->binding)) ? 'selected' : '' }}>{{ $binding }}</option>
                                             @endforeach
                                         @endif
-                                        <option value="Tvrdi">Tvrdi</option>
-                                        <option value="Meki">Meki</option>
                                     </select>
                                 </div>
                             </div>

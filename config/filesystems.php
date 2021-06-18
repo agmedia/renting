@@ -91,6 +91,18 @@ return [
             'root' => public_path('media/img/products/'),
             'url' => 'media/img/products/'
         ],
+        //
+        'blog' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/blog/'),
+            'url' => 'media/img/blog/'
+        ],
+        //
+        'page' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/page/'),
+            'url' => 'media/img/page/'
+        ],
 
     ],
 

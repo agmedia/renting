@@ -50,6 +50,8 @@ class ActionGroupList extends Component
             foreach ($ids as $id) {
                 $this->addItem(intval($id));
             }
+
+            $this->render();
         }
     }
 

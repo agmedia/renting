@@ -15,7 +15,13 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.marketing.blog.index');
+        if ($request->has('search') && ! empty($request->search)) {
+            $blogs = Blog::where('title', 'like', '%' . $request->search . '%')->paginate(12);
+        } else {
+            $blogs = Blog::paginate(12);
+        }
+
+        return view('back.marketing.blog.index', compact('blogs'));
     }
 
 
@@ -37,7 +43,20 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $blog = new Blog();
+
+        $stored = $blog->validateRequest($request)->create();
+
+        if ($stored) {
+            $blog->resolveImage($stored);
+
+            return redirect()->route('blogs.edit', ['blog' => $stored])->with(['success' => 'Blog was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the blog.']);
+    }
 
 
     /**
@@ -61,7 +80,18 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $blog) {}
+    public function update(Request $request, Blog $blog)
+    {
+        $updated = $blog->validateRequest($request)->edit();
+
+        if ($updated) {
+            $blog->resolveImage($updated);
+
+            return redirect()->route('blogs.edit', ['blog' => $updated])->with(['success' => 'Blog was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the blog.']);
+    }
 
 
     /**
@@ -71,5 +101,14 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {}
+    public function destroy(Request $request, Blog $blog)
+    {
+        $destroyed = Blog::destroy($blog->id);
+
+        if ($destroyed) {
+            return redirect()->route('blogs')->with(['success' => 'Blog was succesfully deleted!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the blog.']);
+    }
 }

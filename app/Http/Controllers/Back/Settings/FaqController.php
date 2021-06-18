@@ -15,7 +15,13 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.settings.faq.index');
+        if ($request->has('search') && ! empty($request->search)) {
+            $faqs = Faq::where('title', 'like', '%' . $request->search . '%')->paginate(12);
+        } else {
+            $faqs = Faq::paginate(12);
+        }
+
+        return view('back.settings.faq.index', compact('faqs'));
     }
 
 
@@ -37,7 +43,18 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $faq = new Faq();
+
+        $stored = $faq->validateRequest($request)->create();
+
+        if ($stored) {
+            return redirect()->route('faqs.edit', ['faq' => $stored])->with(['success' => 'Faq was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the faq.']);
+    }
 
 
     /**
@@ -61,7 +78,16 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Faq $faq) {}
+    public function update(Request $request, Faq $faq)
+    {
+        $updated = $faq->validateRequest($request)->create();
+
+        if ($updated) {
+            return redirect()->route('faqs.edit', ['faq' => $updated])->with(['success' => 'Faq was succesfully saved!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the faq.']);
+    }
 
 
     /**
@@ -71,5 +97,14 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request) {}
+    public function destroy(Request $request, Faq $faq)
+    {
+        $destroyed = Faq::destroy($faq->id);
+
+        if ($destroyed) {
+            return redirect()->route('faqs')->with(['success' => 'Faq was succesfully deleted!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the faq.']);
+    }
 }

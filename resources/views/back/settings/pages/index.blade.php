@@ -5,9 +5,9 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Blog</h1>
-                <a class="btn btn-hero-success my-2" href="{{ route('blogs.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Novi post</span>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Info Stranice</h1>
+                <a class="btn btn-hero-success my-2" href="{{ route('pages.create') }}">
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova stranica</span>
                 </a>
             </div>
         </div>
@@ -24,12 +24,12 @@
                 <h3 class="block-title">Objave</h3>
                 <div class="block-options">
                     <!-- Search Form -->
-                    <form action="{{ route('blogs') }}" method="GET">
+                    <form action="{{ route('pages') }}" method="GET">
                         <div class="block-options-item">
-                            <input type="text" class="form-control" id="search-input" name="search" placeholder="Pretraži autore" value="{{ request()->query('search') }}">
+                            <input type="text" class="form-control" id="search-input" name="search" placeholder="Pretraži stranice..." value="{{ request()->query('search') }}">
                         </div>
                         <div class="block-options-item">
-                            <a href="{{ route('blogs') }}" class="btn btn-hero-sm btn-secondary"><i class="fa fa-search-minus"></i> Očisti</a>
+                            <a href="{{ route('pages') }}" class="btn btn-hero-sm btn-secondary"><i class="fa fa-search-minus"></i> Očisti</a>
                         </div>
                     </form>
                 </div>
@@ -40,43 +40,35 @@
                     <tr>
                         <th style="width: 60px;">Slika</th>
                         <th style="width: 33%;">Naziv</th>
-                        <th >Kreirano</th>
-                        <th >Objavljeno</th>
                         <th style="width: 100px;" class="text-center">Uredi</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse ($blogs as $blog)
+                    @forelse ($pages as $page)
                         <tr>
                             <td>
-                                <a href="{{ route('blogs.edit', ['blog' => $blog]) }}">
-                                    <img src="{{ asset($blog->image) }}" height="80px"/>
+                                <a href="{{ route('pages.edit', ['page' => $page]) }}">
+                                    <img src="{{ asset($page->image) }}" height="80px"/>
                                 </a>
                             </td>
                             <td>
                                 <i class="fa fa-eye text-success mr-1"></i>
-                                <a href="{{ route('blogs.edit', ['blog' => $blog]) }}">{{ $blog->title }}</a>
-                            </td>
-                            <td>
-                                {{ \Illuminate\Support\Carbon::make($blog->created_at)->format('d.m.Y') }}
-                            </td>
-                            <td>
-                                {{ isset($blog->publish_date) ? \Illuminate\Support\Carbon::make($blog->publish_date)->format('d.m.Y u h:i') : '' }}
+                                <a href="{{ route('pages.edit', ['page' => $page]) }}">{{ $page->title }}</a>
                             </td>
                             <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('blogs.edit', ['blog' => $blog]) }}">
+                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('pages.edit', ['page' => $page]) }}">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr class="text-center">
-                            <td colspan="6">Nema objava...</td>
+                            <td colspan="3">Nema info stranica...</td>
                         </tr>
                     @endforelse
                     </tbody>
                 </table>
-                {{ $blogs->links() }}
+                {{ $pages->links() }}
             </div>
         </div>
         <!-- END Posts -->

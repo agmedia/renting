@@ -8,6 +8,7 @@ use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
 use App\Http\Controllers\Back\Settings\FaqController;
+use App\Http\Controllers\Back\Settings\PageController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
 use App\Http\Controllers\Back\Settings\SettingsController;
 use App\Http\Controllers\Back\UserController;
@@ -113,6 +114,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::post('blog', [BlogController::class, 'store'])->name('blogs.store');
         Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
         Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+        Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
     });
 
     // KORISNICI
@@ -124,12 +126,21 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
 
     // POSTAVKE
     Route::prefix('settings')->group(function () {
+        // INFO PAGES
+        Route::get('pages', [PageController::class, 'index'])->name('pages');
+        Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
+        Route::post('page', [PageController::class, 'store'])->name('pages.store');
+        Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
+        Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
+        Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+
         // FAQ
         Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
         Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
         Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
         Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
         Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
+        Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
 
         Route::get('application', [SettingsController::class, 'index'])->name('settings');
     });

@@ -9,7 +9,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Blog edit</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Info stranica edit</h1>
             </div>
         </div>
     </div>
@@ -17,9 +17,9 @@
     <div class="content content-full content-boxed">
         @include('back.layouts.partials.session')
 
-        <form action="{{ isset($blog) ? route('blogs.update', ['blog' => $blog]) : route('blogs.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ isset($page) ? route('pages.update', ['page' => $page]) : route('pages.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @if (isset($blog))
+            @if (isset($page))
                 {{ method_field('PATCH') }}
             @endif
 
@@ -41,14 +41,9 @@
 
                             <div class="form-group">
                                 <label for="title-input">Naslov</label>
-                                <input type="text" class="form-control" id="title-input" name="title" placeholder="Upišite naslov..." value="{{ isset($blog) ? $blog->title : old('title') }}" onkeyup="SetSEOPreview()">
+                                <input type="text" class="form-control" id="title-input" name="title" placeholder="Upišite naslov..." value="{{ isset($page) ? $page->title : old('title') }}" onkeyup="SetSEOPreview()">
                             </div>
 
-                            <div class="form-group">
-                                <label for="short-description-input">Sažetak</label>
-                                <textarea class="form-control" id="short-description-input" name="short_description" rows="3" placeholder="Enter an excerpt..">{{ isset($blog) ? $blog->short_description : old('title') }}</textarea>
-                                <div class="form-text text-muted font-size-sm font-italic">Vidljivo na početnoj stranici</div>
-                            </div>
                             <div class="form-group row">
                                 <div class="col-xl-6">
                                     <label>Glavna slika</label>
@@ -57,25 +52,17 @@
                                         <label class="custom-file-label" for="image-input">Odaberite sliku</label>
                                     </div>
                                     <div class="mt-2">
-                                        <img class="img-fluid" id="image-view" src="{{ isset($blog) ? asset($blog->image) : asset('media/img/lightslider.jpg') }}" alt="">
+                                        <img class="img-fluid" id="image-view" src="{{ isset($page) ? asset($page->image) : asset('media/img/lightslider.jpg') }}" alt="">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row  mb-4">
                                 <div class="col-md-12">
                                     <label for="description-editor">Opis</label>
-                                    <textarea id="description-editor" name="description">{!! isset($blog) ? $blog->description : old('description') !!}</textarea>
+                                    <textarea id="description-editor" name="description">{!! isset($page) ? $page->description : old('description') !!}</textarea>
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-xl-6">
-                                    <label for="publish-date-input">Datum objave</label>
-                                    <input type="text" class="js-flatpickr form-control bg-white" id="publish-date-input"
-                                           value="{{ isset($blog) && $blog->publish_date ? \Illuminate\Support\Carbon::make($blog->publish_date)->format('d.m.Y') : '' }}"
-                                           name="publish_date" data-enable-time="true" placeholder="Ili ostavi prazno za odmah...">
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,7 +78,7 @@
                             <form action="be_pages_ecom_product_edit.html" method="POST" onsubmit="return false;">
                                 <div class="form-group">
                                     <label for="meta-title-input">Meta naslov</label>
-                                    <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($blog) ? $blog->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
+                                    <input type="text" class="js-maxlength form-control" id="meta-title-input" name="meta_title" value="{{ isset($page) ? $page->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
                                     <small class="form-text text-muted">
                                         70 znakova max
                                     </small>
@@ -99,7 +86,7 @@
 
                                 <div class="form-group">
                                     <label for="meta-description-input">Meta opis</label>
-                                    <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($blog) ? $blog->meta_description : old('meta_description') }}</textarea>
+                                    <textarea class="js-maxlength form-control" id="meta-description-input" name="meta_description" rows="4" maxlength="160" data-always-show="true" data-placement="top">{{ isset($page) ? $page->meta_description : old('meta_description') }}</textarea>
                                     <small class="form-text text-muted">
                                         160 znakova max
                                     </small>
@@ -107,7 +94,7 @@
 
                                 <div class="form-group">
                                     <label for="slug-input">SEO link (url)</label>
-                                    <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($blog) ? $blog->slug : old('slug') }}" disabled>
+                                    <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($page) ? $page->slug : old('slug') }}" disabled>
                                 </div>
 
                             </form>
@@ -121,9 +108,9 @@
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
-                        @if (isset($blog))
+                        @if (isset($page))
                             <div class="col-md-6 text-right">
-                                <a href="{{ route('blogs.destroy', ['blog' => $blog]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-blog-form{{ $blog->id }}').submit();">
+                                <a href="{{ route('pages.destroy', ['page' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
                             </div>
@@ -133,8 +120,8 @@
             </div>
         </form>
 
-        @if (isset($blog))
-            <form id="delete-blog-form{{ $blog->id }}" action="{{ route('blogs.destroy', ['blog' => $blog]) }}" method="POST" style="display: none;">
+        @if (isset($page))
+            <form id="delete-page-form{{ $page->id }}" action="{{ route('pages.destroy', ['page' => $page]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>

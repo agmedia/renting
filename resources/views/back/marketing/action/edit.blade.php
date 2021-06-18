@@ -103,9 +103,9 @@
                             </div>
                         </div>
                         <div class="block-content bg-body-light">
-                            <div class="row push">
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-hero-success my-2">
+                                    <button type="submit" class="btn btn-hero-success mb-3">
                                         <i class="fas fa-save mr-1"></i> Snimi
                                     </button>
                                 </div>
@@ -180,6 +180,10 @@
                     $('#discount-append-badge').text('%');
                 }
             });
+
+            @if (isset($action))
+            $('#group-select').attr("disabled", true);
+            @endif
 
         })
     </script>
