@@ -1,6 +1,6 @@
 <div class="block block-rounded mb-5" {{ $attributes }}>
     <div class="block-header block-header-default">
-        {{ $title }}
+        <span class="font-weight-bold">{{ $title }}</span>
     </div>
 
     <div class="block-content">
