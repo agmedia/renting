@@ -68,6 +68,12 @@ return [
         //
         // Specific folders
         //
+        'assets' => [
+            'driver' => 'local',
+            'root' => public_path('assets/'),
+            'url' => 'assets/'
+        ],
+        //
         'category' => [
             'driver' => 'local',
             'root' => public_path('media/img/category/'),

@@ -21,10 +21,10 @@
         <!-- Fonts and Styles -->
         @stack('css_before')
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-        <link rel="stylesheet" id="css-main" href="{{ mix('css/dashmix.css') }}">
+        <link rel="stylesheet" id="css-main" href="{{ asset('css/dashmix.css') }}">
 
         <!-- You can include a specific file from public/css/themes/ folder to alter the default color theme of the template. eg: -->
-        <!-- <link rel="stylesheet" id="css-theme" href="{{ mix('css/themes/xwork.css') }}"> -->
+        <!-- <link rel="stylesheet" id="css-theme" href="{{ asset('css/themes/xwork.css') }}"> -->
         @stack('css_after')
 
         <!-- Scripts -->
@@ -64,11 +64,40 @@
             <!-- END Footer -->
         </div>
 
+        @stack('modals')
+
         @livewireScripts
 
         <!-- END Page Container -->
         <script src="{{ asset('js/dashmix.app.js') }}"></script>
         <script src="{{ asset('/js/laravel.app.js') }}"></script>
+
+        <script>
+            const confirmPopUp = Swal.mixin({
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-success m-5',
+                    cancelButton: 'btn btn-danger m-5',
+                    input: 'form-control'
+                }
+            })
+
+            const successToast = Swal.mixin({
+                type: 'success',
+                timer: 3000,
+                position: 'top-end',
+                showConfirmButton:false,
+                toast: true,
+            })
+
+            const errorToast = Swal.mixin({
+                type: 'error',
+                timer: 3000,
+                position: 'top-end',
+                showConfirmButton:false,
+                toast: true,
+            })
+        </script>
 
         <script>
             function slugify(string) {

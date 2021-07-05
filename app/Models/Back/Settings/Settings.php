@@ -51,28 +51,103 @@ class Settings extends Model
             return $styles->value;
         }
 
-        return false;
+        return [];
     }
 
 
     /**
+     * @param string $code
      * @param string $key
      *
-     * @return mixed
+     * @return false|Collection
      */
-    public static function getProduct(string $key)
+    public static function getList(string $code, string $key = 'list.%', bool $only_active = true)
     {
-        $styles = Settings::where('code', 'product')->where('key', $key)->first();
+        $styles = Settings::where('code', $code)->where('key', 'like', $key)->get();
 
-        if ($styles) {
-            if ($styles->json) {
-                return collect(json_decode($styles->value));
+        if ($styles->count()) {
+            $return_styles = collect();
+
+            foreach ($styles as $style) {
+                if ($style->json) {
+                    $temp_style = collect(json_decode($style->value))->first();
+
+                    $return_styles->put($temp_style->title, $temp_style);
+                }
             }
 
-            return $styles->value;
+
+            if ($only_active) {
+                return $return_styles->where('status')->sortBy('sort_order');
+            }
+
+            return $return_styles->sortBy('sort_order');
         }
 
-        return false;
+        return [];
+    }
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @param string $code
+     * @param string $key
+     * @param        $value
+     * @param bool   $json
+     *
+     * @return bool|mixed
+     */
+    public static function set(string $code, string $key, $value, bool $json = true)
+    {
+        $setting = Settings::where('code', $code)->where('key', $key)->first();
+
+        if ($setting) {
+            if ($json) {
+                $values = collect(json_decode($setting->value));
+
+                if ( ! $values->contains($value)) {
+                    $values->push($value);
+                }
+
+                $value = json_encode($values);
+            }
+
+            return self::edit($setting->id, $code, $key, $value, $json);
+        }
+
+        if ($json) {
+            $values = [$value];
+
+            $value = json_encode($values);
+        }
+
+        return self::insert($code, $key, $value, $json);
+    }
+
+
+    /**
+     * @param string $code
+     * @param string $key
+     * @param        $value
+     * @param bool   $json
+     *
+     * @return bool|mixed
+     */
+    public static function setListItem(string $code, string $key, $value)
+    {
+        $updated = false;
+        $setting = Settings::where('code', $code)->where('key', $key)->first();
+
+        if ($setting) {
+            $updated = $setting->update([
+                'value' => json_encode([$value])
+            ]);
+        }
+
+        return $updated ?: false;
     }
 
 
@@ -141,7 +216,7 @@ class Settings extends Model
      *
      * @return bool
      */
-    private static function edit(int $id, string $code, string $key, $value, bool $json)
+    public static function edit(int $id, string $code, string $key, $value, bool $json)
     {
         return self::where('id', $id)->update([
             'code'       => $code,

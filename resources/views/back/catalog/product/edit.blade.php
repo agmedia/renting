@@ -50,25 +50,22 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
                             <div class="form-group row items-push mb-2">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="name-input" name="name" placeholder="Upišite naziv artikla" value="{{ isset($product) ? $product->name : old('name') }}" onkeyup="SetSEOPreview()">
                                     @error('name')
                                     <span class="text-danger font-italic">Naziv je potreban...</span>
                                     @enderror
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="sku-input">Šifra <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sku-input" name="sku" placeholder="Upišite šifru artikla" value="{{ isset($product) ? $product->sku : old('sku') }}">
                                     @error('sku')
                                     <span class="text-danger font-italic">Šifra je potrebna...</span>
                                     @enderror
                                 </div>
-                            </div>
-
-                            <div class="form-group row items-push mb-2">
                                 <div class="col-md-3">
-                                    <label for="price-input">Cijena <span class="text-danger">*</span></label>
+                                    <label for="price-input">Cijena <span class="text-danger">*</span> <span class="small text-gray">(S PDV-om)</span></label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="price-input" name="price" placeholder="00.00" value="{{ isset($product) ? $product->price : old('price') }}">
                                         <div class="input-group-append">
@@ -79,6 +76,9 @@
                                     <span class="text-danger font-italic">Cijena je potrebna...</span>
                                     @enderror
                                 </div>
+                            </div>
+
+                            <div class="form-group row items-push mb-2">
                                 <div class="col-md-3">
                                     <label for="special-input">Akcija</label>
                                     <div class="input-group">
@@ -97,6 +97,15 @@
                                         </div>
                                         <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="do" value="{{ isset($product->special_to) ? \Carbon\Carbon::make($product->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                     </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="price-input">Porez</label>
+                                    <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="Odaberite porez...">
+                                        <option></option>
+                                        @foreach ($data['taxes'] as $tax)
+                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : '' }}>{{ $tax->title }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <!-- CKEditor 5 Classic (js-ckeditor5-classic in Helpers.ckeditor5()) -->
@@ -283,6 +292,7 @@
             });
 
             $('#category-select').select2({});
+            $('#tax-select').select2({});
             $('#author-select').select2({
                 tags: true
             });

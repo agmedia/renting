@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class HomeController extends Controller
 {
@@ -18,9 +22,15 @@ class HomeController extends Controller
     }
 
 
-    public function importProducts()
+    public function import()
     {
+        $list = Excel::import(new ProductImport(), public_path('media/artikli.xlsx'));
 
+        /*$spread = IOFactory::load(public_path('media/artikli.xlsx'));
+        $sheet = $spread->getActiveSheet();
+        $list = array(1,$sheet->toArray(null,true,true,true));*/
+
+        dd($list);
     }
     
 }

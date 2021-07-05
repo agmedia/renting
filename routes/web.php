@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v2\CartController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
@@ -7,11 +8,18 @@ use App\Http\Controllers\Back\Catalog\PublisherController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
+use App\Http\Controllers\Back\Settings\App\GeoZoneController;
+use App\Http\Controllers\Back\Settings\App\OrderStatusController;
+use App\Http\Controllers\Back\Settings\App\PaymentController;
+use App\Http\Controllers\Back\Settings\App\ShippingController;
+use App\Http\Controllers\Back\Settings\App\TaxController;
 use App\Http\Controllers\Back\Settings\FaqController;
 use App\Http\Controllers\Back\Settings\PageController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
 use App\Http\Controllers\Back\Settings\SettingsController;
 use App\Http\Controllers\Back\UserController;
+use App\Http\Controllers\Front\CatalogRouteController;
+use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,28 +33,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 /**
  * FRONT ROUTES
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
-
-Route::get('/knjiga', function() { return view('front.product.index'); })->name('knjiga');
-
-Route::get('/autori', function() { return view('front.authors.index'); })->name('autori');
-
-Route::get('/nakladnici', function() { return view('front.publishers.index'); })->name('nakladnici');
-
-Route::get('/kosarica', function() { return view('front.checkout.cart'); })->name('kosarica');
-
-Route::get('/adresa-isporuke', function() { return view('front.checkout.podaci'); })->name('adresa-isporuke');
-
-Route::get('/dostava', function() { return view('front.checkout.dostava'); })->name('dostava');
-
-Route::get('/naplata', function() { return view('front.checkout.naplata'); })->name('naplata');
-
-Route::get('/pregled', function() { return view('front.checkout.pregled'); })->name('pregled');
+Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
 
 Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
 
@@ -142,7 +136,23 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
         Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
 
-        Route::get('application', [SettingsController::class, 'index'])->name('settings');
+        //Route::get('application', [SettingsController::class, 'index'])->name('settings');
+
+        Route::prefix('application')->group(function () {
+            // GEO ZONES
+            Route::get('geo-zones', [GeoZoneController::class, 'index'])->name('geozones');
+            Route::get('geo-zone/create', [GeoZoneController::class, 'create'])->name('geozones.create');
+            Route::post('geo-zone', [GeoZoneController::class, 'store'])->name('geozones.store');
+            Route::get('geo-zone/{geozone}/edit', [GeoZoneController::class, 'edit'])->name('geozones.edit');
+            Route::patch('geo-zone/{geozone}', [GeoZoneController::class, 'store'])->name('geozones.update');
+            Route::delete('geo-zone/{geozone}', [GeoZoneController::class, 'destroy'])->name('geozones.destroy');
+            //
+            Route::get('order-statuses', [OrderStatusController::class, 'index'])->name('order.statuses');
+            //
+            Route::get('shippings', [ShippingController::class, 'index'])->name('shippings');
+            Route::get('payments', [PaymentController::class, 'index'])->name('payments');
+            Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
+        });
     });
 
     // SETTINGS
@@ -150,3 +160,70 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
     Route::get('maintenance/on', [QuickMenuController::class, 'maintenanceModeON'])->name('maintenance.on');
     Route::get('maintenance/off', [QuickMenuController::class, 'maintenanceModeOFF'])->name('maintenance.off');
 });
+
+/**
+ * API Routes
+ */
+Route::prefix('api/v2')->group(function () {
+    // CART
+    Route::prefix('cart')->group(function () {
+        Route::get('/get', [CartController::class, 'get']);
+        Route::post('/add', [CartController::class, 'add']);
+        Route::post('/update/{id}', [CartController::class, 'update']);
+        Route::get('/remove/{id}', [CartController::class, 'remove']);
+        Route::get('/coupon/{coupon}', [CartController::class, 'coupon']);;
+    });
+
+    // SETTINGS
+    Route::prefix('settings')->group(function () {
+        // APPLICATION SETTINGS
+        Route::prefix('app')->group(function () {
+            // GEO ZONE
+            /*Route::prefix('geo-zone')->group(function () {
+                Route::post('get-state-zones', 'Back\Settings\Store\GeoZoneController@getStateZones')->name('geo-zone.get-state-zones');
+                Route::post('store', 'Back\Settings\Store\GeoZoneController@store')->name('geo-zone.store');
+                Route::post('destroy', 'Back\Settings\Store\GeoZoneController@destroy')->name('geo-zone.destroy');
+            });*/
+            // ORDER STATUS
+            Route::prefix('order-status')->group(function () {
+                Route::post('store', [OrderStatusController::class, 'store'])->name('api.order.status.store');
+                Route::post('destroy', [OrderStatusController::class, 'destroy'])->name('api.order.status.destroy');
+            });
+            // PAYMENTS
+            Route::prefix('payment')->group(function () {
+                Route::post('store', [PaymentController::class, 'store'])->name('api.payment.store');
+                Route::post('destroy', [PaymentController::class, 'destroy'])->name('api.payment.destroy');
+            });
+            // SHIPMENTS
+            Route::prefix('shipping')->group(function () {
+                Route::post('store', [ShippingController::class, 'store'])->name('api.shipping.store');
+                Route::post('destroy', [ShippingController::class, 'destroy'])->name('api.shipping.destroy');
+            });
+            // TAXES
+            Route::prefix('taxes')->group(function () {
+                Route::post('store', [TaxController::class, 'store'])->name('api.taxes.store');
+                Route::post('destroy', [TaxController::class, 'destroy'])->name('api.taxes.destroy');
+            });
+            // TOTALS
+            /*Route::prefix('totals')->group(function () {
+                Route::post('store', 'Back\Settings\Store\TotalController@store')->name('totals.store');
+                Route::post('destroy', 'Back\Settings\Store\TotalController@destroy')->name('totals.destroy');
+            });*/
+        });
+    });
+});
+
+/**
+ * FRONT ROUTES
+ */
+Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
+Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
+Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
+
+
+Route::get('autor/{author?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
+Route::get('nakladnik/{publisher?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
+/*
+ * Groups, Categories and Products routes resolver.
+ */
+Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');

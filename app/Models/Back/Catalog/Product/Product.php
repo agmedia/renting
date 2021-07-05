@@ -117,7 +117,7 @@ class Product extends Model
             'slug'             => $this->request->slug ?: Str::slug($this->request->name),
             'price'            => $this->request->price,
             'quantity'         => isset($this->request->quantity) ? 1 : 0,
-            'tax_id'           => 1,
+            'tax_id'           => $this->request->tax_id ?: 1,
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
@@ -162,7 +162,7 @@ class Product extends Model
             'slug'             => $this->request->slug ?: Str::slug($this->request->name),
             'price'            => isset($this->request->price) ? $this->request->price : 0,
             'quantity'         => isset($this->request->quantity) ? 1 : 0,
-            'tax_id'           => 1,
+            'tax_id'           => $this->request->tax_id ?: 1,
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
@@ -191,15 +191,19 @@ class Product extends Model
     }
 
 
+    /**
+     * @return array
+     */
     public function getRelationsData(): array
     {
         return [
             'categories' => (new Category())->getList(false),
             'authors'    => Author::all()->pluck('title', 'id'),
             'publishers' => Publisher::all()->pluck('title', 'id'),
-            'letters'    => Settings::getProduct('letter_styles'),
-            'conditions' => Settings::getProduct('condition_styles'),
-            'bindings'   => Settings::getProduct('binding_styles')
+            'letters'    => Settings::get('product', 'letter_styles'),
+            'conditions' => Settings::get('product', 'condition_styles'),
+            'bindings'   => Settings::get('product', 'binding_styles'),
+            'taxes'      => Settings::get('tax', 'list')
         ];
     }
 

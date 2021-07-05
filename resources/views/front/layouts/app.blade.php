@@ -25,6 +25,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="{{ asset('css/theme.min.css') }}">
+
+    @livewireStyles
 </head>
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
@@ -43,20 +45,21 @@
     </div>
 </div>
 
-@include('front.layouts.partials.header')
+<div id="agapp">
+    @include('front.layouts.partials.header')
 
-@yield('content')
+    @yield('content')
 
-@include('front.layouts.partials.footer')
+    @include('front.layouts.partials.footer')
 
-
-@include('front.layouts.partials.handheld')
-
+    @include('front.layouts.partials.handheld')
+</div>
 
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor scrits: js libraries and plugins-->
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/simplebar.min.js') }}"></script>
 <script src="{{ asset('js/tiny-slider.js') }}"></script>
 <script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
@@ -64,5 +67,7 @@
 <script src="{{ asset('js/nouislider.min.js') }}"></script>
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
+
+@livewireScripts
 </body>
 </html>

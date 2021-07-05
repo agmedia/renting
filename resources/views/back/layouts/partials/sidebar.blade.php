@@ -149,11 +149,40 @@
                                 <span class="nav-main-link-name">FAQ</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['settings', 'settings.*']) ? ' active' : '' }}" href="{{ route('settings') }}">
+                        <li class="nav-main-item{{ request()->is(['admin/settings/application/*']) ? ' open' : '' }}">
+                            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <span class="nav-main-link-name">Postavke Aplikacije</span>
                             </a>
+
+                            <ul class="nav-main-submenu">
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['geozones', 'geozones.*']) ? ' active' : '' }}" href="{{ route('geozones') }}">
+                                        <span class="nav-main-link-name">Geo Zone</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['order.statuses']) ? ' active' : '' }}" href="{{ route('order.statuses') }}">
+                                        <span class="nav-main-link-name">Statusi Narudžbi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['taxes']) ? ' active' : '' }}" href="{{ route('taxes') }}">
+                                        <span class="nav-main-link-name">Porezi</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['shippings']) ? ' active' : '' }}" href="{{ route('shippings') }}">
+                                        <span class="nav-main-link-name">Načini dostave</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['payments']) ? ' active' : '' }}" href="{{ route('payments') }}">
+                                        <span class="nav-main-link-name">Načini plaćanja</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                     </ul>
                 </li>
 
