@@ -38,8 +38,7 @@ class ProductAction extends Model
         return self::where('date_start', '<', Carbon::now())
             ->where('date_end', '>', Carbon::now())
             //->orWhereNull('date_start')
-            ->orWhereNull('date_end')
-            ->with('product');
+            ->orWhereNull('date_end');
     }
 
 

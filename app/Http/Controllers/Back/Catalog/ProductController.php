@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Back\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Catalog\Publisher;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -16,13 +19,34 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $query = (new Product())->newQuery();
+
         if ($request->has('search') && ! empty($request->search)) {
-            $products = Product::where('name', 'like', '%' . $request->search . '%')->paginate(12);
-        } else {
-            $products = Product::paginate(12);
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
         }
 
-        return view('back.catalog.product.index', compact('products'));
+        if ($request->has('category')) {
+            $query->whereHas('categories', function ($query) use ($request) {
+                $query->where('id', $request->input('category'));
+            });
+        }
+
+        if ($request->has('author')) {
+            $query->where('author_id', $request->input('author'));
+        }
+
+        if ($request->has('publisher')) {
+            $query->where('publisher_id', $request->input('publisher'));
+        }
+
+        $products   = $query->paginate(20);
+        $categories = (new Category())->getList(false);
+        $authors = Author::all()->pluck('title', 'id');
+        $publishers = Publisher::all()->pluck('title', 'id');
+
+        //dd($categories);
+
+        return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers'));
     }
 
 

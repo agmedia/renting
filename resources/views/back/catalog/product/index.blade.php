@@ -19,13 +19,12 @@
         </div>
     </div>
 
-    <!-- Page Content -->
     <div class="content">
     @include('back.layouts.partials.session')
-        <!-- Quick Overview -->
+
         <div class="row row-deck">
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_dashboard.html">
+                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-dark mb-1">36.963</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -45,7 +44,7 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_dashboard.html">
+                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-success mb-1">13</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -55,7 +54,7 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_dashboard.html">
+                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-info mb-1">100</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -65,24 +64,18 @@
                 </a>
             </div>
         </div>
-        <!-- END Quick Overview -->
-
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Svi artikli</h3>
-
                 <div class="block-options">
-
                     <div class="dropdown">
-
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-search"></i> Pretraži
                         </button>
                         <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Filtriraj <i class="fa fa-angle-down ml-1"></i>
                         </button>
-
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
@@ -102,65 +95,55 @@
                 </div>
             </div>
             <div class="collapse" id="collapseExample">
-            <div class="block-content bg-body-dark">
-
-                <!-- Search Form -->
-                <form action="db_booking.html" method="POST" onsubmit="return false;">
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-lg py-3 text-center" id="dm-booking-destination" name="dm-booking-destination" placeholder="Upiši pojam pretraživanja">
-                    </div>
-                    <div class="form-group row items-push mb-0">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                    <option value="1">Knjige</option>
-                                    <option value="2">Zemljovidi i vedute</option>
-
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
-                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                    <option value="1">Joža horvat</option>
-                                    <option value="2">Miroslav Krleža</option>
-
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-
-                            <div class="form-group">
-                                <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                                <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
-                                <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
-                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                    <option value="1">Algoritam</option>
-                                    <option value="2">Ljevak</option>
-
-                                </select>
-                            </div>
-
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary btn-block">Pretraži</button>
+                <div class="block-content bg-body-dark">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-lg py-3 text-center" id="dm-booking-destination" name="dm-booking-destination" placeholder="Upiši pojam pretraživanja">
+                </div>
+                <div class="form-group row items-push mb-0">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach ($categories as $group => $cats)
+                                    @foreach ($cats as $id => $category)
+                                        <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
+                                        @if ( ! empty($category['subs']))
+                                            @foreach ($category['subs'] as $sub_id => $subcategory)
+                                                <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                </form>
-                <!-- END Search Form -->
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach ($authors as $id => $author)
+                                    <option value="{{ $id }}" {{ $id == request()->input('author') ? 'selected' : '' }}>{{ $author }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach ($publishers as $id => $publisher)
+                                    <option value="{{ $id }}" {{ $id == request()->input('publisher') ? 'selected' : '' }}>{{ $publisher }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary btn-block">Pretraži</button>
+                    </div>
                 </div>
             </div>
+            </div>
             <div class="block-content">
-                <!-- All Products Table -->
                 <div class="table-responsive">
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
@@ -170,9 +153,7 @@
                             <th>Šifra</th>
                             <th>Cijena</th>
                             <th>Dodano</th>
-
                             <th class="text-center font-size-sm">Status</th>
-
                             <th class="text-right" style="width: 100px;">Uredi</th>
                         </tr>
                         </thead>
@@ -191,7 +172,14 @@
                                     @endif
                                 </td>
                                 <td class="font-size-sm">{{ $product->sku }}</td>
-                                <td class="font-size-sm"><strong>{{ number_format($product->price, 2) }}kn</strong></td>
+                                <td class="font-size-sm">
+                                    @if ($product->special())
+                                        <s>{{ number_format($product->price, 2) }}kn</s><br>
+                                        <strong>{{ number_format($product->special(), 2) }}kn</strong>
+                                    @else
+                                        <strong>{{ number_format($product->price, 2) }}kn</strong>
+                                    @endif
+                                </td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
                                     <i class="fa fa-fw fa-check text-success"></i>
@@ -215,42 +203,11 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Products Table -->
-
                 <!-- Pagination -->
-                <nav aria-label="Photos Search Navigation">
-                    <ul class="pagination justify-content-end mt-2">
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                Prethodna
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0)">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                Sljedeća
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- END Pagination -->
+                {{ $products->links() }}
             </div>
         </div>
-        <!-- END All Products -->
     </div>
-    <!-- END Page Content -->
-
 @endsection
 
 @push('js_after')
@@ -260,15 +217,59 @@
     <script>
         $(() => {
             $('#category-select').select2({
-                placeholder: 'Odaberite kategoriju'
+                placeholder: 'Odaberite kategoriju',
+                allowClear: true
             });
             $('#author-select').select2({
-                placeholder: 'Odaberite autora'
+                placeholder: 'Odaberite autora',
+                allowClear: true
             });
             $('#publisher-select').select2({
-                placeholder: 'Odaberite izdavača'
+                placeholder: 'Odaberite izdavača',
+                allowClear: true
             });
-        })
+
+            //
+            $('#category-select').on('change', (e) => {
+                setURL('category', e.currentTarget.selectedOptions[0]);
+            });
+            $('#author-select').on('change', (e) => {
+                setURL('author', e.currentTarget.selectedOptions[0]);
+            });
+            $('#publisher-select').on('change', (e) => {
+                setURL('publisher', e.currentTarget.selectedOptions[0]);
+            });
+        });
+
+        /**
+         *
+         * @param type
+         * @param search
+         */
+        function setURL(type, search) {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let keys = [];
+
+            for(var key of params.keys()) {
+                if (key === type) {
+                    keys.push(key);
+                }
+            }
+
+            keys.forEach((value) => {
+                if (params.has(value)) {
+                    params.delete(value);
+                }
+            })
+
+            if (search.value) {
+                params.append(type, search.value);
+            }
+
+            url.search = params;
+            location.href = url;
+        }
     </script>
 
 @endpush

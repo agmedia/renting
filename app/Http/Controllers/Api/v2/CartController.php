@@ -25,6 +25,11 @@ class CartController extends Controller
      */
     protected $cart;
 
+    /**
+     * @var string
+     */
+    protected $key = 'cart_key';
+
 
     /**
      * Create a new controller instance.
@@ -34,8 +39,10 @@ class CartController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (session()->has('sl_cart_id')) {
-                $this->cart = new AgCart(session('sl_cart_id'));
+            $this->key = config('session.cart');
+
+            if (session()->has($this->key)) {
+                $this->cart = new AgCart(session($this->key));
             } else {
                 $this->resolveSession();
             }
@@ -113,7 +120,7 @@ class CartController extends Controller
      */
     public function coupon($coupon)
     {
-        session(['sl_cart_coupon' => $coupon]);
+        session([$this->key . '_coupon' => $coupon]);
 
         return response()->json($this->cart->coupon($coupon));
     }
@@ -127,7 +134,7 @@ class CartController extends Controller
     {
         $sl_cart_id = Str::random(8);
         $this->cart = new AgCart($sl_cart_id);
-        session(['sl_cart_id' => $sl_cart_id]);
+        session([$this->key => $sl_cart_id]);
         
         Cart::checkLogged($sl_cart_id, $this->cart);
     }

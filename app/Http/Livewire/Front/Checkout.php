@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Front;
 
 use App\Helpers\Session\CheckoutSession;
+use App\Models\Back\Settings\Settings;
 use Livewire\Component;
 
 class Checkout extends Component
@@ -63,6 +64,9 @@ class Checkout extends Component
         'payment' => 'required',
     ];
 
+    /**
+     * @var \string[][]
+     */
     protected $queryString = ['step' => ['except' => '']];
 
 
@@ -94,6 +98,7 @@ class Checkout extends Component
      */
     public function changeStep(string $step = '')
     {
+        // Podaci
         if ($step == '') {
             $step = 'podaci';
 
@@ -102,10 +107,12 @@ class Checkout extends Component
             }
         }
 
+        // Dostava
         if (in_array($step, ['dostava', 'placanje'])) {
             $this->validate($this->address_rules);
         }
 
+        // Plaćanje
         if ($step == 'placanje') {
             $this->validate($this->shipping_rules);
         }
@@ -143,7 +150,10 @@ class Checkout extends Component
      */
     public function render()
     {
-        return view('livewire.front.checkout');
+        return view('livewire.front.checkout', [
+            'shippingMethods' => Settings::getList('shipping'),
+            'paymentMethods' => Settings::getList('payment')
+        ]);
     }
 
 

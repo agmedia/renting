@@ -50,7 +50,7 @@ class Cart extends Model
     {
         return self::create([
             'user_id'    => Auth::user()->id,
-            'session_id' => session('sl_cart_id'),
+            'session_id' => session(config('session.cart')),
             'cart_data'  => $request
         ]);
     }

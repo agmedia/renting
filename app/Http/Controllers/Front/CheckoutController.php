@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -51,7 +53,10 @@ class CheckoutController extends Controller
             return redirect()->route('naplata', ['step' => 'podaci']);
         }
 
-        return view('front.checkout.view', compact('data'));
+        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
+        $payment = Settings::getList('payment')->where('code', $data['payment'])->first();
+
+        return view('front.checkout.view', compact('data', 'shipping', 'payment'));
     }
 
     /*******************************************************************************

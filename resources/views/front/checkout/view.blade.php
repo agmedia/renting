@@ -77,13 +77,19 @@
                     <div class="col-sm-6">
                         <h4 class="h6">Način dostave:</h4>
                         <ul class="list-unstyled fs-sm">
-                            <li><span class="text-muted">GLS-Croatia:&nbsp;</span><br>Dostava se vrši putem GLS dostavne službe.</li>
+                            <li>
+                                <span class="text-muted">{{ $shipping->title }} </span><br>
+                                {{ $shipping->data->description ?: $shipping->data->short_description }}
+                            </li>
                         </ul>
                     </div>
                     <div class="col-sm-6">
                         <h4 class="h6">Način plaćanja:</h4>
                         <ul class="list-unstyled fs-sm">
-                            <li><span class="text-muted">Kreditna / debitna kartica:&nbsp;</span><br>T-Com Payway sustav za internet autorizaciju i naplatu kreditnih i debitnih kartica.</li>
+                            <li>
+                                <span class="text-muted">{{ $payment->title }} </span><br>
+                                {{ $payment->data->description ?: $payment->data->short_description }}
+                            </li>
                         </ul>
                     </div>
                 </div>

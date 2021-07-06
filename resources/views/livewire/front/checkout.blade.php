@@ -122,17 +122,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr wire:click="selectShipping('gls')" style="cursor: pointer;">
-                    <td>
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="radio" value="gls" wire:model="shipping">
-                            <label class="form-check-label" for="courier"></label>
-                        </div>
-                    </td>
-                    <td class="align-middle"><span class="text-dark fw-medium">GLS-Croatia.</span><br><span class="text-muted">Dostava se vrši putem GLS dostavne službe.</span></td>
-                    <td class="align-middle">1-2 radna dana</td>
-                    <td class="align-middle">25kn</td>
-                </tr>
+                @foreach ($shippingMethods as $s_method)
+                    <tr wire:click="selectShipping('{{ $s_method->code }}')" style="cursor: pointer;">
+                        <td>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="radio" value="{{ $s_method->code }}" wire:model="shipping">
+                                <label class="form-check-label" for="courier"></label>
+                            </div>
+                        </td>
+                        <td class="align-middle"><span class="text-dark fw-medium">{{ $s_method->title }}</span><br><span class="text-muted">{{ $s_method->data->short_description }}</span></td>
+                        <td class="align-middle">{{ $s_method->data->time }}</td>
+                        <td class="align-middle">{{ $s_method->data->price }}kn</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>
@@ -150,33 +152,17 @@
         <div class="table-responsive">
             <table class="table table-hover fs-sm border-top">
                 <tbody>
-                <tr wire:click="selectPayment('card')" style="cursor: pointer;">
-                    <td>
-                        <div class="form-check mb-2  ">
-                            <input class="form-check-input" type="radio" value="card" wire:model="payment">
-                            <label class="form-check-label" for="courier"></label>
-                        </div>
-                    </td>
-                    <td class="align-middle"><span class="text-dark fw-medium">Kreditnom karticom</span><br><span class="text-muted">T-Com Payway sustav za internet autorizaciju i naplatu kreditnih i debitnih kartica. </span></td>
-                </tr>
-                <tr wire:click="selectPayment('bank')" style="cursor: pointer;">
-                    <td>
-                        <div class="form-check mb-2 mt-2">
-                            <input class="form-check-input" type="radio" value="bank" wire:model="payment">
-                            <label class="form-check-label" for="courier"></label>
-                        </div>
-                    </td>
-                    <td class="align-middle"><span class="text-dark fw-medium">Općom uplatnicom / Virmanom / Internet bankarstvom</span><br><span class="text-muted">Uplatite direktno na naš bankovni račun. Uputstva i uplatnice vam stiže putem maila.</span></td>
-                </tr>
-                <tr wire:click="selectPayment('cash')" style="cursor: pointer;">
-                    <td>
-                        <div class="form-check mb-2 mt-2">
-                            <input class="form-check-input" type="radio" value="cash" wire:model="payment">
-                            <label class="form-check-label" for="courier"></label>
-                        </div>
-                    </td>
-                    <td class="align-middle"><span class="text-dark fw-medium">Gotovinom prilikom pouzeća</span><br><span class="text-muted">Plaćanje gotovinom prilikom preuzimanja. </span></td>
-                </tr>
+                @foreach ($paymentMethods as $p_method)
+                    <tr wire:click="selectPayment('{{ $p_method->code }}')" style="cursor: pointer;">
+                        <td>
+                            <div class="form-check mb-2  ">
+                                <input class="form-check-input" type="radio" value="{{ $p_method->code }}" wire:model="payment">
+                                <label class="form-check-label" for="courier"></label>
+                            </div>
+                        </td>
+                        <td class="align-middle"><span class="text-dark fw-medium">{{ $p_method->title }}</span><br><span class="text-muted">{{ $p_method->data->short_description }}</span></td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

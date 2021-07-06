@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Catalog\Product;
 
+use App\Helpers\Helper;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Publisher;
@@ -49,14 +50,14 @@ class Product extends Model
     /**
      * @return Relation
      */
-    public function actions()
+    /*public function actions()
     {
         return $this->hasOne(ProductAction::class, 'product_id')
                     ->where('date_start', '<', Carbon::now())
                     ->where('date_end', '>', Carbon::now())
                     ->orWhere('date_start', null)
                     ->orWhere('date_end', null);
-    }
+    }*/
 
 
     /**
@@ -69,11 +70,86 @@ class Product extends Model
 
 
     /**
+     * @return false|mixed
+     */
+    public function special()
+    {
+        // If special is set, return special.
+        if ($this->special) {
+            $from = now()->subDay();
+            $to = now()->addDay();
+
+            if ($this->special_from) {
+                $from = Carbon::make($this->special_from);
+            }
+            if ($this->special_to) {
+                $to = Carbon::make($this->special_to);
+            }
+
+            if ($from <= now() && now() <= $to) {
+                return $this->special;
+            }
+        }
+
+        // If special is not set, check actions.
+        $actions = ProductAction::active()->get();
+
+        foreach ($actions as $action) {
+            $ids = json_decode($action->links, true);
+
+            if ($action->group == 'product') {
+                if (in_array($this->id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'category') {
+                if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'author') {
+                if (in_array($this->author_id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'publisher') {
+                if (in_array($this->publisher_id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * @return Relation
      */
     public function categories()
     {
         return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
+    }
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
+     */
+    public function category()
+    {
+        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
+                    ->where('parent_id', 0)
+                    ->first();
+    }
+
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
+     */
+    public function subcategory()
+    {
+        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
+                    ->where('parent_id', '!=', 0)
+                    ->first();
     }
 
 

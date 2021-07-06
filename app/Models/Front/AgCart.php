@@ -212,11 +212,8 @@ class AgCart extends Model
      */
     private function structureCartItemAttributes($product)
     {
-        $cat    = isset($product->category()->slug) ? $product->category()->slug : null;
-        $subcat = isset($product->subcategory()->slug) ? $product->subcategory()->slug : null;
-
         return [
-            'path' => 'toyota-vilicari/' . ($cat ? $cat . '/' : '') . ($subcat ? $subcat . '/' : '') . $product->slug
+            'path' => $product->url($product->category(), $product->subcategory())
         ];
     }
 
@@ -272,7 +269,7 @@ class AgCart extends Model
 
         // Ako nema cijenu vrati postotak.
         // Ako nema ni postotak upisan vratit će 0%.
-        return -($action->discount ? $action->discount : '0') . "%";
+        return -($action->discount ?: '0') . "%";
     }
 
 

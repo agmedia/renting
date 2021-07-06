@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Catalog;
 
+use App\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Bouncer;
@@ -48,6 +49,57 @@ class Product extends Model
     public function action()
     {
         return $this->hasOne(ProductAction::class, 'id', 'action_id')->active();
+    }
+
+
+    public function special()
+    {
+        // If special is set, return special.
+        if ($this->special) {
+            $from = now()->subDay();
+            $to = now()->addDay();
+
+            if ($this->special_from) {
+                $from = Carbon::make($this->special_from);
+            }
+            if ($this->special_to) {
+                $to = Carbon::make($this->special_to);
+            }
+
+            if ($from <= now() && now() <= $to) {
+                return $this->special;
+            }
+        }
+
+        // If special is not set, check actions.
+        $actions = ProductAction::active()->get();
+
+        foreach ($actions as $action) {
+            $ids = json_decode($action->links, true);
+
+            if ($action->group == 'product') {
+                if (in_array($this->id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'category') {
+                if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'author') {
+                if (in_array($this->author_id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+            if ($action->group == 'publisher') {
+                if (in_array($this->publisher_id, $ids)) {
+                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                }
+            }
+        }
+
+        return false;
     }
 
 
