@@ -56,6 +56,8 @@ class AgCart extends Model
 
         $response['totals'] = $this->getTotals();
 
+        Log::info($response);
+
         return $response;
     }
 
@@ -226,50 +228,26 @@ class AgCart extends Model
      */
     private function structureCartItemConditions($product)
     {
-        $active_action = false;//ProductAction::where('product_id', $product->id)->active()->first();
-
         // Ako artikl ima akciju.
-        if ($product->action && $active_action) {
-            // Ako je kupon nepotreban za akciju.
-            if ($product->action->coupon == '') {
+        if ($product->special()) {
+            if ($product->action()) {
                 return new CartCondition([
-                    'name'  => ( ! empty($product->action->name)) ? $product->action->name : 'Akcija',
+                    'name'  => $product->action()->title,
                     'type'  => 'promo',
-                    'value' => $this->getActionPrice($product->price, $product->action)
+                    'value' => -($product->price - $product->special())
                 ]);
             }
-            // Ako je kupon potreban za akciju i ima odgovarajući u session-u.
-            if (session()->has('sl_cart_coupon') && session('sl_cart_coupon') == $product->action->coupon) {
-                return new CartCondition([
-                    'name'  => ( ! empty($product->action->name)) ? $product->action->name : 'Akcija',
-                    'type'  => 'promo',
-                    'value' => $this->getActionPrice($product->price, $product->action)
-                ]);
-            }
+
+            return new CartCondition([
+                'name'  => 'Akcija',
+                'type'  => 'promo',
+                'value' => -($product->price - $product->special())
+            ]);
         }
 
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.
         return false;
-    }
-
-
-    /**
-     * @param $price
-     * @param $action
-     *
-     * @return string
-     */
-    private function getActionPrice($price, $action)
-    {
-        // Prvo gledaj ako ima cijenu i vrati razliku.
-        if (isset($action->price) && ! empty($action->price)) {
-            return -($price - $action->price);
-        }
-
-        // Ako nema cijenu vrati postotak.
-        // Ako nema ni postotak upisan vratit će 0%.
-        return -($action->discount ?: '0') . "%";
     }
 
 
@@ -295,7 +273,7 @@ class AgCart extends Model
         return [
             0 => [
                 'title' => 'PDV (25%)',
-                'value' => $cart['subtotal'] * 0.25
+                'value' => /*$cart['subtotal'] * 0.25*/0
             ]
         ];
     }

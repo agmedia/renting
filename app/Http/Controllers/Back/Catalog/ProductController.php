@@ -21,21 +21,21 @@ class ProductController extends Controller
     {
         $query = (new Product())->newQuery();
 
-        if ($request->has('search') && ! empty($request->search)) {
+        if ($request->has('search') && ! empty($request->input('search'))) {
             $query->where('name', 'like', '%' . $request->input('search') . '%');
         }
 
-        if ($request->has('category')) {
+        if ($request->has('category') && ! empty($request->input('category'))) {
             $query->whereHas('categories', function ($query) use ($request) {
                 $query->where('id', $request->input('category'));
             });
         }
 
-        if ($request->has('author')) {
+        if ($request->has('author') && ! empty($request->input('author'))) {
             $query->where('author_id', $request->input('author'));
         }
 
-        if ($request->has('publisher')) {
+        if ($request->has('publisher') && ! empty($request->input('publisher'))) {
             $query->where('publisher_id', $request->input('publisher'));
         }
 

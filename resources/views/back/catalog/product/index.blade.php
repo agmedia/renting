@@ -20,7 +20,7 @@
     </div>
 
     <div class="content">
-    @include('back.layouts.partials.session')
+        @include('back.layouts.partials.session')
 
         <div class="row row-deck">
             <div class="col-6 col-lg-3">
@@ -96,52 +96,54 @@
             </div>
             <div class="collapse" id="collapseExample">
                 <div class="block-content bg-body-dark">
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-lg py-3 text-center" id="dm-booking-destination" name="dm-booking-destination" placeholder="Upiši pojam pretraživanja">
-                </div>
-                <div class="form-group row items-push mb-0">
-                    <div class="col-md-3">
+                    <form action="{{ route('products') }}" method="get">
                         <div class="form-group">
-                            <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                @foreach ($categories as $group => $cats)
-                                    @foreach ($cats as $id => $category)
-                                        <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
-                                        @if ( ! empty($category['subs']))
-                                            @foreach ($category['subs'] as $sub_id => $subcategory)
-                                                <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
+                            <input type="text" class="form-control form-control-lg py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                        </div>
+                        <div class="form-group row items-push mb-0">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        @foreach ($categories as $group => $cats)
+                                            @foreach ($cats as $id => $category)
+                                                <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
+                                                @if ( ! empty($category['subs']))
+                                                    @foreach ($category['subs'] as $sub_id => $subcategory)
+                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
+                                                    @endforeach
+                                                @endif
                                             @endforeach
-                                        @endif
-                                    @endforeach
-                                @endforeach
-                            </select>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        @foreach ($authors as $id => $author)
+                                            <option value="{{ $id }}" {{ $id == request()->input('author') ? 'selected' : '' }}>{{ $author }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        @foreach ($publishers as $id => $publisher)
+                                            <option value="{{ $id }}" {{ $id == request()->input('publisher') ? 'selected' : '' }}>{{ $publisher }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary btn-block" onclick="setURL('search', $('#search-input').val());">Pretraži</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
-                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                @foreach ($authors as $id => $author)
-                                    <option value="{{ $id }}" {{ $id == request()->input('author') ? 'selected' : '' }}>{{ $author }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
-                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                @foreach ($publishers as $id => $publisher)
-                                    <option value="{{ $id }}" {{ $id == request()->input('publisher') ? 'selected' : '' }}>{{ $publisher }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary btn-block">Pretraži</button>
-                    </div>
+                    </form>
                 </div>
-            </div>
             </div>
             <div class="block-content">
                 <div class="table-responsive">

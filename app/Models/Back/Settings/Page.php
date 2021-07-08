@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Page extends Model
 {
+
     use HasFactory;
 
     /**
@@ -55,19 +57,20 @@ class Page extends Model
     public function create()
     {
         $id = $this->insertGetId([
-            'category_id'      => null,
-            'group'            => 'pages',
-            'title'            => $this->request->title,
-            'description'      => $this->request->description,
-            'meta_title'       => $this->request->meta_title,
-            'meta_description' => $this->request->meta_description,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
-            'keywords'         => null,
-            'publish_date'     => null,
-            'keywords'         => false,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'created_at'       => Carbon::now(),
-            'updated_at'       => Carbon::now()
+            'category_id'       => null,
+            'group'             => 'page',
+            'title'             => $this->request->title,
+            'short_description' => $this->request->short_description,
+            'description'       => $this->request->description,
+            'meta_title'        => $this->request->meta_title,
+            'meta_description'  => $this->request->meta_description,
+            'slug'              => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'keywords'          => null,
+            'publish_date'      => null,
+            'keywords'          => false,
+            'status'            => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now()
         ]);
 
         if ($id) {
@@ -86,22 +89,27 @@ class Page extends Model
     public function edit()
     {
         $id = $this->update([
-            'category_id'      => null,
-            'group'            => 'pages',
-            'title'            => $this->request->title,
-            'description'      => $this->request->description,
-            'meta_title'       => $this->request->meta_title,
-            'meta_description' => $this->request->meta_description,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
-            'keywords'         => null,
-            'publish_date'     => null,
-            'keywords'         => false,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'       => Carbon::now()
+            'category_id'       => null,
+            'group'             => 'page',
+            'title'             => $this->request->title,
+            'short_description' => $this->request->short_description,
+            'description'       => $this->request->description,
+            'meta_title'        => $this->request->meta_title,
+            'meta_description'  => $this->request->meta_description,
+            'slug'              => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'keywords'          => null,
+            'publish_date'      => null,
+            'keywords'          => false,
+            'status'            => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'        => Carbon::now()
         ]);
 
+        Log::info('$id');
+        Log::info($this->id);
+        Log::info($this->request);
+
         if ($id) {
-            return $this->find($id);
+            return $this->find($this->id);
         }
 
         return false;

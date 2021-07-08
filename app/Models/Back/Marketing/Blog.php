@@ -57,6 +57,7 @@ class Blog extends Model
     {
         $id = $this->insertGetId([
             'category_id'       => null,
+            'group'             => 'blog',
             'title'             => $this->request->title,
             'short_description' => $this->request->short_description,
             'description'       => $this->request->description,
@@ -88,6 +89,7 @@ class Blog extends Model
     {
         $id = $this->update([
             'category_id'       => null,
+            'group'             => 'blog',
             'title'             => $this->request->title,
             'short_description' => $this->request->short_description,
             'description'       => $this->request->description,
@@ -102,7 +104,7 @@ class Blog extends Model
         ]);
 
         if ($id) {
-            return $this->find($id);
+            return $this->find($this->id);
         }
 
         return false;

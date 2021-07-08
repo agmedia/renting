@@ -48,10 +48,40 @@ class Product extends Model
      */
     public function action()
     {
-        return $this->hasOne(ProductAction::class, 'id', 'action_id')->active();
+        $actions = ProductAction::active()->get();
+
+        foreach ($actions as $action) {
+            $ids = json_decode($action->links, true);
+
+            if ($action->group == 'product') {
+                if (in_array($this->id, $ids)) {
+                    return $action;
+                }
+            }
+            if ($action->group == 'category') {
+                if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                    return $action;
+                }
+            }
+            if ($action->group == 'author') {
+                if (in_array($this->author_id, $ids)) {
+                    return $action;
+                }
+            }
+            if ($action->group == 'publisher') {
+                if (in_array($this->publisher_id, $ids)) {
+                    return $action;
+                }
+            }
+        }
+
+        return false;
     }
 
 
+    /**
+     * @return false|float|int|mixed
+     */
     public function special()
     {
         // If special is set, return special.

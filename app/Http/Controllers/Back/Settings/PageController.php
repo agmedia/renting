@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
@@ -16,9 +17,9 @@ class PageController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search') && ! empty($request->search)) {
-            $pages = Page::where('group', 'pages')->where('title', 'like', '%' . $request->search . '%')->paginate(12);
+            $pages = Page::where('group', 'page')->where('title', 'like', '%' . $request->search . '%')->paginate(12);
         } else {
-            $pages = Page::where('group', 'pages')->paginate(12);
+            $pages = Page::where('group', 'page')->paginate(12);
         }
 
         return view('back.settings.pages.index', compact('pages'));
@@ -83,6 +84,9 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         $updated = $page->validateRequest($request)->edit();
+
+        Log::info('$updated');
+        Log::info($updated);
 
         if ($updated) {
             $page->resolveImage($updated);
