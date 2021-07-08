@@ -289,6 +289,7 @@
          * @param search
          */
         function setRegularURL(type, search) {
+            let searches = ['active', 'today', 'week'];
             let url = new URL(location.href);
             let params = new URLSearchParams(url.search);
             let keys = [];
