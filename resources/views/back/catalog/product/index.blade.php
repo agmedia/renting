@@ -24,7 +24,7 @@
 
         <div class="row row-deck">
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('products') }}">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-dark mb-1">36.963</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -34,7 +34,7 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-inactive" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-danger mb-1">63</div>
                         <p class="font-w600 font-size-sm text-danger text-uppercase mb-0">
@@ -44,7 +44,7 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-today" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-success mb-1">13</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -54,7 +54,7 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-week" href="javascript:void(0)">
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-info mb-1">100</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
@@ -241,6 +241,16 @@
             $('#publisher-select').on('change', (e) => {
                 setURL('publisher', e.currentTarget.selectedOptions[0]);
             });
+
+            $('#btn-inactive').on('click', () => {
+                setRegularURL('active', false);
+            });
+            $('#btn-today').on('click', () => {
+                setRegularURL('today', true);
+            });
+            $('#btn-week').on('click', () => {
+                setRegularURL('week', true);
+            });
         });
 
         /**
@@ -268,6 +278,34 @@
             if (search.value) {
                 params.append(type, search.value);
             }
+
+            url.search = params;
+            location.href = url;
+        }
+
+        /**
+         *
+         * @param type
+         * @param search
+         */
+        function setRegularURL(type, search) {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let keys = [];
+
+            for(var key of params.keys()) {
+                if (key === type) {
+                    keys.push(key);
+                }
+            }
+
+            keys.forEach((value) => {
+                if (params.has(value)) {
+                    params.delete(value);
+                }
+            })
+
+            params.append(type, search);
 
             url.search = params;
             location.href = url;

@@ -39,6 +39,18 @@ class ProductController extends Controller
             $query->where('publisher_id', $request->input('publisher'));
         }
 
+        if ($request->has('active')) {
+            $query->where('status', 0);
+        }
+
+        if ($request->has('today')) {
+            $query->whereDate('created_at', Carbon::today());
+        }
+
+        if ($request->has('week')) {
+            $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+        }
+
         $products   = $query->paginate(20);
         $categories = (new Category())->getList(false);
         $authors = Author::all()->pluck('title', 'id');
