@@ -3,6 +3,7 @@
 namespace App\Models\Front\Catalog;
 
 use App\Helpers\Helper;
+use App\Models\Back\Catalog\Product\ProductAction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Bouncer;
@@ -59,8 +60,13 @@ class Product extends Model
                 }
             }
             if ($action->group == 'category') {
-                if (isset($this->category()->id) || isset($this->subcategory()->id)) {
-                    if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                if (isset($this->category()->id)) {
+                    if (in_array($this->category()->id, $ids)) {
+                        return $action;
+                    }
+                }
+                if (isset($this->subcategory()->id)) {
+                    if (in_array($this->subcategory()->id, $ids)) {
                         return $action;
                     }
                 }
@@ -115,8 +121,13 @@ class Product extends Model
                 }
             }
             if ($action->group == 'category') {
-                if (isset($this->category()->id) || isset($this->subcategory()->id)) {
-                    if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                if (isset($this->category()->id)) {
+                    if (in_array($this->category()->id, $ids)) {
+                        return Helper::calculateDiscountPrice($this->price, $action->discount);
+                    }
+                }
+                if (isset($this->subcategory()->id)) {
+                    if (in_array($this->subcategory()->id, $ids)) {
                         return Helper::calculateDiscountPrice($this->price, $action->discount);
                     }
                 }
