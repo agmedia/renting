@@ -54,10 +54,8 @@ class ProductController extends Controller
 
         $products   = $query->paginate(20);
         $categories = (new Category())->getList(false);
-        $authors = Author::all()->pluck('title', 'id');
+        $authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');
-
-        //dd($categories);
 
         return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers'));
     }

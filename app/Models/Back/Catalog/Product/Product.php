@@ -99,22 +99,24 @@ class Product extends Model
 
             if ($action->group == 'product') {
                 if (in_array($this->id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                    return $action;
                 }
             }
             if ($action->group == 'category') {
-                if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                if (isset($this->category()->id) || isset($this->subcategory()->id)) {
+                    if (in_array($this->category()->id, $ids) || in_array($this->subcategory()->id, $ids)) {
+                        return $action;
+                    }
                 }
             }
             if ($action->group == 'author') {
                 if (in_array($this->author_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                    return $action;
                 }
             }
             if ($action->group == 'publisher') {
                 if (in_array($this->publisher_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
+                    return $action;
                 }
             }
         }
