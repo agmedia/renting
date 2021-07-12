@@ -41,23 +41,16 @@ class ProductController extends Controller
         }
 
         if ($request->has('active')) {
-            $query->where('status', 0);
-        }
-
-        if ($request->has('today')) {
-            $query->whereDate('created_at', Carbon::today());
-        }
-
-        if ($request->has('week')) {
-            $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            $query->where('status', $request->input('active'));
         }
 
         $products   = $query->paginate(20);
         $categories = (new Category())->getList(false);
         $authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');
+        $counts = Product::setCounts($query);
 
-        return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers'));
+        return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers', 'counts'));
     }
 
 

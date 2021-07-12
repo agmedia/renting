@@ -323,6 +323,31 @@ class Product extends Model
     }
 
 
+    public static function setCounts($p_query)
+    {
+        $active = Product::where('status', 1)->count();
+        $inactive = Product::where('status', 0)->count();
+        /*$actions = Product::whereNotNull('special')->where('special_from', '<', Carbon::now())->where(function ($query) {
+            $query->where('special_to', '>', Carbon::now())->orWhereNull('special_to');
+        })->count();*/
+        $actions = 0;
+
+        $products = $p_query->get();
+
+        foreach ($products as $product) {
+            if ($product->special()) {
+                $actions++;
+            }
+        }
+
+        return [
+            'active' => $active,
+            'inactive' => $inactive,
+            'actions' => $actions,
+        ];
+    }
+
+
     /**
      * Set Product Model request variable.
      *
@@ -350,7 +375,7 @@ class Product extends Model
     /**
      * @return false|mixed
      */
-    public function resolveAuthor()
+    private function resolveAuthor()
     {
         if ($this->request->author) {
             $author = Author::where('id', $this->request->author)->first();
@@ -380,7 +405,7 @@ class Product extends Model
     /**
      * @return false|mixed
      */
-    public function resolvePublisher()
+    private function resolvePublisher()
     {
         if ($this->request->publisher) {
             $publisher = Author::where('id', $this->request->publisher)->first();

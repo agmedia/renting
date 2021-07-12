@@ -26,7 +26,7 @@
             <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href="{{ route('products') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-dark mb-1">36.963</div>
+                        <div class="font-size-h3 font-w600 text-dark mb-1">{{ $products->total() }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Svi artikli
                         </p>
@@ -34,9 +34,9 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-inactive" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-inactive" href="{{ route('products', ['active' => 0]) }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-danger mb-1">63</div>
+                        <div class="font-size-h3 font-w600 text-danger mb-1">{{ $counts['inactive'] }}</div>
                         <p class="font-w600 font-size-sm text-danger text-uppercase mb-0">
                             Neaktivnih
                         </p>
@@ -44,21 +44,21 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-today" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-active" href="{{ route('products', ['active' => 1]) }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-success mb-1">13</div>
+                        <div class="font-size-h3 font-w600 text-success mb-1">{{ $counts['active'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Danas unešenih
+                            Aktivnih
                         </p>
                     </div>
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-week" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" id="btn-actions" href="{{ route('products', ['actions' => 1]) }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-info mb-1">100</div>
+                        <div class="font-size-h3 font-w600 text-info mb-1">{{ $counts['actions'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Unešenih ovaj tjedan
+                            Sa Akcijama
                         </p>
                     </div>
                 </a>
@@ -73,7 +73,7 @@
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-search"></i> Pretraži
                         </button>
-                        <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<!--                        <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Filtriraj <i class="fa fa-angle-down ml-1"></i>
                         </button>
 
@@ -90,7 +90,7 @@
                                 Svi artikli
                                 <span class="badge badge-secondary badge-pill">36000</span>
                             </a>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -184,12 +184,9 @@
                                 </td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
-                                    <i class="fa fa-fw fa-check text-success"></i>
+                                    @include('back.layouts.partials.status', ['status' => $product->status])
                                 </td>
                                 <td class="text-right font-size-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.edit', ['product' => $product]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
@@ -242,7 +239,7 @@
                 setURL('publisher', e.currentTarget.selectedOptions[0]);
             });
 
-            $('#btn-inactive').on('click', () => {
+            /*$('#btn-inactive').on('click', () => {
                 setRegularURL('active', false);
             });
             $('#btn-today').on('click', () => {
@@ -250,7 +247,7 @@
             });
             $('#btn-week').on('click', () => {
                 setRegularURL('week', true);
-            });
+            });*/
         });
 
         /**
