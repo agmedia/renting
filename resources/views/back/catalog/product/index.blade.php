@@ -163,7 +163,7 @@
                         @forelse ($products as $product)
                             <tr>
                                 <td class="text-center font-size-sm">
-                                    <img src="{{ asset($product->image) }}" height="80px"/>
+                                    <img src="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
                                 </td>
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('products.edit', ['product' => $product]) }}">{{ $product->name }}</a><br>
