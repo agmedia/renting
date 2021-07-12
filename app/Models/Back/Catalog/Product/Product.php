@@ -190,9 +190,12 @@ class Product extends Model
      */
     public function create()
     {
+        $author = $this->resolveAuthor();
+        $publisher = $this->resolvePublisher();
+
         $id = $this->insertGetId([
-            'author_id'        => $this->request->author ?: 0,
-            'publisher_id'     => $this->request->publisher ?: 0,
+            'author_id'        => $author,
+            'publisher_id'     => $publisher,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -204,7 +207,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->seo_title,
+            'meta_title'       => $this->request->meta_title ?: $this->request->name . '-' . Str::random(9),
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -221,6 +224,8 @@ class Product extends Model
         ]);
 
         if ($id) {
+            $this->resolveCategories($id);
+
             return $this->find($id);
         }
 
@@ -235,9 +240,12 @@ class Product extends Model
      */
     public function edit()
     {
+        $author = $this->resolveAuthor();
+        $publisher = $this->resolvePublisher();
+
         $updated = $this->update([
-            'author_id'        => $this->request->author ?: 0,
-            'publisher_id'     => $this->request->publisher ?: 0,
+            'author_id'        => $author,
+            'publisher_id'     => $publisher,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -249,7 +257,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->seo_title,
+            'meta_title'       => $this->request->meta_title ?: $this->request->name . '-' . Str::random(9),
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -340,13 +348,77 @@ class Product extends Model
 
 
     /**
+     * @return false|mixed
+     */
+    public function resolveAuthor()
+    {
+        if ($this->request->author) {
+            $author = Author::where('id', $this->request->author)->first();
+
+            if ( ! $author) {
+                $id = Author::insertGetId([
+                    'title'            => $this->request->author,
+                    'meta_title'       => $this->request->author,
+                    'lang'             => 'hr',
+                    'sort_order'       => 0,
+                    'status'           => 1,
+                    'slug'             => Str::slug($this->request->author),
+                    'created_at'       => Carbon::now(),
+                    'updated_at'       => Carbon::now()
+                ]);
+
+                return $id;
+            }
+
+            return $this->request->author;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @return false|mixed
+     */
+    public function resolvePublisher()
+    {
+        if ($this->request->publisher) {
+            $publisher = Author::where('id', $this->request->publisher)->first();
+
+            if ( ! $publisher) {
+                $id = Publisher::insertGetId([
+                    'title'            => $this->request->publisher,
+                    'meta_title'       => $this->request->publisher,
+                    'lang'             => 'hr',
+                    'sort_order'       => 0,
+                    'status'           => 1,
+                    'slug'             => Str::slug($this->request->publisher),
+                    'created_at'       => Carbon::now(),
+                    'updated_at'       => Carbon::now()
+                ]);
+
+                return $id;
+            }
+
+            return $this->request->publisher;
+        }
+
+        return false;
+    }
+
+
+    /**
      * @param int $product_id
      *
      * @return array
      */
     private function resolveCategories(int $product_id)
     {
-        return ProductCategory::storeData($this->request->category, $product_id);
+        if ($this->request->category) {
+            return ProductCategory::storeData($this->request->category, $product_id);
+        }
+
+        return false;
     }
 
 }
