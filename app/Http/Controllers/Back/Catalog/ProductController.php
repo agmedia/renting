@@ -103,10 +103,10 @@ class ProductController extends Controller
             $product->checkSettings()
                     ->storeImages($stored);
 
-            return redirect()->route('products.edit', ['product' => $stored])->with(['success' => 'Product was succesfully saved!']);
+            return redirect()->route('products.edit', ['product' => $stored])->with(['success' => 'Artikl je uspješno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the product.']);
+        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
     }
 
 
@@ -141,10 +141,10 @@ class ProductController extends Controller
             $product->checkSettings()
                     ->storeImages($updated);
 
-            return redirect()->route('products.edit', ['product' => $updated])->with(['success' => 'Product was succesfully saved!']);
+            return redirect()->route('products.edit', ['product' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the product.']);
+        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
     }
 
 
@@ -160,10 +160,10 @@ class ProductController extends Controller
         $destroyed = Product::destroy($product->id);
 
         if ($destroyed) {
-            return redirect()->route('products')->with(['success' => 'Product was succesfully deleted!']);
+            return redirect()->route('products')->with(['success' => 'Artikl je uspješno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the product.']);
+        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
     }
 
 
