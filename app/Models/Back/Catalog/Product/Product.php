@@ -194,8 +194,8 @@ class Product extends Model
         $publisher = $this->resolvePublisher();
 
         $id = $this->insertGetId([
-            'author_id'        => $author,
-            'publisher_id'     => $publisher,
+            'author_id'        => $author->id,
+            'publisher_id'     => $publisher->id,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -207,7 +207,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ? $this->request->meta_title . '-' . $author : $this->request->name . '-' . $author,
+            'meta_title'       => $this->request->meta_title ?: $this->request->name . '-' . $author->title,
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -245,8 +245,8 @@ class Product extends Model
         $publisher = $this->resolvePublisher();
 
         $updated = $this->update([
-            'author_id'        => $author,
-            'publisher_id'     => $publisher,
+            'author_id'        => $author->id,
+            'publisher_id'     => $publisher->id,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -258,7 +258,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ? $this->request->meta_title . '-' . $author : $this->request->name . '-' . $author,
+            'meta_title'       => $this->request->meta_title ?: $this->request->name . '-' . $author->title,
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -325,6 +325,11 @@ class Product extends Model
     }
 
 
+    /**
+     * @param $p_query
+     *
+     * @return array
+     */
     public static function setCounts($p_query)
     {
         $all = Product::all()->count();
@@ -396,10 +401,10 @@ class Product extends Model
                     'updated_at'       => Carbon::now()
                 ]);
 
-                return $id;
+                return Author::find($id);
             }
 
-            return $this->request->author;
+            return $author;
         }
 
         return false;
@@ -426,10 +431,10 @@ class Product extends Model
                     'updated_at'       => Carbon::now()
                 ]);
 
-                return $id;
+                return Publisher::find($id);
             }
 
-            return $this->request->publisher;
+            return $publisher;
         }
 
         return false;

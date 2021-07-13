@@ -39,6 +39,7 @@ class CreateProductsTable extends Migration
             $table->string('letter')->nullable();
             $table->string('condition')->nullable();
             $table->string('binding')->nullable();
+            $table->string('year', 4)->nullable();
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('sort_order')->unsigned()->default(0);
             $table->boolean('push')->default(false);
