@@ -170,7 +170,7 @@
 
                                 <div class="col-md-3">
                                     <label for="origin-input">Godina izdavanja</label>
-                                    <input type="text" class="form-control" id="year-input" name="year" placeholder="Upišite godinu izdavanja" value="{{ isset($product) ? $product->origin : old('year') }}">
+                                    <input type="text" class="form-control" id="year-input" name="year" placeholder="Upišite godinu izdavanja" value="{{ isset($product) ? $product->year : old('year') }}">
                                 </div>
                             </div>
 
