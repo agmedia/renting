@@ -206,7 +206,7 @@ class Category extends Model
         ]);
 
         if ($id) {
-            return $this->find($id);
+            return $this;
         }
 
         return false;
