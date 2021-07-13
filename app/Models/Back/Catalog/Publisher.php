@@ -95,7 +95,7 @@ class Publisher extends Model
         ]);
 
         if ($id) {
-            return $this->find($id);
+            return $this;
         }
 
         return false;
