@@ -325,6 +325,7 @@ class Product extends Model
 
     public static function setCounts($p_query)
     {
+        $all = Product::all()->count();
         $active = Product::where('status', 1)->count();
         $inactive = Product::where('status', 0)->count();
         /*$actions = Product::whereNotNull('special')->where('special_from', '<', Carbon::now())->where(function ($query) {
@@ -332,7 +333,7 @@ class Product extends Model
         })->count();*/
         $actions = 0;
 
-        $products = $p_query->get();
+        $products = Product::all();
 
         foreach ($products as $product) {
             if ($product->special()) {
@@ -341,6 +342,7 @@ class Product extends Model
         }
 
         return [
+            'all' => $all,
             'active' => $active,
             'inactive' => $inactive,
             'actions' => $actions,

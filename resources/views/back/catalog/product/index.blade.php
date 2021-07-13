@@ -26,7 +26,7 @@
             <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href="{{ route('products') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-dark mb-1">{{ $products->total() }}</div>
+                        <div class="font-size-h3 font-w600 text-dark mb-1">{{ $counts['all'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Svi artikli
                         </p>
