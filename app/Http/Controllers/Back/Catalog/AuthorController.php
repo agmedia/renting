@@ -52,10 +52,10 @@ class AuthorController extends Controller
         if ($stored) {
             $author->resolveImage($stored);
 
-            return redirect()->route('authors.edit', ['author' => $stored])->with(['success' => 'Author was succesfully saved!']);
+            return redirect()->route('authors.edit', ['author' => $stored])->with(['success' => 'Autor je uspješno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the author.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
     }
 
 
@@ -87,10 +87,10 @@ class AuthorController extends Controller
         if ($updated) {
             $author->resolveImage($updated);
 
-            return redirect()->route('authors.edit', ['author' => $updated])->with(['success' => 'Author was succesfully saved!']);
+            return redirect()->route('authors.edit', ['author' => $updated])->with(['success' => 'Autor je uspješno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the author.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
     }
 
 
@@ -106,9 +106,9 @@ class AuthorController extends Controller
         $destroyed = Author::destroy($author->id);
 
         if ($destroyed) {
-            return redirect()->route('authors')->with(['success' => 'Author was succesfully deleted!']);
+            return redirect()->route('authors')->with(['success' => 'Autor je uspješno izbrisan!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the author.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
     }
 }

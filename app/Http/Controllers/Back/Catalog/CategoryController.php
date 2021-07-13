@@ -18,11 +18,11 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $categories = $category->getList();
-        
+
         return view('back.catalog.category.index', compact('categories'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -32,11 +32,11 @@ class CategoryController extends Controller
     {
         $groups = Category::groups()->pluck('group');
         $parents = Category::topList()->pluck('title', 'id');
-        
+
         return view('back.catalog.category.edit', compact('parents', 'groups'));
     }
-    
-    
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -53,13 +53,13 @@ class CategoryController extends Controller
         if ($stored) {
             $category->resolveImage($stored);
 
-            return redirect()->route('category.edit', ['category' => $stored])->with(['success' => 'Category was succesfully saved!']);
+            return redirect()->route('category.edit', ['category' => $stored])->with(['success' => 'Kategorija je snimljena!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);
+        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
     }
-    
-    
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -71,11 +71,11 @@ class CategoryController extends Controller
     {
         $groups = Category::groups()->pluck('group');
         $parents = Category::topList()->pluck('title', 'id');
-        
+
         return view('back.catalog.category.edit', compact('category', 'parents', 'groups'));
     }
-    
-    
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -91,13 +91,13 @@ class CategoryController extends Controller
         if ($updated) {
             $category->resolveImage($updated);
 
-            return redirect()->route('category.edit', ['category' => $updated])->with(['success' => 'Category was succesfully saved!']);
+            return redirect()->route('category.edit', ['category' => $updated])->with(['success' => 'Kategorija je snimljena!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the category.']);
+        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
     }
-    
-    
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -110,9 +110,9 @@ class CategoryController extends Controller
         $destroyed = Category::destroy($category->id);
 
         if ($destroyed) {
-            return redirect()->route('categories')->with(['success' => 'Category was succesfully deleted!']);
+            return redirect()->route('categories')->with(['success' => 'Kategorija je uspješno izbrisana!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the category.']);
+        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom brisanja.']);
     }
 }

@@ -23,8 +23,8 @@ class PublisherController extends Controller
 
         return view('back.catalog.publisher.index', compact('publishers'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -34,8 +34,8 @@ class PublisherController extends Controller
     {
         return view('back.catalog.publisher.edit');
     }
-    
-    
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -52,13 +52,13 @@ class PublisherController extends Controller
         if ($stored) {
             $publisher->resolveImage($stored);
 
-            return redirect()->route('publishers.edit', ['publisher' => $stored])->with(['success' => 'Publisher was succesfully saved!']);
+            return redirect()->route('publishers.edit', ['publisher' => $stored])->with(['success' => 'Izdavač je uspjšeno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the publisher.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
     }
-    
-    
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,8 +70,8 @@ class PublisherController extends Controller
     {
         return view('back.catalog.publisher.edit', compact('publisher'));
     }
-    
-    
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -87,13 +87,13 @@ class PublisherController extends Controller
         if ($updated) {
             $publisher->resolveImage($updated);
 
-            return redirect()->route('publishers.edit', ['publisher' => $updated])->with(['success' => 'Publisher was succesfully saved!']);
+            return redirect()->route('publishers.edit', ['publisher' => $updated])->with(['success' => 'Izdavač je uspjšeno snimljen!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the publisher.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
     }
-    
-    
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -106,9 +106,9 @@ class PublisherController extends Controller
         $destroyed = Publisher::destroy($publisher->id);
 
         if ($destroyed) {
-            return redirect()->route('publishers')->with(['success' => 'Publisher was succesfully deleted!']);
+            return redirect()->route('publishers')->with(['success' => 'Izdavač je uspjšeno izbrisan!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the publisher.']);
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
     }
 }
