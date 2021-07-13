@@ -8,7 +8,10 @@ use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
@@ -45,6 +48,20 @@ class ProductController extends Controller
         }
 
         $products   = $query->paginate(20);
+
+        if ($request->has('actions')) {
+            $products = collect();
+            $temps = Product::all();
+
+            foreach ($temps as $product) {
+                if ($product->special()) {
+                    $products->push($product);
+                }
+            }
+
+            $products = $this->paginateColl($products);
+        }
+
         $categories = (new Category())->getList(false);
         $authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');
@@ -147,5 +164,13 @@ class ProductController extends Controller
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the product.']);
+    }
+
+
+    public function paginateColl($items, $perPage = 20, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }
