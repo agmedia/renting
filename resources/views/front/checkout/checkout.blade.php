@@ -1,5 +1,8 @@
-
 @extends('front.layouts.app')
+
+@push('css_after')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
 
 @section('content')
 
@@ -41,3 +44,5 @@
 </div>
 
 @endsection
+
+

@@ -26,6 +26,8 @@
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="{{ asset('css/theme.min.css') }}">
 
+    @stack('css_after')
+
     @livewireStyles
 </head>
 <!-- Body-->
@@ -58,6 +60,11 @@
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor scrits: js libraries and plugins-->
+<script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/simplebar.min.js') }}"></script>
@@ -67,6 +74,8 @@
 <script src="{{ asset('js/nouislider.min.js') }}"></script>
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
+
+@stack('js_after')
 
 @livewireScripts
 </body>

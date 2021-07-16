@@ -81,14 +81,15 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="mb-3">
+                <div class="mb-3" wire:ignore>
                     <label class="form-label" for="checkout-country">Država</label>
-                    <select class="form-select" id="checkout-country" wire:model="address.state">
-                        <option>Odaberite državu</option>
-                        <option>Hrvatska</option>
-                        <option>Austria</option>
-                        <option>...</option>
+                    <select class="form-select form-select-lg @error('address.state') is-invalid @enderror" id="checkout-country" wire:model="address.state">
+                        <option value=""></option>
+                        @foreach ($countries as $country)
+                            <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
+                        @endforeach
                     </select>
+                    @error('address.state') <div id="val-username-error" class="invalid-feedback animated fadeIn">Država je obvezna</div> @enderror
                 </div>
             </div>
         </div>
@@ -174,3 +175,22 @@
     @endif
 
 </div>
+
+
+@push('js_after')
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            /*$('#checkout-country').select2({
+                placeholder: 'Odaberite državu...',
+                //minimumResultsForSearch: Infinity
+            });*/
+
+            $('#checkout-country').on('change', (e) => {
+                @this.stateSelected(e.currentTarget.value);
+            });
+        });
+    </script>
+@endpush

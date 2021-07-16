@@ -26,7 +26,9 @@
                 </div>
                 <ul class="list-unstyled fs-sm pb-2 border-bottom">
                     <li class="d-flex justify-content-between align-items-center"><span class="me-2">Ukupno:</span><span class="text-end">{{ $store.state.service.formatPrice($store.state.cart.subtotal) }}</span></li>
-                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Dostava:</span><span class="text-end">0.00</span></li>
+                    <div v-for="condition in $store.state.cart.detail_con">
+                        <li class="d-flex justify-content-between align-items-center"><span class="me-2">{{ condition.name }}</span><span class="text-end">{{ $store.state.service.formatPrice(condition.value) }}</span></li>
+                    </div>
                 </ul>
                 <h3 class="fw-normal text-center my-4">{{ $store.state.service.formatPrice($store.state.cart.total) }}</h3>
             </div>
@@ -40,7 +42,9 @@
                 </div>
                 <ul class="list-unstyled fs-sm pb-2 border-bottom">
                     <li class="d-flex justify-content-between align-items-center"><span class="me-2">Ukupno:</span><span class="text-end">{{ $store.state.service.formatPrice($store.state.cart.subtotal) }}</span></li>
-                    <li class="d-flex justify-content-between align-items-center"><span class="me-2">Dostava:</span><span class="text-end">25.<small>00kn</small></span></li>
+                    <div v-for="condition in $store.state.cart.detail_con">
+                        <li class="d-flex justify-content-between align-items-center"><span class="me-2">{{ condition.name }}</span><span class="text-end">{{ $store.state.service.formatPrice(condition.value) }}</span></li>
+                    </div>
                 </ul>
                 <h3 class="fw-normal text-center my-4">{{ $store.state.service.formatPrice($store.state.cart.total) }}</h3>
             </div>

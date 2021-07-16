@@ -149,4 +149,39 @@ class CheckoutSession
     {
         return session([static::$session_string . '.step' => $value]);
     }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    /**
+     * GEO ZONE
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function getGeoZone()
+    {
+        return session(static::$session_string . '.geo_zone');
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function hasGeoZone()
+    {
+        return session()->has(static::$session_string . '.geo_zone');
+    }
+
+
+    /**
+     * @param array|string $value
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function setGeoZone($value)
+    {
+        return session([static::$session_string . '.geo_zone' => $value]);
+    }
 }

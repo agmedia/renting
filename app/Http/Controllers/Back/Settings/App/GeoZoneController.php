@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use App\Helpers\Country;
+use App\Models\Front\Checkout\GeoZone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class GeoZoneController extends Controller
 {
@@ -17,11 +19,7 @@ class GeoZoneController extends Controller
      */
     public function index(Request $request)
     {
-        $geo_zones = Settings::get('geo_zone', 'list');
-
-        /*foreach ($geo_zones as $geo_zone) {
-            dd($geo_zone->title);
-        }*/
+        $geo_zones = (new GeoZone())->list(false);
 
         return view('back.settings.app.geozone.index', compact('geo_zones'));
     }
@@ -70,7 +68,7 @@ class GeoZoneController extends Controller
             $values->where('id', $data['id'])->map(function ($item) use ($data) {
                 $item->title = $data['title'];
                 $item->description = $data['description'];
-                $item->state = $data['state'];
+                $item->state = isset($data['state']) ? $data['state'] : [];
                 $item->status = isset($data['status']) ? true : false;
 
                 return $item;
@@ -84,6 +82,8 @@ class GeoZoneController extends Controller
         }
 
         if ($stored) {
+            Cache::forget('geo_zones');
+
             return redirect()->route('geozones')->with(['success' => 'Geo zone was succesfully saved!']);
         }
 
@@ -105,6 +105,8 @@ class GeoZoneController extends Controller
         $geo_zone = $geo_zones->where('id', $geozone)->first();
 
         if (isset($geo_zone->state)) {
+            Cache::forget('geo_zones');
+
             $geo_zone->state = json_decode(json_encode($geo_zone->state), true);
         } else {
             $geo_zone->state = [];
@@ -138,6 +140,8 @@ class GeoZoneController extends Controller
         }
 
         if ($stored) {
+            Cache::forget('geo_zones');
+
             return redirect()->route('geozones')->with(['success' => 'Geo zone was succesfully deleted!']);
         }
 

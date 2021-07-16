@@ -27,6 +27,15 @@
                                         <input type="text" class="form-control" id="flat-price" name="data['price']">
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <label for="dm-post-edit-slug">Geo zona <span class="small text-gray">(Geo zona na koju se odnosi dostava..)</span></label>
+                                    <select class="js-select2 form-control" id="flat-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
+                                        <option></option>
+                                        @foreach ($geo_zones as $geo_zone)
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group mb-4">
@@ -84,6 +93,11 @@
 
 @push('shipment-modal-js')
     <script>
+        $(() => {
+            $('#flat-geo-zone').select2({
+                tags: true
+            });
+        });
         /**
          *
          */

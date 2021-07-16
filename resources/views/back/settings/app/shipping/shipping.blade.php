@@ -1,5 +1,9 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
+
 @section('content')
 
     <div class="bg-body-light">
@@ -23,8 +27,9 @@
                     <tr>
                         <th>Naziv</th>
                         <th class="text-center" style="width: 15%;">Poredak</th>
+                        <th class="text-center" style="width: 15%;">Cijena</th>
                         <th class="text-center" style="width: 15%;">Status</th>
-                        <th style="width: 15%;" class="text-right">Uredi</th>
+                        <th style="width: 10%;" class="text-right">Uredi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -32,6 +37,7 @@
                         <tr>
                             <td>{{ $shipping->title }}</td>
                             <td class="text-center">{{ $shipping->sort_order }}</td>
+                            <td class="text-center">{{ number_format($shipping->data->price, 2, ',', '.') }}</td>
                             <td class="text-center">
                                 @include('back.layouts.partials.status', ['status' => $shipping->status])
                             </td>
@@ -61,6 +67,8 @@
 @endpush
 
 @push('js_after')
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+
     <script>
         /**
          *

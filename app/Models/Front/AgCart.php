@@ -2,9 +2,11 @@
 
 namespace App\Models\Front;
 
+use App\Helpers\Session\CheckoutSession;
 use App\Models\Front\Cart\Totals;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\ProductAction;
+use App\Models\Front\Checkout\ShippingMethod;
 use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +44,8 @@ class AgCart extends Model
      */
     public function get()
     {
+        $detail_conditions = $this->setCartConditions();
+
         $response = [
             'id'         => $this->cart_id,
             'coupon'     => session()->has('sl_cart_coupon') ? session('sl_cart_coupon') : '',
@@ -49,14 +53,15 @@ class AgCart extends Model
             'count'      => $this->cart->getTotalQuantity(),
             'subtotal'   => $this->cart->getSubTotal(),
             'conditions' => $this->cart->getConditions(),
+            'detail_con' => $detail_conditions,
             'total'      => $this->cart->getTotal(),
         ];
-        $response['tax'] = $this->getTax($response);
-        $response['total'] = $this->cart->getTotal() + $response['tax'][0]['value'];
+        //$response['tax'] = $this->getTax($response);
+        //$response['total'] = $this->cart->getTotal() + $response['tax'][0]['value'];
 
-        $response['totals'] = $this->getTotals();
+        //$response['totals'] = $this->getTotals();
 
-        Log::info($response);
+        //Log::info($response);
 
         return $response;
     }
@@ -144,6 +149,46 @@ class AgCart extends Model
                 'quantity' => $item->quantity
             ]
         ];
+    }
+
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    public function setCartConditions()
+    {
+        $shipping = (new ShippingMethod())->find(CheckoutSession::getShipping());
+
+        if ($shipping) {
+            $this->cart->clearCartConditions();
+
+            $condition = new \Darryldecode\Cart\CartCondition(array(
+                'name' => $shipping->title,
+                'type' => 'shipping',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => '+' . $shipping->data->price,
+                'attributes' => [
+                    'description' => $shipping->data->short_description,
+                    'geo_zone' => $shipping->geo_zone
+                ]
+            ));
+
+            $this->cart->condition($condition);
+        }
+
+        foreach ($this->cart->getConditions() as $condition) {
+            $response[] = [
+                'name' => $condition->getName(),
+                'type' => 'shipping',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => $condition->getValue(),
+                'attributes' => $condition->getAttributes()
+            ];
+        }
+
+        return $response;
     }
 
 

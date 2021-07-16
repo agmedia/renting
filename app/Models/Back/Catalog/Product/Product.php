@@ -138,6 +138,7 @@ class Product extends Model
         return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
     }
 
+
     /**
      * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
      */
@@ -375,7 +376,7 @@ class Product extends Model
      */
     private function cleanHTML($description = null): string
     {
-        $clean = preg_replace('/ style=("|\')(.*?)("|\')/', '', $description ? $description : '');
+        $clean = preg_replace('/ style=("|\')(.*?)("|\')/', '', $description ?: '');
 
         return preg_replace('/ face=("|\')(.*?)("|\')/', '', $clean);
     }

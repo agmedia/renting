@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Front;
 
+use App\Helpers\Country;
 use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Checkout\GeoZone;
+use App\Models\Front\Checkout\ShippingMethod;
 use Livewire\Component;
 
 class Checkout extends Component
@@ -25,7 +28,7 @@ class Checkout extends Component
         'address' => '',
         'city' => '',
         'zip' => '',
-        'country' => '',
+        'state' => '',
     ];
 
     /**
@@ -48,6 +51,7 @@ class Checkout extends Component
         'address.address' => 'required',
         'address.city' => 'required',
         'address.zip' => 'required',
+        'address.state' => 'required',
     ];
 
     /**
@@ -75,6 +79,7 @@ class Checkout extends Component
      */
     public function mount()
     {
+        //session()->forget('checkout.address');
         if (CheckoutSession::hasAddress()) {
             $this->setAddress(CheckoutSession::getAddress());
         } else {
@@ -83,6 +88,10 @@ class Checkout extends Component
 
         if (CheckoutSession::hasShipping()) {
             $this->shipping = CheckoutSession::getShipping();
+            //dd($this->shipping);
+            //dd($this->address['state']);
+            //dd((new GeoZone())->findState($this->address['state'])['id']);
+            //dd((new ShippingMethod())->findGeo((new GeoZone())->findState($this->address['state'])['id']));
         }
 
         if (CheckoutSession::hasPayment()) {
@@ -124,6 +133,20 @@ class Checkout extends Component
 
 
     /**
+     * @param string $state
+     */
+    public function stateSelected(string $state)
+    {
+        //dd($state);
+        $value['state'] = $state;
+
+        $this->setAddress($value, true);
+
+        $this->render();
+    }
+
+
+    /**
      * @param string $shipping
      */
     public function selectShipping(string $shipping)
@@ -131,6 +154,8 @@ class Checkout extends Component
         $this->shipping = $shipping;
 
         CheckoutSession::setShipping($shipping);
+
+        return redirect()->route('naplata', ['step' => 'dostava']);
     }
 
 
@@ -150,9 +175,15 @@ class Checkout extends Component
      */
     public function render()
     {
+        $geo = (new GeoZone())->findState($this->address['state']);
+
+        //dd($geo);
+        //dd($geo);
+
         return view('livewire.front.checkout', [
-            'shippingMethods' => Settings::getList('shipping'),
-            'paymentMethods' => Settings::getList('payment')
+            'shippingMethods' => (new ShippingMethod())->findGeo($geo['id']),
+            'paymentMethods' => Settings::getList('payment'),
+            'countries' => Country::list()
         ]);
     }
 
@@ -162,10 +193,16 @@ class Checkout extends Component
      *
      * @return array
      */
-    private function setAddress(array $value = [])
+    private function setAddress(array $value = [], bool $only_state = false)
     {
         if ( ! empty($value)) {
-            return
+
+            $value['state'] = isset($value['state']) ? $value['state'] : 'Croatia';
+
+            if ($only_state) {
+                $this->address['state'] = $value['state'];
+                //dd($this->address);
+            } else {
                 $this->address = [
                     'fname' => $value['fname'],
                     'lname' => $value['lname'],
@@ -174,21 +211,32 @@ class Checkout extends Component
                     'address' => $value['address'],
                     'city' => $value['city'],
                     'zip' => $value['zip'],
+                    'state' => $value['state'],
                 ];
+            }
+        } else {
+            if (auth()->user()) {
+                $this->address = [
+                    'fname' => auth()->user()->details->fname,
+                    'lname' => auth()->user()->details->lname,
+                    'email' => auth()->user()->email,
+                    'phone' => auth()->user()->details->phone,
+                    'address' => auth()->user()->details->address,
+                    'city' => auth()->user()->details->city,
+                    'zip' => auth()->user()->details->zip,
+                    'state' => ''
+                ];
+            }
         }
 
-        if (auth()->user()) {
-            $this->address = [
-                'fname' => auth()->user()->details->fname,
-                'lname' => auth()->user()->details->lname,
-                'email' => auth()->user()->email,
-                'phone' => auth()->user()->details->phone,
-                'address' => auth()->user()->details->address,
-                'city' => auth()->user()->details->city,
-                'zip' => auth()->user()->details->zip,
-            ];
+        CheckoutSession::setAddress($this->address);
 
-            CheckoutSession::setAddress($this->address);
-        }
+        /*CheckoutSession::setGeoZone(
+            GeoZone::findState($this->address['state'])
+        );*/
+
+        //dd($this->address);
+
+        return $this->address;
     }
 }

@@ -20,10 +20,11 @@ class ShippingController extends Controller
         $this->checkForNewFiles();
 
         $shippings = Settings::getList('shipping', 'list.%', false);
+        $geo_zones = Settings::getList('geo_zone', 'list', false);
 
-        //dd($shippings);
+        //dd($geo_zones);
 
-        return view('back.settings.app.shipping.shipping', compact('shippings'));
+        return view('back.settings.app.shipping.shipping', compact('shippings', 'geo_zones'));
     }
 
 
@@ -71,7 +72,7 @@ class ShippingController extends Controller
      */
     private function checkForNewFiles(): void
     {
-        $files    = new \DirectoryIterator('./../resources/views/back/settings/app/shipping/modals');
+        $files = new \DirectoryIterator('./../resources/views/back/settings/app/shipping/modals');
 
         foreach ($files as $file) {
             if (strpos($file, 'blade.php') !== false) {
@@ -91,8 +92,9 @@ class ShippingController extends Controller
                         'data' => [
                             'price' => 0
                         ],
+                        'geo_zone' => '0',
                         'sort_order' => 0,
-                        'status' => 0
+                        'status' => false
                     ];
 
                     Settings::set('shipping', 'list.' . $filename, $default_value);

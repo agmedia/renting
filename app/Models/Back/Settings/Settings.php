@@ -70,12 +70,13 @@ class Settings extends Model
 
             foreach ($styles as $style) {
                 if ($style->json) {
-                    $temp_style = collect(json_decode($style->value))->first();
+                    $temp_style = collect(json_decode($style->value))->all();
 
-                    $return_styles->put($temp_style->title, $temp_style);
+                    foreach ($temp_style as $item) {
+                        $return_styles->put($item->title, $item);
+                    }
                 }
             }
-
 
             if ($only_active) {
                 return $return_styles->where('status')->sortBy('sort_order');
