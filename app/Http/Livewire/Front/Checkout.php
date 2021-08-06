@@ -155,6 +155,7 @@ class Checkout extends Component
 
         CheckoutSession::setShipping($shipping);
 
+        //$this->emit('shipping_selected');
         return redirect()->route('naplata', ['step' => 'dostava']);
     }
 

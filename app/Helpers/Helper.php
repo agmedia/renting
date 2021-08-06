@@ -15,4 +15,10 @@ class Helper
     {
         return $price - ($price * ($discount / 100));
     }
+
+
+    public static function abc()
+    {
+        return ['A', 'B', 'C', 'Ć', 'Č', 'D', 'Đ', 'DŽ', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LJ', 'M', 'N', 'NJ', 'O', 'P', 'R', 'S', 'Š', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Ž'];
+    }
 }

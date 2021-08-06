@@ -35,12 +35,12 @@ mix
 
 /* JS */
 //.js('resources/js/app.js', 'public/js/laravel.app.js')
-.js('resources/js/dashmix/app.js', 'public/js/dashmix.app.js')
+//.js('resources/js/dashmix/app.js', 'public/js/dashmix.app.js')
 
 /* Page JS */
 //.js('resources/js/pages/tables_datatables.js', 'public/js/pages/tables_datatables.js')
 
-//.js('resources/js/front/cart/app.js', 'public/js/cart.js').vue()
+.js('resources/js/front/cart/app.js', 'public/js/cart.js').vue()
 
 /* Tools */
 /*.browserSync('http://127.0.0.1:8000/')

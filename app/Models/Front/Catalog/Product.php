@@ -5,8 +5,11 @@ namespace App\Models\Front\Catalog;
 use App\Helpers\Helper;
 use App\Models\Back\Catalog\Product\ProductAction;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Bouncer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -158,6 +161,15 @@ class Product extends Model
 
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function publisher()
+    {
+        return $this->hasOne(Publisher::class, 'id', 'publisher_id');
+    }
+
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function categories()
@@ -224,11 +236,21 @@ class Product extends Model
     /**
      * @return string
      */
-    public function priceString()
+    public function priceString(string $price = null)
     {
-        $price = explode('.', $this->price);
+        if ($price) {
+            $set = explode('.', $price);
 
-        return number_format($this->price, 0, '', '.') . ',<small>' . substr($price[1], 0, 2) . 'kn</small>';
+            if ( ! isset($set[1])) {
+                $set[1] = '00';
+            }
+
+            return number_format($price, 0, '', '.') . ',<small>' . substr($set[1], 0, 2) . 'kn</small>';
+        }
+
+        $set = explode('.', $this->price);
+
+        return number_format($this->price, 0, '', '.') . ',<small>' . substr($set[1], 0, 2) . 'kn</small>';
     }
 
 
@@ -287,6 +309,28 @@ class Product extends Model
      *
      * @return mixed
      */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeInactive($query)
+    {
+        return $query->where('status', 0);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeLast($query, $count = 9)
     {
         return $query->where('status', 1)->orderBy('updated_at', 'desc')->limit($count);
@@ -309,9 +353,53 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeTopponuda($query, $count = 9)
+    public function scopeTopPonuda($query, $count = 9)
     {
         return $query->where('status', 1)->where('topponuda', 1)->orderBy('updated_at', 'desc')->limit($count);
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    public function filter(Request $request, Collection $ids = null): Builder
+    {
+        $query = (new Product())->newQuery();
+
+        $query->active();
+
+        if ($ids) {
+            $query->whereIn('id', $ids->unique());
+        }
+
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
+
+            if ($sort == 'novi') {
+                $query->orderBy('created_at');
+            }
+
+            if ($sort == 'price_up') {
+                $query->orderBy('price');
+            }
+
+            if ($sort == 'price_down') {
+                $query->orderBy('price', 'desc');
+            }
+
+            if ($sort == 'naziv_up') {
+                $query->orderBy('name');
+            }
+
+            if ($sort == 'naziv_down') {
+                $query->orderBy('name', 'desc');
+            }
+        } else {
+            $query->orderBy('sort_order');
+        }
+
+        return $query;
     }
 
 

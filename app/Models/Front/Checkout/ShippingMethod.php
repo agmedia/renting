@@ -2,10 +2,12 @@
 
 namespace App\Models\Front\Checkout;
 
+use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use phpDocumentor\Reflection\Types\False_;
 
 /**
  * Class ShippingMethod
@@ -82,5 +84,35 @@ class ShippingMethod
         //dd($methods);
 
         return $methods;
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    public static function condition()
+    {
+        $shipping = false;
+        $condition = false;
+
+        if (CheckoutSession::hasShipping()) {
+            $shipping = (new ShippingMethod())->find(CheckoutSession::getShipping());
+        }
+
+        if ($shipping) {
+            $condition = new \Darryldecode\Cart\CartCondition(array(
+                'name' => $shipping->title,
+                'type' => 'shipping',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => '+' . $shipping->data->price,
+                'attributes' => [
+                    'description' => $shipping->data->short_description,
+                    'geo_zone' => $shipping->geo_zone
+                ]
+            ));
+        }
+
+        return $condition;
     }
 }

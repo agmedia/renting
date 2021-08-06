@@ -38,6 +38,12 @@ class Category extends Model
     }
 
 
+    public function parent()
+    {
+        return $this->hasOne(Category::class, 'id', 'parent_id');
+    }
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */

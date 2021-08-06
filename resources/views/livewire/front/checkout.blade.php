@@ -189,8 +189,16 @@
             });*/
 
             $('#checkout-country').on('change', (e) => {
+                console.log(e.currentTarget.value)
                 @this.stateSelected(e.currentTarget.value);
             });
+        });
+
+        Livewire.on('shipping_selected', () => {
+            console.log('shipping_selected');
+
+            //$store.state.service.getCart();
+            console.log(Vuex)
         });
     </script>
 @endpush

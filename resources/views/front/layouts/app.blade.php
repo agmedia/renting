@@ -60,10 +60,7 @@
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor scrits: js libraries and plugins-->
-<script
-        src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+<script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
 
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
@@ -75,8 +72,9 @@
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
 
+@livewireScripts
+
 @stack('js_after')
 
-@livewireScripts
 </body>
 </html>

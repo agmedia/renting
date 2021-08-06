@@ -1856,31 +1856,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    id: String
-  },
-  data: function data() {
-    return {
-      quantity: 1
-    };
+    id: String,
+    qty: Number
   },
   mounted: function mounted() {},
   methods: {
     addToCart: function addToCart() {
       var item = {
         id: this.id,
-        quantity: this.quantity
+        quantity: this.qty
       };
       this.$store.dispatch('addToCart', item);
     },
     subtractQuantity: function subtractQuantity() {
-      if (this.quantity > 1) {
-        this.quantity = this.quantity - 1;
+      if (this.qty > 1) {
+        this.qty = this.qty - 1;
       }
     },
     addQuantity: function addQuantity() {
-      this.quantity = this.quantity + 1;
+      this.qty = this.qty + 1;
     }
   }
 });
@@ -3964,19 +3971,20 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.quantity,
-            expression: "quantity"
+            value: _vm.qty,
+            expression: "qty"
           }
         ],
         staticClass: "qty",
+        staticStyle: { width: "36px" },
         attrs: { type: "text" },
-        domProps: { value: _vm.quantity },
+        domProps: { value: _vm.qty },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.quantity = $event.target.value
+            _vm.qty = $event.target.value
           }
         }
       }),
@@ -3995,7 +4003,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-green",
+        staticClass: "btn btn-primary btn-shadow d-block w-100",
         on: {
           click: function($event) {
             return _vm.addToCart()

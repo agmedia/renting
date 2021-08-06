@@ -159,24 +159,16 @@ class AgCart extends Model
 
     public function setCartConditions()
     {
-        $shipping = (new ShippingMethod())->find(CheckoutSession::getShipping());
+        $this->cart->clearCartConditions();
 
-        if ($shipping) {
-            $this->cart->clearCartConditions();
+        $shipping_method = ShippingMethod::condition();
 
-            $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => $shipping->title,
-                'type' => 'shipping',
-                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => '+' . $shipping->data->price,
-                'attributes' => [
-                    'description' => $shipping->data->short_description,
-                    'geo_zone' => $shipping->geo_zone
-                ]
-            ));
-
-            $this->cart->condition($condition);
+        if ($shipping_method) {
+            $this->cart->condition($shipping_method);
         }
+
+        // Style response array
+        $response = [];
 
         foreach ($this->cart->getConditions() as $condition) {
             $response[] = [

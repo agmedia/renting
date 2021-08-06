@@ -2,7 +2,9 @@
 
 namespace App\Models\Front\Catalog;
 
+use App\Helpers\Helper;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -34,6 +36,25 @@ class Author extends Model
     }
 
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'author_id', 'id');
+    }
+
+
+    public function categories()
+    {
+        $categories = collect();
+        $products = $this->products()->get();
+
+        foreach ($products as $product) {
+            $categories->push($product->categories()->where('parent_id', 0)->first());
+        }
+
+        return $categories->unique()->sortBy('id');
+    }
+
+
     /**
      * @return string
      */
@@ -42,5 +63,35 @@ class Author extends Model
         return route('catalog.route.author', [
             'author' => $this
         ]);
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public static function letters(): Collection
+    {
+        $letters = collect();
+        $authors = Author::all();
+
+        $results = $authors->sortBy('title')->groupBy(function ($item, $key) {
+            return substr($item['title'], 0, 1);
+        })->keys();
+
+        foreach (Helper::abc() as $item) {
+            if ($item == $results->contains($item)) {
+                $letters->push([
+                    'value' => $item,
+                    'active' => true
+                ]);
+            } else {
+                $letters->push([
+                    'value' => $item,
+                    'active' => false
+                ]);
+            }
+        }
+
+        return $letters;
     }
 }
