@@ -21,7 +21,7 @@
     <div class="content">
     @include('back.layouts.partials.session')
         <!-- Quick Overview -->
-        <div class="row row-deck">
+<!--        <div class="row row-deck">
             <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_orders.html">
                     <div class="block-content py-5">
@@ -62,13 +62,13 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div>-->
         <!-- END Quick Overview -->
 
         <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Sve narudžbe</h3>
+                <h3 class="block-title">Lista narudžbi</h3>
                 <div class="block-options">
                     <div class="form-group mb-0 mr-2">
                         <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
@@ -76,9 +76,9 @@
 
                         <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
                             <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                            <option value="1">Plaćeno</option>
-                            <option value="2">Dovršeno</option>
-
+                            @foreach ($statuses as $status)
+                                <option value="{{ $status->id }}">{{ $status->title }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -89,34 +89,15 @@
                             <i class="fa fa-angle-down ml-1"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Čeka naplatu
-                                <span class="badge badge-primary badge-pill">78</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Plaćeno
-                                <span class="badge badge-secondary badge-pill">12</span>
-                            </a>
-
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Otkazano
-                                <span class="badge badge-secondary badge-pill">5</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Poslano
-                                <span class="badge badge-secondary badge-pill">280</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Sve narudžbe
-                                <span class="badge badge-secondary badge-pill">19k</span>
-                            </a>
+                            @foreach ($statuses as $status)
+                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                    {{ $status->title }}
+<!--                                    <span class="badge badge-secondary badge-pill"></span>-->
+                                </a>
+                            @endforeach
                         </div>
-
-
                     </div>
-
                 </div>
-
             </div>
             <div class="block-content bg-body-dark">
                 <!-- Search Form -->
@@ -140,249 +121,62 @@
                                     </div>
                                 </div>
                             </th>
-                            <th class="text-center" style="width: 120px;">Br. narudžbe</th>
+                            <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Datum</th>
                             <th>Status</th>
                             <th>Kupac</th>
                             <th class="text-center">Artikli</th>
                             <th class="text-right">Vrijednost</th>
-                            <th class="text-center">Detalji</th>
+                            <th class="text-right">Detalji</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
+                        @forelse ($orders as $order)
+                            <tr>
+                                <td class="text-center">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="{{ $order->id }}" id="status[{{ $order->id }}]" name="status">
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-
-                            <td class="text-center">
-                                <a class="font-w600" href="{{ route('orders.create') }}">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class=" text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-success">Plaćeno</span>
-                            </td>
-                            <td>
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class=" text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class="text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-success">Plaćeno</span>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="d-none d-xl-table-cell text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class="text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class="text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-warning">Čeka naplatu</span>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="d-none d-xl-table-cell text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class="text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class="text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-info">Dovršeno</span>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="d-none d-xl-table-cell text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class="text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class="text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-danger">Otkazano</span>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="d-none d-xl-table-cell text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class="text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="019265" name="status">
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">
-                                    <strong>019265</strong>
-                                </a>
-                            </td>
-                            <td class="text-center">08/10/2020</td>
-                            <td class="font-size-base">
-                                <span class="badge badge-pill badge-dark">Poslano</span>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a class="font-w600" href="be_pages_ecom_customer.html">Pero Perić</a>
-                            </td>
-                            <td class="d-none d-xl-table-cell text-center">
-                                <a class="font-w600" href="be_pages_ecom_order.html">5</a>
-                            </td>
-                            <td class="text-right">
-                                <strong>1334,50 kn</strong>
-                            </td>
-                            <td class="text-center font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_order.html">
-                                    <i class="fa fa-fw fa-eye"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-
+                                </td>
+                                <td class="text-center">
+                                    <a class="font-w600" href="{{ route('orders.create') }}">
+                                        <strong>{{ $order->id }}</strong>
+                                    </a>
+                                </td>
+                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d.m.Y') }}</td>
+                                <td class="font-size-base">
+                                    <span class="badge badge-pill badge-success">{{ $order->status($order->order_status_id)->title }}</span>
+                                </td>
+                                <td>
+                                    <a class="font-w600" href="#">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
+                                </td>
+                                <td class="text-center">{{ $order->products->count() }}</td>
+                                <td class="text-right">
+                                    <strong>{{ number_format($order->total, 2, ',', '.') }} kn</strong>
+                                </td>
+                                <td class="text-right font-size-base">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $order]) }}">
+                                        <i class="fa fa-fw fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-alt-info" href="{{ route('orders.edit', ['order' => $order]) }}">
+                                        <i class="fa fa-fw fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="text-center font-size-sm" colspan="8">
+                                    <label>Nema narudžbi...</label>
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Orders Table -->
-
                 <!-- Pagination -->
-                <nav aria-label="Photos Search Navigation">
-                    <ul class="pagination justify-content-end mt-2">
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                Prethodna
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0)">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                Sljedeća
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- END Pagination -->
+                {{ $orders->links() }}
             </div>
         </div>
         <!-- END All Orders -->
@@ -398,11 +192,35 @@
                 placeholder: 'Promjenite status'
             });
 
+            $('#status-select').on('change', (e) => {
+                let selected = e.currentTarget.selectedOptions[0].value;
+                let orders = '[';
+                var checkedBoxes = document.querySelectorAll('input[name=status]:checked');
+
+                for (let i = 0; i < checkedBoxes.length; i++) {
+                    if (checkedBoxes.length - 1 == i) {
+                        orders += checkedBoxes[i].value + ']';
+                    } else {
+                        orders += checkedBoxes[i].value + ','
+                    }
+                }
+
+                console.log('Selected ID: ' + selected);
+                console.log('Orders ID: ' + orders);
+
+                axios.get('{{ route('api.order.status.change') }}' + '?selected=' + selected + '&orders=' + orders)
+                .then((r) => {
+                    location.reload();
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+            });
         })
     </script>
 <script>
     $("#checkAll").click(function () {
-    $('input:checkbox').not(this).prop('checked', this.checked);
+        $('input:checkbox').not(this).prop('checked', this.checked);
     });
 </script>
 

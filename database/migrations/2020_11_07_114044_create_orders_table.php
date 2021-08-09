@@ -91,10 +91,11 @@ class CreateOrdersTable extends Migration
         });
 
 
-        Schema::create('order_status', function (Blueprint $table) {
+        Schema::create('order_history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->integer('sort_order')->unsigned();
+            $table->bigInteger('order_id');
+            $table->bigInteger('user_id');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }
@@ -110,6 +111,6 @@ class CreateOrdersTable extends Migration
         Schema::dropIfExists('order_products');
         Schema::dropIfExists('order_total');
         Schema::dropIfExists('order_transactions');
-        Schema::dropIfExists('order_status');
+        Schema::dropIfExists('order_history');
     }
 }

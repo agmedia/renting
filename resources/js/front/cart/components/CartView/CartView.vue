@@ -12,7 +12,7 @@
                 <div class="pt-2">
                     <h3 class="product-title fs-base mb-2"><a :href="base_path + item.attributes.path">{{ item.name }}</a></h3>
 
-                    <div class="fs-lg text-accent pt-2">{{ $store.state.service.formatPrice(item.price) }}</div>
+                    <div class="fs-lg text-accent pt-2">{{ Object.keys(item.conditions).length ? $store.state.service.formatPrice(item.price - item.conditions.parsedRawValue) : $store.state.service.formatPrice(item.price) }}</div>
                 </div>
             </div>
             <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start" style="max-width: 9rem;">

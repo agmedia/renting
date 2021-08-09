@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
  * Class ShippingMethod
  * @package App\Models\Front\Checkout
  */
-class ShippingMethod
+class PaymentMethod
 {
 
     /**
@@ -35,7 +35,7 @@ class ShippingMethod
      */
     public function list(bool $only_active = true)
     {
-        return Settings::getList('shipping', 'list.%', $only_active);
+        return Settings::getList('payment', 'list.%', $only_active);
     }
 
 
@@ -62,50 +62,34 @@ class ShippingMethod
     }
 
 
-    /**
-     * @param int $zone
-     *
-     * @return Collection
-     */
-    public function findGeo(int $zone): Collection
-    {
-        $methods = collect();
-
-        foreach ($this->methods as $method) {
-            //dd($method);
-            if ($method->geo_zone == $zone) {
-                $methods->push($method);
-            }
-        }
-
-        //dd($methods);
-
-        return $methods;
-    }
-
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
+
+    /**
+     * @return \Darryldecode\Cart\CartCondition|false
+     * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
+     */
     public static function condition()
     {
-        $shipping = false;
+        $payment = false;
         $condition = false;
 
-        if (CheckoutSession::hasShipping()) {
-            $shipping = (new ShippingMethod())->find(CheckoutSession::getShipping());
+        if (CheckoutSession::hasPayment()) {
+            $payment = (new PaymentMethod())->find(CheckoutSession::getPayment());
         }
 
-        if ($shipping) {
+        if ($payment) {
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => $shipping->title,
+                'name' => $payment->title,
                 'type' => 'shipping',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => '+' . $shipping->data->price,
+                'value' => '+' . $payment->data->price ?: 0,
                 'attributes' => [
-                    'description' => $shipping->data->short_description,
-                    'geo_zone' => $shipping->geo_zone
+                    'description' => $payment->data->short_description ?: '',
+                    'geo_zone' => $payment->geo_zone ?: 0
                 ]
             ));
         }

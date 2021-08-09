@@ -89,6 +89,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
     Route::get('orders', [OrderController::class, 'index'])->name('orders');
     Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('order', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
     
@@ -174,6 +175,8 @@ Route::prefix('api/v2')->group(function () {
         Route::get('/coupon/{coupon}', [CartController::class, 'coupon']);;
     });
 
+    Route::get('/products/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('products.autocomplete');
+
     // SETTINGS
     Route::prefix('settings')->group(function () {
         // APPLICATION SETTINGS
@@ -188,6 +191,8 @@ Route::prefix('api/v2')->group(function () {
             Route::prefix('order-status')->group(function () {
                 Route::post('store', [OrderStatusController::class, 'store'])->name('api.order.status.store');
                 Route::post('destroy', [OrderStatusController::class, 'destroy'])->name('api.order.status.destroy');
+
+                Route::get('change', [OrderController::class, 'api_status_change'])->name('api.order.status.change');
             });
             // PAYMENTS
             Route::prefix('payment')->group(function () {
@@ -219,6 +224,7 @@ Route::prefix('api/v2')->group(function () {
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
 Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
+Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 
 
 Route::get('autor/{author?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
