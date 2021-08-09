@@ -71,7 +71,7 @@ class CatalogRouteController extends Controller
             $ids = $ids->merge($category->products()->pluck('id'));
         }
 
-        $products = (new Product())->filter($request, $ids)->paginate(3);
+        $products = (new Product())->filter($request, $ids)->paginate(6);
 
         //dd($products);
 
@@ -126,5 +126,5 @@ class CatalogRouteController extends Controller
 
         return view('front.catalog.publishers.index', compact('publisher', 'products'));
     }
-    
+
 }
