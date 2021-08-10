@@ -54,7 +54,7 @@
                         <div class="product-gallery">
 
 
-                            <div class="product-gallery-preview">
+                            <div class="product-gallery-preview order-sm-2">
                                 @if ( ! empty($prod->image))
                                     <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="{{ asset($prod->image) }}"  alt="{{ $prod->name }}"></div>
                                 @endif
@@ -65,8 +65,8 @@
                                     @endforeach
                                 @endif
                             </div>
-                            <div class="d-flex">
-                                <div class="product-gallery-thumblist mx-auto justify-content-center">
+
+                                <div class="product-gallery-thumblist order-sm-1">
                                     @if ( ! empty($prod->image))
                                         <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->image) }}" alt="{{ $prod->name }}"></a>
                                     @endif
@@ -77,7 +77,7 @@
                                         @endforeach
                                     @endif
                                 </div>
-                            </div>
+
 
                         </div>
                     </div>
