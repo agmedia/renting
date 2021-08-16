@@ -37,4 +37,8 @@ return [
         ],
     ],
 
+    'order' => [
+        'made_text' => 'Narudžba napravljena.'
+    ]
+
 ];
