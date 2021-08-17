@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('user_id')->unsigned()->default(0);
             $table->bigInteger('affiliate_id')->unsigned()->default(0);
             $table->integer('order_status_id')->unsigned();
+            $table->string('invoice')->nullable();
             $table->decimal('total', 15, 4)->default(0);
             $table->string('payment_fname');
             $table->string('payment_lname');
@@ -28,6 +29,8 @@ class CreateOrdersTable extends Migration
             $table->string('payment_email');
             $table->string('payment_method');
             $table->string('payment_code')->nullable();
+            $table->string('payment_card')->nullable();
+            $table->integer('payment_installment')->unsigned()->default(0);
             $table->string('shipping_fname');
             $table->string('shipping_lname');
             $table->string('shipping_address');

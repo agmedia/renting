@@ -4,7 +4,13 @@ namespace App\Models\Front\Checkout;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Checkout\Payment\Bank;
+use App\Models\Front\Checkout\Payment\Cod;
+use App\Models\Front\Checkout\Payment\Wspay;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ShippingMethod
@@ -18,13 +24,42 @@ class PaymentMethod
      */
     protected $methods;
 
+    /**
+     * @var mixed|null
+     */
+    protected $method = null;
+
 
     /**
-     * ShippingMethod constructor.
+     * @return array|false|Collection
      */
-    public function __construct()
+    public function getMethods()
+    {
+        return $this->methods;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+
+    /**
+     * PaymentMethod constructor.
+     *
+     * @param string|null $code
+     */
+    public function __construct(string $code = null)
     {
         $this->methods = $this->list();
+
+        if ($code) {
+            $this->method = $this->methods->where('code', $code);
+        }
     }
 
 
@@ -59,6 +94,64 @@ class PaymentMethod
     {
         //Log::info($this->methods->where('code', $code)->first()->code);
         return $this->methods->where('code', $code)->first();
+    }
+
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    /**
+     * @param $order
+     *
+     * @return mixed|null
+     */
+    public function resolveForm($order)
+    {
+        if ($this->method->count()) {
+            $provider = $this->providers($this->method->first()->code);
+            $payment = new $provider($order);
+
+            return $payment->resolveFormView($this->method->collect());
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param $order
+     *
+     * @return mixed|null
+     */
+    public function finish(\App\Models\Back\Orders\Order $order, Request $request)
+    {
+        if ($this->method->count()) {
+            $provider = $this->providers($this->method->first()->code);
+            $payment = new $provider($order);
+
+            return $payment->finishOrder($order, $request);
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param string|null $key
+     *
+     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     */
+    public function providers(string $key = null)
+    {
+        $providers = config('settings.payment.providers');
+
+        if ($key) {
+            return $providers[$key];
+        }
+
+        return $providers;
     }
 
 

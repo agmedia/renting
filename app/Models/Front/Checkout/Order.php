@@ -8,6 +8,7 @@ use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Orders\OrderTotal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class Order extends Model
@@ -17,6 +18,11 @@ class Order extends Model
      * @var array
      */
     public $order = [];
+
+    /**
+     * @var null|array
+     */
+    protected $oc_data = null;
 
 
     /**
@@ -31,11 +37,37 @@ class Order extends Model
 
 
     /**
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setData(int $id)
+    {
+        $data = \App\Models\Back\Orders\Order::where('id', $id)->first();
+
+        if ($data) {
+            $this->oc_data = $data;
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return array|null
+     */
+    public function getData()
+    {
+        return $this->oc_data;
+    }
+
+
+    /**
      * @param array $data
      *
      * @return bool
      */
-    public function make(array $data = [])
+    public function createFrom(array $data = [])
     {
         if ( ! empty($data)) {
             $this->order = $data;
@@ -44,10 +76,11 @@ class Order extends Model
         if ( ! empty($this->order) && isset($this->order['cart'])) {
             $user_id = auth()->user() ? auth()->user()->id : 0;
 
-            $order_id = \App\Models\Back\Order::insertGetId([
+            $order_id = \App\Models\Back\Orders\Order::insertGetId([
                 'user_id'          => $user_id,
                 'affiliate_id'     => 0,
-                'order_status_id'  => 1,
+                'order_status_id'  => $this->order['order_status_id'],
+                'invoice'          => '',
                 'total'            => $this->order['cart']['total'],
                 'payment_fname'    => $this->order['address']['fname'],
                 'payment_lname'    => $this->order['address']['lname'],
@@ -59,6 +92,8 @@ class Order extends Model
                 'payment_email'    => $this->order['address']['email'],
                 'payment_method'   => $this->order['payment']->title,
                 'payment_code'     => $this->order['payment']->code,
+                'payment_card'     => '',
+                'payment_installment' => '',
                 'shipping_fname'   => $this->order['address']['fname'],
                 'shipping_lname'   => $this->order['address']['lname'],
                 'shipping_address' => $this->order['address']['address'],
@@ -75,16 +110,16 @@ class Order extends Model
                 'updated_at'       => Carbon::now()
             ]);
 
-            // HISTORY
-            OrderHistory::insert([
-                'order_id'   => $order_id,
-                'user_id'    => $user_id,
-                'comment'    => 'Narudžba napravljena.',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
-
             if ($order_id) {
+                // HISTORY
+                OrderHistory::insert([
+                    'order_id'   => $order_id,
+                    'user_id'    => $user_id,
+                    'comment'    => config('settings.order.made_text'),
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+
                 // PRODUCTS
                 foreach ($this->order['cart']['items'] as $item) {
                     $discount = 0;
@@ -146,8 +181,104 @@ class Order extends Model
                     'updated_at' => Carbon::now()
                 ]);
 
-                return true;
+                $this->oc_data = \App\Models\Back\Orders\Order::where('id', $order_id)->first();
             }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param array $data
+     *
+     * @return $this|null
+     */
+    public function updateData(array $data)
+    {
+        $updated = \App\Models\Back\Orders\Order::where('id', $data['id'])->update([
+            'payment_fname'    => $data['address']['fname'],
+            'payment_lname'    => $data['address']['lname'],
+            'payment_address'  => $data['address']['address'],
+            'payment_zip'      => $data['address']['zip'],
+            'payment_city'     => $data['address']['city'],
+            'payment_state'    => $data['address']['state'],
+            'payment_phone'    => $data['address']['phone'] ?: null,
+            'payment_email'    => $data['address']['email'],
+            'payment_method'   => $data['payment']->title,
+            'payment_code'     => $data['payment']->code,
+            'payment_card'     => '',
+            'payment_installment' => '',
+            'shipping_fname'   => $data['address']['fname'],
+            'shipping_lname'   => $data['address']['lname'],
+            'shipping_address' => $data['address']['address'],
+            'shipping_zip'     => $data['address']['zip'],
+            'shipping_city'    => $data['address']['city'],
+            'shipping_state'   => $data['address']['state'],
+            'shipping_phone'   => $data['address']['phone'] ?: null,
+            'shipping_email'   => $data['address']['email'],
+            'shipping_method'  => $data['shipping']->title,
+            'shipping_code'    => $data['shipping']->code,
+            'company'          => '',
+            'oib'              => '',
+            'updated_at'       => Carbon::now()
+        ]);
+
+        if ($updated) {
+            return $this->setData($data['id']);
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @return mixed|null
+     */
+    public function resolvePaymentForm()
+    {
+        if ($this->isCreated()) {
+            $method = new PaymentMethod($this->oc_data['payment_code']);
+
+            return $method->resolveForm($this->oc_data);
+        }
+
+        return null;
+    }
+
+
+    public function finish(Request $request)
+    {
+        if ($this->isCreated()) {
+            $method = new PaymentMethod($this->oc_data['payment_code']);
+
+            return $method->finish($this->oc_data, $request);
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isCreated(): bool
+    {
+        if ($this->oc_data) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function paymentNotRequired(): bool
+    {
+        if (in_array($this->oc_data->payment_code, ['cod', 'bank'])) {
+            return true;
         }
 
         return false;

@@ -308,7 +308,7 @@ class Order extends Model
      *
      * @param $request
      */
-    private function setRequest($request)
+    public function setRequest($request)
     {
         $this->request = $request;
     }

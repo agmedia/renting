@@ -38,7 +38,22 @@ return [
     ],
 
     'order' => [
-        'made_text' => 'Narudžba napravljena.'
+        'made_text' => 'Narudžba napravljena.',
+        'status' => [
+            'new' => 1,
+            'unfinished' => 8,
+            'declined' => 7,
+            'paid' => 3,
+            'send' => 4,
+        ]
+    ],
+
+    'payment' => [
+        'providers' => [
+            'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
+            'cod' => \App\Models\Front\Checkout\Payment\Cod::class,
+            'bank' => \App\Models\Front\Checkout\Payment\Bank::class
+        ]
     ]
 
 ];

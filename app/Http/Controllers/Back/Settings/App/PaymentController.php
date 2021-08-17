@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class PaymentController extends Controller
 {
@@ -18,11 +19,12 @@ class PaymentController extends Controller
     {
         $this->checkForNewFiles();
 
-        $payments = Settings::getList('payment', 'list.%', false);
+        $payments = Settings::getList('payment', 'list.%', false)->sortBy('title');
+        $geo_zones = Settings::getList('geo_zone', 'list', false);
 
         //dd($payments);
 
-        return view('back.settings.app.payment.payment', compact('payments'));
+        return view('back.settings.app.payment.payment', compact('payments', 'geo_zones'));
     }
 
 
@@ -38,6 +40,8 @@ class PaymentController extends Controller
         $updated = Settings::setListItem('payment', 'list.' . $request->data['code'], $request->data);
 
         if ($updated) {
+            Cache::forget('payment_list');
+
             return response()->json(['success' => 'Način plaćanja je uspješno snimljen.']);
         }
 
@@ -57,6 +61,8 @@ class PaymentController extends Controller
         $destroyed = Faq::destroy($faq->id);
 
         if ($destroyed) {
+            Cache::forget('payment_list');
+
             return redirect()->route('faqs')->with(['success' => 'Faq was succesfully deleted!']);
         }
 

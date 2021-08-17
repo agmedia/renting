@@ -24,18 +24,20 @@
                 <table class="table table-striped table-borderless table-vcenter">
                     <thead class="thead-light">
                     <tr>
-                        <th style="width: 5%;">Br.</th>
-                        <th style="width: 70%;">Naziv</th>
-                        <th>Poredak</th>
+                        <th class="text-center" style="width: 5%;">Br.</th>
+                        <th class="text-center" style="width: 7%;">ID</th>
+                        <th style="width: 50%;">Naziv</th>
+                        <th class="text-center">Poredak</th>
                         <th class="text-right">Uredi</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($statuses as $status)
                         <tr>
-                            <td>{{ $status->id }}</td>
+                            <td class="text-center">{{ $loop->iteration }}.</td>
+                            <td class="text-center"><span class="text-gray-dark">{{ $status->id }}</span></td>
                             <td>{{ $status->title }}</td>
-                            <td>{{ $status->sort_order }}</td>
+                            <td class="text-center">{{ $status->sort_order }}</td>
                             <td class="text-right font-size-sm">
                                 <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($status) }});">
                                     <i class="fa fa-fw fa-pencil-alt"></i>

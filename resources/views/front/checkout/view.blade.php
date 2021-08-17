@@ -78,8 +78,8 @@
                         <h4 class="h6">Način dostave:</h4>
                         <ul class="list-unstyled fs-sm">
                             <li>
-                                <span class="text-muted">{{ $shipping->title }} </span><br>
-                                {{ $shipping->data->description ?: $shipping->data->short_description }}
+                                <span class="text-muted">{{ $data['shipping']->title }} </span><br>
+                                {{ $data['shipping']->data->description ?: $data['shipping']->data->short_description }}
                             </li>
                         </ul>
                     </div>
@@ -87,8 +87,8 @@
                         <h4 class="h6">Način plaćanja:</h4>
                         <ul class="list-unstyled fs-sm">
                             <li>
-                                <span class="text-muted">{{ $payment->title }} </span><br>
-                                {{ $payment->data->description ?: $payment->data->short_description }}
+                                <span class="text-muted">{{ $data['payment']->title }} </span><br>
+                                {{ $data['payment']->data->description ?: $data['payment']->data->short_description }}
                             </li>
                         </ul>
                     </div>
@@ -96,23 +96,19 @@
             </div>
 
             <div class="d-none d-lg-flex pt-4 mt-3">
-                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('naplata') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na plaćanje</span><span class="d-inline d-sm-none">Povratak</span></a></div>
-                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('checkout') }}"><span class="d-none d-sm-inline">Dovršite narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
+                {!! $data['payment_form'] !!}
             </div>
 
         </section>
 
         <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5 d-none d-lg-block">
-            <cart-view-aside route="pregled" continueurl="{{ route('index') }}" checkouturl="{{ route('naplata') }}"></cart-view-aside>
+            <cart-view-aside route="pregled" continueurl="{{ route('index') }}" checkouturl="/"></cart-view-aside>
         </aside>
     </div>
 
     <div class="row d-lg-none">
         <div class="col-lg-8">
-            <div class="d-flex pt-4 mt-3">
-                <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('naplata') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na plaćanje</span><span class="d-inline d-sm-none">Povratak</span></a></div>
-                <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ route('success') }}"><span class="d-none d-sm-inline">Dovršite narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
-            </div>
+            {!! $data['payment_form'] !!}
         </div>
     </div>
 </div>

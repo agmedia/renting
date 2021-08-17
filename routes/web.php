@@ -226,6 +226,9 @@ Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata')
 Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
 Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 
+Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
+
 
 Route::get('autor/{author?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
 Route::get('nakladnik/{publisher?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');

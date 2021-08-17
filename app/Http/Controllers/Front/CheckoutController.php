@@ -49,18 +49,35 @@ class CheckoutController extends Controller
      */
     public function view(Request $request)
     {
-        $data = $this->checkCheckoutSession();
+        $data = $this->checkSession();
 
         if (empty($data)) {
+            if ( ! session()->has(config('session.cart'))) {
+                return redirect()->route('kosarica');
+            }
+
             return redirect()->route('naplata', ['step' => 'podaci']);
         }
 
-        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
-        $payment = Settings::getList('payment')->where('code', $data['payment'])->first();
+        $data = $this->collectData($data, config('settings.order.status.unfinished'));
 
-        //Log::info($data);
+        $order = new Order();
 
-        return view('front.checkout.view', compact('data', 'shipping', 'payment'));
+        if (CheckoutSession::hasOrder()) {
+            $data['id'] = CheckoutSession::getOrder()['id'];
+
+            $order->updateData($data);
+        } else {
+            $order->createFrom($data);
+
+            if ($order->isCreated()) {
+                CheckoutSession::setOrder($order->getData());
+            }
+        }
+
+        $data['payment_form'] = $order->resolvePaymentForm();
+
+        return view('front.checkout.view', compact('data'));
     }
 
 
@@ -71,53 +88,95 @@ class CheckoutController extends Controller
      */
     public function order(Request $request)
     {
-        $data = $this->checkCheckoutSession();
+        $order = new Order();
 
-        if (empty($data) || ! session()->has(config('session.cart'))) {
-            return redirect()->route('kosarica');
+        if ($request->has('provjera')) {
+            $order->setData($request->input('provjera'));
         }
 
-        $cart = new AgCart(session(config('session.cart')));
-        $data['cart'] = $cart->get();
-
-        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
-        $payment = Settings::getList('payment')->where('code', $data['payment'])->first();
-
-        $data['shipping'] = $shipping;
-        $data['payment'] = $payment;
-
-        $order = new Order($data);
-        $made = $order->make();
-
-        if ($made) {
-            $cart->flush();
-
-            return view('front.checkout.success', compact('data'));
+        if ($request->has('ShoppingCartID')) {
+            $order->setData($request->input('ShoppingCartID'));
         }
 
-        return view('front.checkout.error', compact('data'));
+        if ($order->finish($request)) {
+            CheckoutSession::forgetOrder();
+            $this->shoppingCart()->flush();
+
+            return redirect()->route('checkout.success');
+        }
+
+        return redirect()->route('checkout.error');
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function success()
+    {
+        return view('front.checkout.success');
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function error()
+    {
+        return view('front.checkout.error');
     }
 
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @return array
      */
-    private function checkCheckoutSession(): array
+    private function checkSession(): array
     {
         if (CheckoutSession::hasAddress() && CheckoutSession::hasShipping() && CheckoutSession::hasPayment()) {
             return [
-                'address' => CheckoutSession::getAddress(),
+                'address'  => CheckoutSession::getAddress(),
                 'shipping' => CheckoutSession::getShipping(),
-                'payment' => CheckoutSession::getPayment()
+                'payment'  => CheckoutSession::getPayment()
             ];
         }
 
         return [];
     }
-    
+
+
+    /**
+     * @param array $data
+     * @param int   $order_status_id
+     *
+     * @return array
+     */
+    private function collectData(array $data, int $order_status_id): array
+    {
+        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
+        $payment  = Settings::getList('payment')->where('code', $data['payment'])->first();
+
+        $response                    = [];
+        $response['address']         = $data['address'];
+        $response['shipping']        = $shipping;
+        $response['payment']         = $payment;
+        $response['cart']            = $this->shoppingCart()->get();
+        $response['order_status_id'] = $order_status_id;
+
+        return $response;
+    }
+
+
+    /**
+     * @return AgCart
+     */
+    private function shoppingCart(): AgCart
+    {
+        return new AgCart(session(config('session.cart')));
+    }
+
 }

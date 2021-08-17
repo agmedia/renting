@@ -1,5 +1,9 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
+
 @section('content')
 
     <div class="bg-body-light">
@@ -22,15 +26,17 @@
                     <thead class="thead-light">
                     <tr>
                         <th>Naziv</th>
+                        <th style="width: 10%;">Code</th>
                         <th class="text-center" style="width: 15%;">Poredak</th>
                         <th class="text-center" style="width: 15%;">Status</th>
-                        <th style="width: 15%;" class="text-right">Uredi</th>
+                        <th style="width: 10%;" class="text-right">Uredi</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($payments as $payment)
                         <tr>
                             <td>{{ $payment->title }}</td>
+                            <td class="small">{{ $payment->code }}</td>
                             <td class="text-center">{{ $payment->sort_order }}</td>
                             <td class="text-center">
                                 @include('back.layouts.partials.status', ['status' => $payment->status])
@@ -61,6 +67,8 @@
 @endpush
 
 @push('js_after')
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+
     <script>
         /**
          *

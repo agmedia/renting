@@ -184,4 +184,49 @@ class CheckoutSession
     {
         return session([static::$session_string . '.geo_zone' => $value]);
     }
+
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * STEPS
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function getOrder()
+    {
+        return session(static::$session_string . '.order');
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function hasOrder()
+    {
+        return session()->has(static::$session_string . '.order');
+    }
+
+
+    /**
+     * @param array|string $value
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function setOrder($value)
+    {
+        return session([static::$session_string . '.order' => $value]);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function forgetOrder()
+    {
+        return session()->forget(static::$session_string . '.order');
+    }
 }
