@@ -6,6 +6,7 @@ use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class CatalogFilter extends Component
@@ -33,6 +34,7 @@ class CatalogFilter extends Component
 
     public function mount()
     {
+        Log::info($this->group);
         if ( ! $this->category && ! $this->subcategory) {
             $category = new Category();
             $this->categories = $category->topList($this->group)->with('subcategories')->get();

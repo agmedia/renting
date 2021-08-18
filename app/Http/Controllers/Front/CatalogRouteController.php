@@ -10,6 +10,7 @@ use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -86,20 +87,20 @@ class CatalogRouteController extends Controller
      */
     public function author(Request $request, Author $author = null)
     {
-        $letter = 'A';
+        $letters = Author::letters();
+        $letter = $this->checkLetter($letters);
 
         if ($request->has('letter')) {
             $letter = $request->input('letter');
         }
 
         if ( ! $author) {
-            $letters = Author::letters();
             $authors = Author::where('title', 'LIKE', $letter . '%')->get();
 
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
         }
 
-        $products = Product::where('author_id', $author->id)->paginate(18);
+        $products = Product::where('author_id', $author->id)->active()->paginate(18);
 
         $group = null;
         $cat = null;
@@ -114,17 +115,47 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function publisher(Publisher $publisher)
+    public function publisher(Request $request, Publisher $publisher = null)
     {
-        if ( ! $publisher) {
-            $publishers = Publisher::all();
+        $letters = Publisher::letters();
+        $letter = $this->checkLetter($letters);
 
-            return view('front.catalog.publishers.index', compact('publishers'));
+        if ($request->has('letter')) {
+            $letter = $request->input('letter');
         }
 
-        $products = Product::where('publisher_id', $publisher->id)->paginate(18);
+        if ( ! $publisher) {
+            $publishers = Publisher::where('title', 'LIKE', $letter . '%')->get();
 
-        return view('front.catalog.publishers.index', compact('publisher', 'products'));
+            return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
+        }
+
+        $products = Product::where('publisher_id', $publisher->id)->active()->paginate(18);
+
+        //dd($products);
+
+        $group = null;
+        $cat = null;
+        $subcat = null;
+
+        return view('front.catalog.category.index', compact('publisher', 'products', 'letter', 'group', 'cat', 'subcat'));
+    }
+
+
+    /**
+     * @param array $letters
+     *
+     * @return string
+     */
+    private function checkLetter(Collection $letters): string
+    {
+        foreach ($letters->all() as $letter) {
+            if ($letter['active']) {
+                return $letter['value'];
+            }
+        }
+
+        return 'A';
     }
 
 }

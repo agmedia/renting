@@ -15,16 +15,30 @@
                             <div class="accordion-item @if( ! $loop->last) border-bottom @endif">
                                 @if ($category->subcategories->count())
                                     <h3 class="accordion-header">
-                                        <a href="{{ route('catalog.route.author', ['author' => $author, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
-                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $author->id)->count() }}</span>
-                                        </a>
+                                        @if ($author)
+                                            <a href="{{ route('catalog.route.author', ['author' => $author, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $author->id)->count() }}</span>
+                                            </a>
+                                        @endif
+                                        @if ($publisher)
+                                            <a href="{{ route('catalog.route.publisher', ['publisher' => $publisher, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('publisher_id', $publisher->id)->count() }}</span>
+                                            </a>
+                                        @endif
                                     </h3>
                                 @else
                                     @if ( ! $category->parent()->first())
                                         <h3 class="accordion-header">
-                                            <a href="{{ route('catalog.route.author', ['author' => $author, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
-                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $author->id)->count() }}</span>
-                                            </a>
+                                            @if ($author)
+                                                <a href="{{ route('catalog.route.author', ['author' => $author, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                                    {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $author->id)->count() }}</span>
+                                                </a>
+                                            @endif
+                                            @if ($publisher)
+                                                <a href="{{ route('catalog.route.publisher', ['publisher' => $publisher, 'category' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                                    {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('publisher_id', $publisher->id)->count() }}</span>
+                                                </a>
+                                            @endif
                                         </h3>
                                     @endif
                                 @endif

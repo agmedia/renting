@@ -8,7 +8,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <h1 class="text-light text-center">Lista autora</h1>
-                    <p class="pb-0 text-light text-center mb-0">Pretraživanje prema početnom slovu prezimena autora</p>
+                    <p class="pb-0 text-light text-center mb-0">Pretraživanje prema početnom slovu autora</p>
                 </div>
             </div>
         </div>

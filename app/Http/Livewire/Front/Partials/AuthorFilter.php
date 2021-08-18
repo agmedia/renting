@@ -23,7 +23,7 @@ class AuthorFilter extends Component
     public $publishers;
     public $publisher;
 
-    protected $queryString = ['category', 'publisher'];
+    protected $queryString = ['category'];
 
 
     public function mount()
@@ -33,13 +33,25 @@ class AuthorFilter extends Component
             $this->setPublishers($this->author->products()->pluck('id'));
             $this->categories = $this->author->categories();
         }
+        //
+        if ($this->publisher) {
+            $this->setAuthors($this->publisher->products()->pluck('id'));
+            $this->categories = $this->publisher->categories();
+        }
+
+        //dd($this->categories);
     }
 
 
     public function changeSelected($slug)
     {
-        //dd($slug);
-        return request()->query->set('author', $slug);
+        if ($this->author) {
+            return request()->query->set('author', $slug);
+        }
+
+        if ($this->publisher) {
+            return request()->query->set('publisher', $slug);
+        }
     }
 
 
@@ -47,6 +59,11 @@ class AuthorFilter extends Component
     {
         //$this->queryString = ['author' => $slug];
         return request()->fullUrlWithQuery(['author' => $slug]);
+    }
+
+    public function updatingSelectedPublisher($slug)
+    {
+        return request()->fullUrlWithQuery(['publisher' => $slug]);
     }
 
 

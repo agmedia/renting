@@ -59,6 +59,8 @@
             <!-- Sidebar-->
             @if (isset($author) && $author)
                 @livewire('front.partials.author-filter', ['author' => $author])
+            @elseif (isset($publisher) && $publisher)
+                @livewire('front.partials.author-filter', ['publisher' => $publisher])
             @else
                 @livewire('front.partials.catalog-filter', ['group' => $group, 'category' => $cat, 'subcategory' => $subcat])
             @endif

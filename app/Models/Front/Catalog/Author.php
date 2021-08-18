@@ -51,7 +51,7 @@ class Author extends Model
             $categories->push($product->categories()->where('parent_id', 0)->first());
         }
 
-        return $categories->unique()->sortBy('id');
+        return $categories->unique('id')->sortBy('id');
     }
 
 
