@@ -9,6 +9,7 @@ use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
@@ -72,11 +73,7 @@ class CatalogRouteController extends Controller
             $ids = $ids->merge($category->products()->pluck('id'));
         }
 
-        $products = (new Product())->filter($request, $ids)->paginate(6);
-
-        //dd($products);
-
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'products'));
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
     }
 
 
@@ -85,7 +82,7 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function author(Request $request, Author $author = null)
+    public function author(Request $request, Author $author = null, Category $cat = null, Category $subcat = null)
     {
         $letters = Author::letters();
         $letter = $this->checkLetter($letters);
@@ -100,13 +97,11 @@ class CatalogRouteController extends Controller
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
         }
 
-        $products = Product::where('author_id', $author->id)->active()->paginate(18);
-
         $group = null;
-        $cat = null;
-        $subcat = null;
 
-        return view('front.catalog.category.index', compact('author', 'products', 'letter', 'group', 'cat', 'subcat'));
+        $ids = $this->collectID($cat, $subcat)->where('author_id', $author->id)->pluck('id');
+
+        return view('front.catalog.category.index', compact('author', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }
 
 
@@ -115,7 +110,7 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function publisher(Request $request, Publisher $publisher = null)
+    public function publisher(Request $request, Publisher $publisher = null, Category $cat = null, Category $subcat = null)
     {
         $letters = Publisher::letters();
         $letter = $this->checkLetter($letters);
@@ -130,15 +125,38 @@ class CatalogRouteController extends Controller
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
         }
 
-        $products = Product::where('publisher_id', $publisher->id)->active()->paginate(18);
-
-        //dd($products);
-
         $group = null;
-        $cat = null;
-        $subcat = null;
 
-        return view('front.catalog.category.index', compact('publisher', 'products', 'letter', 'group', 'cat', 'subcat'));
+        $ids = $this->collectID($cat, $subcat)->where('publisher_id', $publisher->id)->pluck('id');
+
+        return view('front.catalog.category.index', compact('publisher', 'ids', 'letter', 'group', 'cat', 'subcat'));
+    }
+
+
+    /**
+     * @param Category|null $cat
+     * @param Category|null $subcat
+     *
+     * @return Builder
+     */
+    private function collectID(Category $cat = null, Category $subcat = null): Builder
+    {
+        $ids = collect();
+
+        if ($cat && ! $subcat) {
+            $ids = $ids->merge($cat->products()->pluck('id'));
+        }
+        if ($cat && $subcat) {
+            $ids = $ids->merge($subcat->products()->pluck('id'));
+        }
+
+        $query = (new Product())->newQuery();
+
+        if ($ids->count()) {
+            $query->whereIn('id', $ids);
+        }
+
+        return $query;
     }
 
 

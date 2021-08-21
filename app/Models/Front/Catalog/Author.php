@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * Class Author
+ * @package App\Models\Front\Catalog
+ */
 class Author extends Model
 {
     use HasFactory;
@@ -36,19 +40,31 @@ class Author extends Model
     }
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function products()
     {
         return $this->hasMany(Product::class, 'author_id', 'id');
     }
 
 
-    public function categories()
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function categories(int $id = 0): Collection
     {
         $categories = collect();
         $products = $this->products()->get();
 
         foreach ($products as $product) {
-            $categories->push($product->categories()->where('parent_id', 0)->first());
+            $cats = $product->categories()->where('parent_id', $id)->first();
+
+            if ($cats) {
+                $categories->push($cats);
+            }
         }
 
         return $categories->unique('id')->sortBy('id');

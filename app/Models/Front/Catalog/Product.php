@@ -367,14 +367,56 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        $query->active();
-
         if ($ids) {
             $query->whereIn('id', $ids->unique());
         }
 
-        if ($request->has('sort')) {
-            $sort = $request->input('sort');
+        if ($request->has('autor')) {
+            $auts = [];
+
+            foreach ($request->input('autor') as $key => $item) {
+                if (isset($item->id)) {
+                    array_push($auts, $item->id);
+                } else {
+                    array_push($auts, $key);
+                }
+            }
+
+            $query->whereIn('author_id', $auts);
+        }
+
+        if ($request->has('nakladnik')) {
+            $pubs = [];
+
+            Log::info($request->input('nakladnik'));
+
+            foreach ($request->input('nakladnik') as $key => $item) {
+                if (isset($item->id)) {
+                    array_push($pubs, $item->id);
+                } else {
+                    array_push($pubs, $key);
+                }
+            }
+
+            $query->whereIn('publisher_id', $pubs);
+        }
+
+        if ($request->has('start')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('year', '>=', $request->input('start'))->orWhereNull('year');
+            });
+        }
+
+        if ($request->has('end')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('year', '<=', $request->input('end'))->orWhereNull('year');
+            });
+        }
+
+        $query->active();
+
+        if (\request()->has('sort')) {
+            $sort = \request()->input('sort');
 
             if ($sort == 'novi') {
                 $query->orderBy('created_at');

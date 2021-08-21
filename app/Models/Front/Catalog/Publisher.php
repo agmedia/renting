@@ -50,15 +50,21 @@ class Publisher extends Model
 
 
     /**
+     * @param int $id
+     *
      * @return Collection
      */
-    public function categories()
+    public function categories(int $id = 0): Collection
     {
         $categories = collect();
         $products = $this->products()->active()->get();
 
         foreach ($products as $product) {
-            $categories->push($product->categories()->where('parent_id', 0)->first());
+            $cats = $product->categories()->where('parent_id', $id)->first();
+
+            if ($cats) {
+                $categories->push($cats);
+            }
         }
 
         return $categories->unique('id')->sortBy('id');

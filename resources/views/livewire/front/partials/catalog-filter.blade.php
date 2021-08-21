@@ -19,7 +19,7 @@
                             <div class="accordion-item @if( ! $loop->last) border-bottom @endif">
                                 @if ($category->subcategories->count())
                                     <h3 class="accordion-header">
-                                        <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                        <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
                                             {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
                                         </a>
                                     </h3>
@@ -27,13 +27,13 @@
 
                                     @if ($category->parent()->first())
                                         <h3 class="accordion-header">
-                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
                                                 {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
                                             </a>
                                         </h3>
                                     @else
                                         <h3 class="accordion-header">
-                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" wire:click="changeSelected('{{ $category->slug }}')" role="link">
+                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
                                                 {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
                                             </a>
                                         </h3>
@@ -58,9 +58,9 @@
                         @foreach ($authors as $author)
                             <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                 <div class="form-check">
-                                    <input class="form-check-input author-radio" type="checkbox" value="{{ $author->slug }}" id="author_{{ $author->id }}" @if(request()->get('author') == $author->slug) checked @endif>
+                                    <input class="form-check-input" type="checkbox" wire:model="author.{{ $author->id }}" value="{{ $author->slug }}" id="author_{{ $author->id }}">
                                     <label class="form-check-label widget-filter-item-text" for="author_{{ $author->id }}">{{ $author->title }}</label>
-                                </div><span class="fs-xs text-muted">{{ $author->products()->count() }}</span>
+                                </div><span class="fs-xs text-muted">{{ $author->broj }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -79,9 +79,9 @@
                         @foreach ($publishers as $publisher)
                             <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox">
-                                    <label class="form-check-label widget-filter-item-text" for="adidas">{{ $publisher->title }}</label>
-                                </div><span class="fs-xs text-muted">425</span>
+                                    <input class="form-check-input" type="checkbox" wire:model="publisher.{{ $publisher->id }}" value="{{ $publisher->slug }}" id="publisher_{{ $publisher->id }}">
+                                    <label class="form-check-label widget-filter-item-text" for="publisher_{{ $publisher->id }}">{{ $publisher->title }}</label>
+                                </div><span class="fs-xs text-muted">{{ $publisher->broj }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -92,17 +92,16 @@
             <div class="widget mb-4 pb-4 border-bottom">
                 <h3 class="widget-title">Godina izdanja</h3>
                 <div>
-
                     <div class="d-flex pb-1">
                         <div class="w-50 pe-2 me-2">
                             <div class="input-group input-group-sm">
-                                <input class="form-control range-slider-value-min" placeholder="Od" type="text">
+                                <input class="form-control range-slider-value-min" placeholder="Od" type="text" wire:model="start">
                                 <span class="input-group-text">g</span>
                             </div>
                         </div>
                         <div class="w-50 ps-2">
                             <div class="input-group input-group-sm">
-                                <input class="form-control range-slider-value-max" placeholder="Do" type="text">
+                                <input class="form-control range-slider-value-max" placeholder="Do" type="text" wire:model="end">
                                 <span class="input-group-text">g</span>
                             </div>
                         </div>
@@ -113,49 +112,3 @@
         </div>
     </div>
 </aside>
-
-@push('js_after')
-    <script>
-        $(() => {
-            //
-            $('.author-radio').on('change', (e) => {
-                //console.log(e)
-                setURLQuery('author', e.currentTarget);
-            });
-        });
-
-        /**
-         *
-         * @param type
-         * @param search
-         */
-        function setURLQuery(type, search) {
-            let url = new URL(location.href);
-            let params = new URLSearchParams(url.search);
-            let keys = [];
-
-            for(var key of params.keys()) {
-                if (key === type) {
-                    keys.push(key);
-                }
-            }
-
-            keys.forEach((value) => {
-                if (params.has(value)) {
-                    params.delete(value);
-                }
-            })
-
-            if (search.value) {
-                params.append(type, search.value);
-            }
-
-            url.search = params;
-
-            console.log(url)
-
-            //location.href = url;
-        }
-
-    </script>
-@endpush

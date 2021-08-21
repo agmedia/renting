@@ -12,7 +12,11 @@
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                 <div class="text-muted fs-xs me-1">
-                    <a class="product-meta fw-medium" href="{{ $product->author->url() }}">{{ $product->author->title }}</a>
+                    @if ($product->author)
+                        <a class="product-meta fw-medium" href="{{ $product->author->url() }}">{{ $product->author->title }}</a>
+                    @else
+                        <a class="product-meta fw-medium" href="#">Nepoznato</a>
+                    @endif
                 </div>
                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                 </div>

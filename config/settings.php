@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'pagination' => [
+        'front' => 12,
+        'back' => 30
+    ],
+
     'sorting_list' => [
         0 => [
             'title' => 'Najnovije',

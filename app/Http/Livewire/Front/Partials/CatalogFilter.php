@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Front\Partials;
 
+use App\Helpers\Query;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
@@ -9,133 +10,246 @@ use App\Models\Front\Catalog\Publisher;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
+/**
+ * Class CatalogFilter
+ * @package App\Http\Livewire\Front\Partials
+ */
 class CatalogFilter extends Component
 {
 
+    /**
+     * @var null
+     */
     public $group = null;
 
+    /**
+     * @var null
+     */
     public $category = null;
 
+    /**
+     * @var null
+     */
     public $subcategory = null;
 
+    /**
+     * @var null
+     */
     public $categories = null;
 
+    /**
+     * @var
+     */
+    public $ids;
+
+    /**
+     * @var
+     */
     public $authors;
+
+    /**
+     * @var
+     */
     public $author;
 
-    public $selectedAuthor = null;
-    public $selectedAuthors = null;
+    /**
+     * @var
+     */
+    public $products;
 
+    /**
+     * @var
+     */
     public $publishers;
+
+    /**
+     * @var
+     */
     public $publisher;
 
-    protected $queryString = ['author'];
+    /**
+     * @var string
+     */
+    public $autor = '';
+
+    /**
+     * @var string
+     */
+    public $nakladnik = '';
+
+    /**
+     * @var
+     */
+    public $start;
+
+    /**
+     * @var
+     */
+    public $end;
+
+    /**
+     * @var \string[][]
+     */
+    protected $queryString = [
+        'autor' => ['except' => ''],
+        'nakladnik' => ['except' => ''],
+        'start' => ['except' => ''],
+        'end' => ['except' => '']
+    ];
 
 
+    /**
+     *
+     */
     public function mount()
     {
-        Log::info($this->group);
-        if ( ! $this->category && ! $this->subcategory) {
-            $category = new Category();
-            $this->categories = $category->topList($this->group)->with('subcategories')->get();
-
-            $ids = collect();
-
-            foreach ($this->categories as $item) {
-                $ids = $ids->push($item->products()->active()->pluck('id'));
-
-                if ($item->subcategories) {
-                    foreach ($item->subcategories as $subcategory) {
-                        $ids = $ids->push($subcategory->products()->active()->pluck('id'));
-                    }
-                }
-            }
-
-            $ids = $ids->unique()->flatten();
-        }
-
-
-        if ($this->category && ! $this->subcategory) {
-            $item = $this->category->topList($this->group)->where('id', $this->category->id)->with('subcategories')->first();
-
-            if ($item && $item->subcategories->count()) {
-                $this->categories = $item->subcategories;
-            }
-
-            $ids = collect();
-
-            $ids = $ids->push($item->products()->active()->pluck('id'));
-
-            if ($item->subcategories) {
-                foreach ($item->subcategories as $subcategory) {
-                    $ids = $ids->push($subcategory->products()->active()->pluck('id'));
-                }
-            }
-
-            //dump($ids);
-
-            $ids = $ids->unique()->flatten();
-        }
-
-
-        if ($this->category && $this->subcategory) {
-            $item = $this->subcategory->topList($this->group)->first();
-
-            $ids = collect();
-
-            $ids = $ids->push($item->products()->active()->pluck('id'));
-
-            if ($item->subcategories) {
-                foreach ($item->subcategories as $subcategory) {
-                    $ids = $ids->push($subcategory->products()->active()->pluck('id'));
-                }
-            }
-
-            //dump($ids);
-
-            $ids = $ids->unique()->flatten();
-        }
-
-        $this->setAuthors($ids);
-        $this->setPublishers($ids);
+        $this->getBaseIDs();
+        $this->mountQuery();
+        $this->setProducts($this->ids);
+        $this->setAuthors();
+        $this->setPublishers();
     }
 
 
-    public function selectAuthor($slug)
+    /**
+     *
+     */
+    public function updatedAuthor()
     {
-        if ( ! $this->selectedAuthors) {
-            $this->selectedAuthors = collect();
-        }
-
-        $author = Author::where('slug', $slug)->first();
-
-        $this->selectedAuthors->put($author->id, $author);
-
-        //dd($author);
-
-        //array_push($this->selectedAuthors, $author->toArray());
-
-        $this->queryString = ['author' => $slug];
+        $this->resolveQuery();
     }
 
 
+    /**
+     *
+     */
+    public function updatedPublisher()
+    {
+        $this->resolveQuery();
+    }
 
+
+    /**
+     *
+     */
+    public function updatedStart()
+    {
+        $this->resolveQuery();
+    }
+
+
+    /**
+     *
+     */
+    public function updatedEnd()
+    {
+        $this->resolveQuery();
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
+        foreach ($this->authors as $key => $author) {
+            $this->authors[$key]->broj = $this->products->where('author_id', $author->id)->count();
+        }
+
+        foreach ($this->publishers as $key => $publisher) {
+            $this->publishers[$key]->broj = $this->products->where('publisher_id', $publisher->id)->count();
+        }
+
+        $this->emit('idChanged', [
+            'ids' => $this->ids,
+            'author' => $this->author,
+            'publisher' => $this->publisher,
+            'start' => $this->start,
+            'end' => $this->end
+        ]);
+
         return view('livewire.front.partials.catalog-filter');
     }
 
 
-    private function setAuthors($ids)
+    /**
+     *
+     */
+    private function mountQuery()
     {
-        $author_ids = Product::whereIn('id', $ids)->pluck('author_id')->unique();
+        if ($this->autor != '') {
+            $this->author = Query::mountAuthor($this->autor);
+        }
+
+        if ($this->nakladnik != '') {
+            $this->publisher = Query::mountPublisher($this->nakladnik);
+        }
+    }
+
+
+    /**
+     *
+     */
+    private function resolveQuery()
+    {
+        if ($this->author) {
+            $this->author = Query::unset($this->author);
+            $this->autor = Query::resolve($this->author);
+        }
+
+        if ($this->publisher) {
+            $this->publisher = Query::unset($this->publisher);
+            $this->nakladnik = Query::resolve($this->publisher);
+        }
+    }
+
+
+    /**
+     * @param $ids
+     */
+    private function setProducts($ids)
+    {
+        $this->products = Product::whereIn('id', $ids)->get();
+    }
+
+
+    /**
+     * @param $ids
+     */
+    private function setAuthors()
+    {
+        $author_ids = $this->products->pluck('author_id')->unique();
         $this->authors = Author::whereIn('id', $author_ids)->get();
     }
 
 
-    private function setPublishers($ids)
+    /**
+     * @param $ids
+     */
+    private function setPublishers()
     {
-        $publisher_ids = Product::whereIn('id', $ids)->pluck('publisher_id')->unique();
+        $publisher_ids = $this->products->pluck('publisher_id')->unique();
         $this->publishers = Publisher::whereIn('id', $publisher_ids)->get();
+    }
+
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function getBaseIDs()
+    {
+        if ( ! $this->category && ! $this->subcategory) {
+            $category = new Category();
+            $this->categories = $category->topList($this->group)->with('subcategories')->get();
+        }
+
+
+        if ($this->category && ! $this->subcategory) {
+            $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->with('subcategories')->first();
+
+            if ($item && $item->subcategories->count()) {
+                $this->categories = $item->subcategories;
+            }
+        }
     }
 }

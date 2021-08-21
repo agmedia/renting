@@ -229,10 +229,10 @@ Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
 
-
-Route::get('autor/{author?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
-Route::get('nakladnik/{publisher?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
 /*
  * Groups, Categories and Products routes resolver.
  */
+Route::get('autor/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
+Route::get('nakladnik/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
+//
 Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
