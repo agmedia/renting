@@ -9,7 +9,7 @@
             <a class="product-thumb-overlay" href="{{ $product->url($cat, $subcat) }}"></a>
             <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
         </div>
-        <div class="card-body">
+        <div class="card-body pt-2">
             <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                 <div class="text-muted fs-xs me-1">
                     @if ($product->author)
@@ -21,9 +21,11 @@
                 <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                 </div>
             </div>
-            <h3 class="product-title fs-sm mb-2"><a href="{{ $product->url($cat, $subcat) }}">{{ $product->name }}</a></h3>
+            <h3 class="product-title fs-sm mb-0"><a href="{{ $product->url($cat, $subcat) }}">{{ $product->name }}</a></h3>
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <div class="fs-sm me-2"><i class="ci-book text-muted"></i> {!! $product->categoriesString($cat, $subcat) !!}</div>
+                <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> {!! $product->categoriesString($cat, $subcat) !!}</div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
                 @if ($product->special())
                     <div class="bg-faded-accent text-accent text-sm rounded-1 py-1 px-2" style="text-decoration: line-through;">{!! $product->priceString() !!}</div>
                     <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $product->priceString($product->special()) !!}</div>
