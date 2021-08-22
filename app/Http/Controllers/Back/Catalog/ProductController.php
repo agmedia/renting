@@ -21,45 +21,35 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Product $product)
     {
-        $query = (new Product())->newQuery();
+        $query = $product->filter($request);
 
-        if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('sku', 'like', '%' . $request->input('search') . '%');
-        }
+        $products = $query->paginate(20);
 
-        if ($request->has('category') && ! empty($request->input('category'))) {
-            $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('id', $request->input('category'));
-            });
-        }
+        if ($request->has('status')) {
+            if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
+                $products = collect();
+                $temps = Product::all();
 
-        if ($request->has('author') && ! empty($request->input('author'))) {
-            $query->where('author_id', $request->input('author'));
-        }
-
-        if ($request->has('publisher') && ! empty($request->input('publisher'))) {
-            $query->where('publisher_id', $request->input('publisher'));
-        }
-
-        if ($request->has('active')) {
-            $query->where('status', $request->input('active'));
-        }
-
-        $products   = $query->paginate(20);
-
-        if ($request->has('actions')) {
-            $products = collect();
-            $temps = Product::all();
-
-            foreach ($temps as $product) {
-                if ($product->special()) {
-                    $products->push($product);
+                if ($request->input('status') == 'with_action') {
+                    foreach ($temps as $product) {
+                        if ($product->special()) {
+                            $products->push($product);
+                        }
+                    }
                 }
-            }
 
-            $products = $this->paginateColl($products);
+                if ($request->input('status') == 'without_action') {
+                    foreach ($temps as $product) {
+                        if ( ! $product->special()) {
+                            $products->push($product);
+                        }
+                    }
+                }
+
+                $products = $this->paginateColl($products);
+            }
         }
 
         $categories = (new Category())->getList(false);
@@ -167,7 +157,15 @@ class ProductController extends Controller
     }
 
 
-    public function paginateColl($items, $perPage = 20, $page = null, $options = [])
+    /**
+     * @param       $items
+     * @param int   $perPage
+     * @param null  $page
+     * @param array $options
+     *
+     * @return LengthAwarePaginator
+     */
+    public function paginateColl($items, $perPage = 20, $page = null, $options = []): LengthAwarePaginator
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);

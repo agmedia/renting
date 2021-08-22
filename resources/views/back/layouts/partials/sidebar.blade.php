@@ -74,6 +74,11 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['products', 'products.*']) ? ' active' : '' }}" href="{{ route('products') }}">
+                                <span class="nav-main-link-name">Artikli</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['publishers', 'publishers.*']) ? ' active' : '' }}" href="{{ route('publishers') }}">
                                 <span class="nav-main-link-name">Izdavači</span>
                             </a>
@@ -81,11 +86,6 @@
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['authors', 'authors.*']) ? ' active' : '' }}" href="{{ route('authors') }}">
                                 <span class="nav-main-link-name">Autori</span>
-                            </a>
-                        </li>
-                        <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['products', 'products.*']) ? ' active' : '' }}" href="{{ route('products') }}">
-                                <span class="nav-main-link-name">Artikli</span>
                             </a>
                         </li>
                     </ul>

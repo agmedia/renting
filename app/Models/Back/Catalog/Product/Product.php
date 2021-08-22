@@ -8,6 +8,7 @@ use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Publisher;
 use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -41,23 +42,41 @@ class Product extends Model
     /**
      * @return Relation
      */
-    public function images()
+    public function categories()
     {
-        return $this->hasMany(ProductImage::class, 'product_id')->orderBy('sort_order');
+        return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
+    }
+
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
+     */
+    public function category()
+    {
+        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
+                    ->where('parent_id', 0)
+                    ->first();
+    }
+
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
+     */
+    public function subcategory()
+    {
+        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
+                    ->where('parent_id', '!=', 0)
+                    ->first();
     }
 
 
     /**
      * @return Relation
      */
-    /*public function actions()
+    public function images()
     {
-        return $this->hasOne(ProductAction::class, 'product_id')
-                    ->where('date_start', '<', Carbon::now())
-                    ->where('date_end', '>', Carbon::now())
-                    ->orWhere('date_start', null)
-                    ->orWhere('date_end', null);
-    }*/
+        return $this->hasMany(ProductImage::class, 'product_id')->orderBy('sort_order');
+    }
 
 
     /**
@@ -127,37 +146,6 @@ class Product extends Model
         }
 
         return false;
-    }
-
-
-    /**
-     * @return Relation
-     */
-    public function categories()
-    {
-        return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
-    }
-
-
-    /**
-     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
-     */
-    public function category()
-    {
-        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
-                    ->where('parent_id', 0)
-                    ->first();
-    }
-
-
-    /**
-     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOneThrough|\Illuminate\Database\Query\Builder|mixed|object|null
-     */
-    public function subcategory()
-    {
-        return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
-                    ->where('parent_id', '!=', 0)
-                    ->first();
     }
 
 
@@ -323,6 +311,67 @@ class Product extends Model
     public function storeImages(Product $product)
     {
         return (new ProductImage())->store($product, $this->request);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function filter(Request $request): Builder
+    {
+        $query = (new Product())->newQuery();
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('sku', 'like', '%' . $request->input('search') . '%');
+        }
+
+        if ($request->has('category') && ! empty($request->input('category'))) {
+            $query->whereHas('categories', function ($query) use ($request) {
+                $query->where('id', $request->input('category'));
+            });
+        }
+
+        if ($request->has('author') && ! empty($request->input('author'))) {
+            $query->where('author_id', $request->input('author'));
+        }
+
+        if ($request->has('publisher') && ! empty($request->input('publisher'))) {
+            $query->where('publisher_id', $request->input('publisher'));
+        }
+
+        if ($request->has('status')) {
+            if ($request->input('status') == 'active') {
+                $query->where('status', 1);
+            }
+            if ($request->input('status') == 'inactive') {
+                $query->where('status', 0);
+            }
+        }
+
+        if ($request->has('sort')) {
+            if ($request->input('sort') == 'new') {
+                $query->orderBy('created_at', 'desc');
+            }
+            if ($request->input('sort') == 'old') {
+                $query->orderBy('created_at', 'asc');
+            }
+            if ($request->input('sort') == 'price_up') {
+                $query->orderBy('price', 'asc');
+            }
+            if ($request->input('sort') == 'price_down') {
+                $query->orderBy('price', 'desc');
+            }
+            if ($request->input('sort') == 'az') {
+                $query->orderBy('name', 'asc');
+            }
+            if ($request->input('sort') == 'za') {
+                $query->orderBy('name', 'desc');
+            }
+        }
+
+        return $query;
     }
 
 

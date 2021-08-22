@@ -22,7 +22,7 @@
     <div class="content">
         @include('back.layouts.partials.session')
 
-        <div class="row row-deck">
+       {{-- <div class="row row-deck">
             <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href="{{ route('products') }}">
                     <div class="block-content py-5">
@@ -63,7 +63,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div>--}}
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
@@ -71,7 +71,7 @@
                 <div class="block-options">
                     <div class="dropdown">
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fa fa-search"></i> Pretraži
+                            <i class="fa fa-filter"></i> Filter
                         </button>
 <!--                        <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Filtriraj <i class="fa fa-angle-down ml-1"></i>
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="collapse" id="collapseExample">
+            <div class="collapse show" id="collapseExample">
                 <div class="block-content bg-body-dark">
                     <form action="{{ route('products') }}" method="get">
                         <div class="form-group">
@@ -139,7 +139,32 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-block" onclick="setURL('search', $('#search-input').val());">Pretraži</button>
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Odaberi Status">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="all" {{ 'all' == request()->input('status') ? 'selected' : '' }}>Svi artikli</option>
+                                        <option value="active" {{ 'active' == request()->input('status') ? 'selected' : '' }}>Aktivni</option>
+                                        <option value="inactive" {{ 'inactive' == request()->input('status') ? 'selected' : '' }}>Neaktivni</option>
+                                        <option value="with_action" {{ 'with_action' == request()->input('status') ? 'selected' : '' }}>Sa akcijama</option>
+                                        <option value="without_action" {{ 'without_action' == request()->input('status') ? 'selected' : '' }}>Bez akcija</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="Sortiraj artikle">
+                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                        <option value="new" {{ 'new' == request()->input('status') ? 'selected' : '' }}>Najnovije</option>
+                                        <option value="old" {{ 'old' == request()->input('status') ? 'selected' : '' }}>Najstarije</option>
+                                        <option value="price_up" {{ 'price_up' == request()->input('status') ? 'selected' : '' }}>Cijena od više</option>
+                                        <option value="price_down" {{ 'price_down' == request()->input('status') ? 'selected' : '' }}>Cijena od manje</option>
+                                        <option value="az" {{ 'az' == request()->input('status') ? 'selected' : '' }}>Od A do Ž</option>
+                                        <option value="za" {{ 'za' == request()->input('status') ? 'selected' : '' }}>Od Ž do A</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary btn-block" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> Pretraži</button>
                             </div>
                         </div>
                     </form>
@@ -227,6 +252,14 @@
                 placeholder: 'Odaberite izdavača',
                 allowClear: true
             });
+            $('#status-select').select2({
+                placeholder: 'Odaberite status',
+                allowClear: true
+            });
+            $('#sort-select').select2({
+                placeholder: 'Sortiraj artikle',
+                allowClear: true
+            });
 
             //
             $('#category-select').on('change', (e) => {
@@ -237,6 +270,12 @@
             });
             $('#publisher-select').on('change', (e) => {
                 setURL('publisher', e.currentTarget.selectedOptions[0]);
+            });
+            $('#status-select').on('change', (e) => {
+                setURL('status', e.currentTarget.selectedOptions[0]);
+            });
+            $('#sort-select').on('change', (e) => {
+                setURL('sort', e.currentTarget.selectedOptions[0]);
             });
 
             /*$('#btn-inactive').on('click', () => {
