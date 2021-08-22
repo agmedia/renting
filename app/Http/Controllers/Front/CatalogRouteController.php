@@ -78,6 +78,8 @@ class CatalogRouteController extends Controller
 
 
     /**
+     *
+     *
      * @param Author $author
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -106,6 +108,8 @@ class CatalogRouteController extends Controller
 
 
     /**
+     *
+     *
      * @param Publisher $publisher
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -134,6 +138,33 @@ class CatalogRouteController extends Controller
 
 
     /**
+     *
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request)
+    {
+        if ($request->has(config('settings.search_keyword'))) {
+
+        }
+
+        if ($request->has(config('settings.search_keyword') . '_api')) {
+            $search = Helper::search(
+                $request->input(config('settings.search_keyword') . '_api')
+            );
+
+            return response()->json($search);
+        }
+
+        return response()->json(['error' => 'Greška kod pretrage..! Molimo pokušajte ponovo ili nas kotaktirajte! HVALA...']);
+    }
+
+
+    /**
+     *
+     *
      * @param Category|null $cat
      * @param Category|null $subcat
      *

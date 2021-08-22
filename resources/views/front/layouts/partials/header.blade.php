@@ -49,8 +49,11 @@
         <div class="card pt-3 pb-3 border-0 rounded-0">
             <div class="container">
                 <div class="input-group"><i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-                    <input class="form-control rounded-start" type="text" placeholder="Pretražite po nazivu ili autoru">
+                    <input class="form-control rounded-start" type="text" id="search-input" placeholder="Pretražite po nazivu ili autoru">
                 </div>
+            </div>
+            <div class="row justify-content-center" style="z-index: 999;" id="search-view-panel">
+
             </div>
         </div>
     </div>

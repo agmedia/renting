@@ -4,6 +4,9 @@
 namespace App\Helpers;
 
 
+use App\Models\Front\Catalog\Author;
+use App\Models\Front\Catalog\Product;
+use App\Models\Front\Catalog\Publisher;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -66,6 +69,43 @@ class Helper
         }
 
         return number_format($price, 0, '', '.') . ',<small>' . substr($set[1], 0, 2) . 'kn</small>';
+    }
+
+
+    /**
+     * @param string $target
+     * @param bool   $builder
+     *
+     * @return array|false|Collection
+     */
+    public static function search(string $target = '', bool $builder = false)
+    {
+        if ($target != '') {
+            $response = collect();
+
+            $products = Product::where('name', 'like', '%' . $target . '%')
+                               ->orWhere('meta_description', 'like', '%' . $target . '%')
+                               ->get();
+
+            $authors = Author::where('title', 'like', '%' . $target . '%')->get();
+            $publishers = Publisher::where('title', 'like', '%' . $target . '%')->get();
+
+            $response->put('products', $products);
+            $response->put('authors', $authors);
+            $response->put('publishers', $publishers);
+
+            $data = view('front.layouts.partials.search_result', ['data' => $response])->render();
+
+            $response->put('view', $data);
+
+            if ($builder) {
+                return $response;
+            }
+
+            return $response->toArray();
+        }
+
+        return false;
     }
 
 }

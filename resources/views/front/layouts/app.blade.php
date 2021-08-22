@@ -74,6 +74,65 @@
 
 @livewireScripts
 
+<script>
+    $(() => {
+        $('#search-input').on('keyup', (e) => {
+            let string = e.currentTarget.value;
+
+            if (e.keyCode == 13) {
+                setURL('{{ config('settings.search_keyword') }}', string);
+            }
+
+            if (string.length < 3) {
+                $('#search-view-panel').empty();
+            }
+
+            if (string.length > 2) {
+                axios.get('{{ route('api.front.search') }}' + '?{{ config('settings.search_keyword') }}_api=' + string)
+                .then((response) => {
+                    console.log(response.data)
+                    $('#search-view-panel').empty().html(response.data.view);
+                })
+                .catch((e) => {
+                    console.log(e)
+                })
+            }
+        })
+    });
+
+    /**
+     *
+     * @param type
+     * @param search
+     */
+    function setURL(type, search) {
+        let url = new URL(location.href);
+        let params = new URLSearchParams(url.search);
+        let keys = [];
+
+        for(var key of params.keys()) {
+            if (key === type) {
+                keys.push(key);
+            }
+        }
+
+        keys.forEach((value) => {
+            if (params.has(value)) {
+                params.delete(value);
+            }
+        })
+
+        if (search) {
+            params.append(type, search);
+        }
+
+        console.log(params)
+
+        url.search = params;
+        //location.href = url;
+    }
+</script>
+
 @stack('js_after')
 
 </body>

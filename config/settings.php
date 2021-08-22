@@ -19,6 +19,8 @@ return [
         'back' => 30
     ],
 
+    'search_keyword' => 'pojam',
+
     'sorting_list' => [
         0 => [
             'title' => 'Najnovije',

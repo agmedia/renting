@@ -166,6 +166,8 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
  * API Routes
  */
 Route::prefix('api/v2')->group(function () {
+    // SEARCH
+    Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('api.front.search');
     // CART
     Route::prefix('cart')->group(function () {
         Route::get('/get', [CartController::class, 'get']);
