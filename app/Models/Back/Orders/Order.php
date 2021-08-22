@@ -6,6 +6,7 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
@@ -30,14 +31,21 @@ class Order extends Model
     protected $request;
 
 
+    /**
+     * @return mixed
+     */
+    public function getStatusAttribute()
+    {
+        return $this->status($this->order_status_id);
+    }
+
+
 
     public function status(int $id)
     {
         $statuses = Settings::get('order', 'statuses');
 
         return $statuses->where('id', $id)->first();
-
-        //return $this->hasOne(OrderStatus::class, 'id', 'order_status_id');
     }
 
 
@@ -96,20 +104,14 @@ class Order extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'order_status'    => 'required',
-            'payment_method'  => 'required',
-            'shipping_method' => 'required',
+            'payment'  => 'required',
+            'shipping' => 'required',
             'fname'           => 'required',
             'lname'           => 'required',
             'address'         => 'required',
             'city'            => 'required',
+            'state'            => 'required',
             'zip'             => 'required',
-            'email'           => 'required',
-            'ship_fname'      => 'required',
-            'ship_lname'      => 'required',
-            'ship_address'    => 'required',
-            'ship_city'       => 'required',
-            'ship_zip'        => 'required',
             'email'           => 'required',
             'items'           => 'required',
             'sums'            => 'required',
@@ -167,17 +169,18 @@ class Order extends Model
             'payment_address'  => $this->request->address,
             'payment_zip'      => $this->request->zip,
             'payment_city'     => $this->request->city,
-            'payment_phone'    => $this->request->phone ? $this->request->phone : null,
+            'payment_state'    => $this->request->state,
+            'payment_phone'    => $this->request->phone ?: null,
             'payment_email'    => $this->request->email,
             'payment_method'   => $this->request->payment,
             'payment_code'     => null,
-            'shipping_fname'   => $this->request->ship_fname,
-            'shipping_lname'   => $this->request->ship_lname,
-            'shipping_address' => $this->request->ship_address,
-            'shipping_zip'     => $this->request->ship_zip,
-            'shipping_city'    => $this->request->ship_city,
-            'shipping_phone'   => $this->request->ship_phone ? $this->request->ship_phone : null,
-            'shipping_email'   => $this->request->ship_email,
+            'shipping_fname'   => $this->request->fname,
+            'shipping_lname'   => $this->request->lname,
+            'shipping_address' => $this->request->address,
+            'shipping_zip'     => $this->request->zip,
+            'shipping_city'    => $this->request->city,
+            'shipping_phone'   => $this->request->phone ?: null,
+            'shipping_email'   => $this->request->email,
             'shipping_method'  => $this->request->shipping,
             'shipping_code'    => '',
             'company'          => isset($this->request->company) ? $this->request->company : null,
@@ -189,6 +192,8 @@ class Order extends Model
         if ($id) {
             (new OrderProduct())->make($this->request, $id);
             (new OrderTotal())->make($this->request, $id);
+
+            OrderHistory::store($id);
 
             return $this->find($id);
         }
@@ -231,26 +236,29 @@ class Order extends Model
      */
     private function storeData()
     {
+        $payment = Settings::get('payment', 'list.' . $this->request->payment)->first();
+        $shipping = Settings::get('shipping', 'list.' . $this->request->shipping)->first();
+
         $id = $this->insertGetId([
-            'order_status_id'  => $this->request->order_status,
             'payment_fname'    => $this->request->fname,
             'payment_lname'    => $this->request->lname,
             'payment_address'  => $this->request->address,
             'payment_zip'      => $this->request->zip,
             'payment_city'     => $this->request->city,
-            'payment_phone'    => $this->request->phone ? $this->request->phone : null,
+            'payment_state'    => $this->request->state,
+            'payment_phone'    => $this->request->phone ?: null,
             'payment_email'    => $this->request->email,
-            'payment_method'   => $this->request->payment_method,
-            'payment_code'     => null,
-            'shipping_fname'   => $this->request->ship_fname,
-            'shipping_lname'   => $this->request->ship_lname,
-            'shipping_address' => $this->request->ship_address,
-            'shipping_zip'     => $this->request->ship_zip,
-            'shipping_city'    => $this->request->ship_city,
-            'shipping_phone'   => $this->request->ship_phone ? $this->request->ship_phone : null,
-            'shipping_email'   => $this->request->ship_email,
-            'shipping_method'  => $this->request->shipping_method,
-            'shipping_code'    => '',
+            'payment_method'   => $payment->title,
+            'payment_code'     => $payment->code,
+            'shipping_fname'   => $this->request->fname,
+            'shipping_lname'   => $this->request->lname,
+            'shipping_address' => $this->request->address,
+            'shipping_zip'     => $this->request->zip,
+            'shipping_city'    => $this->request->city,
+            'shipping_phone'   => $this->request->phone ?: null,
+            'shipping_email'   => $this->request->email,
+            'shipping_method'  => $shipping->title,
+            'shipping_code'    => $shipping->code,
             'company'          => isset($this->request->company) ? $this->request->company : null,
             'oib'              => isset($this->request->oib) ? $this->request->oib : null,
             'created_at'       => Carbon::now(),
@@ -258,6 +266,8 @@ class Order extends Model
         ]);
 
         if ($id) {
+            OrderHistory::store($id);
+
             return $this->find($id);
         }
 
@@ -272,31 +282,45 @@ class Order extends Model
      */
     private function updateData($id)
     {
+        $payment = Settings::get('payment', 'list.' . $this->request->payment)->first();
+        $shipping = Settings::get('shipping', 'list.' . $this->request->shipping)->first();
+
         $updated = $this->where('id', $id)->update([
-            'order_status_id'  => $this->request->order_status,
             'payment_fname'    => $this->request->fname,
             'payment_lname'    => $this->request->lname,
             'payment_address'  => $this->request->address,
             'payment_zip'      => $this->request->zip,
             'payment_city'     => $this->request->city,
-            'payment_phone'    => $this->request->phone ? $this->request->phone : null,
+            'payment_state'    => $this->request->state,
+            'payment_phone'    => $this->request->phone ?: null,
             'payment_email'    => $this->request->email,
-            'payment_method'   => $this->request->payment_method,
-            'shipping_fname'   => $this->request->ship_fname,
-            'shipping_lname'   => $this->request->ship_lname,
-            'shipping_address' => $this->request->ship_address,
-            'shipping_zip'     => $this->request->ship_zip,
-            'shipping_city'    => $this->request->ship_city,
-            'shipping_phone'   => $this->request->ship_phone ? $this->request->ship_phone : null,
-            'shipping_email'   => $this->request->ship_email,
-            'shipping_method'  => $this->request->shipping_method,
+            'payment_method'   => $payment->title,
+            'payment_code'     => $payment->code,
+            'shipping_fname'   => $this->request->fname,
+            'shipping_lname'   => $this->request->lname,
+            'shipping_address' => $this->request->address,
+            'shipping_zip'     => $this->request->zip,
+            'shipping_city'    => $this->request->city,
+            'shipping_phone'   => $this->request->phone ?: null,
+            'shipping_email'   => $this->request->email,
+            'shipping_method'  => $shipping->title,
+            'shipping_code'    => $shipping->code,
             'company'          => isset($this->request->company) ? $this->request->company : null,
             'oib'              => isset($this->request->oib) ? $this->request->oib : null,
             'updated_at'       => Carbon::now()
         ]);
 
         if ($updated) {
-            return $this->find($id);
+            $order = $this->find($id);
+
+            $request = new Request([
+                'status' => 0,
+                'comment' => 'Izmjenjeni podaci narudžbe.!'
+            ]);
+
+            OrderHistory::store($id, $request);
+
+            return $order;
         }
 
         return false;
@@ -322,6 +346,31 @@ class Order extends Model
         $query = (new Order())->newQuery();
 
         return $query->with('status')->orderBy('id', 'desc')->limit($count)->get();
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function filter(Request $request): Builder
+    {
+        $query = (new Order())->newQuery();
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->where('id', 'like', '%' . $request->input('search') . '%')
+                  ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
+                  ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
+                  ->orWhere('payment_city', 'like', '%' . $request->input('search'))
+                  ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+        }
+
+        if ($request->has('status')) {
+            $query->where('order_status_id', $request->input('status'));
+        }
+
+        return $query->orderBy('created_at');
     }
 
 

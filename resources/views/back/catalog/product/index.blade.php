@@ -154,12 +154,12 @@
                                 <div class="form-group">
                                     <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="Sortiraj artikle">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="new" {{ 'new' == request()->input('status') ? 'selected' : '' }}>Najnovije</option>
-                                        <option value="old" {{ 'old' == request()->input('status') ? 'selected' : '' }}>Najstarije</option>
-                                        <option value="price_up" {{ 'price_up' == request()->input('status') ? 'selected' : '' }}>Cijena od više</option>
-                                        <option value="price_down" {{ 'price_down' == request()->input('status') ? 'selected' : '' }}>Cijena od manje</option>
-                                        <option value="az" {{ 'az' == request()->input('status') ? 'selected' : '' }}>Od A do Ž</option>
-                                        <option value="za" {{ 'za' == request()->input('status') ? 'selected' : '' }}>Od Ž do A</option>
+                                        <option value="new" {{ 'new' == request()->input('sort') ? 'selected' : '' }}>Najnovije</option>
+                                        <option value="old" {{ 'old' == request()->input('sort') ? 'selected' : '' }}>Najstarije</option>
+                                        <option value="price_up" {{ 'price_up' == request()->input('sort') ? 'selected' : '' }}>Cijena od više</option>
+                                        <option value="price_down" {{ 'price_down' == request()->input('sort') ? 'selected' : '' }}>Cijena od manje</option>
+                                        <option value="az" {{ 'az' == request()->input('sort') ? 'selected' : '' }}>Od A do Ž</option>
+                                        <option value="za" {{ 'za' == request()->input('sort') ? 'selected' : '' }}>Od Ž do A</option>
                                     </select>
                                 </div>
                             </div>

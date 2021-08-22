@@ -77,7 +77,7 @@ class CreateOrdersTable extends Migration
 
         Schema::create('order_transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('order_id');
+            $table->bigInteger('order_id')->unsigned();
             $table->tinyInteger('success');
             $table->decimal('amount', 10, 2);
             $table->string('signature');
@@ -96,8 +96,9 @@ class CreateOrdersTable extends Migration
 
         Schema::create('order_history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('order_id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('order_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->tinyInteger('status')->unsigned()->default(0);
             $table->text('comment')->nullable();
             $table->timestamps();
         });

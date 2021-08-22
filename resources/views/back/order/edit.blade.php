@@ -8,7 +8,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
             </div>
         </div>
     </div>
@@ -105,9 +105,6 @@
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
                             <h3 class="block-title">Način dostave</h3>
-                            <div class="block-options">
-                                <a href="#" class="btn btn-alt-success btn-block btn-sm">Snimi</a>
-                            </div>
                         </div>
                         <div class="block-content">
                             <div class="row mb-4">
@@ -131,9 +128,6 @@
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
                             <h3 class="block-title">Način plaćanja</h3>
-                            <div class="block-options">
-                                <a href="#" class="btn btn-alt-success btn-block btn-sm">Snimi</a>
-                            </div>
                         </div>
                         <div class="block-content">
                             <div class="row mb-4">
@@ -172,7 +166,9 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
                                 @foreach ($statuses as $status)
-                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">{{ $status->title }}</a>
+                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setStatus({{ $status->id }});">
+                                        <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title }}</span>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -185,10 +181,15 @@
                         @foreach ($order->history as $record)
                             <tr>
                                 <td class="font-size-base">
-                                    <span class="badge badge-primary">Narudžba</span>
+                                    @if ($record->status)
+                                        <span class="badge badge-pill badge-{{ $record->status->color }}">{{ $record->status->title }}</span>
+                                    @else
+                                        <small>Komentar</small>
+                                    @endif
                                 </td>
                                 <td>
-                                    <span class="font-w600">{{ \Illuminate\Support\Carbon::make($order->created_at)->diffForHumans() }}</span>
+                                    <span class="font-w600">{{ \Illuminate\Support\Carbon::make($record->created_at)->locale('hr_HR')->diffForHumans() }}</span> /
+                                    <span class="font-weight-light">{{ \Illuminate\Support\Carbon::make($record->created_at)->format('d.m.Y - h:i') }}</span>
                                 </td>
                                 <td>
                                     <a href="javascript:void(0)">{{ $record->user ? $record->user->name : $record->order->shipping_fname . ' ' . $record->order->shipping_lname }}</a>
@@ -219,6 +220,55 @@
 
 @endsection
 
+@push('modals')
+    <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment--modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popout" role="document">
+            <div class="modal-content rounded">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary">
+                        <h3 class="block-title">Dodaj komentar</h3>
+                        <div class="block-options">
+                            <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-10">
+                                <div class="form-group mb-4">
+                                    <label for="status-select">Promjeni status</label>
+                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
+                                        <option value="0">Bez Promjene statusa...</option>
+                                        @foreach ($statuses as $status)
+                                            <option value="{{ $status->id }}">{{ $status->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="comment-input">Komentar</label>
+                                    <textarea class="form-control" name="comment" id="comment-input" rows="7"></textarea>
+                                </div>
+
+                                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
+                            Odustani <i class="fa fa-times ml-2"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="event.preventDefault(); changeStatus();">
+                            Snimi <i class="fa fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endpush
+
 @push('js_after')
     <script src="{{ asset('js/vue.js') }}"></script>
     <script src="{{ asset('js/components/ag-order-products.js') }}"></script>
@@ -228,7 +278,54 @@
         $(() => {
             $('#shipping-select').select2({});
             $('#payment-select').select2({});
+
+            $('#status-select').select2({});
+
+            $('#btn-add-comment').on('click', () => {
+                $('#comment-modal').modal('show');
+                $('#status-select').val(0);
+                $('#status-select').trigger('change');
+            });
         })
+
+        /**
+         *
+         * @param status
+         */
+        function setStatus(status) {
+            $('#comment-modal').modal('show');
+            $('#status-select').val(status);
+            $('#status-select').trigger('change');
+        }
+
+        /**
+         *
+         */
+        function changeStatus() {
+            let item = {
+                order_id: {{ $order->id }},
+                comment: $('#comment-input').val(),
+                status: $('#status-select').val()
+            };
+
+            axios.post("{{ route('api.order.status.change') }}", item)
+            .then(response => {
+                console.log(response.data)
+                if (response.data.message) {
+                    $('#comment-modal').modal('hide');
+
+                    successToast.fire({
+                        timer: 1500,
+                        text: response.data.message,
+                    }).then(() => {
+                        location.reload();
+                    })
+
+                } else {
+                    return errorToast.fire(response.data.error);
+                }
+            });
+        }
     </script>
 
 @endpush

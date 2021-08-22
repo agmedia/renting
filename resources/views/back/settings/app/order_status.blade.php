@@ -1,5 +1,9 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
+
 @section('content')
 
     <div class="bg-body-light">
@@ -27,6 +31,7 @@
                         <th class="text-center" style="width: 5%;">Br.</th>
                         <th class="text-center" style="width: 7%;">ID</th>
                         <th style="width: 50%;">Naziv</th>
+                        <th class="text-center">Boja</th>
                         <th class="text-center">Poredak</th>
                         <th class="text-right">Uredi</th>
                     </tr>
@@ -37,6 +42,7 @@
                             <td class="text-center">{{ $loop->iteration }}.</td>
                             <td class="text-center"><span class="text-gray-dark">{{ $status->id }}</span></td>
                             <td>{{ $status->title }}</td>
+                            <td class="text-center"><span class="badge badge-pill badge-{{ isset($status->color) && $status->color ? $status->color : 'light' }}">{{ $status->title }}</span></td>
                             <td class="text-center">{{ $status->sort_order }}</td>
                             <td class="text-right font-size-sm">
                                 <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($status) }});">
@@ -83,6 +89,20 @@
                                 <div class="form-group">
                                     <label for="status-price">Poredak</label>
                                     <input type="text" class="form-control" id="status-sort-order" name="sort_order">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status-color-select">Boja</label>
+                                    <select class="js-select2 form-control" id="status-color-select" name="status" style="width: 100%;" data-placeholder="Odaberite boju statusa...">
+                                        <option value="primary">Primary</option>
+                                        <option value="secondary">Secondary</option>
+                                        <option value="success">Success</option>
+                                        <option value="info">Info</option>
+                                        <option value="light">Light</option>
+                                        <option value="danger">Danger</option>
+                                        <option value="warning">Warning</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
                                 </div>
 
                                 <input type="hidden" id="status-id" name="id" value="0">
@@ -137,14 +157,37 @@
 @endpush
 
 @push('js_after')
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+        $(() => {
+            $('#status-color-select').select2({
+                minimumResultsForSearch: Infinity,
+                templateResult: formatColorOption,
+                templateSelection: formatColorOption
+            });
+        });
+
+        /**
+         *
+         * @param state
+         * @return string
+         */
+        function formatColorOption(state) {
+            if (!state.id) { return state.text; }
+
+            let html = $(
+                '<span class="badge badge-pill badge-' + state.element.value + '"> ' + state.text + ' </span>'
+            );
+            return html;
+        }
+
         /**
          *
          * @param item
          * @param type
          */
         function openModal(item = {}) {
-            console.log(item);
+            //console.log(item);
 
             $('#status-modal').modal('show');
             editStatus(item);
@@ -157,12 +200,13 @@
             let item = {
                 id: $('#status-id').val(),
                 title: $('#status-title').val(),
-                sort_order: $('#status-sort-order').val()
+                sort_order: $('#status-sort-order').val(),
+                color: $('#status-color-select').val()
             };
 
             axios.post("{{ route('api.order.status.store') }}", {data: item})
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
                 if (response.data.success) {
                     location.reload();
                 } else {
@@ -189,7 +233,7 @@
 
             axios.post("{{ route('api.order.status.destroy') }}", {data: item})
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
                 if (response.data.success) {
                     location.reload();
                 } else {
@@ -206,6 +250,9 @@
             $('#status-id').val(item.id);
             $('#status-title').val(item.title);
             $('#status-sort-order').val(item.sort_order);
+
+            $('#status-color-select').val(item.color);
+            $('#status-color-select').trigger('change');
         }
     </script>
 @endpush

@@ -324,7 +324,8 @@ class Product extends Model
         $query = (new Product())->newQuery();
 
         if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%')->orWhere('sku', 'like', '%' . $request->input('search') . '%');
+            $query->where('name', 'like', '%' . $request->input('search') . '%')
+                  ->orWhere('sku', 'like', '%' . $request->input('search') . '%');
         }
 
         if ($request->has('category') && ! empty($request->input('category'))) {

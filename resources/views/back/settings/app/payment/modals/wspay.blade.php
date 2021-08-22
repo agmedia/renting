@@ -166,8 +166,6 @@
                 sort_order: $('#wspay-sort-order').val()
             };
 
-            console.log(item)
-
             axios.post("{{ route('api.payment.store') }}", {data: item})
             .then(response => {
                 console.log(response.data)
@@ -184,8 +182,6 @@
          * @param item
          */
         function edit_wspay(item) {
-            console.log(item);
-
             $('#wspay-title').val(item.title);
             $('#wspay-min').val(item.min);
             $('#wspay-short-description').val(item.data.short_description);

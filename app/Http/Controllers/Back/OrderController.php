@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Helpers\Country;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Orders\Order;
+use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,18 +17,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Order $order)
     {
-        $query = (new Order())->newQuery();
-
-        if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where('payment_fname', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_city', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_email', 'like', '%' . $request->input('search'));
-        }
-
-        $orders = $query->paginate(20);
+        $orders = $order->filter($request)->paginate(config('settings.pagination.back'));
 
         $statuses = Settings::get('order', 'statuses');
 
@@ -55,7 +47,15 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $order = new Order();
+
+        $stored = $order->validateRequest($request)->store();
+
+        if ($stored) {
+            return redirect()->route('orders.edit', ['order' => $stored])->with(['success' => 'Narudžba je snimljena!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
     }
 
 
@@ -102,7 +102,13 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        dd($request);
+        $updated = $order->validateRequest($request)->store($order->id);
+
+        if ($updated) {
+            return redirect()->route('orders.edit', ['order' => $updated])->with(['success' => 'Narudžba je snimljena!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
     }
     
     
@@ -116,14 +122,37 @@ class OrderController extends Controller
     public function destroy(Request $request) {}
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function api_status_change(Request $request)
     {
-        $orders = explode(',', substr($request->input('orders'), 1, -1));
+        if ($request->has('orders')) {
+            $orders = explode(',', substr($request->input('orders'), 1, -1));
 
-        Order::whereIn('id', $orders)->update([
-            'order_status_id' => $request->input('selected')
-        ]);
+            Order::whereIn('id', $orders)->update([
+                'order_status_id' => $request->input('selected')
+            ]);
 
-        return response()->json($request->toArray());
+            return response()->json(['message' => 'Statusi su uspješno promijenjeni..!']);
+        }
+
+        Log::info($request);
+
+        if ($request->has('order_id')) {
+            if ($request->has('status') && $request->input('status')) {
+                Order::where('id', $request->input('order_id'))->update([
+                    'order_status_id' => $request->input('status')
+                ]);
+            }
+
+            OrderHistory::store($request->input('order_id'), $request);
+
+            return response()->json(['message' => 'Status je uspješno promijenjen..!']);
+        }
+
+        return response()->json(['error' => 'Greška..! Molimo pokušajte ponovo ili kontaktirajte administratora..']);
     }
 }

@@ -50,6 +50,7 @@ class OrderStatusController extends Controller
             $values->where('id', $data['id'])->map(function ($item) use ($data) {
                 $item->title = $data['title'];
                 $item->sort_order = $data['sort_order'];
+                $item->color = isset($data['color']) && $data['color'] ? $data['color'] : 'primary';
 
                 return $item;
             });

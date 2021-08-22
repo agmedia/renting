@@ -20,60 +20,12 @@
     <!-- Page Content -->
     <div class="content">
     @include('back.layouts.partials.session')
-        <!-- Quick Overview -->
-<!--        <div class="row row-deck">
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_orders.html">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-primary mb-1">18</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Čeka naplatu
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 mb-1">16</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Danas
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 mb-1">34</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Jučer
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 mb-1">220</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Ovaj mjesec
-                        </p>
-                    </div>
-                </a>
-            </div>
-        </div>-->
-        <!-- END Quick Overview -->
-
         <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Lista narudžbi</h3>
                 <div class="block-options">
                     <div class="form-group mb-0 mr-2">
-                        <!-- Select2 (.js-select2 class is initialized in Helpers.select2()) -->
-                        <!-- For more info and examples you can check out https://github.com/select2/select2 -->
-
                         <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
                             <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                             @foreach ($statuses as $status)
@@ -89,10 +41,12 @@
                             <i class="fa fa-angle-down ml-1"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
+                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', 0)">
+                                Sve narudžbe
+                            </a>
                             @foreach ($statuses as $status)
-                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                    {{ $status->title }}
-<!--                                    <span class="badge badge-secondary badge-pill"></span>-->
+                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', {{ $status->id }})">
+                                    <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -147,7 +101,7 @@
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d.m.Y') }}</td>
                                 <td class="font-size-base">
-                                    <span class="badge badge-pill badge-success">{{ $order->status($order->order_status_id)->title }}</span>
+                                    <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
                                 </td>
                                 <td>
                                     <a class="font-w600" href="#">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
@@ -216,7 +170,37 @@
                     console.log(e)
                 })
             });
-        })
+        });
+
+        /**
+         *
+         * @param type
+         * @param search
+         */
+        function setURL(type, search) {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let keys = [];
+
+            for(var key of params.keys()) {
+                if (key === type) {
+                    keys.push(key);
+                }
+            }
+
+            keys.forEach((value) => {
+                if (params.has(value) || search == 0) {
+                    params.delete(value);
+                }
+            })
+
+            if (search) {
+                params.append(type, search);
+            }
+
+            url.search = params;
+            location.href = url;
+        }
     </script>
 <script>
     $("#checkAll").click(function () {

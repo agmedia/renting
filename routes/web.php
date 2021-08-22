@@ -192,7 +192,7 @@ Route::prefix('api/v2')->group(function () {
                 Route::post('store', [OrderStatusController::class, 'store'])->name('api.order.status.store');
                 Route::post('destroy', [OrderStatusController::class, 'destroy'])->name('api.order.status.destroy');
 
-                Route::get('change', [OrderController::class, 'api_status_change'])->name('api.order.status.change');
+                Route::post('change', [OrderController::class, 'api_status_change'])->name('api.order.status.change');
             });
             // PAYMENTS
             Route::prefix('payment')->group(function () {
