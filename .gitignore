@@ -12,4 +12,3 @@ npm-debug.log
 yarn-error.log
 /.idea
 /config/database.php
-/public/js/jquery

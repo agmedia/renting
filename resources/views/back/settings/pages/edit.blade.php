@@ -3,6 +3,7 @@
 @push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/flatpickr/flatpickr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
 @endpush
 
 @section('content')
@@ -30,8 +31,8 @@
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
-                            <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active">
-                            <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
+                            <input type="checkbox" class="custom-control-input" id="status-switch" name="status" {{ (isset($page) and $page->status) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="status-switch">Aktiviraj</label>
                         </div>
                     </div>
                 </div>
@@ -42,6 +43,15 @@
                             <div class="form-group">
                                 <label for="title-input">Naslov</label>
                                 <input type="text" class="form-control" id="title-input" name="title" placeholder="Upišite naslov..." value="{{ isset($page) ? $page->title : old('title') }}" onkeyup="SetSEOPreview()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="group-select">Grupa</label>
+                                <select class="js-select2 form-control" id="group-select" name="group" style="width: 100%;">
+                                    @foreach ($groups as $group)
+                                        <option value="{{ $group }}" {{ ((isset($page)) and ($page->subgroup == $group)) ? 'selected' : '' }}>{{ $group }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group row">
@@ -132,12 +142,18 @@
 @push('js_after')
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
     <script>jQuery(function(){Dashmix.helpers(['flatpickr']);});</script>
 
     <script>
         $(() => {
+            $('#group-select').select2({
+                placeholder: 'Odaberite ili upišite novu grupu...',
+                tags: true
+            });
+
             ClassicEditor
             .create( document.querySelector('#description-editor'))
             .then( editor => {

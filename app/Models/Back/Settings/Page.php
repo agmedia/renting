@@ -3,6 +3,7 @@
 namespace App\Models\Back\Settings;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -28,6 +29,28 @@ class Page extends Model
      * @var Request
      */
     protected $request;
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeSubgroups(Builder $query): Builder
+    {
+        return $query->groupBy('subgroup')->whereNotNull('subgroup');
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeGroups(Builder $query): Builder
+    {
+        return $query->groupBy('group')->whereNotNull('group');
+    }
 
 
     /**
@@ -59,6 +82,7 @@ class Page extends Model
         $id = $this->insertGetId([
             'category_id'       => null,
             'group'             => 'page',
+            'subgroup'          => $this->request->group ?: null,
             'title'             => $this->request->title,
             'short_description' => $this->request->short_description,
             'description'       => $this->request->description,
@@ -91,6 +115,7 @@ class Page extends Model
         $id = $this->update([
             'category_id'       => null,
             'group'             => 'page',
+            'subgroup'          => $this->request->group ?: null,
             'title'             => $this->request->title,
             'short_description' => $this->request->short_description,
             'description'       => $this->request->description,
@@ -103,10 +128,6 @@ class Page extends Model
             'status'            => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
             'updated_at'        => Carbon::now()
         ]);
-
-        Log::info('$id');
-        Log::info($this->id);
-        Log::info($this->request);
 
         if ($id) {
             return $this->find($this->id);

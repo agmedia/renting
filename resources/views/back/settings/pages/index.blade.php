@@ -38,22 +38,42 @@
                 <table class="table table-striped table-borderless table-vcenter">
                     <thead class="thead-light">
                     <tr>
-                        <th style="width: 60px;">Slika</th>
-                        <th style="width: 33%;">Naziv</th>
+                        <th style="width: 5%;" class="text-center">#</th>
+                        <th style="width: 27px;" class="text-center">Slika</th>
+                        <th>Naziv</th>
+                        <th>Podgrupa</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Featured</th>
                         <th style="width: 100px;" class="text-center">Uredi</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse ($pages as $page)
                         <tr>
-                            <td>
+                            <td class="text-center">{{ $loop->iteration }}.</td>
+                            <td class="text-center">
                                 <a href="{{ route('pages.edit', ['page' => $page]) }}">
-                                    <img src="{{ asset($page->image) }}" height="80px"/>
+                                    <img src="{{ asset($page->image) }}" height="45px"/>
                                 </a>
                             </td>
                             <td>
                                 <i class="fa fa-eye text-success mr-1"></i>
                                 <a href="{{ route('pages.edit', ['page' => $page]) }}">{{ $page->title }}</a>
+                            </td>
+                            <td>{{ $page->subgroup }}</td>
+                            <td class="text-center">
+                                @if ($page->status)
+                                    <i class="fa fa-check-circle text-success"></i>
+                                @else
+                                    <i class="fa fa-times-circle text-danger"></i>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if ($page->featured)
+                                    <i class="fa fa-check-circle text-success"></i>
+                                @else
+                                    <i class="fa fa-times-circle text-danger"></i>
+                                @endif
                             </td>
                             <td class="text-right font-size-sm">
                                 <a class="btn btn-sm btn-alt-secondary" href="{{ route('pages.edit', ['page' => $page]) }}">
