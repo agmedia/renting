@@ -44,6 +44,18 @@
                                     </a>
                                 @endif
                             </div>
+
+
+                            <div class="mb-2 text-center">
+
+                                    <a class="link-fx font-size-sm" href="{{ route('register') }}">
+                                        {{ __('Nemate račun? Registrirajte se') }}
+                                    </a>
+
+                            </div>
+
+
+
                         </div>
                     </div>
                     <div class="col-md-6 order-md-0 bg-primary-dark-op d-flex align-items-center">

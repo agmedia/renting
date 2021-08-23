@@ -39,8 +39,9 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakta');
-
+Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakt');
+Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
+Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
 Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
 Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
 

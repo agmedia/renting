@@ -24,7 +24,57 @@
 
 
     @if ($step == 'podaci')
+
+
+
+
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
+
+
+        <div class="alert alert-secondary d-flex mb-3" role="alert">
+            <div class="alert-icon">
+                <i class="ci-user"></i>
+            </div>
+            <div>Ukoliko ste već registrirani prijavite se <a href="#collapseLogin"  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseLogin" class="alert-link">ovdje!</a></div>
+        </div>
+
+        <div id="collapseLogin" aria-expanded="false" class="collapse">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="si-email">Email adresa</label>
+                            <input class="form-control" type="email" id="si-email" placeholder="" required>
+                            <div class="invalid-feedback">MOlimo upišite ispravnu email adresu.</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="si-password">Lozinka</label>
+                            <div class="password-toggle">
+                                <input class="form-control" type="password" id="si-password" required>
+                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="mb-3 d-flex flex-wrap justify-content-between">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="si-remember">
+                                <label class="form-check-label" for="si-remember">Zapamti me</label>
+                            </div><a class="fs-sm" href="#">Zaboravljena lozinka?</a>
+                        </div>
+                        <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Prijava</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
@@ -83,7 +133,7 @@
             <div class="col-sm-6">
                 <div class="mb-3" wire:ignore>
                     <label class="form-label" for="checkout-country">Država</label>
-                    <select class="form-select form-select-lg @error('address.state') is-invalid @enderror" id="checkout-country" wire:model="address.state">
+                    <select class="form-select g @error('address.state') is-invalid @enderror" id="checkout-country" wire:model="address.state">
                         <option value=""></option>
                         @foreach ($countries as $country)
                             <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
@@ -97,9 +147,43 @@
         @if (auth()->guest())
             <h6 class="mb-3 py-3 border-bottom">Registracija</h6>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" checked id="same-address">
-                <label class="form-check-label" for="same-address">Ujedno napravi i korisnički račun</label>
+
+                <label class="form-check-label" for="napraviracun" >Ujedno napravi i korisnički račun <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" ></label>
+
             </div>
+
+            <div id="collapseExample" aria-expanded="false" class="collapse">
+                <div class="card mb-3 mt-3">
+                    <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                            <label class="form-label" for="su-password">Lozinka</label>
+                            <div class="password-toggle">
+                                <input class="form-control" type="password" id="su-password" required>
+                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-sm-6">
+                             <div class="mb-3">
+                            <label class="form-label" for="su-password-confirm">Potvrdite lozinku</label>
+                            <div class="password-toggle">
+                                <input class="form-control" type="password" id="su-password-confirm" required>
+                                <label class="password-toggle-btn" aria-label="Show/hide password">
+                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+
         @endif
         <!-- Navigation (desktop)-->
         <div class="d-none d-lg-flex pt-4 mt-3">
