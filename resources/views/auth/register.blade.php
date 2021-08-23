@@ -130,14 +130,14 @@
                     <div class="col-md-6 order-md-0 bg-primary-dark-op d-flex align-items-center">
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <div class="media">
-                                <a class="img-link mr-3" href="javascript:void(0)">
+                                <a class="img-link mr-3" href="{{ route('index') }}">
                                     <img class="img-avatar img-avatar-thumb" src="{{ asset('media/img/faviconbiblos.png') }}" alt="Antikvarijat Biblos">
                                 </a>
                                 <div class="media-body">
                                     <p class="text-white font-w600 mb-1">
                                         Knjige, vedute & zemljovidi
                                     </p>
-                                    <a class="text-white-75 font-w600" href="javascript:void(0)">Antikvarijat Biblos</a>
+                                    <a class="text-white-75 font-w600" href="{{ route('index') }}">Antikvarijat Biblos</a>
                                 </div>
                             </div>
                         </div>
