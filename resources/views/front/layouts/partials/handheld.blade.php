@@ -2,8 +2,16 @@
 <div class="handheld-toolbar">
     <div class="d-table table-layout-fixed w-100">
 
-        @if(request()->routeIs(['kategorija']))
+
+
+            @if (Request::is('knjige/*' ) || Request::is('knjige' ))
+
+            @if(isset($prod) && $prod)
+
+            @else
+
             <a class="d-table-cell handheld-toolbar-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#shop-sidebar"><span class="handheld-toolbar-icon"><i class="ci-filter-alt"></i></span><span class="handheld-toolbar-label">Filtriraj</span></a>
+            @endif
         @endif
 
 
