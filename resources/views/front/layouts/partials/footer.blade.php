@@ -16,10 +16,10 @@
                 <div class="btn-group dropdown d-block mx-auto mb-3">
                     <button class="btn btn-outline-light border-light dropdown-toggle" type="button" data-bs-toggle="dropdown">Uvjeti kupnje</button>
                     <ul class="dropdown-menu my-1">
-                        <li><a class="dropdown-item" href="#">Opći uvjeti kupnje</a></li>
-                        <li><a class="dropdown-item" href="#">Načini plaćanja</a></li>
-                        <li><a class="dropdown-item" href="#">Načini dostave</a></li>
-                        <li><a class="dropdown-item" href="#">Zaštita povjerljivih podataka</a></li>
+                        @foreach ($uvjeti_kupnje as $page)
+                            <li><a class="dropdown-item" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
             <!-- Desktop menu (visible on screens above md)-->
@@ -27,11 +27,9 @@
                 <div class="widget widget-links widget-light pb-2">
                     <h3 class="widget-title text-light">Uvjeti kupnje</h3>
                     <ul class="widget-list">
-                        <li class="widget-list-item"><a class="widget-list-link" href="#">Opći uvjeti kupnje</a></li>
-                        <li class="widget-list-item"><a class="widget-list-link" href="#">Načini plaćanja</a></li>
-                        <li class="widget-list-item"><a class="widget-list-link" href="#">Načini dostave</a></li>
-                        <li class="widget-list-item"><a class="widget-list-link" href="#">Zaštita povjerljivih podataka</a></li>
-
+                        @foreach ($uvjeti_kupnje as $page)
+                            <li class="widget-list-item"><a class="widget-list-link" href="{{ route('catalog.route.page', ['page' => $page]) }}">{{ $page->title }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

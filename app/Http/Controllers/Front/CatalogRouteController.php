@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Models\Front\Page;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
@@ -159,6 +160,13 @@ class CatalogRouteController extends Controller
         }
 
         return response()->json(['error' => 'Greška kod pretrage..! Molimo pokušajte ponovo ili nas kotaktirajte! HVALA...']);
+    }
+
+
+    public function page(Page $page)
+    {
+
+        return view('front.page', compact('page'));
     }
 
 

@@ -231,6 +231,8 @@ Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
 
+Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
+
 /*
  * Groups, Categories and Products routes resolver.
  */
