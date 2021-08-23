@@ -54,7 +54,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row d-none">
                                 <div class="col-xl-6">
                                     <label>Glavna slika</label>
                                     <div class="custom-file">
