@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Page Title-->
-    <div class="page-title-overlap bg-dark pt-4">
+    <div class="page-title-overlap bg-dark pt-4"  style="background-image: url({{ asset('media/img/indexslika.jpg') }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
             <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                 <nav aria-label="breadcrumb">
@@ -41,7 +41,7 @@
 
                             <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('moje-narudzbe') }}"><i class="ci-bag opacity-60 me-2"></i>Narudžbe<span class="fs-sm text-muted ms-auto">1</span></a></li>
 
-                            <li class="d-lg-none  mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('logout') }}"><i class="ci-sign-out opacity-60 me-2"></i>Odjava</a></li>
+                            <li class="  mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('logout') }}"><i class="ci-sign-out opacity-60 me-2"></i>Odjava</a></li>
                         </ul>
                     </div>
                 </div>
