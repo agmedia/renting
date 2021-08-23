@@ -16,11 +16,11 @@
                 </div>
                 <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
                     <div class="fs-sm me-2 py-2"><span class="text-muted">Ukupno:</span><span class="text-accent fs-base ms-1">{{ $store.state.service.formatPrice($store.state.cart.total) }}</span></div><a class="btn btn-outline-secondary btn-sm" :href="carturl">Košarica<i class="ci-arrow-right ms-1 me-n1"></i></a>
-                </div><a class="btn btn-primary btn-sm d-block w-100" href="#"><i class="ci-card me-2 fs-base align-middle"></i>Dovrši kupnju</a>
+                </div><a class="btn btn-primary btn-sm d-block w-100" :href="carturl"><i class="ci-card me-2 fs-base align-middle"></i>Dovrši kupnju</a>
             </div>
             <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;" v-else>
                 <i class="fa fa-cart-arrow-down fa-2x" style="color: #aaaaaa"></i>
-                <h4>Vaša košarica je prazna!</h4>
+                <p>Vaša košarica je prazna!</p>
             </div>
         </div>
     </div>

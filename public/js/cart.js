@@ -3955,7 +3955,6 @@ var render = function() {
           }
         ],
         staticClass: "qty",
-        staticStyle: { width: "36px" },
         attrs: { type: "hidden" },
         domProps: { value: _vm.qty },
         on: {
@@ -4195,7 +4194,17 @@ var render = function() {
                   )
                 ]
               ),
-              _vm._m(1)
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary btn-sm d-block w-100",
+                  attrs: { href: _vm.carturl }
+                },
+                [
+                  _c("i", { staticClass: "ci-card me-2 fs-base align-middle" }),
+                  _vm._v("Dovrši kupnju")
+                ]
+              )
             ],
             2
           )
@@ -4211,7 +4220,7 @@ var render = function() {
                 staticStyle: { color: "#aaaaaa" }
               }),
               _vm._v(" "),
-              _c("h4", [_vm._v("Vaša košarica je prazna!")])
+              _c("p", [_vm._v("Vaša košarica je prazna!")])
             ]
           )
     ])
@@ -4229,22 +4238,6 @@ var staticRenderFns = [
         attrs: { type: "button", "aria-label": "Remove" }
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "btn btn-primary btn-sm d-block w-100",
-        attrs: { href: "#" }
-      },
-      [
-        _c("i", { staticClass: "ci-card me-2 fs-base align-middle" }),
-        _vm._v("Dovrši kupnju")
-      ]
     )
   }
 ]
