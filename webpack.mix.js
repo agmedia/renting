@@ -40,8 +40,8 @@ mix
 /* Page JS */
 //.js('resources/js/pages/tables_datatables.js', 'public/js/pages/tables_datatables.js')
 
-//.js('resources/js/front/cart/app.js', 'public/js/cart.js').vue()
-.js('resources/js/back/ag-order-products.js', 'public/js/components/ag-order-products.js').vue()
+.js('resources/js/front/cart/app.js', 'public/js/cart.js').vue()
+//.js('resources/js/back/ag-order-products.js', 'public/js/components/ag-order-products.js').vue()
 
 /* Tools */
 /*.browserSync('http://127.0.0.1:8000/')

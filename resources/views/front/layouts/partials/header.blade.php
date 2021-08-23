@@ -24,8 +24,8 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.publisher') }}"><i class="ci-bookmark d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Nakladnici</a>
                     <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'vedute-&-zemljovidi']) }}"><i class="ci-map d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Vedute & zemljovidi</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('kategorija') }}"><i class="ci-discount d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Sniženje</a></li>
-                    <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="">O nama</a></li>
-                    <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="">Kontakt</a></li>
+                    <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="o-nama">O nama</a></li>
+                    <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="kontakt">Kontakt</a></li>
                 </ul>
                 <div class="offcanvas-cap d-block d-lg-none px-grid-gutter pt-4 pb-3 mb-2">
                     <div class="d-flex mb-3"><i class="ci-phone h4 mb-0 fw-normal text-primary mt-1 me-1"></i>

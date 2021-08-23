@@ -39,6 +39,8 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
+Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakta');
+
 Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
 Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
 
@@ -92,7 +94,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
     Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
-    
+
     // MARKETING
     Route::prefix('marketing')->group(function () {
         // AKCIJE
@@ -102,7 +104,7 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
         Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
         Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
         Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
-        
+
         // BLOG
         Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
         Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
