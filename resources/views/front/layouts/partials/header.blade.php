@@ -7,7 +7,7 @@
                 <a class="navbar-tool d-none d-lg-flex" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#searchBox" role="button" aria-expanded="false" aria-controls="searchBox"><span class="navbar-tool-tooltip">Pretraži</span>
                     <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-search"></i></div>
                 </a>
-                <a class="navbar-tool ms-12" href="login" ><span class="navbar-tool-tooltip">Korisnički račun</span>
+                <a class="navbar-tool ms-12" href="{{ route('loginx') }}" ><span class="navbar-tool-tooltip">Korisnički račun</span>
                     <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
                 </a>
 
