@@ -37,9 +37,9 @@
                 <div class="widget widget-links widget-light pb-2">
                     <h3 class="widget-title text-light">Načini plaćanja</h3>
                     <ul class="widget-list  ">
-                        <li class="widget-list-item"><a class="widget-list-link" href="#"> kreditnom karticom jednokratno ili na rate</a></li>
-                        <li class="widget-list-item"><a class="widget-list-link" href="#"> virmanom / općom uplatnicom / internet bankarstvom</a></li>
-                        <li class="widget-list-item"><a class="widget-list-link" href="#">gotovinom prilikom pouzeća</a></li>
+                        <li class="widget-list-item"><a class="widget-list-link" > kreditnom karticom jednokratno ili na rate</a></li>
+                        <li class="widget-list-item"><a class="widget-list-link" > virmanom / općom uplatnicom / internet bankarstvom</a></li>
+                        <li class="widget-list-item"><a class="widget-list-link" >gotovinom prilikom pouzeća</a></li>
                     </ul>
 
                 </div>
@@ -95,7 +95,12 @@
             <div class="d-md-flex justify-content-between pt-2">
                 <div class="pb-4 fs-xs text-light opacity-50 text-center text-md-start">© Sva prava pridržana. Web by <a class="text-light" href="https://www.agmedia.hr" target="_blank" rel="noopener">AG media</a></div>
                 <div class="widget widget-links widget-light pb-4 text-center text-md-end">
-                    <img class="d-inline-block" width="187" src="media/img/cards-alt.png" alt="Payment methods"/>
+                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ asset('media/cards/visa.svg') }}" alt="Visa"/>
+                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ asset('media/cards/maestro.svg') }}" alt="Visa"/>
+                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ asset('media/cards/mastercard.svg') }}" alt="Visa"/>
+                    <img class="d-inline-block" style="width: 55px;margin-right:3px" src="{{ asset('media/cards/diners.svg') }}" alt="Visa"/>
+
+
                 </div>
             </div>
         </div>
