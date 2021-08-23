@@ -539,7 +539,7 @@
     <section class="container-fluid pt-grid-gutter bg-third">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-grid-gutter"><a class="card h-100" href="#map" data-scroll="">
+                <div class="col-xl-3 col-sm-6 mb-grid-gutter"><a class="card h-100" href="https://www.google.com/maps/place/Biblos/@45.810942,15.9794894,17.53z/data=!4m5!3m4!1s0x4765d7aac4f8b023:0xb60bceb791b31ede!8m2!3d45.8106161!4d15.9816921?hl=hr" target="_blank">
                         <div class="card-body text-center"><i class="ci-location h3 mt-2 mb-4 text-primary"></i>
                             <h3 class="h6 mb-2">Adresa</h3>
                             <p class="fs-sm text-muted">Palmotićeva 28, Zagreb</p>
