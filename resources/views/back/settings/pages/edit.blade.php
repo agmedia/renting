@@ -69,7 +69,8 @@
                             <div class="form-group row  mb-4">
                                 <div class="col-md-12">
                                     <label for="description-editor">Opis</label>
-                                    <textarea id="description-editor" name="description">{!! isset($page) ? $page->description : old('description') !!}</textarea>
+                                    <textarea id="js-ckeditor" name="description">{!! isset($page) ? $page->description : old('description') !!}</textarea>
+
                                 </div>
                             </div>
 
@@ -140,12 +141,15 @@
 @endsection
 
 @push('js_after')
-    <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
+  <!--  <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>-->
+
+    <script src="{{ asset('js/plugins/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['flatpickr']);});</script>
+    <script>jQuery(function(){Dashmix.helpers(['flatpickr', 'ckeditor']);});</script>
+
 
     <script>
         $(() => {
