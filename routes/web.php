@@ -33,20 +33,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-/**
- * FRONT ROUTES
- */
-Route::get('/', [HomeController::class, 'index'])->name('index');
-
-Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakt');
-Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
-Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
-Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
-Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
-
-Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
-
 /**
  * BACK ROUTES
  */
@@ -226,6 +212,16 @@ Route::prefix('api/v2')->group(function () {
 /**
  * FRONT ROUTES
  */
+Route::get('/', [HomeController::class, 'index'])->name('index');
+
+Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakt');
+Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
+Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
+Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
+Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
+
+//Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
+
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
 Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
@@ -233,6 +229,8 @@ Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
+
+Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 
 Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
 

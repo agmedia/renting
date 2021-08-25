@@ -148,7 +148,13 @@ class CatalogRouteController extends Controller
     public function search(Request $request)
     {
         if ($request->has(config('settings.search_keyword'))) {
+            $group = null; $cat = null; $subcat = null;
 
+            $ids = Helper::search(
+                $request->input(config('settings.search_keyword'))
+            );
+
+            return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
         }
 
         if ($request->has(config('settings.search_keyword') . '_api')) {
@@ -163,9 +169,13 @@ class CatalogRouteController extends Controller
     }
 
 
+    /**
+     * @param Page $page
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function page(Page $page)
     {
-
         return view('front.page', compact('page'));
     }
 

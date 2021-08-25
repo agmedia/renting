@@ -48,13 +48,14 @@
     <div class="search-box collapse" id="searchBox">
         <div class="card pt-3 pb-3 border-0 rounded-0">
             <div class="container">
-                <div class="input-group"><i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-                    <input class="form-control rounded-start" type="text" id="search-input" placeholder="Pretražite po nazivu ili autoru">
-                </div>
+                <form action="{{ route('pretrazi') }}" id="search-form" method="get">
+                    <div class="input-group">
+                        <i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
+                        <input class="form-control rounded-start" type="text" id="search-input" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
+                    </div>
+                </form>
             </div>
-            <div class="row justify-content-center" style="z-index: 999;" id="search-view-panel">
-
-            </div>
+<!--            <div class="row justify-content-center" style="z-index: 999;" id="search-view-panel"></div>-->
         </div>
     </div>
 </header>

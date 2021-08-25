@@ -144,6 +144,10 @@ class ProductCategoryList extends Component
 
         $request = new Request($request_data);
 
+        if (is_array($this->ids)) {
+            $this->ids = collect($this->ids);
+        }
+
         $products = (new Product())->filter($request, $this->ids)->paginate(config('settings.pagination.front'));
 
         return view('livewire.front.product-category-list', [

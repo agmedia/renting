@@ -14,17 +14,13 @@
                 </div>
                 <div class="row pb-lg-5 mb-4 mb-sm-5">
                     <div class="col-lg-6 col-md-8">
-                        <div class="input-group input-group-lg flex-nowrap">
-                            <input class="form-control rounded-start" type="text" placeholder="Pretražite po nazivu ili autoru">
-
-                            <button class="btn btn-primary btn-lg  fs-base" type="button" ><i class="ci-search "></i></button>
-
-                        </div>
-
-                        <div class="form-text text-white py-2"><span class="text-muted-light">*</span> Sve knjige na stranici su dostupne
-                        </div>
-
-
+                        <form action="{{ route('pretrazi') }}" method="get">
+                            <div class="input-group input-group-lg flex-nowrap">
+                                <input type="text" class="form-control rounded-start" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
+                                <button class="btn btn-primary btn-lg fs-base" type="submit"><i class="ci-search"></i></button>
+                            </div>
+                        </form>
+                        <div class="form-text text-white py-2"><span class="text-muted-light">*</span> Sve knjige na stranici su dostupne</div>
                     </div>
                 </div>
             </div>

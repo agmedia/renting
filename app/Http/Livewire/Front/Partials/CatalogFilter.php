@@ -238,17 +238,19 @@ class CatalogFilter extends Component
      */
     private function getBaseIDs()
     {
-        if ( ! $this->category && ! $this->subcategory) {
-            $category = new Category();
-            $this->categories = $category->topList($this->group)->with('subcategories')->get();
-        }
+        if ($this->group) {
+            if ( ! $this->category && ! $this->subcategory) {
+                $category = new Category();
+                $this->categories = $category->topList($this->group)->with('subcategories')->get();
+            }
 
 
-        if ($this->category && ! $this->subcategory) {
-            $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->with('subcategories')->first();
+            if ($this->category && ! $this->subcategory) {
+                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->with('subcategories')->first();
 
-            if ($item && $item->subcategories->count()) {
-                $this->categories = $item->subcategories;
+                if ($item && $item->subcategories->count()) {
+                    $this->categories = $item->subcategories;
+                }
             }
         }
     }

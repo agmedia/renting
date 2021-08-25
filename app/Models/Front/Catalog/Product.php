@@ -388,8 +388,6 @@ class Product extends Model
         if ($request->has('nakladnik')) {
             $pubs = [];
 
-            Log::info($request->input('nakladnik'));
-
             foreach ($request->input('nakladnik') as $key => $item) {
                 if (isset($item->id)) {
                     array_push($pubs, $item->id);

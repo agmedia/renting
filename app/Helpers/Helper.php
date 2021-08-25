@@ -85,18 +85,22 @@ class Helper
 
             $products = Product::where('name', 'like', '%' . $target . '%')
                                ->orWhere('meta_description', 'like', '%' . $target . '%')
-                               ->get();
+                               ->pluck('id');
 
-            $authors = Author::where('title', 'like', '%' . $target . '%')->get();
-            $publishers = Publisher::where('title', 'like', '%' . $target . '%')->get();
+            $authors = Author::where('title', 'like', '%' . $target . '%')->with('products')->get();
+            //$publishers = Publisher::where('title', 'like', '%' . $target . '%')->get();
 
-            $response->put('products', $products);
-            $response->put('authors', $authors);
-            $response->put('publishers', $publishers);
+            foreach ($authors as $author) {
+                $products = $products->merge($author->products()->pluck('id'));
+            }
 
-            $data = view('front.layouts.partials.search_result', ['data' => $response])->render();
+            $response->put('products', $products->unique());
+            //$response->put('authors', $authors->products()->pluck('id'));
+            //$response->put('publishers', $publishers);
 
-            $response->put('view', $data);
+            /*$data = view('front.layouts.partials.search_result', ['data' => $response])->render();
+
+            $response->put('view', $data);*/
 
             if ($builder) {
                 return $response;
