@@ -74,7 +74,7 @@ class CatalogRouteController extends Controller
             $ids = $ids->merge($category->products()->pluck('id'));
         }
 
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'prod'));
     }
 
 
@@ -166,6 +166,23 @@ class CatalogRouteController extends Controller
         }
 
         return response()->json(['error' => 'Greška kod pretrage..! Molimo pokušajte ponovo ili nas kotaktirajte! HVALA...']);
+    }
+
+
+    public function actions(Request $request)
+    {
+        $ids = collect();
+        $temps = Product::all();
+
+        foreach ($temps as $product) {
+            if ($product->special()) {
+                $ids->push($product->id);
+            }
+        }
+
+        $group = null; $cat = null; $subcat = null;
+
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
     }
 
 

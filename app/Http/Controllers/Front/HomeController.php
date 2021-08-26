@@ -22,6 +22,17 @@ class HomeController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function contact(Request $request)
+    {
+        return view('front.contact');
+    }
+
+
     public function import()
     {
         $list = Excel::import(new ProductImport(), public_path('media/artikli.xlsx'));

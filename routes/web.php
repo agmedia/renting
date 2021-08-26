@@ -212,15 +212,12 @@ Route::prefix('api/v2')->group(function () {
 /**
  * FRONT ROUTES
  */
-Route::get('/', [HomeController::class, 'index'])->name('index');
-
-Route::get('/kontakt', function() { return view('front.contact'); })->name('kontakt');
-Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
-Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
-Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
+//Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
 Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
-
 //Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
+
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
 
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
@@ -229,6 +226,9 @@ Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
+
+Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
+Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
 
 Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 
@@ -239,5 +239,7 @@ Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalo
  */
 Route::get('autor/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
 Route::get('nakladnik/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
+//
+Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
 //
 Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
