@@ -39,7 +39,7 @@
                 <div class=" col-sm-4">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="card-title mb-0"> <a href="{{ route('catalog.route.author', ['author' => $publisher]) }}">{{ $publisher->title }} <span class="badge rounded-pill bg-secondary float-end">{{ $publisher->products()->count() }}</span></a></h6>
+                            <h6 class="card-title mb-0"> <a href="{{ route('catalog.route.publisher', ['publisher' => $publisher]) }}">{{ $publisher->title }} <span class="badge rounded-pill bg-secondary float-end">{{ $publisher->products()->count() }}</span></a></h6>
                         </div>
                     </div>
                 </div>
