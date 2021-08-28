@@ -41,8 +41,8 @@
 
                             <div class="form-group row  mb-4">
                                 <div class="col-md-12">
-                                    <label for="description-editor">Opis izdavača</label>
-                                    <textarea id="description-editor" name="description">{!! isset($faq) ? $faq->description : old('description') !!}</textarea>
+                                    <label for="description-editor">Odgovor</label>
+                                    <textarea id="js-ckeditor" name="description">{!! isset($faq) ? $faq->description : old('description') !!}</textarea>
                                 </div>
                             </div>
 
@@ -78,19 +78,10 @@
 @endsection
 
 @push('js_after')
-    <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/plugins/ckeditor/ckeditor.js') }}"></script>
 
-    <script>
-        $(() => {
-            ClassicEditor
-            .create( document.querySelector('#description-editor'))
-            .then( editor => {
-                console.log(editor);
-            } )
-            .catch( error => {
-                console.error(error);
-            } );
-        })
-    </script>
+
+    <!-- Page JS Helpers (CKEditor 5 plugins) -->
+    <script>jQuery(function(){Dashmix.helpers(['ckeditor']);});</script>
 
 @endpush

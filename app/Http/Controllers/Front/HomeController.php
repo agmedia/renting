@@ -27,6 +27,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
+    public function faq(Request $request)
+    {
+        return view('front.faq');
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function contact(Request $request)
     {
         return view('front.contact');
@@ -43,5 +53,5 @@ class HomeController extends Controller
 
         dd($list);
     }
-    
+
 }
