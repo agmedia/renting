@@ -27,7 +27,7 @@
 
 
 
-        <div class="mt-3 mb-5">
+        <div class="mt-5 mb-5">
         {!! $page->description !!}
         </div>
 

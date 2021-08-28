@@ -61,7 +61,29 @@
                 </div>
             @endif
 
-            
+        <!-- Price range-->
+            <div class="widget mb-4 pb-4 border-bottom">
+                <h3 class="widget-title">Godina izdanja</h3>
+                <div class="range-slider" data-start-min="1800" data-start-max="2021" data-min="1800" data-max="2021" data-step="1">
+                    <div class="range-slider-ui"></div>
+                    <div class="d-flex pb-1">
+                        <div class="w-50 pe-2 me-2">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control range-slider-value-min" placeholder="Od" type="text" wire:model="start">
+                                <span class="input-group-text">g</span>
+                            </div>
+                        </div>
+                        <div class="w-50 ps-2">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control range-slider-value-max" placeholder="Do" type="text" wire:model="end">
+                                <span class="input-group-text">g</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Filter by Brand-->
             @if ($selected_publisher)
                 <div class="widget widget-filter mb-4 pb-4 border-bottom">
@@ -103,26 +125,7 @@
                 </div>
             @endif
 
-            <!-- Price range-->
-            <div class="widget mb-4 pb-4 border-bottom">
-                <h3 class="widget-title">Godina izdanja</h3>
-                <div>
-                    <div class="d-flex pb-1">
-                        <div class="w-50 pe-2 me-2">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control range-slider-value-min" placeholder="Od" type="text" wire:model="start">
-                                <span class="input-group-text">g</span>
-                            </div>
-                        </div>
-                        <div class="w-50 ps-2">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control range-slider-value-max" placeholder="Do" type="text" wire:model="end">
-                                <span class="input-group-text">g</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
     </div>
