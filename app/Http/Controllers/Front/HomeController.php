@@ -23,14 +23,15 @@ class HomeController extends Controller
 
 
     /**
-     * @param Request $request
+     * @param Page $page
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function faq(Request $request)
+    public function page(Page $page)
     {
-        return view('front.faq');
+        return view('front.page', compact('page'));
     }
+
 
     /**
      * @param Request $request

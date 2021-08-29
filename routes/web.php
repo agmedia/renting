@@ -218,7 +218,7 @@ Route::get('/knjiga', function() { return view('front.catalog.product.index'); }
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
-Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
 
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');

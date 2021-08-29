@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Front\Page;
+use App\Models\Front\Faq;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
@@ -193,7 +194,22 @@ class CatalogRouteController extends Controller
      */
     public function page(Page $page)
     {
+
         return view('front.page', compact('page'));
+    }
+
+
+    /**
+     * @param Faq $faq
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function faq()
+
+
+    {
+        $faq = Faq::where('status', 1)->get();
+        return view('front.faq', compact('faq'));
     }
 
 
