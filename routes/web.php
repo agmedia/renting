@@ -234,6 +234,7 @@ Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narud
 Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 
 Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
+Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
 
 /*
  * Groups, Categories and Products routes resolver.

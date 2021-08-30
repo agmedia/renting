@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Models\Front\Blog;
 use App\Models\Front\Page;
 use App\Models\Front\Faq;
 use App\Models\Front\Catalog\Author;
@@ -21,6 +22,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class CatalogRouteController extends Controller
 {
+
     /**
      * Resolver for the Groups, categories and products routes.
      * Route::get('{group}/{cat?}/{subcat?}/{prod?}', 'Front\GCP_RouteController::resolve()')->name('gcp_route');
@@ -170,6 +172,11 @@ class CatalogRouteController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function actions(Request $request)
     {
         $ids = collect();
@@ -194,8 +201,24 @@ class CatalogRouteController extends Controller
      */
     public function page(Page $page)
     {
-
         return view('front.page', compact('page'));
+    }
+
+
+    /**
+     * @param Blog $blog
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function blog(Blog $blog)
+    {
+        if (! $blog) {
+            $blogs = Blog::active()->get();
+
+            return view('front.blog', compact('blogs'));
+        }
+
+        return view('front.blog', compact('blog'));
     }
 
 
@@ -205,8 +228,6 @@ class CatalogRouteController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function faq()
-
-
     {
         $faq = Faq::where('status', 1)->get();
         return view('front.faq', compact('faq'));

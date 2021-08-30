@@ -13,8 +13,6 @@ use Illuminate\Support\Str;
 class Faq extends Model
 {
 
-    use HasFactory;
-
     /**
      * @var string
      */
@@ -24,17 +22,5 @@ class Faq extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
