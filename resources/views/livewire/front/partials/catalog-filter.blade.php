@@ -50,7 +50,7 @@
             <div class="widget mb-4 pb-4 border-bottom">
                 <h3 class="widget-title">Godina izdanja</h3>
                 <div class="range-slider" data-start-min="1800" data-start-max="2021" data-min="1800" data-max="2021" data-step="1">
-                    <div class="range-slider-ui"></div>
+<!--                    <div class="range-slider-ui"></div>-->
                     <div class="d-flex pb-1">
                         <div class="w-50 pe-2 me-2">
                             <div class="input-group input-group-sm">
