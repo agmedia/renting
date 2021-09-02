@@ -10,27 +10,68 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
                                 <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                                <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $blog->title }}</li>
+                                <li class="breadcrumb-item text-nowrap active" aria-current="page">Iz medija</li>
                             </ol>
                         </nav>
 
             </div>
             <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="text-light">{{ $blog->title }}</h1>
+                @if(isset($blogs))
+            <h1 class="text-light">Iz medija</h1>
+                @else
+                    <h1 class="text-light">{{ $blog->title }}</h1>
+                @endif
         </div>
         </div>
     </div>
 
+    @if(isset($blogs))
 
+    <div class="container pb-5 mb-2 mb-md-4">
 
-    <div class="container">
+        <div class="pt-5 mt-md-2">
+            <!-- Entries grid-->
+            <div class="masonry-grid" data-columns="3">
+                @foreach ($blogs as $blog)
 
+                <article class="masonry-grid-item">
+                    <div class="card">
+                        <a class="blog-entry-thumb" href="{{ route('catalog.route.blog', ['blog' => $blog]) }}"><img class="card-img-top" src="{{ $blog->image }}" alt="Post"></a>
+                        <div class="card-body">
+                            <h2 class="h6 blog-entry-title"><a href="blog/{{ $blog->slug }}">{{ $blog->title }}</a></h2>
+                            <p class="fs-sm">{{ $blog->short_description }}</p>
+                        </div>
+                        <div class="card-footer d-flex align-items-left fs-xs">
+                            <div class="me-auto text-nowrap"><a class="blog-entry-meta-link text-nowrap" href="blog/{{ $blog->slug }}">{{ \Carbon\Carbon::make($blog->created_at)->locale('hr')->format('d.m.Y.') }}</a></div>
+                        </div>
+                    </div>
+                </article>
 
+                @endforeach
 
-        <div class="mt-3 mb-5">
-        {!! $blog->description !!}
+            </div>
+
         </div>
 
     </div>
+    @else
+        <div class="container pb-5">
+            <div class="row justify-content-center pt-5 mt-md-2">
+                <div class="col-lg-9">
+                    <!-- Post meta-->
+                    <!-- Gallery-->
+                    <div class="gallery row pb-2">
+                        <div class="col-sm-12"><a class="gallery-item rounded-3 mb-grid-gutter" href="{{ asset($blog->image) }}" data-bs-sub-html="&lt;h6 class=&quot;fs-sm text-light&quot;&gt;Gallery image caption #1&lt;/h6&gt;"><img src="{{ asset($blog->image) }}" alt="Gallery image"><span class="gallery-item-caption">{{ $blog->title }}</span></a></div>
+
+                    </div>
+                    <!-- Post content-->
+
+                    {{ $blog->description }}
+
+                </div>
+            </div>
+        </div>
+
+    @endif
 
 @endsection

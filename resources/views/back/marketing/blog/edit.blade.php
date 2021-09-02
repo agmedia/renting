@@ -30,7 +30,7 @@
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
-                            <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active">
+                            <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="status" {{ (isset($blog) and $blog->status) ? 'checked' : '' }}>
                             <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
                         </div>
                     </div>
