@@ -85,7 +85,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse ($orders as $order)
+                        @forelse ($orders->sortByDesc('id') as $order)
+
+
+
+
                             <tr>
                                 <td class="text-center">
                                     <div class="form-group">
