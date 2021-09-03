@@ -3,7 +3,7 @@
         <div class="modal-content rounded">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary">
-                    <h3 class="block-title">Plaćanje karticama</h3>
+                    <h3 class="block-title">T-com Payway Payment Gateway</h3>
                     <div class="block-options">
                         <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-times"></i>
@@ -42,6 +42,63 @@
                                 <textarea class="form-control" id="payway-description" name="data['description']" rows="4"></textarea>
                             </div>
 
+                            <div class="block block-themed block-transparent mb-4">
+                                <div class="block-content bg-body pb-3">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-11">
+                                            <div class="form-group">
+                                                <label for="payway-shop-id">ID prodajnog mjesta (ShopID):</label>
+                                                <input type="text" class="form-control" id="payway-shop-id" name="data['shop_id']">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="payway-secret-key">Tajni ključ (SecretKey):</label>
+                                                <input type="text" class="form-control" id="payway-secret-key" name="data['secret_key']">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="payway-type">Tip autorizacije</label>
+                                                <select class="js-select2 form-control" id="payway-type" name="data['type']" style="width: 100%;" data-placeholder="Odaberite tip autorizacije">
+                                                    <option value="1">Autorizacija u jednom koraku (automatska autorizacija)</option>
+                                                    <option value="0">Authtorizacija u dva koraka (predautorizacija)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="payway-callback">URL za slanje odgovora: <span class="small text-gray">Ovo također mora biti upisano u payway control panelu.</span></label>
+                                                <input type="text" class="form-control" id="payway-callback" name="data['callback']" value="{{ url('/') }}">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="d-block">Test mod.</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
+                                                            <input type="radio" class="custom-control-input" id="payway-test-on" name="test" checked="" value="1">
+                                                            <label class="custom-control-label" for="payway-test-on">Da</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
+                                                            <input type="radio" class="custom-control-input" id="payway-test-off" name="test" value="0">
+                                                            <label class="custom-control-label" for="payway-test-off">Ne</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="payway-geo-zone">Geo zona <span class="small text-gray">(Ostaviti prazno ako se odnosi na sve..)</span></label>
+                                                <select class="js-select2 form-control" id="payway-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
+                                                    <option></option>
+                                                    @foreach ($geo_zones as $geo_zone)
+                                                        <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -60,7 +117,6 @@
                             </div>
 
                             <input type="hidden" id="payway-code" name="code" value="payway">
-                            <input type="hidden" id="payway-geo-zone" name="geo_zone" value="1">
                         </div>
                     </div>
                 </div>
@@ -79,6 +135,15 @@
 
 @push('payment-modal-js')
     <script>
+        $(() => {
+            $('#payway-type').select2({
+                minimumResultsForSearch: Infinity
+            });
+
+            $('#payway-geo-zone').select2({
+                tags: true
+            });
+        });
         /**
          *
          */
@@ -90,6 +155,11 @@
                 data: {
                     short_description: $('#payway-short-description').val(),
                     description: $('#payway-description').val(),
+                    shop_id: $('#payway-shop-id').val(),
+                    secret_key: $('#payway-secret-key').val(),
+                    type: $('#payway-type').val(),
+                    callback: $('#payway-callback').val(),
+                    test: $("input[name='test']:checked").val(),
                 },
                 geo_zone: $('#payway-geo-zone').val(),
                 status: $('#payway-status')[0].checked,
@@ -97,14 +167,14 @@
             };
 
             axios.post("{{ route('api.payment.store') }}", {data: item})
-            .then(response => {
-                console.log(response.data)
-                if (response.data.success) {
-                    location.reload();
-                } else {
-                    return errorToast.fire(response.data.message);
-                }
-            });
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.success) {
+                        location.reload();
+                    } else {
+                        return errorToast.fire(response.data.message);
+                    }
+                });
         }
 
         /**
@@ -116,6 +186,18 @@
             $('#payway-min').val(item.min);
             $('#payway-short-description').val(item.data.short_description);
             $('#payway-description').val(item.data.description);
+
+            $('#payway-shop-id').val(item.data.shop_id);
+            $('#payway-secret-key').val(item.data.secret_key);
+            $('#payway-callback').val(item.data.callback);
+
+            $("input[name=test][value='" + item.data.test + "']").prop("checked",true);
+
+            $('#payway-type').val(item.data.type);
+            $('#payway-type').trigger('change');
+            $('#payway-geo-zone').val(item.geo_zone);
+            $('#payway-geo-zone').trigger('change');
+
             $('#payway-sort-order').val(item.sort_order);
             $('#payway-code').val(item.code);
 
