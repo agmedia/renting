@@ -4,7 +4,7 @@
         <div class="d-flex flex-wrap">
             <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
                 <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting">Sortiraj:</label>
-                <select class="form-select" id="sorting-select">
+                <select class="form-select" id="sorting-select" wire:ignore>
                     @foreach (config('settings.sorting_list') as $item)
                         <option value="{{ $item['value'] }}" @if(request()->get('sort') == $item['value']) selected @endif>{{ $item['title'] }}</option>
                     @endforeach

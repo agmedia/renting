@@ -122,5 +122,14 @@
             location.href = url;
         }
 
+        /**
+         *
+         */
+        function cleanURL() {
+            let url = location.protocol + "//" + location.host + location.pathname;
+
+            location.href = url;
+        }
+
     </script>
 @endpush
