@@ -6,6 +6,7 @@ use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Publisher;
+use App\Models\Back\Marketing\Blog;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
@@ -78,6 +79,9 @@ class ActionGroupList extends Component
                 case 'author':
                     $this->search_results = Author::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
                     break;
+                case 'blog':
+                    $this->search_results = Blog::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
+                    break;
             }
         }
     }
@@ -103,6 +107,9 @@ class ActionGroupList extends Component
                 break;
             case 'author':
                 $this->list[$id] = Author::where('id', $id)->first();
+                break;
+            case 'blog':
+                $this->list[$id] = Blog::where('id', $id)->first();
                 break;
         }
     }

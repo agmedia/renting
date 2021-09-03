@@ -2,7 +2,7 @@
     <div class="block-content bg-body-light" style="padding: 12px 20px;">
         <div class="row">
             <div class="col-md-3">
-                <h3 class="block-title pt-1">Akcije</h3>
+                <h3 class="block-title pt-1">Stavke</h3>
             </div>
             <div class="col-md-9">
                 <div class="block-options">
@@ -39,7 +39,7 @@
                             <input type="hidden" name="action_list[{{ isset($item['id']) ? $item['id'] : '' }}]" value="{{ isset($item['id']) ? $item['id'] : '' }}">
                         </td>
                         <td class="text-right font-size-sm">
-                            <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)" wire:click="removeItem({{ $item['id'] }})">
+                            <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)" wire:click="removeItem({{ isset($item['id']) ? $item['id'] : '' }})">
                                 <i class="fa fa-fw fa-times text-danger"></i>
                             </a>
                         </td>

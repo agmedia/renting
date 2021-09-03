@@ -18,6 +18,8 @@ use App\Http\Controllers\Back\Settings\PageController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
 use App\Http\Controllers\Back\Settings\SettingsController;
 use App\Http\Controllers\Back\UserController;
+use App\Http\Controllers\Back\Widget\WidgetController;
+use App\Http\Controllers\Back\Widget\WidgetGroupController;
 use App\Http\Controllers\Front\CatalogRouteController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\HomeController;
@@ -108,6 +110,22 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
     Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('user/{user}', [UserController::class, 'update'])->name('users.update');
 
+    // WIDGETS
+    Route::prefix('widgets')->group(function () {
+        Route::get('/', [WidgetController::class, 'index'])->name('widgets');
+        Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
+        Route::post('/', [WidgetController::class, 'store'])->name('widget.store');
+        Route::get('{widget}/edit', [WidgetController::class, 'edit'])->name('widget.edit');
+        Route::patch('{widget}', [WidgetController::class, 'update'])->name('widget.update');
+        // GROUP
+        Route::prefix('groups')->group(function () {
+            Route::get('create', [WidgetGroupController::class, 'create'])->name('widget.group.create');
+            Route::post('/', [WidgetGroupController::class, 'store'])->name('widget.group.store');
+            Route::get('{widget}/edit', [WidgetGroupController::class, 'edit'])->name('widget.group.edit');
+            Route::patch('{widget}', [WidgetGroupController::class, 'update'])->name('widget.group.update');
+        });
+    });
+
     // POSTAVKE
     Route::prefix('settings')->group(function () {
         // INFO PAGES
@@ -170,6 +188,11 @@ Route::prefix('api/v2')->group(function () {
 
     // SETTINGS
     Route::prefix('settings')->group(function () {
+        // WIDGET
+        Route::prefix('widget')->group(function () {
+            Route::post('destroy', [WidgetController::class, 'destroy'])->name('widget.destroy');
+            Route::get('get-links', [WidgetController::class, 'getLinks'])->name('widget.api.get-links');
+        });
         // APPLICATION SETTINGS
         Route::prefix('app')->group(function () {
             // GEO ZONE

@@ -3,7 +3,7 @@
 
 namespace App\Helpers;
 
-
+use App\Models\Back\Widget\WidgetGroup;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
@@ -110,6 +110,83 @@ class Helper
         }
 
         return false;
+    }
+
+
+    /**
+     * @param string $description
+     *
+     * @return false|string
+     */
+    public static function setDescription(string $description)
+    {
+        $iterator = substr_count($description, '++');
+        $offset = 0;
+        $ids = [];
+
+        for ($i = 0; $i < $iterator / 2; $i++) {
+            $from = strpos($description, '++', $offset) + 2;
+            $to = strpos($description, '++', $from + 2);
+            $ids[] = substr($description, $from, $to - $from);
+
+            $offset = $to + 2;
+        }
+
+        foreach ($ids as $id) {
+            $wg = WidgetGroup::where('id', $id)->orWhere('slug', $id)->where('status', 1)->with('widgets')->first();
+
+            $widgets = [];
+
+            if ($wg->template == 'product_carousel' || $wg->template == 'page_carousel') {
+                $widget = $wg->widgets()->first();
+                $data = unserialize($widget->data);
+
+                if (isset($data['new']) && $data['new'] == 'on') {
+                    $items = Product::last()->get();
+                }
+
+                if (isset($data['popular']) && $data['popular'] == 'on') {
+                    $items = Product::popular()->get();
+                }
+
+                if (isset($data['list']) && $data['list']) {
+                    $items = Product::whereIn('id', $data['list'])->active()->get();
+                }
+
+                //dd($data);
+
+                $widgets = [
+                    'title' => $widget->title,
+                    'subtitle' => $widget->subtitle,
+                    'url' => null,
+                    'css' => $data['css'],
+                    'container' => (isset($data['container']) && $data['container'] == 'on') ? 1 : null,
+                    'products' => $items
+                ];
+
+            } else {
+                foreach ($wg->widgets()->orderBy('sort_order')->get() as $widget) {
+                    $data = unserialize($widget->data);
+
+                    $widgets[] = [
+                        'title' => $widget->title,
+                        'subtitle' => $widget->subtitle,
+                        'url' => $widget->url,
+                        'image' => $widget->image,
+                        'width' => $widget->width,
+                        'right' => (isset($data['right']) && $data['right'] == 'on') ? 1 : null,
+                    ];
+                }
+            }
+
+            $description = str_replace(
+                '++' . $id . '++',
+                view('front.layouts.widget.widget_' . $wg->template, ['data' => $widgets]),
+                $description
+            );
+        }
+
+        return substr($description, 3, -4);
     }
 
 }

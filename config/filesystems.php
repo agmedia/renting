@@ -109,7 +109,12 @@ return [
             'root' => public_path('media/img/page/'),
             'url' => 'media/img/page/'
         ],
-
+        //
+        'widget' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/widget/'),
+            'url' => 'media/img/widget/'
+        ],
     ],
 
     /*

@@ -1,9 +1,7 @@
 @extends('back.layouts.backend')
+
 @push('css_before')
-
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-
-
 @endpush
 
 @section('content')

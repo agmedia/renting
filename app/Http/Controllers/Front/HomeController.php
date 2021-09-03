@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Models\Front\Page;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -18,7 +20,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('front.home');
+        $page = Page::where('slug', 'homepage')->first();
+
+        $page->description = Helper::setDescription($page->description);
+
+        return view('front.page', compact('page'));
     }
 
 

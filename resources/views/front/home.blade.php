@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <!-- Hero section-->
+    <!-- Hero section -->
     <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url('media/img/lightslider.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="pb-lg-5 mb-lg-3">
             <div class="container py-lg-4 my-lg-5">
@@ -26,15 +26,13 @@
             </div>
         </div>
     </section>
-    <!-- Featured products (Carousel)-->
+
+    <!-- Featured products (Carousel) -->
     <section class="container position-relative pt-3 pt-lg-0 pb-5 mt-lg-n10" style="z-index: 10;">
         <div class="card px-lg-2 border-0 shadow-lg">
             <div class="card-body px-4 pt-5 pb-4">
-
                 <h2 class="h3 text-center">Novo u ponudi</h2>
                 <p class="text-muted-light text-center ">Svakodnevno nove knjige u ponudi</p>
-
-                <!-- Carousel-->
                 <div class="tns-carousel pt-4">
                     <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
                         <!-- Product-->
@@ -168,15 +166,10 @@
         </div>
     </section>
 
-    <!-- Recent products grid-->
+    <!-- Recent products grid -->
     <section class="container pb-4 mb-lg-3">
-        <!-- Heading-->
-
-
         <h2 class="h3 text-center">Izdvojeno iz naše ponude</h2>
         <p class="text-muted-light text-center">Svakog tjedna ručno odabiremo neke od najatraktivnijih knjiga iz naše kolekcije</p>
-
-        <!-- Grid-->
         <div class="tns-carousel pt-4">
             <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
                 <!-- Product-->
@@ -305,8 +298,6 @@
                 </div>
             </div>
         </div>
-        <!-- More button-->
-
     </section>
 
     <section class="container pb-3 mb-md-3">
@@ -330,7 +321,6 @@
                 </div>
 
             </div>
-
             <div class="col-md-6 mb-4">
                 <!-- Gallery inside card -->
                 <div class="card bg-third" >
@@ -340,26 +330,20 @@
                         </div>
                         <div class="col-7">
                             <div class="card-body ps-md-4">
-                                <h3 class="mb-4 ">Vedute i karte</h3>
-                                <a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
+                                <h3 class="mb-4">Vedute i karte</h3>
+                                <a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Recent products grid-->
+    <!-- Recent products grid -->
     <section class="container pb-5 mb-lg-3">
-        <!-- Heading-->
-
         <h2 class="h3 text-center">Knjige za djecu i mlade</h2>
-        <p class="text-muted-light text-center ">Lektira i knjige za djecu i mlade</p>
-
-
-        <!-- Grid-->
+        <p class="text-muted-light text-center">Lektira i knjige za djecu i mlade</p>
         <div class="tns-carousel pt-4">
             <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
                 <!-- Product-->
@@ -489,12 +473,10 @@
                 </div>
             </div>
         </div>
-        <!-- More button-->
-
     </section>
 
-    <!-- Blog posts carousel-->
-    <section class=" border-top mb-0 pb-5 py-5" style="background-image: url('media/img/glag.png');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+    <!-- Blog posts carousel -->
+    <section class="border-top mb-0 pb-5 py-5" style="background-image: url('media/img/glag.png');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="container py-lg-3">
             <h2 class="h3 text-center">Iz medija</h2>
             <p class="text-muted-light text-center mb-3 pb-4">Medijske objave, članci i obavijesti</p>
@@ -529,18 +511,21 @@
                     </div>
                 </div>
             </div>
-
+        </div>
     </section>
 
     <section class="container-fluid pt-grid-gutter bg-third">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-grid-gutter"><a class="card h-100" href="https://www.google.com/maps/place/Biblos/@45.810942,15.9794894,17.53z/data=!4m5!3m4!1s0x4765d7aac4f8b023:0xb60bceb791b31ede!8m2!3d45.8106161!4d15.9816921?hl=hr" target="_blank">
+                <div class="col-xl-3 col-sm-6 mb-grid-gutter">
+                    <a class="card h-100" href="https://www.google.com/maps/place/Biblos/@45.810942,15.9794894,17.53z/data=!4m5!3m4!1s0x4765d7aac4f8b023:0xb60bceb791b31ede!8m2!3d45.8106161!4d15.9816921?hl=hr" target="_blank">
                         <div class="card-body text-center"><i class="ci-location h3 mt-2 mb-4 text-primary"></i>
                             <h3 class="h6 mb-2">Adresa</h3>
                             <p class="fs-sm text-muted">Palmotićeva 28, Zagreb</p>
                             <div class="fs-sm text-primary">Kliknite za mapu<i class="ci-arrow-right align-middle ms-1"></i></div>
-                        </div></a></div>
+                        </div>
+                    </a>
+                </div>
                 <div class="col-xl-3 col-sm-6 mb-grid-gutter">
                     <div class="card h-100">
                         <div class="card-body text-center"><i class="ci-time h3 mt-2 mb-4 text-primary"></i>
@@ -569,7 +554,6 @@
                             <h3 class="h6 mb-3">Email adresa</h3>
                             <ul class="list-unstyled fs-sm mb-0">
                                 <li><a class="nav-link-style text-primary" href="mailto:info@antikvarijat-biblos.hr">info@antikvarijat-biblos.hr</a></li>
-
                             </ul>
                         </div>
                     </div>
