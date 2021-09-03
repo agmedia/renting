@@ -99,7 +99,7 @@ class CheckoutController extends Controller
         }
 
         if ($order->finish($request)) {
-            CheckoutSession::forgetOrder();
+            //CheckoutSession::forgetOrder();
             $this->shoppingCart()->flush();
 
             return redirect()->route('checkout.success');
@@ -114,7 +114,13 @@ class CheckoutController extends Controller
      */
     public function success()
     {
-        return view('front.checkout.success');
+
+        $data['order'] = CheckoutSession::getOrder();
+
+       CheckoutSession::forgetOrder();
+       // return view('front.checkout.success');
+
+        return view('front.checkout.success', compact('data'));
     }
 
 

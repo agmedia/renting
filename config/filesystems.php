@@ -115,6 +115,11 @@ return [
             'root' => public_path('media/img/widget/'),
             'url' => 'media/img/widget/'
         ],
+        'qr' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/qr/'),
+            'url' => 'media/img/qr/'
+        ],
     ],
 
     /*
