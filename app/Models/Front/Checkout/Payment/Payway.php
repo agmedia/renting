@@ -81,7 +81,7 @@ class Payway
 
         $data['action'] = $action;
         $data['shop_id'] = $payment_method->data->shop_id;
-        $data['order_id'] = $this->order->id;
+        $data['order_id'] = $shoppingcartid;
         $data['total'] = $total;
         $data['md5'] = $hash;
         $data['firstname'] = $this->order->payment_fname;
