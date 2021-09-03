@@ -4,6 +4,7 @@
 namespace App\Helpers;
 
 use App\Models\Back\Widget\WidgetGroup;
+use App\Models\Front\Blog;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
@@ -141,19 +142,33 @@ class Helper
                 $widget = $wg->widgets()->first();
                 $data = unserialize($widget->data);
 
-                if (isset($data['new']) && $data['new'] == 'on') {
-                    $items = Product::last()->get();
+                if (static::isDescriptionTarget($data, 'product')) {
+                    if (isset($data['new']) && $data['new'] == 'on') {
+                        $items = Product::last()->get();
+                    }
+
+                    if (isset($data['popular']) && $data['popular'] == 'on') {
+                        $items = Product::popular()->get();
+                    }
+
+                    if (isset($data['list']) && $data['list']) {
+                        $items = Product::whereIn('id', $data['list'])->active()->get();
+                    }
                 }
 
-                if (isset($data['popular']) && $data['popular'] == 'on') {
-                    $items = Product::popular()->get();
-                }
+                if (static::isDescriptionTarget($data, 'blog')) {
+                    if (isset($data['new']) && $data['new'] == 'on') {
+                        $items = Blog::last()->active()->get();
+                    }
 
-                if (isset($data['list']) && $data['list']) {
-                    $items = Product::whereIn('id', $data['list'])->active()->get();
-                }
+                    if (isset($data['popular']) && $data['popular'] == 'on') {
+                        $items = Blog::popular()->active()->get();
+                    }
 
-                //dd($data);
+                    if (isset($data['list']) && $data['list']) {
+                        $items = Blog::whereIn('id', $data['list'])->active()->get();
+                    }
+                }
 
                 $widgets = [
                     'title' => $widget->title,
@@ -161,7 +176,8 @@ class Helper
                     'url' => null,
                     'css' => $data['css'],
                     'container' => (isset($data['container']) && $data['container'] == 'on') ? 1 : null,
-                    'products' => $items
+                    'background' => (isset($data['background']) && $data['background'] == 'on') ? 1 : null,
+                    'items' => $items
                 ];
 
             } else {
@@ -187,6 +203,21 @@ class Helper
         }
 
         return substr($description, 3, -4);
+    }
+
+
+    /**
+     * @param array  $data
+     * @param string $target
+     *
+     * @return bool
+     */
+    public static function isDescriptionTarget(array $data, string $target): bool
+    {
+        if (isset($data['target']) && $data['target'] == $target) { return true; }
+        if (isset($data['group']) && $data['group'] == $target) { return true; }
+
+        return false;
     }
 
 }

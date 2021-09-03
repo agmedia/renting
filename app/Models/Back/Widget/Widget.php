@@ -103,6 +103,7 @@ class Widget extends Model
 
             $arr = $this->request->toArray();
             unset($arr['_token']);
+            unset($arr['_method']);
             unset($arr['image']);
             unset($arr['image_long']);
 
@@ -148,8 +149,11 @@ class Widget extends Model
 
             $arr = $this->request->toArray();
             unset($arr['_token']);
+            unset($arr['_method']);
             unset($arr['image']);
             unset($arr['image_long']);
+
+            dd($arr);
 
             if ($this->request->has('action_list')) {
                 $arr['list'] = $this->request->input('action_list');

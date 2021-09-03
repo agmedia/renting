@@ -54,4 +54,48 @@ class Blog extends Model
     {
         return $query->where('status', 1);
     }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeInactive(Builder $query): Builder
+    {
+        return $query->where('status', 0);
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeLast(Builder $query, $count = 9): Builder
+    {
+        return $query->orderBy('updated_at', 'desc')->limit($count);
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopePopular(Builder $query, $count = 9): Builder
+    {
+        return $query->orderBy('viewed', 'desc')->limit($count);
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeFeatured(Builder $query, $count = 9): Builder
+    {
+        return $query->where('featured', 1)->orderBy('updated_at', 'desc')->limit($count);
+    }
 }

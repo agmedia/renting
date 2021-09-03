@@ -93,8 +93,6 @@ class WidgetController extends Controller
             abort(401);
         }
 
-        //dd(unserialize($widget->data));
-
         if ($widget->group) {
             $selected = $widget->group;
 
