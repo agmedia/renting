@@ -63,7 +63,7 @@ class Payway
         $total = number_format($this->order->total,2, ',', '');
         $_total = str_replace( ',', '', $total);
 
-        $shoppingcartid = $this->order->id.'biblos';
+        $shoppingcartid = $this->order->id;
 
    // $stringhash = $payment_method->data->shop_id.$payment_method->data->secret_key.$shoppingcartid.$payment_method->data->secret_key.$_total.$payment_method->data->secret_key;
 
@@ -73,7 +73,7 @@ class Payway
 
         $hash = md5($payment_method->data->shop_id .
             $payment_method->data->secret_key .
-            $shoppingcartid .
+            $this->order->id .
             $payment_method->data->secret_key .
             $_total.
             $payment_method->data->secret_key
@@ -81,7 +81,7 @@ class Payway
 
         $data['action'] = $action;
         $data['shop_id'] = $payment_method->data->shop_id;
-        $data['order_id'] = $shoppingcartid;
+        $data['order_id'] = $this->order->id;
         $data['total'] = $total;
         $data['md5'] = $hash;
         $data['firstname'] = $this->order->payment_fname;
