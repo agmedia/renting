@@ -105,8 +105,8 @@
 
                             <!-- Product panels-->
                             <ul class="list-unstyled fs-sm spec">
-                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Autor</span><span class="text-muted"><a class="product-meta text-primary" href="#">{{ $prod->author->title }}</a></span></li>
-                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Izdavač</span><a class="product-meta text-primary" href="#">{{ $prod->publisher->title }}</a></li>
+                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Autor</span><span class="text-muted"><a class="product-meta text-primary" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">{{ $prod->author->title }}</a></span></li>
+                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Izdavač</span><a class="product-meta text-primary" href="{{ route('catalog.route.publisher', ['publisher' => $prod->publisher]) }}">{{ $prod->publisher->title }}</a></li>
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Šifra</span><span class="text-muted">{{ $prod->sku }}</span></li>
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Broj stranica</span><span class="text-muted">{{ $prod->pages ?: '0' }}</span></li>
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Dimenzije</span><span class="text-muted">{{ $prod->dimensions ?: '...' }}</span></li>
@@ -135,7 +135,7 @@
                 <h2 class="h3 mb-2 pb-0">{{ $prod->name }}</h2>
                 <h3 class="h6 mb-4">{{ $prod->author->title }}</h3>
                 <p class="fs-md pb-2">{!! $prod->description !!}</p>
-                <div class="mt-3 me-3"><a class="btn-tag me-2 mb-2" href="#">#kriminalistika</a><a class="btn-tag mb-2" href="#">#roman</a></div>
+                <div class="mt-3 me-3"><a class="btn-tag me-2 mb-2" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">#{{ $prod->author->title }}</a></div>
             </div>
         </div>
 
@@ -148,18 +148,20 @@
             <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;nav&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 18},&quot;768&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:4, &quot;gutter&quot;: 30}}}">
 
                 @foreach ($cat->products()->get() as $cat_product)
+
+                    @if ($cat_product->id  != $prod->id)
                     <div>
                         <div class="card product-card-alt">
                             <div class="product-thumb">
 
-                                <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                    <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="{{ asset($cat_product->image) }}" alt="Product">
+                                <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}"><i class="ci-eye"></i></a>
+                                    <add-to-cart-btn-simple id="{{ $cat_product->id }}"></add-to-cart-btn-simple>
+                                </div><a class="product-thumb-overlay" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}"></a><img src="{{ asset($cat_product->image) }}" alt="Product">
                             </div>
                             <div class="card-body">
                                 <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                                     <div class="text-muted fs-xs me-1">
-                                        <a class="product-meta fw-medium" href="#">{{ $cat_product->author->title }}</a>
+                                        <a class="product-meta fw-medium" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}">{{ $cat_product->author->title }}</a>
                                     </div>
 <!--                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                     </div>-->
@@ -172,6 +174,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
         </div>
