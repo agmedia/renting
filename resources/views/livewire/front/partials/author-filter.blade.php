@@ -125,7 +125,7 @@
                 </div>
             @endif
 
-            <button type="button" onclick="cleanURL();" class="btn btn-secondary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
+            <button type="button" onclick="cleanURL();" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
 
         </div>
     </div>

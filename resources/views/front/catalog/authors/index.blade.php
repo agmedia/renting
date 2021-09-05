@@ -34,7 +34,7 @@
                 <hr>
             </div>
                     @foreach ($authors as $author)
-                        <div class=" col-sm-4">
+                        <div class=" col-sm-4 mb-3">
                              <div class="card">
                                  <div class="card-body">
                                      <h6 class="card-title mb-0"> <a href="{{ route('catalog.route.author', ['author' => $author]) }}">{{ $author->title }} <span class="badge rounded-pill bg-secondary float-end">{{ $author->products()->count() }}</span></a></h6>

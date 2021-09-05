@@ -30,7 +30,7 @@
 
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
 
-
+        @if (auth()->guest())
         <div class="alert alert-secondary d-flex mb-3" role="alert">
             <div class="alert-icon">
                 <i class="ci-user"></i>
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
 
         <div class="row">
             <div class="col-sm-6">
@@ -147,8 +147,8 @@
         @if (auth()->guest())
             <h6 class="mb-3 py-3 border-bottom">Registracija</h6>
             <div class="form-check">
-
-                <label class="form-check-label" for="napraviracun" >Ujedno napravi i korisnički račun <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" ></label>
+                <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" >
+                <label class="form-check-label" for="napraviracun" >Ujedno napravi i korisnički račun </label>
 
             </div>
 
