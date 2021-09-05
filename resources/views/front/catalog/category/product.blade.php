@@ -16,8 +16,7 @@
                     <a class="product-meta fw-medium" href="#">Nepoznato</a>
                 @endif
             </div>
-            <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-            </div>
+
         </div>
         <h3 class="product-title fs-sm mb-0"><a href="{{ (isset($cat) && isset($subcat)) ? $product->url($cat, $subcat) : $product->url() }}">{{ $product->name }}</a></h3>
         <div class="d-flex flex-wrap justify-content-between align-items-center">

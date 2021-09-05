@@ -166,7 +166,7 @@
 <!--                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
                                     </div>-->
                                 </div>
-                                <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">{{ $cat_product->name }}</a></h3>
+                                <h3 class="product-title fs-sm mb-2"><a href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}">{{ $cat_product->name }}</a></h3>
                                 <div class="d-flex flex-wrap justify-content-between align-items-center">
                                     <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">{{ $cat->title }}</span></div>
                                     <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $cat_product->priceString() !!}</div>

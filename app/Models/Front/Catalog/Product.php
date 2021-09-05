@@ -270,7 +270,7 @@ class Product extends Model
             $subcategory = $this->subcategory();
         }
 
-        $catstring = '<span class="fs-xs ms-1"><a href="' . route('catalog.route', ['group' => Str::slug($category->group), 'cat' => $category]) . '">' . $category->title . '</a>, ';
+        $catstring = '<span class="fs-xs ms-1"><a href="' . route('catalog.route', ['group' => Str::slug($category->group), 'cat' => $category]) . '">' . $category->title . '</a> ';
 
         if ($subcategory) {
             $substring = '</span><span class="fs-xs ms-1"><a href="' . route('catalog.route', ['group' => Str::slug($category->group), 'cat' => $category, 'subcat' => $subcategory]) . '">' . $subcategory->title . '</a></span>';
