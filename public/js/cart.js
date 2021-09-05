@@ -1852,31 +1852,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    id: String,
-    qty: 1
+    id: String
+  },
+  data: function data() {
+    return {
+      quantity: 1
+    };
   },
   mounted: function mounted() {},
   methods: {
     addToCart: function addToCart() {
       var item = {
         id: this.id,
-        quantity: this.qty
+        quantity: this.quantity
       };
       this.$store.dispatch('addToCart', item);
-    },
-    subtractQuantity: function subtractQuantity() {
-      if (this.qty > 1) {
-        this.qty = this.qty - 1;
-      }
-    },
-    addQuantity: function addQuantity() {
-      this.qty = this.qty + 1;
     }
   }
 });
@@ -3944,30 +3936,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "cart mb-5 d-flex align-items-center" }, [
-    _c("div", { staticClass: "quantity clearfix" }, [
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.qty,
-            expression: "qty"
-          }
-        ],
-        staticClass: "qty",
-        attrs: { type: "hidden" },
-        domProps: { value: _vm.qty },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.qty = $event.target.value
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
     _c(
       "button",
       {
