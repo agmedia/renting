@@ -13,7 +13,7 @@
 export default {
     props: {
         id: String,
-        qty: Number
+        qty: 1
     },
 
     mounted() {},

@@ -56,12 +56,12 @@
 
                             <div class="product-gallery-preview order-sm-2">
                                 @if ( ! empty($prod->image))
-                                    <div class="product-gallery-preview-item active" id="first"><img class="image-zoom" src="{{ asset($prod->image) }}"  alt="{{ $prod->name }}"></div>
+                                    <div class="product-gallery-preview-item active" id="first"><img  src="{{ asset($prod->image) }}"  alt="{{ $prod->name }}"></div>
                                 @endif
 
                                 @if ($prod->images->count())
                                     @foreach ($prod->images as $key => $image)
-                                        <div class="product-gallery-preview-item" id="key{{ $key + 1 }}"><img class="image-zoom" src="{{ asset($image->image) }}" alt="{{ $image->alt }}"></div>
+                                        <div class="product-gallery-preview-item" id="key{{ $key + 1 }}"><img  src="{{ asset($image->image) }}" alt="{{ $image->alt }}"></div>
                                     @endforeach
                                 @endif
                             </div>
@@ -101,7 +101,7 @@
                                 @endif
                             </div>
 
-                            <add-to-cart-btn id="{{ $prod->id }}" qty="1"></add-to-cart-btn>
+                            <add-to-cart-btn id="{{ $prod->id }}"></add-to-cart-btn>
 
                             <!-- Product panels-->
                             <ul class="list-unstyled fs-sm spec">
