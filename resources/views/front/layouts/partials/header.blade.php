@@ -15,9 +15,14 @@
 
             </div>
             <div class="collapse navbar-collapse me-auto mx-auto order-lg-2" id="navbarCollapse">
+                <form action="{{ route('pretrazi') }}" id="search-form-mobile" method="get">
                 <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-                    <input class="form-control rounded-start" type="text" placeholder="Pretražite po nazivu ili autoru">
+
+                    <input class="form-control rounded-start" type="text"  name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
+                    <button type="submit" class="btn btn-primary btn-lg fs-base"><i class="ci-search"></i></button>
+
                 </div>
+                </form>
                 <ul class="navbar-nav pe-lg-2 me-lg-2">
                     <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'knjige']) }}"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a>
                     <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.author') }}"><i class="ci-user-circle d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Autori</a>
@@ -50,8 +55,9 @@
             <div class="container">
                 <form action="{{ route('pretrazi') }}" id="search-form" method="get">
                     <div class="input-group">
-                        <i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
+
                         <input class="form-control rounded-start" type="text" id="search-input" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
+                        <button type="submit" class="btn btn-primary btn-lg fs-base"><i class="ci-search"></i></button>
                     </div>
                 </form>
             </div>
