@@ -21,6 +21,8 @@ class CreateUserDetailsTable extends Migration
             $table->string('address')->nullable();
             $table->string('zip')->nullable();
             $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('phone')->nullable();
             $table->string('avatar')->default('images/avatars/default_avatar.jpg');
             $table->longText('bio')->nullable();
             $table->string('social')->nullable();

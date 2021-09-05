@@ -19,14 +19,23 @@ class OrderProduct extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    
-    
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function product()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function real()
+    {
+        return $this->hasOne(\App\Models\Front\Catalog\Product::class, 'id', 'product_id');
     }
     
     

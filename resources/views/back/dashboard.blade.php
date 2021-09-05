@@ -16,7 +16,14 @@
     </div>
     <!-- END Hero -->
 
-    <!-- Page Content -->
+    @if (auth()->user()->can('*'))
+        <div class="block block-rounded">
+            <div class="block-content block-content-full">
+                <a href="{{ route('roles.set') }}" class="btn btn-rounded btn-hero-info">Set Roles</a>
+            </div>
+        </div>
+    @endif
+
     <!-- Page Content -->
     <div class="content">
         <!-- Quick Overview -->
@@ -65,7 +72,7 @@
         <!-- END Quick Overview -->
 
         <!-- Orders Overview -->
-    <div class="block block-rounded">
+        <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Tjedni pregled</h3>
                 <div class="block-options">
@@ -74,10 +81,10 @@
                     </button>
                 </div>
             </div>
-         <div class="block-content block-content-full">
-              <!-- Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js) -->
+            <div class="block-content block-content-full">
+                <!-- Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js) -->
                 <!-- For more info and examples you can check out http://www.chartjs.org/docs/ -->
-              <div style="height: 420px;"><canvas class="js-chartjs-overview"></canvas></div>
+                <div style="height: 420px;"><canvas class="js-chartjs-overview"></canvas></div>
             </div>
         </div>
 
@@ -342,7 +349,7 @@
 
 @push('js_after')
 
-<!-- Page JS Plugins -->
+    <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/chart.js/Chart.bundle.min.js') }}"></script>
     <!-- Page JS Code -->
     <script src="{{ asset('js/pages/be_pages_ecom_dashboard.min.js') }}"></script>

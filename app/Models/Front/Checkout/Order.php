@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Orders\OrderTotal;
+use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -33,6 +34,46 @@ class Order extends Model
     public function __construct(array $data = [])
     {
         $this->order = $data;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getStatusAttribute()
+    {
+        return $this->status($this->order_status_id);
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function status(int $id)
+    {
+        $statuses = Settings::get('order', 'statuses');
+
+        return $statuses->where('id', $id)->first();
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function totals()
+    {
+        return $this->hasMany(OrderTotal::class, 'order_id')->orderBy('sort_order');
     }
 
 

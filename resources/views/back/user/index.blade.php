@@ -26,17 +26,18 @@
         <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Svi korisnici (122)</h3>
-
-            </div>
-            <div class="block-content bg-body-dark">
-                <!-- Search Form -->
-                <form action="be_pages_ecom_orders.html" method="POST" onsubmit="return false;">
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-alt" id="dm-ecom-orders-search" name="dm-ecom-orders-search" placeholder="Pretraži korisnike">
-                    </div>
-                </form>
-                <!-- END Search Form -->
+                <h3 class="block-title">Svi korisnici ({{ $users->total() }})</h3>
+                <div class="block-options">
+                    <!-- Search Form -->
+                    <form action="{{ route('users') }}" method="GET">
+                        <div class="block-options-item">
+                            <input type="text" class="form-control" id="search-input" name="search" placeholder="Pretraži korisnike" value="{{ request()->query('search') }}">
+                        </div>
+                        <div class="block-options-item">
+                            <a href="{{ route('users') }}" class="btn btn-hero-sm btn-secondary"><i class="fa fa-search-minus"></i> Očisti</a>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="block-content">
                 <!-- All Orders Table -->
@@ -44,64 +45,39 @@
                     <table class="table table-borderless table-striped table-vcenter font-size-sm">
                         <thead>
                         <tr>
-                            <th class="text-left">Kupac</th>
-                            <th class="text-center">Email</th>
+                            <th>Kupac</th>
+                            <th>Email</th>
                             <th class="text-center">Status</th>
+                            <th class="text-center">Uloga</th>
                             <th class="text-right">Detalji</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="text-left">
-                                <a class="font-w600" href="{{ route('users.create') }}">
-                                    Pero Perić
-                                </a>
-                            </td>
-                            <td class="text-center">pero.peric@gmail.com</td>
-                            <td class="text-center font-size-sm">
-                                <i class="fa fa-fw fa-check text-success"></i>
-                            </td>
-                            <td class="text-right font-size-base">
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('users.create') }}">
-                                    <i class="fa fa-fw fa-pencil-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-
+                        @foreach ($users as $user)
+                            <tr>
+                                <td>
+                                    <a class="font-w600" href="{{ route('users.edit', ['user' => $user]) }}">{{ $user->name }}</a>
+                                </td>
+                                <td>{{ $user->email }}</td>
+                                <td class="text-center font-size-sm">
+                                    <i class="fa fa-fw fa-check text-success"></i>
+                                </td>
+                                <td class="text-center font-size-sm">
+                                    {{ $user->details->role }}
+                                </td>
+                                <td class="text-right font-size-base">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('users.edit', ['user' => $user]) }}">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Orders Table -->
 
-                <!-- Pagination -->
-                <nav aria-label="Photos Search Navigation">
-                    <ul class="pagination justify-content-end mt-2">
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Prethodna">
-                                Prethodna
-                            </a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="javascript:void(0)">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)">4</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="javascript:void(0)" aria-label="Sljedeća">
-                                Sljedeća
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- END Pagination -->
+                {{ $users->links() }}
+
             </div>
         </div>
         <!-- END All Orders -->

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Models\Back\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,7 +15,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('back.user.index');
+        $query = (new User())->newQuery();
+
+        $users = $query->with('details')->paginate(config('settings.pagination.back'));
+
+        return view('back.user.index', compact('users'));
     }
     
     
@@ -37,7 +41,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $user = new User();
+
+
+    }
     
     
     /**
@@ -61,7 +70,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user) {}
+    public function update(Request $request, User $user)
+    {
+        $updated = $user->validateRequest($request)->edit();
+
+        if ($updated) {
+            return redirect()->route('users.edit', ['user' => $updated])->with(['success' => 'Korisnik je uspješno snimljen!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
+    }
     
     
     /**

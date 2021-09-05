@@ -5,6 +5,7 @@ use App\Http\Controllers\Back\Catalog\AuthorController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
+use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Back\Widget\WidgetController;
 use App\Http\Controllers\Back\Widget\WidgetGroupController;
 use App\Http\Controllers\Front\CatalogRouteController;
 use App\Http\Controllers\Front\CheckoutController;
+use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +40,10 @@ use Illuminate\Support\Facades\Route;
 /**
  * BACK ROUTES
  */
-Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')->group(function () {
     Route::match(['get', 'post'], '/dashboard', function() { return view('back.dashboard'); })->name('dashboard');
+
+    Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
 
     // CATALOG
     Route::prefix('catalog')->group(function () {
@@ -170,6 +174,15 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('admin')->group(function
 });
 
 /**
+ * CUSTOMER BACK ROUTES
+ */
+Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('moj-racun');
+    Route::patch('/snimi/{user}', [CustomerController::class, 'save'])->name('moj-racun.snimi');
+    Route::get('/narudzbe', [CustomerController::class, 'orders'])->name('moje-narudzbe');
+});
+
+/**
  * API Routes
  */
 Route::prefix('api/v2')->group(function () {
@@ -235,10 +248,6 @@ Route::prefix('api/v2')->group(function () {
 /**
  * FRONT ROUTES
  */
-//Route::get('/kategorija', function() { return view('front.category.index'); })->name('kategorija');
-Route::get('/knjiga', function() { return view('front.catalog.product.index'); })->name('knjiga');
-//Route::get('/narudzba-dovrsena', function() { return view('front.checkout.success'); })->name('success');
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
 Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
@@ -250,9 +259,6 @@ Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
 
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
-
-Route::get('/moj-racun', function() { return view('front.customer.index'); })->name('moj-racun');
-Route::get('/moje-narudzbe', function() { return view('front.customer.moje-narudzbe'); })->name('moje-narudzbe');
 
 Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 

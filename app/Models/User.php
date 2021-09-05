@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable
 {
@@ -18,6 +22,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRolesAndAbilities;
 
     /**
      * The attributes that are mass assignable.
@@ -72,5 +77,133 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
+
+    /**
+     * Validate new category Request.
+     *
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateRequest(Request $request)
+    {
+        $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255']
+        ]);
+
+        $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * Validate new category Request.
+     *
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateFrontRequest(Request $request)
+    {
+        $request->validate([
+            'fname' => ['required', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'zip' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:255']
+        ]);
+
+        $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * Store new category.
+     *
+     * @return false
+     */
+    public function create()
+    {
+        if ( ! empty($this->request->password)) {
+            $this->request->validate([
+                'password' => ['required', 'string', 'confirmed']
+            ]);
+        }
+
+        $public_user = User::create([
+            'name'     => $this->request->username,
+            'email'    => $this->request->email,
+            'password' => Hash::make($this->request->password),
+        ]);
+
+        Bouncer::assign('customer')->to($public_user);
+
+        UserDetail::create([
+            'user_id'    => $public_user->id,
+            'fname'      => $this->request->fname,
+            'lname'      => $this->request->lname,
+            'address'    => $this->request->address,
+            'zip'        => $this->request->zip,
+            'city'       => $this->request->city,
+            'state'      => $this->request->state,
+            'phone'      => $this->request->phone,
+            'avatar'     => 'media/avatars/avatar1.jpg',
+            'bio'        => '',
+            'social'     => '',
+            'role'       => 'customer',
+            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        return $public_user;
+    }
+
+
+    /**
+     * @param Category $category
+     *
+     * @return false
+     */
+    public function edit()
+    {
+        if (isset($this->request->username)) {
+            $this->update([
+                'name'     => $this->request->username,
+                'email'    => $this->request->email,
+                'updated_at'       => Carbon::now()
+            ]);
+        }
+
+        if ($this->id) {
+            UserDetail::where('user_id', $this->id)->update([
+                'user_id'    => $this->id,
+                'fname'      => $this->request->fname,
+                'lname'      => $this->request->lname,
+                'address'    => $this->request->address,
+                'zip'        => $this->request->zip,
+                'city'       => $this->request->city,
+                'state'      => $this->request->state,
+                'phone'      => $this->request->phone,
+                'avatar'     => 'media/avatars/avatar1.jpg',
+                'bio'        => '',
+                'social'     => '',
+                'role'       => 'customer',
+                'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+                'updated_at' => Carbon::now()
+            ]);
+
+            return $this->find($this->id);
+        }
+
+        return false;
     }
 }

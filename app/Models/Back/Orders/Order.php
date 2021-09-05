@@ -40,7 +40,11 @@ class Order extends Model
     }
 
 
-
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
     public function status(int $id)
     {
         $statuses = Settings::get('order', 'statuses');
@@ -199,15 +203,6 @@ class Order extends Model
         }
 
         return false;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function pay()
-    {
-        return 'Payment proccess implementation needed..!';
     }
 
 

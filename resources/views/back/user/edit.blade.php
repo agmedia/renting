@@ -21,22 +21,25 @@
     <div class="content content-full content-boxed">
 
         @include('back.layouts.partials.session')
-        <div class="block block-rounded">
+        <form action="{{ isset($user) ? route('users.update', ['user' => $user]) : route('users.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @if (isset($user))
+                {{ method_field('PATCH') }}
+            @endif
 
-            <div class="block-header block-header-default">
-                <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
-                    <i class="fa fa-arrow-left mr-1"></i> Povratak
-                </a>
-                <div class="block-options">
-                    <div class="custom-control custom-switch custom-control-success">
-                        <input type="checkbox" class="custom-control-input" id="dm-post-edit-active" name="dm-post-edit-active" >
-                        <label class="custom-control-label" for="dm-post-edit-active">Aktiviraj</label>
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <a class="btn btn-light" href="{{ route('users') }}">
+                        <i class="fa fa-arrow-left mr-1"></i> Povratak
+                    </a>
+                    <div class="block-options">
+                        <div class="custom-control custom-switch custom-control-success">
+                            <input type="checkbox" class="custom-control-input" id="switch-status" name="status" {{ (isset($user->details->status) and $user->details->status) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="switch-status">Aktiviraj</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="block-content">
-                <form action="be_pages_projects_edit.html" method="POST" enctype="multipart/form-data" onsubmit="return false;">
-                    <!-- User Profile -->
+                <div class="block-content">
                     <h2 class="content-heading pt-0">
                         <i class="fa fa-fw fa-user-circle text-muted mr-1"></i> Korisnički profil
                     </h2>
@@ -48,58 +51,58 @@
                         </div>
                         <div class="col-lg-8 col-xl-5">
                             <div class="form-group">
-                                <label for="dm-profile-edit-username">Korisničko ime</label>
-                                <input type="text" class="form-control" id="dm-profile-edit-username" name="dm-profile-edit-username" placeholder="Unesite vaše korisničko ime.." value="Pero Perić">
+                                <label for="input-username">Korisničko ime</label>
+                                <input type="text" class="form-control" id="input-username" name="username" placeholder="Unesite vaše korisničko ime.." value="{{ isset($user) ? $user->name : old('username') }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="dm-profile-edit-email">Email adresa</label>
-                                <input type="email" class="form-control" id="dm-profile-edit-email" name="dm-profile-edit-email" placeholder="Unesite vaš email..." value="pero.peric@example.com">
+                                <label for="input-email">Email adresa</label>
+                                <input type="email" class="form-control" id="input-email" name="email" placeholder="Unesite vaš email..." value="{{ isset($user) ? $user->email : old('email') }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="dm-profile-edit-email">Telefon</label>
-                                <input type="email" class="form-control" id="dm-profile-edit-tel" name="dm-profile-edit-tel" placeholder="Unesite vaš broj telefona..." value="099 25252 369">
+                                <label for="input-phone">Telefon</label>
+                                <input type="email" class="form-control" id="input-phone" name="phone" placeholder="Unesite vaš broj telefona..." value="{{ isset($user->details->phone) ? $user->details->phone : old('phone') }}">
                             </div>
 
                         </div>
                     </div>
                     <!-- END User Profile -->
 
-                    <!-- Change Password -->
-                    <h2 class="content-heading pt-0">
-                        <i class="fa fa-fw fa-asterisk text-muted mr-1"></i> Promjena lozinke
-                    </h2>
-                    <div class="row push">
-                        <div class="col-lg-4">
-                            <p class="text-muted">
-                                Resetirajte lozinku kupca
-                            </p>
-                        </div>
-                        <div class="col-lg-8 col-xl-5">
-                            <div class="form-group">
-                                <label for="dm-profile-edit-password">Trenutna lozinka</label>
-                                <input type="password" class="form-control" id="dm-profile-edit-password" name="dm-profile-edit-password">
+                    @if (auth()->user()->can('*'))
+                        <h2 class="content-heading pt-0">
+                            <i class="fa fa-fw fa-asterisk text-muted mr-1"></i> Promjena lozinke
+                        </h2>
+                        <div class="row push">
+                            <div class="col-lg-4">
+                                <p class="text-muted">
+                                    Resetirajte lozinku kupca
+                                </p>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <label for="dm-profile-edit-password-new">Nova lozinka</label>
-                                    <input type="password" class="form-control" id="dm-profile-edit-password-new" name="dm-profile-edit-password-new">
+                            <div class="col-lg-8 col-xl-5">
+                                <div class="form-group">
+                                    <label for="input-old-password">Trenutna lozinka</label>
+                                    <input type="password" class="form-control" id="input-old-password" name="old_password">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <label for="dm-profile-edit-password-new">Nova lozinka</label>
+                                        <input type="password" class="form-control" id="input-password" name="password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-12">
+                                        <label for="dm-profile-edit-password-new-confirm">Potvrdite novu lozinku</label>
+                                        <input type="password" class="form-control" id="input-password-confirmation" name="password_confirmation">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <label for="dm-profile-edit-password-new-confirm">Potvrdite novu lozinku</label>
-                                    <input type="password" class="form-control" id="dm-profile-edit-password-new-confirm" name="dm-profile-edit-password-new-confirm">
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <!-- END Change Password -->
+                @endif
 
 
 
-                    <!-- Billing Information -->
+                <!-- Billing Information -->
                     <h2 class="content-heading pt-0">
                         <i class="fa fa-fw fa-user-circle text-muted mr-1"></i> Korisnički podaci
                     </h2>
@@ -112,56 +115,44 @@
 
                             <div class="form-group row">
                                 <div class="col-6">
-                                    <label for="dm-profile-edit-firstname">Ime</label>
-                                    <input type="text" class="form-control" id="dm-profile-edit-firstname" name="dm-profile-edit-firstname">
+                                    <label for="input-fname">Ime</label>
+                                    <input type="text" class="form-control" id="input-fname" name="fname" value="{{ isset($user) ? $user->details->fname : old('fname') }}">
                                 </div>
                                 <div class="col-6">
-                                    <label for="dm-profile-edit-lastname">Prezime</label>
-                                    <input type="text" class="form-control" id="dm-profile-edit-lastname" name="dm-profile-edit-lastname">
+                                    <label for="input-lname">Prezime</label>
+                                    <input type="text" class="form-control" id="input-lname" name="lname" value="{{ isset($user) ? $user->details->lname : old('lname') }}">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="dm-profile-edit-street-1">Adresa</label>
-                                <input type="text" class="form-control" id="dm-profile-edit-street-1" name="dm-profile-edit-street-1">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="dm-profile-edit-city">Grad</label>
-                                <input type="text" class="form-control" id="dm-profile-edit-city" name="dm-profile-edit-city">
+                                <label for="input-address">Adresa</label>
+                                <input type="text" class="form-control" id="input-address" name="address" value="{{ isset($user) ? $user->details->address : old('address') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dm-profile-edit-postal">Poštanski broj</label>
-                                <input type="text" class="form-control" id="dm-profile-edit-postal" name="dm-profile-edit-postal">
+                                <label for="input-city">Grad</label>
+                                <input type="text" class="form-control" id="input-city" name="city" value="{{ isset($user) ? $user->details->city : old('city') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dm-profile-edit-city">Država</label>
-                                <input type="text" class="form-control" id="country" name="country">
+                                <label for="input-zip">Poštanski broj</label>
+                                <input type="text" class="form-control" id="input-zip" name="zip" value="{{ isset($user) ? $user->details->zip : old('zip') }}">
                             </div>
                             <div class="form-group">
-                                <label for="dm-profile-edit-company-name">Naziv tvrtke </label>
-                                <input type="text" class="form-control" id="dm-profile-edit-company-name" name="dm-profile-edit-company-name">
-                            </div>
-                            <div class="form-group">
-                                <label for="dm-profile-edit-vat">OIB</label>
-                                <input type="text" class="form-control" id="dm-profile-edit-vat" name="dm-profile-edit-vat" value="HR" disabled>
+                                <label for="input-state">Država</label>
+                                <input type="text" class="form-control" id="input-state" name="state" value="{{ isset($user) ? $user->details->state : old('state') }}">
                             </div>
                         </div>
                     </div>
-                    <!-- END Billing Information -->
-
-
-                </form>
-            </div>
-            <div class="block-content bg-body-light">
-                <div class="row justify-content-center push">
-                    <div class="col-md-10">
-                        <button type="submit" class="btn btn-hero-success my-2">
-                            <i class="fas fa-save mr-1"></i> Snimi
-                        </button>
+                </div>
+                <div class="block-content bg-body-light">
+                    <div class="row justify-content-center push">
+                        <div class="col-md-10">
+                            <button type="submit" class="btn btn-hero-success my-2">
+                                <i class="fas fa-save mr-1"></i> Snimi
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- END Page Content -->
 
