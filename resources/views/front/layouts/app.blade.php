@@ -8,7 +8,7 @@
     <meta name="keywords" content="antikvarijat,stare knjige,vedute,mape,biblos">
     <meta name="author" content="Antikvarijat Biblos">
     <!-- Viewport-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Favicon and Touch Icons-->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
