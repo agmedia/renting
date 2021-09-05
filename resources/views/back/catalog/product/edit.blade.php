@@ -50,21 +50,31 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
                             <div class="form-group row items-push mb-2">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="dm-post-edit-title">Naziv <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="name-input" name="name" placeholder="Upišite naziv artikla" value="{{ isset($product) ? $product->name : old('name') }}" onkeyup="SetSEOPreview()">
                                     @error('name')
                                     <span class="text-danger font-italic">Naziv je potreban...</span>
                                     @enderror
                                 </div>
-                                <div class="col-md-3">
+                            </div>
+                            <div class="form-group row items-push mb-2">
+                                <div class="col-md-2">
+                                    <label for="quantity-input">Količina <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="quantity-input" name="quantity " placeholder="Upišite količinu artikla" value="{{ isset($product) ? $product->quantity  : old('quantity ') }}">
+                                    @error('quantity ')
+                                    <span class="text-danger font-italic">Količina je potrebna...</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-5">
                                     <label for="sku-input">Šifra <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sku-input" name="sku" placeholder="Upišite šifru artikla" value="{{ isset($product) ? $product->sku : old('sku') }}">
                                     @error('sku')
                                     <span class="text-danger font-italic">Šifra je potrebna...</span>
                                     @enderror
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <label for="price-input">Cijena <span class="text-danger">*</span> <span class="small text-gray">(S PDV-om)</span></label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="price-input" name="price" placeholder="00.00" value="{{ isset($product) ? $product->price : old('price') }}">
