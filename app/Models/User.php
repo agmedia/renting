@@ -130,7 +130,7 @@ class User extends Authenticatable
      *
      * @return false
      */
-    public function create()
+    public function make()
     {
         if ( ! empty($this->request->password)) {
             $this->request->validate([
