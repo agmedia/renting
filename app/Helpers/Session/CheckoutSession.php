@@ -45,6 +45,15 @@ class CheckoutSession
         return session([static::$session_string . '.address' => $value]);
     }
 
+
+    /**
+     * @return bool
+     */
+    public static function forgetAddress()
+    {
+        return session()->forget(static::$session_string . '.address');
+    }
+
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *

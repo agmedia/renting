@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\Country;
+use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Models\Front\Checkout\Order;
 use App\Models\User;
@@ -19,6 +20,8 @@ class CustomerController extends Controller
     {
         $user = auth()->user();
         $countries = Country::list();
+
+        CheckoutSession::forgetAddress();
 
         return view('front.customer.index', compact('user', 'countries'));
     }
