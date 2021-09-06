@@ -44,7 +44,9 @@
                             <div class="text-white fs-sm">Email</div><a class="nav-link-style text-white fs-md" href="mailto:info@antikvarijat-biblos.hr">info@antikvarijat-biblos.hr</a>
                         </div>
                     </div>
-                    <h6 class="pt-2 pb-1 text-white">Pratite nas</h6><a class="btn-social bs-light bs-instagram me-2 mb-2" href="#"><i class="ci-instagram"></i></a><a class="btn-social bs-light bs-facebook me-2 mb-2" href="#"><i class="ci-facebook"></i></a>
+                    <h6 class="pt-2 pb-1 text-white">Pratite nas</h6>
+                    <a class="btn-social bs-light bs-instagram me-2 mb-2" href="https://www.instagram.com/antikvarijat_biblos/"><i class="ci-instagram"></i></a>
+                    <a class="btn-social bs-light bs-facebook me-2 mb-2" href="https://www.facebook.com/AntikvarijatBiblos/"><i class="ci-facebook"></i></a>
                 </div>
 
             </div>

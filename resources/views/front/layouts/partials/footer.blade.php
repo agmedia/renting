@@ -6,10 +6,13 @@
             <div class="col-md-6 text-center text-md-start mb-4">
                 <div class="text-nowrap mb-3"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="{{ asset('media/img/logobijeli.svg') }}" width="180" alt="Antikvarijat Biblos"></a></div>
                 <p class="fs-sm text-white opacity-70 pb-1">Otkup i prodaja starih i rijetkih izdanja hrvatskih i stranih knjiga,<br> te zemljovida i veduta</p>
-                <h6 class="d-inline-block pe-3 me-3 border-end border-light"><span class="text-primary">65,478 </span><span class="fw-normal text-white">Artikala</span></h6>
-                <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">2,521 </span><span class="fw-normal text-white">Kupaca</span></h6>
+                <h6 class="d-inline-block pe-3 me-3 border-end border-light"><span class="text-primary">{{ $products }} </span><span class="fw-normal text-white">Artikala</span></h6>
+                <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">{{ $users }} </span><span class="fw-normal text-white">Kupaca</span></h6>
 
-                <div class="widget mt-4 text-md-nowrap text-center text-md-start"><a class="btn-social bs-light bs-instagram me-2 mb-2" href="#"><i class="ci-instagram"></i></a><a class="btn-social bs-light bs-facebook me-2 mb-2" href="#"><i class="ci-facebook"></i></a></div>
+                <div class="widget mt-4 text-md-nowrap text-center text-md-start">
+                    <a class="btn-social bs-light bs-instagram me-2 mb-2" href="https://www.instagram.com/antikvarijat_biblos/"><i class="ci-instagram"></i></a>
+                    <a class="btn-social bs-light bs-facebook me-2 mb-2" href="https://www.facebook.com/AntikvarijatBiblos/"><i class="ci-facebook"></i></a>
+                </div>
             </div>
             <!-- Mobile dropdown menu (visible on screens below md)-->
             <div class="col-12 d-md-none text-center mb-4 pb-2">
