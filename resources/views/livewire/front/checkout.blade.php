@@ -35,10 +35,10 @@
             <div class="alert-icon">
                 <i class="ci-user"></i>
             </div>
-            <div>Ukoliko ste već registrirani prijavite se <a href="#collapseLogin"  data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseLogin" class="alert-link">ovdje!</a></div>
+            <div>Ukoliko ste već registrirani prijavite se <a href="{{ route('login') }}" class="alert-link">ovdje!</a></div>
         </div>
 
-        <div id="collapseLogin" aria-expanded="false" class="collapse">
+<!--        <div id="collapseLogin" aria-expanded="false" class="collapse">
             <div class="card mb-3">
                 <div class="card-body">
                     <div class="row mb-3">
@@ -72,7 +72,7 @@
                 </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         @endif
 
         <div class="row">
@@ -145,7 +145,7 @@
         </div>
 
         @if (auth()->guest())
-            <h6 class="mb-3 py-3 border-bottom">Registracija</h6>
+<!--            <h6 class="mb-3 py-3 border-bottom">Registracija</h6>
             <div class="form-check">
                 <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" >
                 <label class="form-check-label" for="napraviracun" >Ujedno napravi i korisnički račun </label>
@@ -181,10 +181,9 @@
                     </div>
                     </div>
                 </div>
-            </div>
-
-
+            </div>-->
         @endif
+
         <!-- Navigation (desktop)-->
         <div class="d-none d-lg-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('kosarica') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na košaricu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
