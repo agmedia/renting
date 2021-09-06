@@ -14,7 +14,7 @@
                     <h6 class="fs-base text-light mb-0">Uredite svoje podatke ispod:</h6><a class="btn btn-primary btn-sm" href="{{ route('logout') }}"><i class="ci-sign-out me-2"></i>Odjava</a>
                 </div>
 
-                @include('back.layouts.partials.session')
+                @include('front.layouts.partials.session')
                 <form action="{{ route('moj-racun.snimi', ['user' => $user]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     {{ method_field('PATCH') }}
