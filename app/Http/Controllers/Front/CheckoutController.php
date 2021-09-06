@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Mail\OrderReceived;
+use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -100,7 +103,7 @@ class CheckoutController extends Controller
 
         if ($order->finish($request)) {
             //CheckoutSession::forgetOrder();
-            $this->shoppingCart()->flush();
+            //$this->shoppingCart()->flush();
 
             return redirect()->route('checkout.success');
         }
@@ -114,11 +117,15 @@ class CheckoutController extends Controller
      */
     public function success()
     {
-
         $data['order'] = CheckoutSession::getOrder();
 
-       CheckoutSession::forgetOrder();
-       // return view('front.checkout.success');
+        $this->dispatch(function () use ($data) {
+            Mail::to(config('mail.admin'))->send(new OrderReceived($data['order']));
+            Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
+        });
+
+        CheckoutSession::forgetOrder();
+        $this->shoppingCart()->flush();
 
         return view('front.checkout.success', compact('data'));
     }
