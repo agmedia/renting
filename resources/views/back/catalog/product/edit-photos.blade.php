@@ -236,7 +236,7 @@
 
         function removeImage(data, slim) {
             if (data.meta.hasOwnProperty('image_id')) {
-                axios.post("#", { data: data.meta.image_id })
+                axios.post("{{ route('products.destroy.image') }}", { data: data.meta.image_id })
                     .then((response) => {
                         successToast.fire({
                             text: 'Fotografija je uspješno izbrisana',
