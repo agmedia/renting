@@ -27,6 +27,15 @@
                                         <input type="text" class="form-control" id="cod-min" name="min">
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <label for="cod-geo-zone">Geo zona <span class="small text-gray">(Geo zona na koju se odnosi dostava..)</span></label>
+                                    <select class="js-select2 form-control" id="cod-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
+                                        <option></option>
+                                        @foreach ($geo_zones as $geo_zone)
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($payment)) and ($payment->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group mb-4">
@@ -79,6 +88,11 @@
 
 @push('payment-modal-js')
     <script>
+        $(() => {
+            $('#cod-geo-zone').select2({
+                minimumResultsForSearch: Infinity
+            });
+        });
         /**
          *
          */

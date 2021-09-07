@@ -50,27 +50,6 @@ class PaymentController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Faq $faq)
-    {
-        $destroyed = Faq::destroy($faq->id);
-
-        if ($destroyed) {
-            Cache::forget('payment_list');
-
-            return redirect()->route('faqs')->with(['success' => 'Faq was succesfully deleted!']);
-        }
-
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the faq.']);
-    }
-
-
-    /**
      * Check for new files in ..payment/modals directory.
      * Install payment if new files exist.
      */

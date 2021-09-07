@@ -31,11 +31,17 @@ class PaymentMethod
 
 
     /**
-     * @return array|false|Collection
+     * PaymentMethod constructor.
+     *
+     * @param string|null $code
      */
-    public function getMethods()
+    public function __construct(string $code = null)
     {
-        return $this->methods;
+        $this->methods = $this->list();
+
+        if ($code) {
+            $this->method = $this->methods->where('code', $code);
+        }
     }
 
 
@@ -49,17 +55,11 @@ class PaymentMethod
 
 
     /**
-     * PaymentMethod constructor.
-     *
-     * @param string|null $code
+     * @return array|false|Collection
      */
-    public function __construct(string $code = null)
+    public function getMethods()
     {
-        $this->methods = $this->list();
-
-        if ($code) {
-            $this->method = $this->methods->where('code', $code);
-        }
+        return $this->methods;
     }
 
 
