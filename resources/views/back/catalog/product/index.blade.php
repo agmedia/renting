@@ -96,7 +96,8 @@
                 <div class="block-content bg-body-dark">
                     <form action="{{ route('products') }}" method="get">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                            <input type="text" class="form-control  py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                            <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
                         </div>
                         <div class="form-group row items-push mb-0">
                             <div class="col-md-3">
@@ -177,6 +178,8 @@
                             <th>Naziv</th>
                             <th>Šifra</th>
                             <th>Cijena</th>
+                            <th>Godina izdanja</th>
+                            <th>Polica</th>
                             <th>Dodano</th>
                             <th class="text-center font-size-sm">Status</th>
                             <th class="text-right" style="width: 100px;">Uredi</th>
@@ -205,6 +208,8 @@
                                         <strong>{{ number_format($product->price, 2) }}kn</strong>
                                     @endif
                                 </td>
+                                <td class="font-size-sm">{{ $product->year }}</td>
+                                <td class="font-size-sm">{{ $product->polica }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
                                     @include('back.layouts.partials.status', ['status' => $product->status])
