@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td class="ag-mail-tableset" style="text-align: center;">
-                <a href="{{ route('order.edit', ['id' => $order->id]) }}" class="ag-btn">
+                <a href="{{ route('orders.edit', ['order' => $order]) }}" class="ag-btn">
                     {{ __('mail.btn_admin') }}
                 </a>
             </td>

@@ -188,6 +188,7 @@ class Product extends Model
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
+            'polica'           => $this->request->polica,
             'description'      => $this->cleanHTML($this->request->description),
             'slug'             => $this->request->slug ?: Str::slug($this->request->name)/* . '-' . Str::random(9)*/,
             'price'            => $this->request->price,
@@ -239,6 +240,7 @@ class Product extends Model
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
+            'polica'           => $this->request->polica,
             'description'      => $this->cleanHTML($this->request->description),
             'slug'             => $this->request->slug ?: Str::slug($this->request->name)/* . '-' . Str::random(9)*/,
             'price'            => isset($this->request->price) ? $this->request->price : 0,
@@ -325,7 +327,9 @@ class Product extends Model
 
         if ($request->has('search') && ! empty($request->input('search'))) {
             $query->where('name', 'like', '%' . $request->input('search') . '%')
-                  ->orWhere('sku', 'like', '%' . $request->input('search') . '%');
+                  ->orWhere('sku', 'like', '%' . $request->input('search') . '%')
+                    ->orWhere('polica', 'like', '%' . $request->input('search') . '%')
+                    ->orWhere('year', 'like', '' . $request->input('search') . '');
         }
 
         if ($request->has('category') && ! empty($request->input('category'))) {
