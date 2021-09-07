@@ -94,8 +94,8 @@
     <script>
         $(() => {
             $('#gls_world-geo-zone').select2({
-                placeholder: 'Odaberite geo zonu..',
-                tags: true
+                minimumResultsForSearch: Infinity,
+                allowClear: true
             });
         });
         /**

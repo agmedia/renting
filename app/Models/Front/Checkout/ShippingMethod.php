@@ -72,13 +72,10 @@ class ShippingMethod
         $methods = collect();
 
         foreach ($this->methods as $method) {
-            //dd($method);
             if ($method->geo_zone == $zone) {
                 $methods->push($method);
             }
         }
-
-        //dd($methods);
 
         return $methods;
     }

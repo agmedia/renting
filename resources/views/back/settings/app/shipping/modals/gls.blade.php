@@ -94,7 +94,8 @@
     <script>
         $(() => {
             $('#gls-geo-zone').select2({
-                tags: true
+                minimumResultsForSearch: Infinity,
+                allowClear: true
             });
         });
         /**

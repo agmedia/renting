@@ -6,6 +6,7 @@ use App\Helpers\Country;
 use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\Checkout\GeoZone;
+use App\Models\Front\Checkout\PaymentMethod;
 use App\Models\Front\Checkout\ShippingMethod;
 use Livewire\Component;
 
@@ -79,7 +80,6 @@ class Checkout extends Component
      */
     public function mount()
     {
-        //session()->forget('checkout.address');
         if (CheckoutSession::hasAddress()) {
             $this->setAddress(CheckoutSession::getAddress());
         } else {
@@ -88,10 +88,6 @@ class Checkout extends Component
 
         if (CheckoutSession::hasShipping()) {
             $this->shipping = CheckoutSession::getShipping();
-            //dd($this->shipping);
-            //dd($this->address['state']);
-            //dd((new GeoZone())->findState($this->address['state'])['id']);
-            //dd((new ShippingMethod())->findGeo((new GeoZone())->findState($this->address['state'])['id']));
         }
 
         if (CheckoutSession::hasPayment()) {
@@ -178,12 +174,9 @@ class Checkout extends Component
     {
         $geo = (new GeoZone())->findState($this->address['state']);
 
-        //dd($geo);
-        //dd($geo);
-
         return view('livewire.front.checkout', [
             'shippingMethods' => (new ShippingMethod())->findGeo($geo['id']),
-            'paymentMethods' => Settings::getList('payment'),
+            'paymentMethods' => (new PaymentMethod())->findGeo($geo['id'])->checkShipping($this->shipping)->resolve(),
             'countries' => Country::list()
         ]);
     }
@@ -202,7 +195,6 @@ class Checkout extends Component
 
             if ($only_state) {
                 $this->address['state'] = $value['state'];
-                //dd($this->address);
             } else {
                 $this->address = [
                     'fname' => $value['fname'],

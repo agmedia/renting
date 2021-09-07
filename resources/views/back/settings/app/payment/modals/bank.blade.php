@@ -90,7 +90,8 @@
     <script>
         $(() => {
             $('#bank-geo-zone').select2({
-                minimumResultsForSearch: Infinity
+                minimumResultsForSearch: Infinity,
+                allowClear: true
             });
         });
         /**

@@ -137,11 +137,12 @@
     <script>
         $(() => {
             $('#payway-type').select2({
-                minimumResultsForSearch: Infinity
+                minimumResultsForSearch: Infinity,
             });
 
             $('#payway-geo-zone').select2({
-                tags: true
+                minimumResultsForSearch: Infinity,
+                allowClear: true
             });
         });
         /**

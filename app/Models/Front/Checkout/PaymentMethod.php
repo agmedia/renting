@@ -4,9 +4,6 @@ namespace App\Models\Front\Checkout;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Models\Back\Settings\Settings;
-use App\Models\Front\Checkout\Payment\Bank;
-use App\Models\Front\Checkout\Payment\Cod;
-use App\Models\Front\Checkout\Payment\Wspay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -29,6 +26,11 @@ class PaymentMethod
      */
     protected $method = null;
 
+    /**
+     * @var mixed|null
+     */
+    protected $response_methods = null;
+
 
     /**
      * PaymentMethod constructor.
@@ -38,6 +40,7 @@ class PaymentMethod
     public function __construct(string $code = null)
     {
         $this->methods = $this->list();
+        $this->response_methods = collect();
 
         if ($code) {
             $this->method = $this->methods->where('code', $code);
@@ -97,6 +100,53 @@ class PaymentMethod
     }
 
 
+    /**
+     * @param int $zone
+     *
+     * @return $this
+     */
+    public function findGeo(int $zone)
+    {
+        foreach ($this->methods as $method) {
+            if ($method->geo_zone == $zone || ! $method->geo_zone) {
+                $this->response_methods->push($method);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param string $shipping
+     *
+     * @return $this
+     */
+    public function checkShipping(string $shipping)
+    {
+        if ($shipping == 'pickup') {
+            $this->response_methods = collect();
+
+            foreach ($this->methods as $method) {
+                if ($method->code == 'bank') {
+                    $this->response_methods->push($method);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function resolve(): Collection
+    {
+        return $this->response_methods;
+    }
+
+
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *
@@ -143,7 +193,7 @@ class PaymentMethod
      *
      * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
      */
-    public function providers(string $key = null)
+    private function providers(string $key = null)
     {
         $providers = config('settings.payment.providers');
 

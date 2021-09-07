@@ -95,7 +95,8 @@
     <script>
         $(() => {
             $('#pickup-geo-zone').select2({
-                minimumResultsForSearch: Infinity
+                minimumResultsForSearch: Infinity,
+                allowClear: true
             });
         });
         /**
