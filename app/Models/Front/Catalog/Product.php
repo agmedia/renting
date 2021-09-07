@@ -342,6 +342,17 @@ class Product extends Model
      *
      * @return mixed
      */
+    public function scopeAvailable($query)
+    {
+        return $query->where('quantity', '!=', 0);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopePopular($query, $count = 9)
     {
         return $query->where('status', 1)->orderBy('viewed', 'desc')->limit($count);

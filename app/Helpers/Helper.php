@@ -144,15 +144,15 @@ class Helper
 
                 if (static::isDescriptionTarget($data, 'product')) {
                     if (isset($data['new']) && $data['new'] == 'on') {
-                        $items = Product::last()->get();
+                        $items = Product::available()->last()->get();
                     }
 
                     if (isset($data['popular']) && $data['popular'] == 'on') {
-                        $items = Product::popular()->get();
+                        $items = Product::available()->popular()->get();
                     }
 
                     if (isset($data['list']) && $data['list']) {
-                        $items = Product::whereIn('id', $data['list'])->active()->get();
+                        $items = Product::available()->whereIn('id', $data['list'])->active()->get();
                     }
                 }
 
