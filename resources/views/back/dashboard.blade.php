@@ -112,10 +112,10 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td class="text-center" style="width: 100px;">
-                                        <a class="font-w600" href="{{ route('products.edit', ['product' => $product->real]) }}">{{ $product->id }}</a>
+                                        <a class="font-w600" href="{{ route('products.edit', ['product' => $product->product_id]) }}">{{ $product->id }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('products.edit', ['product' => $product->real]) }}">{{ $product->name }}</a>
+                                        <a href="{{ route('products.edit', ['product' => $product->product_id]) }}">{{ $product->name }}</a>
                                     </td>
                                     <td class="font-w600 text-right">{{ number_format($product->price, 2, ',', '.') }} kn</td>
                                 </tr>
@@ -143,10 +143,10 @@
                             @foreach ($orders as $order)
                                 <tr>
                                     <td class="font-w600 text-center" style="width: 100px;">
-                                        <a href="be_pages_ecom_order.html">{{ $order->id }}</a>
+                                        <a href="{{ route('orders.edit', ['order' => $order]) }}">{{ $order->id }}</a>
                                     </td>
                                     <td class="d-none d-sm-table-cell">
-                                        <a href="be_pages_ecom_customer.html">{{ $order->payment_fname . ' ' . $order->payment_lname }}</a>
+                                        <a href="{{ route('orders.edit', ['order' => $order]) }}">{{ $order->payment_fname . ' ' . $order->payment_lname }}</a>
                                     </td>
                                     <td>
                                         <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
