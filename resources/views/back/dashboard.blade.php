@@ -22,7 +22,7 @@
                 <div class="content pt-0">
                     <a href="{{ route('roles.set') }}" class="btn btn-hero-sm btn-rounded btn-hero-info">Set Roles</a>
                     <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>
-<!--                    <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>-->
+                    <a href="{{ route('mailing.test') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Mail Test</a>
                 </div>
             </div>
         </div>

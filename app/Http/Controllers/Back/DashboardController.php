@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Helpers\Import;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Mail\OrderReceived;
+use App\Mail\OrderSent;
 use App\Models\Back\Catalog\Mjerilo;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
@@ -19,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Bouncer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -26,7 +29,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class DashboardController extends Controller
 {
 
-    //
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $query = (new Order())->newQuery();

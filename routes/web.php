@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
 
     Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
     Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
+    Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
 
     // CATALOG
     Route::prefix('catalog')->group(function () {
