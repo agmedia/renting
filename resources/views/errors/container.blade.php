@@ -52,9 +52,7 @@
 <!-- Document Wrapper -->
 <div id="wrapper" class="clearfix">
     <!-- Topbar -->
-@include('front.layouts.partials.topbar')
-<!-- Header -->
-@include('front.layouts.partials.navbar')
+@include('front.layouts.partials.header')
 <!-- Slider -->
 {{-- @include('front.layouts.partials.slider') --}}
 <!-- Content -->
@@ -62,7 +60,6 @@
 <!-- Footer -->
     @include('front.layouts.partials.footer')
 </div><!-- #wrapper end -->
-@include('front.layouts.partials.sidenav')
 <!-- Go To Top -->
 <div id="gotoTop" class="icon-angle-up"></div>
 <!-- Go To Top

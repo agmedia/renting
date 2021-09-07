@@ -54,8 +54,6 @@ class DashboardController extends Controller
         $sheet  = $spread->getActiveSheet();
         $list   = array(1, $sheet->toArray(null, true, true, true))[1];
 
-        //dd($list);
-
         $import = new Import();
         $count = 0;
 
@@ -63,20 +61,17 @@ class DashboardController extends Controller
         $unknown_publisher_id = 2;
 
         for ($i = 2; $i < count($list); $i++) {
-            //dd($list[$i]);
             $attributes = $import->setAttributes($list[$i]);
-
-            $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
-
-            dd($categories);
-
-            return;
+            $author = $import->resolveAuthor($attributes['author']);
+            $publisher = $import->resolvePublisher($attributes['publisher']);
 
             $name = $list[$i]['D'];
 
+            Log::info($i);
+
             $product_id = Product::insertGetId([
-                'author_id'        => $attributes['author'] ?: $unknown_author_id,
-                'publisher_id'     => $attributes['publisher'] ?: $unknown_publisher_id,
+                'author_id'        => $author ?: $unknown_author_id,
+                'publisher_id'     => $publisher ?: $unknown_publisher_id,
                 'action_id'        => 0,
                 'name'             => $name,
                 'sku'              => $list[$i]['C'],
@@ -107,7 +102,7 @@ class DashboardController extends Controller
 
             if ($product_id) {
                 $images = $import->resolveImages(explode(', ', $list[$i]['AD']), $name);
-                $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
+                $category = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
                 if ($images) {
                     for ($i = 0; $i < count($images); $i++) {
@@ -123,13 +118,11 @@ class DashboardController extends Controller
                     }
                 }
 
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        ProductCategory::insert([
-                            'product_id'  => $product_id,
-                            'category_id' => $category
-                        ]);
-                    }
+                if ($category) {
+                    ProductCategory::insert([
+                        'product_id'  => $product_id,
+                        'category_id' => $category
+                    ]);
                 }
 
                 $count++;

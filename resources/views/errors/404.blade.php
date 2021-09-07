@@ -24,7 +24,7 @@
                         <h4>Ooopps! Stranica koju ste tražili nije pronađena.</h4>
                         <span>Probajte pretražiti viličare ili kliknite ne linkove ispod.</span>
                     </div>
-                    <form action="{{ route('search.all') }}" method="get" class="nobottommargin">
+                    <form action="{{ route('pretrazi') }}" method="get" class="nobottommargin">
                         <div class="input-group ">
                             <input type="text" class="form-control" name="q" placeholder="Pretraži stranice">
                             <div class="input-group-append">

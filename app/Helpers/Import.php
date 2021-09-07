@@ -2,7 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Category;
+use App\Models\Back\Catalog\Publisher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class Import
@@ -75,9 +80,10 @@ class Import
 
         foreach ($images as $image) {
             $img = Image::make($image);
-            $data = $img->exif();
+            $data = str_replace('jpeg', 'jpg', $img->exif('MimeType'));
+            $type = str_replace('image/', '', $data);
 
-            $path = config('filesystems.disks.products.url') . $name . '.' . str_replace('image/', $data['MimeType']);
+            $path = config('filesystems.disks.products.url') . $name . '.' . $type;
 
             $img->save($path);
 
@@ -91,10 +97,126 @@ class Import
     /**
      * @param array $categories
      *
-     * @return array
+     * @return int|mixed
      */
-    public function resolveCategories(array $categories): array
+    public function resolveCategories(array $categories)
     {
+        $response = [];
+        $data = [];
 
+        foreach ($categories as $category) {
+            $category = $this->replaceNames($category);
+            $data = array_merge($data, explode(' > ', $category));
+        }
+
+        $data = array_unique($data);
+        $parent = 0;
+
+        for ($i = 0; $i < count($data); $i++) {
+            if (strpos($data[$i], '?') == false && $data[$i] != 'Knjige') {
+                $exist = Category::where('title', $data[$i])->first();
+
+                if ( ! $exist) {
+                    $id = Category::insertGetId([
+                        'parent_id'        => $parent,
+                        'title'            => $data[$i],
+                        'description'      => '',
+                        'meta_title'       => $data[$i],
+                        'meta_description' => $data[$i],
+                        'group'            => $data[0],
+                        'lang'             => 'hr',
+                        'status'           => 1,
+                        'slug'             => Str::slug($data[$i]),
+                        'created_at'       => Carbon::now(),
+                        'updated_at'       => Carbon::now()
+                    ]);
+
+                    $parent = $id;
+
+                    $response[] = $id;
+                } else {
+                    $response[] = $exist->id;
+                }
+            }
+        }
+
+        return collect($response)->last();
+    }
+
+
+    /**
+     * @param string $author
+     *
+     * @return int
+     */
+    public function resolveAuthor(string $author = null): int
+    {
+        if ($author) {
+            $exist = Author::where('title', $author)->first();
+
+            if ( ! $exist) {
+                return Author::insertGetId([
+                    'title'            => $author,
+                    'description'      => '',
+                    'meta_title'       => $author,
+                    'meta_description' => '',
+                    'lang'             => 'hr',
+                    'sort_order'       => 0,
+                    'status'           => 1,
+                    'slug'             => Str::slug($author),
+                    'created_at'       => Carbon::now(),
+                    'updated_at'       => Carbon::now()
+                ]);
+            }
+
+            return $exist->id;
+        }
+
+        return 0;
+    }
+
+
+    /**
+     * @param string $publisher
+     *
+     * @return int
+     */
+    public function resolvePublisher(string $publisher = null): int
+    {
+        if ($publisher) {
+            $exist = Publisher::where('title', $publisher)->first();
+
+            if ( ! $exist) {
+                return Author::insertGetId([
+                    'title'            => $publisher,
+                    'description'      => '',
+                    'meta_title'       => $publisher,
+                    'meta_description' => '',
+                    'lang'             => 'hr',
+                    'sort_order'       => 0,
+                    'status'           => 1,
+                    'slug'             => Str::slug($publisher),
+                    'created_at'       => Carbon::now(),
+                    'updated_at'       => Carbon::now()
+                ]);
+            }
+
+            return $exist->id;
+        }
+
+        return 0;
+    }
+
+
+    /**
+     * @param string $text
+     *
+     * @return string
+     */
+    private function replaceNames(string $text): string
+    {
+        $text = str_replace('Knji?evnost', 'Književnost', $text);
+
+        return $text;
     }
 }
