@@ -67,8 +67,6 @@ class DashboardController extends Controller
 
             $name = $list[$i]['D'];
 
-            Log::info($i);
-
             $product_id = Product::insertGetId([
                 'author_id'        => $author ?: $unknown_author_id,
                 'publisher_id'     => $publisher ?: $unknown_publisher_id,
