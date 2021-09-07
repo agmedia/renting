@@ -76,9 +76,9 @@
         <!-- END Quick Overview -->
 
         <!-- Orders Overview -->
-<!--        <div class="block block-rounded">
+        <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Tjedni pregled</h3>
+                <h3 class="block-title">Mjesečni pregled</h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                         <i class="si si-refresh"></i>
@@ -86,11 +86,11 @@
                 </div>
             </div>
             <div class="block-content block-content-full">
-                &lt;!&ndash; Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js) &ndash;&gt;
-                &lt;!&ndash; For more info and examples you can check out http://www.chartjs.org/docs/ &ndash;&gt;
+{{--                Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js)--}}
+{{--                For more info and examples you can check out http://www.chartjs.org/docs/--}}
                 <div style="height: 420px;"><canvas class="js-chartjs-overview"></canvas></div>
             </div>
-        </div>-->
+        </div>
 
 
         <!-- Top Products and Latest Orders -->
@@ -170,8 +170,114 @@
 
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/chart.js/Chart.bundle.min.js') }}"></script>
-    <!-- Page JS Code -->
-    <script src="{{ asset('js/pages/be_pages_ecom_dashboard.min.js') }}"></script>
+
+    <script>
+        $(() => {
+            let months_data = JSON.parse('{{ $months }}'.replace(/&quot;/g,'"'));
+            let months_names = [];
+            let months_values = [];
+            let top = 0;
+            let step_size = 100;
+
+            for (let i = 0; i < months_data.length; i++) {
+                months_names.push(months_data[i].title + '.');
+                months_values.push(months_data[i].value);
+            }
+
+            for (let i = 0; i < months_values.length; i++) {
+                if (months_values[i] > top) {
+                    top = months_values[i];
+                }
+            }
+
+            if (top > 10000) {
+                step_size = 2000;
+            }
+            if (top < 10000 && top > 4000) {
+                step_size = 1000;
+            }
+            if (top < 4000 && top > 1000) {
+                step_size = 500;
+            }
+
+            console.log(months_data, months_names, months_values, step_size, top)
+
+            // Set Global Chart.js configuration
+            Chart.defaults.global.defaultFontColor              = '#495057';
+            Chart.defaults.scale.gridLines.color                = 'transparent';
+            Chart.defaults.scale.gridLines.zeroLineColor        = 'transparent';
+            Chart.defaults.scale.ticks.beginAtZero              = true;
+            Chart.defaults.global.elements.line.borderWidth     = 0;
+            Chart.defaults.global.elements.point.radius         = 0;
+            Chart.defaults.global.elements.point.hoverRadius    = 0;
+            Chart.defaults.global.tooltips.cornerRadius         = 3;
+            Chart.defaults.global.legend.labels.boxWidth        = 12;
+
+            // Get Chart Container
+            let chartOverviewCon  = jQuery('.js-chartjs-overview');
+
+            // Set Chart Variables
+            let chartOverview, chartOverviewOptions, chartOverviewData;
+
+            // Overview Chart Options
+            chartOverviewOptions = {
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMax: top
+                        }
+                    }]
+                },
+                tooltips: {
+                    intersect: false,
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            return ' $' + tooltipItems.yLabel;
+                        }
+                    }
+                }
+            };
+
+            // Overview Chart Data
+            chartOverviewData = {
+                labels: months_names,
+                datasets: [
+                    {
+                        label: 'This Month',
+                        fill: true,
+                        backgroundColor: 'rgba(6, 101, 208, .5)',
+                        borderColor: 'transparent',
+                        pointBackgroundColor: 'rgba(6, 101, 208, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(6, 101, 208, 1)',
+                        data: months_values
+                    }/*,
+                    {
+                        label: 'Last Month',
+                        fill: true,
+                        backgroundColor: 'rgba(6, 101, 208, .2)',
+                        borderColor: 'transparent',
+                        pointBackgroundColor: 'rgba(6, 101, 208, .2)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(6, 101, 208, .2)',
+                        data: [270, 460, 290, 231, 419, 450, 280]
+                    }*/
+                ]
+            };
+
+            // Init Overview Chart
+            if (chartOverviewCon.length) {
+                chartOverview = new Chart(chartOverviewCon, {
+                    type: 'line',
+                    data: chartOverviewData,
+                    options: chartOverviewOptions
+                });
+            }
+        })
+    </script>
 
 @endpush
 

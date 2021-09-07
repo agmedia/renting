@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Helpers\Chart;
 use App\Helpers\Import;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
@@ -11,11 +12,8 @@ use App\Models\Back\Catalog\Mjerilo;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
-use App\Models\Back\Chart;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderProduct;
-use App\Models\Back\Ovjera;
-use App\Models\Back\Zahtjev;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -44,7 +42,15 @@ class DashboardController extends Controller
         $orders = Order::last()->get();
         $products = OrderProduct::last()->get();
 
-        return view('back.dashboard', compact('orders', 'data', 'products'));
+        $chart = new Chart();
+        $_data         = Order::chartData($chart->setQueryParams());
+        $months_array = $chart->setDataByMonth($_data);
+        $months       = json_encode($chart->setDataByMonth($_data));
+        $total        = $chart->total($months_array);
+
+        //dd($months_array, $months, $total);
+
+        return view('back.dashboard', compact('orders', 'data', 'products', 'months', 'months_array', 'total'));
     }
 
 

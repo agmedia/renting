@@ -112,6 +112,24 @@ class Order extends Model
 
 
     /**
+     * @param       $query
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function scopeChartData($query, array $params)
+    {
+        return $query
+            ->whereBetween('created_at', [$params['from'], $params['to']])
+            ->orderBy('created_at')
+            ->get()
+            ->groupBy(function ($val) use ($params) {
+                return \Illuminate\Support\Carbon::parse($val->created_at)->format($params['group']);
+            });
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return $this
