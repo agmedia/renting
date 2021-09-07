@@ -185,10 +185,15 @@
         @endif
 
         <!-- Navigation (desktop)-->
-        <div class="d-none d-lg-flex pt-4 mt-3">
+        <div class="d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('kosarica') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na košaricu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" wire:click="changeStep('dostava')" href="javascript:void(0);"><span class="d-none d-sm-inline">Na odabir dostave</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
+
+        <!-- Navigation (mobile)-->
+
+
+
     @endif
 
 
@@ -223,10 +228,12 @@
             </table>
         </div>
         @error('shipping') <small class="text-danger">Način dostave je obvezan</small> @enderror
-        <div class="d-none d-lg-flex pt-4 mt-3">
+        <div class=" d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" wire:click="changeStep('podaci')" href="javascript:void(0);"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" wire:click="changeStep('placanje')" href="javascript:void(0);"><span class="d-none d-sm-inline">Na odabir plaćanja</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
+
+
     @endif
 
 
@@ -251,7 +258,7 @@
             </table>
         </div>
         @error('payment') <small class="text-danger">Način plaćanja je obvezan</small> @enderror
-        <div class="d-none d-lg-flex pt-4 mt-3">
+        <div class=" d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" wire:click="changeStep('dostava')" href="javascript:void(0);"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na odabir dostave</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ ($payment != '') ? route('pregled') : '#' }}"><span class="d-none d-sm-inline">Pregledajte narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
