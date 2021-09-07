@@ -83,7 +83,7 @@ class Import
             $data = str_replace('jpeg', 'jpg', $img->exif('MimeType'));
             $type = str_replace('image/', '', $data);
 
-            $path = config('filesystems.disks.products.url') . $name . '.' . $type;
+            $path = config('filesystems.disks.products.url') . Str::slug($name) . '-' . time() . '.' . $type;
 
             $img->save($path);
 
