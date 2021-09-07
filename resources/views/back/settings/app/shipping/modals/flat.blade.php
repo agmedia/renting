@@ -95,7 +95,7 @@
     <script>
         $(() => {
             $('#flat-geo-zone').select2({
-                tags: true
+                minimumResultsForSearch: Infinity
             });
         });
         /**
