@@ -236,7 +236,7 @@
                 </div>
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
                             <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
 <!--                            <div class="dropzone">

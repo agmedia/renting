@@ -51,7 +51,7 @@
     <div class="row items-push" id="sortable">
         @if (isset($product))
             @if (! empty($product->image))
-                <div class="col-lg-4 col-md-4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_0' }}">
+                <div class="col-lg-3 col-md-3 col-sm4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_0' }}">
                     <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
                         <div class="ribbon-box" style="background-color: #c3c3c3">
                             <i class="fa fa-check"></i> Glavna Slika
@@ -73,18 +73,18 @@
                         <div class="col-sm-12">
                             <label class="css-control css-control-primary css-radio">
                                 <input type="radio" class="css-control-input" name="slim[default]" checked>
-                                Default Image <span class="css-control-indicator"></span>
+                                Glavna slika<span class="css-control-indicator"></span>
                             </label>
                         </div>
                     </div>
                 </div>
             @endif
 
-            <div class="col-lg-8 col-md-8">
+            <div class="col-lg-9 col-md-9 col-sm-8">
                 <div class="row items-push" id="new-images">
                     @if (! empty($product->images))
                         @foreach($product->images as $key => $image)
-                            <div class="col-lg-3 col-md-4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_id_' . $image->id }}">
+                            <div class="col-xl-3 col-lg-4 col-md-4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_id_' . $image->id }}">
                                 <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
                                     <div class="slim"
                                          {{--data-service="{{ route('images.ajax.upload') }}"--}}
@@ -101,14 +101,26 @@
                                     </div>
                                 </div>
                                 <div class="row form-group mt-2">
-                                    <div class="col-sm-4" style="padding-right: 0;">
+                                    <div class="col-sm-3" style="padding-right: 0;">
                                         <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image->id }}][sort_order]" value="{{ $image->sort_order }}" data-toggle="tooltip" data-placement="top" title="Sort Order">
                                     </div>
-                                    <div class="col-sm-8 text-right">
-                                        <label class="css-control css-control-primary css-radio">
+                                    <div class="col-sm-9 ">
+
+                                        <div class="custom-control custom-radio mb-1">
+                                            <input type="radio" class="custom-control-input" id="example-rd-custom1" name="slim[default]" value="{{ $image->id }}" checked="">
+                                            <label class="custom-control-label" for="example-rd-custom1">Glavna</label>
+                                        </div>
+
+                                        <div class="custom-control custom-checkbox custom-checkbox-square custom-control-success mb-1">
+                                            <input type="checkbox" class="custom-control-input" id="example-cb-custom-square2" name="example-cb-custom-square2" checked>
+                                            <label class="custom-control-label" for="example-cb-custom-square2">Vidljiva</label>
+                                        </div>
+
+
+                                     <!--   <label class="css-control css-control-primary css-radio">
                                             <input type="radio" class="css-control-input" name="slim[default]" value="{{ $image->id }}">
                                             <span class="mr-4">Default</span> <span class="css-control-indicator"></span>
-                                        </label>
+                                        </label>-->
                                     </div>
                                 </div>
                             </div>
