@@ -29,11 +29,19 @@ class Chart
      *
      * @return array
      */
-    public function setQueryParams(): array
+    public function setQueryParams(bool $last = false): array
     {
+        $from = now()->startOfYear();
+        $to = now();
+
+        if ($last) {
+            $from = now()->subYear()->startOfYear();
+            $to = now()->subYear()->endOfYear();
+        }
+
         return [
-            'from'     => now()->startOfYear(),
-            'to'       => now(),
+            'from'     => $from,
+            'to'       => $to,
             'iterator' => $this->months,
             'iterator_names' => $this->month_names,
             'group'    => 'm'
@@ -46,7 +54,7 @@ class Chart
      *
      * @return array
      */
-    public function setDataByMonth(Collection $data):array
+    public function setDataByYear(Collection $data):array
     {
         $response = new Collection();
 
@@ -87,6 +95,11 @@ class Chart
     }
 
 
+    /**
+     * @param array $data
+     *
+     * @return int|mixed
+     */
     public function total(array $data)
     {
         $sum = 0;

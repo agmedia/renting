@@ -173,34 +173,21 @@
 
     <script>
         $(() => {
-            let months_data = JSON.parse('{{ $months }}'.replace(/&quot;/g,'"'));
-            let months_names = [];
-            let months_values = [];
-            let top = 0;
-            let step_size = 100;
+            let this_year = sort('{{ $this_year }}');
+            let last_year = sort('{{ $last_year }}');
 
-            for (let i = 0; i < months_data.length; i++) {
-                months_names.push(months_data[i].title + '.');
-                months_values.push(months_data[i].value);
+            if (this_year.top > 20000) {
+                this_year.step = 5000;
             }
-
-            for (let i = 0; i < months_values.length; i++) {
-                if (months_values[i] > top) {
-                    top = months_values[i];
-                }
+            if (this_year.top < 20000 && this_year.top > 4000) {
+                this_year.step = 1000;
+            }
+            if (this_year.top < 4000 && this_year.top > 1000) {
+                this_year.step = 500;
             }
 
-            if (top > 10000) {
-                step_size = 2000;
-            }
-            if (top < 10000 && top > 4000) {
-                step_size = 1000;
-            }
-            if (top < 4000 && top > 1000) {
-                step_size = 500;
-            }
-
-            console.log(months_data, months_names, months_values, step_size, top)
+            console.log(this_year.names, this_year.values, this_year.step, this_year.top)
+            console.log(last_year.names, last_year.values, last_year.step, last_year.top)
 
             // Set Global Chart.js configuration
             Chart.defaults.global.defaultFontColor              = '#495057';
@@ -225,7 +212,7 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            suggestedMax: top
+                            suggestedMax: this_year.top
                         }
                     }]
                 },
@@ -241,10 +228,10 @@
 
             // Overview Chart Data
             chartOverviewData = {
-                labels: months_names,
+                labels: this_year.names,
                 datasets: [
                     {
-                        label: 'This Month',
+                        label: 'This Year',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .5)',
                         borderColor: 'transparent',
@@ -252,10 +239,10 @@
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
                         pointHoverBorderColor: 'rgba(6, 101, 208, 1)',
-                        data: months_values
-                    }/*,
+                        data: this_year.values
+                    },
                     {
-                        label: 'Last Month',
+                        label: 'Last Year',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .2)',
                         borderColor: 'transparent',
@@ -263,8 +250,8 @@
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
                         pointHoverBorderColor: 'rgba(6, 101, 208, .2)',
-                        data: [270, 460, 290, 231, 419, 450, 280]
-                    }*/
+                        data: last_year.values
+                    }
                 ]
             };
 
@@ -276,7 +263,34 @@
                     options: chartOverviewOptions
                 });
             }
-        })
+        });
+
+
+        function sort(data) {
+            let data_data = JSON.parse(data.replace(/&quot;/g,'"'));
+            let data_names = [];
+            let data_values = [];
+            let top = 0;
+            let step_size = 100;
+
+            for (let i = 0; i < data_data.length; i++) {
+                data_names.push(data_data[i].title + '.');
+                data_values.push(data_data[i].value);
+            }
+
+            for (let i = 0; i < data_values.length; i++) {
+                if (data_values[i] > top) {
+                    top = data_values[i];
+                }
+            }
+
+            return {
+                values: data_values,
+                names: data_names,
+                top: top,
+                step: step_size
+            };
+        }
     </script>
 
 @endpush

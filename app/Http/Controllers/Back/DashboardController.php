@@ -32,25 +32,23 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $query = (new Order())->newQuery();
+        $data['today']      = Order::whereDate('created_at', Carbon::today())->count();
+        $data['proccess']   = Order::whereIn('order_status_id', [1, 2, 3])->count();
+        $data['finished']   = Order::whereIn('order_status_id', [4, 5, 6, 7])->count();
+        $data['this_month'] = Order::whereMonth('created_at', '=', Carbon::now()->month)->count();
 
-        $data['this_month'] = $query->whereMonth('created_at', '=', Carbon::now()->month)->count();
-        $data['today'] = $query->whereDate('created_at', Carbon::today())->count();
-        $data['proccess'] = $query->whereIn('order_status_id', [1,2,3])->count();
-        $data['finished'] = $query->whereIn('order_status_id', [4, 5, 6, 7])->count();
-
-        $orders = Order::last()->get();
+        $orders   = Order::last()->get();
         $products = OrderProduct::last()->get();
 
-        $chart = new Chart();
-        $_data         = Order::chartData($chart->setQueryParams());
-        $months_array = $chart->setDataByMonth($_data);
-        $months       = json_encode($chart->setDataByMonth($_data));
-        $total        = $chart->total($months_array);
+        $chart     = new Chart();
+        $this_year = json_encode($chart->setDataByYear(
+            Order::chartData($chart->setQueryParams())
+        ));
+        $last_year = json_encode($chart->setDataByYear(
+            Order::chartData($chart->setQueryParams(true))
+        ));
 
-        //dd($months_array, $months, $total);
-
-        return view('back.dashboard', compact('orders', 'data', 'products', 'months', 'months_array', 'total'));
+        return view('back.dashboard', compact('data', 'orders', 'products', 'this_year', 'last_year'));
     }
 
 
@@ -66,15 +64,15 @@ class DashboardController extends Controller
         $list   = array(1, $sheet->toArray(null, true, true, true))[1];
 
         $import = new Import();
-        $count = 0;
+        $count  = 0;
 
-        $unknown_author_id = 6;
+        $unknown_author_id    = 6;
         $unknown_publisher_id = 2;
 
         for ($i = 2; $i < count($list); $i++) {
             $attributes = $import->setAttributes($list[$i]);
-            $author = $import->resolveAuthor($attributes['author']);
-            $publisher = $import->resolvePublisher($attributes['publisher']);
+            $author     = $import->resolveAuthor($attributes['author']);
+            $publisher  = $import->resolvePublisher($attributes['publisher']);
 
             $name = $list[$i]['D'];
 
@@ -110,7 +108,7 @@ class DashboardController extends Controller
             ]);
 
             if ($product_id) {
-                $images = $import->resolveImages(explode(', ', $list[$i]['AD']), $name);
+                $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name);
                 $category = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
                 if ($images) {
@@ -160,29 +158,29 @@ class DashboardController extends Controller
         }
 
         $superadmin = Bouncer::role()->firstOrCreate([
-            'name' => 'superadmin',
+            'name'  => 'superadmin',
             'title' => 'Super Administrator',
         ]);
 
         Bouncer::role()->firstOrCreate([
-            'name' => 'admin',
+            'name'  => 'admin',
             'title' => 'Administrator',
         ]);
 
         Bouncer::role()->firstOrCreate([
-            'name' => 'editor',
+            'name'  => 'editor',
             'title' => 'Editor',
         ]);
 
         Bouncer::role()->firstOrCreate([
-            'name' => 'customer',
+            'name'  => 'customer',
             'title' => 'Customer',
         ]);
 
         Bouncer::allow($superadmin)->everything();
 
         Bouncer::ability()->firstOrCreate([
-            'name' => 'set-super',
+            'name'  => 'set-super',
             'title' => 'Postavi korisnika kao Superadmina.'
         ]);
 
