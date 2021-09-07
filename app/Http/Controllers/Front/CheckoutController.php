@@ -119,10 +119,20 @@ class CheckoutController extends Controller
     {
         $data['order'] = CheckoutSession::getOrder();
 
-        /*dispatch(function () use ($data) {
+        dispatch(function () use ($data) {
             Mail::to(config('mail.admin'))->send(new OrderReceived($data['order']));
             Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
-        });*/
+        });
+
+        foreach ($data['order']->products as $product) {
+            $product->real->decrement('quantity', $product->quantity);
+
+            if ( ! $product->real->quantity) {
+                $product->real->update([
+                    'status' => 0
+                ]);
+            }
+        }
 
         CheckoutSession::forgetOrder();
         $this->shoppingCart()->flush();
