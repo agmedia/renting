@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\Roles\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = (new User())->newQuery();
+
+        if ($request->has('search') && ! empty($request->search)) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
 
         $users = $query->with('details')->paginate(config('settings.pagination.back'));
 
@@ -58,7 +64,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('back.user.edit', compact('user'));
+        $roles = Role::selectList();
+
+        return view('back.user.edit', compact('user', 'roles'));
     }
     
     

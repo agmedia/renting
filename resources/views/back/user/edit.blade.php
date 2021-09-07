@@ -1,5 +1,9 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
+
 @section('content')
 
     <div class="bg-body-light">
@@ -16,8 +20,6 @@
         </div>
     </div>
 
-
-    <!-- Page Content -->
     <div class="content content-full content-boxed">
 
         @include('back.layouts.partials.session')
@@ -39,6 +41,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="block-content">
                     <h2 class="content-heading pt-0">
                         <i class="fa fa-fw fa-user-circle text-muted mr-1"></i> Korisnički profil
@@ -62,12 +65,10 @@
 
                             <div class="form-group">
                                 <label for="input-phone">Telefon</label>
-                                <input type="email" class="form-control" id="input-phone" name="phone" placeholder="Unesite vaš broj telefona..." value="{{ isset($user->details->phone) ? $user->details->phone : old('phone') }}">
+                                <input type="text" class="form-control" id="input-phone" name="phone" placeholder="Unesite vaš broj telefona..." value="{{ isset($user->details->phone) ? $user->details->phone : old('phone') }}">
                             </div>
-
                         </div>
                     </div>
-                    <!-- END User Profile -->
 
                     @if (auth()->user()->can('*'))
                         <h2 class="content-heading pt-0">
@@ -98,11 +99,8 @@
                                 </div>
                             </div>
                         </div>
-                @endif
+                    @endif
 
-
-
-                <!-- Billing Information -->
                     <h2 class="content-heading pt-0">
                         <i class="fa fa-fw fa-user-circle text-muted mr-1"></i> Korisnički podaci
                     </h2>
@@ -112,7 +110,6 @@
                             </p>
                         </div>
                         <div class="col-lg-8 col-xl-5">
-
                             <div class="form-group row">
                                 <div class="col-6">
                                     <label for="input-fname">Ime</label>
@@ -141,6 +138,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <h2 class="content-heading pt-0">
+                        <i class="fa fa-fw fa-user-circle text-muted mr-1"></i> Promjena korisničke uloge
+                    </h2>
+                    <div class="row push">
+                        <div class="col-lg-4">
+                            <p class="text-muted">Pažljivo..!
+                            </p>
+                        </div>
+                        <div class="col-lg-8 col-xl-5">
+                            <div class="form-group row">
+                                <label for="price-input">Porez</label>
+                                <select class="js-select2 form-control" id="role-select" name="role" style="width: 100%;" data-placeholder="Odaberite ulogu za korisnika...">
+                                    <option></option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->name }}" {{ ((isset($user)) and ($user->details->role == $role->name)) ? 'selected' : '' }}>{{ $role->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
@@ -154,10 +172,17 @@
             </div>
         </form>
     </div>
-    <!-- END Page Content -->
 
 @endsection
 
 @push('js_after')
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
+    <script>
+        $(() => {
+            $('#role-select').select2({
+                minimumResultsForSearch: Infinity
+            });
+        });
+    </script>
 @endpush

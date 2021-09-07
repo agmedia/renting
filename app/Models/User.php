@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Roles\Role;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -184,6 +185,10 @@ class User extends Authenticatable
         }
 
         if ($this->id) {
+            if (Role::checkIfChanged($this->id, $this->request->role)) {
+                Role::change($this->id, $this->request->role);
+            }
+
             UserDetail::where('user_id', $this->id)->update([
                 'user_id'    => $this->id,
                 'fname'      => $this->request->fname,
@@ -196,7 +201,7 @@ class User extends Authenticatable
                 'avatar'     => 'media/avatars/avatar1.jpg',
                 'bio'        => '',
                 'social'     => '',
-                'role'       => 'customer',
+                'role'       => $this->request->role,
                 'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
                 'updated_at' => Carbon::now()
             ]);
