@@ -74,7 +74,7 @@ class DashboardController extends Controller
                 'publisher_id'     => $publisher ?: $unknown_publisher_id,
                 'action_id'        => 0,
                 'name'             => $name,
-                'sku'              => $list[$i]['C'],
+                'sku'              => $list[$i]['C'] ?: '0',
                 'description'      => $list[$i]['H'],
                 'slug'             => Str::slug($name),
                 'price'            => $list[$i]['Z'],
@@ -105,16 +105,22 @@ class DashboardController extends Controller
                 $category = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
                 if ($images) {
-                    for ($i = 0; $i < count($images); $i++) {
-                        ProductImage::insert([
-                            'product_id' => $product_id,
-                            'image'      => $images[$i],
-                            'alt'        => $name,
-                            'published'  => 1,
-                            'sort_order' => $i,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]);
+                    for ($k = 0; $k < count($images); $k++) {
+                        if ($k == 0) {
+                            Product::where('id', $product_id)->update([
+                                'image' => $images[$k]
+                            ]);
+                        } else {
+                            ProductImage::insert([
+                                'product_id' => $product_id,
+                                'image'      => $images[$k],
+                                'alt'        => $name,
+                                'published'  => 1,
+                                'sort_order' => $k,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]);
+                        }
                     }
                 }
 
