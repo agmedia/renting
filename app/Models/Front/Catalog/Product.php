@@ -411,7 +411,7 @@ class Product extends Model
             });
         }
 
-        $query->active();
+        $query->active()->where('quantity', '!=', 0);
 
         if (\request()->has('sort')) {
             $sort = \request()->input('sort');
