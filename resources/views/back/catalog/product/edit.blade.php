@@ -67,7 +67,7 @@
                             <div class="form-group row items-push mb-2">
                                 <div class="col-md-2">
                                     <label for="quantity-input">Količina <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="quantity-input" name="quantity " placeholder="Upišite količinu artikla" value="{{ isset($product) ? $product->quantity  : old('quantity ') }}">
+                                    <input type="text" class="form-control" id="quantity-input" name="quantity" placeholder="Upišite količinu artikla" value="{{ isset($product) ? $product->quantity  : old('quantity ') }}">
                                     @error('quantity ')
                                     <span class="text-danger font-italic">Količina je potrebna...</span>
                                     @enderror
