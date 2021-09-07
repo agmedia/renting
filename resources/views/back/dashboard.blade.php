@@ -22,6 +22,7 @@
                 <div class="content pt-0">
                     <a href="{{ route('roles.set') }}" class="btn btn-hero-sm btn-rounded btn-hero-info">Set Roles</a>
                     <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>
+<!--                    <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>-->
                 </div>
             </div>
         </div>
@@ -32,9 +33,9 @@
         <!-- Quick Overview -->
         <div class="row row-deck">
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="be_pages_ecom_orders.html">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('orders') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-warning mb-1">78</div>
+                        <div class="font-size-h3 font-w600 text-warning mb-1">{{ $data['proccess'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Narudžbi u obradi
                         </p>
@@ -42,9 +43,9 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('orders') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-success mb-1">26</div>
+                        <div class="font-size-h3 font-w600 text-success mb-1">{{ $data['finished'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Dovršenih narudžbi
                         </p>
@@ -52,9 +53,9 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('orders') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 text-success font-w600 mb-1">126</div>
+                        <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['today'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Narudžbi danas
                         </p>
@@ -62,9 +63,9 @@
                 </a>
             </div>
             <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('orders') }}">
                     <div class="block-content py-5">
-                        <div class="font-size-h3 text-success font-w600 mb-1">350</div>
+                        <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['this_month'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             Narudžbi ovaj mjesec
                         </p>
@@ -75,7 +76,7 @@
         <!-- END Quick Overview -->
 
         <!-- Orders Overview -->
-        <div class="block block-rounded">
+<!--        <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Tjedni pregled</h3>
                 <div class="block-options">
@@ -85,11 +86,11 @@
                 </div>
             </div>
             <div class="block-content block-content-full">
-                <!-- Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js) -->
-                <!-- For more info and examples you can check out http://www.chartjs.org/docs/ -->
+                &lt;!&ndash; Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js) &ndash;&gt;
+                &lt;!&ndash; For more info and examples you can check out http://www.chartjs.org/docs/ &ndash;&gt;
                 <div style="height: 420px;"><canvas class="js-chartjs-overview"></canvas></div>
             </div>
-        </div>
+        </div>-->
 
 
         <!-- Top Products and Latest Orders -->
@@ -108,96 +109,17 @@
                     <div class="block-content">
                         <table class="table table-borderless table-striped table-vcenter font-size-sm">
                             <tbody>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.965</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Diablo III</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.154</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Control</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.523</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Minecraft</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.423</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Hollow Knight</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.391</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Sekiro: Shadows Die Twice</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.218</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">NBA 2K20</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.995</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Forza Motorsport 7</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.761</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Minecraft</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.860</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Dark Souls III</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="width: 100px;">
-                                    <a class="font-w600" href="be_pages_ecom_product_edit.html">PID.952</a>
-                                </td>
-                                <td>
-                                    <a href="be_pages_ecom_product_edit.html">Age of Mythology</a>
-                                </td>
-                                <td class="font-w600 text-right">320,00 kn</td>
-                            </tr>
+                            @foreach ($products as $product)
+                                <tr>
+                                    <td class="text-center" style="width: 100px;">
+                                        <a class="font-w600" href="{{ route('products.edit', ['product' => $product->real]) }}">{{ $product->id }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('products.edit', ['product' => $product->real]) }}">{{ $product->name }}</a>
+                                    </td>
+                                    <td class="font-w600 text-right">{{ number_format($product->price, 2, ',', '.') }} kn</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -218,126 +140,20 @@
                     <div class="block-content">
                         <table class="table table-borderless table-striped table-vcenter font-size-sm">
                             <tbody>
-                            <tr>
-                                <td class="font-w600 text-center" style="width: 100px;">
-                                    <a href="be_pages_ecom_order.html">ORD.7116</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Brian Stevens</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Plaćeno</span>
-                                </td>
-                                <td class="font-w600 text-right">250,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7115</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Laura Carr</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-danger">Otkazano</span>
-                                </td>
-                                <td class="font-w600 text-right">307,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7114</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Brian Stevens</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Plaćeno</span>
-                                </td>
-                                <td class="font-w600 text-right">413,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7113</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Justin Hunt</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-warning">Čeka naplatu</span>
-                                </td>
-                                <td class="font-w600 text-right">812,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7112</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Thomas Riley</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Plaćeno</span>
-                                </td>
-                                <td class="font-w600 text-right">753,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7111</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Jesse Fisher</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-warning">Čeka naplatu</span>
-                                </td>
-                                <td class="font-w600 text-right">210,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7110</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Scott Young</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Plaćeno</span>
-                                </td>
-                                <td class="font-w600 text-right">224,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7109</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Alice Moore</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-warning">Čeka naplatu</span>
-                                </td>
-                                <td class="font-w600 text-right">481,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7108</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Jose Parker</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-success">Plaćeno</span>
-                                </td>
-                                <td class="font-w600 text-right">999,00 kn</td>
-                            </tr>
-                            <tr>
-                                <td class="font-w600 text-center">
-                                    <a href="be_pages_ecom_order.html">ORD.7107</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    <a href="be_pages_ecom_customer.html">Jose Wagner</a>
-                                </td>
-                                <td>
-                                    <span class="badge badge-danger">Otkazano</span>
-                                </td>
-                                <td class="font-w600 text-right">311,00 kn</td>
-                            </tr>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td class="font-w600 text-center" style="width: 100px;">
+                                        <a href="be_pages_ecom_order.html">{{ $order->id }}</a>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        <a href="be_pages_ecom_customer.html">{{ $order->payment_fname . ' ' . $order->payment_lname }}</a>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
+                                    </td>
+                                    <td class="font-w600 text-right">{{ number_format($order->total, 2, ',', '.') }} kn</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

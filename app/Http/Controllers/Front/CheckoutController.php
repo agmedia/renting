@@ -119,12 +119,10 @@ class CheckoutController extends Controller
     {
         $data['order'] = CheckoutSession::getOrder();
 
-        Log::info($data['order']);
-
-        $this->dispatch(function () use ($data) {
+        /*dispatch(function () use ($data) {
             Mail::to(config('mail.admin'))->send(new OrderReceived($data['order']));
             Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
-        });
+        });*/
 
         CheckoutSession::forgetOrder();
         $this->shoppingCart()->flush();

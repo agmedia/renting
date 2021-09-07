@@ -10,6 +10,8 @@ use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Chart;
+use App\Models\Back\Orders\Order;
+use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Ovjera;
 use App\Models\Back\Zahtjev;
 use App\Models\User;
@@ -27,19 +29,17 @@ class DashboardController extends Controller
     //
     public function index()
     {
-        /*$zahtjevi = Zahtjev::listSearch()->paginate(5);
-        $ovjera   = new Ovjera();
-        $ovjere   = $ovjera->filterByRoles((new Ovjera())->newQuery())->paginate(5);
-        $mjerila  = (new Mjerilo())->listSearch()->paginate(5);
+        $query = (new Order())->newQuery();
 
-        // Chart and total data
-        $chart        = new Chart();
-        $data         = auth()->user()->totalByMonth($chart->setQueryParams());
-        $months_array = $chart->setDataByMonth($data);
-        $months       = json_encode($chart->setDataByMonth($data));
-        $total        = $chart->total($months_array);*/
+        $data['this_month'] = $query->whereMonth('created_at', '=', Carbon::now()->month)->count();
+        $data['today'] = $query->whereDate('created_at', Carbon::today())->count();
+        $data['proccess'] = $query->whereIn('order_status_id', [1,2,3])->count();
+        $data['finished'] = $query->whereIn('order_status_id', [4, 5, 6, 7])->count();
 
-        return view('back.dashboard'/*, compact('zahtjevi', 'ovjere', 'mjerila', 'months', 'months_array', 'total')*/);
+        $orders = Order::last()->get();
+        $products = OrderProduct::last()->get();
+
+        return view('back.dashboard', compact('orders', 'data', 'products'));
     }
 
 
@@ -183,6 +183,24 @@ class DashboardController extends Controller
         foreach ($users as $user) {
             $user->assign($superadmin);
         }
+
+        return redirect()->route('dashboard');
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function mailing(Request $request)
+    {
+        $order = Order::limit(1)->first();
+
+        dispatch(function () use ($order) {
+            Mail::to(config('mail.admin'))->send(new OrderReceived($order));
+            Mail::to($order->payment_email)->send(new OrderSent($order));
+        });
 
         return redirect()->route('dashboard');
     }

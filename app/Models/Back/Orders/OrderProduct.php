@@ -37,6 +37,17 @@ class OrderProduct extends Model
     {
         return $this->hasOne(\App\Models\Front\Catalog\Product::class, 'id', 'product_id');
     }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeLast($query, $count = 9)
+    {
+        return $query->orderBy('created_at', 'desc')->limit($count);
+    }
     
     
     /**

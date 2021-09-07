@@ -101,6 +101,17 @@ class Order extends Model
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeLast($query, $count = 9)
+    {
+        return $query->orderBy('created_at', 'desc')->limit($count);
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return $this
