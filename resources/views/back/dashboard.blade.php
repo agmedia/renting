@@ -19,7 +19,10 @@
     @if (auth()->user()->can('*'))
         <div class="block block-rounded">
             <div class="block-content block-content-full">
-                <a href="{{ route('roles.set') }}" class="btn btn-rounded btn-hero-info">Set Roles</a>
+                <div class="content pt-0">
+                    <a href="{{ route('roles.set') }}" class="btn btn-hero-sm btn-rounded btn-hero-info">Set Roles</a>
+                    <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>
+                </div>
             </div>
         </div>
     @endif

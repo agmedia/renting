@@ -41,9 +41,10 @@ use Illuminate\Support\Facades\Route;
  * BACK ROUTES
  */
 Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')->group(function () {
-    Route::match(['get', 'post'], '/dashboard', function() { return view('back.dashboard'); })->name('dashboard');
+    Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
+    Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
 
     // CATALOG
     Route::prefix('catalog')->group(function () {

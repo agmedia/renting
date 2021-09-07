@@ -225,10 +225,11 @@ class Checkout extends Component
                     'address' => auth()->user()->details->address,
                     'city' => auth()->user()->details->city,
                     'zip' => auth()->user()->details->zip,
-                    'state' => ''
+                    'state' => auth()->user()->details->state
                 ];
             }
         }
+
 
         CheckoutSession::setAddress($this->address);
 

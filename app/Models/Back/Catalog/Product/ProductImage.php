@@ -175,6 +175,7 @@ class ProductImage extends Model
             'product_id' => $this->resource->id,
             'image'      => config('filesystems.disks.products.url') . $path,
             'alt'        => $this->resource->name,
+            'published'  => 1,
             'sort_order' => $sort_order,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

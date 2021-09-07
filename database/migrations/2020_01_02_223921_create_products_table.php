@@ -52,6 +52,7 @@ class CreateProductsTable extends Migration
             $table->integer('product_id')->unsigned()->index();
             $table->string('image');
             $table->string('alt')->nullable();
+            $table->boolean('published')->default(false);
             $table->integer('sort_order')->unsigned();
             $table->timestamps();
         });

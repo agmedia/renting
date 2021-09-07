@@ -49,16 +49,4 @@ class HomeController extends Controller
         return view('front.contact');
     }
 
-
-    public function import()
-    {
-        $list = Excel::import(new ProductImport(), public_path('media/artikli.xlsx'));
-
-        /*$spread = IOFactory::load(public_path('media/artikli.xlsx'));
-        $sheet = $spread->getActiveSheet();
-        $list = array(1,$sheet->toArray(null,true,true,true));*/
-
-        dd($list);
-    }
-
 }
