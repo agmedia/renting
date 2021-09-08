@@ -177,12 +177,13 @@
                             <th class="text-center" style="width: 100px;">Slika</th>
                             <th>Naziv</th>
                             <th>Šifra</th>
-                            <th>Cijena</th>
-                            <th>Godina izdanja</th>
-                            <th>Polica</th>
+                            <th class="text-right">Cijena</th>
+                            <th class="text-center">God.</th>
+                            <th class="text-center">Polica</th>
+                            <th class="text-center">Kol.</th>
                             <th>Dodano</th>
-                            <th class="text-center font-size-sm">Status</th>
-                            <th class="text-right" style="width: 100px;">Uredi</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-right" style="width: 72px;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -200,7 +201,7 @@
                                     @endif
                                 </td>
                                 <td class="font-size-sm">{{ $product->sku }}</td>
-                                <td class="font-size-sm">
+                                <td class="font-size-sm text-right">
                                     @if ($product->special())
                                         <s>{{ number_format($product->price, 2) }}kn</s><br>
                                         <strong>{{ number_format($product->special(), 2) }}kn</strong>
@@ -208,8 +209,9 @@
                                         <strong>{{ number_format($product->price, 2) }}kn</strong>
                                     @endif
                                 </td>
-                                <td class="font-size-sm">{{ $product->year }}</td>
-                                <td class="font-size-sm">{{ $product->polica }}</td>
+                                <td class="font-size-sm text-center">{{ $product->year }}</td>
+                                <td class="font-size-sm text-center">{{ $product->polica }}</td>
+                                <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
                                     @include('back.layouts.partials.status', ['status' => $product->status])

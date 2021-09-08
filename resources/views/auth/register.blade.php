@@ -118,6 +118,7 @@
                                         <i class="fa fa-fw fa-plus mr-1"></i> Registrirajte se
                                     </button>
                                 </div>
+                                <input type="hidden" name="recaptcha" id="recaptcha">
                             </form>
                             <!-- END Sign Up Form -->
                             <div class="mb-2 text-center">
@@ -149,3 +150,7 @@
     </div>
 
 @endsection
+
+@push('js_after')
+    @include('front.layouts.partials.recaptcha-js')
+@endpush

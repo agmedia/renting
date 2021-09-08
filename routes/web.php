@@ -253,6 +253,7 @@ Route::prefix('api/v2')->group(function () {
  */
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
+Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
 Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
 
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');

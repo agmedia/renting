@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Helpers\Recaptcha;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
@@ -31,6 +32,13 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
             'terms'    => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
+
+        // Recaptcha
+        $recaptcha = (new Recaptcha())->check($input);
+
+        if ( ! $recaptcha->ok()) {
+            return back()->withErrors(['error' => 'ReCaptcha Error! Kontaktirajte administratora!']);
+        }
 
         $public_user = User::create([
             'name'     => $input['name'],

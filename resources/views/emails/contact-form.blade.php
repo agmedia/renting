@@ -10,9 +10,6 @@
         <tr>
             <td style="padding: 20px 20px 0 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
                 Dobili ste poruku s Web kontakt forme.<br>
-                @if (isset($contact['subject']))
-                    Upit za proizvod: <strong>{{ $contact['subject'] }}</strong><br>
-                @endif
                 <br>
                 <table cellspacing="0" cellpadding="0" border="0" width="100%">
                     <tr>
@@ -27,24 +24,6 @@
                         <tr>
                             <td>Telefon:</td>
                             <td><b>{{ $contact['phone'] }}</b></td>
-                        </tr>
-                    @endif
-                    @if ( ! empty($contact['tvrtka']))
-                        <tr>
-                            <td>Tvrtka:</td>
-                            <td><b>{{ $contact['tvrtka'] }}</b></td>
-                        </tr>
-                    @endif
-                    @if ( ! empty($contact['oib']))
-                        <tr>
-                            <td>OIB:</td>
-                            <td><b>{{ $contact['oib'] }}</b></td>
-                        </tr>
-                    @endif
-                    @if (isset($contact['department']) && ! empty($contact['department']))
-                        <tr>
-                            <td>Odjel:</td>
-                            <td><b>{{ $contact['department'] }}</b></td>
                         </tr>
                     @endif
                 </table>

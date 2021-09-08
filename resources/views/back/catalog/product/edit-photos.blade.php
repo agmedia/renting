@@ -104,16 +104,16 @@
                                     <div class="col-sm-3" style="padding-right: 0;">
                                         <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image->id }}][sort_order]" value="{{ $image->sort_order }}" data-toggle="tooltip" data-placement="top" title="Sort Order">
                                     </div>
-                                    <div class="col-sm-9 ">
+                                    <div class="col-sm-9 text-right">
 
                                         <div class="custom-control custom-radio mb-1">
-                                            <input type="radio" class="custom-control-input" id="example-rd-custom1" name="slim[default]" value="{{ $image->id }}" checked="">
-                                            <label class="custom-control-label" for="example-rd-custom1">Glavna</label>
+                                            <input type="radio" class="custom-control-input" id="radio-default" name="slim[default]" value="{{ $image->id }}">
+                                            <label class="custom-control-label" for="radio-default">Glavna</label>
                                         </div>
 
                                         <div class="custom-control custom-checkbox custom-checkbox-square custom-control-success mb-1">
-                                            <input type="checkbox" class="custom-control-input" id="example-cb-custom-square2" name="example-cb-custom-square2" checked>
-                                            <label class="custom-control-label" for="example-cb-custom-square2">Vidljiva</label>
+                                            <input type="checkbox" class="custom-control-input" id="check-published" name="slim[published]" value="{{ $image->id }}" @if($image->published) checked @endif>
+                                            <label class="custom-control-label" for="check-published">Vidljiva</label>
                                         </div>
 
 
