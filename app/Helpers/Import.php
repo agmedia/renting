@@ -140,7 +140,7 @@ class Import
             }
         }
 
-        return collect($response)->last();
+        return $response;
     }
 
 
@@ -187,7 +187,7 @@ class Import
             $exist = Publisher::where('title', $publisher)->first();
 
             if ( ! $exist) {
-                return Author::insertGetId([
+                return Publisher::insertGetId([
                     'title'            => $publisher,
                     'description'      => '',
                     'meta_title'       => $publisher,

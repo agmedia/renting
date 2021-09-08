@@ -109,7 +109,7 @@ class DashboardController extends Controller
 
             if ($product_id) {
                 $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name);
-                $category = $import->resolveCategories(explode(', ', $list[$i]['AA']));
+                $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
                 if ($images) {
                     for ($k = 0; $k < count($images); $k++) {
@@ -131,11 +131,13 @@ class DashboardController extends Controller
                     }
                 }
 
-                if ($category) {
-                    ProductCategory::insert([
-                        'product_id'  => $product_id,
-                        'category_id' => $category
-                    ]);
+                if ($categories) {
+                    foreach ($categories as $category) {
+                        ProductCategory::insert([
+                            'product_id'  => $product_id,
+                            'category_id' => $category
+                        ]);
+                    }
                 }
 
                 $count++;
