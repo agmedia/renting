@@ -7,6 +7,7 @@ use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Publisher;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -74,7 +75,7 @@ class Import
      *
      * @return array
      */
-    public function resolveImages(array $images, string $name): array
+    public function resolveImages(array $images, string $name, int $id): array
     {
         $response = [];
 
@@ -83,9 +84,9 @@ class Import
             $data = str_replace('jpeg', 'jpg', $img->exif('MimeType'));
             $type = str_replace('image/', '', $data);
 
-            $path = config('filesystems.disks.products.url') . Str::slug($name) . '-' . time() . '.' . $type;
-
-            $img->save($path);
+            $path = $id . '/' . Str::slug($name) . '-' . time() . '.' . $type;
+            Storage::disk('products')->put($path, $img);
+            //$img->save($path);
 
             $response[] = $path;
         }

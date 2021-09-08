@@ -75,6 +75,7 @@ class DashboardController extends Controller
             $publisher  = $import->resolvePublisher($attributes['publisher']);
 
             $name = $list[$i]['D'];
+            $action = ($list[$i]['Z'] == $list[$i]['Y']) ? null : $list[$i]['Y'];
 
             $product_id = Product::insertGetId([
                 'author_id'        => $author ?: $unknown_author_id,
@@ -87,7 +88,7 @@ class DashboardController extends Controller
                 'price'            => $list[$i]['Z'],
                 'quantity'         => $list[$i]['O'],
                 'tax_id'           => 1,
-                'special'          => $list[$i]['Y'],
+                'special'          => $action,
                 'special_from'     => null,
                 'special_to'       => null,
                 'meta_title'       => $name,
@@ -108,7 +109,7 @@ class DashboardController extends Controller
             ]);
 
             if ($product_id) {
-                $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name);
+                $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name, $product_id);
                 $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
                 if ($images) {
