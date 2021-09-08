@@ -102,9 +102,6 @@ class CheckoutController extends Controller
         }
 
         if ($order->finish($request)) {
-            //CheckoutSession::forgetOrder();
-            //$this->shoppingCart()->flush();
-
             return redirect()->route('checkout.success');
         }
 

@@ -288,6 +288,11 @@ class Order extends Model
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return mixed|null
+     */
     public function finish(Request $request)
     {
         if ($this->isCreated()) {

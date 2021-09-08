@@ -7,6 +7,7 @@ use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -37,6 +38,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info($request->toArray());
         $updated = Settings::setListItem('payment', 'list.' . $request->data['code'], $request->data);
 
         if ($updated) {
