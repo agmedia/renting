@@ -112,8 +112,8 @@
                                         </div>
 
                                         <div class="custom-control custom-checkbox custom-checkbox-square custom-control-success mb-1">
-                                            <input type="checkbox" class="custom-control-input" id="check-published" name="slim[published]" value="{{ $image->id }}" @if($image->published) checked @endif>
-                                            <label class="custom-control-label" for="check-published">Vidljiva</label>
+                                            <input type="checkbox" class="custom-control-input" id="check-published[{{ $image->id }}]" name="slim[{{ $image->id }}][published]" @if($image->published) checked @endif>
+                                            <label class="custom-control-label" for="check-published[{{ $image->id }}]">Vidljiva</label>
                                         </div>
 
 

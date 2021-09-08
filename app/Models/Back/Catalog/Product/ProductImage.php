@@ -64,8 +64,7 @@ class ProductImage extends Model
             }
         }
 
-        if ($existing/* && isset($existing[0])*/) {
-            Log::info('$existing[0]');
+        if ($existing) {
             // Ako se mijenja default i nismo ga već promjenili...
             if (isset($existing['default']) && $existing['default'] != 'on') {
                 $this->switchDefault(
@@ -84,8 +83,11 @@ class ProductImage extends Model
                     }
 
                     if ($key) {
+                        $published = (isset($image['published']) && $image['published'] == 'on') ? 1 : 0;
+
                         $this->where('id', $key)->update([
-                            'sort_order' => $image['sort_order']
+                            'sort_order' => $image['sort_order'],
+                            'published' => $published
                         ]);
                     }
                 }

@@ -43,7 +43,7 @@ class Product extends Model
      */
     public function images()
     {
-        return $this->hasMany(ProductImage::class, 'product_id')->orderBy('sort_order');
+        return $this->hasMany(ProductImage::class, 'product_id')->where('published', 1)->orderBy('sort_order');
     }
 
 
