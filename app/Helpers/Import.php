@@ -86,9 +86,8 @@ class Import
 
             $path = $id . '/' . Str::slug($name) . '-' . time() . '.' . $type;
             Storage::disk('products')->put($path, $img);
-            //$img->save($path);
 
-            $response[] = $path;
+            $response[] = config('filesystems.disks.products.url') . $path;
         }
 
         return $response;
