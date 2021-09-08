@@ -151,6 +151,10 @@ class CatalogRouteController extends Controller
     public function search(Request $request)
     {
         if ($request->has(config('settings.search_keyword'))) {
+            if ( ! $request->input(config('settings.search_keyword'))) {
+                return redirect()->back()->with(['error' => 'Oops..! Zaboravili ste upisati pojam za pretraživanje..!']);
+            }
+
             $group = null; $cat = null; $subcat = null;
 
             $ids = Helper::search(
