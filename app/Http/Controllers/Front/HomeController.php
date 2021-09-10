@@ -10,7 +10,6 @@ use App\Mail\ContactFormMessage;
 use App\Models\Front\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
