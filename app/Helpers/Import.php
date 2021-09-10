@@ -164,6 +164,7 @@ class Import
                     'sort_order'       => 0,
                     'status'           => 1,
                     'slug'             => Str::slug($author),
+                    'url'              => config('settings.author_path') . '/' . Str::slug($author),
                     'created_at'       => Carbon::now(),
                     'updated_at'       => Carbon::now()
                 ]);
@@ -196,6 +197,7 @@ class Import
                     'sort_order'       => 0,
                     'status'           => 1,
                     'slug'             => Str::slug($publisher),
+                    'url'              => config('settings.publisher_path') . '/' . Str::slug($publisher),
                     'created_at'       => Carbon::now(),
                     'updated_at'       => Carbon::now()
                 ]);

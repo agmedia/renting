@@ -65,7 +65,7 @@
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Svi artikli</h3>
+                <h3 class="block-title">Svi artikli {{ $products->total() }}</h3>
                 <div class="block-options">
                     <div class="dropdown">
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">

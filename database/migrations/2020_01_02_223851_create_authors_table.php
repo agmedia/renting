@@ -24,6 +24,7 @@ class CreateAuthorsTable extends Migration
             $table->integer('sort_order')->unsigned()->default(0);
             $table->boolean('status')->default(false);
             $table->string('slug');
+            $table->string('url', 255);
             $table->timestamps();
         });
     }

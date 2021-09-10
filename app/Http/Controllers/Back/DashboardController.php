@@ -69,7 +69,7 @@ class DashboardController extends Controller
         $unknown_author_id    = 6;
         $unknown_publisher_id = 2;
 
-        for ($n = 0; $n < 6; $n++) {
+        for ($n = 0; $n < 9; $n++) {
             for ($i = 2; $i < count($list); $i++) {
                 $attributes = $import->setAttributes($list[$i]);
                 $author     = $import->resolveAuthor($attributes['author']);

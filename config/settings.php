@@ -20,6 +20,8 @@ return [
     ],
 
     'search_keyword' => 'pojam',
+    'author_path' => 'autor',
+    'publisher_path' => 'nakladnik',
 
     'sorting_list' => [
         0 => [
