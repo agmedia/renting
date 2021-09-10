@@ -1,10 +1,10 @@
 <div class="card product-card-alt">
     <div class="product-thumb">
         <div class="product-card-actions">
-            <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ (isset($cat) && isset($subcat)) ? $product->url($cat, $subcat) : $product->url() }}"><i class="ci-eye"></i></a>
+            <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ url($product->url) }}"><i class="ci-eye"></i></a>
             <add-to-cart-btn-simple id="{{ $product->id }}"></add-to-cart-btn-simple>
         </div>
-        <a class="product-thumb-overlay" href="{{ (isset($cat) && isset($subcat)) ? $product->url($cat, $subcat) : $product->url() }}"></a>
+        <a class="product-thumb-overlay" href="{{ url($product->url) }}"></a>
         <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
     </div>
     <div class="card-body pt-2">
@@ -18,10 +18,12 @@
             </div>
 
         </div>
-        <h3 class="product-title fs-sm mb-0"><a href="{{ (isset($cat) && isset($subcat)) ? $product->url($cat, $subcat) : $product->url() }}">{{ $product->name }}</a></h3>
-        <div class="d-flex flex-wrap justify-content-between align-items-center">
-            <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> {!! (isset($cat) && isset($subcat)) ? $product->categoriesString($cat, $subcat) : $product->categoriesString() !!}</div>
-        </div>
+        <h3 class="product-title fs-sm mb-0"><a href="{{ url($product->url) }}">{{ $product->name }}</a></h3>
+        @if ($product->category_string)
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> {!! $product->category_string !!}</div>
+            </div>
+        @endif
         <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
             @if ($product->special())
                 <div class="bg-faded-accent text-accent text-sm rounded-1 py-1 px-2" style="text-decoration: line-through;">{!! $product->priceString() !!}</div>

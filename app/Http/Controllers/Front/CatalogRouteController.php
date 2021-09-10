@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Front\Blog;
 use App\Models\Front\Page;
 use App\Models\Front\Faq;
@@ -56,25 +57,19 @@ class CatalogRouteController extends Controller
 
         // If only group...
         if ($group && ! $cat && ! $subcat) {
-            $categories = Category::where('group', $group)->with('subcategories')->get();
+            $categories = Category::where('group', $group)->pluck('id');
 
-            foreach ($categories as $category) {
-                $ids = $ids->merge($category->products()->pluck('id'));
-            }
+            $ids = ProductCategory::whereIn('category_id', $categories)->pluck('product_id');
         }
 
         // If only group and category...
         if ($cat && ! $subcat) {
-            $category = Category::where('group', $group)->where('id', $cat->id)->with('subcategories')->first();
-
-            $ids = $ids->merge($category->products()->pluck('id'));
+            $ids = ProductCategory::where('category_id', $cat->id)->pluck('product_id');
         }
 
         // If only group, category and subcategory...
         if ($cat && $subcat) {
-            $category = Category::where('group', $group)->where('parent_id', $cat->id)->where('id', $subcat->id)->first();
-
-            $ids = $ids->merge($category->products()->pluck('id'));
+            $ids = ProductCategory::where('category_id', $subcat->id)->pluck('product_id');
         }
 
         return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'prod'));

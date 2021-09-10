@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\Chart;
 use App\Helpers\Import;
+use App\Helpers\ProductHelper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\OrderReceived;
@@ -69,79 +70,88 @@ class DashboardController extends Controller
         $unknown_author_id    = 6;
         $unknown_publisher_id = 2;
 
-        for ($i = 2; $i < count($list); $i++) {
-            $attributes = $import->setAttributes($list[$i]);
-            $author     = $import->resolveAuthor($attributes['author']);
-            $publisher  = $import->resolvePublisher($attributes['publisher']);
+        for ($n = 0; $n < 6; $n++) {
+            for ($i = 2; $i < count($list); $i++) {
+                $attributes = $import->setAttributes($list[$i]);
+                $author     = $import->resolveAuthor($attributes['author']);
+                $publisher  = $import->resolvePublisher($attributes['publisher']);
 
-            $name = $list[$i]['D'];
-            $action = ($list[$i]['Z'] == $list[$i]['Y']) ? null : $list[$i]['Y'];
+                $name = $list[$i]['D'];
+                $action = ($list[$i]['Z'] == $list[$i]['Y']) ? null : $list[$i]['Y'];
 
-            $product_id = Product::insertGetId([
-                'author_id'        => $author ?: $unknown_author_id,
-                'publisher_id'     => $publisher ?: $unknown_publisher_id,
-                'action_id'        => 0,
-                'name'             => $name,
-                'sku'              => $list[$i]['C'] ?: '0',
-                'description'      => $list[$i]['H'],
-                'slug'             => Str::slug($name),
-                'price'            => $list[$i]['Z'],
-                'quantity'         => $list[$i]['O'],
-                'tax_id'           => 1,
-                'special'          => $action,
-                'special_from'     => null,
-                'special_to'       => null,
-                'meta_title'       => $name,
-                'meta_description' => $name,
-                'pages'            => $attributes['pages'],
-                'dimensions'       => $attributes['dimensions'],
-                'origin'           => $attributes['origin'],
-                'letter'           => $attributes['letter'],
-                'condition'        => $attributes['condition'],
-                'binding'          => $attributes['binding'],
-                'year'             => $attributes['year'],
-                'viewed'           => 0,
-                'sort_order'       => 0,
-                'push'             => 0,
-                'status'           => $list[$i]['O'] ? 1 : 0,
-                'created_at'       => Carbon::now(),
-                'updated_at'       => Carbon::now()
-            ]);
+                $product_id = Product::insertGetId([
+                    'author_id'        => $author ?: $unknown_author_id,
+                    'publisher_id'     => $publisher ?: $unknown_publisher_id,
+                    'action_id'        => 0,
+                    'name'             => $name,
+                    'sku'              => $list[$i]['C'] ?: '0',
+                    'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['H']) . '</p>',
+                    'slug'             => Str::slug($name),
+                    'price'            => $list[$i]['Z'],
+                    'quantity'         => $list[$i]['O'],
+                    'tax_id'           => 1,
+                    'special'          => $action,
+                    'special_from'     => null,
+                    'special_to'       => null,
+                    'meta_title'       => $name,
+                    'meta_description' => $name,
+                    'pages'            => $attributes['pages'],
+                    'dimensions'       => $attributes['dimensions'],
+                    'origin'           => $attributes['origin'],
+                    'letter'           => $attributes['letter'],
+                    'condition'        => $attributes['condition'],
+                    'binding'          => $attributes['binding'],
+                    'year'             => $attributes['year'],
+                    'viewed'           => 0,
+                    'sort_order'       => 0,
+                    'push'             => 0,
+                    'status'           => $list[$i]['O'] ? 1 : 0,
+                    'created_at'       => Carbon::now(),
+                    'updated_at'       => Carbon::now()
+                ]);
 
-            if ($product_id) {
-                $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name, $product_id);
-                $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
+                if ($product_id) {
+                    $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name, $product_id);
+                    $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
 
-                if ($images) {
-                    for ($k = 0; $k < count($images); $k++) {
-                        if ($k == 0) {
-                            Product::where('id', $product_id)->update([
-                                'image' => $images[$k]
-                            ]);
-                        } else {
-                            ProductImage::insert([
-                                'product_id' => $product_id,
-                                'image'      => $images[$k],
-                                'alt'        => $name,
-                                'published'  => 1,
-                                'sort_order' => $k,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now()
+                    if ($images) {
+                        for ($k = 0; $k < count($images); $k++) {
+                            if ($k == 0) {
+                                Product::where('id', $product_id)->update([
+                                    'image' => $images[$k]
+                                ]);
+                            } else {
+                                ProductImage::insert([
+                                    'product_id' => $product_id,
+                                    'image'      => $images[$k],
+                                    'alt'        => $name,
+                                    'published'  => 1,
+                                    'sort_order' => $k,
+                                    'created_at' => Carbon::now(),
+                                    'updated_at' => Carbon::now()
+                                ]);
+                            }
+                        }
+                    }
+
+                    if ($categories) {
+                        foreach ($categories as $category) {
+                            ProductCategory::insert([
+                                'product_id'  => $product_id,
+                                'category_id' => $category
                             ]);
                         }
                     }
-                }
 
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        ProductCategory::insert([
-                            'product_id'  => $product_id,
-                            'category_id' => $category
-                        ]);
-                    }
-                }
+                    $product = Product::find($product_id);
 
-                $count++;
+                    $product->update([
+                        'url' => ProductHelper::url($product),
+                        'category_string' => ProductHelper::categoryString($product)
+                    ]);
+
+                    $count++;
+                }
             }
         }
 

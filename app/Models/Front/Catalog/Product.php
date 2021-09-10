@@ -201,39 +201,6 @@ class Product extends Model
 
 
     /**
-     * @param Category|null $category
-     * @param Category|null $subcategory
-     *
-     * @return string
-     */
-    public function url(Category $category = null, Category $subcategory = null)
-    {
-        if ( ! $category) {
-            $category = $this->category();
-        }
-
-        if ( ! $subcategory) {
-            $subcategory = $this->subcategory();
-        }
-
-        if ($subcategory) {
-            return route('catalog.route', [
-                'group' => Str::slug($category->group),
-                'cat' => $category,
-                'subcat' => $subcategory,
-                'prod' => $this
-            ]);
-        }
-
-        return route('catalog.route', [
-            'group' => Str::slug($category->group),
-            'cat' => $category,
-            'subcat' => $this
-        ]);
-    }
-
-
-    /**
      * @return string
      */
     public function priceString(string $price = null)
@@ -251,34 +218,6 @@ class Product extends Model
         $set = explode('.', $this->price);
 
         return number_format($this->price, 0, '', '.') . ',<small>' . substr($set[1], 0, 2) . 'kn</small>';
-    }
-
-
-    /**
-     * @param Category|null $category
-     * @param Category|null $subcategory
-     *
-     * @return string
-     */
-    public function categoriesString(Category $category = null, Category $subcategory = null)
-    {
-        if ( ! $category) {
-            $category = $this->category();
-        }
-
-        if ( ! $subcategory) {
-            $subcategory = $this->subcategory();
-        }
-
-        $catstring = '<span class="fs-xs ms-1"><a href="' . route('catalog.route', ['group' => Str::slug($category->group), 'cat' => $category]) . '">' . $category->title . '</a> ';
-
-        if ($subcategory) {
-            $substring = '</span><span class="fs-xs ms-1"><a href="' . route('catalog.route', ['group' => Str::slug($category->group), 'cat' => $category, 'subcat' => $subcategory]) . '">' . $subcategory->title . '</a></span>';
-
-            return $catstring . $substring;
-        }
-
-        return $catstring;
     }
 
 

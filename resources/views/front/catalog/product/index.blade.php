@@ -52,8 +52,6 @@
                     <!-- Product gallery-->
                     <div class="col-lg-7 pe-lg-0 pt-lg-4">
                         <div class="product-gallery">
-
-
                             <div class="product-gallery-preview order-sm-2">
                                 @if ( ! empty($prod->image))
                                     <div class="product-gallery-preview-item active" id="first"><img  src="{{ asset($prod->image) }}"  alt="{{ $prod->name }}"></div>
@@ -66,19 +64,17 @@
                                 @endif
                             </div>
 
-                                <div class="product-gallery-thumblist order-sm-1">
-                                    @if ( ! empty($prod->image))
-                                        <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->image) }}" alt="{{ $prod->name }}"></a>
-                                    @endif
+                            <div class="product-gallery-thumblist order-sm-1">
+                                @if ( ! empty($prod->image))
+                                    <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->image) }}" alt="{{ $prod->name }}"></a>
+                                @endif
 
-                                    @if ($prod->images->count())
-                                        @foreach ($prod->images as $key => $image)
-                                            <a class="product-gallery-thumblist-item" href="#key{{ $key + 1 }}"><img src="{{ asset($image->image) }}" alt="{{ $image->alt }}"></a>
-                                        @endforeach
-                                    @endif
-                                </div>
-
-
+                                @if ($prod->images->count())
+                                    @foreach ($prod->images as $key => $image)
+                                        <a class="product-gallery-thumblist-item" href="#key{{ $key + 1 }}"><img src="{{ asset($image->image) }}" alt="{{ $image->alt }}"></a>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
                     </div>
                     <!-- Product details-->
@@ -117,7 +113,6 @@
                             </ul>
 
                             <div class=" pt-2 pb-4 mb-1">
-
                                 <div class="mt-3"><span class="d-inline-block align-middle text-muted fs-sm me-3 mt-1 mb-2">Podijeli:</span>
                                     <a class="btn-social bs-facebook me-2 mb-2" href="#"><i class="ci-facebook"></i></a>
                                     <a class="btn-social bs-twitter me-2 mb-2" href="#"><i class="ci-twitter"></i></a>
@@ -129,8 +124,8 @@
                 </div>
             </div>
         </div>
-        <div class="row align-items-center py-md-3">
 
+        <div class="row align-items-center py-md-3">
             <div class="col-lg-8 col-md-12 offset-lg-2 py-4 text-center">
                 <h2 class="h3 mb-2 pb-0">{{ $prod->name }}</h2>
                 <h3 class="h6 mb-4">{{ $prod->author->title }}</h3>
@@ -138,7 +133,6 @@
                 <div class="mt-3 me-3"><a class="btn-tag me-2 mb-2" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">#{{ $prod->author->title }}</a></div>
             </div>
         </div>
-
     </div>
 
     <!-- Product carousel (You may also like)-->
@@ -146,34 +140,11 @@
         <h2 class="h3 text-center pb-4">Preporučamo</h2>
         <div class="tns-carousel tns-controls-static tns-controls-outside">
             <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;nav&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 18},&quot;768&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:4, &quot;gutter&quot;: 30}}}">
-
                 @foreach ($cat->products()->get() as $cat_product)
-
                     @if ($cat_product->id  != $prod->id)
-                    <div>
-                        <div class="card product-card-alt">
-                            <div class="product-thumb">
-
-                                <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}"><i class="ci-eye"></i></a>
-                                    <add-to-cart-btn-simple id="{{ $cat_product->id }}"></add-to-cart-btn-simple>
-                                </div><a class="product-thumb-overlay" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}"></a><img src="{{ asset($cat_product->image) }}" alt="Product">
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                    <div class="text-muted fs-xs me-1">
-                                        <a class="product-meta fw-medium" href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}">{{ $cat_product->author->title }}</a>
-                                    </div>
-<!--                                    <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                    </div>-->
-                                </div>
-                                <h3 class="product-title fs-sm mb-2"><a href="{{ (isset($cat) && isset($subcat)) ? $cat_product->url($cat, $subcat) : $cat_product->url() }}">{{ $cat_product->name }}</a></h3>
-                                <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                    <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">{{ $cat->title }}</span></div>
-                                    <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $cat_product->priceString() !!}</div>
-                                </div>
-                            </div>
+                        <div>
+                            @include('front.catalog.category.product', ['product' => $cat_product])
                         </div>
-                    </div>
                     @endif
                 @endforeach
             </div>
