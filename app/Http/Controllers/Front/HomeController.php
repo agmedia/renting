@@ -119,9 +119,12 @@ class HomeController extends Controller
                 $size = $request->input('size');
             }
 
-            $image->make($request->input('src'))->resize($size, null, function ($constraint) {
+            /*$image->make($request->input('src'))->resize($size, null, function ($constraint) {
                 $constraint->aspectRatio();
-            });
+            })->heighten(300);*/
+
+            $image->make($request->input('src'))->resize($size, 300);
+
         }, config('imagecache.lifetime'));
 
         return Image::make($cacheimage)->response();
