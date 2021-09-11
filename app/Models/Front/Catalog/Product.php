@@ -95,6 +95,7 @@ class Product extends Model
      */
     public function special()
     {
+        Log::info($this->special);
         // If special is set, return special.
         if ($this->special) {
             $from = now()->subDay();
@@ -113,7 +114,7 @@ class Product extends Model
         }
 
         // If special is not set, check actions.
-        $actions = ProductAction::active()->get();
+        /*$actions = ProductAction::active()->get();
 
         foreach ($actions as $action) {
             $ids = json_decode($action->links, true);
@@ -145,7 +146,7 @@ class Product extends Model
                     return Helper::calculateDiscountPrice($this->price, $action->discount);
                 }
             }
-        }
+        }*/
 
         return false;
     }

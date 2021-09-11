@@ -7,6 +7,7 @@ use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -152,12 +153,23 @@ class CatalogFilter extends Component
      */
     public function render()
     {
-        foreach ($this->authors as $key => $author) {
-            $this->authors[$key]->broj = $this->products->where('author_id', $author->id)->count();
+        /*foreach ($this->authors as $key => $author) {
+            $this->authors[$key]->broj = Product::where('author_id', $author->id)->count();
         }
 
         foreach ($this->publishers as $key => $publisher) {
-            $this->publishers[$key]->broj = $this->products->where('publisher_id', $publisher->id)->count();
+            $this->publishers[$key]->broj = Product::where('publisher_id', $publisher->id)->count();
+        }*/
+
+        $author_counts = Product::groupBy('author_id')->select('author_id', DB::raw('count(*) as total'))->pluck('total','author_id')->all();
+        $publisher_counts = Product::groupBy('publisher_id')->select('publisher_id', DB::raw('count(*) as total'))->pluck('total','publisher_id')->all();
+
+        foreach ($this->authors as $key => $author) {
+            $this->authors[$key]->broj = $author_counts[$author->id];
+        }
+
+        foreach ($this->publishers as $key => $publisher) {
+            $this->publishers[$key]->broj = $publisher_counts[$publisher->id];
         }
 
         $this->emit('idChanged', [
@@ -209,7 +221,7 @@ class CatalogFilter extends Component
      */
     private function setProducts($ids)
     {
-        $this->products = Product::whereIn('id', $ids)->get();
+        //$this->products = Product::whereIn('id', $ids)->get();
     }
 
 
@@ -218,7 +230,7 @@ class CatalogFilter extends Component
      */
     private function setAuthors()
     {
-        $author_ids = $this->products->pluck('author_id')->unique();
+        $author_ids = Product::pluck('author_id')->unique();
         $this->authors = Author::whereIn('id', $author_ids)->get();
     }
 
@@ -228,7 +240,7 @@ class CatalogFilter extends Component
      */
     private function setPublishers()
     {
-        $publisher_ids = $this->products->pluck('publisher_id')->unique();
+        $publisher_ids = Product::pluck('publisher_id')->unique();
         $this->publishers = Publisher::whereIn('id', $publisher_ids)->get();
     }
 

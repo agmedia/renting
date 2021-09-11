@@ -2,10 +2,16 @@
 
 namespace App\Models\Back\Marketing;
 
+use App\Helpers\Helper;
+use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Catalog\Product\ProductCategory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class Action extends Model
@@ -39,13 +45,19 @@ class Action extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'type' => 'required',
-            'group' => 'required',
-            'action_list' => 'required'
+            'title'    => 'required',
+            'type'     => 'required',
+            'group'    => 'required',
+            'discount' => 'required'
         ]);
 
         $this->request = $request;
+
+        if ($this->listRequired()) {
+            $request->validate([
+                'action_list' => 'required'
+            ]);
+        }
 
         return $this;
     }
@@ -58,22 +70,34 @@ class Action extends Model
      */
     public function create()
     {
-        $links = collect($this->request->action_list)->flatten()->toJson();
+        $links = collect(['all']);
+
+        if ($this->request->action_list) {
+            $links = collect($this->request->action_list);
+        }
+
+        $status = (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0;
+        $start  = $this->request->date_start ? Carbon::make($this->request->date_start) : null;
+        $end    = $this->request->date_end ? Carbon::make($this->request->date_end) : null;
 
         $id = $this->insertGetId([
             'title'      => $this->request->title,
             'type'       => $this->request->type,
             'discount'   => $this->request->discount,
             'group'      => $this->request->group,
-            'links'      => $links,
-            'date_start' => $this->request->date_start ? Carbon::make($this->request->date_start) : null,
-            'date_end'   => $this->request->date_end ? Carbon::make($this->request->date_end) : null,
-            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'links'      => $links->flatten()->toJson(),
+            'date_start' => $start,
+            'date_end'   => $end,
+            'status'     => $status,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         if ($id) {
+            if ($status) {
+                $this->updateProducts($this->resolveTarget($links), $id, $start, $end);
+            }
+
             return $this->find($id);
         }
 
@@ -88,24 +112,124 @@ class Action extends Model
      */
     public function edit()
     {
-        $links = collect($this->request->action_list)->flatten()->toJson();
+        $links = collect(['all']);
 
-        $id = $this->update([
+        if ($this->request->action_list) {
+            $links = collect($this->request->action_list);
+        }
+
+        $status = (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0;
+        $start  = $this->request->date_start ? Carbon::make($this->request->date_start) : null;
+        $end    = $this->request->date_end ? Carbon::make($this->request->date_end) : null;
+
+        $updated = $this->update([
             'title'      => $this->request->title,
             'type'       => $this->request->type,
             'discount'   => $this->request->discount,
             'group'      => $this->request->group,
-            'links'      => $links,
-            'date_start' => $this->request->date_start ? Carbon::make($this->request->date_start) : null,
-            'date_end'   => $this->request->date_end ? Carbon::make($this->request->date_end) : null,
-            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'links'      => $links->flatten()->toJson(),
+            'date_start' => $start,
+            'date_end'   => $end,
+            'status'     => $status,
             'updated_at' => Carbon::now()
         ]);
 
-        if ($id) {
+        if ($updated) {
+            $this->truncateProducts();
+
+            if ($status) {
+                $ids = $this->resolveTarget($links);
+                $this->updateProducts($ids, $this->id, $start, $end);
+            }
+
             return $this;
         }
 
         return false;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function listRequired(): bool
+    {
+        if ($this->request->group == 'all') {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * @param $links
+     *
+     * @return mixed
+     */
+    private function resolveTarget($links)
+    {
+        if ($this->request->group == 'product') {
+            return $links;
+        }
+
+        if ($this->request->group == 'category') {
+            return ProductCategory::whereIn('category_id', $links)->pluck('product_id')->unique();
+        }
+
+        if ($this->request->group == 'author') {
+            return Product::whereIn('author_id', $links)->pluck('id')->unique();
+        }
+
+        if ($this->request->group == 'publisher') {
+            return Product::whereIn('publisher_id', $links)->pluck('id')->unique();
+        }
+
+        if ($this->request->group == 'all') {
+            return Product::pluck('id');
+        }
+    }
+
+
+    /**
+     * @param     $ids
+     * @param int $id
+     * @param     $start
+     * @param     $end
+     */
+    private function updateProducts($ids, int $id, $start, $end): void
+    {
+        $query    = [];
+        $products = Product::whereIn('id', $ids)->get();
+
+        foreach ($products as $product) {
+            $query[] = [
+                'product_id' => $product->id,
+                'special'    => Helper::calculateDiscountPrice($product->price, $this->request->discount)
+            ];
+        }
+
+        $start = $start ?: 'null';
+        $end = $end ?: 'null';
+
+        DB::table('temp_table')->insert($query);
+
+        DB::select(DB::raw("UPDATE products p INNER JOIN temp_table tt ON p.id = tt.product_id SET p.special = tt.special, p.action_id = " . $id . ", p.special_from = " . $start . ", p.special_to = " . $end . ""));
+
+        DB::table('temp_table')->truncate();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    private function truncateProducts()
+    {
+        return Product::where('action_id', $this->id)->update([
+            'action_id'    => 0,
+            'special'      => null,
+            'special_from' => null,
+            'special_to'   => null,
+        ]);
     }
 }

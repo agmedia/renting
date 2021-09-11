@@ -65,14 +65,13 @@
                                         <div class="col-md-6">
                                             <label for="type-select">Vrsta popusta <span class="text-danger">*</span></label>
                                             <select class="form-control" id="type-select" name="type">
-                                                <option></option>
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}" {{ (isset($action) and $type->id == $action->type) ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
+                                                    <option value="{{ $type->id }}" {{ (isset($action) and $type->id == 'P') ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="discount-input">Akcija <span class="text-danger">*</span></label>
+                                            <label for="discount-input">Akcija @include('back.layouts.partials.required-star')</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="discount-input" name="discount" placeholder="Unesite popust" value="{{ isset($action) ? $action->discount : old('discount') }}">
                                                 <div class="input-group-append">
@@ -83,7 +82,7 @@
                                     </div>
                                     <div class="form-group row items-push mb-2">
                                         <div class="col-md-12">
-                                            <label for="date-start-input">Akcija vrijedi<span class="text-danger">*</span></label>
+                                            <label for="date-start-input">Akcija vrijedi</label>
                                             <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                                 <input type="text" class="form-control" id="date-start-input" name="date_start"
                                                        value="{{ isset($action) && $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : '' }}"

@@ -87,6 +87,12 @@ class Import
             $path = $id . '/' . Str::slug($name) . '-' . time() . '.' . $type;
             Storage::disk('products')->put($path, $img);
 
+            /*$thumb = $img->resize(250, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $thumb_path = $id . '/' . Str::slug($name) . '-' . time() . '-thumb.' . $type;
+            Storage::disk('products')->put($thumb_path, $thumb);*/
+
             $response[] = config('filesystems.disks.products.url') . $path;
         }
 

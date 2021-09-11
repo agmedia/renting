@@ -55,8 +55,6 @@ class ProductAction extends Model
             foreach ($request->products as $product) {
                 // Delete, if any action exist
                 self::where('product_id', $product)->delete();
-                
-                Log::info($request->date_start);
 
                 // Insert new action
                 $_id = self::insertGetId([
