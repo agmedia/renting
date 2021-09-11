@@ -95,7 +95,7 @@ class HomeController extends Controller
 
         $cacheimage = Image::cache(function($image) use ($src) {
             $image->make($src);
-        }, 5);
+        }, config('imagecache.lifetime'));
 
         return Image::make($cacheimage)->response();
     }
@@ -108,13 +108,21 @@ class HomeController extends Controller
      */
     public function thumbCache(Request $request)
     {
-        $src = $request->input('src');
+        if ( ! $request->has('src')) {
+            return asset('media/img/knjiga-detalj.jpg');
+        }
 
-        $cacheimage = Image::cache(function($image) use ($src) {
-            $image->make($src)->resize(250, null, function ($constraint) {
+        $cacheimage = Image::cache(function($image) use ($request) {
+            $size = 250;
+
+            if ($request->has('size')) {
+                $size = $request->input('size');
+            }
+
+            $image->make($request->input('src'))->resize($size, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-        }, 5);
+        }, config('imagecache.lifetime'));
 
         return Image::make($cacheimage)->response();
     }
