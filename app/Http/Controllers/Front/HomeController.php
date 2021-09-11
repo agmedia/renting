@@ -10,6 +10,7 @@ use App\Mail\ContactFormMessage;
 use App\Models\Front\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -80,6 +81,42 @@ class HomeController extends Controller
         });
 
         return view('front.contact')->with(['success' => 'Vaša poruka je uspješno poslana.! Odgovoriti ćemo vam uskoro.']);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function imageCache(Request $request)
+    {
+        $src = $request->input('src');
+
+        $cacheimage = Image::cache(function($image) use ($src) {
+            $image->make($src);
+        }, 5);
+
+        return Image::make($cacheimage)->response();
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function thumbCache(Request $request)
+    {
+        $src = $request->input('src');
+
+        $cacheimage = Image::cache(function($image) use ($src) {
+            $image->make($src)->resize(250, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }, 5);
+
+        return Image::make($cacheimage)->response();
     }
 
 }

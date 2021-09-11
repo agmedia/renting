@@ -16,6 +16,7 @@ use App\Models\Front\Catalog\Publisher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -36,6 +37,7 @@ class CatalogRouteController extends Controller
      */
     public function resolve(Request $request, $group, Category $cat = null, $subcat = null, Product $prod = null)
     {
+        //Cache::flush();
         //
         if ($subcat) {
             $sub_category = Category::where('slug', $subcat)->where('parent_id', $cat->id)->first();

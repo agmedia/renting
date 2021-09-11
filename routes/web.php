@@ -268,7 +268,9 @@ Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretraz
 
 Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
 Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
-
+//
+Route::get('cache/image', [HomeController::class, 'imageCache']);
+Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
 /*
  * Groups, Categories and Products routes resolver.
  */
