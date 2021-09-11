@@ -182,6 +182,7 @@
                             <th class="text-center">Polica</th>
                             <th class="text-center">Kol.</th>
                             <th>Dodano</th>
+                            <th>Zadnja izmjena</th>
                             <th class="text-center">Status</th>
                             <th class="text-right" style="width: 72px;">Uredi</th>
                         </tr>
@@ -213,6 +214,7 @@
                                 <td class="font-size-sm text-center">{{ $product->polica }}</td>
                                 <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
+                                <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->updated_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
                                     @include('back.layouts.partials.status', ['status' => $product->status])
                                 </td>

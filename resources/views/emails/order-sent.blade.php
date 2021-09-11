@@ -31,12 +31,6 @@
                 {{ __('mail.regards') }},
             </td>
         </tr>
-        <tr>
-            <td style="padding: 0 20px 20px 18px;">
-                <a href="{{ route('index') }}" style="display: block; display: inline-block;">
-                    <img src="https://www.skladisna-logistika.hr/media/images/sllogo.svg" width="180" alt="{{ config('app.name') }}" border="0" style="height: auto;">
-                </a>
-            </td>
-        </tr>
+
     </table>
 @endsection

@@ -26,7 +26,7 @@
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
-            background-color: #a50000;
+            background-color: #152c18;
             color: white;
         }
     </style>
