@@ -100,7 +100,7 @@
 
                 <li class="nav-main-item{{ request()->is(['admin/marketing/*']) ? ' open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
-                        <i class="nav-main-link-icon si si-layers"></i>
+                        <i class="nav-main-link-icon si si-bar-chart"></i>
                         <span class="nav-main-link-name">Marketing</span>
                     </a>
                     <ul class="nav-main-submenu">
@@ -135,7 +135,7 @@
 
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->routeIs(['widgets', 'widgets.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
-                        <i class="nav-main-link-icon si si-user"></i>
+                        <i class="nav-main-link-icon si si-chemistry"></i>
                         <span class="nav-main-link-name">Widgets</span>
                     </a>
                 </li>
