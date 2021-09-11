@@ -2,7 +2,6 @@
 
 namespace App\Models\Front\Catalog;
 
-use App\Helpers\Helper;
 use App\Models\Back\Catalog\Product\ProductAction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,12 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Bouncer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageManagerStatic;
 
 class Product extends Model
 {
@@ -99,7 +92,6 @@ class Product extends Model
      */
     public function special()
     {
-        Log::info($this->special);
         // If special is set, return special.
         if ($this->special) {
             $from = now()->subDay();
