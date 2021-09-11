@@ -153,23 +153,34 @@ class CatalogFilter extends Component
      */
     public function render()
     {
-        /*foreach ($this->authors as $key => $author) {
-            $this->authors[$key]->broj = Product::where('author_id', $author->id)->count();
-        }
+        $author_counts = Product::active()
+                                ->hasStock()
+                                ->groupBy('author_id')
+                                ->select('author_id', DB::raw('count(*) as total'))
+                                ->pluck('total','author_id')
+                                ->all();
 
-        foreach ($this->publishers as $key => $publisher) {
-            $this->publishers[$key]->broj = Product::where('publisher_id', $publisher->id)->count();
-        }*/
-
-        $author_counts = Product::groupBy('author_id')->select('author_id', DB::raw('count(*) as total'))->pluck('total','author_id')->all();
-        $publisher_counts = Product::groupBy('publisher_id')->select('publisher_id', DB::raw('count(*) as total'))->pluck('total','publisher_id')->all();
+        $publisher_counts = Product::active()
+                                   ->hasStock()
+                                   ->groupBy('publisher_id')
+                                   ->select('publisher_id', DB::raw('count(*) as total'))
+                                   ->pluck('total','publisher_id')
+                                   ->all();
 
         foreach ($this->authors as $key => $author) {
-            $this->authors[$key]->broj = $author_counts[$author->id];
+            if ( ! isset($author_counts[$author->id])) {
+                $this->authors->forget($key);
+            } else {
+                $this->authors[$key]->broj = $author_counts[$author->id];
+            }
         }
 
         foreach ($this->publishers as $key => $publisher) {
-            $this->publishers[$key]->broj = $publisher_counts[$publisher->id];
+            if ( ! isset($publisher_counts[$publisher->id])) {
+                $this->publishers->forget($key);
+            } else {
+                $this->publishers[$key]->broj = $publisher_counts[$publisher->id];
+            }
         }
 
         $this->emit('idChanged', [
@@ -231,7 +242,7 @@ class CatalogFilter extends Component
     private function setAuthors()
     {
         $author_ids = Product::pluck('author_id')->unique();
-        $this->authors = Author::whereIn('id', $author_ids)->get();
+        $this->authors = Author::whereIn('id', $author_ids)->active()->select('id', 'title', 'slug', 'url')->get();
     }
 
 
@@ -241,7 +252,7 @@ class CatalogFilter extends Component
     private function setPublishers()
     {
         $publisher_ids = Product::pluck('publisher_id')->unique();
-        $this->publishers = Publisher::whereIn('id', $publisher_ids)->get();
+        $this->publishers = Publisher::whereIn('id', $publisher_ids)->active()->select('id', 'title', 'slug', 'url')->get();
     }
 
 

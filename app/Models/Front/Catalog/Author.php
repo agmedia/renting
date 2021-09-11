@@ -50,6 +50,17 @@ class Author extends Model
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+
+    /**
      * @param int $id
      *
      * @return Collection
@@ -68,17 +79,6 @@ class Author extends Model
         }
 
         return $categories->unique('id')->sortBy('id');
-    }
-
-
-    /**
-     * @return string
-     */
-    public function url()
-    {
-        return route('catalog.route.author', [
-            'author' => $this
-        ]);
     }
 
 

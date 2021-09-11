@@ -50,6 +50,17 @@ class Publisher extends Model
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+
+    /**
      * @param int $id
      *
      * @return Collection

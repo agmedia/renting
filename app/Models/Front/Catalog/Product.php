@@ -113,41 +113,6 @@ class Product extends Model
             }
         }
 
-        // If special is not set, check actions.
-        /*$actions = ProductAction::active()->get();
-
-        foreach ($actions as $action) {
-            $ids = json_decode($action->links, true);
-
-            if ($action->group == 'product') {
-                if (in_array($this->id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-            if ($action->group == 'category') {
-                if (isset($this->category()->id)) {
-                    if (in_array($this->category()->id, $ids)) {
-                        return Helper::calculateDiscountPrice($this->price, $action->discount);
-                    }
-                }
-                if (isset($this->subcategory()->id)) {
-                    if (in_array($this->subcategory()->id, $ids)) {
-                        return Helper::calculateDiscountPrice($this->price, $action->discount);
-                    }
-                }
-            }
-            if ($action->group == 'author') {
-                if (in_array($this->author_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-            if ($action->group == 'publisher') {
-                if (in_array($this->publisher_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-        }*/
-
         return false;
     }
 
@@ -263,6 +228,17 @@ class Product extends Model
     public function scopeInactive($query)
     {
         return $query->where('status', 0);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeHasStock($query)
+    {
+        return $query->where('quantity', '!=', 0);
     }
 
 
