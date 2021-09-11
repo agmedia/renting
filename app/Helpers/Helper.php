@@ -8,6 +8,7 @@ use App\Models\Front\Blog;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -89,19 +90,12 @@ class Helper
                                ->pluck('id');
 
             $authors = Author::where('title', 'like', '%' . $target . '%')->with('products')->get();
-            //$publishers = Publisher::where('title', 'like', '%' . $target . '%')->get();
 
             foreach ($authors as $author) {
                 $products = $products->merge($author->products()->pluck('id'));
             }
 
             $response->put('products', $products->unique());
-            //$response->put('authors', $authors->products()->pluck('id'));
-            //$response->put('publishers', $publishers);
-
-            /*$data = view('front.layouts.partials.search_result', ['data' => $response])->render();
-
-            $response->put('view', $data);*/
 
             if ($builder) {
                 return $response;
@@ -133,8 +127,14 @@ class Helper
             $offset = $to + 2;
         }
 
+        $wgs = WidgetGroup::whereIn('id', $ids)->orWhereIn('slug', $ids)->where('status', 1)->with('widgets')->get();
+
         foreach ($ids as $id) {
-            $wg = WidgetGroup::where('id', $id)->orWhere('slug', $id)->where('status', 1)->with('widgets')->first();
+            $wg = $wgs->where('id', $id)->first();
+
+            if ( ! $wg) {
+                $wg = $wgs->where('slug', $id)->first();
+            }
 
             $widgets = [];
 
@@ -143,31 +143,11 @@ class Helper
                 $data = unserialize($widget->data);
 
                 if (static::isDescriptionTarget($data, 'product')) {
-                    if (isset($data['new']) && $data['new'] == 'on') {
-                        $items = Product::available()->last()->get();
-                    }
-
-                    if (isset($data['popular']) && $data['popular'] == 'on') {
-                        $items = Product::available()->popular()->get();
-                    }
-
-                    if (isset($data['list']) && $data['list']) {
-                        $items = Product::available()->whereIn('id', $data['list'])->active()->get();
-                    }
+                    $items = static::products($data)->get();
                 }
 
                 if (static::isDescriptionTarget($data, 'blog')) {
-                    if (isset($data['new']) && $data['new'] == 'on') {
-                        $items = Blog::last()->active()->get();
-                    }
-
-                    if (isset($data['popular']) && $data['popular'] == 'on') {
-                        $items = Blog::popular()->active()->get();
-                    }
-
-                    if (isset($data['list']) && $data['list']) {
-                        $items = Blog::whereIn('id', $data['list'])->active()->get();
-                    }
+                    $items = static::blogs($data)->get();
                 }
 
                 $widgets = [
@@ -218,6 +198,60 @@ class Helper
         if (isset($data['group']) && $data['group'] == $target) { return true; }
 
         return false;
+    }
+
+
+    /**
+     * @param array $data
+     *
+     * @return Builder
+     */
+    private static function products(array $data): Builder
+    {
+        $prods = (new Product())->newQuery();
+
+        $prods->active()->available();
+
+        if (isset($data['new']) && $data['new'] == 'on') {
+            $prods->last();
+        }
+
+        if (isset($data['popular']) && $data['popular'] == 'on') {
+            $prods->popular();
+        }
+
+        if (isset($data['list']) && $data['list']) {
+            $prods->whereIn('id', $data['list']);
+        }
+
+        return $prods->with('author');
+    }
+
+
+    /**
+     * @param array $data
+     *
+     * @return Builder
+     */
+    private static function blogs(array $data): Builder
+    {
+        $blogs = (new Blog())->newQuery();
+
+        $blogs->active();
+
+        if (isset($data['new']) && $data['new'] == 'on') {
+            $blogs->last();
+        }
+
+        if (isset($data['popular']) && $data['popular'] == 'on') {
+            $blogs->popular();
+        }
+
+        if (isset($data['list']) && $data['list']) {
+            $blogs->whereIn('id', $data['list']);
+        }
+
+        return $blogs;
     }
 
 }
