@@ -132,6 +132,14 @@ class PaymentMethod
                     $this->response_methods->push($method);
                 }
             }
+        } else {
+            $this->response_methods = collect();
+
+            foreach ($this->methods as $method) {
+                if ($method->code != 'pickup') {
+                    $this->response_methods->push($method);
+                }
+            }
         }
 
         return $this;
