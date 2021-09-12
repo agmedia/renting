@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     <div class="row mt-4">
-        <div class="col-md-6 d-sm-flex justify-content-center mb-sm-3">
+        <div class="col-md-6 d-sm-flex justify-content-sm-center justify-content-xs-center mb-sm-3">
             <nav>
                 <ul class="pagination">
                     @if ($paginator->onFirstPage())
@@ -40,7 +40,7 @@
             </nav>
         </div>
 
-        <div class="col-md-6 text-md-end d-sm-flex justify-content-center">
+        <div class="col-md-6 text-md-end d-sm-flex justify-content-sm-center justify-content-xs-center mt-2">
             <p class="text-sm text-gray-700 leading-5">
                 Prikazano
                 <span class="font-weight-bold">{{ $paginator->firstItem() }}</span>
