@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
     <div class="row mt-4">
-        <div class="col-md-6 d-sm-flex justify-content-md-start justify-content-sm-center justify-content-xs-center mb-sm-3">
+        <div class="col-md-6 d-flex justify-content-center justify-content-md-start  mb-sm-3">
             <nav>
                 <ul class="pagination">
                     @if ($paginator->onFirstPage())
@@ -22,7 +22,7 @@
                                 @if ($page == $paginator->currentPage())
                                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
                                 @else
-                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" wire:click="gotoPage({{ $page }})">{{ $page }}</a></li>
+                                        <li class="page-item"><a class="page-link" href="#top" data-scroll="" wire:click="gotoPage({{ $page }})">{{ $page }}</a></li>
                                 @endif
                             @endforeach
                         @endif
@@ -39,7 +39,7 @@
             </nav>
         </div>
 
-        <div class="col-md-6 text-md-end d-sm-flex justify-content-md-end justify-content-sm-center justify-content-xs-center mt-2">
+        <div class="col-md-6 text-md-end d-flex justify-content-center justify-content-md-end  justify-content-xs-center mt-2">
             <p class="text-sm text-gray-700 leading-5">
                 Prikazano
                 <span class="font-weight-bold">{{ $paginator->firstItem() }}</span>
