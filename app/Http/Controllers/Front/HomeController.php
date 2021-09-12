@@ -116,17 +116,20 @@ class HomeController extends Controller
         }
 
         $cacheimage = Image::cache(function($image) use ($request) {
-            $size = 250;
+            $width = 250;
+            $height = 300;
 
             if ($request->has('size')) {
-                $size = $request->input('size');
+                if (strpos($request->input('size'), 'x') !== false) {
+                    $size = explode('x', $request->input('size'));
+                    $width = $size[0];
+                    $height = $size[1];
+                }
+            } else {
+                $width = $request->input('size');
             }
 
-            /*$image->make($request->input('src'))->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->heighten(300);*/
-
-            $image->make($request->input('src'))->resize($size, 300);
+            $image->make($request->input('src'))->resize($width, $height);
 
         }, config('imagecache.lifetime'));
 

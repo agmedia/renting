@@ -36,6 +36,17 @@ class Product extends Model
 
 
     /**
+     * @param $value
+     *
+     * @return array|string|string[]
+     */
+    public function getImageAttribute($value)
+    {
+        return str_replace('jpg', 'webp', $value);
+    }
+
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function images()
@@ -47,7 +58,7 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function action()
+    /*public function action()
     {
         $actions = ProductAction::active()->get();
 
@@ -84,7 +95,7 @@ class Product extends Model
         }
 
         return false;
-    }
+    }*/
 
 
     /**
@@ -392,23 +403,6 @@ class Product extends Model
         $query = (new self())->newQuery();
 
         return $query->where('status', 1)->select('id', 'name')->get();
-    }
-
-
-    /**
-     * @param $id
-     *
-     * @return string
-     */
-    public static function resolveLink($id)
-    {
-        $product = self::find($id);
-
-        return route('proizvod', [
-            'cat' => isset($product->category()->slug) ? $product->category()->slug : '',
-            'subcat' => $product->subcategory() ? $product->subcategory()->slug : 'ikoi',
-            'prod' => $product->slug
-        ]);
     }
 
 }

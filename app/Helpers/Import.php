@@ -81,17 +81,13 @@ class Import
 
         foreach ($images as $image) {
             $img = Image::make($image);
-            $data = str_replace('jpeg', 'jpg', $img->exif('MimeType'));
-            $type = str_replace('image/', '', $data);
+            $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 
-            $path = $id . '/' . Str::slug($name) . '-' . time() . '.' . $type;
-            Storage::disk('products')->put($path, $img);
+            $path = $str . 'jpg';
+            Storage::disk('products')->put($path, $img->encode('jpg'));
 
-            /*$thumb = $img->resize(250, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $thumb_path = $id . '/' . Str::slug($name) . '-' . time() . '-thumb.' . $type;
-            Storage::disk('products')->put($thumb_path, $thumb);*/
+            $path_webp = $str . 'webp';
+            Storage::disk('products')->put($path_webp, $img->encode('webp'));
 
             $response[] = config('filesystems.disks.products.url') . $path;
         }

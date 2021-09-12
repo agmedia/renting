@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class ProductImage extends Model
 {
@@ -35,14 +37,8 @@ class ProductImage extends Model
     public function store($resource, $request)
     {
         $this->resource = $resource;
-
-        //dd($this->resource->id, $request);
-
         $existing = isset($request['slim']) ? $request['slim'] : null;
         $new      = isset($request['files']) ? $request['files'] : null;
-
-        Log::info('$existing');
-        Log::info($existing);
 
         // Ako ima novih slika
         if ($new) {
@@ -74,8 +70,6 @@ class ProductImage extends Model
 
             foreach ($existing as $key => $image) {
                 if ($key != 'default' && $key) {
-                    //dd($key, $image);
-
                     $data = json_decode($image['image']);
 
                     if ($data) {
@@ -112,11 +106,7 @@ class ProductImage extends Model
         // Obriši staru sliku
         Storage::disk('products')->delete($path);
 
-        // Složi novi path za novu sliku
-        $path = $this->resource->id . '/' . $new->name;
-        // Napravi novu sliku i snimi je na disk
-        $img = $this->makeImageFromBase($new->image);
-        Storage::disk('products')->put($path, $img);
+        $path = $this->saveImage($new->image);
 
         // Ako nije glavna slika updejtaj path na product_images DB
         if ($id) {
@@ -165,12 +155,7 @@ class ProductImage extends Model
      */
     public function saveNew($new, $sort_order = 0)
     {
-        // path for the new image
-        $path = $this->resource->id . '/' . $new->name;
-
-        // Make and store new image
-        $img = $this->makeImageFromBase($new->image);
-        Storage::disk('products')->put($path, $img);
+        $path = $this->saveImage($new->image);
 
         // Store image in product_images DB
         $id = $this->insertGetId([
@@ -184,6 +169,26 @@ class ProductImage extends Model
         ]);
 
         return $this->find($id);
+    }
+
+
+    /**
+     * @param $image
+     *
+     * @return string
+     */
+    private function saveImage($image)
+    {
+        $img = Image::make($this->makeImageFromBase($image));
+        $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '.';
+
+        $path_jpg = $path . 'jpg';
+        Storage::disk('products')->put($path_jpg, $img->encode('jpg'));
+
+        $path_webp = $path . 'webp';
+        Storage::disk('products')->put($path_webp, $img->encode('webp'));
+
+        return $path_jpg;
     }
 
 
