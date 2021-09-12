@@ -8,7 +8,7 @@
                             <span class="page-link" aria-hidden="true">&lsaquo;</span>
                         </li>
                     @else
-                        <li class="page-item me-2"><a class="page-link" href="javascript:void(0)" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
+                        <li class="page-item me-2"><a class="page-link" href="#top" data-scroll="" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
                     @endif
 
                     @foreach ($elements as $element)
@@ -29,7 +29,7 @@
                     @endforeach
 
                     @if ($paginator->hasMorePages())
-                            <li class="page-item ms-2"><a class="page-link" href="javascript:void(0)" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
+                            <li class="page-item ms-2"><a class="page-link" href="#top" data-scroll="" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
                     @else
                             <li class="page-item disabled ms-2" aria-disabled="true" aria-label="@lang('pagination.next')">
                                 <span class="page-link" aria-hidden="true">&rsaquo;</span>
