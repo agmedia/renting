@@ -6,77 +6,85 @@
 
 @section('content')
 
-    <div class="content">
-        <h2 class="content-heading">Widgets
-            <small>
-                <span class="pl-2">({{ $groups->total() }})</span>
-                <span class="float-right">
-                    <a href="{{ route('widget.group.create') }}" class="btn btn-sm btn-secondary ml-2" data-toggle="tooltip" title="Novi Widget">
-                        <i class="si si-plus"></i> Nova Widget Grupa
-                    </a>
-                    <button type="button" class="btn btn-sm btn-secondary ml-2" data-toggle="modal" data-target="#modal-block-popout"><i class="si si-plus"></i> Novi Widget</button>
-                </span>
-            </small>
-        </h2>
+    <div class="bg-body-light">
+        <div class="content content-full">
+            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Widgets ({{ $groups->total() }})</h1>
+                <a class="btn btn-hero-success my-2" href="{{ route('widget.group.create') }}">
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova Widget Grupa</span>
+                </a>
+                <button type="button" class="btn btn-hero-success my-2 ml-3" data-toggle="modal" data-target="#modal-block-popout">
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Novi Widget
+                </button>
+            </div>
+        </div>
+    </div>
 
-
-        <div class="row no-gutters flex-md-10-auto">
-            <div class="col-md-12 order-md-0 bg-body-dark">
-                <!-- Main Content -->
-                <div class="content content-full">
+    <div class="row no-gutters flex-md-10-auto">
+        <div class="col-md-12 order-md-0 bg-body-dark">
+            <!-- Main Content -->
+            <div class="content content-full">
                 @include('back.layouts.partials.session')
 
-                    <div id="accordion_q1" class="collapse show" role="tabpanel" aria-labelledby="accordion_h1" data-parent="#accordion">
-                        <div class="block-content">
-
-                            @forelse($groups as $group)
-                                <div class="block block-rounded mb-2 animated fadeIn">
-                                    <table class="table table-borderless bg-body table-vcenter mb-0">
-                                        <tr>
-                                            <td class="js-task-content font-w600 pl-3">
-                                                {{ $group->title }}<br>
-                                                <small class="text-gray-dark">++{{ $group->slug }}++ / ++{{ $group->id }}++</small>
-                                            </td>
-                                            <td class="text-right">
-                                                <div class="btn-group">
-                                                    <a href="{{ route('widget.group.edit', ['widget' => $group]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                                        <i class="fa fa-pencil-alt"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    @forelse($groups as $group)
+                        <div class="block block-rounded mb-1">
+                            <div class="block-header block-header-default" role="tab" id="accordion_h{{ $group->id }}">
+                                <a class="h3 block-title" data-toggle="collapse" data-parent="#accordion" href="#accordion_q{{ $group->id }}" aria-expanded="@if($loop->first) true @else false @endif" aria-controls="accordion_q{{ $group->id }}">
+                                    {{ $group->title }}
+                                    @if ($group->status)
+                                        <i class="si si-check text-success ml-3"></i>
+                                    @else
+                                        <i class="si si-ban text-danger"></i>
+                                    @endif
+                                </a>
+                                <div class="block-options">
+                                    <div class="btn-group">
+                                        <a href="{{ route('widget.group.edit', ['widget' => $group]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    </div>
                                 </div>
-
-                                @if ($group->widgets)
-                                    @foreach($group->widgets()->get() as $widget)
-                                        <div class="block block-rounded mb-2 ml-3 animated fadeIn" style="border: 1px solid #eaeaea">
-                                            <table class="table table-borderless table-vcenter mb-0">
-                                                <tr>
-                                                    <td class="js-task-content font-w600 pl-3">
-                                                        {{ $widget->title }}
-                                                    </td>
-                                                    <td class="text-right">
-                                                        <div class="btn-group">
-                                                            <a href="{{ route('widget.edit', ['widget' => $widget]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                                                <i class="fa fa-pencil-alt"></i>
+                            </div>
+                            @if ($group->widgets)
+                                <div id="accordion_q{{ $group->id }}" class="collapse @if($loop->first) show @endif" role="tabpanel" aria-labelledby="accordion_h{{ $group->id }}" data-parent="#accordion">
+                                    <div class="block-content pb-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p class="small">Da biste implementirali widget, umetnite bilo koju od dolje oznaka u opis stranice.</p>
+                                                <p class="h4 small font-weight-bold">++{{ $group->slug }}++<br>++{{ $group->id }}++</p>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h4>Lista Widgeta</h4>
+                                                <div class="row">
+                                                    @foreach($group->widgets()->get() as $widget)
+                                                        <div class="col-md-4">
+                                                            <a class="block block-rounded block-link-pop text-center" href="{{ route('widget.edit', ['widget' => $widget])  }}">
+                                                                @if ($widget->image)
+                                                                    <div class="block-content block-content-full bg-image" style="background-image: url({{ asset($widget->image) }}); height: 100px;"></div>
+                                                                @endif
+                                                                <div class="block-content block-content-full bg-black-5">
+                                                                    <p class="font-w600 mb-0">{{ $widget->title }}</p>
+                                                                    <p class="font-size-sm font-italic text-muted mb-0">
+                                                                        {{ $widget->subtitle }}
+                                                                    </p>
+                                                                </div>
                                                             </a>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
-                                    @endforeach
-                                @endif
-                            @empty
-                                <h3>Widgeti su prazni. Napravite <a href="#" data-toggle="modal" data-target="#modal-block-popout">novi.</a></h3>
-                            @endforelse
+                                    </div>
+                                </div>
+                            @endif
                         </div>
-                    </div>
+                    @empty
+                        <h3>Widgeti su prazni. Napravite <a href="#" data-toggle="modal" data-target="#modal-block-popout">novi.</a></h3>
+                    @endforelse
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Pop Out Block Modal -->

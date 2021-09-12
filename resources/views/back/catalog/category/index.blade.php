@@ -18,67 +18,37 @@
             <!-- Main Content -->
             <div class="content content-full">
             @include('back.layouts.partials.session')
-                <!-- Tasks, custom functionality is initialized in js/pages/be_pages_projects_tasks.min.js which was auto compiled from _js/pages/be_pages_projects_tasks.js -->
-                <h2 class="content-heading pb-0 mb-3 border-0">
-                    Ukupno <span class="js-task-badge badge badge-pill badge-light animated fadeIn">2</span>
-                </h2>
-
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                     @forelse($categories as $group => $categories)
-                        <div class="block block-rounded mb-3">
+                        <h3><small class="font-weight-light">Grupa kategorija: </small>{{ $group }}</h3>
 
-                            <div class="block-header block-header-default" role="tab" id="accordion_h1">
-                                <a class="font-w600" data-toggle="collapse" data-parent="#accordion" href="#accordion_q1" aria-expanded="@if($loop->first) true @else false @endif" aria-controls="accordion_q1">{{ $group }}</a>
-                            </div>
-
-                            <div id="accordion_q1" class="collapse @if($loop->first) show @endif" role="tabpanel" aria-labelledby="accordion_h1" data-parent="#accordion">
-                                <div class="block-content">
-
-                                    @forelse($categories as $category)
-                                        <div class=" block block-rounded mb-2 animated fadeIn">
-                                            <table class="table table-borderless bg-body table-vcenter mb-0">
-                                                <tr>
-                                                    <td class="js-task-content font-w600 pl-3">
-                                                        {{ $category->title }}
-                                                    </td>
-                                                    <td class="text-right">
-                                                        <div class="btn-group">
-                                                            <a href="{{ route('category.edit', ['category' => $category]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                                                <i class="fa fa-pencil-alt"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                        @forelse($categories as $category)
+                            <div class="block block-rounded mb-1">
+                                <div class="block-header block-header-default" role="tab" id="accordion_h{{ $category->id }}">
+                                    <a class="h3 block-title" data-toggle="collapse" data-parent="#accordion" href="#accordion_q{{ $category->id }}" aria-expanded="@if($loop->first) true @else false @endif" aria-controls="accordion_q{{ $category->id }}">{{ $category->title }}</a>
+                                    <div class="block-options">
+                                        <div class="btn-group">
+                                            <a href="{{ route('category.edit', ['category' => $category]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a>
                                         </div>
-
-                                        @if ($category->subcategories)
-                                            @foreach($category->subcategories()->get() as $subcategory)
-                                                <div class="block block-rounded mb-2 ml-3 animated fadeIn" style="border: 1px solid #eaeaea">
-                                                    <table class="table table-borderless table-vcenter mb-0">
-                                                        <tr>
-                                                            <td class="js-task-content font-w600 pl-3">
-                                                                {{ $subcategory->title }}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                <div class="btn-group">
-                                                                    <a href="{{ route('category.edit', ['category' => $subcategory]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                                                        <i class="fa fa-pencil-alt"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            @endforeach
-                                        @endif
-
-                                    @empty
-                                        <h3>Kategorije su prazne. Napravite <a href="{{ route('category.create') }}">novu.</a></h3>
-                                    @endforelse
+                                    </div>
                                 </div>
+                                @if ($category->subcategories)
+                                    <div id="accordion_q{{ $category->id }}" class="collapse @if($loop->first) show @endif" role="tabpanel" aria-labelledby="accordion_h{{ $category->id }}" data-parent="#accordion">
+                                        <div class="block-content pb-4">
+                                            @foreach($category->subcategories()->get() as $subcategory)
+                                                <a href="{{ route('category.edit', ['category' => $subcategory]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
+                                                    {{ $subcategory->title }}
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                        </div>
+                        @empty
+                            <h3>Kategorije su prazne. Napravite <a href="{{ route('category.create') }}">novu.</a></h3>
+                        @endforelse
                     @empty
                         <h3>Nemate niti jednu grupu kategorija. Trebali bi napraviti <a href="{{ route('category.create') }}">novu kategoriju</a> i upisati grupu.</h3>
                     @endforelse
