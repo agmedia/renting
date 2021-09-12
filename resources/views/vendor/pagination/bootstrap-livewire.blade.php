@@ -40,7 +40,7 @@
             </nav>
         </div>
 
-        <div class="col-md-6 text-md-right">
+        <div class="col-md-6 text-md-end">
             <p class="text-sm text-gray-700 leading-5">
                 Prikazano
                 <span class="font-weight-bold">{{ $paginator->firstItem() }}</span>
