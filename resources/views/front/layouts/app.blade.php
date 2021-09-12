@@ -18,9 +18,9 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-    <link rel="stylesheet" media="screen" href="{{ asset('css/simplebar.min.css') }}"/>
+{{--    <link rel="stylesheet" media="screen" href="{{ asset('css/simplebar.min.css') }}"/>--}}
     <link rel="stylesheet" media="screen" href="{{ asset('css/tiny-slider.css') }}"/>
-    <link rel="stylesheet" media="screen" href="{{ asset('css/nouislider.min.css') }}"/>
+{{--    <link rel="stylesheet" media="screen" href="{{ asset('css/nouislider.min.css') }}"/>--}}
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Main Theme Styles + Bootstrap-->
@@ -65,11 +65,11 @@
 
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
-<script src="{{ asset('js/simplebar.min.js') }}"></script>
+{{--<script src="{{ asset('js/simplebar.min.js') }}"></script>--}}
 <script src="{{ asset('js/tiny-slider.js') }}"></script>
 <script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
 
-<script src="{{ asset('js/nouislider.min.js') }}"></script>
+{{--<script src="{{ asset('js/nouislider.min.js') }}"></script>--}}
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
 
