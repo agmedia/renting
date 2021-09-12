@@ -1,14 +1,14 @@
 @if ($paginator->hasPages())
     <div class="row mt-4">
-        <div class="col-md-6 d-sm-flex justify-content-sm-center justify-content-xs-center mb-sm-3">
+        <div class="col-md-6 d-sm-flex justify-content-md-start justify-content-sm-center justify-content-xs-center mb-sm-3">
             <nav>
                 <ul class="pagination">
                     @if ($paginator->onFirstPage())
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                        <li class="page-item disabled me-2" aria-disabled="true" aria-label="@lang('pagination.previous')">
                             <span class="page-link" aria-hidden="true">&lsaquo;</span>
                         </li>
                     @else
-                        <li class="page-item"><a class="page-link" href="javascript:void(0)" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
+                        <li class="page-item me-2"><a class="page-link" href="javascript:void(0)" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
                     @endif
 
                     @foreach ($elements as $element)
@@ -30,9 +30,9 @@
                     @endforeach
 
                     @if ($paginator->hasMorePages())
-                            <li class="page-item"><a class="page-link" href="javascript:void(0)" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
+                            <li class="page-item ms-2"><a class="page-link" href="javascript:void(0)" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
                     @else
-                            <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                            <li class="page-item disabled ms-2" aria-disabled="true" aria-label="@lang('pagination.next')">
                                 <span class="page-link" aria-hidden="true">&rsaquo;</span>
                             </li>
                     @endif
@@ -40,7 +40,7 @@
             </nav>
         </div>
 
-        <div class="col-md-6 text-md-end d-sm-flex justify-content-sm-center justify-content-xs-center mt-2">
+        <div class="col-md-6 text-md-end d-sm-flex justify-content-md-end justify-content-sm-center justify-content-xs-center mt-2">
             <p class="text-sm text-gray-700 leading-5">
                 Prikazano
                 <span class="font-weight-bold">{{ $paginator->firstItem() }}</span>
