@@ -114,10 +114,11 @@ class WidgetGroup extends Model
     public function edit($id)
     {
         $ok = $this->where('id', $id)->update([
-            'template'   => $this->request->section,
+            'template'   => $this->request->template,
+            'type'       => null,
             'title'      => $this->request->title,
             'slug'       => Str::slug($this->request->title),
-            'width'      => $this->request->width ?: null,
+            'width'      => $this->request->width ?: 12,
             'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
             'updated_at' => Carbon::now()
         ]);

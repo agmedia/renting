@@ -7,6 +7,7 @@ use App\Models\Back\Widget\Widget;
 use App\Models\Back\Widget\WidgetGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class WidgetController extends Controller
@@ -67,6 +68,8 @@ class WidgetController extends Controller
             if (Widget::hasImage($request)) {
                 $stored->resolveImage($request);
             }
+
+            $this->flush($stored);
 
             return redirect()->route('widgets')->with(['success' => 'Widget je uspješno snimljen!']);
         }
@@ -131,6 +134,8 @@ class WidgetController extends Controller
                 $updated->resolveImage($request);
             }
 
+            $this->flush($updated);
+
             return redirect()->back()->with(['success' => 'Widget je uspješno snimljen!']);
         }
 
@@ -152,6 +157,18 @@ class WidgetController extends Controller
                 Widget::where('id', $request['data']['id'])->delete()
             );
         }
+    }
+
+
+    /**
+     * @param Page $page
+     */
+    private function flush(Widget $widget): void
+    {
+        $widget_group = WidgetGroup::where('id', $widget->group_id)->first();
+
+        Cache::forget('wg.' . $widget_group->id);
+        Cache::forget('wg.' . $widget_group->slug);
     }
 
 

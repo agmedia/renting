@@ -131,7 +131,7 @@ class Helper
         $wgs = WidgetGroup::whereIn('id', $ids)->orWhereIn('slug', $ids)->where('status', 1)->with('widgets')->get();
 
         foreach ($ids as $id) {
-            $description = Cache::remember('widget' . $id, config('cache.widget_life'), function () use ($wgs, $description, $id) {
+            $description = Cache::remember('wg.' . $id, config('cache.widget_life'), function () use ($wgs, $description, $id) {
                 return static::resolveDescription($wgs, $description, $id);
             });
             //$description = static::resolveDescription($wgs, $description, $id);
@@ -188,7 +188,7 @@ class Helper
                     'title' => $widget->title,
                     'subtitle' => $widget->subtitle,
                     'url' => $widget->url,
-                    'image' => $widget->image,
+                    'image' => str_replace('.jpg', '.webp', $widget->image),
                     'width' => $widget->width,
                     'right' => (isset($data['right']) && $data['right'] == 'on') ? 1 : null,
                 ];

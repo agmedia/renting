@@ -6,6 +6,7 @@ use App\Models\Back\Widget\Widget;
 use App\Models\Back\Widget\WidgetGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class WidgetGroupController extends Controller
@@ -39,6 +40,8 @@ class WidgetGroupController extends Controller
         $stored = $wg->validateRequest($request)->store();
 
         if ($stored) {
+            $this->flush($stored);
+
             return redirect()->back()->with(['success' => 'Widget grupa je uspješno snimljena!']);
         }
 
@@ -55,9 +58,7 @@ class WidgetGroupController extends Controller
      */
     public function edit($id)
     {
-        $query = (new WidgetGroup())->newQuery();
-
-        $widget = $query->where('id', $id)->first();
+        $widget = WidgetGroup::where('id', $id)->first();
 
         if ( ! $widget) {
             abort(401);
@@ -81,13 +82,11 @@ class WidgetGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $widget = new Widget();
-        $updated = $widget->validateRequest($request)->setUrl()->edit($id);
+        $wg = new WidgetGroup();
+        $updated = $wg->validateRequest($request)->edit($id);
 
         if ($updated) {
-            if (Widget::hasImage($request)) {
-                $updated->resolveImage($request);
-            }
+            $this->flush($updated);
 
             return redirect()->back()->with(['success' => 'Widget je uspješno snimljen!']);
         }
@@ -110,6 +109,16 @@ class WidgetGroupController extends Controller
                 Widget::where('id', $request['data']['id'])->delete()
             );
         }
+    }
+
+
+    /**
+     * @param Page $page
+     */
+    private function flush(WidgetGroup $widget_group): void
+    {
+        Cache::forget('wg.' . $widget_group->id);
+        Cache::forget('wg.' . $widget_group->slug);
     }
 
 

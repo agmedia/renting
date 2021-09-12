@@ -153,8 +153,6 @@ class Widget extends Model
             unset($arr['image']);
             unset($arr['image_long']);
 
-            dd($arr);
-
             if ($this->request->has('action_list')) {
                 $arr['list'] = $this->request->input('action_list');
                 unset($arr['action_list']);
@@ -201,14 +199,15 @@ class Widget extends Model
             $data = json_decode($request->image_long);
         }
 
-        $type = str_replace('image/', '', $data->output->type);
-        str_replace('.jpg', '', $data->output->name);
-        $name = str_replace('.' . $type, '', $data->output->name);
+        $img  = Image::make($data->output->image);
 
-        $path = time() . '_' . Str::slug($name) . '.' . $type;
-        $img  = Image::make($data->output->image)->encode($type);
+        $str = $this->id . '/' . Str::slug($this->title) . '-' . time() . '.';
 
-        Storage::disk('widget')->put($path, $img);
+        $path = $str . 'jpg';
+        Storage::disk('widget')->put($path, $img->encode('jpg'));
+
+        $path_webp = $str . 'webp';
+        Storage::disk('widget')->put($path_webp, $img->encode('webp'));
 
         $default_path = config('filesystems.disks.widget.url') . 'default.jpg';
 
