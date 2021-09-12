@@ -36,7 +36,7 @@ class OrderSent extends Mailable
      */
     public function build()
     {
-        return $this->subject('Hvala vam za narudžbu sa ' . config('app.name'))
+        return $this->subject('Hvala vam za narudžbu sa Antikvarijata Biblos' )
             ->view('emails.order-sent');
     }
 }

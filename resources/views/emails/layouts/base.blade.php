@@ -245,7 +245,7 @@
 
     <!-- Visually Hidden Preheader Text : BEGIN -->
     <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
-        {{ __('mail.meta_description') }}
+       Narudžba Antikvarijat Biblos
     </div>
     <!-- Visually Hidden Preheader Text : END -->
 
@@ -260,7 +260,7 @@
         <!-- Email Header : BEGIN -->
         <tr>
             <td style="padding: 20px 0 15px 0; text-align: center">
-                <label class="large bold" style="color: white;">   <img src="https://biblos.selectpo.lin48.host25.com/media/img/logo-biblos.png" alt="Antikvarijat Biblos" border="0" style="height: auto;">s</label>
+                <label class="large bold" style="color: white;">   <img src="https://biblos.selectpo.lin48.host25.com/media/img/logo-biblos.png" alt="Antikvarijat Biblos" border="0" style="max-width:200px;height: auto;"></label>
             </td>
         </tr>
         <!-- Email Header : END -->
