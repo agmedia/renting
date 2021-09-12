@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
@@ -55,6 +56,8 @@ class PageController extends Controller
         if ($stored) {
             $page->resolveImage($stored);
 
+            $this->flush($stored);
+
             return redirect()->route('pages.edit', ['page' => $stored])->with(['success' => 'Page was succesfully saved!']);
         }
 
@@ -89,11 +92,10 @@ class PageController extends Controller
     {
         $updated = $page->validateRequest($request)->edit();
 
-        Log::info('$updated');
-        Log::info($updated);
-
         if ($updated) {
             $page->resolveImage($updated);
+
+            $this->flush($updated);
 
             return redirect()->route('pages.edit', ['page' => $updated])->with(['success' => 'Page was succesfully saved!']);
         }
@@ -118,5 +120,15 @@ class PageController extends Controller
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the page.']);
+    }
+
+
+    /**
+     * @param Page $page
+     */
+    private function flush(Page $page): void
+    {
+        Cache::forget('page.' . $page->id);
+        Cache::forget('page.' . $page->slug);
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -130,59 +131,75 @@ class Helper
         $wgs = WidgetGroup::whereIn('id', $ids)->orWhereIn('slug', $ids)->where('status', 1)->with('widgets')->get();
 
         foreach ($ids as $id) {
-            $wg = $wgs->where('id', $id)->first();
-
-            if ( ! $wg) {
-                $wg = $wgs->where('slug', $id)->first();
-            }
-
-            $widgets = [];
-
-            if ($wg->template == 'product_carousel' || $wg->template == 'page_carousel') {
-                $widget = $wg->widgets()->first();
-                $data = unserialize($widget->data);
-
-                if (static::isDescriptionTarget($data, 'product')) {
-                    $items = static::products($data)->get();
-                }
-
-                if (static::isDescriptionTarget($data, 'blog')) {
-                    $items = static::blogs($data)->get();
-                }
-
-                $widgets = [
-                    'title' => $widget->title,
-                    'subtitle' => $widget->subtitle,
-                    'url' => null,
-                    'css' => $data['css'],
-                    'container' => (isset($data['container']) && $data['container'] == 'on') ? 1 : null,
-                    'background' => (isset($data['background']) && $data['background'] == 'on') ? 1 : null,
-                    'items' => $items
-                ];
-
-            } else {
-                foreach ($wg->widgets()->orderBy('sort_order')->get() as $widget) {
-                    $data = unserialize($widget->data);
-
-                    $widgets[] = [
-                        'title' => $widget->title,
-                        'subtitle' => $widget->subtitle,
-                        'url' => $widget->url,
-                        'image' => $widget->image,
-                        'width' => $widget->width,
-                        'right' => (isset($data['right']) && $data['right'] == 'on') ? 1 : null,
-                    ];
-                }
-            }
-
-            $description = str_replace(
-                '++' . $id . '++',
-                view('front.layouts.widget.widget_' . $wg->template, ['data' => $widgets]),
-                $description
-            );
+            $description = Cache::remember('widget' . $id, config('cache.widget_life'), function () use ($wgs, $description, $id) {
+                return static::resolveDescription($wgs, $description, $id);
+            });
+            //$description = static::resolveDescription($wgs, $description, $id);
         }
 
         return substr($description, 3, -4);
+    }
+
+
+    /**
+     * @param Collection $wgs
+     * @param string     $description
+     * @param string     $id
+     *
+     * @return string
+     */
+    private static function resolveDescription(Collection $wgs, string $description, string $id): string
+    {
+        $wg = $wgs->where('id', $id)->first();
+
+        if ( ! $wg) {
+            $wg = $wgs->where('slug', $id)->first();
+        }
+
+        $widgets = [];
+
+        if ($wg->template == 'product_carousel' || $wg->template == 'page_carousel') {
+            $widget = $wg->widgets()->first();
+            $data = unserialize($widget->data);
+
+            if (static::isDescriptionTarget($data, 'product')) {
+                $items = static::products($data)->get();
+            }
+
+            if (static::isDescriptionTarget($data, 'blog')) {
+                $items = static::blogs($data)->get();
+            }
+
+            $widgets = [
+                'title' => $widget->title,
+                'subtitle' => $widget->subtitle,
+                'url' => null,
+                'css' => $data['css'],
+                'container' => (isset($data['container']) && $data['container'] == 'on') ? 1 : null,
+                'background' => (isset($data['background']) && $data['background'] == 'on') ? 1 : null,
+                'items' => $items
+            ];
+
+        } else {
+            foreach ($wg->widgets()->orderBy('sort_order')->get() as $widget) {
+                $data = unserialize($widget->data);
+
+                $widgets[] = [
+                    'title' => $widget->title,
+                    'subtitle' => $widget->subtitle,
+                    'url' => $widget->url,
+                    'image' => $widget->image,
+                    'width' => $widget->width,
+                    'right' => (isset($data['right']) && $data['right'] == 'on') ? 1 : null,
+                ];
+            }
+        }
+
+        return str_replace(
+            '++' . $id . '++',
+            view('front.layouts.widget.widget_' . $wg->template, ['data' => $widgets]),
+            $description
+        );
     }
 
 

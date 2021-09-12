@@ -125,7 +125,7 @@
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
-                        @if (isset($page))
+                        @if (isset($page) && $page->subgroup != '/')
                             <div class="col-md-6 text-right">
                                 <a href="{{ route('pages.destroy', ['page' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši

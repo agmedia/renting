@@ -1,5 +1,5 @@
 <!-- {"title": "Page Carousel", "description": "Some description of a Page Carousel widget template."} -->
-<section class="border-top mb-0 pb-5 py-5" style="background-image: url({{ $data['background'] ? asset('media/img/glag.png') : '' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+<section class="border-top mb-0 pb-5 py-5" style="background-image: url({{ $data['background'] ? url('cache/image?src=media/img/glag.png') : '' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
     <div class="container py-lg-3">
         <h2 class="h3 text-center">{{ $data['title'] }}</h2>
         <p class="text-muted-light text-center mb-3 pb-4">{{ $data['subtitle'] }}</p>

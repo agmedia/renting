@@ -24,11 +24,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $page = Page::where('slug', 'homepage')->first();
-
-        $page->description = Cache::remember('home', 60, function () use ($page) {
-            return Helper::setDescription($page->description);
+        $page = Cache::remember('page.homepage', 60, function () {
+            return Page::where('slug', 'homepage')->first();
         });
+
+        $page->description = Helper::setDescription($page->description);
 
         return view('front.page', compact('page'));
     }

@@ -130,12 +130,6 @@ class Blog extends Model
             $path_webp = $str . 'webp';
             Storage::disk('blog')->put($path_webp, $img->encode('webp'));
 
-
-
-            /*$name = Str::slug($blog->title) . '-' . Str::random(9) . '.' . $this->request->image->extension();
-
-            $this->request->image->storeAs('/', $name, 'blog');*/
-
             return $blog->update([
                 'image' => config('filesystems.disks.blog.url') . $path
             ]);
