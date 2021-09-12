@@ -52,3 +52,5 @@
         </div>
     </div>
 @endif
+
+<script> Livewire.on('$refresh', () => { window.scrollTo({ top: 15, left: 15, behaviour: 'smooth' }) }) </script>
