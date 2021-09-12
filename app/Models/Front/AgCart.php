@@ -252,7 +252,8 @@ class AgCart extends Model
     private function structureCartItemAttributes($product)
     {
         return [
-            'path' => $product->url
+            'path' => $product->url,
+            'tax' => $product->tax($product->tax_id)
         ];
     }
 

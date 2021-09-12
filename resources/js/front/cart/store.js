@@ -118,6 +118,22 @@ class AgService {
             currency: 'HRK'
         });
     }
+
+
+    calculateItemsTax(items) {
+        let tax = 0;
+
+        if (isNaN(items)) {
+            for (const key in items) {
+                // price - (price / (tax / 100 + 1))
+                tax += items[key].price - (items[key].price / (Number(items[key].attributes.tax.rate) / 100 + 1));
+            }
+        } else {
+            tax = items - (items / 1.25);
+        }
+
+        return this.formatPrice(tax);
+    }
 }
 
 

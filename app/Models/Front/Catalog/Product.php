@@ -3,6 +3,7 @@
 namespace App\Models\Front\Catalog;
 
 use App\Models\Back\Catalog\Product\ProductAction;
+use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -191,6 +192,12 @@ class Product extends Model
         $set = explode('.', $this->price);
 
         return number_format($this->price, 0, '', '.') . ',<small>' . substr($set[1], 0, 2) . 'kn</small>';
+    }
+
+
+    public function tax(int $id)
+    {
+        return Settings::get('tax', 'list')->where('id', $id)->first();
     }
 
 
