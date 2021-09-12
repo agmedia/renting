@@ -132,13 +132,5 @@
         }
 
     </script>
-    <script>
-        Livewire.on('gotoTop', () => {
-            window.scrollTo({
-                top: 15,
-                left: 15,
-                behaviour: 'smooth'
-            })
-        })
-    </script>
+
 @endpush
