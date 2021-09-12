@@ -114,9 +114,7 @@
 
                             <div class=" pt-2 pb-4 mb-1">
                                 <div class="mt-3"><span class="d-inline-block align-middle text-muted fs-sm me-3 mt-1 mb-2">Podijeli:</span>
-                                    <a class="btn-social bs-facebook me-2 mb-2" href="#"><i class="ci-facebook"></i></a>
-                                    <a class="btn-social bs-twitter me-2 mb-2" href="#"><i class="ci-twitter"></i></a>
-                                    <a class="btn-social bs-odnoklassniki me-2 mb-2" href="#"><i class="ci-mail"></i></a>
+                                    <!-- ShareThis BEGIN --><div class="sharethis-inline-share-buttons"></div><!-- ShareThis END -->
                                 </div>
                             </div>
                         </div>
@@ -153,3 +151,9 @@
 
 
 @endsection
+
+@push('js_after')
+
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=6134a372eae16400120a5035&product=sop' async='async'></script>
+
+@endpush
