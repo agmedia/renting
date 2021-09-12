@@ -36,8 +36,9 @@
             </div>
         @endforelse
     </div>
+    {{ $products->links() }}
 
     <hr class="my-3">
 
-    {{ $products->links() }}
+
 </section>
