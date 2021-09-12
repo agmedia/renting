@@ -213,7 +213,7 @@ class DashboardController extends Controller
      */
     public function mailing(Request $request)
     {
-        $order = Order::limit(1)->first();
+        $order = Order::where('id', 16)->first();
 
         dispatch(function () use ($order) {
             Mail::to(config('mail.admin'))->send(new OrderReceived($order));

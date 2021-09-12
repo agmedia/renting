@@ -17,18 +17,18 @@
         </tr>
         <tr>
             <td class="ag-mail-tableset">
-                {{ __('mail.selected_payment') }}:
-                @if ($order->payment_method == 'bank')
-                    <b>{{ __('mail.bank') }}</b>
-                @elseif ($order->payment_method == 'cash')
-                    <b>{{ __('mail.cash') }}</b>
-                @elseif ($order->payment_method == 'card')
+                {{ __('Način plaćanja') }}:
+                @if ($order->payment_code == 'bank')
+                    <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvo') }}</b>
+                @elseif ($order->payment_code == 'payway')
+                    <b>{{ __('T-Com Payway') }}</b>
+                @elseif ($order->payment_cod == 'cod')
                     <b>{{ __('mail.card') }}</b>
                 @else
                     <b>{{ __('mail.paypal') }}</b>
                 @endif
                 <br><br>
-                {{ __('mail.regards') }},
+                Lijep pozdrav,<br>Antikvarijat Biblos
             </td>
         </tr>
 
