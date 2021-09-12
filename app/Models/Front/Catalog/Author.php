@@ -91,7 +91,13 @@ class Author extends Model
         $authors = Author::all();
 
         $results = $authors->sortBy('title')->groupBy(function ($item, $key) {
-            return substr($item['title'], 0, 1);
+            $letter = substr($item['title'], 0, 2);
+
+            if (strlen($letter) > 1 && ! in_array($letter, ['Ć'])) {
+                $letter = substr($letter, 0, 1);
+            }
+
+            return $letter;
         })->keys();
 
         foreach (Helper::abc() as $item) {

@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/flatpickr/flatpickr.min.css') }}">
 
+    <style>
+        .cke_skin_kama .cke_button_CMDSuperButton .cke_label {
+            display: inline;
+        }
+    </style>
+
 @endpush
 
 @section('content')
@@ -141,14 +147,12 @@
 @endsection
 
 @push('js_after')
-  <!--  <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>-->
-
     <script src="{{ asset('js/plugins/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['flatpickr', 'ckeditor']);});</script>
+    <script>jQuery(function(){Dashmix.helpers(['flatpickr']);});</script>
 
 
     <script>
@@ -158,14 +162,20 @@
                 tags: true
             });
 
-            ClassicEditor
-            .create( document.querySelector('#description-editor'))
-            .then( editor => {
-                console.log(editor);
-            } )
-            .catch( error => {
-                console.error(error);
-            } );
+            editor = CKEDITOR.replace('js-ckeditor'); // bind editor
+
+            editor.addCommand("mySimpleCommand", { // create named command
+                exec: function(edt) {
+                    alert(edt.getData());
+                }
+            });
+
+            editor.ui.addButton('SuperButton', { // add new button and bind our command
+                label: "Click me",
+                command: 'mySimpleCommand',
+                //toolbar: 'insert',
+                icon: 'https://avatars1.githubusercontent.com/u/5500999?v=2&s=16'
+            });
         })
     </script>
 
