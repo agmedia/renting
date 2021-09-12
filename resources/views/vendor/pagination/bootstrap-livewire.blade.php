@@ -8,7 +8,7 @@
                             <span class="page-link" aria-hidden="true">&lsaquo;</span>
                         </li>
                     @else
-                        <li class="page-item me-2"><a class="page-link" href="#" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
+                        <li class="page-item me-2"><a class="page-link" href="javascript:void(0)" wire:click="previousPage" aria-label="@lang('pagination.previous')">&lsaquo;</a></li>
                     @endif
 
                     @foreach ($elements as $element)
@@ -23,14 +23,14 @@
                                 @if ($page == $paginator->currentPage())
                                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
                                 @else
-                                        <li class="page-item"><a class="page-link" href="#" wire:click="gotoPage({{ $page }})">{{ $page }}</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)" wire:click="gotoPage({{ $page }})">{{ $page }}</a></li>
                                 @endif
                             @endforeach
                         @endif
                     @endforeach
 
                     @if ($paginator->hasMorePages())
-                            <li class="page-item ms-2"><a class="page-link" href="#" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
+                            <li class="page-item ms-2"><a class="page-link" href="javascript:void(0)" wire:click="nextPage" aria-label="@lang('pagination.next')">&rsaquo;</a></li>
                     @else
                             <li class="page-item disabled ms-2" aria-disabled="true" aria-label="@lang('pagination.next')">
                                 <span class="page-link" aria-hidden="true">&rsaquo;</span>
