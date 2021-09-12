@@ -42,7 +42,7 @@ class Product extends Model
      */
     public function getImageAttribute($value)
     {
-        return str_replace('jpg', 'webp', $value);
+        return str_replace('.jpg', '.webp', $value);
     }
 
 

@@ -35,6 +35,17 @@ class Blog extends Model
 
 
     /**
+     * @param $value
+     *
+     * @return array|string|string[]
+     */
+    public function getImageAttribute($value)
+    {
+        return str_replace('.jpg', '.webp', $value);
+    }
+
+
+    /**
      *
      */
     protected static function booted()

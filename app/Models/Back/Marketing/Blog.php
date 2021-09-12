@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class Blog extends Model
 {
@@ -119,12 +121,23 @@ class Blog extends Model
     public function resolveImage(Blog $blog)
     {
         if ($this->request->hasFile('image')) {
-            $name = Str::slug($blog->title) . '-' . Str::random(9) . '.' . $this->request->image->extension();
+            $img = Image::make($this->request->image);
+            $str = $blog->id . '/' . Str::slug($blog->title) . '-' . time() . '.';
 
-            $this->request->image->storeAs('/', $name, 'blog');
+            $path = $str . 'jpg';
+            Storage::disk('blog')->put($path, $img->encode('jpg'));
+
+            $path_webp = $str . 'webp';
+            Storage::disk('blog')->put($path_webp, $img->encode('webp'));
+
+
+
+            /*$name = Str::slug($blog->title) . '-' . Str::random(9) . '.' . $this->request->image->extension();
+
+            $this->request->image->storeAs('/', $name, 'blog');*/
 
             return $blog->update([
-                'image' => config('filesystems.disks.blog.url') . $name
+                'image' => config('filesystems.disks.blog.url') . $path
             ]);
         }
 
