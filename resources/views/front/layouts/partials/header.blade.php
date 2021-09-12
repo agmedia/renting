@@ -1,6 +1,6 @@
 <header class="bg-dark shadow-sm navbar-sticky">
     <div class="navbar navbar-expand-lg navbar-dark">
-        <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0 me-4 order-lg-1 p-0" href="{{ route('index') }}"><img src="{{ asset('media/img/logobijeli.svg') }}" width="180" alt="Antikvarijat Biblos"></a><a class="navbar-brand d-sm-none me-0 order-lg-1 p-0" href="{{ route('index') }}"><img src="{{ asset('media/img/logobijeli.svg') }}" width="160" alt="Antikvarijat Biblos"></a>
+        <div class="container"><a class="navbar-brand d-none d-sm-block flex-shrink-0 me-4 order-lg-1 p-0" href="{{ route('index') }}"><img src="{{ asset('media/img/logobijeli.svg') }}" width="180" height="76" alt="Antikvarijat Biblos"></a><a class="navbar-brand d-sm-none me-0 order-lg-1 p-0" href="{{ route('index') }}"><img src="{{ asset('media/img/logobijeli.svg') }}" width="160" alt="Antikvarijat Biblos"></a>
             <!-- Toolbar-->
             <div class="navbar-toolbar d-flex align-items-center order-lg-3">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
