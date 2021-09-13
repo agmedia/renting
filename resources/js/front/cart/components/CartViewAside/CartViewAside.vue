@@ -31,6 +31,10 @@
                     </div>
                 </ul>
                 <h3 class="fw-normal text-center my-4">{{ $store.state.service.formatPrice($store.state.cart.total) }}</h3>
+                <p class="small fw-light text-center mt-4 mb-0">
+                    <span class="fw-normal">{{ $store.state.service.calculateItemsTax($store.state.cart.items) }}</span> PDV knjige i
+                    <span class="fw-normal">{{ $store.state.service.calculateItemsTax($store.state.cart.total - $store.state.cart.subtotal) }}</span> PDV dostava
+                </p>
             </div>
         </div>
 

@@ -109,23 +109,24 @@ class AgService {
      * @returns {string}
      */
     formatPrice(price) {
-        /*let pri = Number(price).toLocaleString('hr-HR', { style: 'currency' });
-        let arr = pri.toString().split(',');
-        return arr[0] + '<small>,' + arr[1] + ' HRK</small>';*/
-
         return Number(price).toLocaleString('hr-HR', {
             style: 'currency',
             currency: 'HRK'
         });
     }
 
-
+    /**
+     * Calculate tax on items.
+     * Item can be number or object.
+     *
+     * @param items
+     * @return {string}
+     */
     calculateItemsTax(items) {
         let tax = 0;
 
         if (isNaN(items)) {
             for (const key in items) {
-                // price - (price / (tax / 100 + 1))
                 tax += items[key].price - (items[key].price / (Number(items[key].attributes.tax.rate) / 100 + 1));
             }
         } else {
