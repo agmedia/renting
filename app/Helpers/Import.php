@@ -15,6 +15,7 @@ class Import
 {
 
     /**
+     *
      * @param array $data
      *
      * @return array|null[]
@@ -220,6 +221,7 @@ class Import
     private function replaceNames(string $text): string
     {
         $text = str_replace('Knji?evnost', 'Književnost', $text);
+        $text = str_replace('Kazali?te', 'Kazalište', $text);
 
         return $text;
     }
