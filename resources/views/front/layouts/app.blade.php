@@ -2,6 +2,7 @@
 <html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8">
+
     <title>Antikvarijat Biblos - Knjige, vedute i zemljovidi</title>
     <!-- SEO Meta Tags-->
     <meta name="description" content="Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.e">

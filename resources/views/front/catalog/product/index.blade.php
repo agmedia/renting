@@ -1,5 +1,12 @@
 @extends('front.layouts.app')
 
+@section ( 'title', $prod->name)
+@push('meta_tags')
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ $prod->name }}"/>
+
+@endpush
+
 @section('content')
 
     <!-- Page Title-->

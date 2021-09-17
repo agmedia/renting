@@ -1,7 +1,5 @@
 @extends('front.layouts.app')
 
-@section('content')
-
     <!-- Hero section -->
     <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url('media/img/lightslider.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="pb-lg-5 mb-lg-3">

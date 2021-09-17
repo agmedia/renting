@@ -3,7 +3,7 @@
 @section('content')
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
-            <td class="ag-mail-tableset">{!! __('mail.order.subject_admin') !!}</td>
+            <td class="ag-mail-tableset">{!! __('Dobili ste novu narudžbu') !!}</td>
         </tr>
         <tr>
             <td class="ag-mail-tableset">
@@ -17,18 +17,19 @@
         </tr>
         <tr>
             <td class="ag-mail-tableset">
-                {{ __('mail.selected_payment') }}:
-                @if ($order->payment_method == 'bank')
-                    <b>{{ __('mail.bank') }}</b>
-                @elseif ($order->payment_method == 'cash')
-                    <b>{{ __('mail.cash') }}</b>
-                @elseif ($order->payment_method == 'card')
-                    <b>{{ __('mail.card') }}</b>
+                {{ __('Način plaćanja') }}:
+                @if ($order->payment_code == 'bank')
+                    <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
+                @elseif ($order->payment_code == 'cod')
+                    <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
+                @elseif ($order->payment_code == 'payway')
+                    <b>{{ __('T-Com Payway') }}</b>
                 @else
-                    <b>{{ __('mail.paypal') }}</b>
+                    <b>{{ __('Plaćanje prilikom preuzimanja') }}</b>
                 @endif
                 <br><br>
-                {{ __('mail.regards') }},
+
+                Lijep pozdrav,<br>Antikvarijat Biblos
             </td>
         </tr>
 

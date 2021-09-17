@@ -19,15 +19,16 @@
             <td class="ag-mail-tableset">
                 {{ __('Način plaćanja') }}:
                 @if ($order->payment_code == 'bank')
-                    <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvo') }}</b>
+                    <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
+                @elseif ($order->payment_code == 'cod')
+                    <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
                 @elseif ($order->payment_code == 'payway')
                     <b>{{ __('T-Com Payway') }}</b>
-                @elseif ($order->payment_cod == 'cod')
-                    <b>{{ __('mail.card') }}</b>
                 @else
-                    <b>{{ __('mail.paypal') }}</b>
+                    <b>{{ __('Plaćanje prilikom preuzimanja') }}</b>
                 @endif
                 <br><br>
+
                 Lijep pozdrav,<br>Antikvarijat Biblos
             </td>
         </tr>
