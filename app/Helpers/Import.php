@@ -222,6 +222,7 @@ class Import
     {
         $text = str_replace('Knji?evnost', 'Književnost', $text);
         $text = str_replace('Kazali?te', 'Kazalište', $text);
+        $text = str_replace('knji?evnosti', 'književnosti', $text);
 
         return $text;
     }
