@@ -80,8 +80,15 @@ class Import
     {
         $response = [];
 
-        foreach ($images as $image) {
-            $img = Image::make($image);
+
+        $data2=array();
+        foreach ($images as $dat){
+            $data2[] = explode('!', $dat);
+        }
+
+
+        foreach ($data2 as $image) {
+            $img = Image::make($image[0]);
             $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 
             $path = $str . 'jpg';
