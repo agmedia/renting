@@ -88,7 +88,7 @@ class Import
         Log::info($data2);
 
         foreach ($data2 as $image) {
-            $img = Image::make($image);
+            $img = Image::make($image[0]);
             $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 
             $path = $str . 'jpg';
