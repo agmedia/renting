@@ -117,7 +117,7 @@ class DashboardController extends Controller
 
                     $slike = explode('|', $list[$i]['AP']);
 
-                    $images   = $import->resolveImages($slike), $name, $product_id);
+                    $images   = $import->resolveImages($slike, $name, $product_id);
 
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
 
