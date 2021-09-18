@@ -78,17 +78,14 @@ class Import
      */
     public function resolveImages(array $images, string $name, int $id): array
     {
-
         $response = [];
 
-
-        $data2=array();
+        $images=array();
         foreach ($images as $dat){
-            $data2[] = explode('!', $dat);
+            $images[] = explode('!', $dat);
         }
 
-
-        foreach ($data2 as $image) {
+        foreach ($images as $image) {
             $img = Image::make($image[0]);
             $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 

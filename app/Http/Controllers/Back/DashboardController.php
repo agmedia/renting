@@ -115,16 +115,13 @@ class DashboardController extends Controller
                     $images   = $import->resolveImages(explode('|', $list[$i]['AP']), $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
 
-                    Log::info($images);
 
 
-                    $data2=array();
+                    $images=array();
                     foreach ($images as $dat){
-                        $data2[] = explode('!', $dat);
+                        $images[] = explode('!', $dat);
                     }
-
-                    Log::info($data2);
-
+                    Log::info($images);
 
                     if ($images) {
                         for ($k = 0; $k < count($images); $k++) {
