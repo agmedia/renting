@@ -109,7 +109,7 @@ class Import
 
         foreach ($categories as $category) {
             $category = $this->replaceNames($category);
-            $data = array_merge($data, explode(' > ', $category));
+            $data = array_merge($data, explode(' | ', $category));
         }
 
         $data = array_unique($data);
