@@ -89,7 +89,7 @@ class DashboardController extends Controller
                     'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['F']) . '</p>',
                     'slug'             => $list[$i]['B'] ?: '0',
                     'price'            => $list[$i]['S'],
-                    'quantity'         => $list[$i]['R'],
+                    'quantity'         => $list[$i]['R']?: '0',
                     'tax_id'           => 1,
                     'special'          => $action,
                     'special_from'     => null,
