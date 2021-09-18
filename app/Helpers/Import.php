@@ -78,12 +78,15 @@ class Import
      */
     public function resolveImages(array $images, string $name, int $id): array
     {
-        $response = [];
 
         $data2=array();
         foreach ($images as $dat){
             $data2[] = explode('!', $dat);
         }
+
+        $response = [];
+
+
 
         Log::info($data2);
 
