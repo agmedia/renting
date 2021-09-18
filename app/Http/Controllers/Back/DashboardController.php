@@ -113,7 +113,7 @@ class DashboardController extends Controller
 
                 if ($product_id) {
 
-                    $list[$i]['AP'] = substr($variable, 0, strpos($list[$i]['AP'], "!"));
+                    $list[$i]['AP'] = substr($list[$i]['AP'], 0, strpos($list[$i]['AP'], "!"));
 
                     $slike = explode('|', $list[$i]['AP']);
 
