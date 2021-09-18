@@ -112,13 +112,7 @@ class DashboardController extends Controller
                 ]);
 
                 if ($product_id) {
-
-                    $list[$i]['AP'] = substr($list[$i]['AP'], 0, strpos($list[$i]['AP'], "!"));
-
-                    $slike = explode('|', $list[$i]['AP']);
-
-                    $images   = $import->resolveImages($slike, $name, $product_id);
-
+                    $images   = $import->resolveImages(explode('|', $list[$i]['AP']), $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
 
                     if ($images) {
