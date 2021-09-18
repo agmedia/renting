@@ -71,7 +71,7 @@ class DashboardController extends Controller
 
         for ($n = 0; $n < 1; $n++) {
             for ($i = 2; $i < count($list); $i++) {
-                $attributes = $import->setAttributes($list[$i]);
+              //  $attributes = $import->setAttributes($list[$i]);
                 //$author     = $import->resolveAuthor($attributes['author']);
                   $author = $list[$i]['AX'];
                 //$publisher  = $import->resolvePublisher($attributes['publisher']);
