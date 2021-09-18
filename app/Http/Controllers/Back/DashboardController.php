@@ -72,46 +72,48 @@ class DashboardController extends Controller
         for ($n = 0; $n < 1; $n++) {
             for ($i = 2; $i < count($list); $i++) {
                 $attributes = $import->setAttributes($list[$i]);
-                $author     = $import->resolveAuthor($attributes['author']);
-                $publisher  = $import->resolvePublisher($attributes['publisher']);
+                //$author     = $import->resolveAuthor($attributes['author']);
+                  $author = $list[$i]['AX'];
+                //$publisher  = $import->resolvePublisher($attributes['publisher']);
+                  $publisher  = $list[$i]['BM'];
 
-                $name = $list[$i]['D'];
-                $action = ($list[$i]['Z'] == $list[$i]['Y']) ? null : $list[$i]['Y'];
+                $name = $list[$i]['A'];
+                $action = ($list[$i]['S'] == $list[$i]['T']) ? null : $list[$i]['T'];
 
                 $product_id = Product::insertGetId([
                     'author_id'        => $author ?: $unknown_author_id,
                     'publisher_id'     => $publisher ?: $unknown_publisher_id,
                     'action_id'        => 0,
                     'name'             => $name,
-                    'sku'              => $list[$i]['C'] ?: '0',
-                    'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['H']) . '</p>',
-                    'slug'             => Str::slug($name),
-                    'price'            => $list[$i]['Z'],
-                    'quantity'         => $list[$i]['O'],
+                    'sku'              => $list[$i]['M'] ?: '0',
+                    'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['F']) . '</p>',
+                    'slug'             => $list[$i]['B'] ?: '0',
+                    'price'            => $list[$i]['S'],
+                    'quantity'         => $list[$i]['R'],
                     'tax_id'           => 1,
                     'special'          => $action,
                     'special_from'     => null,
                     'special_to'       => null,
                     'meta_title'       => $name,
                     'meta_description' => $name,
-                    'pages'            => $attributes['pages'],
-                    'dimensions'       => $attributes['dimensions'],
-                    'origin'           => $attributes['origin'],
-                    'letter'           => $attributes['letter'],
-                    'condition'        => $attributes['condition'],
-                    'binding'          => $attributes['binding'],
-                    'year'             => $attributes['year'],
+                    'pages'            => $list[$i]['BA'],
+                    'dimensions'       => $list[$i]['BD'],
+                    'origin'           => $list[$i]['BP'],
+                    'letter'           => $list[$i]['BS'],
+                    'condition'        => $list[$i]['BV'],
+                    'binding'          => $list[$i]['BY'],
+                    'year'             => $list[$i]['BJ'],
                     'viewed'           => 0,
                     'sort_order'       => 0,
                     'push'             => 0,
-                    'status'           => $list[$i]['O'] ? 1 : 0,
+                    'status'           => $list[$i]['R'] ? 1 : 0,
                     'created_at'       => Carbon::now(),
                     'updated_at'       => Carbon::now()
                 ]);
 
                 if ($product_id) {
-                    $images   = $import->resolveImages(explode(', ', $list[$i]['AD']), $name, $product_id);
-                    $categories = $import->resolveCategories(explode(', ', $list[$i]['AA']));
+                    $images   = $import->resolveImages(explode('|', $list[$i]['AP']), $name, $product_id);
+                    $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
 
                     if ($images) {
                         for ($k = 0; $k < count($images); $k++) {
