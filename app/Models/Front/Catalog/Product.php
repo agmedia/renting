@@ -48,6 +48,18 @@ class Product extends Model
 
 
     /**
+     * @param $value
+     *
+     * @return array|string|string[]
+     */
+    public function getThumbAttribute($value)
+    {
+
+        return str_replace('.jpg', '-thumb.webp', $value);
+    }
+
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function images()
