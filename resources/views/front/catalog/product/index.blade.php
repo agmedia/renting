@@ -6,7 +6,7 @@
     <link rel="canonical" href="{{ env('APP_URL')}}/{{ $prod->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
-    <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
+    <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos'}}" />
     <meta property="og:description" content="{{ $prod->meta_description  }}" />
     <meta property="og:url" content="{{ env('APP_URL')}}/{{ $prod->url }}"  />
     <meta property="og:site_name" content="Antikvarijat Biblos" />
@@ -22,7 +22,7 @@
     <meta property="product:availability" content="instock" />
     <meta property="product:retailer_item_id" content="{{ $prod->sku }}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
+    <meta name="twitter:title" content="{{ $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos'}}" />
     <meta name="twitter:description" content="{{ $prod->meta_description  }}" />
     <meta name="twitter:image" content="{{ asset($prod->image) }}" />
 
