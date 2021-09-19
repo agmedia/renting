@@ -3,12 +3,12 @@
 @section ( 'description', $prod->meta_description )
 @push('meta_tags')
 
-    <link rel="canonical" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]) }}" />
+    <link rel="canonical" href="{{ env('APP_URL')}}/{{ $prod->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
     <meta property="og:description" content="{{ $prod->meta_description  }}" />
-    <meta property="og:url" content="{{ route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]) }}{{ $prod->url }}"  />
+    <meta property="og:url" content="{{ env('APP_URL')}}/{{ $prod->url }}"  />
     <meta property="og:site_name" content="Antikvarijat Biblos" />
     <meta property="og:updated_time" content="{{ $prod->updated_at  }}" />
     <meta property="og:image" content="{{ asset($prod->image) }}" />
