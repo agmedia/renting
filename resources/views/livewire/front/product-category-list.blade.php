@@ -37,7 +37,7 @@
         @endforelse
     </div>
 
-    {{ $products->paginates(3)->onEachSide(3)->links() }}
+    {{ $products->paginate(6)->onEachSide(3)->links() }}
 
     <hr class="my-3">
 
