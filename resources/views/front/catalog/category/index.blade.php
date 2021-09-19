@@ -1,22 +1,4 @@
 @extends('front.layouts.app')
-@push('meta_tags')
-    <style>
-li.page-item {
-
-display: none;
-}
-
-.page-item:first-child,
-.page-item:nth-child( 3 ),
-.page-item:nth-last-child( 3 ),
-.page-item:last-child,
-.page-item.active,
-.page-item.disabled {
-
-display: block;
-}
-</style>
-@endpush
 @if ($group)
     @if ($group && ! $cat && ! $subcat)
         @section ( 'title',  \Illuminate\Support\Str::ucfirst($group). ' - Antikvarijat Biblos' )
@@ -32,7 +14,7 @@ display: block;
 
 @if (isset($author) && $author)
     @section ( 'title',  $author->title . ' - Antikvarijat Biblos' )
-    @section ( 'description', $autor->meta_description )
+    @section ( 'description', $author->meta_description )
 @endif
 
 
