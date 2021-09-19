@@ -5,7 +5,7 @@
             <add-to-cart-btn-simple id="{{ $product->id }}"></add-to-cart-btn-simple>
         </div>
         <a class="product-thumb-overlay" href="{{ url($product->url) }}"></a>
-        <img load="lazy" src="{{ url('cache/thumb?size=250x300&src=' . $product->image) }}" width="250" height="300" alt="{{ $product->name }}">
+        <img load="lazy" src="{{ url('cache/thumb?size=250x300&src=' . $product->thumb) }}" width="250" height="300" alt="{{ $product->name }}">
     </div>
     <div class="card-body pt-2">
         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
