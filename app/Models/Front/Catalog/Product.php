@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Bouncer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class Product extends Model
 {
@@ -54,8 +55,7 @@ class Product extends Model
      */
     public function getThumbAttribute($value)
     {
-
-        return str_replace('.jpg', '-thumb.webp', $value);
+        return str_replace('.webp', '-thumb.webp', $this->image);
     }
 
 

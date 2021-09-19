@@ -179,8 +179,9 @@ class ProductImage extends Model
      */
     private function saveImage($image)
     {
+        $time = time();
         $img = Image::make($this->makeImageFromBase($image));
-        $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '.';
+        $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . $time . '.';
 
         $path_jpg = $path . 'jpg';
         Storage::disk('products')->put($path_jpg, $img->encode('jpg'));
@@ -189,7 +190,7 @@ class ProductImage extends Model
         Storage::disk('products')->put($path_webp, $img->encode('webp'));
 
         // Thumb creation
-        $path_thumb = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '-thumb.';
+        $path_thumb = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . $time . '-thumb.';
 
         $img = $img->resize(null, 300, function ($constraint) {
             $constraint->aspectRatio();

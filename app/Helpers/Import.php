@@ -82,8 +82,9 @@ class Import
         // Log::info($images);
 
         foreach ($images as $image) {
+            $time = time();
             $img = Image::make($image);
-            $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
+            $str = $id . '/' . Str::slug($name) . '-' . $time . '.';
 
             $path = $str . 'jpg';
             Storage::disk('products')->put($path, $img->encode('jpg'));
@@ -92,7 +93,7 @@ class Import
             Storage::disk('products')->put($path_webp, $img->encode('webp'));
 
             // Thumb creation
-            $str_thumb = $id . '/' . Str::slug($name) . '-' . time() . '-thumb.';
+            $str_thumb = $id . '/' . Str::slug($name) . '-' . $time . '-thumb.';
 
             $img = $img->resize(null, 300, function ($constraint) {
                 $constraint->aspectRatio();
