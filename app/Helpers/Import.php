@@ -85,6 +85,10 @@ class Import
             $img = Image::make($image);
             $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 
+            $img = $img->resize(null, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            })->resizeCanvas(250, null);
+
             $path = $str . 'jpg';
             Storage::disk('products')->put($path, $img->encode('jpg'));
 

@@ -179,8 +179,14 @@ class ProductImage extends Model
      */
     private function saveImage($image)
     {
+
         $img = Image::make($this->makeImageFromBase($image));
+
+
         $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '.';
+        $img = $img->resize(null, 300, function ($constraint) {
+            $constraint->aspectRatio();
+        })->resizeCanvas(250, null);
 
         $path_jpg = $path . 'jpg';
         Storage::disk('products')->put($path_jpg, $img->encode('jpg'));
