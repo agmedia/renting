@@ -26,7 +26,7 @@
     <!-- Products grid-->
     <div class="row mx-n2">
         @forelse ($products as $product)
-            <div class="col-md-4 col-sm-6  px-2 mb-4">
+            <div class="col-md-4 col-6  px-2 mb-4">
                 @include('front.catalog.category.product')
             </div>
         @empty
