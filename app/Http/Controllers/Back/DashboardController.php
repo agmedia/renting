@@ -75,9 +75,11 @@ class DashboardController extends Controller
                 //$author     = $import->resolveAuthor($attributes['author']);
                 $author = $import->resolveAuthor($list[$i]['AX']);
                 //$publisher  = $import->resolvePublisher($attributes['publisher']);
+
+                $list[$i]['BM'] = substr($list[$i]['BM'], 0, strpos($list[$i]['BM'], "("));
                 $publisher  = $import->resolvePublisher($list[$i]['BM']);
 
-                $publisher = substr($publisher, 0, strpos($publisher, "("));
+
 
                 $name = $list[$i]['A'];
                 $action = ($list[$i]['S'] == $list[$i]['T']) ? null : $list[$i]['T'];
