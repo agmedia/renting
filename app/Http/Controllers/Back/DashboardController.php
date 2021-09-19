@@ -71,7 +71,7 @@ class DashboardController extends Controller
 
         for ($n = 0; $n < 1; $n++) {
             for ($i = 2; $i < count($list); $i++) {
-              //  $attributes = $import->setAttributes($list[$i]);
+                $attributes = $import->setAttributes($list[$i]);
                 //$author     = $import->resolveAuthor($attributes['author']);
                   $author = $list[$i]['AX'];
                 //$publisher  = $import->resolvePublisher($attributes['publisher']);
@@ -89,7 +89,7 @@ class DashboardController extends Controller
                     'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['F']) . '</p>',
                     'slug'             => $list[$i]['B'] ?: '0',
                     'price'            => $list[$i]['S'],
-                    'quantity'         => $list[$i]['R']?: '0',
+                    'quantity'         => $list[$i]['R'],
                     'tax_id'           => 1,
                     'special'          => $action,
                     'special_from'     => null,
@@ -114,14 +114,6 @@ class DashboardController extends Controller
                 if ($product_id) {
                     $images   = $import->resolveImages(explode('|', $list[$i]['AP']), $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
-
-
-
-                    $images=array();
-                    foreach ($images as $dat){
-                        $images[] = explode('!', $dat);
-                    }
-                    Log::info($images);
 
                     if ($images) {
                         for ($k = 0; $k < count($images); $k++) {
