@@ -81,13 +81,8 @@ class Import
         $response = [];
         // Log::info($images);
 
-        $images=array();
-        foreach ($images as $dat){
-            $images[] = explode('!', $dat);
-        }
-
         foreach ($images as $image) {
-            $img = Image::make($image[0]);
+            $img = Image::make($image);
             $str = $id . '/' . Str::slug($name) . '-' . time() . '.';
 
             $path = $str . 'jpg';
@@ -119,7 +114,7 @@ class Import
 
         foreach ($categories as $category) {
             $category = $this->replaceNames($category);
-            $data = array_merge($data, explode(' | ', $category));
+            $data = array_merge($data, explode(' > ', $category));
         }
 
         $data = array_unique($data);
