@@ -179,20 +179,24 @@ class ProductImage extends Model
      */
     private function saveImage($image)
     {
-
         $img = Image::make($this->makeImageFromBase($image));
-
-
         $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '.';
-        $img = $img->resize(null, 300, function ($constraint) {
-            $constraint->aspectRatio();
-        })->resizeCanvas(250, null);
 
         $path_jpg = $path . 'jpg';
         Storage::disk('products')->put($path_jpg, $img->encode('jpg'));
 
         $path_webp = $path . 'webp';
         Storage::disk('products')->put($path_webp, $img->encode('webp'));
+
+        // Thumb creation
+        $path_thumb = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . time() . '-thumb.';
+
+        $img = $img->resize(null, 300, function ($constraint) {
+            $constraint->aspectRatio();
+        })->resizeCanvas(250, null);
+
+        $path_webp_thumb = $path_thumb . 'webp';
+        Storage::disk('products')->put($path_webp_thumb, $img->encode('webp'));
 
         return $path_jpg;
     }
