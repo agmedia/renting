@@ -4,7 +4,7 @@
     @section ( 'description', 'Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.' )
 
 @else
-    @section ( 'title', $page->title. '- Antikvarijat Biblos' )
+    @section ( 'title', $page->title. ' - Antikvarijat Biblos' )
     @section ( 'description', $page->meta_description )
 @endif
 
