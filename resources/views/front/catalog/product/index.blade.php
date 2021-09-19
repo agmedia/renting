@@ -3,7 +3,7 @@
 @section ( 'description', $prod->meta_description )
 @push('meta_tags')
 
-    <link rel="canonical" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}{{ $prod->url }}" />
+    <link rel="canonical" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]) }}{{ $prod->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
