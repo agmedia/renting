@@ -7,8 +7,8 @@ display: none;
 }
 
 .page-item:first-child,
-.page-item:nth-child( 2 ),
-.page-item:nth-last-child( 2 ),
+.page-item:nth-child( 3 ),
+.page-item:nth-last-child( 3 ),
 .page-item:last-child,
 .page-item.active,
 .page-item.disabled {
