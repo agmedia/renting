@@ -1,4 +1,12 @@
 @extends('front.layouts.app')
+@if (request()->routeIs(['index']))
+    @section ( 'title', 'Antikvarijat Biblos - Knjige, vedute i zemljovidi' )
+    @section ( 'description', 'Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.' )
+
+@else
+    @section ( 'title', $page->title. '- Antikvarijat Biblos' )
+    @section ( 'description', $page->meta_description )
+@endif
 
 @section('content')
 

@@ -1,4 +1,12 @@
 @extends('front.layouts.app')
+@if(isset($blogs))
+        @section ( 'title', 'Iz medija - Antikvarijat Biblos' )
+        @section ( 'description', 'Medijske objave, članci i obavijesti -  Antikvarijat Biblos' )
+@else
+    @section ( 'title', $blog->title. '- Antikvarijat Biblos' )
+@section ( 'description', $blog->meta_description )
+
+@endif
 
 @section('content')
 

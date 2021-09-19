@@ -1,9 +1,27 @@
 @extends('front.layouts.app')
-
-@section ( 'title', $prod->name)
+@section ( 'title', $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos' )
+@section ( 'description', $prod->meta_description )
 @push('meta_tags')
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="{{ $prod->name }}"/>
+
+    <link rel="canonical" href="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}{{ $prod->url }}" />
+    <meta property="og:locale" content="hr_HR" />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
+    <meta property="og:description" content="{{ $prod->meta_description  }}" />
+    <meta property="og:url" content="{{ route('catalog.route', ['group' => $group, 'cat' => $cat]) }}{{ $prod->url }}"  />
+    <meta property="og:site_name" content="Antikvarijat Biblos" />
+    <meta property="og:updated_time" content="{{ $prod->updated_at  }}" />
+    <meta property="og:image" content="{{ asset($prod->image) }}" />
+    <meta property="og:image:secure_url" content="{{ asset($prod->image) }}" />
+    <meta property="og:image:alt" content="{{ $prod->name }}" />
+    <meta property="product:price:amount" content="{{ number_format($prod->price, 2) }}" />
+    <meta property="product:price:currency" content="HRK" />
+    <meta property="product:availability" content="instock" />
+    <meta property="product:retailer_item_id" content="{{ $prod->sku }}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos'}}" />
+    <meta name="twitter:description" content="{{ $prod->meta_description  }}" />
+    <meta name="twitter:image" content="{{ asset($prod->image) }}" />
 
 @endpush
 

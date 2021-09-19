@@ -2,12 +2,12 @@
 <html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8">
-
-    <title>Antikvarijat Biblos - Knjige, vedute i zemljovidi</title>
+    <title> @yield('title') </title>
     <!-- SEO Meta Tags-->
-    <meta name="description" content="Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.e">
-    <meta name="keywords" content="antikvarijat,stare knjige,vedute,mape,biblos">
+    <meta name="description" content="@yield('description')">
+
     <meta name="author" content="Antikvarijat Biblos">
+    @stack('meta_tags')
     <!-- Viewport-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Favicon and Touch Icons-->

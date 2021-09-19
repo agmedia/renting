@@ -1,5 +1,24 @@
 @extends('front.layouts.app')
 
+@if ($group)
+    @if ($group && ! $cat && ! $subcat)
+        @section ( 'title',  \Illuminate\Support\Str::ucfirst($group). '- Antikvarijat Biblos' )
+    @endif
+    @if ($cat && ! $subcat)
+        @section ( 'title',  $cat->title . '- Antikvarijat Biblos' )
+        @section ( 'description', $cat->meta_description )
+    @elseif ($cat && $subcat)
+        @section ( 'title', $subcat->title . '- Antikvarijat Biblos' )
+        @section ( 'description', $cat->meta_description )
+    @endif
+@endif
+
+@if (isset($author) && $author)
+    @section ( 'title',  $author->title . '- Antikvarijat Biblos' )
+    @section ( 'description', $autor->meta_description )
+@endif
+
+
 @section('content')
 
     <!-- Page Title-->

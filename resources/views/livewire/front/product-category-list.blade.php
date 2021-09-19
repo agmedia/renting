@@ -36,7 +36,8 @@
             </div>
         @endforelse
     </div>
-    {{ $products->links() }}
+
+    {{ $products->onEachSide(3)->links() }}
 
     <hr class="my-3">
 
