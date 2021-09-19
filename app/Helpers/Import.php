@@ -79,6 +79,7 @@ class Import
     public function resolveImages(array $images, string $name, int $id): array
     {
         $response = [];
+        // Log::info($images);
 
         foreach ($images as $image) {
             $img = Image::make($image);
@@ -107,38 +108,50 @@ class Import
         $response = [];
         $data = [];
 
+        Log::info($categories);
+
+        Log::info('--------------------');
+
         foreach ($categories as $category) {
             $category = $this->replaceNames($category);
             $data = array_merge($data, explode(' > ', $category));
         }
 
         $data = array_unique($data);
+
+
+        Log::info($data);
+
+
         $parent = 0;
 
         for ($i = 0; $i < count($data); $i++) {
-            if (strpos($data[$i], '?') == false && $data[$i] != 'Knjige') {
-                $exist = Category::where('title', $data[$i])->first();
+            if (isset($data[$i])) {
 
-                if ( ! $exist) {
-                    $id = Category::insertGetId([
-                        'parent_id'        => $parent,
-                        'title'            => $data[$i],
-                        'description'      => '',
-                        'meta_title'       => $data[$i],
-                        'meta_description' => $data[$i],
-                        'group'            => $data[0],
-                        'lang'             => 'hr',
-                        'status'           => 1,
-                        'slug'             => Str::slug($data[$i]),
-                        'created_at'       => Carbon::now(),
-                        'updated_at'       => Carbon::now()
-                    ]);
+                if (strpos($data[$i], '?') == false && ! in_array($data[$i], ['Knjige', 'Zemljovidi i vedute'])) {
+                    $exist = Category::where('title', $data[$i])->first();
 
-                    $parent = $id;
+                    if ( ! $exist) {
+                        $id = Category::insertGetId([
+                            'parent_id'        => $parent,
+                            'title'            => $data[$i],
+                            'description'      => '',
+                            'meta_title'       => $data[$i],
+                            'meta_description' => $data[$i],
+                            'group'            => $data[0],
+                            'lang'             => 'hr',
+                            'status'           => 1,
+                            'slug'             => Str::slug($data[$i]),
+                            'created_at'       => Carbon::now(),
+                            'updated_at'       => Carbon::now()
+                        ]);
 
-                    $response[] = $id;
-                } else {
-                    $response[] = $exist->id;
+                        $parent = $id;
+
+                        $response[] = $id;
+                    } else {
+                        $response[] = $exist->id;
+                    }
                 }
             }
         }

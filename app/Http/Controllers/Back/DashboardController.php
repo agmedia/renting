@@ -71,11 +71,11 @@ class DashboardController extends Controller
 
         for ($n = 0; $n < 1; $n++) {
             for ($i = 2; $i < count($list); $i++) {
-                $attributes = $import->setAttributes($list[$i]);
+                //  $attributes = $import->setAttributes($list[$i]);
                 //$author     = $import->resolveAuthor($attributes['author']);
-                  $author = $list[$i]['AX'];
+                $author = $import->resolveAuthor($list[$i]['AX']);
                 //$publisher  = $import->resolvePublisher($attributes['publisher']);
-                  $publisher  = $list[$i]['BM'];
+                $publisher  = $import->resolvePublisher($list[$i]['BM']);
 
                 $name = $list[$i]['A'];
                 $action = ($list[$i]['S'] == $list[$i]['T']) ? null : $list[$i]['T'];
@@ -87,9 +87,9 @@ class DashboardController extends Controller
                     'name'             => $name,
                     'sku'              => $list[$i]['M'] ?: '0',
                     'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['F']) . '</p>',
-                    'slug'             => $list[$i]['B'] ?: '0',
+                    'slug'             => Str::slug($name),
                     'price'            => $list[$i]['S'],
-                    'quantity'         => $list[$i]['R'],
+                    'quantity'         => $list[$i]['R'] ?: '0',
                     'tax_id'           => 1,
                     'special'          => $action,
                     'special_from'     => null,
@@ -112,8 +112,24 @@ class DashboardController extends Controller
                 ]);
 
                 if ($product_id) {
-                    $images   = $import->resolveImages(explode('|', $list[$i]['AP']), $name, $product_id);
+
+                    $images = explode('|', $list[$i]['AP']);
+
+                    $data2=array();
+                    foreach ($images as $dat){
+
+                        $data2[] = array_map('trim',explode('!', $dat));
+                    }
+
+                    $data2 = array_column($data2, 0);
+
+
+                    $images   = $import->resolveImages($data2, $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
+
+
+
+
 
                     if ($images) {
                         for ($k = 0; $k < count($images); $k++) {
