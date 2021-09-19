@@ -77,6 +77,8 @@ class DashboardController extends Controller
                 //$publisher  = $import->resolvePublisher($attributes['publisher']);
                 $publisher  = $import->resolvePublisher($list[$i]['BM']);
 
+                $publisher = substr($publisher, 0, strpos($publisher, "("));
+
                 $name = $list[$i]['A'];
                 $action = ($list[$i]['S'] == $list[$i]['T']) ? null : $list[$i]['T'];
 
@@ -107,7 +109,7 @@ class DashboardController extends Controller
                     'sort_order'       => 0,
                     'push'             => 0,
                     'status'           => $list[$i]['R'] ? 1 : 0,
-                    'created_at'       => Carbon::now(),
+                    'created_at'       => $list[$i]['J'],
                     'updated_at'       => Carbon::now()
                 ]);
 
@@ -123,12 +125,8 @@ class DashboardController extends Controller
 
                     $data2 = array_column($data2, 0);
 
-
                     $images   = $import->resolveImages($data2, $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
-
-
-
 
 
                     if ($images) {
