@@ -13,6 +13,9 @@
     <meta property="og:updated_time" content="{{ $prod->updated_at  }}" />
     <meta property="og:image" content="{{ asset($prod->image) }}" />
     <meta property="og:image:secure_url" content="{{ asset($prod->image) }}" />
+    <meta property="og:image:width" content="640" />
+    <meta property="og:image:height" content="480" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:alt" content="{{ $prod->name }}" />
     <meta property="product:price:amount" content="{{ number_format($prod->price, 2) }}" />
     <meta property="product:price:currency" content="HRK" />
