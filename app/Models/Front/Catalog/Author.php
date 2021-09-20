@@ -46,7 +46,7 @@ class Author extends Model
      */
     public function products()
     {
-        return $this->hasMany(Product::class, 'author_id', 'id');
+        return $this->hasMany(Product::class, 'author_id', 'id')->active();
     }
 
 
