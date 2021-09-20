@@ -104,7 +104,10 @@ class Publisher extends Model
         $results = $publisher->sortBy('title')->groupBy(function ($item, $key) {
             $letter = substr($item['title'], 0, 2);
 
-            if (strlen($letter) > 1 && ! in_array($letter, ['Ć'])) {
+            Log::info('Publisher');
+            Log::info($letter);
+
+            if (strlen($letter) > 1 && ! in_array($letter, ['Ć','Č','Đ','Š','Ž'])) {
                 $letter = substr($letter, 0, 1);
             }
 

@@ -92,8 +92,10 @@ class Author extends Model
 
         $results = $authors->sortBy('title')->groupBy(function ($item, $key) {
             $letter = substr($item['title'], 0, 2);
+            Log::info('Autor');
+             Log::info($letter);
 
-            if (strlen($letter) > 1 && ! in_array($letter, ['Ć'])) {
+            if (strlen($letter) > 1 && ! in_array($letter, ['Ć','Č','Đ','Š','Ž'])) {
                 $letter = substr($letter, 0, 1);
             }
 
