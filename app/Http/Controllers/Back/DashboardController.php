@@ -127,7 +127,7 @@ class DashboardController extends Controller
 
                     $data2 = array_column($data2, 0);
 
-                    Log::info($data2);
+
 
                     $images   = $import->resolveImages($data2, $name, $product_id);
                     $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));

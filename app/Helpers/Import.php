@@ -119,8 +119,6 @@ class Import
         $response = [];
         $data = [];
 
-
-
         foreach ($categories as $category) {
             $category = $this->replaceNames($category);
             $data = array_merge($data, explode(' > ', $category));
@@ -129,13 +127,13 @@ class Import
         $data = array_unique($data);
 
 
-
-
-
-
         $parent = 0;
 
         for ($i = 0; $i < count($data); $i++) {
+
+            if (empty($response)) {
+                $response[] = 1;
+            }
             if (isset($data[$i])) {
 
                 if (strpos($data[$i], '?') == false && ! in_array($data[$i], ['Knjige', 'Zemljovidi i vedute'])) {
