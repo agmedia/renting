@@ -28,7 +28,13 @@ class Import
         foreach ($images as $image) {
             if ($image) {
                 $time = time();
-                $img = Image::make($image);
+
+                try {
+                    $img = Image::make($image);
+                } catch (\Exception $e) {
+                    //not throwing  error when exception occurs
+                }
+
                 $str = $id . '/' . Str::slug($name) . '-' . $time . '.';
 
                 $path = $str . 'jpg';
