@@ -99,7 +99,7 @@
 
                                 @if ($prod->images->count())
                                     @foreach ($prod->images as $key => $image)
-                                        <a class="product-gallery-thumblist-item" href="#key{{ $key + 1 }}"><img src="{{ url('cache/thumb?size=100x100&src=' . $images->thumb) }}" width="100" height="100" alt="{{ $image->alt }}"></a>
+                                        <a class="product-gallery-thumblist-item" href="#key{{ $key + 1 }}"><img src="{{ url('cache/thumb?size=100x100&src=' . $image->thumb) }}" width="100" height="100" alt="{{ $image->alt }}"></a>
                                     @endforeach
                                 @endif
                             </div>
