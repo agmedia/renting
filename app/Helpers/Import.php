@@ -119,9 +119,7 @@ class Import
         $response = [];
         $data = [];
 
-        Log::info($categories);
 
-        Log::info('--------------------');
 
         foreach ($categories as $category) {
             $category = $this->replaceNames($category);
@@ -131,7 +129,8 @@ class Import
         $data = array_unique($data);
 
 
-        Log::info($data);
+
+
 
 
         $parent = 0;
