@@ -90,6 +90,10 @@ class Helper
                                ->orWhere('meta_description', 'like', '%' . $target . '%')
                                ->pluck('id');
 
+            if ( ! $products->count()) {
+                $products = collect();
+            }
+
             $authors = Author::where('title', 'like', '%' . $target . '%')->with('products')->get();
 
             foreach ($authors as $author) {
