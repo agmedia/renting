@@ -74,10 +74,6 @@ class Import
         $parent = 0;
 
         for ($i = 0; $i < count($data); $i++) {
-
-            if (empty($response)) {
-                $response[] = 1;
-            }
             if (isset($data[$i])) {
 
                 if (strpos($data[$i], '?') == false && ! in_array($data[$i], ['Knjige', 'Zemljovidi i vedute'])) {
@@ -102,10 +98,15 @@ class Import
 
                         $response[] = $id;
                     } else {
+                        $parent = $exist->id;
                         $response[] = $exist->id;
                     }
                 }
             }
+        }
+
+        if (empty($response)) {
+            $response[] = 1;
         }
 
         return $response;
