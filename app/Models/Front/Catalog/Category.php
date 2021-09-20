@@ -101,6 +101,17 @@ class Category extends Model
 
 
     /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeSortByName(Builder $query): Builder
+    {
+        return $query->orderBy('title');
+    }
+
+
+    /**
      * @param Category|null $subcategory
      *
      * @return string

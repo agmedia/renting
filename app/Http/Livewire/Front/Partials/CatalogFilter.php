@@ -264,12 +264,12 @@ class CatalogFilter extends Component
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
                 $category = new Category();
-                $this->categories = $category->topList($this->group)->with('subcategories')->get();
+                $this->categories = $category->topList($this->group)->sortByName()->with('subcategories')->get();
             }
 
 
             if ($this->category && ! $this->subcategory) {
-                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->with('subcategories')->first();
+                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->sortByName()->with('subcategories')->first();
 
                 if ($item && $item->subcategories->count()) {
                     $this->categories = $item->subcategories;
