@@ -26,27 +26,29 @@ class Import
         // Log::info($images);
 
         foreach ($images as $image) {
-            $time = time();
-            $img = Image::make($image);
-            $str = $id . '/' . Str::slug($name) . '-' . $time . '.';
+            if ($image) {
+                $time = time();
+                $img = Image::make($image);
+                $str = $id . '/' . Str::slug($name) . '-' . $time . '.';
 
-            $path = $str . 'jpg';
-            Storage::disk('products')->put($path, $img->encode('jpg'));
+                $path = $str . 'jpg';
+                Storage::disk('products')->put($path, $img->encode('jpg'));
 
-            $path_webp = $str . 'webp';
-            Storage::disk('products')->put($path_webp, $img->encode('webp'));
+                $path_webp = $str . 'webp';
+                Storage::disk('products')->put($path_webp, $img->encode('webp'));
 
-            // Thumb creation
-            $str_thumb = $id . '/' . Str::slug($name) . '-' . $time . '-thumb.';
+                // Thumb creation
+                $str_thumb = $id . '/' . Str::slug($name) . '-' . $time . '-thumb.';
 
-            $img = $img->resize(null, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->resizeCanvas(250, null);
+                $img = $img->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->resizeCanvas(250, null);
 
-            $path_webp_thumb = $str_thumb . 'webp';
-            Storage::disk('products')->put($path_webp_thumb, $img->encode('webp'));
+                $path_webp_thumb = $str_thumb . 'webp';
+                Storage::disk('products')->put($path_webp_thumb, $img->encode('webp'));
 
-            $response[] = config('filesystems.disks.products.url') . $path;
+                $response[] = config('filesystems.disks.products.url') . $path;
+            }
         }
 
         return $response;
