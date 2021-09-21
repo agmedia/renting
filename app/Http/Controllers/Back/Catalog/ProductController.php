@@ -24,18 +24,19 @@ class ProductController extends Controller
      */
     public function index(Request $request, Product $product)
     {
+        Log::info('Start time...');
         $time_start = microtime(true);
 
         $query = $product->filter($request);
 
         $time_end = microtime(true);
-        Log::info(($time_end - $time_start));
+        Log::info(($time_end - $time_start)/60);
         $time_start = microtime(true);
 
         $products = $query->paginate(20);
 
         $time_end = microtime(true);
-        Log::info(($time_end - $time_start));
+        Log::info(($time_end - $time_start)/60);
         $time_start = microtime(true);
 
         if ($request->has('status')) {
@@ -64,7 +65,7 @@ class ProductController extends Controller
         }
 
         $time_end = microtime(true);
-        Log::info(($time_end - $time_start));
+        Log::info(($time_end - $time_start)/60);
         $time_start = microtime(true);
 
         $categories = (new Category())->getList(false);
@@ -73,7 +74,7 @@ class ProductController extends Controller
         $counts = Product::setCounts($query);
 
         $time_end = microtime(true);
-        Log::info(($time_end - $time_start));
+        Log::info(($time_end - $time_start)/60);
 
         return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers', 'counts'));
     }
