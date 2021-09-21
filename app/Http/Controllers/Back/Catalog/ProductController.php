@@ -24,7 +24,8 @@ class ProductController extends Controller
      */
     public function index(Request $request, Product $product)
     {
-        Log::info('Start time...');
+        Log::info('Start time... $request...');
+        Log::info($request);
         $time_start = microtime(true);
 
         $query = $product->filter($request);
