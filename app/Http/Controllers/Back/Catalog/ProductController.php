@@ -12,7 +12,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -24,23 +23,11 @@ class ProductController extends Controller
      */
     public function index(Request $request, Product $product)
     {
-        Log::info('Start time... $request...');
-        Log::info($request);
-        $time_start = microtime(true);
-
         $query = $product->filter($request);
-
-        $time_end = microtime(true);
-        Log::info(($time_end - $time_start)/60);
-        $time_start = microtime(true);
 
         $products = $query->paginate(20);
 
-        $time_end = microtime(true);
-        Log::info(($time_end - $time_start)/60);
-        $time_start = microtime(true);
-
-        if ($request->status) {
+        if ($request->has('status')) {
             if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
                 $products = collect();
                 $temps = Product::all();
@@ -65,17 +52,10 @@ class ProductController extends Controller
             }
         }
 
-        $time_end = microtime(true);
-        Log::info(($time_end - $time_start)/60);
-        $time_start = microtime(true);
-
         $categories = (new Category())->getList(false);
         $authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');
-        $counts = Product::setCounts($query);
-
-        $time_end = microtime(true);
-        Log::info(($time_end - $time_start)/60);
+        $counts = [];//Product::setCounts($query);
 
         return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers', 'counts'));
     }

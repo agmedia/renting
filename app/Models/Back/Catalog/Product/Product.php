@@ -385,7 +385,7 @@ class Product extends Model
      *
      * @return array
      */
-    public static function setCounts($p_query)
+    public static function setCounts($p_query = null)
     {
         $all = Product::all()->count();
         $active = Product::where('status', 1)->count();
