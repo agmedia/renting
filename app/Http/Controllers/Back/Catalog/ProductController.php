@@ -40,7 +40,7 @@ class ProductController extends Controller
         Log::info(($time_end - $time_start)/60);
         $time_start = microtime(true);
 
-        if ($request->has('status')) {
+        if ($request->status) {
             if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
                 $products = collect();
                 $temps = Product::all();
