@@ -31,12 +31,12 @@
 
 
                         IBAN RAČUN: HR3123600001101595832<br>
-                        MODEL: 00 POZIV NA BROJ: {{ $order->tota }}-{{date('ym')}}</p>
+                        MODEL: 00 POZIV NA BROJ: {{ $order->total }}-{{date('ym')}}</p>
 
 
                     <p>ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
 
-                    <p><img src="{{ asset('media/img/qr/'.$data['order']['id']) }}.png" ></p>
+                    <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png" ></p>
 
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>

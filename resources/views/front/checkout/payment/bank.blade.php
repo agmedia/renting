@@ -1,4 +1,4 @@
-<form name="pay" action="{{ route('checkout') }}" method="GET">
+<form name="pay" class="w-100" action="{{ route('checkout') }}" method="GET">
     <input type="hidden" name="provjera" value="{{ $data['order_id'] }}">
 
     <div class="d-flex">
