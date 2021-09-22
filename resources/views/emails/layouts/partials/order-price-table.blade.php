@@ -61,12 +61,12 @@
 
 <p class="small fw-light text-center mt-4 mb-0">
     @foreach ($order->totals as $total)
-        @if($total->code == 'subtotal'){
-        <span class="fw-normal">{{ $total->value - ($total->value / 1.05 ) }}</span> PDV knjige i
-        }
-    @elseif ($total->code == 'shipping'){
-        <span class="fw-normal">{{ $total->value - ($total->value / 1.25 ) }}</span> PDV dostava
-        }
+        @if($total->code == 'subtotal')
+        <span class="fw-normal">{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }} kn</span> PDV knjige i
+
+    @elseif ($total->code == 'shipping')
+        <span class="fw-normal">{{number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }} kn</span> PDV dostava
+
     @endif
     @endforeach
 </p>
