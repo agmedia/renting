@@ -1,4 +1,4 @@
-@extends('errors.container')
+@extends('front.layouts.app')
 
 @section ( 'title', '404 Error')
 
