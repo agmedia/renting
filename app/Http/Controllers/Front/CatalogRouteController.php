@@ -37,8 +37,6 @@ class CatalogRouteController extends Controller
      */
     public function resolve(Request $request, $group, Category $cat = null, $subcat = null, Product $prod = null)
     {
-        //Cache::flush();
-
         //
         if ($subcat) {
             $sub_category = Category::where('slug', $subcat)->where('parent_id', $cat->id)->first();
@@ -68,18 +66,6 @@ class CatalogRouteController extends Controller
             if ( ! $categories->count()) {
                 abort(404);
             }
-
-            //$ids = ProductCategory::whereIn('category_id', $categories)->pluck('product_id');
-        }
-
-        // If only group and category...
-        if ($cat && ! $subcat) {
-            //$ids = ProductCategory::where('category_id', $cat->id)->pluck('product_id');
-        }
-
-        // If only group, category and subcategory...
-        if ($cat && $subcat) {
-            //$ids = ProductCategory::where('category_id', $subcat->id)->pluck('product_id');
         }
 
         return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'prod'));

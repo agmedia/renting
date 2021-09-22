@@ -320,8 +320,6 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        $query->active()->where('quantity', '!=', 0);
-
         if ($ids->count()) {
             $query->whereIn('id', $ids->unique());
         }
@@ -365,6 +363,8 @@ class Product extends Model
                 $query->where('year', '<=', $request->input('end'))->orWhereNull('year');
             });
         }
+
+        $query->active()->where('quantity', '!=', 0);
 
         if (\request()->has('sort')) {
             $sort = \request()->input('sort');

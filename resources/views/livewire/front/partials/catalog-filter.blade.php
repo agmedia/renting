@@ -76,12 +76,12 @@
                         <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                     </div>
                     <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false" wire:ignore>
-                        @foreach ($authors as $author)
+                        @foreach ($authors as $aid => $author)
                             <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="author.{{ $author->id }}" value="{{ $author->slug }}" id="author_{{ $author->id }}">
-                                    <label class="form-check-label widget-filter-item-text" for="author_{{ $author->id }}">{{ $author->title }}</label>
-                                </div><span class="fs-xs text-muted">{{ $author->broj }}</span>
+                                    <input class="form-check-input" type="checkbox" wire:model="author.{{ $aid }}" value="{{ \Illuminate\Support\Str::slug($author['title']) }}" id="author_{{ $aid }}">
+                                    <label class="form-check-label widget-filter-item-text" for="author_{{ $aid }}">{{ $author['title'] }}</label>
+                                </div><span class="fs-xs text-muted">{{ $author['broj'] }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -97,12 +97,12 @@
                         <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                     </div>
                     <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
-                        @foreach ($publishers as $publisher)
+                        @foreach ($publishers as $pid => $publisher)
                             <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="publisher.{{ $publisher->id }}" value="{{ $publisher->slug }}" id="publisher_{{ $publisher->id }}">
-                                    <label class="form-check-label widget-filter-item-text" for="publisher_{{ $publisher->id }}">{{ $publisher->title }}</label>
-                                </div><span class="fs-xs text-muted">{{ $publisher->broj }}</span>
+                                    <input class="form-check-input" type="checkbox" wire:model="publisher.{{ $pid }}" value="{{ \Illuminate\Support\Str::slug($publisher['title']) }}" id="publisher_{{ $pid }}">
+                                    <label class="form-check-label widget-filter-item-text" for="publisher_{{ $pid }}">{{ $publisher['title'] }}</label>
+                                </div><span class="fs-xs text-muted">{{ $publisher['broj'] }}</span>
                             </li>
                         @endforeach
                     </ul>
