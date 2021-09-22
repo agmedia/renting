@@ -130,7 +130,14 @@ class DashboardController extends Controller
 
 
                     $images   = $import->resolveImages($data2, $name, $product_id);
-                    $categories = $import->resolveCategories(explode('|', $list[$i]['AU']));
+
+                    if ($list[$i]['AU'] == '') {
+                        $list[$i]['AU'] = [];
+                    } else {
+                        $list[$i]['AU'] = explode('|', $list[$i]['AU']);
+                    }
+
+                    $categories = $import->resolveCategories($list[$i]['AU']);
 
 
                     if ($images) {
