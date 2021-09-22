@@ -17,9 +17,9 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $category = new Category();
-        $categories = $category->getList();
+        $categoriess = $category->getList();
 
-        return view('back.catalog.category.index', compact('categories'));
+        return view('back.catalog.category.index', compact('categoriess'));
     }
 
 

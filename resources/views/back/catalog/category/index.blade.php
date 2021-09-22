@@ -19,7 +19,7 @@
             <div class="content content-full">
             @include('back.layouts.partials.session')
                 <div id="accordion" role="tablist" aria-multiselectable="true">
-                    @forelse($categories as $group => $categories)
+                    @forelse($categoriess as $group => $categories)
                         <h3><small class="font-weight-light">Grupa kategorija: </small>{{ $group }}</h3>
 
                         @forelse($categories as $category)
