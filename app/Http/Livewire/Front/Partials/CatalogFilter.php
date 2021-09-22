@@ -153,6 +153,7 @@ class CatalogFilter extends Component
      */
     public function render()
     {
+        $authors = [];
         $author_counts = Product::active()
                                 ->hasStock()
                                 ->groupBy('author_id')
@@ -170,10 +171,15 @@ class CatalogFilter extends Component
         foreach ($this->authors as $key => $author) {
             if ( ! isset($author_counts[$author->id])) {
                 $this->authors->forget($key);
+                //unset($this->authors[$key]);
             } else {
                 $this->authors[$key]->broj = $author_counts[$author->id];
+                //$authors[$key]['autor'] = $author;
+                //$authors[$key]['broj'] = $author_counts[$key];
             }
         }
+
+        //dd($this->authors);
 
         foreach ($this->publishers as $key => $publisher) {
             if ( ! isset($publisher_counts[$publisher->id])) {
@@ -242,7 +248,9 @@ class CatalogFilter extends Component
     private function setAuthors()
     {
         $author_ids = Product::pluck('author_id')->unique();
-        $this->authors = Author::whereIn('id', $author_ids)->active()->select('id', 'title', 'slug', 'url')->get();
+        $this->authors = Author::whereIn('id', $author_ids)->active()/*->pluck('title', 'id')->toArray()*/->select('id', 'title', 'slug', 'url')->get();
+
+        //dd($this->authors);
     }
 
 
@@ -264,12 +272,12 @@ class CatalogFilter extends Component
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
                 $category = new Category();
-                $this->categories = $category->topList($this->group)->sortByName()->with('subcategories')->get();
+                $this->categories = $category->topList($this->group)->sortByName()->with('subcategories')->withCount('products')->get();
             }
 
 
             if ($this->category && ! $this->subcategory) {
-                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->sortByName()->with('subcategories')->first();
+                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->first();
 
                 if ($item && $item->subcategories->count()) {
                     $this->categories = $item->subcategories;

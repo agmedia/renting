@@ -20,7 +20,7 @@
                                 @if ($category->subcategories->count())
                                     <h3 class="accordion-header">
                                         <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
+                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
                                         </a>
                                     </h3>
                                 @else
@@ -28,13 +28,13 @@
                                     @if ($category->parent()->first())
                                         <h3 class="accordion-header">
                                             <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
+                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
                                             </a>
                                         </h3>
                                     @else
                                         <h3 class="accordion-header">
                                             <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->count() }}</span>
+                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
                                             </a>
                                         </h3>
                                     @endif
@@ -46,7 +46,7 @@
                 </div>
             @endif
 
-        <!-- Price range-->
+            <!-- Price range-->
             <div class="widget mb-4 pb-4 border-bottom">
                 <h3 class="widget-title">Godina izdanja</h3>
                 <div >
@@ -67,7 +67,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- Filter by Brand-->
             @if ($authors)
