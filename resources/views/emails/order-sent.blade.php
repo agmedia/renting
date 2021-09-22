@@ -20,6 +20,24 @@
                 {{ __('Način plaćanja') }}:
                 @if ($order->payment_code == 'bank')
                     <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
+
+                    <p>Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p>Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
+
+                    <p> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
+
+                    <p> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
+
+                    <p>MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($order->total, 2)}} kn<br>
+
+
+                        IBAN RAČUN: HR3123600001101595832<br>
+                        MODEL: 00 POZIV NA BROJ: {{ $order->tota }}-{{date('ym')}}</p>
+
+
+                    <p>ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
+
+                    <p><img src="{{ asset('media/img/qr/'.$data['order']['id']) }}.png" ></p>
+
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
                 @elseif ($order->payment_code == 'payway')
