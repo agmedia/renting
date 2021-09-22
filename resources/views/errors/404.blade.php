@@ -43,5 +43,5 @@
                 </div>
             </div>
         </div>
-    </div>404
+    </div>
 @endsection

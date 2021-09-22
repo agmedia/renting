@@ -92,7 +92,7 @@ class DashboardController extends Controller
                     'sku'              => $list[$i]['M'] ?: '0',
                     'description'      => '<p>' . str_replace('\n', '<br>', $list[$i]['F']) . '</p>',
                     'slug'             => Str::slug($name),
-                    'price'            => $list[$i]['S'],
+                    'price'            => $list[$i]['S'] ?: '0',
                     'quantity'         => $list[$i]['R'] ?: '0',
                     'tax_id'           => 1,
                     'special'          => $action,
