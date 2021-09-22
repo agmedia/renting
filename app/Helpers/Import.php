@@ -35,7 +35,7 @@ class Import
                     //not throwing  error when exception occurs
                 }
 
-                $str = $id . '/' . Str::slug($name) . '-' . $time . '.';
+                $str = $id . '/' . Str::limit(Str::slug($name)) . '-' . $time . '.';
 
                 $path = $str . 'jpg';
                 Storage::disk('products')->put($path, $img->encode('jpg'));
@@ -44,7 +44,7 @@ class Import
                 Storage::disk('products')->put($path_webp, $img->encode('webp'));
 
                 // Thumb creation
-                $str_thumb = $id . '/' . Str::slug($name) . '-' . $time . '-thumb.';
+                $str_thumb = $id . '/' . Str::limit(Str::slug($name)) . '-' . $time . '-thumb.';
 
                 $img = $img->resize(null, 300, function ($constraint) {
                     $constraint->aspectRatio();
