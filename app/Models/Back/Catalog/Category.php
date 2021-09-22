@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Catalog;
 
+use App\Models\Back\Catalog\Product\ProductCategory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,15 @@ class Category extends Model
     public function subcategories()
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, ProductCategory::class, 'category_id', 'id', 'id', 'product_id');
     }
 
 
@@ -92,10 +102,10 @@ class Category extends Model
 
         foreach ($groups as $group) {
             if ($full) {
-                $cats = $this->topList($group)->with('subcategories')->get();
+                $cats = $this->topList($group)->with('subcategories')->withCount('products')->get();
             } else {
                 $cats = [];
-                $fill = $this->topList($group)->with('subcategories')->get();
+                $fill = $this->topList($group)->with('subcategories')->withCount('products')->get();
 
                 foreach ($fill as $cat) {
                     $cats[$cat->id] = ['title' => $cat->title];
