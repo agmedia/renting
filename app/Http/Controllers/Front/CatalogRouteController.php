@@ -159,6 +159,7 @@ class CatalogRouteController extends Controller
 
             $ids = $ids['products'];
 
+
             return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
         }
 
@@ -262,6 +263,12 @@ class CatalogRouteController extends Controller
         }
 
         return $query;
+    }
+
+
+    private function notfound()
+    {
+        return view('front.404');
     }
 
 

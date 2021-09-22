@@ -84,7 +84,7 @@ class Import
         for ($i = 0; $i < count($data); $i++) {
             if (isset($data[$i])) {
 
-                if (strpos($data[$i], '?') == false && ! in_array($data[$i], ['Knjige', 'Zemljovidi i vedute'])) {
+                if (strpos($data[$i], '?') == false && ! in_array($data[$i], ['Knjige', 'Zemljovidi i vedute','Vedute'])) {
                     $exist = Category::where('title', $data[$i])->first();
 
                     if ( ! $exist) {

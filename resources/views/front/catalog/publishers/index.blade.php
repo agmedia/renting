@@ -21,7 +21,7 @@
 
                 @foreach ($letters as $item)
                     <a href="{{ route('catalog.route.publisher', ['publisher' => null, 'letter' => $item['value']]) }}"
-                       class="btn btn-secondary btn-icon m-2 @if( ! $item['active']) disabled @endif @if($item['value'] == $letter) bg-fourth disabled @endif">
+                       class="btn btn-secondary btn-icon cardd mb-2 @if( ! $item['active']) disabled @endif @if($item['value'] == $letter) bg-fourth disabled @endif">
                         <h3 class="h4 text-dark py-0 mb-0 px-1">{{ $item['value'] }}</h3>
                     </a>
                 @endforeach
@@ -52,14 +52,13 @@
 @endsection
 
 <style>
-    .scrolling-wrapper {
-        overflow-x: scroll;
-        overflow-y: hidden;
-        white-space: nowrap;
-        padding-bottom:15px;
-    }
-    .cardd {
-        display: inline-block;
+    @media only screen and (max-width: 1040px) {
 
+        .scrolling-wrapper {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding-bottom: 15px;
+        }
     }
 </style>

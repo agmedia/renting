@@ -8,7 +8,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <h1 class="text-light text-center">Lista autora</h1>
-                    <p class="pb-0 text-light text-center mb-0">Pretraživanje prema početnom slovu autora</p>
+                    <p class="pb-0 text-light text-center mb-0">Pretraživanje prema početnom slovu prezimena autora</p>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
                 <div class="scrolling-wrapper">
                 @foreach ($letters as $item)
                     <a href="{{ route('catalog.route.author', ['author' => null, 'letter' => $item['value']]) }}"
-                       class="btn btn-secondary btn-icon cardd  @if( ! $item['active']) disabled @endif @if($item['value'] == $letter) bg-fourth disabled @endif">
+                       class="btn btn-secondary btn-icon cardd mb-2 @if( ! $item['active']) disabled @endif @if($item['value'] == $letter) bg-fourth disabled @endif">
                         <h3 class="h4  @if($item['value'] == $letter) text-white @else text-dark @endif  py-0 mb-0 px-1">{{ $item['value'] }}</h3></a>
                 @endforeach
                 </div>
@@ -48,14 +48,18 @@
 @endsection
 
 <style>
-    .scrolling-wrapper {
-        overflow-x: scroll;
-        overflow-y: hidden;
-        white-space: nowrap;
-        padding-bottom:15px;
-    }
-    .cardd {
-        display: inline-block;
+    @media only screen and (max-width: 1040px) {
 
+        .scrolling-wrapper {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding-bottom: 15px;
+        }
+
+        .cardd {
+            display: inline-block;
+
+        }
     }
 </style>

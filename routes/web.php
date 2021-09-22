@@ -284,3 +284,8 @@ Route::get('nakladnik/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::c
 Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
 //
 Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
+
+
+Route::fallback(function () {
+    return view('front.404');
+});

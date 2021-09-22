@@ -54,7 +54,7 @@
     </div>
     <!-- Search collapse-->
     <div class="search-box collapse" id="searchBox">
-        <div class="card pt-3 pb-3 border-0 rounded-0">
+        <div class="card bg-accent pt-3 pb-3 border-0 rounded-0">
             <div class="container">
                 <form action="{{ route('pretrazi') }}" id="search-form" method="get">
                     <div class="input-group">

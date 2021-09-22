@@ -2,19 +2,19 @@
 @if ($group)
     @if ($group && ! $cat && ! $subcat)
         @section ( 'title',  \Illuminate\Support\Str::ucfirst($group). ' - Antikvarijat Biblos' )
-    @endif
-    @if ($cat && ! $subcat)
-        @section ( 'title',  $cat->title . ' - Antikvarijat Biblos' )
-        @section ( 'description', $cat->meta_description )
-    @elseif ($cat && $subcat)
-        @section ( 'title', $subcat->title . ' - Antikvarijat Biblos' )
-        @section ( 'description', $cat->meta_description )
-    @endif
+@endif
+@if ($cat && ! $subcat)
+    @section ( 'title',  $cat->title . ' - Antikvarijat Biblos' )
+@section ( 'description', $cat->meta_description )
+@elseif ($cat && $subcat)
+    @section ( 'title', $subcat->title . ' - Antikvarijat Biblos' )
+@section ( 'description', $cat->meta_description )
+@endif
 @endif
 
 @if (isset($author) && $author)
     @section ( 'title',  $author->title . ' - Antikvarijat Biblos' )
-    @section ( 'description', $author->meta_description )
+@section ( 'description', $author->meta_description )
 @endif
 
 
@@ -52,7 +52,18 @@
                     @elseif ($cat && $subcat)
                         <h1 class="h3 text-light mb-0">{{ $subcat->title }}</h1>
                     @endif
+
                 </div>
+            @endif
+                @php
+                 $name = Route::currentRouteName()
+                @endphp
+
+
+            @if ($name == 'pretrazi')
+                    <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+                         <h1 class="h3 text-light mb-0">{{ 'Rezultati za:' }}  {{ $searchterm = request()->input('pojam') }}</h1>
+                    </div>
             @endif
 
             @if (isset($author) && $author)
@@ -91,9 +102,9 @@
                 @livewire('front.partials.author-filter', ['ids' => $ids, 'selected_publisher' => $publisher, 'category' => $cat, 'subcategory' => $subcat])
             @else
                 @livewire('front.partials.catalog-filter', ['ids' => $ids, 'group' => $group, 'category' => $cat, 'subcategory' => $subcat])
-            @endif
+        @endif
 
-            <!-- PRODUCTS  -->
+        <!-- PRODUCTS  -->
             @livewire('front.product-category-list', ['ids' => $ids, 'group' => $group, 'cat' => $cat, 'subcat' => $subcat])
 
         </div>
