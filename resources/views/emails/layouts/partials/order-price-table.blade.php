@@ -67,6 +67,7 @@
     @elseif ($total->code == 'shipping'){
         <span class="fw-normal">{{ $total->value - ($total->value / 1.25 ) }}</span> PDV dostava
         }
+    @endif
     @endforeach
 </p>
 

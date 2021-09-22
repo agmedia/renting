@@ -97,7 +97,7 @@
                     <div class="input-group input-group-sm mb-2">
                         <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                     </div>
-                    <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
+                 <!--   <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
                         @foreach ($publishers as $pid => $publisher)
                             <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
                                 <div class="form-check ">
@@ -106,7 +106,7 @@
                                 </div><span class="fs-xs text-muted">{{ $publisher['broj'] }}</span>
                             </li>
                         @endforeach
-                    </ul>
+                    </ul>-->
                 </div>
             @endif
 
