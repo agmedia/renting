@@ -28,9 +28,14 @@
                                     <a class="h3 block-title" data-toggle="collapse" data-parent="#accordion" href="#accordion_q{{ $category->id }}" aria-expanded="@if($loop->first) true @else false @endif" aria-controls="accordion_q{{ $category->id }}">{{ $category->title }}</a>
                                     <div class="block-options">
                                         <div class="btn-group">
-                                            <a href="{{ route('category.edit', ['category' => $category]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi"> {{ $category->products()->count() }}
+                                            <a  class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi"> {{ $category->products_count }}
+                                            </a>
+
+                                            <a href="{{ route('category.edit', ['category' => $category]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
                                                 <i class="fa fa-pencil-alt"></i>
                                             </a>
+
+
                                         </div>
                                     </div>
                                 </div>
