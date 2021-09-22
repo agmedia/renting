@@ -59,6 +59,10 @@ class CatalogRouteController extends Controller
 
         // If only group...
         if ($group && ! $cat && ! $subcat) {
+            if ($group == 'zemljovidi-i-vedute') {
+                $group = 'Zemljovidi i vedute';
+            }
+
             $categories = Category::where('group', $group)->pluck('id');
 
             if ( ! $categories->count()) {
