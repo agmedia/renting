@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Catalog;
 
+use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
