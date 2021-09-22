@@ -3,41 +3,45 @@
 @section ( 'title', '404 Error')
 
 @section('content')
-    <section id="page-title">
-        <div class="container clearfix">
-            <h1>Stranica nije pronađena</h1>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('index') }}">Naslovna</a></li>
-                <li class="breadcrumb-item active" aria-current="page">404</li>
-            </ol>
+    <div class="container py-5 mb-lg-3">
+        <div class="row justify-content-center pt-lg-4 text-center">
+            <div class="col-lg-5 col-md-7 col-sm-9">
+                <h1 class="display-404 py-lg-3">404</h1>
+                <h2 class="h3 mb-4">We can't seem to find the page you are looking for.</h2>
+                <p class="fs-md mb-4">
+                    <u>Here are some helpful links instead:</u>
+                </p>
+            </div>
         </div>
-    </section>
-
-    <section id="content" style="margin-bottom: 0px;">
-        <div class="content-wrap">
-            <div class="container clearfix">
-                <div class="col_half nobottommargin">
-                    <div class="error404 center">404</div>
-                </div>
-                <div class="col_half nobottommargin col_last">
-                    <div class="heading-block nobottomborder">
-                        <h4>Ooopps! Stranica koju ste tražili nije pronađena.</h4>
-                        <span>Probajte pretražiti viličare ili kliknite ne linkove ispod.</span>
-                    </div>
-                    <form action="{{ route('pretrazi') }}" method="get" class="nobottommargin">
-                        <div class="input-group ">
-                            <input type="text" class="form-control" name="q" placeholder="Pretraži stranice">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="submit">Pretraži</button>
-                            </div>
-                        </div>
-                    </form>
-                    <div class="row col-12 topmargin nobottommargin">
-                        <a href="{{ route('index') }}" class="btn btn-outline-dark">Idi na početnu</a>
-                        <a href="{{ url()->previous() }}" class="btn btn-outline-dark leftmargin-sm">Idi nazad</a>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-10">
+                <div class="row">
+                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="index.html">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center"><i class="ci-home text-primary h4 mb-0"></i>
+                                    <div class="ps-3">
+                                        <h5 class="fs-sm mb-0">Homepage</h5><span class="text-muted fs-ms">Return to homepage</span>
+                                    </div>
+                                </div>
+                            </div></a></div>
+                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="#">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center"><i class="ci-search text-success h4 mb-0"></i>
+                                    <div class="ps-3">
+                                        <h5 class="fs-sm mb-0">Search</h5><span class="text-muted fs-ms">Find with advanced search</span>
+                                    </div>
+                                </div>
+                            </div></a></div>
+                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="help-topics.html">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center"><i class="ci-help text-info h4 mb-0"></i>
+                                    <div class="ps-3">
+                                        <h5 class="fs-sm mb-0">Help &amp; Support</h5><span class="text-muted fs-ms">Visit our help center</span>
+                                    </div>
+                                </div>
+                            </div></a></div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>404
 @endsection
