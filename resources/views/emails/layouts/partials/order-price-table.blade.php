@@ -59,7 +59,7 @@
     @endforeach
 </table>
 
-<p class="small fw-light text-center mt-4 mb-0">
+<p class="small fw-light text-center mt-4 mb-0"> PDV uključen u cijenu. Os toga
     @foreach ($order->totals as $total)
         @if($total->code == 'subtotal')
         <span class="fw-normal">{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }} kn</span> PDV knjige i
