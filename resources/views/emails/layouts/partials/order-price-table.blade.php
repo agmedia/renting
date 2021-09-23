@@ -59,13 +59,13 @@
     @endforeach
 </table>
 
-<p class="small fw-light text-center mt-4 mb-0" style="text-align: right;font-size: 12px;"> PDV uključen u cijenu. Od toga
+<p class="small fw-light text-center mt-4 mb-0" style="text-align: right;font-size: 10px;"> PDV uključen u cijenu. Od toga
     @foreach ($order->totals as $total)
         @if($total->code == 'subtotal')
-        <strong>{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }}</strong>  knPDV knjige i
+        <strong>{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }}</strong>  kn PDV knjige i
 
     @elseif ($total->code == 'shipping')
-        <strong>{{number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn< PDV dostava
+        <strong>{{number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn PDV dostava
 
     @endif
     @endforeach
