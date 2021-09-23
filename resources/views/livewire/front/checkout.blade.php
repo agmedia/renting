@@ -86,7 +86,7 @@
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-ln">Prezime <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.lname') is-invalid @enderror" type="text" wire:model.deferl"address.lname">
+                    <input class="form-control @error('address.lname') is-invalid @enderror" type="text" wire:model.deferl="address.lname">
                     @error('address.lname') <div id="val-username-error" class="invalid-feedback animated fadeIn">Prezime je obvezno</div> @enderror
                 </div>
             </div>
