@@ -89,6 +89,15 @@ class CheckoutSession
         return session([static::$session_string . '.shipping' => $value]);
     }
 
+
+    /**
+     * @return bool
+     */
+    public static function forgetShipping()
+    {
+        return session()->forget(static::$session_string . '.shipping');
+    }
+
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *
@@ -122,6 +131,15 @@ class CheckoutSession
     public static function setPayment($value)
     {
         return session([static::$session_string . '.payment' => $value]);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function forgetPayment()
+    {
+        return session()->forget(static::$session_string . '.payment');
     }
 
     /*******************************************************************************

@@ -133,6 +133,8 @@ class CheckoutController extends Controller
 
         CheckoutSession::forgetOrder();
         CheckoutSession::forgetStep();
+        CheckoutSession::forgetPayment();
+        CheckoutSession::forgetShipping();
         $this->shoppingCart()->flush();
 
         return view('front.checkout.success', compact('data'));
