@@ -35,7 +35,7 @@
             <div class="alert-icon">
                 <i class="ci-user"></i>
             </div>
-            <div>Ukoliko ste već registrirani prijavite se <a href="{{ route('login') }}" class="alert-link">ovdje!</a></div>
+            <div><a href="{{ route('login') }}" class="alert-link">Prijava </a> za registrirane korisnike!</div>
         </div>
 
 <!--        <div id="collapseLogin" aria-expanded="false" class="collapse">
