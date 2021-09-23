@@ -186,9 +186,13 @@ class User extends Authenticatable
             ]);
         }
 
-        dd($this->request);
+
 
         if ($this->id) {
+            if (!isset($this->request->role)){
+                $this->request->role = $this->request->role;
+            }
+
             if (Role::checkIfChanged($this->id, $this->request->role)) {
                 Role::change($this->id, $this->request->role);
             }
