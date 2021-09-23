@@ -29,6 +29,8 @@ class Checkout extends Component
         'address' => '',
         'city' => '',
         'zip' => '',
+        'company' => '',
+        'oib' => '',
         'state' => '',
     ];
 
@@ -203,6 +205,8 @@ class Checkout extends Component
                     'phone' => $value['phone'],
                     'address' => $value['address'],
                     'city' => $value['city'],
+                    'company' => $value['company'],
+                    'oib' => $value['oib'],
                     'zip' => $value['zip'],
                     'state' => $value['state'],
                 ];
@@ -216,6 +220,8 @@ class Checkout extends Component
                     'phone' => auth()->user()->details->phone,
                     'address' => auth()->user()->details->address,
                     'city' => auth()->user()->details->city,
+                    'company' => auth()->user()->details->companyy,
+                    'oib' => auth()->user()->details->oib,
                     'zip' => auth()->user()->details->zip,
                     'state' => auth()->user()->details->state
                 ];
