@@ -74,12 +74,7 @@
                         </div>
                     </div>-->
         @endif
-        <div style="overflow: hidden">
-            <label class="form-label" for="email">Email<span class="text-danger">*</span></label>
-            <input class="form-control" type="email" name="email" value="">
-            <label class="form-label" for="phone">Phone<span class="text-danger">*</span></label>
-            <input class="form-control " type="text" name="phone" value="">
-        </div>
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
