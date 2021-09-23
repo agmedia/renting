@@ -286,7 +286,7 @@ class CatalogFilter extends Component
                             ];
                         }
 
-                        $this->categories = $response;
+                        return $response;
                     }
                 });
             }
