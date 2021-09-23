@@ -103,14 +103,14 @@
                         <div class="col-sm-6">
                             <div class="mb-3">
                                 <label class="form-label" for="checkout-company">Tvrtka</label>
-                                <input class="form-control" type="text" name="company" value="{{ $user->details->company }}>
+                                <input class="form-control" type="text" name="company" value="{{ $user->details->company }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="mb-3">
                                 <div class="mb-3">
                                     <label class="form-label" for="checkout-oib">OIB</label>
-                                    <input class="form-control" type="text" name="oib" value="{{ $user->details->oib }}>
+                                    <input class="form-control" type="text" name="oib" value="{{ $user->details->oib }}">
                                 </div>
                             </div>
                         </div>
