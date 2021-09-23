@@ -74,7 +74,11 @@
             </div>
         </div>-->
         @endif
+        <div class="d-none">
+        <input class="form-control" type="email" name="email" value="">
 
+        <input class="form-control " type="text" name="phone" value="">
+        </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
