@@ -190,7 +190,7 @@ class User extends Authenticatable
 
         if ($this->id) {
             if (!isset($this->request->role)){
-                $this->request->role = $this->request->role;
+                $this->request->role = 'customer';
             }
 
             if (Role::checkIfChanged($this->id, $this->request->role)) {
