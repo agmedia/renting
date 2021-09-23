@@ -126,6 +126,18 @@ class ProductCategoryList extends Component
 
         $request_data = [];
 
+        if ($this->group) {
+            $request_data['group'] = $this->group;
+        }
+
+        if ($this->cat) {
+            $request_data['cat'] = $this->cat;
+        }
+
+        if ($this->subcat) {
+            $request_data['subcat'] = $this->subcat;
+        }
+
         if ($this->authors) {
             $request_data['autor'] = $this->authors;
         }

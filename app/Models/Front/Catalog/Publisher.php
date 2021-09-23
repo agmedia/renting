@@ -46,7 +46,7 @@ class Publisher extends Model
      */
     public function products()
     {
-        return $this->hasMany(Product::class, 'publisher_id', 'id')->active();
+        return $this->hasMany(Product::class, 'publisher_id', 'id')->active()->hasStock();
     }
 
 

@@ -69,49 +69,6 @@ class Product extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    /*public function action()
-    {
-        $actions = ProductAction::active()->get();
-
-        foreach ($actions as $action) {
-            $ids = json_decode($action->links, true);
-
-            if ($action->group == 'product') {
-                if (in_array($this->id, $ids)) {
-                    return $action;
-                }
-            }
-            if ($action->group == 'category') {
-                if (isset($this->category()->id)) {
-                    if (in_array($this->category()->id, $ids)) {
-                        return $action;
-                    }
-                }
-                if (isset($this->subcategory()->id)) {
-                    if (in_array($this->subcategory()->id, $ids)) {
-                        return $action;
-                    }
-                }
-            }
-            if ($action->group == 'author') {
-                if (in_array($this->author_id, $ids)) {
-                    return $action;
-                }
-            }
-            if ($action->group == 'publisher') {
-                if (in_array($this->publisher_id, $ids)) {
-                    return $action;
-                }
-            }
-        }
-
-        return false;
-    }*/
-
-
-    /**
      * @return false|float|int|mixed
      */
     public function special()
@@ -322,6 +279,32 @@ class Product extends Model
 
         if ($ids->count()) {
             $query->whereIn('id', $ids->unique());
+        }
+
+        if ($request->has('group')) {
+            // Akcije
+            if ($request->input('group') == 'snizenja') {
+                $query->where('special', '!=', '')
+                      ->whereDate('special_from', '<=', now())
+                      ->whereDate('special_to', '>=', now());
+            } else {
+                // Kategorija...
+                $query->whereHas('categories', function ($query) use ($request) {
+                    $query->where('group', 'like', '%' . $request->input('group') . '%');
+                });
+            }
+        }
+
+        if ($request->has('cat')) {
+            $query->whereHas('categories', function ($query) use ($request) {
+                $query->where('category_id', $request->input('cat')['id']);
+            });
+        }
+
+        if ($request->has('subcat')) {
+            $query->whereHas('categories', function ($query) use ($request) {
+                $query->where('category_id', $request->input('subcat')['id']);
+            });
         }
 
         if ($request->has('autor')) {

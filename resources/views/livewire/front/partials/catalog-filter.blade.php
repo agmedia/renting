@@ -7,7 +7,7 @@
         </div>
         <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
             <!-- Categories-->
-            @if ($categories)
+            @if ( ! empty($categories))
                 <div class="widget widget-categories mb-4 pb-4 border-bottom">
                     @if (! $subcategory)
                         <h3 class="widget-title">Kategorije</h3>
@@ -16,31 +16,37 @@
                     @endif
                     <div class="accordion mt-n1" id="shop-categories">
                         @foreach ($categories as $category)
-                            <div class="accordion-item @if( ! $loop->last) border-bottom @endif">
-                                @if ($category->subcategories->count())
-                                    <h3 class="accordion-header">
-                                        <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
-                                        </a>
-                                    </h3>
-                                @else
+                            <h3 class="accordion-header">
+                                <a href="{{ $category['url'] }}" class="accordion-button py-2 none collapsed" role="link">
+                                    {{ $category['title'] }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category['count'] }}</span>
+                                </a>
+                            </h3>
 
-                                    @if ($category->parent()->first())
-                                        <h3 class="accordion-header">
-                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
-                                            </a>
-                                        </h3>
-                                    @else
-                                        <h3 class="accordion-header">
-                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>
-                                            </a>
-                                        </h3>
-                                    @endif
+{{--                            <div class="accordion-item @if( ! $loop->last) border-bottom @endif">--}}
+{{--                                @if ($category->subcategories->count())--}}
+{{--                                    <h3 class="accordion-header">--}}
+{{--                                        <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
+{{--                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
+{{--                                        </a>--}}
+{{--                                    </h3>--}}
+{{--                                @else--}}
 
-                                @endif
-                            </div>
+{{--                                    @if ($category->parent)--}}
+{{--                                        <h3 class="accordion-header">--}}
+{{--                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent, 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
+{{--                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </h3>--}}
+{{--                                    @else--}}
+{{--                                        <h3 class="accordion-header">--}}
+{{--                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
+{{--                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
+{{--                                            </a>--}}
+{{--                                        </h3>--}}
+{{--                                    @endif--}}
+
+{{--                                @endif--}}
+{{--                            </div>--}}
                         @endforeach
                     </div>
                 </div>
@@ -69,63 +75,43 @@
             </div>
 
             <!-- Filter by Brand-->
-            @if ($authors)
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
-                    <h3 class="widget-title">Autor</h3>
-                    <div class="input-group input-group-sm mb-2 autocomplete">
-                        <input id="myInput" class=" form-control rounded-end pe-5" type="text"   placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-
+            <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <h3 class="widget-title">Autor</h3>
+                <div class="input-group input-group-sm mb-2 autocomplete">
+                    <input type="search" wire:model.debounce.300ms="searcha" class=" form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                    @if ( ! empty($authors))
                         <div id="myInputautocomplete-list" class="autocomplete-items">
-                            <div>
-                                <strong>Dos</strong>tojevski<input type="hidden" value="Albania">
-                            </div>
+                            @forelse($authors as $author)
+                                <div wire:click="resolveRoute('{{ url($author->url) }}')">
+                                    {{ $author->title }}<span class="fs-xs text-muted float-right">{{ $author->products_count }}</span>
+                                </div>
+                            @empty
+                                <div>Nema autora prema upitu</div>
+                            @endforelse
                         </div>
-                    </div>
-
-
-
-
-                 <!--   <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false" wire:ignore>
-                        @foreach ($authors as $aid => $author)
-                            <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="author.{{ $aid }}" value="{{ \Illuminate\Support\Str::slug($author['title']) }}" id="author_{{ $aid }}">
-                                    <label class="form-check-label widget-filter-item-text" for="author_{{ $aid }}">{{ $author['title'] }}</label>
-                                </div><span class="fs-xs text-muted">{{ $author['broj'] }}</span>
-                            </li>
-                        @endforeach
-                    </ul> -->
+                    @endif
                 </div>
-            @endif
+            </div>
 
 
             <!-- Filter by NAkladnik-->
-            @if ($publishers)
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
-                    <h3 class="widget-title">Nakladnici</h3>
-                    <div class="input-group input-group-sm mb-2 autocomplete">
-                        <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-
+            <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <h3 class="widget-title">Nakladnici</h3>
+                <div class="input-group input-group-sm mb-2 autocomplete">
+                    <input type="search" wire:model.debounce.300ms="searchp" class=" form-control rounded-end pe-5" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                    @if ( ! empty($publishers))
                         <div id="myInputautocomplete-list" class="autocomplete-items">
-                            <div>
-                                <strong>Lje</strong>vak<input type="hidden" value="Albania">
-                            </div>
+                            @forelse($publishers as $publisher)
+                                <div wire:click="resolveRoute('{{ url($publisher->url) }}')">
+                                    {{ $publisher->title }}<span class="fs-xs text-muted float-right">{{ $publisher->products_count }}</span>
+                                </div>
+                            @empty
+                                <div>Nema nakladnika prema upitu</div>
+                            @endforelse
                         </div>
-
-
-                    </div>
-                 <!--   <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
-                        @foreach ($publishers as $pid => $publisher)
-                            <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" wire:model="publisher.{{ $pid }}" value="{{ \Illuminate\Support\Str::slug($publisher['title']) }}" id="publisher_{{ $pid }}">
-                                    <label class="form-check-label widget-filter-item-text" for="publisher_{{ $pid }}">{{ $publisher['title'] }}</label>
-                                </div><span class="fs-xs text-muted">{{ $publisher['broj'] }}</span>
-                            </li>
-                        @endforeach
-                    </ul>-->
+                    @endif
                 </div>
-            @endif
+            </div>
 
             <button type="button" onclick="cleanURL();" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
 

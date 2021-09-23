@@ -61,7 +61,7 @@ class CatalogRouteController extends Controller
                 $group = 'Zemljovidi i vedute';
             }
 
-            $categories = Category::where('group', $group)->pluck('id');
+            $categories = Category::where('group', $group)->first('id');
 
             if ( ! $categories->count()) {
                 abort(404);
@@ -175,18 +175,10 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function actions(Request $request)
+    public function actions(Request $request, Category $cat = null, $subcat = null)
     {
         $ids = collect();
-        $temps = Product::all();
-
-        foreach ($temps as $product) {
-            if ($product->special()) {
-                $ids->push($product->id);
-            }
-        }
-
-        $group = null; $cat = null; $subcat = null;
+        $group = 'snizenja';
 
         return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
     }

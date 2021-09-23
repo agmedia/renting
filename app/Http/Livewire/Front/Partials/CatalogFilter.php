@@ -7,8 +7,10 @@ use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 /**
@@ -36,7 +38,7 @@ class CatalogFilter extends Component
     /**
      * @var null
      */
-    public $categories = null;
+    public $categories = [];
 
     /**
      * @var
@@ -46,7 +48,7 @@ class CatalogFilter extends Component
     /**
      * @var
      */
-    public $authors;
+    public $authors = [];
 
     /**
      * @var
@@ -61,7 +63,7 @@ class CatalogFilter extends Component
     /**
      * @var
      */
-    public $publishers;
+    public $publishers = [];
 
     /**
      * @var
@@ -89,11 +91,20 @@ class CatalogFilter extends Component
     public $end;
 
     /**
+     * @var
+     */
+    public $searcha;
+    /**
+     * @var
+     */
+    public $searchp;
+
+    /**
      * @var \string[][]
      */
     protected $queryString = [
-        'autor' => ['except' => ''],
-        'nakladnik' => ['except' => ''],
+        /*'autor' => ['except' => ''],
+        'nakladnik' => ['except' => ''],*/
         'start' => ['except' => ''],
         'end' => ['except' => '']
     ];
@@ -106,27 +117,45 @@ class CatalogFilter extends Component
     {
         $this->getBaseIDs();
         $this->mountQuery();
-        $this->setProducts($this->ids);
-        $this->setAuthors();
-        $this->setPublishers();
     }
 
 
-    /**
-     *
-     */
-    public function updatedAuthor()
+    /*public function updatedAuthor()
     {
         $this->resolveQuery();
     }
-
-
-    /**
-     *
-     */
     public function updatedPublisher()
     {
         $this->resolveQuery();
+    }*/
+
+    /**
+     * @param $value
+     */
+    public function updatingSearcha($value)
+    {
+        $this->searcha = $value;
+        $this->authors = [];
+
+        if ($this->searcha != '') {
+            $this->authors = Author::where('title', 'LIKE', '%' . $this->searcha . '%')->select('id', 'title', 'url')->withCount('products')->limit(5)->get();
+        }
+
+    }
+
+
+    /**
+     * @param $value
+     */
+    public function updatingSearchp($value)
+    {
+        $this->searchp    = $value;
+        $this->publishers = [];
+
+        if ($this->searchp != '') {
+            $this->publishers = Publisher::where('title', 'LIKE', '%' . $this->searchp . '%')->select('id', 'title', 'url')->withCount('products')->limit(5)->get();
+        }
+
     }
 
 
@@ -153,42 +182,6 @@ class CatalogFilter extends Component
      */
     public function render()
     {
-        $authors = [];
-        /*$author_counts = Product::active()
-                                ->hasStock()
-                                ->groupBy('author_id')
-                                ->select('author_id', DB::raw('count(*) as total'))
-                                ->pluck('total','author_id')
-                                ->all();*/
-
-        /*$publisher_counts = Product::active()
-                                   ->hasStock()
-                                   ->groupBy('publisher_id')
-                                   ->select('publisher_id', DB::raw('count(*) as total'))
-                                   ->pluck('total','publisher_id')
-                                   ->all();*/
-
-        /*foreach ($this->authors as $key => $author) {
-            if ( ! isset($author_counts[$author->id])) {
-                $this->authors->forget($key);
-                //unset($this->authors[$key]);
-            } else {
-                $this->authors[$key]->broj = $author_counts[$author->id];
-                //$authors[$key]['autor'] = $author;
-                //$authors[$key]['broj'] = $author_counts[$key];
-            }
-        }*/
-
-        //dd($this->authors);
-
-        /*foreach ($this->publishers as $key => $publisher) {
-            if ( ! isset($publisher_counts[$publisher->id])) {
-                $this->publishers->forget($key);
-            } else {
-                $this->publishers[$key]->broj = $publisher_counts[$publisher->id];
-            }
-        }*/
-
         $this->emit('idChanged', [
             'ids' => $this->ids,
             'author' => $this->author,
@@ -198,6 +191,17 @@ class CatalogFilter extends Component
         ]);
 
         return view('livewire.front.partials.catalog-filter');
+    }
+
+
+    /**
+     * @param string $target
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function resolveRoute(string $target)
+    {
+        return redirect($target);
     }
 
 
@@ -234,91 +238,42 @@ class CatalogFilter extends Component
 
 
     /**
-     * @param $ids
-     */
-    private function setProducts($ids)
-    {
-        //$this->products = Product::whereIn('id', $ids)->get();
-    }
-
-
-    /**
-     * @param $ids
-     */
-    private function setAuthors()
-    {
-        //$this->authors = Author::active()->select('id', 'title', 'slug')->get()->toArray();
-        $authors = Author::active()->pluck('title', 'id')->toArray();
-
-        $author_counts = Product::active()
-                                ->hasStock()
-                                ->groupBy('author_id')
-                                ->select('author_id', DB::raw('count(*) as total'))
-                                ->pluck('total','author_id')
-                                ->all();
-
-        $this->authors = [];
-
-        foreach ($authors as $key => $author) {
-            if ( ! isset($author_counts[$key])) {
-                //$this->authors->forget($key);
-                unset($authors[$key]);
-            } else {
-                //$this->authors[$key]->broj = $author_counts[$author->id];
-                $this->authors[$key]['title'] = $author;
-                $this->authors[$key]['broj'] = $author_counts[$key];
-            }
-        }
-    }
-
-
-    /**
-     * @param $ids
-     */
-    private function setPublishers()
-    {
-        //$this->publishers = Publisher::active()->select('id', 'title', 'slug')->get();
-        $publishers = Publisher::active()->pluck('title', 'id')->toArray();
-
-        $publisher_counts = Product::active()
-                                   ->hasStock()
-                                   ->groupBy('publisher_id')
-                                   ->select('publisher_id', DB::raw('count(*) as total'))
-                                   ->pluck('total','publisher_id')
-                                   ->all();
-
-        $this->publishers = [];
-
-        foreach ($publishers as $key => $publisher) {
-            if ( ! isset($publisher_counts[$key])) {
-                //$this->publishers->forget($key);
-                unset($publishers[$key]);
-            } else {
-                //$this->publishers[$key]->broj = $publisher_counts[$publisher->id];
-                $this->publishers[$key]['title'] = $publisher;
-                $this->publishers[$key]['broj'] = $publisher_counts[$key];
-            }
-        }
-    }
-
-
-    /**
      * @return \Illuminate\Support\Collection
      */
     private function getBaseIDs()
     {
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
-                $category = new Category();
-                $this->categories = $category->topList($this->group)->sortByName()->with('subcategories')->withCount('products')->get();
+                $response = [];
+                $categories = Category::where('group', $this->group)->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+
+                foreach ($categories as $category) {
+                    $response[$category['id']] = [
+                        'title' => $category['title'],
+                        'count' => $category['products_count'],
+                        'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
+                    ];
+                }
+
+                $this->categories = $response;
             }
 
-
+            //
             if ($this->category && ! $this->subcategory) {
-                $item = $this->category->where('group', $this->group)->where('id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->first();
+                $item = Category::where('parent_id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
 
-                if ($item && $item->subcategories->count()) {
-                    $this->categories = $item->subcategories;
+                if ($item) {
+                    $response = [];
+
+                    foreach ($item as $category) {
+                        $response[$category['id']] = [
+                            'title' => $category['title'],
+                            'count' => $category['products_count'],
+                            'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $this->category['slug'], 'subcat' => $category['slug']])
+                        ];
+                    }
+
+                    $this->categories = $response;
                 }
             }
         }
