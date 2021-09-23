@@ -117,8 +117,6 @@ class User extends Authenticatable
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'zip' => ['required', 'string', 'max:255'],
-            'company' => ['required', 'string', 'max:255'],
-            'oib' => ['required', 'string', 'max:255'],
             'state' => ['required', 'string', 'max:255']
         ]);
 
