@@ -200,7 +200,7 @@
         .ag-mail-tableset {
             padding: 20px;
             font-family: sans-serif;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 20px;
             color: #555555;
         }
@@ -217,7 +217,7 @@
             background-color: #152c18;
             border-radius: 3px;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 25px;
             text-align: center;
             text-decoration: none;
