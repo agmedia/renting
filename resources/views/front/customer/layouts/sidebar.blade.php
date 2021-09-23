@@ -21,7 +21,7 @@
 
                 <li class="border-bottom mb-0">
                     <a class="nav-link-style d-flex align-items-center px-4 py-3 {{ request()->routeIs('moje-narudzbe') ? 'active' : '' }}" href="{{ route('moje-narudzbe') }}">
-                        <i class="ci-bag opacity-60 me-2"></i>Narudžbe<span class="fs-sm text-muted ms-auto">1</span>
+                        <i class="ci-bag opacity-60 me-2"></i>Narudžbe
                     </a>
                 </li>
 

@@ -78,14 +78,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-fn">Ime</label>
+                    <label class="form-label" for="checkout-fn">Ime <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.fname') is-invalid @enderror" type="text" wire:model="address.fname">
                     @error('address.fname') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-ln">Prezime</label>
+                    <label class="form-label" for="checkout-ln">Prezime <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.lname') is-invalid @enderror" type="text" wire:model="address.lname">
                     @error('address.lname') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
@@ -94,7 +94,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-email">E-mail Adresa</label>
+                    <label class="form-label" for="checkout-email">E-mail Adresa <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.email') is-invalid @enderror" type="email" wire:model="address.email">
                     @error('address.email') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
@@ -109,14 +109,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-address">Adresa</label>
+                    <label class="form-label" for="checkout-address">Adresa <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.address') is-invalid @enderror" type="text" wire:model="address.address">
                     @error('address.address') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-city">Grad</label>
+                    <label class="form-label" for="checkout-city">Grad <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.city') is-invalid @enderror" type="text" wire:model="address.city">
                     @error('address.city') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
@@ -125,14 +125,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-zip">Poštanski broj</label>
+                    <label class="form-label" for="checkout-zip">Poštanski broj <span class="text-danger">*</span></label>
                     <input class="form-control @error('address.zip') is-invalid @enderror" type="text" wire:model="address.zip">
                     @error('address.zip') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3" wire:ignore>
-                    <label class="form-label" for="checkout-country">Država</label>
+                    <label class="form-label" for="checkout-country">Država <span class="text-danger">*</span></label>
                     <select class="form-select g @error('address.state') is-invalid @enderror" id="checkout-country" wire:model="address.state">
                         <option value=""></option>
                         @foreach ($countries as $country)
@@ -140,6 +140,37 @@
                         @endforeach
                     </select>
                     @error('address.state') <div id="val-username-error" class="invalid-feedback animated fadeIn">Država je obvezna</div> @enderror
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-check">
+            <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" >
+            <label class="form-check-label" for="napraviracun" >Trebam <strong>R1 račun</strong></label>
+
+        </div>
+
+        <div id="collapseExample" aria-expanded="false" class="collapse">
+            <div class="card mb-3 mt-3">
+                <div class="card-body">
+                    <div class="row mt-3">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <label class="form-label" for="checkout-company">Tvrtka</label>
+                                <input class="form-control" type="text" wire:model="address.company">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="checkout-oib">OIB</label>
+                                    <input class="form-control" type="text" wire:model="address.oib">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -291,4 +322,10 @@
             console.log(Vuex)
         });
     </script>
+    <script>
+    $( document ).ready(function() {
+    $('input').attr('autocomplete','off');
+    });
+    </script>
+
 @endpush
