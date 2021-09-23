@@ -220,7 +220,7 @@ class Checkout extends Component
                     'phone' => auth()->user()->details->phone,
                     'address' => auth()->user()->details->address,
                     'city' => auth()->user()->details->city,
-                    'company' => auth()->user()->details->companyy,
+                    'company' => auth()->user()->details->company,
                     'oib' => auth()->user()->details->oib,
                     'zip' => auth()->user()->details->zip,
                     'state' => auth()->user()->details->state
