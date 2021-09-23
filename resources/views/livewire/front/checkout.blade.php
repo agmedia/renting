@@ -146,15 +146,8 @@
 
 
 
-        <div class="form-check">
-            <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" >
-            <label class="form-check-label" for="napraviracun" >Trebam <strong>R1 račun</strong></label>
+        <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Trebate R1 račun?</h2>
 
-        </div>
-
-        <div id="collapseExample" aria-expanded="false" class="collapse">
-            <div class="card mb-3 mt-3">
-                <div class="card-body">
                     <div class="row mt-3">
                         <div class="col-sm-6">
                             <div class="mb-3">
@@ -171,9 +164,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+
+
 
         @if (auth()->guest())
 <!--            <h6 class="mb-3 py-3 border-bottom">Registracija</h6>

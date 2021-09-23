@@ -186,6 +186,8 @@ class User extends Authenticatable
             ]);
         }
 
+        dd($this->request);
+
         if ($this->id) {
             if (Role::checkIfChanged($this->id, $this->request->role)) {
                 Role::change($this->id, $this->request->role);
@@ -200,8 +202,8 @@ class User extends Authenticatable
                 'city'       => $this->request->city,
                 'state'      => $this->request->state,
                 'phone'      => $this->request->phone,
-                'company'      => $this->request->company,
-                'oib'      => $this->request->oib,
+                'company'    => $this->request->company,
+                'oib'        => $this->request->oib,
                 'avatar'     => 'media/avatars/avatar1.jpg',
                 'bio'        => '',
                 'social'     => '',
