@@ -21,42 +21,15 @@
                                     {{ $category['title'] }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category['count'] }}</span>
                                 </a>
                             </h3>
-
-{{--                            <div class="accordion-item @if( ! $loop->last) border-bottom @endif">--}}
-{{--                                @if ($category->subcategories->count())--}}
-{{--                                    <h3 class="accordion-header">--}}
-{{--                                        <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
-{{--                                            {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
-{{--                                        </a>--}}
-{{--                                    </h3>--}}
-{{--                                @else--}}
-
-{{--                                    @if ($category->parent)--}}
-{{--                                        <h3 class="accordion-header">--}}
-{{--                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category->parent, 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
-{{--                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </h3>--}}
-{{--                                    @else--}}
-{{--                                        <h3 class="accordion-header">--}}
-{{--                                            <a href="{{ route('catalog.route', ['group' => \Illuminate\Support\Str::lower($category->group), 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">--}}
-{{--                                                {{ $category->title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products_count }}</span>--}}
-{{--                                            </a>--}}
-{{--                                        </h3>--}}
-{{--                                    @endif--}}
-
-{{--                                @endif--}}
-{{--                            </div>--}}
                         @endforeach
                     </div>
                 </div>
             @endif
 
-            <!-- Price range-->
+            <!-- Date range-->
             <div class="widget mb-4 pb-4 border-bottom">
                 <h3 class="widget-title">Godina izdanja</h3>
                 <div >
-<!--                    <div class="range-slider-ui"></div>-->
                     <div class="d-flex pb-1">
                         <div class="w-50 pe-2 me-2">
                             <div class="input-group input-group-sm">

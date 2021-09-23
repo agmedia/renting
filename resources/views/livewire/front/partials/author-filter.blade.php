@@ -12,60 +12,20 @@
                     <h3 class="widget-title">Kategorije</h3>
                     <div class="accordion mt-n1" id="shop-categories">
                         @foreach ($categories as $category)
-                            <div class="accordion-item @if( ! $loop->last) border-bottom @endif">
-                                @if (isset($category->subcategories) && $category->subcategories->count())
-                                    <h3 class="accordion-header">
-                                        @if ($selected_author)
-                                            <a href="{{ route('catalog.route.author', ['author' => $selected_author, 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} 1<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $selected_author->id)->count() }}</span>
-                                            </a>
-                                        @endif
-                                        @if ($selected_publisher)
-                                            <a href="{{ route('catalog.route.publisher', ['publisher' => $selected_publisher, 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                {{ $category->title }} 2<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('publisher_id', $selected_publisher->id)->count() }}</span>
-                                            </a>
-                                        @endif
-                                    </h3>
-                                @else
-                                    @if (isset($category) && ! $category->parent()->first())
-                                        <h3 class="accordion-header">
-                                            @if ($selected_author)
-                                                <a href="{{ route('catalog.route.author', ['author' => $selected_author, 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                    {{ $category->title }} 3<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $selected_author->id)->count() }}</span>
-                                                </a>
-                                            @endif
-                                            @if ($selected_publisher)
-                                                <a href="{{ route('catalog.route.publisher', ['publisher' => $selected_publisher, 'cat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                    {{ $category->title }} 4<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('publisher_id', $selected_publisher->id)->count() }}</span>
-                                                </a>
-                                            @endif
-                                        </h3>
-                                    @else
-                                        <h3 class="accordion-header">
-                                            @if ($selected_author)
-                                                <a href="{{ route('catalog.route.author', ['author' => $selected_author, 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                    {{ $category->title }} 5<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('author_id', $selected_author->id)->count() }}</span>
-                                                </a>
-                                            @endif
-                                            @if ($selected_publisher)
-                                                <a href="{{ route('catalog.route.publisher', ['publisher' => $selected_publisher, 'cat' => $category->parent()->first(), 'subcat' => $category]) }}" class="accordion-button py-2 none collapsed" role="link">
-                                                    {{ $category->title }} 6<span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category->products()->where('publisher_id', $selected_publisher->id)->count() }}</span>
-                                                </a>
-                                            @endif
-                                        </h3>
-                                    @endif
-                                @endif
-                            </div>
+                            <h3 class="accordion-header">
+                                <a href="{{ $category['url'] }}" class="accordion-button py-2 none collapsed" role="link">
+                                    {{ $category['title'] }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ $category['count'] }}</span>
+                                </a>
+                            </h3>
                         @endforeach
                     </div>
                 </div>
             @endif
 
-        <!-- Price range-->
+            <!-- Date range-->
             <div class="widget mb-4 pb-4 border-bottom">
                 <h3 class="widget-title">Godina izdanja</h3>
                 <div>
-<!--                    <div class="range-slider-ui"></div>-->
                     <div class="d-flex pb-1">
                         <div class="w-50 pe-2 me-2">
                             <div class="input-group input-group-sm">
@@ -83,55 +43,45 @@
                 </div>
             </div>
 
-
             <!-- Filter by Brand-->
             @if ($selected_publisher)
                 <div class="widget widget-filter mb-4 pb-4 border-bottom">
                     <h3 class="widget-title">Autor</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
-                        <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-                        <div id="myInputautocomplete-list" class="autocomplete-items">
-                            <div>
-                                <strong>Dos</strong>tojevski<input type="hidden" value="Albania">
+                        <input type="search" wire:model.debounce.300ms="searcha" class=" form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                        @if ( ! empty($authors))
+                            <div id="myInputautocomplete-list" class="autocomplete-items">
+                                @forelse($authors as $author)
+                                    <div wire:click="resolveRoute('{{ url($author->url) }}')">
+                                        {{ $author->title }}<span class="fs-xs text-muted float-right">{{ $author->products_count }}</span>
+                                    </div>
+                                @empty
+                                    <div>Nema autora prema upitu</div>
+                                @endforelse
                             </div>
-                        </div>
+                        @endif
                     </div>
-                 <!--   <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
-                        @foreach ($authors as $author)
-                            <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="author.{{ $author->id }}" value="{{ $author->slug }}" id="author_{{ $author->id }}">
-                                    <label class="form-check-label widget-filter-item-text" for="author_{{ $author->id }}">{{ $author->title }}</label>
-                                </div><span class="fs-xs text-muted">{{ $author->broj }}</span>
-                            </li>
-                        @endforeach
-                    </ul>-->
                 </div>
             @endif
-
 
             <!-- Filter by NAkladnik-->
             @if ($selected_author)
                 <div class="widget widget-filter mb-4 pb-4 border-bottom">
                     <h3 class="widget-title">Nakladnici</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
-                        <input class="widget-filter-search form-control rounded-end pe-5" type="text" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-                        <div id="myInputautocomplete-list" class="autocomplete-items">
-                            <div>
-                                <strong>Lje</strong>vak<input type="hidden" value="Albania">
+                        <input type="search" wire:model.debounce.300ms="searchp" class=" form-control rounded-end pe-5" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                        @if ( ! empty($publishers))
+                            <div id="myInputautocomplete-list" class="autocomplete-items">
+                                @forelse($publishers as $publisher)
+                                    <div wire:click="resolveRoute('{{ url($publisher->url) }}')">
+                                        {{ $publisher->title }}<span class="fs-xs text-muted float-right">{{ $publisher->products_count }}</span>
+                                    </div>
+                                @empty
+                                    <div>Nema nakladnika prema upitu</div>
+                                @endforelse
                             </div>
-                        </div>
+                        @endif
                     </div>
-                <!--    <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
-                        @foreach ($publishers as $publisher)
-                            <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" wire:model="publisher.{{ $publisher->id }}" value="{{ $publisher->slug }}" id="publisher_{{ $publisher->id }}">
-                                    <label class="form-check-label widget-filter-item-text" for="publisher_{{ $publisher->id }}">{{ $publisher->title }}</label>
-                                </div><span class="fs-xs text-muted">{{ $publisher->broj }}</span>
-                            </li>
-                        @endforeach
-                    </ul>-->
                 </div>
             @endif
 

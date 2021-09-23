@@ -285,8 +285,12 @@ class Product extends Model
             // Akcije
             if ($request->input('group') == 'snizenja') {
                 $query->where('special', '!=', '')
-                      ->whereDate('special_from', '<=', now())
-                      ->whereDate('special_to', '>=', now());
+                      ->where(function ($query) {
+                          $query->whereDate('special_from', '<=', now())->orWhereNull('special_from');
+                      })
+                      ->where(function ($query) {
+                          $query->whereDate('special_to', '>=', now())->orWhereNull('special_to');
+                      });
             } else {
                 // Kategorija...
                 $query->whereHas('categories', function ($query) use ($request) {

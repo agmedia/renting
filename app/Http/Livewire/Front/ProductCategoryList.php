@@ -41,6 +41,16 @@ class ProductCategoryList extends Component
     /**
      * @var
      */
+    public $author;
+
+    /**
+     * @var
+     */
+    public $publisher;
+
+    /**
+     * @var
+     */
     protected $authors;
 
     /**
@@ -70,8 +80,8 @@ class ProductCategoryList extends Component
     public function idChanged($data)
     {
         $this->ids = collect($data['ids']);
-        $this->authors = $data['author'];
-        $this->publishers = $data['publisher'];
+        /*$this->authors = $data['author'];
+        $this->publishers = $data['publisher'];*/
         $this->start = $data['start'];
         $this->end = $data['end'];
 
@@ -84,6 +94,14 @@ class ProductCategoryList extends Component
      */
     public function render()
     {
+        if ($this->author) {
+            $this->authors[] = $this->author;
+        }
+
+        if ($this->publisher) {
+            $this->publishers[] = $this->publisher;
+        }
+
         if (\request()->has('autor')) {
             $aut = \request()->input('autor');
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
-use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Front\Blog;
 use App\Models\Front\Page;
 use App\Models\Front\Faq;
@@ -17,9 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class CatalogRouteController extends Controller
 {
@@ -81,22 +77,30 @@ class CatalogRouteController extends Controller
      */
     public function author(Request $request, Author $author = null, Category $cat = null, Category $subcat = null)
     {
-        $letters = Author::letters();
-        $letter = $this->checkLetter($letters);
-
-        if ($request->has('letter')) {
-            $letter = $request->input('letter');
-        }
-
         if ( ! $author) {
-            $authors = Author::where('title', 'LIKE', $letter . '%')->get();
+            $letters = Author::letters();
+            $letter = $this->checkLetter($letters);
+
+            if ($request->has('letter')) {
+                $letter = $request->input('letter');
+            }
+
+            $authors = Cache::remember('author.' . $letter, config('cache.life'), function () use ($letter) {
+                return Author::query()->select('id', 'title', 'url')
+                             ->where('title', 'LIKE', $letter . '%')
+                             ->orderBy('title')
+                             ->withCount('products')
+                             ->having('products_count', '>', 0)
+                             ->get()
+                             ->toArray();
+            });
 
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
         }
 
         $group = null;
-
-        $ids = $this->collectID($cat, $subcat)->where('author_id', $author->id)->pluck('id');
+        $letter = null;
+        $ids = collect();//$this->collectID($cat, $subcat)->where('author_id', $author->id)->pluck('id');
 
         return view('front.catalog.category.index', compact('author', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }
@@ -111,22 +115,30 @@ class CatalogRouteController extends Controller
      */
     public function publisher(Request $request, Publisher $publisher = null, Category $cat = null, Category $subcat = null)
     {
-        $letters = Publisher::letters();
-        $letter = $this->checkLetter($letters);
-
-        if ($request->has('letter')) {
-            $letter = $request->input('letter');
-        }
-
         if ( ! $publisher) {
-            $publishers = Publisher::where('title', 'LIKE', $letter . '%')->get();
+            $letters = Publisher::letters();
+            $letter = $this->checkLetter($letters);
+
+            if ($request->has('letter')) {
+                $letter = $request->input('letter');
+            }
+
+            $publishers = Cache::remember('publisher.' . $letter, config('cache.life'), function () use ($letter) {
+                return Publisher::query()->select('id', 'title', 'url')
+                             ->where('title', 'LIKE', $letter . '%')
+                             ->orderBy('title')
+                             ->withCount('products')
+                             ->having('products_count', '>', 0)
+                             ->get()
+                             ->toArray();
+            });
 
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
         }
 
         $group = null;
-
-        $ids = $this->collectID($cat, $subcat)->where('publisher_id', $publisher->id)->pluck('id');
+        $letter = null;
+        $ids = collect();//$this->collectID($cat, $subcat)->where('publisher_id', $publisher->id)->pluck('id');
 
         return view('front.catalog.category.index', compact('publisher', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }

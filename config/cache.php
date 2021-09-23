@@ -108,5 +108,5 @@ return [
 
     'widget_life' => 60,
     'page_life' => 60,
-
+    'life' => 2592000
 ];

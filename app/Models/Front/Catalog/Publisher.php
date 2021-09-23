@@ -68,18 +68,21 @@ class Publisher extends Model
      */
     public function categories(int $id = 0): Collection
     {
-        $categories = collect();
-        $products = $this->products()->active()->get();
+        if ( ! $id) {
+            $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            });
 
-        foreach ($products as $product) {
-            $cats = $product->categories()->where('parent_id', $id)->first();
-
-            if ($cats) {
-                $categories->push($cats);
-            }
+        } else {
+            $query = Category::query()->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            })->where('parent_id', $id);
         }
 
-        return $categories->unique('id')->sortBy('id');
+        return $query->withCount(['products as products_count' => function ($query) {
+            $query->where('publisher_id', $this->id);
+        }])->orderBy('title')
+           ->get();
     }
 
 
@@ -100,23 +103,10 @@ class Publisher extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $publisher = Publisher::all();
-
-        $results = $publisher->sortBy('title')->groupBy(function ($item, $key) {
-            $letter = substr($item['title'], 0, 2);
-
-            Log::info('Publisher');
-            Log::info($letter);
-
-            if (strlen($letter) > 1 && ! in_array($letter, ['Ć','Č','Đ','Š','Ž'])) {
-                $letter = substr($letter, 0, 1);
-            }
-
-            return $letter;
-        })->keys();
+        $publishers = Author::selectRaw('substr(title,1,1) as first')->pluck('first')->unique();
 
         foreach (Helper::abc() as $item) {
-            if ($item == $results->contains($item)) {
+            if ($item == $publishers->contains($item)) {
                 $letters->push([
                     'value' => $item,
                     'active' => true

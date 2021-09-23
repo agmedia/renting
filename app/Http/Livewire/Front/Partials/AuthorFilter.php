@@ -2,11 +2,8 @@
 
 namespace App\Http\Livewire\Front\Partials;
 
-use App\Helpers\Query;
 use App\Models\Front\Catalog\Author;
-use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 /**
@@ -49,7 +46,7 @@ class AuthorFilter extends Component
     /**
      * @var
      */
-    public $authors;
+    public $authors = [];
 
     /**
      * @var
@@ -64,7 +61,7 @@ class AuthorFilter extends Component
     /**
      * @var
      */
-    public $publishers;
+    public $publishers = [];
 
     /**
      * @var
@@ -97,11 +94,20 @@ class AuthorFilter extends Component
     public $end;
 
     /**
+     * @var
+     */
+    public $searcha;
+    /**
+     * @var
+     */
+    public $searchp;
+
+    /**
      * @var \string[][]
      */
     protected $queryString = [
-        'autor' => ['except' => ''],
-        'nakladnik' => ['except' => ''],
+        /*'autor' => ['except' => ''],
+        'nakladnik' => ['except' => ''],*/
         'start' => ['except' => ''],
         'end' => ['except' => '']
     ];
@@ -112,15 +118,46 @@ class AuthorFilter extends Component
      */
     public function mount()
     {
-        $this->mountQuery();
-        $this->setProducts($this->ids);
+        $this->setCategories();
 
-        if ($this->selected_author) {
-            $this->setPublishers();
+    }
+
+
+    /**
+     * @param $value
+     */
+    public function updatingSearcha($value)
+    {
+        $this->searcha = $value;
+        $this->authors = [];
+
+        if ($this->searcha != '') {
+            $this->authors = Author::where('title', 'LIKE', '%' . $this->searcha . '%')
+                                   ->select('id', 'title', 'url')
+                                   ->withCount('products')
+                                   ->having('products_count', '>', 0)
+                                   ->limit(5)
+                                   ->get();
         }
 
-        if ($this->selected_publisher) {
-            $this->setAuthors();
+    }
+
+
+    /**
+     * @param $value
+     */
+    public function updatingSearchp($value)
+    {
+        $this->searchp    = $value;
+        $this->publishers = [];
+
+        if ($this->searchp != '') {
+            $this->publishers = Publisher::where('title', 'LIKE', '%' . $this->searchp . '%')
+                                         ->select('id', 'title', 'url')
+                                         ->withCount('products')
+                                         ->having('products_count', '>', 0)
+                                         ->limit(5)
+                                         ->get();
         }
 
     }
@@ -131,24 +168,12 @@ class AuthorFilter extends Component
      */
     public function render()
     {
-        $this->setCategories();
-
-        if ($this->selected_publisher) {
-            foreach ($this->authors as $key => $author) {
-                $this->authors[$key]->broj = $this->products->where('author_id', $author->id)->count();
-            }
-        }
-
-        if ($this->selected_author) {
-            foreach ($this->publishers as $key => $publisher) {
-                $this->publishers[$key]->broj = $this->products->where('publisher_id', $publisher->id)->count();
-            }
-        }
+        //dd($this->selected_author);
 
         $this->emit('idChanged', [
             'ids' => $this->ids,
-            'author' => $this->author,
-            'publisher' => $this->publisher,
+            /*'author' => $this->authors,
+            'publisher' => $this->publishers,*/
             'start' => $this->start,
             'end' => $this->end
         ]);
@@ -160,120 +185,49 @@ class AuthorFilter extends Component
     /**
      *
      */
-    public function updatedAuthor()
-    {
-        $this->resolveQuery();
-    }
-
-
-    /**
-     *
-     */
-    public function updatedPublisher()
-    {
-        $this->resolveQuery();
-    }
-
-
-    /**
-     *
-     */
-    public function updatedStart()
-    {
-        $this->resolveQuery();
-    }
-
-
-    /**
-     *
-     */
-    public function updatedEnd()
-    {
-        $this->resolveQuery();
-    }
-
-
-    /**
-     *
-     */
-    private function mountQuery()
-    {
-        if ($this->autor != '') {
-            $this->author = Query::mountAuthor($this->autor);
-        }
-
-        if ($this->nakladnik != '') {
-            $this->publisher = Query::mountPublisher($this->nakladnik);
-        }
-    }
-
-
-    /**
-     *
-     */
-    private function resolveQuery()
-    {
-        if ($this->author) {
-            $this->author = Query::unset($this->author);
-            $this->autor = Query::resolve($this->author);
-        }
-
-        if ($this->publisher) {
-            $this->publisher = Query::unset($this->publisher);
-            $this->nakladnik = Query::resolve($this->publisher);
-        }
-    }
-
-
-    /**
-     * @param $ids
-     */
-    private function setProducts($ids)
-    {
-        $this->products = Product::whereIn('id', $ids)->get();
-    }
-
-
-    /**
-     *
-     */
-    private function setAuthors()
-    {
-        $author_ids = $this->products->pluck('author_id')->unique();
-        $this->authors = Author::whereIn('id', $author_ids)->get();
-    }
-
-
-    /**
-     *
-     */
-    private function setPublishers()
-    {
-        $publisher_ids = $this->products->pluck('publisher_id')->unique();
-        $this->publishers = Publisher::whereIn('id', $publisher_ids)->get();
-    }
-
-
-    /**
-     *
-     */
     private function setCategories()
     {
+        $response = [];
+
+        // AKo su autori
         if ($this->selected_author) {
             if ($this->category) {
-                $this->categories = $this->selected_author->categories($this->category->id)->all();
+                $categories = $this->selected_author->categories($this->category->id);
             } else {
-                $this->categories = $this->selected_author->categories()->all();
+                $categories = $this->selected_author->categories();
+            }
+
+            foreach ($categories as $category) {
+                $response[] = [
+                    'id' => $category['id'],
+                    'title' => $category['title'],
+                    'count' => $category['products_count'],
+                    'url' => route('catalog.route.author', ['author' => $this->selected_author, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
+                ];
             }
         }
 
+        // Ako su nakladnici
         if ($this->selected_publisher) {
             if ($this->category) {
-                $this->categories = $this->selected_publisher->categories($this->category->id)->all();
+                $categories = $this->selected_publisher->categories($this->category->id)->all();
             } else {
-                $this->categories = $this->selected_publisher->categories()->all();
+                $categories = $this->selected_publisher->categories()->all();
+            }
+
+            foreach ($categories as $category) {
+                $response[] = [
+                    'id' => $category['id'],
+                    'title' => $category['title'],
+                    'count' => $category['products_count'],
+                    'url' => route('catalog.route.publisher', ['publisher' => $this->selected_publisher, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
+                ];
             }
         }
+
+        //dd($this);
+
+        $this->categories = $response;
 
         if ($this->subcategory) {
             $this->categories = null;

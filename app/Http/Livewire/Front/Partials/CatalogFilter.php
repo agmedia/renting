@@ -138,7 +138,12 @@ class CatalogFilter extends Component
         $this->authors = [];
 
         if ($this->searcha != '') {
-            $this->authors = Author::where('title', 'LIKE', '%' . $this->searcha . '%')->select('id', 'title', 'url')->withCount('products')->limit(5)->get();
+            $this->authors = Author::where('title', 'LIKE', '%' . $this->searcha . '%')
+                                   ->select('id', 'title', 'url')
+                                   ->withCount('products')
+                                   ->having('products_count', '>', 0)
+                                   ->limit(5)
+                                   ->get();
         }
 
     }
@@ -153,7 +158,12 @@ class CatalogFilter extends Component
         $this->publishers = [];
 
         if ($this->searchp != '') {
-            $this->publishers = Publisher::where('title', 'LIKE', '%' . $this->searchp . '%')->select('id', 'title', 'url')->withCount('products')->limit(5)->get();
+            $this->publishers = Publisher::where('title', 'LIKE', '%' . $this->searchp . '%')
+                                         ->select('id', 'title', 'url')
+                                         ->withCount('products')
+                                         ->having('products_count', '>', 0)->orderBy('title')
+                                         ->limit(5)
+                                         ->get();
         }
 
     }
@@ -184,8 +194,8 @@ class CatalogFilter extends Component
     {
         $this->emit('idChanged', [
             'ids' => $this->ids,
-            'author' => $this->author,
-            'publisher' => $this->publisher,
+            /*'author' => $this->author,
+            'publisher' => $this->publisher,*/
             'start' => $this->start,
             'end' => $this->end
         ]);
