@@ -21,22 +21,22 @@
                 @if ($order->payment_code == 'bank')
                     <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
 
-                    <p style="font-siuze:14px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p style="font-siuze:14px">Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
+                    <p style="font-size:14px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p style="font-size:14px">Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
 
-                    <p style="font-siuze:14px"> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
+                    <p style="font-size:14px"> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
 
-                    <p style="font-siuze:14px"> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
+                    <p style="font-size:14px"> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
 
-                    <p style="font-siuze:14px">MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($order->total, 2)}} kn<br>
+                    <p style="font-size:14px">MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($order->total, 2)}} kn<br>
 
 
                         IBAN RAČUN: HR3123600001101595832<br>
                         MODEL: 00 POZIV NA BROJ: {{ $order->id }}-{{date('ym')}}</p>
 
 
-                    <p style="font-siuze:14px">ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
+                    <p style="font-size:14px">ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
 
-                    <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:60%; border:1px solid #ccc; height:auto"></p>
+                    <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:80%; border:1px solid #ccc; height:auto"></p>
 
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
