@@ -79,14 +79,14 @@
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-fn">Ime <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.fname') is-invalid @enderror" type="text" wire:model.defer="address.fname">
+                    <input class="form-control @error('address.fname') is-invalid @enderror" type="text" wire:model.defer="address.fname" autocomplete="new-password">
                     @error('address.fname') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-ln">Prezime <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.lname') is-invalid @enderror" type="text" wire:model.deferl="address.lname">
+                    <input class="form-control @error('address.lname') is-invalid @enderror" type="text" wire:model.deferl="address.lname" autocomplete="new-password"
                     @error('address.lname') <div id="val-username-error" class="invalid-feedback animated fadeIn">Prezime je obvezno</div> @enderror
                 </div>
             </div>
@@ -95,14 +95,14 @@
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-email">E-mail Adresa <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.email') is-invalid @enderror" type="email" wire:model.defer="address.email">
+                    <input class="form-control @error('address.email') is-invalid @enderror" type="email" wire:model.defer="address.email" autocomplete="new-password">
                     @error('address.email') <div id="val-username-error" class="invalid-feedback animated fadeIn">Email adresa je obavezna</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-phone">Telefon</label>
-                    <input class="form-control" type="text" wire:model.defer="address.phone">
+                    <input class="form-control" type="text" wire:model.defer="address.phone" autocomplete="new-password">
                 </div>
             </div>
         </div>
@@ -110,14 +110,14 @@
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-address">Adresa <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.address') is-invalid @enderror" type="text" wire:model.defer="address.address">
+                    <input class="form-control @error('address.address') is-invalid @enderror" type="text" wire:model.defer="address.address" autocomplete="new-password">
                     @error('address.address') <div id="val-username-error" class="invalid-feedback animated fadeIn">Adresa je obvezno</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-city">Grad <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.city') is-invalid @enderror" type="text" wire:model.defer="address.city">
+                    <input class="form-control @error('address.city') is-invalid @enderror" type="text" wire:model.defer="address.city" autocomplete="new-password">
                     @error('address.city') <div id="val-username-error" class="invalid-feedback animated fadeIn">Grad je obvezan</div> @enderror
                 </div>
             </div>
@@ -126,14 +126,14 @@
             <div class="col-sm-6">
                 <div class="mb-3">
                     <label class="form-label" for="checkout-zip">Poštanski broj <span class="text-danger">*</span></label>
-                    <input class="form-control @error('address.zip') is-invalid @enderror" type="text" wire:model.defer="address.zip">
+                    <input class="form-control @error('address.zip') is-invalid @enderror" type="text" wire:model.defer="address.zip" autocomplete="new-password">
                     @error('address.zip') <div id="val-username-error" class="invalid-feedback animated fadeIn">Poštanski broj je obvezan</div> @enderror
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="mb-3" wire:ignore>
                     <label class="form-label" for="checkout-country">Država <span class="text-danger">*</span></label>
-                    <select class="form-select g @error('address.state') is-invalid @enderror" id="checkout-country" wire:model.deferl="address.state">
+                    <select class="form-select g @error('address.state') is-invalid @enderror" id="checkout-country" wire:model.deferl="address.state" autocomplete="new-password">
                         <option value=""></option>
                         @foreach ($countries as $country)
                             <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
