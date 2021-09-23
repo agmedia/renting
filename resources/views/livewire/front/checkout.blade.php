@@ -74,7 +74,7 @@
                         </div>
                     </div>-->
         @endif
-        <div class="d-none">
+        <div style="overflow: hidden">
             <label class="form-label" for="email">Email<span class="text-danger">*</span></label>
             <input class="form-control" type="email" name="email" value="">
             <label class="form-label" for="phone">Phone<span class="text-danger">*</span></label>
