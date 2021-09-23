@@ -280,7 +280,7 @@
     <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="margin: auto;" class="email-container">
         <tr>
             <td style="padding: 20px; font-family: sans-serif; font-size: 12px; line-height: 15px; text-align: center; color: #ffffff;">
-                Antikvarijat Biblos © {{ now()->year }}. Sva prava pridržana. <br><a href="" style="color:#ffffff;">Uvjeti korištenja</a>
+                Antikvarijat Biblos © {{ now()->year }}. Sva prava pridržana. <br><a href="https://www.antikvarijat-biblos.hr/info/opci-uvjeti-kupnje" style="color:#ffffff;">Uvjeti korištenja</a>
                 <br>
             </td>
         </tr>
