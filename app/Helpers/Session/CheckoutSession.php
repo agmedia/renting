@@ -159,6 +159,15 @@ class CheckoutSession
         return session([static::$session_string . '.step' => $value]);
     }
 
+
+    /**
+     * @return bool
+     */
+    public static function forgetStep()
+    {
+        return session()->forget(static::$session_string . '.step');
+    }
+
     /*******************************************************************************
     *                                Copyright : AGmedia                           *
     *                              email: filip@agmedia.hr                         *
