@@ -47,6 +47,8 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
     Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
 
+    Route::get('letters', [DashboardController::class, 'letters'])->name('letters.import');
+
     // CATALOG
     Route::prefix('catalog')->group(function () {
         // KATEGORIJE

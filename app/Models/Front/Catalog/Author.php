@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -68,23 +69,25 @@ class Author extends Model
      */
     public function categories(int $id = 0): Collection
     {
-        if ( ! $id) {
-            $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
-                $query->where('author_id', $this->id);
-            });
+        return Cache::remember('author.category.' . $id, config('cache.life'), function () use ($id) {
+            if ( ! $id) {
+                $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
+                    $query->where('author_id', $this->id);
+                });
 
-        } else {
-            $query = Category::query()->whereHas('products', function ($query) {
-                $query->where('author_id', $this->id);
-            })->where('parent_id', $id);
-        }
+            } else {
+                $query = Category::query()->whereHas('products', function ($query) {
+                    $query->where('author_id', $this->id);
+                })->where('parent_id', $id);
+            }
 
-        return $query->with('parent')
-                     ->withCount(['products as products_count' => function ($query) {
-                         $query->where('author_id', $this->id);
-                     }])
-                     ->orderBy('title')
-                     ->get();
+            return $query->with('parent')
+                         ->withCount(['products as products_count' => function ($query) {
+                             $query->where('author_id', $this->id);
+                         }])
+                         ->orderBy('title')
+                         ->get();
+        });
     }
 
 
@@ -94,7 +97,7 @@ class Author extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $authors = Author::selectRaw('substr(title,1,1) as first')->pluck('first')->unique();
+        $authors = Author::pluck('letter')->unique();
 
         foreach (Helper::abc() as $item) {
             if ($item == $authors->contains($item)) {

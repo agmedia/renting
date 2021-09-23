@@ -9,10 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\OrderReceived;
 use App\Mail\OrderSent;
+use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Mjerilo;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
+use App\Models\Back\Catalog\Publisher;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\User;
@@ -227,6 +229,52 @@ class DashboardController extends Controller
 
         foreach ($users as $user) {
             $user->assign($superadmin);
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function letters()
+    {
+        $authors = Author::all();
+
+        foreach ($authors as $author) {
+            $letter = substr($author->title, 0, 1);
+
+            if (in_array(substr($author->title, 0, 2), ['Nj', 'Lj', 'Š', 'Č', 'Ć', 'Ž', 'Đ'])) {
+                $letter = substr($author->title, 0, 2);
+            }
+
+            if (in_array(substr($author->title, 0, 3), ['Dž', 'Đ'])) {
+                $letter = substr($author->title, 0, 3);
+            }
+
+            $author->update([
+                'letter' => Str::ucfirst($letter)
+            ]);
+        }
+
+        //
+        $publishers = Publisher::all();
+
+        foreach ($publishers as $publisher) {
+            $letter = substr($publisher->title, 0, 1);
+
+            if (in_array(substr($publisher->title, 0, 2), ['Nj', 'Lj', 'Š', 'Č', 'Ć', 'Ž', 'Đ'])) {
+                $letter = substr($publisher->title, 0, 2);
+            }
+
+            if (in_array(substr($publisher->title, 0, 3), ['Dž', 'Đ'])) {
+                $letter = substr($publisher->title, 0, 3);
+            }
+
+            $publisher->update([
+                'letter' => Str::ucfirst($letter)
+            ]);
         }
 
         return redirect()->route('dashboard');

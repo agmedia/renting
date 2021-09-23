@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -68,21 +69,25 @@ class Publisher extends Model
      */
     public function categories(int $id = 0): Collection
     {
-        if ( ! $id) {
-            $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
-                $query->where('publisher_id', $this->id);
-            });
+        return Cache::remember('publisher.category.' . $id, config('cache.life'), function () use ($id) {
+            if ( ! $id) {
+                $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
+                    $query->where('publisher_id', $this->id);
+                });
 
-        } else {
-            $query = Category::query()->whereHas('products', function ($query) {
-                $query->where('publisher_id', $this->id);
-            })->where('parent_id', $id);
-        }
+            } else {
+                $query = Category::query()->whereHas('products', function ($query) {
+                    $query->where('publisher_id', $this->id);
+                })->where('parent_id', $id);
+            }
 
-        return $query->withCount(['products as products_count' => function ($query) {
-            $query->where('publisher_id', $this->id);
-        }])->orderBy('title')
-           ->get();
+            return $query->with('parent')
+                         ->withCount(['products as products_count' => function ($query) {
+                             $query->where('publisher_id', $this->id);
+                         }])
+                         ->orderBy('title')
+                         ->get();
+        });
     }
 
 
@@ -103,7 +108,7 @@ class Publisher extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $publishers = Author::selectRaw('substr(title,1,1) as first')->pluck('first')->unique();
+        $publishers = Author::pluck('letter')->unique();
 
         foreach (Helper::abc() as $item) {
             if ($item == $publishers->contains($item)) {

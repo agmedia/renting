@@ -99,7 +99,9 @@ class CatalogRouteController extends Controller
     public function author(Request $request, Author $author = null, Category $cat = null, Category $subcat = null)
     {
         if ( ! $author) {
-            $letters = Author::letters();
+            $letters = Cache::remember('author.letters', config('cache.life'), function () {
+                return Author::letters();
+            });
             $letter = $this->checkLetter($letters);
 
             if ($request->has('letter')) {
@@ -108,12 +110,12 @@ class CatalogRouteController extends Controller
 
             $authors = Cache::remember('author.' . $letter, config('cache.life'), function () use ($letter) {
                 return Author::query()->select('id', 'title', 'url')
-                             ->where('title', 'LIKE', $letter . '%')
-                             ->orderBy('title')
-                             ->withCount('products')
-                             ->having('products_count', '>', 0)
-                             ->get()
-                             ->toArray();
+                                      ->where('letter', $letter)
+                                      ->orderBy('title')
+                                      ->withCount('products')
+                                      ->having('products_count', '>', 0)
+                                      ->get()
+                                      ->toArray();
             });
 
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
@@ -137,7 +139,9 @@ class CatalogRouteController extends Controller
     public function publisher(Request $request, Publisher $publisher = null, Category $cat = null, Category $subcat = null)
     {
         if ( ! $publisher) {
-            $letters = Publisher::letters();
+            $letters = Cache::remember('publisher.letters', config('cache.life'), function () {
+                return Publisher::letters();
+            });
             $letter = $this->checkLetter($letters);
 
             if ($request->has('letter')) {
@@ -146,12 +150,12 @@ class CatalogRouteController extends Controller
 
             $publishers = Cache::remember('publisher.' . $letter, config('cache.life'), function () use ($letter) {
                 return Publisher::query()->select('id', 'title', 'url')
-                             ->where('title', 'LIKE', $letter . '%')
-                             ->orderBy('title')
-                             ->withCount('products')
-                             ->having('products_count', '>', 0)
-                             ->get()
-                             ->toArray();
+                                         ->where('letter', $letter)
+                                         ->orderBy('title')
+                                         ->withCount('products')
+                                         ->having('products_count', '>', 0)
+                                         ->get()
+                                         ->toArray();
             });
 
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));

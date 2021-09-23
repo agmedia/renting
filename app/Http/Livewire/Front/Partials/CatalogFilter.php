@@ -254,37 +254,41 @@ class CatalogFilter extends Component
     {
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
-                $response = [];
-                $categories = Category::where('group', $this->group)->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                $this->categories = Cache::remember('category_list.0', config('cache.life'), function () {
+                    $response = [];
+                    $categories = Category::where('group', $this->group)->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
 
-                foreach ($categories as $category) {
-                    $response[$category['id']] = [
-                        'title' => $category['title'],
-                        'count' => $category['products_count'],
-                        'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
-                    ];
-                }
+                    foreach ($categories as $category) {
+                        $response[$category['id']] = [
+                            'title' => $category['title'],
+                            'count' => $category['products_count'],
+                            'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
+                        ];
+                    }
 
-                $this->categories = $response;
+                    return $response;
+                });
             }
 
             //
             if ($this->category && ! $this->subcategory) {
-                $item = Category::where('parent_id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                $this->categories = Cache::remember('category_list.' . $this->category->id, config('cache.life'), function () {
+                    $item = Category::where('parent_id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
 
-                if ($item) {
-                    $response = [];
+                    if ($item) {
+                        $response = [];
 
-                    foreach ($item as $category) {
-                        $response[$category['id']] = [
-                            'title' => $category['title'],
-                            'count' => $category['products_count'],
-                            'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $this->category['slug'], 'subcat' => $category['slug']])
-                        ];
+                        foreach ($item as $category) {
+                            $response[$category['id']] = [
+                                'title' => $category['title'],
+                                'count' => $category['products_count'],
+                                'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $this->category['slug'], 'subcat' => $category['slug']])
+                            ];
+                        }
+
+                        $this->categories = $response;
                     }
-
-                    $this->categories = $response;
-                }
+                });
             }
         }
     }

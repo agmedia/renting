@@ -164,6 +164,11 @@ class Product extends Model
     }
 
 
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
     public function tax(int $id)
     {
         return Settings::get('tax', 'list')->where('id', $id)->first();
@@ -273,6 +278,12 @@ class Product extends Model
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
+    /**
+     * @param Request         $request
+     * @param Collection|null $ids
+     *
+     * @return Builder
+     */
     public function filter(Request $request, Collection $ids = null): Builder
     {
         $query = (new Product())->newQuery();
