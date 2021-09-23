@@ -278,6 +278,8 @@ Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
 /*
  * Groups, Categories and Products routes resolver.
  */
+Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
+//
 Route::get('autor/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
 Route::get('nakladnik/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
 //

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class CatalogRouteController extends Controller
 {
@@ -69,6 +70,26 @@ class CatalogRouteController extends Controller
 
 
     /**
+     * @param null $prod
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resolveOldUrl($prod = null)
+    {
+        if ($prod) {
+            $prod = substr($prod, 0, strrpos($prod, '-'));
+            $prod = Product::where('slug', 'LIKE', $prod . '%')->first();
+
+            if ($prod) {
+                return redirect()->to(url($prod->url));
+            }
+        }
+
+        abort(404);
+    }
+
+
+    /**
      *
      *
      * @param Author $author
@@ -100,7 +121,7 @@ class CatalogRouteController extends Controller
 
         $group = null;
         $letter = null;
-        $ids = collect();//$this->collectID($cat, $subcat)->where('author_id', $author->id)->pluck('id');
+        $ids = collect();
 
         return view('front.catalog.category.index', compact('author', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }
@@ -138,7 +159,7 @@ class CatalogRouteController extends Controller
 
         $group = null;
         $letter = null;
-        $ids = collect();//$this->collectID($cat, $subcat)->where('publisher_id', $publisher->id)->pluck('id');
+        $ids = collect();
 
         return view('front.catalog.category.index', compact('publisher', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }
@@ -233,41 +254,6 @@ class CatalogRouteController extends Controller
     {
         $faq = Faq::where('status', 1)->get();
         return view('front.faq', compact('faq'));
-    }
-
-
-    /**
-     *
-     *
-     * @param Category|null $cat
-     * @param Category|null $subcat
-     *
-     * @return Builder
-     */
-    private function collectID(Category $cat = null, Category $subcat = null): Builder
-    {
-        $ids = collect();
-
-        if ($cat && ! $subcat) {
-            $ids = $ids->merge($cat->products()->pluck('id'));
-        }
-        if ($cat && $subcat) {
-            $ids = $ids->merge($subcat->products()->pluck('id'));
-        }
-
-        $query = (new Product())->newQuery();
-
-        if ($ids->count()) {
-            $query->whereIn('id', $ids);
-        }
-
-        return $query;
-    }
-
-
-    private function notfound()
-    {
-        return view('front.404');
     }
 
 
