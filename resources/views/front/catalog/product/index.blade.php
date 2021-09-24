@@ -93,11 +93,12 @@
                             </div>
 
                             <div class="product-gallery-thumblist order-sm-1">
+                                @if ($prod->images->count())
                                 @if ( ! empty($prod->thumb))
                                     <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->thumb) }}" alt="{{ $prod->name }}"></a>
                                 @endif
 
-                                @if ($prod->images->count())
+
                                     @foreach ($prod->images as $key => $image)
                                         <a class="product-gallery-thumblist-item" href="#key{{ $key + 1 }}"><img src="{{ url('cache/thumb?size=100x100&src=' . $image->thumb) }}" width="100" height="100" alt="{{ $image->alt }}"></a>
                                     @endforeach
