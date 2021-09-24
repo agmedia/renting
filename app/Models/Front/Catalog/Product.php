@@ -292,6 +292,8 @@ class Product extends Model
             $query->whereIn('id', $ids->unique());
         }
 
+        //dd($request->input('group'));
+
         if ($request->has('group')) {
             // Akcije
             if ($request->input('group') == 'snizenja') {
@@ -304,8 +306,14 @@ class Product extends Model
                       });
             } else {
                 // Kategorija...
-                $query->whereHas('categories', function ($query) use ($request) {
-                    $query->where('group', 'like', '%' . $request->input('group') . '%');
+                $group = $request->input('group');
+
+                if ($group == 'zemljovidi-i-vedute') {
+                    $group = 'Zemljovidi i vedute';
+                }
+
+                $query->whereHas('categories', function ($query) use ($request, $group) {
+                    $query->where('group', 'like', '%' . $group . '%');
                 });
             }
         }
