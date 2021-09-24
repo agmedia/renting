@@ -394,7 +394,7 @@ class Order extends Model
             $query->where('order_status_id', $request->input('status'));
         }
 
-        return $query->orderBy('created_at');
+        return $query->orderBy('created_at', 'desc');
     }
 
 

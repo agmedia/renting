@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $query = $product->filter($request);
 
-        $products = $query->paginate(20);
+        $products = $query->paginate(20)->appends(request()->query());
 
         if ($request->has('status')) {
             if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
