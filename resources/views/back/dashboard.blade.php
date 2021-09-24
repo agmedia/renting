@@ -24,6 +24,7 @@
                     <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Initial Import</a>
                     <a href="{{ route('mailing.test') }}" class="btn btn-hero-sm btn-rounded btn-hero-info ml-3">Mail Test</a>
                     <a href="{{ route('letters.import') }}" class="btn btn-hero-sm btn-rounded btn-hero-warning ml-3">First Letters Import</a>
+                    <a href="{{ route('slugs.revision') }}" class="btn btn-hero-sm btn-rounded btn-hero-light ml-3">Slugs revision</a>
                 </div>
             </div>
         </div>
