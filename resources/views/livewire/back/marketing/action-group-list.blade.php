@@ -11,7 +11,7 @@
                         <div class="autocomplete" >
                             <div id="myInputautocomplete-list" class="autocomplete-items">
                                 @foreach($search_results as $item)
-                                    <div wire:click="addItem({{ $item->id }})">{{ isset($item->title) ? $item->title : $item->name }}</div>
+                                    <div wire:click="addItem({{ $item->id }})">{{ isset($item->title) ? $item->title : $item->name }} - {{ isset($item->sku) ? $item->sku : '' }}</div>
                                 @endforeach
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                 @foreach ($list as $item)
                     <tr>
                         <td class="font-size-sm">
-                            {{ isset($item['title']) ? $item['title'] : (isset($item['name']) ? $item['name'] : 'WTF') }}
+                            {{ isset($item['title']) ? $item['title'] : (isset($item['name']) ? $item['name'] : 'WTF') }} - {{ isset($item['sku']) ? $item['sku'] : '' }}
                             <input type="hidden" name="action_list[{{ isset($item['id']) ? $item['id'] : '' }}]" value="{{ isset($item['id']) ? $item['id'] : '' }}">
                         </td>
                         <td class="text-right font-size-sm">
