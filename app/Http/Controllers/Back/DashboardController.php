@@ -282,13 +282,27 @@ class DashboardController extends Controller
 
 
     /**
-     * 
+     *
      */
     public function slugs()
     {
-        $products = Product::query()->selectRaw('SELECT slug,id, COUNT(*) FROM products GROUP BY slug HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC')->get();
+        $slugs = Product::query()->groupBy('slug')->havingRaw('COUNT(id) > 1')->pluck('slug', 'id')->toArray();
 
-        dd($products);
+        foreach ($slugs as $slug) {
+            $products = Product::where('slug', $slug)->get();
+
+            if ($products) {
+                foreach ($products as $product) {
+                    $time = Str::random(9);
+                    $product->update([
+                        'slug' => $product->slug . '-' . $time,
+                        'url' => $product->url . '-' . $time,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('dashboard');
     }
 
 
