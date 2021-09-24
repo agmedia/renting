@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- Hero section with search-->
-    <section class="position-relative  bg-size-cover bg-position-center-x position-relative py-3 mb-3" style="background-image: url({{ asset('media/img/indexslika.jpg') }})">
+    <section class="position-relative  bg-size-cover bg-position-center-x position-relative py-3 mb-3" style="background-image: url('https://images.antikvarijatbibl.lin73.host25.com/media/img/indexslika.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover">
         <div class="container position-relative zindex-5 py-4 my-3">
             <div class="row justify-content-center">
                 <div class="col-lg-8">

@@ -21,7 +21,7 @@
 @section('content')
 
     <!-- Page Title-->
-    <div class="page-title-overlap bg-dark pt-4" style="background-image: url({{ asset('media/img/indexslika.jpg') }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+    <div class="page-title-overlap bg-dark pt-4" style="background-image: url('https://images.antikvarijatbibl.lin73.host25.com/media/img/indexslika.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
         <div class="container d-lg-block justify-content-start py-2 py-lg-3">
 
             @if ($group)
