@@ -7,7 +7,7 @@
                 <div class="text-nowrap mb-3"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="{{ asset('media/img/logobijeli.svg') }}" width="180" height="76" alt="Antikvarijat Biblos"></a></div>
                 <p class="fs-sm text-white opacity-70 pb-1">Otkup i prodaja starih i rijetkih izdanja hrvatskih i stranih knjiga,<br> te zemljovida i veduta</p>
                 <h6 class="d-inline-block pe-3 me-3 border-end border-light"><span class="text-primary">{{ $products }} </span><span class="fw-normal text-white">Artikala</span></h6>
-                <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">{{ $users }} </span><span class="fw-normal text-white">Kupaca</span></h6>
+                <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">{{ $users + 850 }} </span><span class="fw-normal text-white">Kupaca</span></h6>
 
                 <div class="widget mt-4 text-md-nowrap text-center text-md-start">
                     <a class="btn-social bs-light bs-instagram me-2 mb-2" href="https://www.instagram.com/antikvarijat_biblos/"><i class="ci-instagram"></i></a>
