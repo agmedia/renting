@@ -270,10 +270,11 @@ class CatalogFilter extends Component
                 });*/
 
                 $response = [];
-                $categories = Category::where('group', $this->group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get()->toArray();
+                $categories = Category::where('group', $this->group)->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
 
                 foreach ($categories as $category) {
-                    $response[$category['id']] = [
+                    $response[] = [
+                        'id' => $category['id'],
                         'title' => $category['title'],
                         'count' => $category['products_count'],
                         'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
@@ -303,13 +304,14 @@ class CatalogFilter extends Component
                     }
                 });*/
 
-                $item = Category::where('parent_id', $this->category->id)->with('subcategories')->withCount('products')->get()->toArray();
+                $item = Category::where('parent_id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
 
                 if ($item) {
                     $response = [];
 
                     foreach ($item as $category) {
-                        $response[$category['id']] = [
+                        $response[] = [
+                            'id' => $category['id'],
                             'title' => $category['title'],
                             'count' => $category['products_count'],
                             'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $this->category['slug'], 'subcat' => $category['slug']])
