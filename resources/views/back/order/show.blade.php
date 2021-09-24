@@ -72,7 +72,7 @@
                         <address class="font-size-sm">
                             {{ $order->shipping_address }}<br>
                             {{ $order->shipping_zip }} {{ $order->shipping_city }}<br>
-                            {{ $order->shipping_state }}<br><br>
+                            {{ $order->shipping_state }}<br><br> {{ $order->company }}<br>{{ $order->oib }}<br><br>
                             <i class="fa fa-phone"></i> {{ $order->shipping_phone }}<br>
                             <i class="fa fa-envelope"></i> <a href="javascript:void(0)">{{ $order->shipping_email }}</a>
                         </address>

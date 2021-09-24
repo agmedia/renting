@@ -13,11 +13,11 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <img src="{{ url('cache/thumb?size=250x210&src=' . $widget['image']) }}" width="250" height="210" class="rounded-start" alt="Card image">
+                                <img src="https://images.antikvarijatbibl.lin73.host25.com/{{ $widget['image'] }}" width="250" height="210" class="rounded-start" alt="Card image">
                             </div>
                         @else
                             <div class="col-5">
-                                <img src="{{ url('cache/thumb?size=250x210&src=' . $widget['image']) }}" width="250" height="210" class="rounded-start" alt="Card image">
+                                <img src="https://images.antikvarijatbibl.lin73.host25.com/{{ $widget['image'] }}" width="250" height="210" class="rounded-start" alt="Card image">
                             </div>
                             <div class="col-7">
                                 <div class="card-body ps-md-4">

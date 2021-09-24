@@ -22,7 +22,7 @@
                 @foreach ($letters as $item)
                     <a href="{{ route('catalog.route.publisher', ['publisher' => null, 'letter' => $item['value']]) }}"
                        class="btn btn-secondary btn-icon cardd mb-2 @if( ! $item['active']) disabled @endif @if($item['value'] == $letter) bg-fourth disabled @endif">
-                        <h3 class="h4 text-dark py-0 mb-0 px-1">{{ $item['value'] }}</h3>
+                        <h3 class="h4 @if($item['value'] == $letter) text-white @else text-dark @endif  py-0 mb-0 px-1">{{ $item['value'] }}</h3>
                     </a>
                 @endforeach
                 </div>
