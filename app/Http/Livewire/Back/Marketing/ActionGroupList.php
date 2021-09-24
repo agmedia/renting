@@ -68,7 +68,7 @@ class ActionGroupList extends Component
         if ($this->search != '') {
             switch ($this->group) {
                 case 'product':
-                    $this->search_results = Product::where('name', 'like', '%' . $this->search . '%')->limit(5)->get();
+                    $this->search_results = Product::where('name', 'like', '%' . $this->search . '%')->orWhere('sku', 'like', '%' . $this->search . '%')->limit(5)->get();
                     break;
                 case 'category':
                     $this->search_results = Category::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
@@ -94,7 +94,7 @@ class ActionGroupList extends Component
     {
         $this->search = '';
         $this->search_results = [];
-        
+
         switch ($this->group) {
             case 'product':
                 $this->list[$id] = Product::where('id', $id)->first();
