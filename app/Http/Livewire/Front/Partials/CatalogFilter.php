@@ -254,7 +254,7 @@ class CatalogFilter extends Component
     {
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
-                $this->categories = Cache::remember('category_list.' . $this->group, config('cache.life'), function () {
+                /*$this->categories = Cache::remember('category_list.' . $this->group, config('cache.life'), function () {
                     $response = [];
                     $categories = Category::where('group', $this->group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get()->toArray();
 
@@ -266,13 +266,26 @@ class CatalogFilter extends Component
                         ];
                     }
 
-                    return collect($response)->sortBy('title');
-                });
+                    return $response;
+                });*/
+
+                $response = [];
+                $categories = Category::where('group', $this->group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get()->toArray();
+
+                foreach ($categories as $category) {
+                    $response[$category['id']] = [
+                        'title' => $category['title'],
+                        'count' => $category['products_count'],
+                        'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
+                    ];
+                }
+
+                $this->categories = $response;
             }
 
             //
             if ($this->category && ! $this->subcategory) {
-                $this->categories = Cache::remember('category_list.' . $this->category->id, config('cache.life'), function () {
+                /*$this->categories = Cache::remember('category_list.' . $this->category->id, config('cache.life'), function () {
                     $item = Category::where('parent_id', $this->category->id)->with('subcategories')->withCount('products')->get()->toArray();
 
                     if ($item) {
@@ -286,9 +299,25 @@ class CatalogFilter extends Component
                             ];
                         }
 
-                        return collect($response)->sortBy('title');
+                        return $response;
                     }
-                });
+                });*/
+
+                $item = Category::where('parent_id', $this->category->id)->with('subcategories')->withCount('products')->get()->toArray();
+
+                if ($item) {
+                    $response = [];
+
+                    foreach ($item as $category) {
+                        $response[$category['id']] = [
+                            'title' => $category['title'],
+                            'count' => $category['products_count'],
+                            'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $this->category['slug'], 'subcat' => $category['slug']])
+                        ];
+                    }
+
+                    $this->categories = $response;
+                }
             }
         }
     }
