@@ -112,8 +112,8 @@ class CatalogRouteController extends Controller
                 return Author::query()->select('id', 'title', 'url')
                                       ->where('letter', $letter)
                                       ->orderBy('title')
-                                      ->withCount('products')
-                                      ->having('products_count', '>', 0)
+                                      /*->withCount('products')
+                                      ->having('products_count', '>', 0)*/
                                       ->get()
                                       ->toArray();
             });
@@ -152,8 +152,8 @@ class CatalogRouteController extends Controller
                 return Publisher::query()->select('id', 'title', 'url')
                                          ->where('letter', $letter)
                                          ->orderBy('title')
-                                         ->withCount('products')
-                                         ->having('products_count', '>', 0)
+                                         /*->withCount('products')
+                                         ->having('products_count', '>', 0)*/
                                          ->get()
                                          ->toArray();
             });

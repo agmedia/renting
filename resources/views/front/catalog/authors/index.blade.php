@@ -37,7 +37,7 @@
                 <div class=" col-sm-4 mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="card-title mb-0"> <a href="{{ url($author['url']) }}">{{ $author['title'] }} <span class="badge rounded-pill bg-secondary float-end">{{ $author['products_count'] }}</span></a></h6>
+                            <h6 class="card-title mb-0"> <a href="{{ url($author['url']) }}">{{ $author['title'] }} <span class="badge rounded-pill bg-secondary float-end">{{--{{ $author['products_count'] }}--}}</span></a></h6>
                         </div>
                     </div>
                 </div>
