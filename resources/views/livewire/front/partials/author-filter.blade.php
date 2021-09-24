@@ -53,7 +53,8 @@
                             <div id="myInputautocomplete-list" class="autocomplete-items">
                                 @forelse($authors as $author)
                                     <div wire:click="resolveRoute('{{ url($author->url) }}')">
-                                        {{ $author->title }}<span class="fs-xs text-muted float-right">{{ $author->products_count }}</span>
+                                        {{ $author->title }}
+                                        <span class="badge bg-secondary ms-2 position-absolute end-0 me-2">{{ $author->products_count }}</span>
                                     </div>
                                 @empty
                                     <div>Nema autora prema upitu</div>
@@ -74,7 +75,7 @@
                             <div id="myInputautocomplete-list" class="autocomplete-items">
                                 @forelse($publishers as $publisher)
                                     <div wire:click="resolveRoute('{{ url($publisher->url) }}')">
-                                        {{ $publisher->title }}<span class="fs-xs text-muted float-right">{{ $publisher->products_count }}</span>
+                                        {{ $publisher->title }}      <span class="badge bg-secondary ms-2 me-2 position-absolute end-0">{{ $publisher->products_count }}</span>
                                     </div>
                                 @empty
                                     <div>Nema nakladnika prema upitu</div>
