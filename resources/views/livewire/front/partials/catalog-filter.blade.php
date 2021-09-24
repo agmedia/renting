@@ -90,7 +90,13 @@
 
             <button type="button" onclick="cleanURL();" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
 
-        </div>
-    </div>
+            @if (strpos(Request::path(), 'zemljovidi-i-vedute') !== false && Request::path() != 'zemljovidi-i-vedute')
+                <a href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}" class="btn btn-secondary ms-2 mt-4"><i class="ci-arrow-left me-2"></i>Povratak</a>
+
+                @elseif (strpos(Request::path(), 'knjige') !== false && Request::path() != 'knjige')
+             <a href="{{ route('catalog.route', ['group' => 'knjige']) }}" class="btn btn-secondary ms-2 mt-4"><i class="ci-arrow-left me-2"></i>Povratak</a>
+            @endif
+</div>
+</div>
 </aside>
 
