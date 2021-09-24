@@ -254,9 +254,9 @@ class CatalogFilter extends Component
     {
         if ($this->group) {
             if ( ! $this->category && ! $this->subcategory) {
-                $this->categories = Cache::remember('category_list.0', config('cache.life'), function () {
+                $this->categories = Cache::remember('category_list.' . $this->group, config('cache.life'), function () {
                     $response = [];
-                    $categories = Category::where('group', $this->group)->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                    $categories = Category::where('group', $this->group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get()->toArray();
 
                     foreach ($categories as $category) {
                         $response[$category['id']] = [
@@ -266,14 +266,14 @@ class CatalogFilter extends Component
                         ];
                     }
 
-                    return $response;
+                    return collect($response)->sortBy('title');
                 });
             }
 
             //
             if ($this->category && ! $this->subcategory) {
                 $this->categories = Cache::remember('category_list.' . $this->category->id, config('cache.life'), function () {
-                    $item = Category::where('parent_id', $this->category->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                    $item = Category::where('parent_id', $this->category->id)->with('subcategories')->withCount('products')->get()->toArray();
 
                     if ($item) {
                         $response = [];
@@ -286,7 +286,7 @@ class CatalogFilter extends Component
                             ];
                         }
 
-                        return $response;
+                        return collect($response)->sortBy('title');
                     }
                 });
             }
