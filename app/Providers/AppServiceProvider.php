@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $nacini_placanja = Page::where('subgroup', 'Načini plaćanja')->get();
         View::share('nacini_placanja', $nacini_placanja);
 
-        $products = Product::count();
+        $products = Product::active()->hasStock()->count();
         View::share('products', $products);
 
         $users = User::count();
