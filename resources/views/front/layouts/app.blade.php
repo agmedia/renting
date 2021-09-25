@@ -59,15 +59,15 @@
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-<link rel="stylesheet" media="screen" href="{{ asset('css/tiny-slider.css') }}"/>
+<link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/tiny-slider.css' }}"/>
 <!-- Vendor scrits: js libraries and plugins-->
-<script src="{{ config('settings.images_domain') . 'js/jquery/jquery-2.1.1.min.js' }}"></script>
-<script src="{{ config('settings.images_domain') . 'js/bootstrap.bundle.min.js' }}"></script>
-<script src="{{ config('settings.images_domain') . 'js/cart.js' }}"></script>
-<script src="{{ config('settings.images_domain') . 'js/tiny-slider.js' }}"></script>
-<script src="{{ config('settings.images_domain') . 'js/smooth-scroll.polyfills.min.js' }}"></script>
+<script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
+<script src="{{ asset('js/tiny-slider.js') }}"></script>
+<script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
 <!-- Main theme script-->
-<script src="{{ config('settings.images_domain') . 'js/theme.min.js' }}"></script>
+<script src="{{ asset('js/theme.min.js') }}"></script>
 
 @livewireScripts
 
