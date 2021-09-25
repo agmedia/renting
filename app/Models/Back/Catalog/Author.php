@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Catalog;
 
+use App\Helpers\Helper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +55,10 @@ class Author extends Model
      */
     public function create()
     {
+        $slug = isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title);
+
         $id = $this->insertGetId([
+            'letter'           => Helper::resolveFirstLetter($this->request->title),
             'title'            => $this->request->title,
             'description'      => $this->request->description,
             'meta_title'       => $this->request->meta_title,
@@ -62,7 +66,8 @@ class Author extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'slug'             => $slug,
+            'url'              => config('settings.author_path') . '/' . $slug,
             'created_at'       => Carbon::now(),
             'updated_at'       => Carbon::now()
         ]);
@@ -82,7 +87,10 @@ class Author extends Model
      */
     public function edit()
     {
+        $slug = isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title);
+
         $id = $this->update([
+            'letter'           => Helper::resolveFirstLetter($this->request->title),
             'title'            => $this->request->title,
             'description'      => $this->request->description,
             'meta_title'       => $this->request->meta_title,
@@ -90,7 +98,8 @@ class Author extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'slug'             => $slug,
+            'url'              => config('settings.author_path') . '/' . $slug,
             'updated_at'       => Carbon::now()
         ]);
 

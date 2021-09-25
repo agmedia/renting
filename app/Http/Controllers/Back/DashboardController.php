@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Helpers\Chart;
+use App\Helpers\Helper;
 use App\Helpers\Import;
 use App\Helpers\ProductHelper;
 use App\Http\Controllers\Controller;
@@ -243,15 +244,7 @@ class DashboardController extends Controller
         $authors = Author::all();
 
         foreach ($authors as $author) {
-            $letter = substr($author->title, 0, 1);
-
-            if (in_array(substr($author->title, 0, 2), ['Nj', 'Lj', 'Š', 'Č', 'Ć', 'Ž', 'Đ'])) {
-                $letter = substr($author->title, 0, 2);
-            }
-
-            if (in_array(substr($author->title, 0, 3), ['Dž', 'Đ'])) {
-                $letter = substr($author->title, 0, 3);
-            }
+            $letter = Helper::resolveFirstLetter($author->title);
 
             $author->update([
                 'letter' => Str::ucfirst($letter)
@@ -262,15 +255,7 @@ class DashboardController extends Controller
         $publishers = Publisher::all();
 
         foreach ($publishers as $publisher) {
-            $letter = substr($publisher->title, 0, 1);
-
-            if (in_array(substr($publisher->title, 0, 2), ['Nj', 'Lj', 'Š', 'Č', 'Ć', 'Ž', 'Đ'])) {
-                $letter = substr($publisher->title, 0, 2);
-            }
-
-            if (in_array(substr($publisher->title, 0, 3), ['Dž', 'Đ'])) {
-                $letter = substr($publisher->title, 0, 3);
-            }
+            $letter = Helper::resolveFirstLetter($publisher->title);
 
             $publisher->update([
                 'letter' => Str::ucfirst($letter)

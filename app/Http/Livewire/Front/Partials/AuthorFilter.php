@@ -233,6 +233,8 @@ class AuthorFilter extends Component
      */
     private function traverse(string $model, $categories)
     {
+        $target = str_replace('selected_', '', $model);
+
         $response = [];
 
         foreach ($categories as $category) {
@@ -240,7 +242,7 @@ class AuthorFilter extends Component
                 'id' => $category['id'],
                 'title' => $category['title'],
                 'count' => $category['products_count'],
-                'url' => route('catalog.route.publisher', ['publisher' => $this->{$model}, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
+                'url' => route('catalog.route.' . $target, [$target => $this->{$model}, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
             ];
         }
 

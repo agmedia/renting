@@ -54,6 +54,8 @@ class Publisher extends Model
      */
     public function create()
     {
+        $slug = isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title);
+
         $id = $this->insertGetId([
             'title'            => $this->request->title,
             'description'      => $this->request->description,
@@ -62,7 +64,8 @@ class Publisher extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'slug'             => $slug,
+            'url'              => config('settings.publisher_path') . '/' . $slug,
             'created_at'       => Carbon::now(),
             'updated_at'       => Carbon::now()
         ]);
@@ -82,6 +85,8 @@ class Publisher extends Model
      */
     public function edit()
     {
+        $slug = isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title);
+
         $id = $this->update([
             'title'            => $this->request->title,
             'description'      => $this->request->description,
@@ -90,7 +95,8 @@ class Publisher extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'slug'             => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
+            'slug'             => $slug,
+            'url'              => config('settings.publisher_path') . '/' . $slug,
             'updated_at'       => Carbon::now()
         ]);
 

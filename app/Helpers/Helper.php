@@ -236,6 +236,27 @@ class Helper
 
 
     /**
+     * @param string $text
+     *
+     * @return string
+     */
+    public static function resolveFirstLetter(string $text): string
+    {
+        $letter = substr($text, 0, 1);
+
+        if (in_array(substr($text, 0, 2), ['Nj', 'Lj', 'Š', 'Č', 'Ć', 'Ž', 'Đ'])) {
+            $letter = substr($text, 0, 2);
+        }
+
+        if (in_array(substr($text, 0, 3), ['Dž', 'Đ'])) {
+            $letter = substr($text, 0, 3);
+        }
+
+        return $letter;
+    }
+
+
+    /**
      * @param array $data
      *
      * @return Builder
