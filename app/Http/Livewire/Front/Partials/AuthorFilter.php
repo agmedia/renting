@@ -133,7 +133,8 @@ class AuthorFilter extends Component
         $this->authors = [];
 
         if ($this->searcha != '') {
-            $this->authors = Author::where('title', 'LIKE', '%' . $this->searcha . '%')
+            $this->authors = Author::active()
+                                   ->where('title', 'LIKE', '%' . $this->searcha . '%')
                                    ->select('id', 'title', 'url')
                                    ->withCount('products')
                                    ->having('products_count', '>', 0)
@@ -153,7 +154,8 @@ class AuthorFilter extends Component
         $this->publishers = [];
 
         if ($this->searchp != '') {
-            $this->publishers = Publisher::where('title', 'LIKE', '%' . $this->searchp . '%')
+            $this->publishers = Publisher::active()
+                                         ->where('title', 'LIKE', '%' . $this->searchp . '%')
                                          ->select('id', 'title', 'url')
                                          ->withCount('products')
                                          ->having('products_count', '>', 0)
