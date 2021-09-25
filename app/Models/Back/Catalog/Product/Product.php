@@ -3,6 +3,7 @@
 namespace App\Models\Back\Catalog\Product;
 
 use App\Helpers\Helper;
+use App\Helpers\ProductHelper;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Publisher;
@@ -110,41 +111,6 @@ class Product extends Model
             }
         }
 
-        // If special is not set, check actions.
-        $actions = ProductAction::active()->get();
-
-        foreach ($actions as $action) {
-            $ids = json_decode($action->links, true);
-
-            if ($action->group == 'product') {
-                if (in_array($this->id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-            if ($action->group == 'category') {
-                if (isset($this->category()->id)) {
-                    if (in_array($this->category()->id, $ids)) {
-                        return Helper::calculateDiscountPrice($this->price, $action->discount);
-                    }
-                }
-                if (isset($this->subcategory()->id)) {
-                    if (in_array($this->subcategory()->id, $ids)) {
-                        return Helper::calculateDiscountPrice($this->price, $action->discount);
-                    }
-                }
-            }
-            if ($action->group == 'author') {
-                if (in_array($this->author_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-            if ($action->group == 'publisher') {
-                if (in_array($this->publisher_id, $ids)) {
-                    return Helper::calculateDiscountPrice($this->price, $action->discount);
-                }
-            }
-        }
-
         return false;
     }
 
@@ -179,6 +145,7 @@ class Product extends Model
      */
     public function create()
     {
+        $slug = $this->resolveSlug();
         $author = $this->resolveAuthor();
         $publisher = $this->resolvePublisher();
 
@@ -190,7 +157,7 @@ class Product extends Model
             'sku'              => $this->request->sku,
             'polica'           => $this->request->polica,
             'description'      => $this->cleanHTML($this->request->description),
-            'slug'             => $this->request->slug ?: Str::slug($this->request->name)/* . '-' . Str::random(9)*/,
+            'slug'             => $slug,
             'price'            => $this->request->price,
             'quantity'         => $this->request->quantity ?: 0,
             'tax_id'           => $this->request->tax_id ?: 1,
@@ -217,7 +184,11 @@ class Product extends Model
         if ($id) {
             $this->resolveCategories($id);
 
-            return $this->find($id);
+            $product = $this->find($id);
+
+            return $product->update([
+                'url' => ProductHelper::url($product)
+            ]);
         }
 
         return false;
@@ -231,6 +202,7 @@ class Product extends Model
      */
     public function edit()
     {
+        $slug = $this->resolveSlug('update');
         $author = $this->resolveAuthor();
         $publisher = $this->resolvePublisher();
 
@@ -242,7 +214,7 @@ class Product extends Model
             'sku'              => $this->request->sku,
             'polica'           => $this->request->polica,
             'description'      => $this->cleanHTML($this->request->description),
-            'slug'             => $this->request->slug ?: Str::slug($this->request->name)/* . '-' . Str::random(9)*/,
+            'slug'             => $slug,
             'price'            => isset($this->request->price) ? $this->request->price : 0,
             'quantity'         => $this->request->quantity ?: 0,
             'tax_id'           => $this->request->tax_id ?: 1,
@@ -267,6 +239,10 @@ class Product extends Model
 
         if ($updated) {
             $this->resolveCategories($this->id);
+
+            $this->update([
+                'url' => ProductHelper::url($this)
+            ]);
 
             return $this;
         }
@@ -508,6 +484,33 @@ class Product extends Model
         }
 
         return false;
+    }
+
+
+    /**
+     * @param Request|null $request
+     *
+     * @return string
+     */
+    private function resolveSlug(string $target = 'insert', Request $request = null): string
+    {
+        if ($request) {
+            $this->request = $request;
+        }
+
+        $slug = $this->request->slug ?: Str::slug($this->request->name);
+
+        $exist = $this->where('slug', $slug)->count();
+
+        if ($exist > 1 && $target == 'update') {
+            return $slug . '-' . time();
+        }
+
+        if ($exist && $target == 'insert') {
+            return $slug . '-' . time();
+        }
+
+        return $slug;
     }
 
 }
