@@ -1,21 +1,19 @@
 @extends('front.layouts.app')
 @if (request()->routeIs(['index']))
     @section ( 'title', 'Antikvarijat Biblos - Knjige, vedute i zemljovidi' )
-    @section ( 'description', 'Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.' )
+@section ( 'description', 'Dobrodošli na stranice Antikvarijata Biblos, Palmotićeva 28, Zagreb. Radno vrijeme pon-pet 09-20h, sub 09-14h.' )
 
 @else
     @section ( 'title', $page->title. ' - Antikvarijat Biblos' )
-    @section ( 'description', $page->meta_description )
+@section ( 'description', $page->meta_description )
 @endif
 
 @section('content')
 
     @if (request()->routeIs(['index']))
-
-
-
+        
         <!-- Hero section -->
-        <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url({{ config('settings.images_domain') }}'media/img/lightslider.jpg');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+        <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url({{ config('settings.images_domain') . 'media/img/lightslider.jpg' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
             <div class="pb-lg-5 mb-lg-3">
                 <div class="container py-lg-4 my-lg-5">
                     <div class="row mb-3 mb-sm-3">
@@ -91,7 +89,7 @@
 
     @else
 
-        <div class=" bg-dark pt-4 pb-3" style="background-image: url({{ asset('media/img/indexslika.jpg') }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+        <div class=" bg-dark pt-4 pb-3" style="background-image: url({{ config('settings.images_domain') . 'media/img/indexslika.jpg' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
             <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
                 <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                     <nav aria-label="breadcrumb">

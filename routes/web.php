@@ -27,6 +27,12 @@ use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
 
+
+/*Route::domain('https://images.antikvarijatbibl.lin73.host25.com/')->group(function () {
+    Route::get('media/img/products/{id}/{image}', function ($id, $image) {
+        \Illuminate\Support\Facades\Log::info($id . ' --- ' . $image);
+    });
+});*/
 /*
 |--------------------------------------------------------------------------
 | Web Routes

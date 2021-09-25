@@ -11,9 +11,9 @@
     <!-- Viewport-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('media/img/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('media/img/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
 {{--    <link rel="manifest" href="{{ asset('site.webmanifest') }}">--}}
 {{--    <link rel="mask-icon" color="#fe6a6a" href="{{ asset('safari-pinned-tab.svg') }}">--}}
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -21,7 +21,7 @@
     <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{ asset('css/theme.min.css') }}">
+    <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}">
 
     @stack('css_after')
 
@@ -61,13 +61,13 @@
 <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
 <link rel="stylesheet" media="screen" href="{{ asset('css/tiny-slider.css') }}"/>
 <!-- Vendor scrits: js libraries and plugins-->
-<script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/cart.js') }}"></script>
-<script src="{{ asset('js/tiny-slider.js') }}"></script>
-<script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/jquery/jquery-2.1.1.min.js' }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/bootstrap.bundle.min.js' }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/cart.js' }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/tiny-slider.js' }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/smooth-scroll.polyfills.min.js' }}"></script>
 <!-- Main theme script-->
-<script src="{{ asset('js/theme.min.js') }}"></script>
+<script src="{{ config('settings.images_domain') . 'js/theme.min.js' }}"></script>
 
 @livewireScripts
 
