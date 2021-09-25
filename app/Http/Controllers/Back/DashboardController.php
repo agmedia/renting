@@ -313,6 +313,11 @@ class DashboardController extends Controller
             'updated_at' => now()
         ]);
 
+        Author::whereNotIn('id', $authors)->update([
+            'status' => 1,
+            'updated_at' => now()
+        ]);
+
         // PUBLISHERS
         $products = Product::query()
                            ->where('quantity', '>', 0)
@@ -328,13 +333,29 @@ class DashboardController extends Controller
             'updated_at' => now()
         ]);
 
-        // CATEGORIES
-        $categories = Category::query()->select('id')->withCount('products')->having('products_count', '<', 1)->get()->toArray();
+        Publisher::whereNotIn('id', $publishers)->update([
+            'status' => 1,
+            'updated_at' => now()
+        ]);
 
-        if ($categories) {
-            foreach ($categories as $category) {
+        // CATEGORIES
+        $categories_off = Category::query()->select('id')->withCount('products')->having('products_count', '<', 1)->get()->toArray();
+
+        if ($categories_off) {
+            foreach ($categories_off as $category) {
                 Category::where('id', $category['id'])->update([
                     'status' => 0,
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
+        $categories_on = Category::query()->select('id')->withCount('products')->having('products_count', '>', 0)->get()->toArray();
+
+        if ($categories_on) {
+            foreach ($categories_on as $category) {
+                Category::where('id', $category['id'])->update([
+                    'status' => 1,
                     'updated_at' => now()
                 ]);
             }
@@ -345,6 +366,11 @@ class DashboardController extends Controller
 
         Product::whereIn('id', $products)->update([
             'status' => 0,
+            'updated_at' => now()
+        ]);
+
+        Product::whereNotIn('id', $products)->update([
+            'status' => 1,
             'updated_at' => now()
         ]);
 
