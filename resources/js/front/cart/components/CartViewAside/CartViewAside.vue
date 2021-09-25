@@ -17,7 +17,7 @@
                     <h2 class="widget-title text-center">Sažetak narudžbe</h2>
                     <hr class="mb-2">
                     <div class="d-flex align-items-center pb-2 border-bottom" v-for="item in $store.state.cart.items">
-                        <a class="d-block flex-shrink-0" :href="base_path + item.attributes.path"><img :src="base_path + item.associatedModel.image" :alt="item.name" width="64"></a>
+                        <a class="d-block flex-shrink-0" :href="base_path + item.attributes.path"><img :src="item.associatedModel.image" :alt="item.name" width="64"></a>
                         <div class="ps-2">
                             <h6 class="widget-product-title"><a :href="base_path + item.attributes.path">{{ item.name }}</a></h6>
                             <div class="widget-product-meta"><span class="text-accent me-2">{{ Object.keys(item.conditions).length ? $store.state.service.formatPrice(item.price - item.conditions.parsedRawValue) : $store.state.service.formatPrice(item.price) }}</span><span class="text-muted">x {{ item.quantity }}</span></div>

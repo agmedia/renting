@@ -36,6 +36,17 @@ class Widget extends Model
 
 
     /**
+     * @param $value
+     *
+     * @return array|string|string[]
+     */
+    public function getImageAttribute($value)
+    {
+        return config('settings.images_domain') . str_replace('.jpg', '.webp', $value);
+    }
+
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function group()

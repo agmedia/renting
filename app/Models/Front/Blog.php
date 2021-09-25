@@ -41,7 +41,7 @@ class Blog extends Model
      */
     public function getImageAttribute($value)
     {
-        return str_replace('.jpg', '.webp', $value);
+        return config('settings.images_domain') . str_replace('.jpg', '.webp', $value);
     }
 
 

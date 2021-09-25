@@ -23,6 +23,8 @@ return [
     'author_path' => 'autor',
     'publisher_path' => 'nakladnik',
 
+    'images_domain' => 'https://images.antikvarijatbibl.lin73.host25.com/',
+
     'sorting_list' => [
         0 => [
             'title' => 'Najnovije',
