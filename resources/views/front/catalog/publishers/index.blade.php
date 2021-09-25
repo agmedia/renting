@@ -49,7 +49,7 @@
 
         <div class="row py-md-3">
             <div class="col-lg-12">
-                {{ $authors->links() }}
+                {{ $publishers->links() }}
             </div>
         </div>
 
