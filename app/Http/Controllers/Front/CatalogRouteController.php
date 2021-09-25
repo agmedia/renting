@@ -112,6 +112,7 @@ class CatalogRouteController extends Controller
 
             $authors = Cache::remember('author.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Author::query()->select('id', 'title', 'url')
+                                      ->where('status',  1)
                                       ->where('letter', $letter)
                                       ->orderBy('title')
                                       ->withCount('products')
@@ -152,6 +153,7 @@ class CatalogRouteController extends Controller
 
             $publishers = Cache::remember('publisher.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Publisher::query()->select('id', 'title', 'url')
+                                         ->where('status',  1)
                                          ->where('letter', $letter)
                                          ->orderBy('title')
                                          ->withCount('products')

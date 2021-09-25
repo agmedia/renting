@@ -108,7 +108,7 @@ class Publisher extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $publishers = Author::pluck('letter')->unique();
+        $publishers = Publisher::active()->pluck('letter')->unique();
 
         foreach (Helper::abc() as $item) {
             if ($item == $publishers->contains($item)) {

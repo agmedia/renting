@@ -11,6 +11,7 @@ use App\Imports\ProductImport;
 use App\Mail\OrderReceived;
 use App\Mail\OrderSent;
 use App\Models\Back\Catalog\Author;
+use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Mjerilo;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductCategory;
@@ -22,6 +23,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Bouncer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -286,6 +288,65 @@ class DashboardController extends Controller
                 }
             }
         }
+
+        return redirect()->route('dashboard');
+    }
+
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function statuses()
+    {
+        // AUTHORS
+        $products = Product::query()
+                           ->where('quantity', '>', 0)
+                           ->select('author_id', DB::raw('count(*) as total'))
+                           ->groupBy('author_id')
+                           ->pluck('author_id')
+                           ->unique();
+
+        $authors = Author::query()->pluck('id')->diff($products)->flatten();
+
+        Author::whereIn('id', $authors)->update([
+            'status' => 0,
+            'updated_at' => now()
+        ]);
+
+        // PUBLISHERS
+        $products = Product::query()
+                           ->where('quantity', '>', 0)
+                           ->select('publisher_id', DB::raw('count(*) as total'))
+                           ->groupBy('publisher_id')
+                           ->pluck('publisher_id')
+                           ->unique();
+
+        $publishers = Publisher::query()->pluck('id')->diff($products)->flatten();
+
+        Publisher::whereIn('id', $publishers)->update([
+            'status' => 0,
+            'updated_at' => now()
+        ]);
+
+        // CATEGORIES
+        $categories = Category::query()->select('id')->withCount('products')->having('products_count', '<', 1)->get()->toArray();
+
+        if ($categories) {
+            foreach ($categories as $category) {
+                Category::where('id', $category['id'])->update([
+                    'status' => 0,
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
+        // PRODUCTS
+        $products = Product::where('quantity', 0)->pluck('id');
+
+        Product::whereIn('id', $products)->update([
+            'status' => 0,
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('dashboard');
     }

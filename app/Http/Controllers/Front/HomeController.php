@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $page = Cache::remember('page.homepage', 60, function () {
+        $page = Cache::remember('page.homepage', config('cache.life'), function () {
             return Page::where('slug', 'homepage')->first();
         });
 

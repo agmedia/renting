@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Country;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,6 +19,17 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        if (session()->has(config('session.cart'))) {
+            //dd($request->session()->previousUrl());
+            /*if ($request->session()->previousUrl() == config('app.url') . 'login') {
+                $cart = new AgCart(session(config('session.cart')));
+
+                if ($cart->get()['count'] > 0) {
+                    return redirect()->route('kosarica');
+                }
+            }*/
+        }
+
         $user = auth()->user();
         $countries = Country::list();
 

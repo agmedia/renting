@@ -86,7 +86,7 @@ class Helper
         if ($target != '') {
             $response = collect();
 
-            $products = Product::where('name', 'like', '%' . $target . '%')
+            $products = Product::active()->where('name', 'like', '%' . $target . '%')
                 ->orWhere('meta_description', 'like', '%' . $target . '%')
                 ->pluck('id');
 
@@ -97,12 +97,12 @@ class Helper
             $preg = explode(' ', $target, 2);
 
             if(isset ($preg[1]) && in_array($preg[1],$preg )){
-                $authors = Author::where('title', 'like', '%' . $preg[0] . '%')
+                $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%')
                     ->orWhere('title', 'like', '%' . $preg[1] . '%')
                     ->with('products')->get();
             }
             else{
-                $authors = Author::where('title', 'like', '%' . $preg[0] . '%')
+                $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%')
                     ->with('products')->get();
             }
 

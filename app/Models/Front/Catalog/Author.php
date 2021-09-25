@@ -97,7 +97,7 @@ class Author extends Model
     public static function letters(): Collection
     {
         $letters = collect();
-        $authors = Author::pluck('letter')->unique();
+        $authors = Author::active()->pluck('letter')->unique();
 
         foreach (Helper::abc() as $item) {
             if ($item == $authors->contains($item)) {
