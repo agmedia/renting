@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Front\Partials;
 
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Publisher;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 /**
@@ -168,8 +169,6 @@ class AuthorFilter extends Component
      */
     public function render()
     {
-        //dd($this->selected_author);
-
         $this->emit('idChanged', [
             'ids' => $this->ids,
             /*'author' => $this->authors,
@@ -187,50 +186,64 @@ class AuthorFilter extends Component
      */
     private function setCategories()
     {
-        $response = [];
-
         // AKo su autori
         if ($this->selected_author) {
-            if ($this->category) {
-                $categories = $this->selected_author->categories($this->category->id);
-            } else {
-                $categories = $this->selected_author->categories();
-            }
-
-            foreach ($categories as $category) {
-                $response[] = [
-                    'id' => $category['id'],
-                    'title' => $category['title'],
-                    'count' => $category['products_count'],
-                    'url' => route('catalog.route.author', ['author' => $this->selected_author, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
-                ];
-            }
+            $categories = $this->cache('selected_author');
+            $response = $this->traverse('selected_author', $categories);
         }
 
         // Ako su nakladnici
         if ($this->selected_publisher) {
-            if ($this->category) {
-                $categories = $this->selected_publisher->categories($this->category->id)->all();
-            } else {
-                $categories = $this->selected_publisher->categories()->all();
-            }
-
-            foreach ($categories as $category) {
-                $response[] = [
-                    'id' => $category['id'],
-                    'title' => $category['title'],
-                    'count' => $category['products_count'],
-                    'url' => route('catalog.route.publisher', ['publisher' => $this->selected_publisher, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
-                ];
-            }
+            $categories = $this->cache('selected_publisher');
+            $response = $this->traverse('selected_publisher', $categories);
         }
-
-        //dd($this);
 
         $this->categories = $response;
 
         if ($this->subcategory) {
             $this->categories = null;
         }
+    }
+
+
+    /**
+     * @param string $model
+     *
+     * @return mixed
+     */
+    private function cache(string $model)
+    {
+        if ($this->category) {
+            return Cache::remember('category_list.' . $this->{$model}->id . '.' . $this->category->id, config('cache.life'), function () use ($model) {
+                return $this->{$model}->categories($this->category->id);
+            });
+        } else {
+            return Cache::remember('category_list.' . $this->{$model}->id . '.0', config('cache.life'), function () use ($model) {
+                return $this->{$model}->categories();
+            });
+        }
+    }
+
+
+    /**
+     * @param string $model
+     * @param        $categories
+     *
+     * @return array
+     */
+    private function traverse(string $model, $categories)
+    {
+        $response = [];
+
+        foreach ($categories as $category) {
+            $response[] = [
+                'id' => $category['id'],
+                'title' => $category['title'],
+                'count' => $category['products_count'],
+                'url' => route('catalog.route.publisher', ['publisher' => $this->{$model}, 'cat' => ($category->parent ?: $category), 'subcat' => ($category->parent ? $category : $category->parent)])
+            ];
+        }
+
+        return $response;
     }
 }

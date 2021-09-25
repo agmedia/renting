@@ -108,14 +108,14 @@ class CatalogRouteController extends Controller
                 $letter = $request->input('letter');
             }
 
-            $authors = Cache::remember('author.' . $letter, config('cache.life'), function () use ($letter) {
+            $currentPage = request()->get('page', 1);
+
+            $authors = Cache::remember('author.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Author::query()->select('id', 'title', 'url')
                                       ->where('letter', $letter)
                                       ->orderBy('title')
-                                      /*->withCount('products')
-                                      ->having('products_count', '>', 0)*/
-                                      ->get()
-                                      ->toArray();
+                                      ->withCount('products')
+                                      ->paginate(36);
             });
 
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
@@ -148,14 +148,14 @@ class CatalogRouteController extends Controller
                 $letter = $request->input('letter');
             }
 
-            $publishers = Cache::remember('publisher.' . $letter, config('cache.life'), function () use ($letter) {
+            $currentPage = request()->get('page', 1);
+
+            $publishers = Cache::remember('publisher.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Publisher::query()->select('id', 'title', 'url')
                                          ->where('letter', $letter)
                                          ->orderBy('title')
-                                         /*->withCount('products')
-                                         ->having('products_count', '>', 0)*/
-                                         ->get()
-                                         ->toArray();
+                                         ->withCount('products')
+                                         ->paginate(36);
             });
 
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
