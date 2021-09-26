@@ -57,14 +57,15 @@
 
 @endsection
 
-<style>
-    @media only screen and (max-width: 1040px) {
-
-        .scrolling-wrapper {
-            overflow-x: scroll;
-            overflow-y: hidden;
-            white-space: nowrap;
-            padding-bottom: 15px;
+@push('js_after')
+    <style>
+        @media only screen and (max-width: 1040px) {
+            .scrolling-wrapper {
+                overflow-x: scroll;
+                overflow-y: hidden;
+                white-space: nowrap;
+                padding-bottom: 15px;
+            }
         }
-    }
-</style>
+    </style>
+@endpush

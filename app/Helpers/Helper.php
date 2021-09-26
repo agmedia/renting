@@ -97,8 +97,8 @@ class Helper
             $preg = explode(' ', $target, 2);
 
             if(isset ($preg[1]) && in_array($preg[1],$preg )){
-                $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%')
-                    ->orWhere('title', 'like', '%' . $preg[1] . '%')
+                $authors = Author::active()->where('title', 'like',  $preg[0].' '.$preg[1] )
+                    ->orWhere('title', 'like', $preg[1].' '.$preg[0])
                     ->with('products')->get();
             }
             else{

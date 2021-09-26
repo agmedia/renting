@@ -11,7 +11,7 @@
 @section('content')
 
     @if (request()->routeIs(['index']))
-        
+
         <!-- Hero section -->
         <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url({{ config('settings.images_domain') . 'media/img/lightslider.jpg' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
             <div class="pb-lg-5 mb-lg-3">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="row pb-lg-5 mb-4 mb-sm-5">
                         <div class="col-lg-6 col-md-8">
-                            <form action="{{ route('pretrazi') }}" method="get">
+                            <form action="{{ route('pretrazi', ['tip' => 'all']) }}" method="get">
                                 <div class="input-group input-group-lg flex-nowrap">
                                     <input type="text" class="form-control rounded-start" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
                                     <button class="btn btn-primary btn-lg fs-base" type="submit"><i class="ci-search"></i></button>
