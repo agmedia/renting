@@ -13,7 +13,7 @@ window.Vuex = Vuex;
 Vue.use(Vuex);
 
 import VueSweetalert2 from "vue-sweetalert2";
-/*import 'sweetalert2/dist/sweetalert2.min.css';*/
+import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2)
 
 import store from './store.js';
@@ -43,7 +43,6 @@ window.ToastSuccess = app.$swal.mixin({
     toast: true,
     icon: 'success',
     position: 'top-end',
-    showConfirmButton: false,
     timer: 2500,
 })
 

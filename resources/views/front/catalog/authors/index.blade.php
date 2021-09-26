@@ -44,10 +44,10 @@
             @endforeach
         </div>
 
-        <div class="row py-md-3">
-            <div class="col-lg-12">
-                {{ $authors->links() }}
-            </div>
+        <div class="row  py-md-3">
+
+                {{ $authors->onEachSide(1)->links() }}
+
         </div>
     </section>
 

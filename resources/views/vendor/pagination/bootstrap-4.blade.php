@@ -1,6 +1,11 @@
 @if ($paginator->hasPages())
-    <nav>
-        <ul class="pagination justify-content-end mt-2">
+
+    <div class="row mt-4">
+        <div class="col-md-12 d-flex justify-content-center   mb-sm-3">
+
+            <nav class="d-flex justify-content-between pt-2" >
+
+        <ul class="pagination ">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
                 <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
@@ -33,6 +38,7 @@
                     @endforeach
                 @endif
             @endforeach
+        </ul>
             <ul class="pagination">
 
             {{-- Next Page Link --}}
@@ -47,4 +53,18 @@
             @endif
         </ul>
     </nav>
+        </div>
+
+        <div class="col-md-12  d-flex justify-content-center  mt-2">
+            <p class="text-sm text-gray-700 leading-5">
+                Prikazano
+                <span class="font-weight-bold">{{ $paginator->firstItem() }}</span>
+                do
+                <span class="font-weight-bold">{{ $paginator->lastItem() }}</span>
+                od
+                <span class="font-weight-bold">{{ $paginator->total() }}</span>
+                rezultata
+            </p>
+        </div>
+    </div>
 @endif
