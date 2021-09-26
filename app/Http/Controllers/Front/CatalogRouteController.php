@@ -116,7 +116,8 @@ class CatalogRouteController extends Controller
                                       ->where('letter', $letter)
                                       ->orderBy('title')
                                       ->withCount('products')
-                                      ->paginate(36);
+                                      ->paginate(36)
+                                      ->appends(request()->query());
             });
 
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
@@ -157,7 +158,8 @@ class CatalogRouteController extends Controller
                                          ->where('letter', $letter)
                                          ->orderBy('title')
                                          ->withCount('products')
-                                         ->paginate(36);
+                                         ->paginate(36)
+                                         ->appends(request()->query());
             });
 
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
