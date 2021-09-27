@@ -13,11 +13,11 @@
                                 </div>
                             </div>
                             <div class="col-5">
-                                <img src="{{ $widget['image'] }}" width="250" height="210" class="rounded-start" alt="Card image">
+                                <img src="{{ $widget['image'] }}" load="lazy" width="250" height="210" class="rounded-start" alt="Card image">
                             </div>
                         @else
                             <div class="col-5">
-                                <img src="{{ $widget['image'] }}" width="250" height="210" class="rounded-start" alt="Card image">
+                                <img src="{{ $widget['image'] }}" load="lazy" width="250" height="210" class="rounded-start" alt="Card image">
                             </div>
                             <div class="col-7">
                                 <div class="card-body ps-md-4">
