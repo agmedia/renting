@@ -118,7 +118,13 @@
 
         </div>
     </div>
-    <div class="container pb-5 mb-2 mb-md-4">
+    <div class="container pb-5 mb-2 mb-md-4" id="filter-app">
+{{--        <div class="row">--}}
+{{--            <filter-view group="{{ $group }}" cat="{{ isset($cat) ? $cat['id'] : null }}" subcat="{{ isset($subcat) ? $subcat['id'] : null }}" author="{{ isset($author) ? $author['id'] : null }}" publisher="{{ isset($publisher) ? $publisher['id'] : null }}"></filter-view>--}}
+{{--            @livewire('front.product-category-list', ['ids' => $ids, 'author' => isset($author) ? $author : null, 'publisher' => isset($publisher) ? $publisher : null, 'group' => $group, 'cat' => $cat, 'subcat' => $subcat])--}}
+{{--            <products-view group="{{ $group }}" cat="{{ isset($cat) ? $cat['id'] : null }}" subcat="{{ isset($subcat) ? $subcat['id'] : null }}" author="{{ isset($author) ? $author['id'] : null }}" publisher="{{ isset($publisher) ? $publisher['id'] : null }}"></products-view>--}}
+{{--        </div>--}}
+
         <div class="row">
             <!-- FILTER -->
             @if (isset($author) && $author)
@@ -138,6 +144,9 @@
 @endsection
 
 @push('js_after')
+
+    <script src="{{ asset('js/filter.js') }}"></script>
+
     <script>
         $(() => {
             //

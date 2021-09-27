@@ -38,5 +38,8 @@
         "vue-sweetalert2": "^3.0.8",
         "vue-template-compiler": "^2.6.12",
         "vuex": "^3.6.2"
+    },
+    "dependencies": {
+        "vue-router": "^3.5.2"
     }
 }

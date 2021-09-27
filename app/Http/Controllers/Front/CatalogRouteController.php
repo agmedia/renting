@@ -60,7 +60,7 @@ class CatalogRouteController extends Controller
 
             $categories = Category::where('group', $group)->first('id');
 
-            if ( ! $categories->count()) {
+            if ( ! $categories) {
                 abort(404);
             }
         }

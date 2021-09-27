@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v2\CartController;
+use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
@@ -211,6 +212,12 @@ Route::prefix('api/v2')->group(function () {
 
     Route::get('/products/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('products.autocomplete');
     Route::post('/products/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('products.destroy.image');
+
+    // FILTER
+    Route::prefix('filter')->group(function () {
+        Route::post('/getCategories', [FilterController::class, 'categories']);
+        Route::post('/getProducts', [FilterController::class, 'products']);
+    });
 
     // SETTINGS
     Route::prefix('settings')->group(function () {

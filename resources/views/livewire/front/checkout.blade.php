@@ -38,41 +38,41 @@
                 <div><a href="{{ route('login') }}" class="alert-link">Prijava </a> za registrirane korisnike!</div>
             </div>
 
-            <!--        <div id="collapseLogin" aria-expanded="false" class="collapse">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="si-email">Email adresa</label>
-                                        <input class="form-control" type="email" id="si-email" placeholder="" required>
-                                        <div class="invalid-feedback">MOlimo upišite ispravnu email adresu.</div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="si-password">Lozinka</label>
-                                        <div class="password-toggle">
-                                            <input class="form-control" type="password" id="si-password" required>
-                                            <label class="password-toggle-btn" aria-label="Show/hide password">
-                                                <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="mb-3 d-flex flex-wrap justify-content-between">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="checkbox" id="si-remember">
-                                            <label class="form-check-label" for="si-remember">Zapamti me</label>
-                                        </div><a class="fs-sm" href="#">Zaboravljena lozinka?</a>
-                                    </div>
-                                    <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Prijava</button>
+            <div id="collapseLogin" aria-expanded="false" class="collapse">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="si-email">Email adresa</label>
+                                    <input class="form-control" type="email" id="si-email" placeholder="" required>
+                                    <div class="invalid-feedback">MOlimo upišite ispravnu email adresu.</div>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="si-password">Lozinka</label>
+                                    <div class="password-toggle">
+                                        <input class="form-control" type="password" id="si-password" required>
+                                        <label class="password-toggle-btn" aria-label="Show/hide password">
+                                            <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="mb-3 d-flex flex-wrap justify-content-between">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="si-remember">
+                                        <label class="form-check-label" for="si-remember">Zapamti me</label>
+                                    </div><a class="fs-sm" href="#">Zaboravljena lozinka?</a>
+                                </div>
+                                <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Prijava</button>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
+                </div>
+            </div>
         @endif
 
         <div class="row">

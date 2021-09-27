@@ -292,8 +292,6 @@ class Product extends Model
             $query->whereIn('id', $ids->unique());
         }
 
-        //dd($request->input('group'));
-
         if ($request->has('group')) {
             // Akcije
             if ($request->input('group') == 'snizenja') {

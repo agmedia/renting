@@ -174,7 +174,7 @@ class Checkout extends Component
      */
     public function render()
     {
-        $geo = (new GeoZone())->findState($this->address['state']);
+        $geo = (new GeoZone())->findState($this->address['state'] ?: 'Croatia');
 
         return view('livewire.front.checkout', [
             'shippingMethods' => (new ShippingMethod())->findGeo($geo['id']),
