@@ -8,14 +8,13 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <h1 class="text-light text-center">Lista autora</h1>
-                    <p class="pb-0 text-light text-center mb-0">Pretraživanje prema početnom slovu prezimena autora</p>
+
 
                     <form action="{{ route('pretrazi', ['tip' => 'author']) }}" method="get" style="max-width:500px; margin: 0 auto;margin-top:30px">
                         <div class="input-group input-group-lg flex-nowrap">
                             <input type="text" class="form-control rounded-start" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po autoru">
                             <button class="btn btn-primary btn-lg fs-base" type="submit"><i class="ci-search"></i></button>
                         </div>
-                    </form>
                     </form>
                 </div>
             </div>
