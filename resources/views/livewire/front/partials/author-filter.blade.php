@@ -45,7 +45,7 @@
 
             <!-- Filter by Brand-->
             @if ($selected_publisher)
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <div class="widget widget-filter mb-4 pb-4 border-bottom d-none d-sm-block">
                     <h3 class="widget-title">Autor</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" wire:model.debounce.300ms="searcha" class=" form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
@@ -67,7 +67,7 @@
 
             <!-- Filter by NAkladnik-->
             @if ($selected_author)
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <div class="widget widget-filter mb-4 pb-4 border-bottom d-none d-sm-block">
                     <h3 class="widget-title">Nakladnici</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" wire:model.debounce.300ms="searchp" class=" form-control rounded-end pe-5" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>

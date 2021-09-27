@@ -4,8 +4,8 @@
     <div class="container pt-2 pb-3">
         <div class="row">
             <div class="col-md-6 text-center text-md-start mb-4">
-                <div class="text-nowrap mb-3"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="{{ asset('media/img/logobijeli.svg') }}" width="180" height="76" alt="Antikvarijat Biblos"></a></div>
-                <p class="fs-sm text-white opacity-70 pb-1">Otkup i prodaja starih i rijetkih izdanja hrvatskih i stranih knjiga,<br> te zemljovida i veduta</p>
+                <div class="text-nowrap mb-3 d-none d-sm-block"><a class="d-inline-block align-middle mt-n2 me-2" href="#"><img class="d-block" src="{{ asset('media/img/logobijeli.svg') }}" width="180" height="76" alt="Antikvarijat Biblos"></a></div>
+                <p class="fs-sm text-white opacity-70 pb-1 d-none d-sm-block">Otkup i prodaja starih i rijetkih izdanja hrvatskih i stranih knjiga,<br> te zemljovida i veduta</p>
                 <h6 class="d-inline-block pe-3 me-3 border-end border-light"><span class="text-primary">{{ $products }} </span><span class="fw-normal text-white">Artikala</span></h6>
                 <h6 class="d-inline-block pe-3 me-3 "><span class="text-primary">{{ $users + 850 }} </span><span class="fw-normal text-white">Kupaca</span></h6>
 
@@ -55,7 +55,7 @@
 
         <div class="container">
 
-            <div class="row pt-3 pb-3">
+            <div class="row pt-3 pb-3 d-none d-sm-flex">
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="d-flex">
                         <i class="ci-gift text-primary" style="font-size: 2.25rem;"></i>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="hr-light mb-4">
+            <hr class="hr-light mb-4 d-none d-sm-block">
 
             <div class="d-md-flex justify-content-between pt-2">
                 <div class="pb-4 fs-xs text-light opacity-50 text-center text-md-start">© Sva prava pridržana. Web by <a class="text-light" href="https://www.agmedia.hr" target="_blank" rel="noopener">AG media</a></div>
