@@ -288,7 +288,11 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        if ($ids) {
+        if ($ids->count() && ! \request()->has('pojam')) {
+            $query->whereIn('id', $ids->unique());
+        }
+
+        if ($ids && \request()->has('pojam')) {
             $query->whereIn('id', $ids->unique());
         }
 

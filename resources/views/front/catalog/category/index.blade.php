@@ -145,7 +145,7 @@
 
 @push('js_after')
 
-    <script src="{{ asset('js/filter.js') }}"></script>
+{{--    <script src="{{ asset('js/filter.js') }}"></script>--}}
 
     <script>
         $(() => {
