@@ -28,7 +28,10 @@
     <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}">
+   <!-- <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}"> -->
+
+
+    <link rel="stylesheet" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}" media="print" onload="this.media='all'">
 
     @stack('css_after')
 
