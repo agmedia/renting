@@ -288,7 +288,7 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        if ($ids->count()) {
+        if ($ids) {
             $query->whereIn('id', $ids->unique());
         }
 

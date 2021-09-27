@@ -195,7 +195,6 @@ class CatalogRouteController extends Controller
 
             $ids = $ids['products'];
 
-
             return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
         }
 
