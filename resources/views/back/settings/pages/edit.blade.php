@@ -68,7 +68,7 @@
                                         <label class="custom-file-label" for="image-input">Odaberite sliku</label>
                                     </div>
                                     <div class="mt-2">
-                                        <img class="img-fluid" id="image-view" src="{{ isset($page) ? asset($page->image) : asset('media/img/lightslider.jpg') }}" alt="">
+                                        <img class="img-fluid" id="image-view" src="{{ isset($page) ? asset($page->image) : asset('media/img/lightslider.webp') }}" alt="">
                                     </div>
                                 </div>
                             </div>
