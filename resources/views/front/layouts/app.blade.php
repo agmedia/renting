@@ -47,7 +47,7 @@
         <div class="ms-3 text-nowrap">
 
             <a class="topbar-link d-none d-md-inline-block" href="{{ route('faq') }}">Česta pitanja</a>
-            <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="{{ route('catalog.route.blog') }}">Iz medija</a>
+            <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="{{ route('catalog.route.page',['page' => 'o-nama']) }}">O nama</a>
             <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="{{ route('kontakt') }}">Kontakt</a>
         </div>
     </div>
