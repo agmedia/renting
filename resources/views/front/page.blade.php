@@ -19,11 +19,12 @@
                     <div class="row mb-3 mb-sm-3">
                         <div class="col-lg-7 col-md-9  text-start">
                             <h1 class="text-white lh-base">Knjige, vedute & zemljovidi</h1>
-                            <h2 class="h5 text-white fw-light">Dobrodošli na stranice Antikvarijata Biblos.</h2>
+                            <h2 class="h5 text-white fw-light">Dobrodošli na stranice Antikvarijata Biblos</h2>
+                            <p class="text-white fw-light">Palmotićeva 28, Zagreb (križanje Palmotićeve i Đorđićeve ulice) radno vrijeme ponedjeljak-petak 09-20h, subotom 09-14h.</p>
                         </div>
                     </div>
                     <div class="row pb-lg-5 mb-4 mb-sm-5">
-                        <div class="col-lg-6 col-md-8">
+                        <div class="col-lg-7 col-md-8">
                             <form action="{{ route('pretrazi', ['tip' => 'all']) }}" method="get">
                                 <div class="input-group input-group-lg flex-nowrap">
                                     <input type="text" class="form-control rounded-start" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
