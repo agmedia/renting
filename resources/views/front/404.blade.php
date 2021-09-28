@@ -6,36 +6,39 @@
         <div class="row justify-content-center pt-lg-4 text-center">
             <div class="col-lg-5 col-md-7 col-sm-9">
                 <h1 class="display-404 py-lg-3">404</h1>
-                <h2 class="h3 mb-4">We can't seem to find the page you are looking for.</h2>
+                <h2 class="h3 mb-4">Čini se da ne možemo pronaći stranicu koju tražite.</h2>
                 <p class="fs-md mb-4">
-                    <u>Here are some helpful links instead:</u>
+                    <u>Evo nekoliko korisnih veza umjesto toga:</u>
                 </p>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-xl-8 col-lg-10">
                 <div class="row">
-                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="index.html">
+                    <div class="col-sm-4 mb-3">
+                        <a class="card h-100 border-0 shadow-sm" href="{{ route('index') }}">
                             <div class="card-body">
                                 <div class="d-flex align-items-center"><i class="ci-home text-primary h4 mb-0"></i>
                                     <div class="ps-3">
-                                        <h5 class="fs-sm mb-0">Homepage</h5><span class="text-muted fs-ms">Return to homepage</span>
+                                        <h5 class="fs-sm mb-0">Naslovnica</h5><span class="text-muted fs-ms">Povratak na naslovnicu</span>
                                     </div>
                                 </div>
-                            </div></a></div>
-                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="#">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="{{ route('index') }}">
                             <div class="card-body">
                                 <div class="d-flex align-items-center"><i class="ci-search text-success h4 mb-0"></i>
                                     <div class="ps-3">
-                                        <h5 class="fs-sm mb-0">Search</h5><span class="text-muted fs-ms">Find with advanced search</span>
+                                        <h5 class="fs-sm mb-0">Pretraži</h5><span class="text-muted fs-ms">Pronađite preko napredne tražiliceh</span>
                                     </div>
                                 </div>
                             </div></a></div>
-                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="help-topics.html">
+                    <div class="col-sm-4 mb-3"><a class="card h-100 border-0 shadow-sm" href="{{ route('faq') }}">
                             <div class="card-body">
                                 <div class="d-flex align-items-center"><i class="ci-help text-info h4 mb-0"></i>
                                     <div class="ps-3">
-                                        <h5 class="fs-sm mb-0">Help &amp; Support</h5><span class="text-muted fs-ms">Visit our help center</span>
+                                        <h5 class="fs-sm mb-0">Česta pitanja</h5><span class="text-muted fs-ms">Posjetite stranicu sa čestim pitanjima</span>
                                     </div>
                                 </div>
                             </div></a></div>

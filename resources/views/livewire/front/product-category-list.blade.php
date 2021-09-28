@@ -38,7 +38,7 @@
 
                     <p> Vaša pretraga za  <mark>"{{ $searchterm = request()->input('pojam') }}"</mark> pronašla je 0 rezultata.</p>
 
-                    <h4 class="h5">Pretraživanje Savjeta i smjernica</h4>
+                    <h4 class="h5">Savjeti i smjernica</h4>
 
                     <ul class="list-style">
                         <li>Dvaput provjerite pravopis.</li>
