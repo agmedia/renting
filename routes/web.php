@@ -294,8 +294,10 @@ Route::get('cache/image', [HomeController::class, 'imageCache']);
 Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
 /*
  * Groups, Categories and Products routes resolver.
+ * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
  */
 Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
+Route::get('kategorija-proizvoda/{group?}/', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
 //
 Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
 Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');

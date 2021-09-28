@@ -90,6 +90,21 @@ class CatalogRouteController extends Controller
 
 
     /**
+     * @param null $prod
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resolveOldCategoryUrl(string $group = null)
+    {
+        if ($group) {
+            return redirect()->route('catalog.route', ['group' => $group]);
+        }
+
+        abort(404);
+    }
+
+
+    /**
      *
      *
      * @param Author $author
