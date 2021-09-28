@@ -94,10 +94,10 @@ class CatalogRouteController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function resolveOldCategoryUrl(string $group = null)
+    public function resolveOldCategoryUrl(string $group = null, $cat = null, $subcat = null)
     {
         if ($group) {
-            return redirect()->route('catalog.route', ['group' => $group]);
+            return redirect()->route('catalog.route', ['group' => $group, 'cat' => $cat, 'subcat' => $subcat]);
         }
 
         abort(404);
