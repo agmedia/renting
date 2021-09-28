@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center"><i class="ci-home text-primary h4 mb-0"></i>
                                     <div class="ps-3">
-                                        <h5 class="fs-sm mb-0">Naslovnica</h5><span class="text-muted fs-ms">Povratak na naslovnicu</span>
+                                        <h5 class="fs-sm mb-0">Naslovnica</h5><span class="text-muted fs-ms">Povratak na naslovnu stranicu</span>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center"><i class="ci-search text-success h4 mb-0"></i>
                                     <div class="ps-3">
-                                        <h5 class="fs-sm mb-0">Pretraži</h5><span class="text-muted fs-ms">Pronađite preko napredne tražiliceh</span>
+                                        <h5 class="fs-sm mb-0">Pretraži</h5><span class="text-muted fs-ms">Pronađite preko napredne tražilice</span>
                                     </div>
                                 </div>
                             </div></a></div>
