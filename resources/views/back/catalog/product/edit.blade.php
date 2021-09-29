@@ -152,21 +152,24 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-slug">Autor</label>
-                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">
-                                        <option></option>
-                                        @foreach ($data['authors'] as $id => $author)
-                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->author_id)) ? 'selected' : '' }}>{{ $author }}</option>
-                                        @endforeach
-                                    </select>
+{{--                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">--}}
+{{--                                        <option></option>--}}
+{{--                                        @foreach ($data['authors'] as $id => $author)--}}
+{{--                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->author_id)) ? 'selected' : '' }}>{{ $author }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+
+                                    @livewire('back.layout.search.author-search', ['author_id' => isset($product) ? $product->author_id : 0])
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-slug">Izdavač</label>
-                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">
-                                        <option></option>
-                                        @foreach ($data['publishers'] as $id => $publisher)
-                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->publisher_id)) ? 'selected' : '' }}>{{ $publisher }}</option>
-                                        @endforeach
-                                    </select>
+{{--                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberite ili upišite novog">--}}
+{{--                                        <option></option>--}}
+{{--                                        @foreach ($data['publishers'] as $id => $publisher)--}}
+{{--                                            <option value="{{ $id }}" {{ ((isset($product)) and ($id == $product->publisher_id)) ? 'selected' : '' }}>{{ $publisher }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+                                    @livewire('back.layout.search.publisher-search', ['publisher_id' => isset($product) ? $product->publisher_id : 0])
                                 </div>
                             </div>
 

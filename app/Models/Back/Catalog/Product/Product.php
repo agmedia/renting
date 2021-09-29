@@ -146,12 +146,12 @@ class Product extends Model
     public function create()
     {
         $slug = $this->resolveSlug();
-        $author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();
+        /*$author = $this->resolveAuthor();
+        $publisher = $this->resolvePublisher();*/
 
         $id = $this->insertGetId([
-            'author_id'        => $author ? $author->id : 0,
-            'publisher_id'     => $publisher ? $publisher->id : 0,
+            'author_id'        => $this->request->author_id,
+            'publisher_id'     => $this->request->publisher_id,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -164,7 +164,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ?: $this->request->name . ($author ? '-' . $author->title : ''),
+            'meta_title'       => $this->request->meta_title ?: $this->request->name/* . ($author ? '-' . $author->title : '')*/,
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -203,12 +203,12 @@ class Product extends Model
     public function edit()
     {
         $slug = $this->resolveSlug('update');
-        $author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();
+        /*$author = $this->resolveAuthor();
+        $publisher = $this->resolvePublisher();*/
 
         $updated = $this->update([
-            'author_id'        => $author ? $author->id : 0,
-            'publisher_id'     => $publisher ? $publisher->id : 0,
+            'author_id'        => $this->request->author_id,
+            'publisher_id'     => $this->request->publisher_id,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -221,7 +221,7 @@ class Product extends Model
             'special'          => $this->request->special,
             'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
             'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ?: $this->request->name . '-' . ($author ? '-' . $author->title : ''),
+            'meta_title'       => $this->request->meta_title ?: $this->request->name/* . '-' . ($author ? '-' . $author->title : '')*/,
             'meta_description' => $this->request->meta_description,
             'pages'            => $this->request->pages,
             'dimensions'       => $this->request->dimensions,
@@ -415,7 +415,7 @@ class Product extends Model
     /**
      * @return false|mixed
      */
-    private function resolveAuthor()
+    /*private function resolveAuthor()
     {
         if ($this->request->author) {
             $author = Author::where('id', $this->request->author)->first();
@@ -439,13 +439,13 @@ class Product extends Model
         }
 
         return false;
-    }
+    }*/
 
 
     /**
      * @return false|mixed
      */
-    private function resolvePublisher()
+    /*private function resolvePublisher()
     {
         if ($this->request->publisher) {
             $publisher = Author::where('id', $this->request->publisher)->first();
@@ -469,7 +469,7 @@ class Product extends Model
         }
 
         return false;
-    }
+    }*/
 
 
     /**
