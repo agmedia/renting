@@ -108,7 +108,7 @@ class PublisherSearch extends Component
 
         $slug = Str::slug($this->new['title']);
 
-        $id = $this->insertGetId([
+        $id = Publisher::insertGetId([
             'letter'           => Helper::resolveFirstLetter($this->new['title']),
             'title'            => $this->new['title'],
             'description'      => '',

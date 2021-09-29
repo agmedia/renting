@@ -108,7 +108,7 @@ class AuthorSearch extends Component
 
         $slug = Str::slug($this->new['title']);
 
-        $id = $this->insertGetId([
+        $id = Author::insertGetId([
             'letter'           => Helper::resolveFirstLetter($this->new['title']),
             'title'            => $this->new['title'],
             'description'      => '',
