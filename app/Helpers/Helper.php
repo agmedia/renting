@@ -81,13 +81,15 @@ class Helper
      *
      * @return array|false|Collection
      */
-    public static function search(string $target = '', bool $builder = false)
+    public static function
+    search(string $target = '', bool $builder = false)
     {
         if ($target != '') {
             $response = collect();
 
             $products = Product::active()->where('name', 'like', '%' . $target . '%')
                 ->orWhere('meta_description', 'like', '%' . $target . '%')
+                ->orWhere('sku', 'like', '%' . $target . '%')
                 ->pluck('id');
 
             if ( ! $products->count()) {
@@ -108,7 +110,7 @@ class Helper
                                  ->orWhere('title', 'like', $preg[1] . '%' . $preg[0] . '% ' . $preg[2] . '%')
                                  ->orWhere('title', 'like', $preg[1] . '%' . $preg[2] . '% ' . $preg[0] . '%')
                                  ->with('products')->get();
-                
+
             } else {
                 $authors = Author::active()->where('title', 'like', '%' . $preg[0] . '%')
                                  ->with('products')->get();
