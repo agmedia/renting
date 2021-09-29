@@ -27,7 +27,13 @@
                                         <input type="text" class="form-control" id="bank-min" name="min">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="bank-price">Iznos naknade</label>
+                                        <input type="text" class="form-control" id="bank-price" name="data['price']">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
                                     <label for="bank-geo-zone">Geo zona <span class="small text-gray">(Geo zona na koju se odnosi dostava..)</span></label>
                                     <select class="js-select2 form-control" id="bank-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
                                         <option></option>
@@ -103,6 +109,7 @@
                 code: $('#bank-code').val(),
                 min: $('#bank-min').val(),
                 data: {
+                    price: $('#bank-price').val(),
                     short_description: $('#bank-short-description').val(),
                     description: $('#bank-description').val(),
                 },
@@ -129,6 +136,7 @@
         function edit_bank(item) {
             $('#bank-title').val(item.title);
             $('#bank-min').val(item.min);
+            $('#bank-price').val(item.data.price);
             $('#bank-short-description').val(item.data.short_description);
             $('#bank-description').val(item.data.description);
             $('#bank-sort-order').val(item.sort_order);

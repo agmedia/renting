@@ -27,7 +27,13 @@
                                         <input type="text" class="form-control" id="cod-min" name="min">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="cod-price">Iznos naknade</label>
+                                        <input type="text" class="form-control" id="cod-price" name="data['price']">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
                                     <label for="cod-geo-zone">Geo zona <span class="small text-gray">(Geo zona na koju se odnosi dostava..)</span></label>
                                     <select class="js-select2 form-control" id="cod-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
                                         <option></option>
@@ -102,6 +108,7 @@
                 code: $('#cod-code').val(),
                 min: $('#cod-min').val(),
                 data: {
+                    price: $('#cod-price').val(),
                     short_description: $('#cod-short-description').val(),
                     description: $('#cod-description').val(),
                 },
@@ -128,6 +135,7 @@
         function edit_cod(item) {
             $('#cod-title').val(item.title);
             $('#cod-min').val(item.min);
+            $('#cod-price').val(item.data.price);
             $('#cod-short-description').val(item.data.short_description);
             $('#cod-description').val(item.data.description);
             $('#cod-sort-order').val(item.sort_order);

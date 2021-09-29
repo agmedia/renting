@@ -27,6 +27,13 @@
                                         <input type="text" class="form-control" id="wspay-min" name="min">
                                     </div>
                                 </div>
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="wspay-price">Iznos naknade</label>
+                                        <input type="text" class="form-control" id="wspay-price" name="data['price']">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group mb-4">
@@ -154,6 +161,7 @@
                 code: $('#wspay-code').val(),
                 min: $('#wspay-min').val(),
                 data: {
+                    price: $('#wspay-price').val(),
                     short_description: $('#wspay-short-description').val(),
                     description: $('#wspay-description').val(),
                     shop_id: $('#wspay-shop-id').val(),
@@ -185,6 +193,7 @@
         function edit_wspay(item) {
             $('#wspay-title').val(item.title);
             $('#wspay-min').val(item.min);
+            $('#wspay-price').val(item.data.price);
             $('#wspay-short-description').val(item.data.short_description);
             $('#wspay-description').val(item.data.description);
 

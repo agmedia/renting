@@ -6,6 +6,7 @@ use App\Helpers\Session\CheckoutSession;
 use App\Models\Front\Cart\Totals;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\ProductAction;
+use App\Models\Front\Checkout\PaymentMethod;
 use App\Models\Front\Checkout\ShippingMethod;
 use Darryldecode\Cart\CartCondition;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -162,6 +163,14 @@ class AgCart extends Model
         $this->cart->clearCartConditions();
 
         $shipping_method = ShippingMethod::condition();
+        $payment_method = PaymentMethod::condition();
+
+        if ($payment_method) {
+            $str = str_replace('+', '', $payment_method->getValue());
+            if (number_format($str) > 0) {
+                $this->cart->condition($payment_method);
+            }
+        }
 
         if ($shipping_method) {
             $this->cart->condition($shipping_method);
@@ -173,7 +182,7 @@ class AgCart extends Model
         foreach ($this->cart->getConditions() as $condition) {
             $response[] = [
                 'name' => $condition->getName(),
-                'type' => 'shipping',
+                'type' => $condition->getType(),
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
                 'value' => $condition->getValue(),
                 'attributes' => $condition->getAttributes()

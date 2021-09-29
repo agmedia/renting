@@ -27,7 +27,13 @@
                                         <input type="text" class="form-control" id="pickup-min" name="min">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="pickup-price">Iznos naknade</label>
+                                        <input type="text" class="form-control" id="pickup-price" name="data['price']">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
                                     <label for="pickup-geo-zone">Geo zona <span class="small text-gray">(Geo zona na koju se odnosi dostava..)</span></label>
                                     <select class="js-select2 form-control" id="pickup-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
                                         <option></option>
@@ -102,6 +108,7 @@
                 code: $('#pickup-code').val(),
                 min: $('#pickup-min').val(),
                 data: {
+                    price: $('#pickup-price').val(),
                     short_description: $('#pickup-short-description').val(),
                     description: $('#pickup-description').val(),
                 },
@@ -128,6 +135,7 @@
         function edit_pickup(item) {
             $('#pickup-title').val(item.title);
             $('#pickup-min').val(item.min);
+            $('#pickup-price').val(item.data.price);
             $('#pickup-short-description').val(item.data.short_description);
             $('#pickup-description').val(item.data.description);
             $('#pickup-sort-order').val(item.sort_order);

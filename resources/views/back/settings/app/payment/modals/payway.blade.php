@@ -27,6 +27,13 @@
                                         <input type="text" class="form-control" id="payway-min" name="min">
                                     </div>
                                 </div>
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="payway-price">Iznos naknade</label>
+                                        <input type="text" class="form-control" id="payway-price" name="data['price']">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group mb-4">
@@ -154,6 +161,7 @@
                 code: $('#payway-code').val(),
                 min: $('#payway-min').val(),
                 data: {
+                    price: $('#payway-price').val(),
                     short_description: $('#payway-short-description').val(),
                     description: $('#payway-description').val(),
                     shop_id: $('#payway-shop-id').val(),
@@ -185,6 +193,7 @@
         function edit_payway(item) {
             $('#payway-title').val(item.title);
             $('#payway-min').val(item.min);
+            $('#payway-price').val(item.data.price);
             $('#payway-short-description').val(item.data.short_description);
             $('#payway-description').val(item.data.description);
 
