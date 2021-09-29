@@ -60,6 +60,10 @@ class ProductHelper
             return Str::slug($category->group) . '/' . $category->slug . '/' . $subcategory->slug . '/' . $product->slug;
         }
 
-        return Str::slug($category->group) . '/' . $category->slug . '/' . $product->slug;
+        if ($category) {
+            return Str::slug($category->group) . '/' . $category->slug . '/' . $product->slug;
+        }
+
+        return '/';
     }
 }

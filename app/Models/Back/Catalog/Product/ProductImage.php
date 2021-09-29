@@ -179,7 +179,7 @@ class ProductImage extends Model
      */
     private function saveImage($image)
     {
-        $time = time();
+        $time = Str::random(9);
         $img = Image::make($this->makeImageFromBase($image));
         $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . $time . '.';
 

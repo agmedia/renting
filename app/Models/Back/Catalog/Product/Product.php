@@ -186,9 +186,11 @@ class Product extends Model
 
             $product = $this->find($id);
 
-            return $product->update([
+            $product->update([
                 'url' => ProductHelper::url($product)
             ]);
+
+            return $product;
         }
 
         return false;
@@ -258,8 +260,8 @@ class Product extends Model
     {
         return [
             'categories' => (new Category())->getList(false),
-            'authors'    => Author::all()->pluck('title', 'id'),
-            'publishers' => Publisher::all()->pluck('title', 'id'),
+            /*'authors'    => Author::all()->pluck('title', 'id'),
+            'publishers' => Publisher::all()->pluck('title', 'id'),*/
             'letters'    => Settings::get('product', 'letter_styles'),
             'conditions' => Settings::get('product', 'condition_styles'),
             'bindings'   => Settings::get('product', 'binding_styles'),
