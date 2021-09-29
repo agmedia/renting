@@ -32,6 +32,11 @@ class PublisherSearch extends Component
     public $show_add_window = false;
 
     /**
+     * @var null|bool
+     */
+    public $list = null;
+
+    /**
      * @var array
      */
     public $new = [
@@ -85,6 +90,10 @@ class PublisherSearch extends Component
         $this->search_results = [];
         $this->search         = $publisher->title;
         $this->publisher_id     = $publisher->id;
+
+        if ($this->list) {
+            return $this->emit('publisherSelect', ['publisher' => $publisher->toArray()]);
+        }
     }
 
 
@@ -134,6 +143,14 @@ class PublisherSearch extends Component
      */
     public function render()
     {
+        if ($this->search == '') {
+            $this->publisher_id = 0;
+
+            if ($this->list) {
+                $this->emit('publisherSelect', ['publisher' => ['id' => '']]);
+            }
+        }
+
         return view('livewire.back.layout.search.publisher-search');
     }
 }

@@ -32,6 +32,11 @@ class AuthorSearch extends Component
     public $show_add_window = false;
 
     /**
+     * @var null|bool
+     */
+    public $list = null;
+
+    /**
      * @var array
      */
     public $new = [
@@ -85,6 +90,10 @@ class AuthorSearch extends Component
         $this->search_results = [];
         $this->search         = $author->title;
         $this->author_id     = $author->id;
+
+        if ($this->list) {
+            return $this->emit('authorSelect', ['author' => $author->toArray()]);
+        }
     }
 
 
@@ -134,6 +143,14 @@ class AuthorSearch extends Component
      */
     public function render()
     {
+        if ($this->search == '') {
+            $this->author_id = 0;
+
+            if ($this->list) {
+                $this->emit('authorSelect', ['author' => ['id' => '']]);
+            }
+        }
+
         return view('livewire.back.layout.search.author-search');
     }
 }

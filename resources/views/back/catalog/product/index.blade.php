@@ -119,22 +119,12 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="js-select2 form-control" id="author-select" name="author" style="width: 100%;" data-placeholder="Odaberi autora">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach ($authors as $id => $author)
-                                            <option value="{{ $id }}" {{ $id == request()->input('author') ? 'selected' : '' }}>{{ $author }}</option>
-                                        @endforeach
-                                    </select>
+                                    @livewire('back.layout.search.author-search', ['author_id' => request()->input('author') ?: '', 'list' => true])
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="js-select2 form-control" id="publisher-select" name="publisher" style="width: 100%;" data-placeholder="Odaberi izdavača">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach ($publishers as $id => $publisher)
-                                            <option value="{{ $id }}" {{ $id == request()->input('publisher') ? 'selected' : '' }}>{{ $publisher }}</option>
-                                        @endforeach
-                                    </select>
+                                    @livewire('back.layout.search.publisher-search', ['publisher_id' => request()->input('publisher') ?: '', 'list' => true])
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -251,14 +241,6 @@
                 placeholder: 'Odaberite kategoriju',
                 allowClear: true
             });
-            $('#author-select').select2({
-                placeholder: 'Odaberite autora',
-                allowClear: true
-            });
-            $('#publisher-select').select2({
-                placeholder: 'Odaberite izdavača',
-                allowClear: true
-            });
             $('#status-select').select2({
                 placeholder: 'Odaberite status',
                 allowClear: true
@@ -270,19 +252,22 @@
 
             //
             $('#category-select').on('change', (e) => {
+                console.log(e.currentTarget.selectedOptions[0])
                 setURL('category', e.currentTarget.selectedOptions[0]);
-            });
-            $('#author-select').on('change', (e) => {
-                setURL('author', e.currentTarget.selectedOptions[0]);
-            });
-            $('#publisher-select').on('change', (e) => {
-                setURL('publisher', e.currentTarget.selectedOptions[0]);
             });
             $('#status-select').on('change', (e) => {
                 setURL('status', e.currentTarget.selectedOptions[0]);
             });
             $('#sort-select').on('change', (e) => {
                 setURL('sort', e.currentTarget.selectedOptions[0]);
+            });
+
+            //
+            Livewire.on('authorSelect', (e) => {
+                setURL('author', e.author.id, true);
+            });
+            Livewire.on('publisherSelect', (e) => {
+                setURL('publisher', e.publisher.id, true);
             });
 
             /*$('#btn-inactive').on('click', () => {
@@ -301,7 +286,7 @@
          * @param type
          * @param search
          */
-        function setURL(type, search) {
+        function setURL(type, search, isValue = false) {
             let url = new URL(location.href);
             let params = new URLSearchParams(url.search);
             let keys = [];
@@ -320,6 +305,10 @@
 
             if (search.value) {
                 params.append(type, search.value);
+            }
+
+            if (isValue && search) {
+                params.append(type, search);
             }
 
             url.search = params;

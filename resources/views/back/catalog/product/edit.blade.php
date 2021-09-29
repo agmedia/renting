@@ -332,6 +332,14 @@
             $('#condition-select').select2({
                 tags: true
             });
+
+            Livewire.on('success_alert', () => {
+
+            });
+
+            Livewire.on('error_alert', (e) => {
+
+            });
         })
     </script>
 

@@ -53,11 +53,11 @@ class ProductController extends Controller
         }
 
         $categories = (new Category())->getList(false);
-        $authors    = Author::all()->pluck('title', 'id');
-        $publishers = Publisher::all()->pluck('title', 'id');
+        /*$authors    = Author::all()->pluck('title', 'id');
+        $publishers = Publisher::all()->pluck('title', 'id');*/
         $counts = [];//Product::setCounts($query);
 
-        return view('back.catalog.product.index', compact('products', 'categories', 'authors', 'publishers', 'counts'));
+        return view('back.catalog.product.index', compact('products', 'categories'/*, 'authors', 'publishers'*/, 'counts'));
     }
 
 
