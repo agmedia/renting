@@ -43,6 +43,8 @@
                         <li class="widget-list-item"><a class="widget-list-link" > kreditnom karticom jednokratno ili na rate</a></li>
                         <li class="widget-list-item"><a class="widget-list-link" > virmanom / općom uplatnicom / internet bankarstvom</a></li>
                         <li class="widget-list-item"><a class="widget-list-link" >gotovinom prilikom pouzeća</a></li>
+
+                        <li class="widget-list-item"><a class="widget-list-link" >osobno preuzimanje i plaćanje u antikvarijatu</a></li>
                     </ul>
 
                 </div>
