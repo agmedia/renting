@@ -99,7 +99,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <a class="font-w600" href="{{ route('orders.create') }}">
+                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">
                                         <strong>{{ $order->id }}</strong>
                                     </a>
                                 </td>
@@ -108,7 +108,7 @@
                                     <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
                                 </td>
                                 <td>
-                                    <a class="font-w600" href="#">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
+                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
                                 </td>
                                 <td class="text-center">{{ $order->products->count() }}</td>
                                 <td class="text-right">

@@ -37,8 +37,8 @@
                         <tbody>
                         @foreach ($order->products as $product)
                             <tr>
-                                <td class="text-center"><a href="be_pages_ecom_product_edit.html"> <img src="{{ asset($product->product->image) }}" height="80px"/></a></td>
-                                <td><a href="be_pages_ecom_product_edit.html"><strong>{{ $product->name }}</strong></a></td>
+                                <td class="text-center"> <img src="{{ asset($product->product->image) }}" height="80px"/></td>
+                                <td><strong>{{ $product->name }}</strong></td>
 
                                 <td class="text-center"><strong>{{ $product->quantity }}</strong></td>
                                 <td class="text-right">{!! \App\Helpers\Helper::priceString($product->price) !!}</td>
