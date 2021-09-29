@@ -354,6 +354,11 @@ class Product extends Model
             }
         }
 
+        else{
+            $query->orderBy('updated_at', 'desc');
+
+        }
+
         return $query;
     }
 
