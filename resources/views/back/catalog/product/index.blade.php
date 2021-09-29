@@ -348,7 +348,10 @@
             location.href = url;
         }
 
-
+        /**
+         *
+         * @param id
+         */
         function setStatus(id) {
             let val = $('#status-' + id)[0].checked;
 
