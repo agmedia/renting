@@ -245,10 +245,6 @@ class PaymentMethod
             ));
         }
 
-        Log::info('TU NISAM');
-
-        Log::info($condition->getValue());
-
         return $condition;
     }
 }
