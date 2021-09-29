@@ -212,6 +212,7 @@ Route::prefix('api/v2')->group(function () {
 
     Route::get('/products/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('products.autocomplete');
     Route::post('/products/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('products.destroy.image');
+    Route::post('/products/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('products.change.status');
 
     // FILTER
     Route::prefix('filter')->group(function () {

@@ -6,6 +6,7 @@ use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -48,6 +49,37 @@ class ProductController extends Controller
             ProductImage::where('image', $image->image)->delete();
 
             return response()->json(['success' => 200]);
+        }
+
+        return response()->json(['error' => 400]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeStatus(Request $request)
+    {
+        if ($request->has('id')) {
+            $product = Product::where('id', $request->input('id'))->first();
+
+            if ($product) {
+                if ($request->input('value')) {
+                    $product->update([
+                        'status' => 1,
+                        'quantity' => $product->quantity ?: 1
+                    ]);
+                } else {
+                    $product->update([
+                        'status' => 0,
+                        'quantity' => 0
+                    ]);
+                }
+
+                return response()->json(['success' => 200]);
+            }
         }
 
         return response()->json(['error' => 400]);

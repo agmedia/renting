@@ -206,7 +206,11 @@
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->updated_at)->format('d.m.Y') }}</td>
                                 <td class="text-center font-size-sm">
-                                    @include('back.layouts.partials.status', ['status' => $product->status])
+                                    {{--@include('back.layouts.partials.status', ['status' => $product->status])--}}
+                                    <div class="custom-control custom-switch custom-control-success mb-1">
+                                        <input type="checkbox" class="custom-control-input" id="status-{{ $product->id }}" onclick="setStatus({{ $product->id }})" name="status" @if ($product->status) checked="" @endif>
+                                        <label class="custom-control-label" for="status-{{ $product->id }}"></label>
+                                    </div>
                                 </td>
                                 <td class="text-right font-size-sm">
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.edit', ['product' => $product]) }}">
@@ -342,6 +346,19 @@
 
             url.search = params;
             location.href = url;
+        }
+
+
+        function setStatus(id) {
+            let val = $('#status-' + id)[0].checked;
+
+            axios.post("{{ route('products.change.status') }}", { id: id, value: val })
+            .then((response) => {
+                successToast.fire()
+            })
+            .catch((error) => {
+                errorToast.fire()
+            });
         }
     </script>
 

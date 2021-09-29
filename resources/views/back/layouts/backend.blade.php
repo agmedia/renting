@@ -83,11 +83,11 @@
             })
 
             const successToast = Swal.mixin({
-                type: 'success',
-                timer: 3000,
                 position: 'top-end',
-                showConfirmButton:false,
-                toast: true,
+                icon: 'success',
+                width: 270,
+                showConfirmButton: false,
+                timer: 1500
             })
 
             const errorToast = Swal.mixin({
