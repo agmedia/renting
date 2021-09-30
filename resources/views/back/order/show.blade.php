@@ -28,7 +28,7 @@
                         <tr>
                             <th class="text-center" style="width: 100px;">Slika</th>
                             <th>Naziv</th>
-
+                            <th>Polica</th>
                             <th class="text-center">Kol</th>
                             <th class="text-right" style="width: 10%;">Cijena</th>
                             <th class="text-right" style="width: 10%;">Ukupno</th>
@@ -38,8 +38,8 @@
                         @foreach ($order->products as $product)
                             <tr>
                                 <td class="text-center"> <img src="{{ asset($product->product->image) }}" height="80px"/></td>
-                                <td><strong>{{ $product->name }}</strong></td>
-
+                                <td><strong>{{ $product->name }} -  {{ $product->product->sku }}</strong></td>
+                                <td>{{ $product->product->polica }}</td>
                                 <td class="text-center"><strong>{{ $product->quantity }}</strong></td>
                                 <td class="text-right">{!! \App\Helpers\Helper::priceString($product->price) !!}</td>
                                 <td class="text-right">{!! \App\Helpers\Helper::priceString($product->total) !!}</td>

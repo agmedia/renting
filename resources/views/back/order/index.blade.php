@@ -78,6 +78,7 @@
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Datum</th>
                             <th>Status</th>
+                            <th>Plaćanje</th>
                             <th>Kupac</th>
                             <th class="text-center">Artikli</th>
                             <th class="text-right">Vrijednost</th>
@@ -107,6 +108,7 @@
                                 <td class="font-size-base">
                                     <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
                                 </td>
+                                <td class="text-lwft">{{ $order->payment_method }}</td>
                                 <td>
                                     <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
                                 </td>
