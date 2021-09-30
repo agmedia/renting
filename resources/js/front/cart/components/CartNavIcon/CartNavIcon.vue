@@ -3,9 +3,9 @@
         <!-- Cart dropdown-->
         <div class="dropdown-menu dropdown-menu-end">
             <div class="widget widget-cart px-3 pt-2 pb-3" style="width: 20rem;" v-if="$store.state.cart.count">
-                <div style="height: 5rem;" data-simplebar data-simplebar-auto-hide="false" v-for="item in $store.state.cart.items">
+                <div style="height: 5rem;" data-simplebar-auto-hide="false" v-for="item in $store.state.cart.items">
                     <div class="widget-cart-item pb-2 border-bottom">
-                        <button class="btn-close text-danger" type="button" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
+                        <button class="btn-close text-danger" type="button" @click.prevent="removeFromCart(item)" aria-label="Remove"><span aria-hidden="true">&times;</span></button>
                         <div class="d-flex align-items-center"><a class="d-block" href="#"><img :src="item.associatedModel.image" :alt="item.name" :title="item.name" width="64"></a>
                             <div class="ps-2">
                                 <h6 class="widget-product-title"><a :href="base_path + item.attributes.path">{{ item.name }}</a></h6>
@@ -60,7 +60,7 @@
             },
             //
             removeFromCart(item) {
-                //this.$store.dispatch('removeItem', item);
+                this.$store.dispatch('removeFromCart', item);
             }
         }
     };
