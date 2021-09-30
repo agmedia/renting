@@ -214,7 +214,7 @@
             // create a Slim Cropper
             Slim.create(cropper, {
                 ratio: '1:1',
-                size: '800,800',
+
                 maxFileSize: '2',
                 service: false,
                 meta: {
