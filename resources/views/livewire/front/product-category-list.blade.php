@@ -2,7 +2,7 @@
     <!-- Toolbar-->
     <div class="d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5">
         <div class="d-flex flex-wrap">
-            <div class="dropdown me-2 d-sm-none"><a class="btn btn-primary dropdown-toggle collapsed" href="#shop-sidebar" data-bs-toggle="collapse" aria-expanded="false"><i class="ci-filter-alt"></i></a></div>
+            <div class="dropdown me-2 d-md-none"><a class="btn btn-primary dropdown-toggle collapsed" href="#shop-sidebar" data-bs-toggle="collapse" aria-expanded="false"><i class="ci-filter-alt"></i></a></div>
             <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
                 <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting"></label>
                 <select class="form-select" id="sorting-select" wire:ignore>
