@@ -18,7 +18,7 @@
     <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Svi izdavači</h3>
+                <h3 class="block-title">Svi izdavači <small class="font-weight-light">{{ $publishers->total() }}</small></h3>
                 <div class="block-options">
                     <!-- Search Form -->
                     <form action="{{ route('publishers') }}" method="GET">
