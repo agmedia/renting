@@ -51,8 +51,10 @@ class Order extends Model
      *
      * @return mixed
      */
-    public function status(int $id)
+    public function status(string $id)
     {
+
+        $id = str_replace('-' . date('Y'), '', $id);
         $statuses = Settings::get('order', 'statuses');
 
         return $statuses->where('id', $id)->first();
