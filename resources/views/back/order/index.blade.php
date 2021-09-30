@@ -23,7 +23,7 @@
         <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Lista narudžbi</h3>
+                <h3 class="block-title">Lista narudžbi <small class="font-weight-light">{{ $orders->total() }}</small></h3>
                 <div class="block-options">
                     <div class="form-group mb-0 mr-2">
                         <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
