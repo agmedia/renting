@@ -135,15 +135,13 @@
                         axios.post(url, {id: id})
                         .then(response => {
                             if (response.data.success) {
-                                Swal.fire(
-                                    'Obrisano!',
-                                    'Stavak koji je naznačen je obrisan uspješno.',
-                                    'success'
-                                )
+                                successToast.fire({
+                                    timer: 2160
+                                });
 
                                 setTimeout(() => {
                                     location.reload();
-                                }, 2700);
+                                }, 2000);
                             } else {
                                 return errorToast.fire(response.data.message);
                             }

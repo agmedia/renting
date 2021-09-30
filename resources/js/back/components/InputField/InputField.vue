@@ -55,6 +55,9 @@
         },
         //
         methods: {
+            /**
+             *
+             */
             setFieldValue() {
                 if (this.target == 'price') {
                     this.field_value = Number(this.product.price).toFixed(2);
@@ -64,6 +67,11 @@
                 }
             },
 
+            /**
+             *
+             * @param price
+             * @return {string}
+             */
             formatPrice(price) {
                 return Number(price).toLocaleString('hr-HR', {
                     style: 'currency',
@@ -72,10 +80,16 @@
                 });
             },
 
+            /**
+             *
+             */
             viewField() {
                 this.view_input = true;
             },
 
+            /**
+             *
+             */
             updateField() {
                 let product = {
                     item: this.product,
