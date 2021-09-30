@@ -73,7 +73,7 @@ class Payway
 
         $hash = md5($payment_method->data->shop_id .
             $payment_method->data->secret_key .
-            $this->order->id .
+            $this->order->id.'-'.date("Y") .
             $payment_method->data->secret_key .
             $_total.
             $payment_method->data->secret_key
