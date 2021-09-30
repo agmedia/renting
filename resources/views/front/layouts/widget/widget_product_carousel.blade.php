@@ -1,3 +1,4 @@
+<!-- {"title": "Product Carousel", "description": "Some description of a Product Carousel."} -->
 <section class="container {{ $data['css'] }}" style="z-index: 10;">
     @if ($data['container'])
         <div class="card px-lg-2 border-0 shadow-lg">
