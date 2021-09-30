@@ -51,10 +51,8 @@ class Order extends Model
      *
      * @return mixed
      */
-    public function status(string $id)
+    public function status(int $id)
     {
-
-        $id = str_replace('-' . date('Y'), '', $id);
         $statuses = Settings::get('order', 'statuses');
 
         return $statuses->where('id', $id)->first();
@@ -84,8 +82,10 @@ class Order extends Model
      *
      * @return $this
      */
-    public function setData(int $id)
+    public function setData(string $id)
     {
+
+        $id = str_replace('-' . date('Y'), '', $id);
         $data = \App\Models\Back\Orders\Order::where('id', $id)->first();
 
         if ($data) {
