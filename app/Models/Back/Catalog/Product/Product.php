@@ -45,7 +45,16 @@ class Product extends Model
      */
     public function categories()
     {
-        return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id');
+        return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')->where('parent_id', '==', 0);
+    }
+
+
+    /**
+     * @return Relation
+     */
+    public function subcategories()
+    {
+        return $this->hasManyThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')->where('parent_id', '=!', 0);
     }
 
 
