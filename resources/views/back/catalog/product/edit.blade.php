@@ -119,7 +119,7 @@
                                     <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="Odaberite porez...">
                                         <option></option>
                                         @foreach ($data['taxes'] as $tax)
-                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 2)) ? 'selected' : '') }}>{{ $tax->title }}</option>
+                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
