@@ -20,7 +20,7 @@
             @include('back.layouts.partials.session')
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                     @forelse($categoriess as $group => $categories)
-                        <h3><small class="font-weight-light">Grupa kategorija: </small>{{ $group }} <small class="font-weight-light">{{ $categories->count() }}</small></h3>
+                        <h3 class="{{ ! $loop->first ? 'mt-5' : '' }}"><small class="font-weight-light">Grupa kategorija: </small>{{ $group }} <small class="font-weight-light">{{ $categories->count() }}</small></h3>
 
                         @forelse($categories as $category)
                             <div class="block block-rounded mb-1">
