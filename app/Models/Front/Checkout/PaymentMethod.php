@@ -234,7 +234,7 @@ class PaymentMethod
 
         if ($payment) {
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'Naknada za plaćanje',
+                'name' => 'Naknada za pouzeće',
                 'type' => 'paymeny',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
                 'value' => '+' . $payment->data->price ?: 0,

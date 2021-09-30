@@ -95,13 +95,13 @@
                 </div>
             </div>
 
-            <div class="d-none d-lg-flex pt-4 mt-3">
+            <div class="d-none d-lg-flex pt-0 mt-3">
                 {!! $data['payment_form'] !!}
             </div>
 
         </section>
 
-        <aside class="col-lg-4 pt-4 pt-lg-0 ps-xl-5 d-none d-lg-block">
+        <aside class="col-lg-4 pt-4 pt-lg-0 mb-3 ps-xl-5 d-block">
             <cart-view-aside route="pregled" continueurl="{{ route('index') }}" checkouturl="/"></cart-view-aside>
         </aside>
     </div>
