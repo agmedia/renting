@@ -59,7 +59,7 @@
                         <div class="slim"
                              {{--data-service="{{ route('images.upload') }}"--}}
                              data-ratio="1:1"
-                             data-size="800,800"
+
                              data-max-file-size="2"
                              data-meta-type="products"
                              data-meta-type_id="{{ $product->id }}"
@@ -89,7 +89,7 @@
                                     <div class="slim"
                                          {{--data-service="{{ route('images.ajax.upload') }}"--}}
                                          data-ratio="1:1"
-                                         data-size="800,800"
+
                                          data-max-file-size="2"
                                          data-meta-type="products"
                                          data-meta-type_id="{{ $product->id }}"
