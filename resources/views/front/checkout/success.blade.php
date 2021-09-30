@@ -9,7 +9,7 @@
             <div class="card py-3 mt-sm-3">
                 <div class="card-body text-center">
                     <h2 class="h4 pb-3">Vaša narudžba je uspješno dovršena!</h2>
-
+{{$data['order']['payment_code']}}
 
                     @if($data['order']['payment_code'] =='bank')
 
