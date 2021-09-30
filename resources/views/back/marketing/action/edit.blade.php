@@ -58,6 +58,7 @@
                                                 @foreach ($groups as $group)
                                                     <option value="{{ $group->id }}" {{ (isset($action) and $group->id == $action->group) ? 'selected="selected"' : '' }}>{{ $group->title }}</option>
                                                 @endforeach
+                                                <option value="all" {{ (isset($action) and 'all' == $action->group) ? 'selected="selected"' : '' }}>Svi Artikli</option>
                                             </select>
                                         </div>
                                     </div>

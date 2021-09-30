@@ -186,7 +186,7 @@ class Action extends Model
         }
 
         if ($this->request->group == 'all') {
-            return Product::pluck('id');
+            return 'all';
         }
     }
 
@@ -200,21 +200,31 @@ class Action extends Model
     private function updateProducts($ids, int $id, $start, $end): void
     {
         $query    = [];
-        $products = Product::whereIn('id', $ids)->get();
 
-        foreach ($products as $product) {
+        if ($ids == 'all') {
+            $products = Product::all()->pluck('price', 'id');
+        } else {
+            $products = Product::whereIn('id', $ids)->pluck('price', 'id');
+        }
+
+        foreach ($products as $k_id => $price) {
             $query[] = [
-                'product_id' => $product->id,
-                'special'    => Helper::calculateDiscountPrice($product->price, $this->request->discount)
+                'product_id' => $k_id,
+                'special'    => Helper::calculateDiscountPrice($price, $this->request->discount)
             ];
         }
 
         $start = $start ?: 'null';
         $end = $end ?: 'null';
 
-        DB::table('temp_table')->insert($query);
+        DB::table('temp_table')->truncate();
 
-        DB::select(DB::raw("UPDATE products p INNER JOIN temp_table tt ON p.id = tt.product_id SET p.special = tt.special, p.action_id = " . $id . ", p.special_from = " . $start . ", p.special_to = " . $end . ""));
+        foreach (array_chunk($query,1000) as $chunk) {
+            DB::table('temp_table')->insert($chunk);
+        }
+
+
+        DB::select(DB::raw("UPDATE products p INNER JOIN temp_table tt ON p.id = tt.product_id SET p.special = tt.special, p.action_id = " . $id . ", p.special_from = '" . $start . "', p.special_to = '" . $end . "';"));
 
         DB::table('temp_table')->truncate();
     }
