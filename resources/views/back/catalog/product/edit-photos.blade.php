@@ -58,7 +58,7 @@
                         </div>
                         <div class="slim"
                              {{--data-service="{{ route('images.upload') }}"--}}
-                             data-ratio="1:1"
+                             data-ratio="3:4"
                              data-size="600,800"
                              data-max-file-size="2"
                              data-meta-type="products"
@@ -88,7 +88,7 @@
                                 <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
                                     <div class="slim"
                                          {{--data-service="{{ route('images.ajax.upload') }}"--}}
-                                         data-ratio="1:1"
+                                         data-ratio="3:4"
                                          data-size="600,800"
                                          data-max-file-size="2"
                                          data-meta-type="products"
@@ -213,7 +213,7 @@
 
             // create a Slim Cropper
             Slim.create(cropper, {
-                ratio: '1:1',
+                ratio: '3:4',
                 size: '600,800',
                 maxFileSize: '2',
                 service: false,
