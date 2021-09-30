@@ -43,6 +43,7 @@ window.ToastSuccess = app.$swal.mixin({
     toast: true,
     icon: 'success',
     position: 'top-end',
+    showConfirmButton: false,
     timer: 2500,
 })
 
