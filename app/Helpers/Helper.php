@@ -198,7 +198,7 @@ class Helper
             $widgets = [
                 'title' => $widget->title,
                 'subtitle' => $widget->subtitle,
-                'url' => null,
+                'url' => $widget->url,
                 'css' => $data['css'],
                 'container' => (isset($data['container']) && $data['container'] == 'on') ? 1 : null,
                 'background' => (isset($data['background']) && $data['background'] == 'on') ? 1 : null,
