@@ -118,6 +118,7 @@
                                             @if ( ! empty($category['subs']))
                                                 @foreach ($category['subs'] as $sub_id => $subcategory)
                                                     <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>&nbsp;&nbsp;&nbsp;&nbsp;{{ $subcategory['title'] }}</option>
+
                                                 @endforeach
                                             @endif
                                         @endforeach
