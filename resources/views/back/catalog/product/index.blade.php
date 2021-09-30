@@ -101,8 +101,8 @@
                         <div class="form-group row items-push mb-0">
                             <div class="col-md-9 mb-0">
                                 <div class="form-group">
-                                    <div class="input-group  flex-nowrap">
-                                        <input type="text" class="form-control  py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                                    <div class="input-group flex-nowrap">
+                                        <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
                                         <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                                     </div>
                                     <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
@@ -192,7 +192,7 @@
                             <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="ag-table-with-input-fields">
                         @forelse ($products as $product)
                             <tr>
                                 <td class="text-center font-size-sm">
@@ -207,15 +207,12 @@
                                     @endif
                                 </td>
                                 <td class="font-size-sm">{{ $product->sku }}</td>
-                                <td class="font-size-sm text-right change-input">
-                                    @if ($product->special())
-                                        <s>{{ number_format($product->price, 2) }}kn</s><br>
-                                        <strong>{{ number_format($product->special(), 2) }}kn</strong>
-                                    @else
-                                        <strong><span>{{ number_format($product->price, 2) }}</span>kn</strong>
-                                    @endif
+                                <td class="font-size-sm text-right">
+                                    <ag-input-field item="{{ $product }}" target="price"></ag-input-field>
                                 </td>
-                                <td class="font-size-sm text-center change-input"><span>{{ $product->year }}</span></td>
+                                <td class="font-size-sm text-center">
+                                    <ag-input-field item="{{ $product }}" target="year"></ag-input-field>
+                                </td>
                                 <td class="font-size-sm text-center">{{ $product->polica }}</td>
                                 <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
@@ -252,7 +249,7 @@
 @endsection
 
 @push('js_after')
-
+    <script src="{{ asset('js/ag-input-field.js') }}"></script>
 
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v2;
 
+use App\Helpers\Helper;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Catalog\Product\ProductImage;
 use Illuminate\Http\Request;
@@ -83,5 +84,43 @@ class ProductController extends Controller
         }
 
         return response()->json(['error' => 400]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateItem(Request $request)
+    {
+        if ($request->has('product')) {
+            $product = $request->input('product');
+            $target = $product['target'];
+
+            if ($product['item'][$target] != $product['new_value']) {
+                // If update price
+                if ($target == 'price' && $product['item']['special']) {
+                    $discount = Helper::calculateDiscount($product['item']['price'], $product['item']['special']);
+                    $new_special = Helper::calculateDiscountPrice($product['new_value'], $discount);
+
+                    Product::where('id', $product['item']['id'])->update([
+                        'special' => $new_special
+                    ]);
+                }
+
+                Product::where('id', $product['item']['id'])->update([
+                    $target => $product['new_value']
+                ]);
+
+                return response()->json([
+                    'success' => 200,
+                    'value_1' => $product['new_value'],
+                    'value_2' => isset($new_special) ? $new_special : null
+                ]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
     }
 }
