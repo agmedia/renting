@@ -103,10 +103,10 @@ class Category extends Model
 
         foreach ($groups as $group) {
             if ($full) {
-                $cats = $this->where('group', $group)->with('subcategories')->withCount('products')->get();
+                $cats = $this->where('group', $group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get();
             } else {
                 $cats = [];
-                $fill = $this->where('group', $group)->with('subcategories')->withCount('products')->get();
+                $fill = $this->where('group', $group)->where('parent_id', 0)->with('subcategories')->withCount('products')->get();
 
                 foreach ($fill as $cat) {
                     $cats[$cat->id] = ['title' => $cat->title];
