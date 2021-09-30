@@ -71,6 +71,8 @@
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-filter"></i> Filter
                         </button>
+
+                        <a class="btn btn-primary btn-inline-block" href="{{route('products')}}"><i class=" ci-trash"></i> Očisti filtere</a>
 <!--                        <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Filtriraj <i class="fa fa-angle-down ml-1"></i>
                         </button>
@@ -95,28 +97,37 @@
             <div class="collapse show" id="collapseExample">
                 <div class="block-content bg-body-dark">
                     <form action="{{ route('products') }}" method="get">
-                        <div class="form-group">
-                            <input type="text" class="form-control  py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
-                            <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
-                        </div>
                         <div class="form-group row items-push mb-0">
-                            <div class="col-md-3">
+                            <div class="col-md-9 mb-0">
                                 <div class="form-group">
-                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach ($categories as $group => $cats)
-                                            @foreach ($cats as $id => $category)
-                                                <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
-                                                @if ( ! empty($category['subs']))
-                                                    @foreach ($category['subs'] as $sub_id => $subcategory)
-                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    </select>
+                                    <div class="input-group  flex-nowrap">
+                                        <input type="text" class="form-control  py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                                            <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
+                                    </div>
+                                    <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
+
                                 </div>
                             </div>
+                            <div class="col-md-3 mb-0">
+                            <div class="form-group">
+                                <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    @foreach ($categories as $group => $cats)
+                                        @foreach ($cats as $id => $category)
+                                            <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
+                                            @if ( ! empty($category['subs']))
+                                                @foreach ($category['subs'] as $sub_id => $subcategory)
+                                                    <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="form-group row items-push mb-0">
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     @livewire('back.layout.search.author-search', ['author_id' => request()->input('author') ?: '', 'list' => true])
@@ -152,9 +163,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-block" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> Pretraži</button>
-                            </div>
+
                         </div>
                     </form>
                 </div>
