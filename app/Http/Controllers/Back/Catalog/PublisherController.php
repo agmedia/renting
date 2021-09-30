@@ -16,9 +16,9 @@ class PublisherController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search') && ! empty($request->search)) {
-            $publishers = Publisher::where('title', 'like', '%' . $request->search . '%')->paginate(12);
+            $publishers = Publisher::where('title', 'like', '%' . $request->search . '%')->paginate(12)->appends(request()->query());
         } else {
-            $publishers = Publisher::paginate(12);
+            $publishers = Publisher::paginate(12)->appends(request()->query());
         }
 
         return view('back.catalog.publisher.index', compact('publishers'));

@@ -16,9 +16,9 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search') && ! empty($request->search)) {
-            $authors = Author::where('title', 'like', '%' . $request->search . '%')->paginate(12);
+            $authors = Author::where('title', 'like', '%' . $request->search . '%')->paginate(12)->appends(request()->query());
         } else {
-            $authors = Author::paginate(12);
+            $authors = Author::paginate(12)->appends(request()->query());
         }
 
         return view('back.catalog.author.index', compact('authors'));
