@@ -111,4 +111,25 @@ class AuthorController extends Controller
 
         return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyApi(Request $request)
+    {
+        if ($request->has('id')) {
+            $destroyed = Author::destroy($request->input('id'));
+
+            if ($destroyed) {
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
+    }
 }

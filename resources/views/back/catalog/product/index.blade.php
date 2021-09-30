@@ -189,7 +189,7 @@
                             <th>Dodano</th>
                             <th>Zadnja izmjena</th>
                             <th class="text-center">Status</th>
-                            <th class="text-right" style="width: 72px;">Uredi</th>
+                            <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -207,15 +207,15 @@
                                     @endif
                                 </td>
                                 <td class="font-size-sm">{{ $product->sku }}</td>
-                                <td class="font-size-sm text-right">
+                                <td class="font-size-sm text-right change-input">
                                     @if ($product->special())
                                         <s>{{ number_format($product->price, 2) }}kn</s><br>
                                         <strong>{{ number_format($product->special(), 2) }}kn</strong>
                                     @else
-                                        <strong>{{ number_format($product->price, 2) }}kn</strong>
+                                        <strong><span>{{ number_format($product->price, 2) }}</span>kn</strong>
                                     @endif
                                 </td>
-                                <td class="font-size-sm text-center">{{ $product->year }}</td>
+                                <td class="font-size-sm text-center change-input"><span>{{ $product->year }}</span></td>
                                 <td class="font-size-sm text-center">{{ $product->polica }}</td>
                                 <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
@@ -231,6 +231,7 @@
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.edit', ['product' => $product]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
+                                    <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $product->id }}, '{{ route('products.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @empty
@@ -298,6 +299,7 @@
             $('#btn-week').on('click', () => {
                 setRegularURL('week', true);
             });*/
+
         });
 
         /**

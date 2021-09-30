@@ -97,6 +97,7 @@
                 showConfirmButton:false,
                 toast: true,
             })
+
         </script>
 
         <script>
@@ -113,6 +114,51 @@
                 .replace(/\-\-+/g, '-') // Replace multiple - with single -
                 .replace(/^-+/, '') // Trim - from start of text
                 .replace(/-+$/, '') // Trim - from end of text
+            }
+        </script>
+
+        <script>
+            /**
+             *
+             */
+            function deleteItem(id, url) {
+                Swal.fire({
+                    title: 'Obriši..!',
+                    text: "Jeste li sigurni da želite obrisati stavak?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Da, obriši!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        axios.post(url, {id: id})
+                        .then(response => {
+                            if (response.data.success) {
+                                Swal.fire(
+                                    'Obrisano!',
+                                    'Stavak koji je naznačen je obrisan uspješno.',
+                                    'success'
+                                )
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 2700);
+                            } else {
+                                return errorToast.fire(response.data.message);
+                            }
+                        });
+
+
+                    }
+                });
+            }
+
+            /**
+             *
+             */
+            function confirmDeleteItem(id, url) {
+
             }
         </script>
 

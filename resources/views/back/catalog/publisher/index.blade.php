@@ -54,11 +54,10 @@
                                     @endif
                                 </td>
                                 <td class="text-right font-size-sm">
-                                    <div class="btn-group">
-                                        <a href="{{ route('publishers.edit', ['publisher' => $publisher]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
-                                            <i class="fa fa-pencil-alt"></i>
-                                        </a>
-                                    </div>
+                                    <a href="{{ route('publishers.edit', ['publisher' => $publisher]) }}" class="btn btn-sm btn-secondary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Uredi">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $publisher->id }}, '{{ route('publishers.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @empty

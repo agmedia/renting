@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Catalog\Product\ProductCategory;
+use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -147,6 +150,11 @@ class ProductController extends Controller
      */
     public function destroy(Request $request, Product $product)
     {
+        ProductImage::where('product_id', $product->id)->delete();
+        ProductCategory::where('product_id', $product->id)->delete();
+
+        Storage::deleteDirectory(config('filesystems.disks.products.root') . $product->id);
+
         $destroyed = Product::destroy($product->id);
 
         if ($destroyed) {
@@ -154,6 +162,34 @@ class ProductController extends Controller
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyApi(Request $request)
+    {
+        if ($request->has('id')) {
+            $id = $request->input('id');
+            
+            ProductImage::where('product_id', $id)->delete();
+            ProductCategory::where('product_id', $id)->delete();
+
+            Storage::deleteDirectory(config('filesystems.disks.products.root') . $id);
+
+            $destroyed = Product::destroy($id);
+
+            if ($destroyed) {
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
     }
 
 

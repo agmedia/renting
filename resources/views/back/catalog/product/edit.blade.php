@@ -269,15 +269,29 @@
                 </div>
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
+                        @if (isset($product))
+                            <div class="col-md-5 text-right">
+                                <a href="{{ route('products.destroy', ['product' => $product]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-product-form{{ $product->id }}').submit();">
+                                    <i class="fa fa-trash-alt"></i> Obriši
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </form>
+
+        @if (isset($product))
+            <form id="delete-product-form{{ $product->id }}" action="{{ route('products.destroy', ['product' => $product]) }}" method="POST" style="display: none;">
+                @csrf
+                {{ method_field('DELETE') }}
+            </form>
+        @endif
     </div>
 @endsection
 

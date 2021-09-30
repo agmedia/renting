@@ -111,4 +111,25 @@ class BlogController extends Controller
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error deleting the blog.']);
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyApi(Request $request)
+    {
+        if ($request->has('id')) {
+            $destroyed = Blog::destroy($request->input('id'));
+
+            if ($destroyed) {
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
+    }
 }

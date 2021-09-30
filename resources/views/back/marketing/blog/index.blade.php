@@ -67,6 +67,7 @@
                                 <a class="btn btn-sm btn-alt-secondary" href="{{ route('blogs.edit', ['blog' => $blog]) }}">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </a>
+                                <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $blog->id }}, '{{ route('blogs.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
                             </td>
                         </tr>
                     @empty

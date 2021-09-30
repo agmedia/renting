@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Back\Marketing;
 
 use App\Http\Controllers\Controller;
+use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Marketing\Action;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ActionController extends Controller
 {
@@ -100,8 +102,37 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, Action $action)
     {
-        dd($request);
+        $destroyed = Action::destroy($action->id);
+
+        if ($destroyed) {
+            return redirect()->route('actions')->with(['success' => 'Akcija je uspjšeno izbrisana!']);
+        }
+
+        return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyApi(Request $request)
+    {
+        if ($request->has('id')) {
+            $action = Action::find($request->input('id'));
+            $action->truncateProducts();
+            $destroyed = $action->delete();
+
+            if ($destroyed) {
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 300]);
     }
 }

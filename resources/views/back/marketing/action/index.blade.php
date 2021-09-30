@@ -44,7 +44,7 @@
                             <th>Vrijedi do</th>
                             <th>Popust</th>
                             <th class="text-center font-size-sm">Status</th>
-                            <th class="text-right" style="width: 100px;">Uredi</th>
+                            <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,12 +57,13 @@
                                 <td class="font-size-sm">{{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : '' }}</td>
                                 <td class="font-size-sm">{{ $action->discount }}</td>
                                 <td class="text-center font-size-sm">
-                                    <i class="fa fa-fw fa-check text-success"></i>
+                                    @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
                                 </td>
                                 <td class="text-right font-size-sm">
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
+                                    <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $action->id }}, '{{ route('actions.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         @empty
