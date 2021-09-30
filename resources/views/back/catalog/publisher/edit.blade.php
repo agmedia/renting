@@ -104,13 +104,13 @@
                 </div>
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
                         @if (isset($publisher))
-                            <div class="col-md-6 text-right">
+                            <div class="col-md-5 text-right">
                                 <a href="{{ route('publishers.destroy', ['publisher' => $publisher]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-publisher-form{{ $publisher->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
