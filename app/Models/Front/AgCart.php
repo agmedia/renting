@@ -76,6 +76,8 @@ class AgCart extends Model
      */
     public function add($request, $id = null)
     {
+        Log::info('add($request, $id = null)');
+
         if ($id) {
             // Updejtaj artikl sa apsolutnom količinom.
             foreach ($this->cart->getContent() as $item) {
@@ -200,6 +202,8 @@ class AgCart extends Model
      */
     private function addToCart($request): array
     {
+        Log::info('addToCart($request): array');
+
         $this->cart->add($this->structureCartItem($request));
 
         return $this->get();
@@ -277,14 +281,6 @@ class AgCart extends Model
     {
         // Ako artikl ima akciju.
         if ($product->special()) {
-            if ($product->action()) {
-                return new CartCondition([
-                    'name'  => $product->action()->title,
-                    'type'  => 'promo',
-                    'value' => -($product->price - $product->special())
-                ]);
-            }
-
             return new CartCondition([
                 'name'  => 'Akcija',
                 'type'  => 'promo',
