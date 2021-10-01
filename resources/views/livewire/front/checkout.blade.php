@@ -22,21 +22,34 @@
         </a>
     </div>
 
-
     @if ($step == 'podaci')
-
-
-
-
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
+
+        @if (session()->has('login_success'))
+            <div class="alert alert-success d-flex mb-3" role="alert">
+                <div class="alert-icon">
+                    <i class="ci-close"></i>
+                </div>
+                <div>{{ session('login_success') }}</div>
+            </div>
+        @endif
 
         @if (auth()->guest())
             <div class="alert alert-secondary d-flex mb-3" role="alert">
                 <div class="alert-icon">
                     <i class="ci-user"></i>
                 </div>
-                <div><a href="{{ route('login') }}" class="alert-link">Prijava </a> za registrirane korisnike!</div>
+                <div><a data-bs-toggle="collapse" href="#collapseLogin" role="button" aria-expanded="false" aria-controls="collapseLogin" class="alert-link">Prijava </a> za registrirane korisnike!</div>
             </div>
+
+            @if (session()->has('error'))
+                <div class="alert alert-danger d-flex mb-3" role="alert">
+                    <div class="alert-icon">
+                        <i class="ci-close"></i>
+                    </div>
+                    <div>{{ session('error') }}</div>
+                </div>
+            @endif
 
             <div id="collapseLogin" aria-expanded="false" class="collapse">
                 <div class="card mb-3">
@@ -45,7 +58,7 @@
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="si-email">Email adresa</label>
-                                    <input class="form-control" type="email" id="si-email" placeholder="" required>
+                                    <input class="form-control" type="email" wire:model.defer="login.email" placeholder="" required>
                                     <div class="invalid-feedback">MOlimo upišite ispravnu email adresu.</div>
                                 </div>
                             </div>
@@ -53,7 +66,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="si-password">Lozinka</label>
                                     <div class="password-toggle">
-                                        <input class="form-control" type="password" id="si-password" required>
+                                        <input class="form-control" type="password" wire:model.defer="login.pass" required>
                                         <label class="password-toggle-btn" aria-label="Show/hide password">
                                             <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
                                         </label>
@@ -63,11 +76,11 @@
                             <div class="col-sm-12">
                                 <div class="mb-3 d-flex flex-wrap justify-content-between">
                                     <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" id="si-remember">
+                                        <input class="form-check-input" type="checkbox" wire:model.defer="login.remember" id="si-remember">
                                         <label class="form-check-label" for="si-remember">Zapamti me</label>
                                     </div><a class="fs-sm" href="#">Zaboravljena lozinka?</a>
                                 </div>
-                                <button class="btn btn-primary btn-shadow d-block w-100" type="submit">Prijava</button>
+                                <button class="btn btn-primary btn-shadow d-block w-100" wire:click="authUser()" type="button">Prijava</button>
                             </div>
                         </div>
                     </div>
@@ -144,10 +157,7 @@
             </div>
         </div>
 
-
-
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Trebate R1 račun?</h2>
-
         <div class="row mt-3">
             <div class="col-sm-6">
                 <div class="mb-3">
@@ -165,60 +175,12 @@
             </div>
         </div>
 
-
-
-        @if (auth()->guest())
-        <!--            <h6 class="mb-3 py-3 border-bottom">Registracija</h6>
-            <div class="form-check">
-                <input class="form-check-input" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="napraviracun" type="checkbox" >
-                <label class="form-check-label" for="napraviracun" >Ujedno napravi i korisnički račun </label>
-
-            </div>
-
-            <div id="collapseExample" aria-expanded="false" class="collapse">
-                <div class="card mb-3 mt-3">
-                    <div class="card-body">
-                    <div class="row mt-3">
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                            <label class="form-label" for="su-password">Lozinka</label>
-                            <div class="password-toggle">
-                                <input class="form-control" type="password" id="su-password" required>
-                                <label class="password-toggle-btn" aria-label="Show/hide password">
-                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
-                                </label>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-sm-6">
-                             <div class="mb-3">
-                            <label class="form-label" for="su-password-confirm">Potvrdite lozinku</label>
-                            <div class="password-toggle">
-                                <input class="form-control" type="password" id="su-password-confirm" required>
-                                <label class="password-toggle-btn" aria-label="Show/hide password">
-                                    <input class="password-toggle-check" type="checkbox"><span class="password-toggle-indicator"></span>
-                                </label>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>-->
-        @endif
-
-    <!-- Navigation (desktop)-->
-        <div class="d-flex pt-0 mt-3">
+        <div class="d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('kosarica') }}"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na košaricu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" wire:click="changeStep('dostava')" href="javascript:void(0);"><span class="d-none d-sm-inline">Na odabir dostave</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
 
-        <!-- Navigation (mobile)-->
-
-
-
     @endif
-
 
 
     @if ($step == 'dostava')
@@ -251,14 +213,11 @@
             </table>
         </div>
         @error('shipping') <small class="text-danger">Način dostave je obvezan</small> @enderror
-        <div class=" d-flex pt-0 mt-3">
+        <div class=" d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" wire:click="changeStep('podaci')" href="javascript:void(0);"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na adresu</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" wire:click="changeStep('placanje')" href="javascript:void(0);"><span class="d-none d-sm-inline">Na odabir plaćanja</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
-
-
     @endif
-
 
 
     @if ($step == 'placanje')
@@ -281,7 +240,7 @@
             </table>
         </div>
         @error('payment') <small class="text-danger">Način plaćanja je obvezan</small> @enderror
-        <div class=" d-flex pt-0 mt-3">
+        <div class=" d-flex pt-4 mt-3">
             <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" wire:click="changeStep('dostava')" href="javascript:void(0);"><i class="ci-arrow-left mt-sm-0 me-1"></i><span class="d-none d-sm-inline">Povratak na odabir dostave</span><span class="d-inline d-sm-none">Povratak</span></a></div>
             <div class="w-50 ps-2"><a class="btn btn-primary d-block w-100" href="{{ ($payment != '') ? route('pregled') : '#' }}"><span class="d-none d-sm-inline">Pregledajte narudžbu</span><span class="d-inline d-sm-none">Nastavi</span><i class="ci-arrow-right mt-sm-0 ms-1"></i></a></div>
         </div>
@@ -296,23 +255,11 @@
     <script>
 
         $(document).ready(function() {
-            /*$('#checkout-country').select2({
-                placeholder: 'Odaberite državu...',
-                //minimumResultsForSearch: Infinity
-            });*/
-
             $('#checkout-country').on('change', (e) => {
-                console.log(e.currentTarget.value)
-            @this.stateSelected(e.currentTarget.value);
+                @this.stateSelected(e.currentTarget.value);
             });
         });
 
-        Livewire.on('shipping_selected', () => {
-            console.log('shipping_selected');
-
-            //$store.state.service.getCart();
-            console.log(Vuex)
-        });
     </script>
     <script>
         $( document ).ready(function() {

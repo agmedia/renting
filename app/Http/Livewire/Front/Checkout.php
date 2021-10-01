@@ -8,6 +8,9 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Front\Checkout\GeoZone;
 use App\Models\Front\Checkout\PaymentMethod;
 use App\Models\Front\Checkout\ShippingMethod;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class Checkout extends Component
@@ -17,6 +20,15 @@ class Checkout extends Component
      * @var string
      */
     public $step = '';
+
+    /**
+     * @var array
+     */
+    public $login = [
+        'email' => '',
+        'pass' => '',
+        'remember' => false
+    ];
 
     /**
      * @var string[]
@@ -97,6 +109,28 @@ class Checkout extends Component
         }
 
         $this->changeStep($this->step);
+    }
+
+
+    public function authUser()
+    {
+        //dump($this->login);
+
+        $validated = Validator::make([
+            'email' => $this->login['email'],
+            'password' => $this->login['pass'],
+        ],[
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ])->validate();
+
+        if (Auth::attempt($validated, $this->login['remember'])) {
+            session()->regenerate();
+
+            session()->flash('login_success', 'Uspješno ste se prijavili na vaš račun...');
+        }
+
+        session()->flash('error', 'Upisani podaci ne odgovaraju našim korisnicima...');
     }
 
 
