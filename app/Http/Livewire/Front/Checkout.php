@@ -126,6 +126,7 @@ class Checkout extends Component
 
         if (Auth::attempt($validated, $this->login['remember'])) {
             session()->regenerate();
+            $this->setAddress();
 
             session()->flash('login_success', 'Uspješno ste se prijavili na vaš račun...');
         }
