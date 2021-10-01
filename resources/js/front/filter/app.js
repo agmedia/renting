@@ -22,10 +22,10 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
     mode: 'history',
-    routes: [
+    /*routes: [
         // dynamic segments start with a colon
         { path: '/', component: Filter }
-    ]
+    ]*/
 });
 /*import Vuex from 'vuex';
 window.Vuex = Vuex;

@@ -86,9 +86,9 @@ class FilterController extends Controller
 
         $params = $request->input('params');
 
-        /*if (isset($params['autor']) && $params['autor']) {
-            if (strpos($params['autor'], ',') !== false) {
-                $arr = explode(',', $params['autor']);
+        if (isset($params['autor']) && $params['autor']) {
+            if (strpos($params['autor'], '+') !== false) {
+                $arr = explode('+', $params['autor']);
 
                 foreach ($arr as $item) {
                     $_author = Author::where('slug', $item)->first();
@@ -100,21 +100,19 @@ class FilterController extends Controller
             }
         }
 
-        if ($request->has('nakladnik')) {
-            $nak = $request->input('nakladnik');
-
-            if (strpos($nak, ',') !== false) {
-                $arr = explode(',', $nak);
+        if (isset($params['nakladnik']) && $params['nakladnik']) {
+            if (strpos($params['nakladnik'], '+') !== false) {
+                $arr = explode('+', $params['nakladnik']);
 
                 foreach ($arr as $item) {
                     $_publisher = Publisher::where('slug', $item)->first();
                     $this->publishers[] = $_publisher;
                 }
             } else {
-                $_publisher = Publisher::where('slug', $nak)->first();
+                $_publisher = Publisher::where('slug', $params['nakladnik'])->first();
                 $this->publishers[] = $_publisher;
             }
-        }*/
+        }
 
         $request_data = [];
 
@@ -139,11 +137,11 @@ class FilterController extends Controller
         }
 
         if (isset($params['autor']) && $params['autor']) {
-            $request_data['autor'] = $params['autor'];
+            $request_data['autor'] = $this->authors;
         }
 
         if (isset($params['nakladnik']) && $params['nakladnik']) {
-            $request_data['nakladnik'] = $params['nakladnik'];
+            $request_data['nakladnik'] = $this->publishers;
         }
 
         $request = new Request($request_data);
@@ -151,6 +149,44 @@ class FilterController extends Controller
         $products = (new Product())->filter($request)->with('author')->paginate(config('settings.pagination.front'));
 
         return response()->json($products);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authors(Request $request)
+    {
+        if ($request->has('params')) {
+            return response()->json(
+                (new Author())->filter($request->input('params'))->basicData()->get()->toArray()
+            );
+        }
+
+        return response()->json(
+            Author::query()->active()->featured()->withCount('products')->basicData()->get()->toArray()
+        );
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function publishers(Request $request)
+    {
+        if ($request->has('params')) {
+            return response()->json(
+                (new Publisher())->filter($request->input('params'))->basicData()->get()->toArray()
+            );
+        }
+
+        return response()->json(
+            Publisher::active()->featured()->withCount('products')->basicData()->get()->toArray()
+        );
     }
 
 }

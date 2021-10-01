@@ -16,7 +16,6 @@
                             <a :href="category.url" class="accordion-button py-2 none collapsed" role="link">
                                 {{ category.title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ category.count }}</span>
                             </a>
-<!--                            <router-link class="accordion-button py-2 none collapsed" :to="category.url">{{ category.title }}<span class="badge bg-secondary ms-2 position-absolute end-0">{{ category.count }}</span></router-link>-->
                         </h3>
                     </div>
                 </div>
@@ -42,56 +41,36 @@
                     </div>
                 </div>
 
+                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                    <h3 class="widget-title">Autori</h3>
+                    <div class="input-group input-group-sm mb-2 autocomplete">
+                        <input type="search" v-model="searchAuthor" class="form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                    </div>
+                    <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
+                        <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1" v-for="author in authors">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" :id="author.slug" :value="author.slug" v-model="selectedAuthors">
+                                <label class="form-check-label widget-filter-item-text" :for="author.slug">{{ author.title }}</label>
+                            </div><span class="fs-xs text-muted">{{ author.products_count }}</span>
+                        </li>
+                    </ul>
+                </div>
 
-                <!--                                &lt;!&ndash; Filter by Brand&ndash;&gt;
-                                <div class="widget widget-filter mb-4 pb-4 border-bottom">
-                                    <h3 class="widget-title">Autor</h3>
-                                    <div class="input-group input-group-sm mb-2 autocomplete">
-                                        <input type="search" wire:model.debounce.300ms="searcha" class=" form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-                                        @if ( ! empty($authors))
-                                        <div id="myInputautocomplete-list" class="autocomplete-items">
-                                            @forelse($authors as $author)
-                                            <div wire:click="resolveRoute('{{ url($author->url) }}')">
-                                                {{ $author->title }}<span class="fs-xs text-muted float-right"></span>
-                                                <span class="badge bg-secondary ms-2 position-absolute end-0 me-2">{{ $author->products_count }}</span>
-                                            </div>
-                                            @empty
-                                            <div>Nema autora prema upitu</div>
-                                            @endforelse
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-
-
-                                &lt;!&ndash; Filter by NAkladnik&ndash;&gt;
-                                <div class="widget widget-filter mb-4 pb-4 border-bottom">
-                                    <h3 class="widget-title">Nakladnici</h3>
-                                    <div class="input-group input-group-sm mb-2 autocomplete">
-                                        <input type="search" wire:model.debounce.300ms="searchp" class=" form-control rounded-end pe-5" placeholder="Pretraži nakladnika"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
-                                        @if ( ! empty($publishers))
-                                        <div id="myInputautocomplete-list" class="autocomplete-items">
-                                            @forelse($publishers as $publisher)
-                                            <div wire:click="resolveRoute('{{ url($publisher->url) }}')">
-                                                {{ $publisher->title }}
-                                                <span class="badge bg-secondary ms-2 position-absolute end-0 me-2">{{ $publisher->products_count }}</span>
-                                            </div>
-                                            @empty
-                                            <div>Nema nakladnika prema upitu</div>
-                                            @endforelse
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <button type="button" onclick="cleanURL();" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
-
-                                @if (strpos(Request::path(), 'zemljovidi-i-vedute') !== false && Request::path() != 'zemljovidi-i-vedute')
-                                <a href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}" class="btn btn-secondary ms-2 mt-4"><i class="ci-arrow-left me-2"></i>Povratak</a>
-
-                                @elseif (strpos(Request::path(), 'knjige') !== false && Request::path() != 'knjige')
-                                <a href="{{ route('catalog.route', ['group' => 'knjige']) }}" class="btn btn-secondary ms-2 mt-4"><i class="ci-arrow-left me-2"></i>Povratak</a>
-                                @endif-->
+                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                    <h3 class="widget-title">Nakladnici</h3>
+                    <div class="input-group input-group-sm mb-2 autocomplete">
+                        <input type="search" v-model="searchPublisher" class="form-control rounded-end pe-5" placeholder="Pretraži nakladnike"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
+                    </div>
+                    <ul class="widget-list widget-filter-list list-unstyled pt-1" style="max-height: 11rem;" data-simplebar data-simplebar-auto-hide="false">
+                        <li class="widget-filter-item d-flex justify-content-between align-items-center mb-1" v-for="publisher in publishers">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" :id="publisher.slug" :value="publisher.slug" v-model="selectedPublishers">
+                                <label class="form-check-label widget-filter-item-text" :for="publisher.slug">{{ publisher.title }}</label>
+                            </div><span class="fs-xs text-muted">{{ publisher.products_count }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
             </div>
         </div>
     </aside>
@@ -105,14 +84,21 @@
             subcat: String,
             author: String,
             publisher: String,
-            //buttons: {type: String, default: 'true'},
         },
         //
         data() {
             return {
                 categories: [],
+                authors: [],
+                publishers: [],
+                selectedAuthors: [],
+                selectedPublishers: [],
                 start: '',
                 end: '',
+                autor: '',
+                nakladnik: '',
+                searchAuthor: '',
+                searchPublisher: ''
             }
         },
         //
@@ -122,46 +108,114 @@
             },
             end(currentValue) {
                 this.setQueryParam('end', currentValue);
+            },
+            selectedAuthors(value) {
+                this.autor = value.join('+');
+                this.setQueryParamOther('autor', this.autor);
+            },
+            selectedPublishers(value) {
+                this.nakladnik = value.join('+');
+                this.setQueryParamOther('nakladnik', this.nakladnik);
+            },
+            searchAuthor(value) {
+                if (value.length > 2 || value == '') {
+                    return this.getAuthors();
+                }
+            },
+            $route(params) {
+                this.checkQuery(params);
             }
         },
+
         //
         mounted() {
+            this.checkQuery(this.$route);
+
             this.getCategories();
+            this.getAuthors();
+            this.getPublishers();
         },
 
         methods: {
             //
             getCategories() {
-                let params = {
-                    group: this.group,
-                    cat: this.cat,
-                    subcat: this.subcat,
-                    author: this.author,
-                    publisher: this.publisher,
-                };
+                let params = this.setParams();
 
                 axios.post('filter/getCategories', { params }).then(response => {
                     this.categories = response.data;
-
-                    console.log(response.data)
                 });
             },
 
             //
-            setURL(type, search) {
+            getAuthors() {
+                let params = this.setParams();
 
-                this.$router.push({query: {[type]: search}});
+                axios.post('filter/getAuthors', { params }).then(response => {
+                    this.authors = response.data;
+                });
+            },
+
+            //
+            getPublishers() {
+                let params = this.setParams();
+
+                axios.post('filter/getPublishers', { params }).then(response => {
+                    this.publishers = response.data;
+                });
             },
 
             //
             setQueryParam(type, value) {
                 if (value.length > 3 && value.length < 5) {
-                    this.setURL(type, value);
+                    this.$router.push({query: this.resolveQuery()}).catch(()=>{});
                 }
 
                 if (value == '') {
-                    this.$router.replace({query: {[type]: undefined}});
+                    this.$router.push({query: this.resolveQuery()}).catch(()=>{});
                 }
+            },
+
+            //
+            setQueryParamOther(type, value) {
+                this.$router.push({query: this.resolveQuery()}).catch(()=>{});
+
+                if (value == '') {
+                    this.$router.push({query: this.resolveQuery()}).catch(()=>{});
+                }
+            },
+
+            //
+            resolveQuery() {
+                let params = {
+                    start: this.start,
+                    end: this.end,
+                    autor: this.autor,
+                    nakladnik: this.nakladnik
+                };
+
+                return Object.entries(params).reduce((acc, [key, val]) => {
+                    if (!val) return acc
+                    return { ...acc, [key]: val }
+                }, {});
+            },
+
+            checkQuery(params) {
+                this.start = params.query.start ? params.query.start : '';
+                this.end = params.query.end ? params.query.end : '';
+                this.autor = params.query.autor ? params.query.autor : '';
+                this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+            },
+
+            setParams() {
+                return {
+                    group: this.group,
+                    cat: this.cat,
+                    subcat: this.subcat,
+                    author: this.author,
+                    publisher: this.publisher,
+                    search_author: this.searchAuthor,
+                    search_publisher: this.searchPublisher
+                };
             },
 
             /**

@@ -1845,29 +1845,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 //
 //
 //
@@ -1952,15 +1947,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cat: String,
     subcat: String,
     author: String,
-    publisher: String //buttons: {type: String, default: 'true'},
-
+    publisher: String
   },
   //
   data: function data() {
     return {
       categories: [],
+      authors: [],
+      publishers: [],
+      selectedAuthors: [],
+      selectedPublishers: [],
       start: '',
-      end: ''
+      end: '',
+      autor: '',
+      nakladnik: '',
+      searchAuthor: '',
+      searchPublisher: ''
     };
   },
   //
@@ -1970,48 +1972,124 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     end: function end(currentValue) {
       this.setQueryParam('end', currentValue);
+    },
+    selectedAuthors: function selectedAuthors(value) {
+      this.autor = value.join('+');
+      this.setQueryParamOther('autor', this.autor);
+    },
+    selectedPublishers: function selectedPublishers(value) {
+      this.nakladnik = value.join('+');
+      this.setQueryParamOther('nakladnik', this.nakladnik);
+    },
+    searchAuthor: function searchAuthor(value) {
+      if (value.length > 2 || value == '') {
+        return this.getAuthors();
+      }
+    },
+    $route: function $route(params) {
+      this.checkQuery(params);
     }
   },
   //
   mounted: function mounted() {
+    this.checkQuery(this.$route);
     this.getCategories();
+    this.getAuthors();
+    this.getPublishers();
   },
   methods: {
     //
     getCategories: function getCategories() {
       var _this = this;
 
-      var params = {
-        group: this.group,
-        cat: this.cat,
-        subcat: this.subcat,
-        author: this.author,
-        publisher: this.publisher
-      };
+      var params = this.setParams();
       axios.post('filter/getCategories', {
         params: params
       }).then(function (response) {
         _this.categories = response.data;
-        console.log(response.data);
       });
     },
     //
-    setURL: function setURL(type, search) {
-      this.$router.push({
-        query: _defineProperty({}, type, search)
+    getAuthors: function getAuthors() {
+      var _this2 = this;
+
+      var params = this.setParams();
+      axios.post('filter/getAuthors', {
+        params: params
+      }).then(function (response) {
+        _this2.authors = response.data;
+      });
+    },
+    //
+    getPublishers: function getPublishers() {
+      var _this3 = this;
+
+      var params = this.setParams();
+      axios.post('filter/getPublishers', {
+        params: params
+      }).then(function (response) {
+        _this3.publishers = response.data;
       });
     },
     //
     setQueryParam: function setQueryParam(type, value) {
       if (value.length > 3 && value.length < 5) {
-        this.setURL(type, value);
+        this.$router.push({
+          query: this.resolveQuery()
+        })["catch"](function () {});
       }
 
       if (value == '') {
-        this.$router.replace({
-          query: _defineProperty({}, type, undefined)
-        });
+        this.$router.push({
+          query: this.resolveQuery()
+        })["catch"](function () {});
       }
+    },
+    //
+    setQueryParamOther: function setQueryParamOther(type, value) {
+      this.$router.push({
+        query: this.resolveQuery()
+      })["catch"](function () {});
+
+      if (value == '') {
+        this.$router.push({
+          query: this.resolveQuery()
+        })["catch"](function () {});
+      }
+    },
+    //
+    resolveQuery: function resolveQuery() {
+      var params = {
+        start: this.start,
+        end: this.end,
+        autor: this.autor,
+        nakladnik: this.nakladnik
+      };
+      return Object.entries(params).reduce(function (acc, _ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            key = _ref2[0],
+            val = _ref2[1];
+
+        if (!val) return acc;
+        return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, key, val));
+      }, {});
+    },
+    checkQuery: function checkQuery(params) {
+      this.start = params.query.start ? params.query.start : '';
+      this.end = params.query.end ? params.query.end : '';
+      this.autor = params.query.autor ? params.query.autor : '';
+      this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+    },
+    setParams: function setParams() {
+      return {
+        group: this.group,
+        cat: this.cat,
+        subcat: this.subcat,
+        author: this.author,
+        publisher: this.publisher,
+        search_author: this.searchAuthor,
+        search_publisher: this.searchPublisher
+      };
     },
 
     /**
@@ -2100,9 +2178,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'ProductsList',
   props: {
@@ -2110,26 +2185,27 @@ __webpack_require__.r(__webpack_exports__);
     cat: String,
     subcat: String,
     author: String,
-    publisher: String //buttons: {type: String, default: 'true'},
-
+    publisher: String
   },
   //
   data: function data() {
     return {
-      products: []
+      products: [],
+      autor: '',
+      nakladnik: '',
+      start: '',
+      end: ''
     };
   },
   //
   watch: {
     $route: function $route(params) {
-      console.log('params');
-      console.log(params);
+      this.checkQuery(params);
     }
   },
   //
   mounted: function mounted() {
-    this.getProducts();
-    console.log(location);
+    this.checkQuery(this.$route);
   },
   methods: {
     getProducts: function getProducts() {
@@ -2139,15 +2215,23 @@ __webpack_require__.r(__webpack_exports__);
         group: this.group,
         cat: this.cat,
         subcat: this.subcat,
-        author: this.author,
-        publisher: this.publisher
+        autor: this.autor,
+        nakladnik: this.nakladnik,
+        start: this.start,
+        end: this.end
       };
       axios.post('filter/getProducts', {
         params: params
       }).then(function (response) {
-        _this.products = response.data.data;
-        console.log(response.data);
+        _this.products = response.data;
       });
+    },
+    checkQuery: function checkQuery(params) {
+      this.start = params.query.start ? params.query.start : '';
+      this.end = params.query.end ? params.query.end : '';
+      this.autor = params.query.autor ? params.query.autor : '';
+      this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+      this.getProducts();
     },
     add: function add(id) {
       this.$store.dispatch('addToCart', {
@@ -2964,7 +3048,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                " +
+                                "\n                            " +
                                   _vm._s(category.title) +
                                   " "
                               ),
@@ -3054,14 +3138,281 @@ var render = function() {
                   ])
                 ])
               ])
-            ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "widget widget-filter mb-4 pb-4 border-bottom" },
+              [
+                _c("h3", { staticClass: "widget-title" }, [_vm._v("Autori")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "input-group input-group-sm mb-2 autocomplete"
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchAuthor,
+                          expression: "searchAuthor"
+                        }
+                      ],
+                      staticClass: "form-control rounded-end pe-5",
+                      attrs: { type: "search", placeholder: "Pretraži autora" },
+                      domProps: { value: _vm.searchAuthor },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.searchAuthor = $event.target.value
+                        }
+                      }
+                    }),
+                    _c("i", {
+                      staticClass:
+                        "ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  {
+                    staticClass:
+                      "widget-list widget-filter-list list-unstyled pt-1",
+                    staticStyle: { "max-height": "11rem" },
+                    attrs: {
+                      "data-simplebar": "",
+                      "data-simplebar-auto-hide": "false"
+                    }
+                  },
+                  _vm._l(_vm.authors, function(author) {
+                    return _c(
+                      "li",
+                      {
+                        staticClass:
+                          "widget-filter-item d-flex justify-content-between align-items-center mb-1"
+                      },
+                      [
+                        _c("div", { staticClass: "form-check" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedAuthors,
+                                expression: "selectedAuthors"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: { type: "checkbox", id: author.slug },
+                            domProps: {
+                              value: author.slug,
+                              checked: Array.isArray(_vm.selectedAuthors)
+                                ? _vm._i(_vm.selectedAuthors, author.slug) > -1
+                                : _vm.selectedAuthors
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.selectedAuthors,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = author.slug,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.selectedAuthors = $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.selectedAuthors = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.selectedAuthors = $$c
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "form-check-label widget-filter-item-text",
+                              attrs: { for: author.slug }
+                            },
+                            [_vm._v(_vm._s(author.title))]
+                          )
+                        ]),
+                        _c("span", { staticClass: "fs-xs text-muted" }, [
+                          _vm._v(_vm._s(author.products_count))
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "widget widget-filter mb-4 pb-4 border-bottom" },
+              [
+                _c("h3", { staticClass: "widget-title" }, [
+                  _vm._v("Nakladnici")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "input-group input-group-sm mb-2 autocomplete"
+                  },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.searchPublisher,
+                          expression: "searchPublisher"
+                        }
+                      ],
+                      staticClass: "form-control rounded-end pe-5",
+                      attrs: {
+                        type: "search",
+                        placeholder: "Pretraži nakladnike"
+                      },
+                      domProps: { value: _vm.searchPublisher },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.searchPublisher = $event.target.value
+                        }
+                      }
+                    }),
+                    _c("i", {
+                      staticClass:
+                        "ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  {
+                    staticClass:
+                      "widget-list widget-filter-list list-unstyled pt-1",
+                    staticStyle: { "max-height": "11rem" },
+                    attrs: {
+                      "data-simplebar": "",
+                      "data-simplebar-auto-hide": "false"
+                    }
+                  },
+                  _vm._l(_vm.publishers, function(publisher) {
+                    return _c(
+                      "li",
+                      {
+                        staticClass:
+                          "widget-filter-item d-flex justify-content-between align-items-center mb-1"
+                      },
+                      [
+                        _c("div", { staticClass: "form-check" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectedPublishers,
+                                expression: "selectedPublishers"
+                              }
+                            ],
+                            staticClass: "form-check-input",
+                            attrs: { type: "checkbox", id: publisher.slug },
+                            domProps: {
+                              value: publisher.slug,
+                              checked: Array.isArray(_vm.selectedPublishers)
+                                ? _vm._i(
+                                    _vm.selectedPublishers,
+                                    publisher.slug
+                                  ) > -1
+                                : _vm.selectedPublishers
+                            },
+                            on: {
+                              change: function($event) {
+                                var $$a = _vm.selectedPublishers,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = publisher.slug,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.selectedPublishers = $$a.concat([
+                                        $$v
+                                      ]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.selectedPublishers = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.selectedPublishers = $$c
+                                }
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass:
+                                "form-check-label widget-filter-item-text",
+                              attrs: { for: publisher.slug }
+                            },
+                            [_vm._v(_vm._s(publisher.title))]
+                          )
+                        ]),
+                        _c("span", { staticClass: "fs-xs text-muted" }, [
+                          _vm._v(_vm._s(publisher.products_count))
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(0)
           ]
         )
       ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-primary mt-4", attrs: { type: "button" } },
+      [_c("i", { staticClass: " ci-trash" }), _vm._v(" Očisti sve")]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -3085,12 +3436,38 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "col-lg-8" }, [
-    _vm._m(0),
+    _c(
+      "div",
+      {
+        staticClass:
+          "d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5"
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "d-flex pb-3" }, [
+          _c(
+            "span",
+            {
+              staticClass:
+                "fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block"
+            },
+            [
+              _vm._v(
+                "Ukupno " +
+                  _vm._s(Number(_vm.products.total).toLocaleString("hr-HR")) +
+                  " artikala"
+              )
+            ]
+          )
+        ])
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",
       { staticClass: "row mx-n2" },
-      _vm._l(_vm.products, function(product) {
+      _vm._l(_vm.products.data, function(product) {
         return _c("div", { staticClass: "col-md-4 col-6 px-2 mb-4" }, [
           _c("div", { staticClass: "card product-card-alt" }, [
             _c("div", { staticClass: "product-thumb" }, [
@@ -3180,67 +3557,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "d-flex justify-content-center justify-content-sm-between align-items-center pt-2 pb-4 pb-sm-5"
-      },
-      [
-        _c("div", { staticClass: "d-flex flex-wrap" }, [
-          _c("div", { staticClass: "dropdown me-2 d-sm-none" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-primary dropdown-toggle collapsed",
-                attrs: {
-                  href: "#shop-sidebar",
-                  "data-bs-toggle": "collapse",
-                  "aria-expanded": "false"
-                }
-              },
-              [_c("i", { staticClass: "ci-filter-alt" })]
-            )
-          ]),
+    return _c("div", { staticClass: "d-flex flex-wrap" }, [
+      _c("div", { staticClass: "dropdown me-2 d-sm-none" }, [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary dropdown-toggle collapsed",
+            attrs: {
+              href: "#shop-sidebar",
+              "data-bs-toggle": "collapse",
+              "aria-expanded": "false"
+            }
+          },
+          [_c("i", { staticClass: "ci-filter-alt" })]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3"
+        },
+        [
+          _c("label", {
+            staticClass:
+              "text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block",
+            attrs: { for: "sorting" }
+          }),
           _vm._v(" "),
           _c(
-            "div",
-            {
-              staticClass:
-                "d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3"
-            },
+            "select",
+            { staticClass: "form-select", attrs: { id: "sorting-select" } },
             [
-              _c("label", {
-                staticClass:
-                  "text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block",
-                attrs: { for: "sorting" }
-              }),
-              _vm._v(" "),
-              _c(
-                "select",
-                { staticClass: "form-select", attrs: { id: "sorting-select" } },
-                [
-                  _c("option", { attrs: { value: "", selected: "" } }, [
-                    _vm._v("Sortiraj")
-                  ])
-                ]
-              )
+              _c("option", { attrs: { value: "", selected: "" } }, [
+                _vm._v("Sortiraj")
+              ])
             ]
           )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "d-flex pb-3" }, [
-          _c(
-            "span",
-            {
-              staticClass:
-                "fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block"
-            },
-            [_vm._v("Ukupno ... artikala")]
-          )
-        ])
-      ]
-    )
+        ]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -19930,12 +20286,12 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vuex__WEBPACK_IMPORTED_MODULE_2__.d
 
 vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_4__.default);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__.default({
-  mode: 'history',
-  routes: [// dynamic segments start with a colon
-  {
-    path: '/',
-    component: _components_Filter_Filter__WEBPACK_IMPORTED_MODULE_0__.default
-  }]
+  mode: 'history'
+  /*routes: [
+      // dynamic segments start with a colon
+      { path: '/', component: Filter }
+  ]*/
+
 });
 /*import Vuex from 'vuex';
 window.Vuex = Vuex;

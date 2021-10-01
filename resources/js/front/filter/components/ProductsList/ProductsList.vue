@@ -8,21 +8,18 @@
                     <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting"></label>
                     <select class="form-select" id="sorting-select">
                         <option value="" selected>Sortiraj</option>
-<!--                        @foreach (config('settings.sorting_list') as $item)
-                        <option value="{{ $item['value'] }}" @if(request()->get('sort') == $item['value']) selected @endif>{{ $item['title'] }}</option>
-                        @endforeach-->
                     </select>
                 </div>
             </div>
             <!--  <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i class="ci-arrow-left"></i></a><span class="fs-md text-light">{{ $products->currentPage() }} / {{ $products->lastPage() }}</span><a class="nav-link-style nav-link-light ms-3" href="#"><i class="ci-arrow-right"></i></a></div>-->
 
-            <div class="d-flex pb-3">  <span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno ... artikala</span></div>
+            <div class="d-flex pb-3">  <span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ Number(products.total).toLocaleString('hr-HR') }} artikala</span></div>
 
 
         </div>
         <!-- Products grid-->
         <div class="row mx-n2">
-            <div class="col-md-4 col-6 px-2 mb-4" v-for="product in products">
+            <div class="col-md-4 col-6 px-2 mb-4" v-for="product in products.data">
                 <div class="card product-card-alt">
                     <div class="product-thumb">
                         <div class="product-card-actions">
@@ -74,26 +71,26 @@
             subcat: String,
             author: String,
             publisher: String,
-            //buttons: {type: String, default: 'true'},
         },
         //
         data() {
             return {
                 products: [],
+                autor: '',
+                nakladnik: '',
+                start: '',
+                end: '',
             }
         },
         //
         watch: {
             $route(params) {
-                console.log('params')
-                console.log(params)
+                this.checkQuery(params);
             }
         },
         //
         mounted() {
-            this.getProducts();
-
-            console.log(location)
+            this.checkQuery(this.$route);
         },
 
         methods: {
@@ -102,15 +99,24 @@
                     group: this.group,
                     cat: this.cat,
                     subcat: this.subcat,
-                    author: this.author,
-                    publisher: this.publisher,
+                    autor: this.autor,
+                    nakladnik: this.nakladnik,
+                    start: this.start,
+                    end: this.end
                 };
 
                 axios.post('filter/getProducts', { params }).then(response => {
-                    this.products = response.data.data;
-
-                    console.log(response.data)
+                    this.products = response.data;
                 });
+            },
+
+            checkQuery(params) {
+                this.start = params.query.start ? params.query.start : '';
+                this.end = params.query.end ? params.query.end : '';
+                this.autor = params.query.autor ? params.query.autor : '';
+                this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+
+                this.getProducts();
             },
 
             add(id) {

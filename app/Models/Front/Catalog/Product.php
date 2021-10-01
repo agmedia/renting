@@ -235,7 +235,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeLast($query, $count = 9)
+    public function scopeLast($query, $count = 12)
     {
         return $query->where('status', 1)->orderBy('updated_at', 'desc')->limit($count);
     }
@@ -257,7 +257,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopePopular($query, $count = 9)
+    public function scopePopular($query, $count = 12)
     {
         return $query->where('status', 1)->orderBy('viewed', 'desc')->limit($count);
     }
@@ -268,7 +268,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeTopPonuda($query, $count = 9)
+    public function scopeTopPonuda($query, $count = 12)
     {
         return $query->where('status', 1)->where('topponuda', 1)->orderBy('updated_at', 'desc')->limit($count);
     }
@@ -288,7 +288,7 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        if ($ids->count() && ! \request()->has('pojam')) {
+        if ($ids && $ids->count() && ! \request()->has('pojam')) {
             $query->whereIn('id', $ids->unique());
         }
 
@@ -322,13 +322,13 @@ class Product extends Model
 
         if ($request->has('cat')) {
             $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('category_id', $request->input('cat')['id']);
+                $query->where('category_id', $request->input('cat'));
             });
         }
 
         if ($request->has('subcat')) {
             $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('category_id', $request->input('subcat')['id']);
+                $query->where('category_id', $request->input('subcat'));
             });
         }
 
