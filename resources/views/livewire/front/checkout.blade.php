@@ -26,12 +26,14 @@
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
 
         @if (session()->has('login_success'))
-            <div class="alert alert-success d-flex mb-3" role="alert">
-                <div class="alert-icon">
-                    <i class="ci-close"></i>
-                </div>
-                <div>{{ session('login_success') }}</div>
+
+            <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                {{ session('login_success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+
+
+
         @endif
 
         @if (auth()->guest())
@@ -43,12 +45,13 @@
             </div>
 
             @if (session()->has('error'))
-                <div class="alert alert-danger d-flex mb-3" role="alert">
-                    <div class="alert-icon">
-                        <i class="ci-close"></i>
-                    </div>
-                    <div>{{ session('error') }}</div>
+
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
+
             @endif
 
             <div id="collapseLogin" aria-expanded="false" class="collapse">
@@ -78,7 +81,7 @@
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" wire:model.defer="login.remember" id="si-remember">
                                         <label class="form-check-label" for="si-remember">Zapamti me</label>
-                                    </div><a class="fs-sm" href="#">Zaboravljena lozinka?</a>
+                                    </div><!--<a class="fs-sm" href="#">Zaboravljena lozinka?</a>-->
                                 </div>
                                 <button class="btn btn-primary btn-shadow d-block w-100" wire:click="authUser()" type="button">Prijava</button>
                             </div>

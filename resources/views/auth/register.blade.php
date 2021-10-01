@@ -98,7 +98,7 @@
                                                 <x-jet-checkbox name="terms" id="terms"/>
                                                 <label>
                                                     {!! __('Slažem se sa :terms_of_service', [
-                                                            'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="link-fx">'.__('Uvjetima kupovine').'</a>',
+                                                            'terms_of_service' => '<a target="_blank" href="'.route('catalog.route.page',['page' => 'opci-uvjeti-kupnje']).'" class="link-fx">'.__('Uvjetima kupovine').'</a>',
                                                             'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="link-fx">'.__('Privacy Policy').'</a>',
                                                     ]) !!}
                                                 </label>
