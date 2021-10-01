@@ -42,8 +42,12 @@ class DashboardController extends Controller
         $data['finished']   = Order::whereIn('order_status_id', [4, 5, 6, 7])->count();
         $data['this_month'] = Order::whereMonth('created_at', '=', Carbon::now()->month)->count();
 
-        $orders   = Order::last()->get();
-        $products = OrderProduct::last()->get();
+        $orders   = Order::last()->with('products')->get();
+        $products = $orders->map(function ($item) {
+            return $item->products()->get();
+        })->flatten();
+
+        //dd($products);
 
         $chart     = new Chart();
         $this_year = json_encode($chart->setDataByYear(
