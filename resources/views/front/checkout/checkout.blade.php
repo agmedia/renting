@@ -2,7 +2,7 @@
 
 @push('css_after')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-    @livewireStyles
+
 @endpush
 
 @section('content')
@@ -38,5 +38,5 @@
 @endsection
 
 @push('js_after')
-    @livewireScripts
+
 @endpush

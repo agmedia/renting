@@ -38,6 +38,8 @@
 
     @stack('css_after')
 
+    @livewireStyles
+
 </head>
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
@@ -124,6 +126,8 @@
 </script>
 
 @stack('js_after')
+
+@livewireScripts
 
 </body>
 </html>
