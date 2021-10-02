@@ -6,6 +6,9 @@
             <td class="ag-mail-tableset">{!! __('Dobili ste novu narudžbu') !!}</td>
         </tr>
         <tr>
+            <td class="ag-mail-tableset"> <h3>Narudžba broj: {{ $order->id }} </h3></td>
+        </tr>
+        <tr>
             <td class="ag-mail-tableset">
                 @include('emails.layouts.partials.order-details', ['order' => $order])
             </td>

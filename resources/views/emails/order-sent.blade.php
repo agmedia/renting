@@ -6,6 +6,9 @@
             <td class="ag-mail-tableset">{!! __('Pozdrav ' . $order->payment_fname) !!}</td>
         </tr>
         <tr>
+            <td class="ag-mail-tableset"> <h3>Narudžba broj: {{ $order->id }} </h3></td>
+        </tr>
+        <tr>
             <td class="ag-mail-tableset">
                 @include('emails.layouts.partials.order-details', ['order' => $order])
             </td>
@@ -40,10 +43,13 @@
 
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
+                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
                 @elseif ($order->payment_code == 'payway')
                     <b>{{ __('T-Com Payway') }}</b>
+                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
                 @else
                     <b>{{ __('Plaćanje prilikom preuzimanja') }}</b>
+                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
                 @endif
                 <br><br>
 
