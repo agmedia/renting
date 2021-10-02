@@ -87,6 +87,8 @@
                 start: '',
                 end: '',
                 sorting: '',
+                search_query: '',
+                page: 1,
                 origin: location.origin + '/'
             }
         },
@@ -102,6 +104,8 @@
         //
         mounted() {
             this.checkQuery(this.$route);
+
+            console.log('this.$route::', this.$route.query)
         },
 
         methods: {
@@ -110,16 +114,24 @@
 
                 axios.post('filter/getProducts', { params }).then(response => {
                     this.products = response.data;
+
+                    console.log(response.data)
                 });
             },
 
             getProductsPage(page = 1) {
-                let params = this.setParams();
+                this.page = page;
+                this.setQueryParam('page', page);
 
+                console.log(page);
+
+                let params = this.setParams();
                 window.scrollTo({top: 0, behavior: 'smooth'});
 
                 axios.post('filter/getProducts?page=' + page, { params }).then(response => {
                     this.products = response.data;
+
+                    console.log('page ::: ', response.data)
                 });
             },
 
@@ -127,7 +139,7 @@
             setQueryParam(type, value) {
                 this.$router.push({query: this.resolveQuery()}).catch(()=>{});
 
-                if (value == '') {
+                if (value == '' || value == 1) {
                     this.$router.push({query: this.resolveQuery()}).catch(()=>{});
                 }
             },
@@ -139,7 +151,9 @@
                     end: this.end,
                     autor: this.autor,
                     nakladnik: this.nakladnik,
-                    sort: this.sorting
+                    sort: this.sorting,
+                    pojam: this.search_query,
+                    page: this.page
                 };
 
                 return Object.entries(params).reduce((acc, [key, val]) => {
@@ -155,8 +169,13 @@
                 this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
                 this.page = params.query.page ? params.query.page : '';
                 this.sorting = params.query.sort ? params.query.sort : '';
+                this.search_query = params.query.pojam ? params.query.pojam : '';
 
-                this.getProducts();
+                if (this.page != '') {
+                    this.getProductsPage(this.page);
+                } else {
+                    this.getProducts();
+                }
             },
 
             setParams() {
@@ -168,7 +187,8 @@
                     nakladnik: this.nakladnik,
                     start: this.start,
                     end: this.end,
-                    sort: this.sorting
+                    sort: this.sorting,
+                    pojam: this.search_query
                 };
 
                 if (this.author != '') {
@@ -177,6 +197,8 @@
                 if (this.publisher != '') {
                     params.nakladnik = this.publisher;
                 }
+
+                console.log('params::', params)
 
                 return params;
             },

@@ -153,7 +153,7 @@
                 this.getPublishers();
             }
 
-            console.log(this.category, this.subcategory)
+            this.preselect();
         },
 
         methods: {
@@ -235,6 +235,7 @@
                     end: this.end,
                     autor: this.autor,
                     nakladnik: this.nakladnik,
+                    page: this.page
                 };
 
                 return Object.entries(params).reduce((acc, [key, val]) => {
@@ -251,6 +252,7 @@
                 this.end = params.query.end ? params.query.end : '';
                 this.autor = params.query.autor ? params.query.autor : '';
                 this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+                //this.page = params.query.page ? params.query.page : '';
             },
 
             /**
@@ -275,6 +277,16 @@
                 }
 
                 return params;
+            },
+
+            preselect() {
+                if (this.autor != '') {
+                    if ((this.autor).includes('+')) {
+                        this.selectedAuthors = (this.autor).split('+');
+                    } else {
+                        this.selectedAuthors = [this.autor];
+                    }
+                }
             },
 
             /**
