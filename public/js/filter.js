@@ -2169,6 +2169,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           this.selectedAuthors = [this.autor];
         }
       }
+
+      if (this.nakladnik != '') {
+        if (this.nakladnik.includes('+')) {
+          this.selectedPublishers = this.nakladnik.split('+');
+        } else {
+          this.selectedPublishers = [this.nakladnik];
+        }
+      }
     },
 
     /**
