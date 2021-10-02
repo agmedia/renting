@@ -22,10 +22,11 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
     mode: 'history',
+    /*base: location.origin,
     routes: [
         // dynamic segments start with a colon
-        { path: '/', component: Filter }
-    ]
+        { path: '/', component: Filter, name: 'home' }
+    ]*/
 });
 /*import Vuex from 'vuex';
 window.Vuex = Vuex;
@@ -41,6 +42,8 @@ import store from './store.js';*/
 
 Vue.component('filter-view', require('./components/Filter/Filter').default);
 Vue.component('products-view', require('./components/ProductsList/ProductsList').default);
+
+Vue.component('pagination', require('./components/Pagination/LaravelVuePagination').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

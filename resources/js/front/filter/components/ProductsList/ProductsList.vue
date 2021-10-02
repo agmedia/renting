@@ -6,62 +6,65 @@
                 <div class="dropdown me-2 d-sm-none"><a class="btn btn-primary dropdown-toggle collapsed" href="#shop-sidebar" data-bs-toggle="collapse" aria-expanded="false"><i class="ci-filter-alt"></i></a></div>
                 <div class="d-flex align-items-center flex-nowrap me-3 me-sm-4 pb-3">
                     <label class="text-light opacity-75 text-nowrap fs-sm me-2 d-none d-sm-block" for="sorting"></label>
-                    <select class="form-select" id="sorting-select">
-                        <option value="" selected>Sortiraj</option>
-<!--                        @foreach (config('settings.sorting_list') as $item)
-                        <option value="{{ $item['value'] }}" @if(request()->get('sort') == $item['value']) selected @endif>{{ $item['title'] }}</option>
-                        @endforeach-->
+                    <select class="form-select" v-model="sorting">
+                        <option value="">Sortiraj</option>
+                        <option value="novi">Najnovije</option>
+                        <option value="price_up">Najmanja cijena</option>
+                        <option value="price_down">Najveća cijena</option>
+                        <option value="naziv_up">A - Ž</option>
+                        <option value="naziv_down">Ž - A</option>
                     </select>
                 </div>
             </div>
-            <!--  <div class="d-flex pb-3"><a class="nav-link-style nav-link-light me-3" href="#"><i class="ci-arrow-left"></i></a><span class="fs-md text-light">{{ $products->currentPage() }} / {{ $products->lastPage() }}</span><a class="nav-link-style nav-link-light ms-3" href="#"><i class="ci-arrow-right"></i></a></div>-->
-
-            <div class="d-flex pb-3">  <span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno ... artikala</span></div>
-
-
+            <div class="d-flex pb-3"><span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ Number(products.total).toLocaleString('hr-HR') }} artikala</span></div>
         </div>
         <!-- Products grid-->
-        <div class="row mx-n2">
-            <div class="col-md-4 col-6 px-2 mb-4" v-for="product in products">
+        <div class="row mx-n2 mb-3">
+            <div class="col-md-4 col-6 px-2 mb-4" v-for="product in products.data">
                 <div class="card product-card-alt">
                     <div class="product-thumb">
                         <div class="product-card-actions">
-                            <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" :href="product.url"><i class="ci-eye"></i></a>
+                            <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" :href="origin + product.url"><i class="ci-eye"></i></a>
                             <button type="button" class="btn btn-light btn-icon btn-shadow fs-base mx-2" v-on:click="add(product.id)"><i class="ci-cart"></i></button>
                         </div>
-                        <a class="product-thumb-overlay" :href="product.url"></a>
+                        <a class="product-thumb-overlay" :href="origin + product.url"></a>
                         <img load="lazy" :src="product.image.replace('.webp', '-thumb.webp')" width="250" height="300" :alt="product.name">
                     </div>
                     <div class="card-body pt-2">
                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                             <div class="text-muted fs-xs me-1">
-                                <a class="product-meta fw-medium" :href="product.author.url">{{ product.author.title }}</a>
+                                <a class="product-meta fw-medium" :href="origin + product.author.url">{{ product.author.title }}</a>
                             </div>
 
                         </div>
-                        <h3 class="product-title fs-sm mb-0"><a :href="product.url">{{ product.name }}</a></h3>
-<!--                        @if ($product->category_string)
-                        <div class="d-flex flex-wrap justify-content-between align-items-center">
-                            <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> {!! $product->category_string !!}</div>
+                        <h3 class="product-title fs-sm mb-0"><a :href="origin + product.url">{{ product.name }}</a></h3>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center" v-if="product.category_string">
+                            <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> <span v-html="product.category_string"></span></div>
                         </div>
-                        @endif
+
                         <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
-                            @if ($product->special())
-                            <div class="bg-faded-accent text-accent text-sm rounded-1 py-1 px-2" style="text-decoration: line-through;">{!! $product->priceString() !!}</div>
-                            <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $product->priceString($product->special()) !!}</div>
-                            @else
-                            <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $product->priceString() !!}</div>
-                            @endif
-                        </div>-->
+                            <div class="bg-faded-accent text-accent fs-sm rounded-1 py-1 px-2" v-if="product.special" style="text-decoration: line-through;">{{ $store.state.service.formatPrice(product.price) }}</div>
+                            <div class="bg-faded-accent text-accent rounded-1 py-1 px-2" v-if="product.special">{{ $store.state.service.formatPrice(product.special) }}</div>
+                            <div class="fs-sm rounded-1 py-1 px-2" v-if="!product.special"></div>
+                            <div class="bg-faded-accent text-accent rounded-1 py-1 px-2" v-if="!product.special">{{ $store.state.service.formatPrice(product.price) }}</div>
+                        </div>
                     </div>
                 </div>
                 <hr class="d-sm-none">
             </div>
         </div>
 
+        <pagination :data="products" align="center" :show-disabled="true" :limit="4" @pagination-change-page="getProductsPage"></pagination>
+
+        <div class="col-md-12 d-flex justify-content-center mt-4" v-cloak>
+            <p class="fs-sm">Prikazano
+                <span class="font-weight-bolder mx-1">{{ Number(products.from).toLocaleString('hr-HR') }}</span> do
+                <span class="font-weight-bolder mx-1">{{ Number(products.to).toLocaleString('hr-HR') }}</span> od
+                <span class="font-weight-bold mx-1">{{ Number(products.total).toLocaleString('hr-HR') }}</span> rezultata
+            </p>
+        </div>
+
         <hr class="my-3">
-
-
     </section>
 </template>
 
@@ -74,43 +77,130 @@
             subcat: String,
             author: String,
             publisher: String,
-            //buttons: {type: String, default: 'true'},
         },
         //
         data() {
             return {
-                products: [],
+                products: {},
+                autor: '',
+                nakladnik: '',
+                start: '',
+                end: '',
+                sorting: '',
+                search_query: '',
+                page: 1,
+                origin: location.origin + '/'
             }
         },
         //
         watch: {
+            sorting(value) {
+                this.setQueryParam('sort', value);
+            },
             $route(params) {
-                console.log('params')
-                console.log(params)
+                this.checkQuery(params);
             }
         },
         //
         mounted() {
-            this.getProducts();
+            this.checkQuery(this.$route);
 
-            console.log(location)
+            console.log('this.$route::', this.$route.query)
         },
 
         methods: {
             getProducts() {
+                let params = this.setParams();
+
+                axios.post('filter/getProducts', { params }).then(response => {
+                    this.products = response.data;
+
+                    console.log(response.data)
+                });
+            },
+
+            getProductsPage(page = 1) {
+                this.page = page;
+                this.setQueryParam('page', page);
+
+                console.log(page);
+
+                let params = this.setParams();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+
+                axios.post('filter/getProducts?page=' + page, { params }).then(response => {
+                    this.products = response.data;
+
+                    console.log('page ::: ', response.data)
+                });
+            },
+
+            //
+            setQueryParam(type, value) {
+                this.$router.push({query: this.resolveQuery()}).catch(()=>{});
+
+                if (value == '' || value == 1) {
+                    this.$router.push({query: this.resolveQuery()}).catch(()=>{});
+                }
+            },
+
+            //
+            resolveQuery() {
+                let params = {
+                    start: this.start,
+                    end: this.end,
+                    autor: this.autor,
+                    nakladnik: this.nakladnik,
+                    sort: this.sorting,
+                    pojam: this.search_query,
+                    page: this.page
+                };
+
+                return Object.entries(params).reduce((acc, [key, val]) => {
+                    if (!val) return acc
+                    return { ...acc, [key]: val }
+                }, {});
+            },
+
+            checkQuery(params) {
+                this.start = params.query.start ? params.query.start : '';
+                this.end = params.query.end ? params.query.end : '';
+                this.autor = params.query.autor ? params.query.autor : '';
+                this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
+                this.page = params.query.page ? params.query.page : '';
+                this.sorting = params.query.sort ? params.query.sort : '';
+                this.search_query = params.query.pojam ? params.query.pojam : '';
+
+                if (this.page != '') {
+                    this.getProductsPage(this.page);
+                } else {
+                    this.getProducts();
+                }
+            },
+
+            setParams() {
                 let params = {
                     group: this.group,
                     cat: this.cat,
                     subcat: this.subcat,
-                    author: this.author,
-                    publisher: this.publisher,
+                    autor: this.autor,
+                    nakladnik: this.nakladnik,
+                    start: this.start,
+                    end: this.end,
+                    sort: this.sorting,
+                    pojam: this.search_query
                 };
 
-                axios.post('filter/getProducts', { params }).then(response => {
-                    this.products = response.data.data;
+                if (this.author != '') {
+                    params.autor = this.author;
+                }
+                if (this.publisher != '') {
+                    params.nakladnik = this.publisher;
+                }
 
-                    console.log(response.data)
-                });
+                console.log('params::', params)
+
+                return params;
             },
 
             add(id) {

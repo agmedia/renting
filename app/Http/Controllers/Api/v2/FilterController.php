@@ -35,7 +35,7 @@ class FilterController extends Controller
             if ( ! $params['cat'] && ! $params['subcat']) {
                 $response = [];
                 $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
-                    return Category::where('group', $params['group'])->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                    return Category::active()->topList($params['group'])->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
                 });
 
                 foreach ($categories as $category) {
@@ -55,7 +55,7 @@ class FilterController extends Controller
 
                 if ($cat) {
                     $item = Cache::remember('category_list.' . $cat->id, config('cache.life'), function () use ($cat) {
-                        return Category::where('parent_id', $cat->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                        return Category::active()->where('parent_id', $cat->id)->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
                     });
 
                     if ($item) {
@@ -78,6 +78,11 @@ class FilterController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function products(Request $request)
     {
         if ( ! $request->input('params')) {
@@ -86,9 +91,9 @@ class FilterController extends Controller
 
         $params = $request->input('params');
 
-        /*if (isset($params['autor']) && $params['autor']) {
-            if (strpos($params['autor'], ',') !== false) {
-                $arr = explode(',', $params['autor']);
+        if (isset($params['autor']) && $params['autor']) {
+            if (strpos($params['autor'], '+') !== false) {
+                $arr = explode('+', $params['autor']);
 
                 foreach ($arr as $item) {
                     $_author = Author::where('slug', $item)->first();
@@ -100,21 +105,19 @@ class FilterController extends Controller
             }
         }
 
-        if ($request->has('nakladnik')) {
-            $nak = $request->input('nakladnik');
-
-            if (strpos($nak, ',') !== false) {
-                $arr = explode(',', $nak);
+        if (isset($params['nakladnik']) && $params['nakladnik']) {
+            if (strpos($params['nakladnik'], '+') !== false) {
+                $arr = explode('+', $params['nakladnik']);
 
                 foreach ($arr as $item) {
                     $_publisher = Publisher::where('slug', $item)->first();
                     $this->publishers[] = $_publisher;
                 }
             } else {
-                $_publisher = Publisher::where('slug', $nak)->first();
+                $_publisher = Publisher::where('slug', $params['nakladnik'])->first();
                 $this->publishers[] = $_publisher;
             }
-        }*/
+        }
 
         $request_data = [];
 
@@ -139,18 +142,81 @@ class FilterController extends Controller
         }
 
         if (isset($params['autor']) && $params['autor']) {
-            $request_data['autor'] = $params['autor'];
+            $request_data['autor'] = $this->authors;
         }
 
         if (isset($params['nakladnik']) && $params['nakladnik']) {
-            $request_data['nakladnik'] = $params['nakladnik'];
+            $request_data['nakladnik'] = $this->publishers;
+        }
+
+        if (isset($params['sort']) && $params['sort']) {
+            $request_data['sort'] = $params['sort'];
         }
 
         $request = new Request($request_data);
 
-        $products = (new Product())->filter($request)->with('author')->paginate(config('settings.pagination.front'));
+        $products = (new Product())->filter($request)
+                                   /*->basicData()*/
+                                   ->with('author')
+                                   ->paginate(config('settings.pagination.front'));
 
         return response()->json($products);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function authors(Request $request)
+    {
+        if ($request->has('params')) {
+            return response()->json(
+                (new Author())->filter($request->input('params'))
+                              ->basicData()
+                              ->withCount('products')
+                              ->get()
+                              ->toArray()
+            );
+        }
+
+        return response()->json(
+            Author::query()->active()
+                           ->featured()
+                           ->basicData()
+                           ->withCount('products')
+                           ->get()
+                           ->toArray()
+        );
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function publishers(Request $request)
+    {
+        if ($request->has('params')) {
+            return response()->json(
+                (new Publisher())->filter($request->input('params'))
+                                 ->basicData()
+                                 ->withCount('products')
+                                 ->get()
+                                 ->toArray()
+            );
+        }
+
+        return response()->json(
+            Publisher::active()
+                     ->featured()
+                     ->basicData()
+                     ->withCount('products')
+                     ->get()
+                     ->toArray()
+        );
     }
 
 }
