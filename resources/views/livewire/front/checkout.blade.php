@@ -26,14 +26,10 @@
         <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
 
         @if (session()->has('login_success'))
-
             <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
                 {{ session('login_success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-
-
-
         @endif
 
         @if (auth()->guest())
@@ -45,13 +41,10 @@
             </div>
 
             @if (session()->has('error'))
-
                 <div class="alert alert-primary alert-dismissible fade show" role="alert">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-
-
             @endif
 
             <div id="collapseLogin" aria-expanded="false" class="collapse">
@@ -81,7 +74,8 @@
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" wire:model.defer="login.remember" id="si-remember">
                                         <label class="form-check-label" for="si-remember">Zapamti me</label>
-                                    </div><!--<a class="fs-sm" href="#">Zaboravljena lozinka?</a>-->
+                                    </div>
+                                    <a class="fs-sm" href="{{ route('register') }}">Registriraj se..!</a>
                                 </div>
                                 <button class="btn btn-primary btn-shadow d-block w-100" wire:click="authUser()" type="button">Prijava</button>
                             </div>
@@ -149,7 +143,7 @@
             <div class="col-sm-6">
                 <div class="mb-3" wire:ignore>
                     <label class="form-label" for="checkout-country">Država <span class="text-danger">*</span></label>
-                    <select class="form-select g @error('address.state') is-invalid @enderror" id="checkout-country" wire:model.deferl="address.state" autocomplete="new-password">
+                    <select class="form-select @error('address.state') is-invalid @enderror" id="state-select" wire:model="address.state" wire:change="stateSelected($event.target.value)" autocomplete="new-password">
                         <option value=""></option>
                         @foreach ($countries as $country)
                             <option value="{{ $country['name'] }}">{{ $country['name'] }}</option>
@@ -253,19 +247,12 @@
 
 
 @push('js_after')
-    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+{{--    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">--}}
+{{--    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>--}}
 
-    <script>
-
-        $(document).ready(function() {
-            $('#checkout-country').on('change', (e) => {
-                @this.stateSelected(e.currentTarget.value);
-            });
-        });
-
-    </script>
     <script>
         $( document ).ready(function() {
+            /*$('#state-select').select2();*/
             $('input').attr('autocomplete','off');
         });
     </script>

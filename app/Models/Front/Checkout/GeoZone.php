@@ -5,6 +5,7 @@ namespace App\Models\Front\Checkout;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class GeoZone
@@ -64,26 +65,31 @@ class GeoZone
     /**
      * @param string $state
      *
-     * @return Collection
+     * @return \stdClass
      */
-    public function findState(string $state): Collection
+    public function findState(string $state): \stdClass
     {
-        $zone = collect();
-
         foreach ($this->geo_zones as $geo_zone) {
             if (collect($geo_zone->state)->search($state)) {
-                $zone = collect($geo_zone);
+                return $geo_zone;
             }
         }
 
-        if ( ! $zone->count()) {
-            foreach ($this->geo_zones as $geo_zone) {
-                if (empty($geo_zone->state)) {
-                    $zone = collect($geo_zone);
-                }
+        return $this->findApplicableToAll();
+    }
+
+
+    /**
+     * @return \stdClass
+     */
+    public function findApplicableToAll(): \stdClass
+    {
+        foreach ($this->geo_zones as $geo_zone) {
+            if (empty($geo_zone->state)) {
+                return $geo_zone;
             }
         }
 
-        return $zone;
+        return new \stdClass();
     }
 }

@@ -107,9 +107,17 @@ class PaymentMethod
      */
     public function findGeo(int $zone)
     {
+        $geo = (new GeoZone())->findApplicableToAll();
+
         foreach ($this->methods as $method) {
-            if ($method->geo_zone == $zone || ! $method->geo_zone) {
-                $this->response_methods->push($method);
+            if ($method->geo_zone == $geo->id || ! $method->geo_zone) {
+                $this->response_methods->put($method->code, $method);
+            }
+        }
+
+        foreach ($this->methods as $method) {
+            if ($method->geo_zone == $zone) {
+                $this->response_methods->put($method->code, $method);
             }
         }
 
@@ -124,20 +132,13 @@ class PaymentMethod
      */
     public function checkShipping(string $shipping)
     {
-        if ($shipping == 'pickup') {
-            $this->response_methods = collect();
-
-            foreach ($this->methods as $method) {
-                if ($method->code == 'pickup') {
-                    $this->response_methods->push($method);
-                }
-            }
-        } else {
-            $this->response_methods = collect();
-
-            foreach ($this->methods as $method) {
-                if ($method->code != 'pickup') {
-                    $this->response_methods->push($method);
+        foreach ($this->methods as $method) {
+            if ($method->code == 'pickup') {
+                if ($shipping == 'pickup') {
+                    $this->response_methods = collect();
+                    $this->response_methods->put($method->code, $method);
+                } else {
+                    $this->response_methods->forget($method->code);
                 }
             }
         }

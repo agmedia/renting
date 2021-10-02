@@ -112,10 +112,11 @@ class Checkout extends Component
     }
 
 
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function authUser()
     {
-        //dump($this->login);
-
         $validated = Validator::make([
             'email' => $this->login['email'],
             'password' => $this->login['pass'],
@@ -168,12 +169,14 @@ class Checkout extends Component
     /**
      * @param string $state
      */
-    public function stateSelected(string $state)
+    public function stateSelected($state)
     {
-        //dd($state);
-        $value['state'] = $state;
+        $this->setAddress(['state' => $state], true);
 
-        $this->setAddress($value, true);
+        CheckoutSession::forgetShipping();
+        $this->shipping = '';
+        CheckoutSession::forgetPayment();
+        $this->payment = '';
 
         $this->render();
     }
@@ -188,7 +191,6 @@ class Checkout extends Component
 
         CheckoutSession::setShipping($shipping);
 
-        //$this->emit('shipping_selected');
         return redirect()->route('naplata', ['step' => 'dostava']);
     }
 
@@ -212,8 +214,8 @@ class Checkout extends Component
         $geo = (new GeoZone())->findState($this->address['state'] ?: 'Croatia');
 
         return view('livewire.front.checkout', [
-            'shippingMethods' => (new ShippingMethod())->findGeo($geo['id']),
-            'paymentMethods' => (new PaymentMethod())->findGeo($geo['id'])->checkShipping($this->shipping)->resolve(),
+            'shippingMethods' => (new ShippingMethod())->findGeo($geo->id),
+            'paymentMethods' => (new PaymentMethod())->findGeo($geo->id)->checkShipping($this->shipping)->resolve(),
             'countries' => Country::list()
         ]);
     }
@@ -227,11 +229,11 @@ class Checkout extends Component
     private function setAddress(array $value = [], bool $only_state = false)
     {
         if ( ! empty($value)) {
-
             $value['state'] = isset($value['state']) ? $value['state'] : 'Croatia';
 
             if ($only_state) {
                 $this->address['state'] = $value['state'];
+
             } else {
                 $this->address = [
                     'fname' => $value['fname'],
@@ -262,7 +264,6 @@ class Checkout extends Component
                 ];
             }
         }
-
 
         CheckoutSession::setAddress($this->address);
 
