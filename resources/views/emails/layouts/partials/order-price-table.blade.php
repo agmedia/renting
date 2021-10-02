@@ -63,10 +63,8 @@
     @foreach ($order->totals as $total)
         @if($total->code == 'subtotal')
         <strong>{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }}</strong>  kn PDV knjige i
-
     @elseif ($total->code == 'shipping')
         <strong>{{number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn PDV dostava
-
     @endif
     @endforeach
 </p>

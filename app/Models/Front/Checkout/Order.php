@@ -200,6 +200,18 @@ class Order extends Model
 
                 // CONDITIONS on Total
                 foreach ($this->order['cart']['conditions'] as $name => $condition) {
+                    if ($condition->getType() == 'payment') {
+                        OrderTotal::insert([
+                            'order_id'   => $order_id,
+                            'code'       => 'payment',
+                            'title'      => $name,
+                            'value'      => $condition->parsedRawValue,
+                            'sort_order' => $condition->getOrder(),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+
                     if ($condition->getType() == 'shipping') {
                         OrderTotal::insert([
                             'order_id'   => $order_id,
