@@ -1972,7 +1972,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       searchAuthor: '',
       searchPublisher: '',
       show_authors: false,
-      show_publishers: false
+      show_publishers: false,
+      origin: location.origin + '/'
     };
   },
   //
@@ -1994,6 +1995,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     searchAuthor: function searchAuthor(value) {
       if (value.length > 2 || value == '') {
         return this.getAuthors();
+      }
+    },
+    searchPublisher: function searchPublisher(value) {
+      if (value.length > 2 || value == '') {
+        return this.getPublishers();
       }
     },
     $route: function $route(params) {
@@ -3922,15 +3928,19 @@ var render = function() {
                               )
                             ]),
                             _c("span", { staticClass: "fs-xs text-muted" }, [
-                              _c("a", { attrs: { href: author.url } }, [
-                                _vm._v(
-                                  _vm._s(
-                                    Number(
-                                      author.products_count
-                                    ).toLocaleString("hr-HR")
+                              _c(
+                                "a",
+                                { attrs: { href: _vm.origin + author.url } },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      Number(
+                                        author.products_count
+                                      ).toLocaleString("hr-HR")
+                                    )
                                   )
-                                )
-                              ])
+                                ]
+                              )
                             ])
                           ]
                         )
@@ -4067,15 +4077,19 @@ var render = function() {
                               )
                             ]),
                             _c("span", { staticClass: "fs-xs text-muted" }, [
-                              _c("a", { attrs: { href: publisher.url } }, [
-                                _vm._v(
-                                  _vm._s(
-                                    Number(
-                                      publisher.products_count
-                                    ).toLocaleString("hr-HR")
+                              _c(
+                                "a",
+                                { attrs: { href: _vm.origin + publisher.url } },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      Number(
+                                        publisher.products_count
+                                      ).toLocaleString("hr-HR")
+                                    )
                                   )
-                                )
-                              ])
+                                ]
+                              )
                             ])
                           ]
                         )

@@ -57,7 +57,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" :id="author.slug" :value="author.slug" v-model="selectedAuthors">
                                 <label class="form-check-label widget-filter-item-text" :for="author.slug">{{ author.title }}</label>
-                            </div><span class="fs-xs text-muted"><a :href="author.url">{{ Number(author.products_count).toLocaleString('hr-HR') }}</a></span>
+                            </div><span class="fs-xs text-muted"><a :href="origin + author.url">{{ Number(author.products_count).toLocaleString('hr-HR') }}</a></span>
                         </li>
                     </ul>
                 </div>
@@ -72,7 +72,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" :id="publisher.slug" :value="publisher.slug" v-model="selectedPublishers">
                                 <label class="form-check-label widget-filter-item-text" :for="publisher.slug">{{ publisher.title }}</label>
-                            </div><span class="fs-xs text-muted"><a :href="publisher.url">{{ Number(publisher.products_count).toLocaleString('hr-HR') }}</a></span>
+                            </div><span class="fs-xs text-muted"><a :href="origin + publisher.url">{{ Number(publisher.products_count).toLocaleString('hr-HR') }}</a></span>
                         </li>
                     </ul>
                 </div>
@@ -108,7 +108,8 @@
                 searchAuthor: '',
                 searchPublisher: '',
                 show_authors: false,
-                show_publishers: false
+                show_publishers: false,
+                origin: location.origin + '/'
             }
         },
         //
@@ -130,6 +131,11 @@
             searchAuthor(value) {
                 if (value.length > 2 || value == '') {
                     return this.getAuthors();
+                }
+            },
+            searchPublisher(value) {
+                if (value.length > 2 || value == '') {
+                    return this.getPublishers();
                 }
             },
             $route(params) {
