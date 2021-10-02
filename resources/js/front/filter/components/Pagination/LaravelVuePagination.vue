@@ -28,7 +28,7 @@
 
             <li class="page-item pagination-page-nav" v-for="(page, key) in computed.pageRange" :key="key" :class="{ 'active': page == computed.currentPage }">
                 <a class="page-link" href="#" v-on="pageButtonEvents(page)">
-                    {{ page }}
+                    {{ page == '...' ? page : Number(page).toLocaleString('hr-HR') }}
                     <span class="sr-only" v-if="page == computed.currentPage"></span>
                 </a>
             </li>

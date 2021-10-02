@@ -118,7 +118,7 @@
 
         </div>
     </div>
-    <div class="container pb-4 mb-2 mb-md-4" id="filter-app">
+    <div class="container pb-4 mb-2 mb-md-4" id="filter-app" v-cloak>
         <div class="row">
             <filter-view group="{{ $group }}" cat="{{ isset($cat) ? $cat : null }}" subcat="{{ isset($subcat) ? $subcat : null }}" author="{{ isset($author) ? $author['slug'] : null }}" publisher="{{ isset($publisher) ? $publisher['slug'] : null }}"></filter-view>
 {{--            @livewire('front.product-category-list', ['ids' => $ids, 'author' => isset($author) ? $author : null, 'publisher' => isset($publisher) ? $publisher : null, 'group' => $group, 'cat' => $cat, 'subcat' => $subcat])--}}

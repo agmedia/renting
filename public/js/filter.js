@@ -2607,7 +2607,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       sorting: '',
       search_query: '',
       page: 1,
-      origin: location.origin + '/'
+      origin: location.origin + '/',
+      hr_total: 'rezultata'
     };
   },
   //
@@ -2622,9 +2623,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   //
   mounted: function mounted() {
     this.checkQuery(this.$route);
-    console.log('this.$route::', this.$route.query);
   },
   methods: {
+    /**
+     *
+     */
     getProducts: function getProducts() {
       var _this = this;
 
@@ -2633,16 +2636,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         params: params
       }).then(function (response) {
         _this.products = response.data;
-        console.log(response.data);
+
+        _this.checkHrTotal();
       });
     },
+
+    /**
+     *
+     * @param page
+     */
     getProductsPage: function getProductsPage() {
       var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.page = page;
       this.setQueryParam('page', page);
-      console.log(page);
       var params = this.setParams();
       window.scrollTo({
         top: 0,
@@ -2652,10 +2660,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         params: params
       }).then(function (response) {
         _this2.products = response.data;
-        console.log('page ::: ', response.data);
+
+        _this2.checkHrTotal();
       });
     },
-    //
+
+    /**
+     *
+     * @param type
+     * @param value
+     */
     setQueryParam: function setQueryParam(type, value) {
       this.$router.push({
         query: this.resolveQuery()
@@ -2667,7 +2681,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         })["catch"](function () {});
       }
     },
-    //
+
+    /**
+     *
+     * @return {{}}
+     */
     resolveQuery: function resolveQuery() {
       var params = {
         start: this.start,
@@ -2687,6 +2705,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, key, val));
       }, {});
     },
+
+    /**
+     *
+     * @param params
+     */
     checkQuery: function checkQuery(params) {
       this.start = params.query.start ? params.query.start : '';
       this.end = params.query.end ? params.query.end : '';
@@ -2702,6 +2725,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         this.getProducts();
       }
     },
+
+    /**
+     *
+     * @return {{cat: String, start: string, pojam: string, subcat: String, end: string, sort: string, nakladnik: string, autor: string, group: String}}
+     */
     setParams: function setParams() {
       var params = {
         group: this.group,
@@ -2723,14 +2751,30 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         params.nakladnik = this.publisher;
       }
 
-      console.log('params::', params);
       return params;
     },
+
+    /**
+     *
+     */
+    checkHrTotal: function checkHrTotal() {
+      this.hr_total = 'rezultata';
+
+      if (this.products.total.toString().slice(-1) == '1') {
+        this.hr_total = 'rezultat';
+      }
+    },
+
+    /**
+     *
+     * @param id
+     */
     add: function add(id) {
       this.$store.dispatch('addToCart', {
         id: id,
         quantity: 1
       });
+      this.$store.commit('setCart');
     }
   }
 });
@@ -4237,7 +4281,11 @@ var render = function() {
                             [
                               _vm._v(
                                 "\n                " +
-                                  _vm._s(page) +
+                                  _vm._s(
+                                    page == "..."
+                                      ? page
+                                      : Number(page).toLocaleString("hr-HR")
+                                  ) +
                                   "\n                "
                               ),
                               page == computed.currentPage
@@ -4626,17 +4674,35 @@ var render = function() {
           _c("p", { staticClass: "fs-sm" }, [
             _vm._v("Prikazano\n            "),
             _c("span", { staticClass: "font-weight-bolder mx-1" }, [
-              _vm._v(_vm._s(Number(_vm.products.from).toLocaleString("hr-HR")))
+              _vm._v(
+                _vm._s(
+                  _vm.products.from
+                    ? Number(_vm.products.from).toLocaleString("hr-HR")
+                    : 0
+                )
+              )
             ]),
             _vm._v(" do\n            "),
             _c("span", { staticClass: "font-weight-bolder mx-1" }, [
-              _vm._v(_vm._s(Number(_vm.products.to).toLocaleString("hr-HR")))
+              _vm._v(
+                _vm._s(
+                  _vm.products.to
+                    ? Number(_vm.products.to).toLocaleString("hr-HR")
+                    : 0
+                )
+              )
             ]),
             _vm._v(" od\n            "),
             _c("span", { staticClass: "font-weight-bold mx-1" }, [
-              _vm._v(_vm._s(Number(_vm.products.total).toLocaleString("hr-HR")))
+              _vm._v(
+                _vm._s(
+                  _vm.products.total
+                    ? Number(_vm.products.total).toLocaleString("hr-HR")
+                    : 0
+                )
+              )
             ]),
-            _vm._v(" rezultata\n        ")
+            _vm._v(" " + _vm._s(_vm.hr_total) + "\n        ")
           ])
         ]
       ),

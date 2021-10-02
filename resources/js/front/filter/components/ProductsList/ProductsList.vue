@@ -57,10 +57,10 @@
         <pagination :data="products" align="center" :show-disabled="true" :limit="4" @pagination-change-page="getProductsPage"></pagination>
 
         <div class="col-md-12 d-flex justify-content-center mt-4" v-cloak>
-            <p class="fs-sm">Prikazano
-                <span class="font-weight-bolder mx-1">{{ Number(products.from).toLocaleString('hr-HR') }}</span> do
-                <span class="font-weight-bolder mx-1">{{ Number(products.to).toLocaleString('hr-HR') }}</span> od
-                <span class="font-weight-bold mx-1">{{ Number(products.total).toLocaleString('hr-HR') }}</span> rezultata
+            <p class="fs-sm" v-cloak>Prikazano
+                <span class="font-weight-bolder mx-1">{{ products.from ? Number(products.from).toLocaleString('hr-HR') : 0 }}</span> do
+                <span class="font-weight-bolder mx-1">{{ products.to ? Number(products.to).toLocaleString('hr-HR') : 0 }}</span> od
+                <span class="font-weight-bold mx-1">{{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }}</span> {{ hr_total }}
             </p>
         </div>
 
@@ -89,7 +89,8 @@
                 sorting: '',
                 search_query: '',
                 page: 1,
-                origin: location.origin + '/'
+                origin: location.origin + '/',
+                hr_total: 'rezultata'
             }
         },
         //
@@ -104,38 +105,43 @@
         //
         mounted() {
             this.checkQuery(this.$route);
-
-            console.log('this.$route::', this.$route.query)
         },
 
         methods: {
+            /**
+             *
+             */
             getProducts() {
                 let params = this.setParams();
 
                 axios.post('filter/getProducts', { params }).then(response => {
                     this.products = response.data;
-
-                    console.log(response.data)
+                    this.checkHrTotal();
                 });
             },
 
+            /**
+             *
+             * @param page
+             */
             getProductsPage(page = 1) {
                 this.page = page;
                 this.setQueryParam('page', page);
-
-                console.log(page);
 
                 let params = this.setParams();
                 window.scrollTo({top: 0, behavior: 'smooth'});
 
                 axios.post('filter/getProducts?page=' + page, { params }).then(response => {
                     this.products = response.data;
-
-                    console.log('page ::: ', response.data)
+                    this.checkHrTotal();
                 });
             },
 
-            //
+            /**
+             *
+             * @param type
+             * @param value
+             */
             setQueryParam(type, value) {
                 this.$router.push({query: this.resolveQuery()}).catch(()=>{});
 
@@ -144,7 +150,10 @@
                 }
             },
 
-            //
+            /**
+             *
+             * @return {{}}
+             */
             resolveQuery() {
                 let params = {
                     start: this.start,
@@ -162,6 +171,10 @@
                 }, {});
             },
 
+            /**
+             *
+             * @param params
+             */
             checkQuery(params) {
                 this.start = params.query.start ? params.query.start : '';
                 this.end = params.query.end ? params.query.end : '';
@@ -178,6 +191,10 @@
                 }
             },
 
+            /**
+             *
+             * @return {{cat: String, start: string, pojam: string, subcat: String, end: string, sort: string, nakladnik: string, autor: string, group: String}}
+             */
             setParams() {
                 let params = {
                     group: this.group,
@@ -198,22 +215,35 @@
                     params.nakladnik = this.publisher;
                 }
 
-                console.log('params::', params)
-
                 return params;
             },
 
+            /**
+             *
+             */
+            checkHrTotal() {
+                this.hr_total = 'rezultata';
+
+                if ((this.products.total).toString().slice(-1) == '1') {
+                    this.hr_total = 'rezultat';
+                }
+            },
+
+            /**
+             *
+             * @param id
+             */
             add(id) {
                 this.$store.dispatch('addToCart', {
                     id: id,
                     quantity: 1
                 });
+
+                this.$store.commit('setCart');
             }
         }
     };
 </script>
 
-
 <style>
-
 </style>
