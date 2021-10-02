@@ -35,7 +35,7 @@ class FilterController extends Controller
             if ( ! $params['cat'] && ! $params['subcat']) {
                 $response = [];
                 $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
-                    return Category::where('group', $params['group'])->where('parent_id', 0)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                    return Category::active()->topList($params['group'])->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
                 });
 
                 foreach ($categories as $category) {
@@ -55,7 +55,7 @@ class FilterController extends Controller
 
                 if ($cat) {
                     $item = Cache::remember('category_list.' . $cat->id, config('cache.life'), function () use ($cat) {
-                        return Category::where('parent_id', $cat->id)->sortByName()->with('subcategories')->withCount('products')->get()->toArray();
+                        return Category::active()->where('parent_id', $cat->id)->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
                     });
 
                     if ($item) {
@@ -78,6 +78,11 @@ class FilterController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function products(Request $request)
     {
         if ( ! $request->input('params')) {
@@ -144,9 +149,16 @@ class FilterController extends Controller
             $request_data['nakladnik'] = $this->publishers;
         }
 
+        if (isset($params['sort']) && $params['sort']) {
+            $request_data['sort'] = $params['sort'];
+        }
+
         $request = new Request($request_data);
 
-        $products = (new Product())->filter($request)->with('author')->paginate(config('settings.pagination.front'));
+        $products = (new Product())->filter($request)
+                                   /*->basicData()*/
+                                   ->with('author')
+                                   ->paginate(config('settings.pagination.front'));
 
         return response()->json($products);
     }
@@ -161,12 +173,21 @@ class FilterController extends Controller
     {
         if ($request->has('params')) {
             return response()->json(
-                (new Author())->filter($request->input('params'))->basicData()->get()->toArray()
+                (new Author())->filter($request->input('params'))
+                              ->basicData()
+                              ->withCount('products')
+                              ->get()
+                              ->toArray()
             );
         }
 
         return response()->json(
-            Author::query()->active()->featured()->withCount('products')->basicData()->get()->toArray()
+            Author::query()->active()
+                           ->featured()
+                           ->basicData()
+                           ->withCount('products')
+                           ->get()
+                           ->toArray()
         );
     }
 
@@ -180,12 +201,21 @@ class FilterController extends Controller
     {
         if ($request->has('params')) {
             return response()->json(
-                (new Publisher())->filter($request->input('params'))->basicData()->get()->toArray()
+                (new Publisher())->filter($request->input('params'))
+                                 ->basicData()
+                                 ->withCount('products')
+                                 ->get()
+                                 ->toArray()
             );
         }
 
         return response()->json(
-            Publisher::active()->featured()->withCount('products')->basicData()->get()->toArray()
+            Publisher::active()
+                     ->featured()
+                     ->basicData()
+                     ->withCount('products')
+                     ->get()
+                     ->toArray()
         );
     }
 

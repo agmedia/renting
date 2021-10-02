@@ -113,13 +113,23 @@ class Publisher extends Model
                     }
                 }
             });
+
+            if ($query->count() > 80) {
+                $query->featured();
+            }
         }
 
-        if ($query->count() > 80) {
-            $query->featured();
+        if ($request['author'] && ! $request['group']) {
+            $query->whereHas('products', function ($query) use ($request) {
+                $query->where('author_id', $request['author']);
+            });
+
+            if ($query->count() > 80) {
+                $query->featured();
+            }
         }
 
-        return $query->limit($limit)->withCount('products');
+        return $query->limit($limit)->orderBy('title');
     }
 
 

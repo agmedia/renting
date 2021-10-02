@@ -9,12 +9,18 @@
             <div class="offcanvas-body py-grid-gutter px-lg-grid-gutter">
                 <!-- Categories-->
                 <div class="widget widget-categories mb-4 pb-4 border-bottom" v-if="categories">
-                    <h3 class="widget-title" v-if="!subcat">Kategorije</h3>
-                    <h3 class="widget-title" v-else>Podkategorije</h3>
+
+                    <h3 class="widget-title" v-if="!category && !subcategory">Kategorije</h3>
+
+                    <h3 class="widget-title" v-if="category && !subcategory">{{ category.title }}<span class="badge bg-secondary float-end">{{ Number(category.count).toLocaleString('hr-HR') }}</span></h3>
+<!--                    <p class="fs-xs text-muted" v-if="category && !subcategory">Podkategorije</p>-->
+
+                    <h3 class="widget-title" v-if="category && subcategory">{{ subcategory.title }}<span class="badge bg-secondary float-end">{{ Number(subcategory.count).toLocaleString('hr-HR') }}</span></h3>
+
                     <div class="accordion mt-n1" id="shop-categories">
                         <h3 class="accordion-header" v-for="category in categories">
-                            <a :href="category.url" class="accordion-button py-2 none collapsed" role="link">
-                                {{ category.title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ category.count }}</span>
+                            <a :href="category.url" class="accordion-button py-1 none collapsed" role="link">
+                                {{ category.title }} <span class="badge bg-secondary ms-2 position-absolute end-0">{{ Number(category.count).toLocaleString('hr-HR') }}</span>
                             </a>
                         </h3>
                     </div>
@@ -41,7 +47,7 @@
                     </div>
                 </div>
 
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <div class="widget widget-filter mb-4 pb-4 border-bottom" v-if="show_authors">
                     <h3 class="widget-title">Autori</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" v-model="searchAuthor" class="form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
@@ -51,12 +57,12 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" :id="author.slug" :value="author.slug" v-model="selectedAuthors">
                                 <label class="form-check-label widget-filter-item-text" :for="author.slug">{{ author.title }}</label>
-                            </div><span class="fs-xs text-muted">{{ author.products_count }}</span>
+                            </div><span class="fs-xs text-muted"><a :href="author.url">{{ Number(author.products_count).toLocaleString('hr-HR') }}</a></span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="widget widget-filter mb-4 pb-4 border-bottom">
+                <div class="widget widget-filter mb-4 pb-4 border-bottom" v-if="show_publishers">
                     <h3 class="widget-title">Nakladnici</h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" v-model="searchPublisher" class="form-control rounded-end pe-5" placeholder="Pretraži nakladnike"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
@@ -66,11 +72,11 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" :id="publisher.slug" :value="publisher.slug" v-model="selectedPublishers">
                                 <label class="form-check-label widget-filter-item-text" :for="publisher.slug">{{ publisher.title }}</label>
-                            </div><span class="fs-xs text-muted">{{ publisher.products_count }}</span>
+                            </div><span class="fs-xs text-muted"><a :href="publisher.url">{{ Number(publisher.products_count).toLocaleString('hr-HR') }}</a></span>
                         </li>
                     </ul>
                 </div>
-                <button type="button" class="btn btn-primary mt-4"><i class=" ci-trash"></i> Očisti sve</button>
+                <button type="button" class="btn btn-primary mt-4" v-on:click="cleanQuery"><i class=" ci-trash"></i> Očisti sve</button>
             </div>
         </div>
     </aside>
@@ -89,6 +95,8 @@
         data() {
             return {
                 categories: [],
+                category: null,
+                subcategory: null,
                 authors: [],
                 publishers: [],
                 selectedAuthors: [],
@@ -98,7 +106,9 @@
                 autor: '',
                 nakladnik: '',
                 searchAuthor: '',
-                searchPublisher: ''
+                searchPublisher: '',
+                show_authors: false,
+                show_publishers: false
             }
         },
         //
@@ -130,14 +140,26 @@
         //
         mounted() {
             this.checkQuery(this.$route);
-
+            this.checkCategory();
             this.getCategories();
-            this.getAuthors();
-            this.getPublishers();
+
+            if (this.author == '') {
+                this.show_authors = true;
+                this.getAuthors();
+            }
+
+            if (this.publisher == '') {
+                this.show_publishers = true;
+                this.getPublishers();
+            }
+
+            console.log(this.category, this.subcategory)
         },
 
         methods: {
-            //
+            /**
+            *
+            **/
             getCategories() {
                 let params = this.setParams();
 
@@ -146,7 +168,21 @@
                 });
             },
 
-            //
+            /**
+             *
+             **/
+            checkCategory() {
+                if (this.cat != '') {
+                    this.category = JSON.parse(this.cat);
+                }
+                if (this.subcat != '') {
+                    this.subcategory = JSON.parse(this.subcat);
+                }
+            },
+
+            /**
+             *
+             **/
             getAuthors() {
                 let params = this.setParams();
 
@@ -155,7 +191,9 @@
                 });
             },
 
-            //
+            /**
+             *
+             **/
             getPublishers() {
                 let params = this.setParams();
 
@@ -164,7 +202,9 @@
                 });
             },
 
-            //
+            /**
+             *
+             **/
             setQueryParam(type, value) {
                 if (value.length > 3 && value.length < 5) {
                     this.$router.push({query: this.resolveQuery()}).catch(()=>{});
@@ -175,7 +215,9 @@
                 }
             },
 
-            //
+            /**
+             *
+             **/
             setQueryParamOther(type, value) {
                 this.$router.push({query: this.resolveQuery()}).catch(()=>{});
 
@@ -184,13 +226,15 @@
                 }
             },
 
-            //
+            /**
+             *
+             **/
             resolveQuery() {
                 let params = {
                     start: this.start,
                     end: this.end,
                     autor: this.autor,
-                    nakladnik: this.nakladnik
+                    nakladnik: this.nakladnik,
                 };
 
                 return Object.entries(params).reduce((acc, [key, val]) => {
@@ -199,6 +243,9 @@
                 }, {});
             },
 
+            /**
+             *
+             **/
             checkQuery(params) {
                 this.start = params.query.start ? params.query.start : '';
                 this.end = params.query.end ? params.query.end : '';
@@ -206,16 +253,35 @@
                 this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
             },
 
+            /**
+             *
+             */
             setParams() {
-                return {
+                let params = {
                     group: this.group,
-                    cat: this.cat,
-                    subcat: this.subcat,
+                    cat: this.category ? this.category.id : this.cat,
+                    subcat: this.subcategory ? this.subcategory.id : this.subcat,
                     author: this.author,
                     publisher: this.publisher,
                     search_author: this.searchAuthor,
                     search_publisher: this.searchPublisher
                 };
+
+                if (this.author != '') {
+                    params.author = this.author;
+                }
+                if (this.publisher != '') {
+                    params.publisher = this.publisher;
+                }
+
+                return params;
+            },
+
+            /**
+             *
+             */
+            cleanQuery() {
+                this.$router.push({query: {}}).catch(()=>{});
             },
 
             /**

@@ -65,6 +65,13 @@ class CatalogRouteController extends Controller
             }
         }
 
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
+
         return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'prod'));
     }
 
@@ -142,6 +149,13 @@ class CatalogRouteController extends Controller
         $letter = null;
         $ids = collect();
 
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
+
         return view('front.catalog.category.index', compact('author', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }
 
@@ -183,6 +197,13 @@ class CatalogRouteController extends Controller
         $group = null;
         $letter = null;
         $ids = collect();
+
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
 
         return view('front.catalog.category.index', compact('publisher', 'ids', 'letter', 'group', 'cat', 'subcat'));
     }

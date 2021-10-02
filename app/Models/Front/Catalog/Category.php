@@ -38,6 +38,9 @@ class Category extends Model
     }
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function parent()
     {
         return $this->hasOne(Category::class, 'id', 'parent_id');

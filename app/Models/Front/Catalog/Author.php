@@ -119,7 +119,18 @@ class Author extends Model
             }
         }
 
-        return $query->limit($limit)->orderBy('title')->withCount('products');
+        if ($request['publisher'] && ! $request['group']) {
+            Log::info($request['publisher']);
+            $query->whereHas('products', function ($query) use ($request) {
+                $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id'));
+            });
+
+            if ($query->count() > 80) {
+                //$query->featured();
+            }
+        }
+
+        return $query->limit($limit)->orderBy('title');
     }
 
 

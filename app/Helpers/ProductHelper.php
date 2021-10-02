@@ -81,8 +81,8 @@ class ProductHelper
             $query->where('group', 'like', '%' . $request['group'] . '%');
         });
 
-        if ($request['cat']) {
-            $query->orWhereHas('categories', function ($query) use ($request) {
+        if ($request['cat'] && ! $request['subcat']) {
+            $query->whereHas('categories', function ($query) use ($request) {
                 $query->where('category_id', $request['cat']);
             });
         }
