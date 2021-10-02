@@ -287,6 +287,13 @@
                         this.selectedAuthors = [this.autor];
                     }
                 }
+                if (this.nakladnik != '') {
+                    if ((this.nakladnik).includes('+')) {
+                        this.selectedPublishers = (this.nakladnik).split('+');
+                    } else {
+                        this.selectedPublishers = [this.nakladnik];
+                    }
+                }
             },
 
             /**
