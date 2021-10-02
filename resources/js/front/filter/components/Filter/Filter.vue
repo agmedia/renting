@@ -169,6 +169,8 @@
             getCategories() {
                 let params = this.setParams();
 
+                console.log('getCategories()::params', params)
+
                 axios.post('filter/getCategories', { params }).then(response => {
                     this.categories = response.data;
                 });
@@ -205,6 +207,8 @@
 
                 axios.post('filter/getPublishers', { params }).then(response => {
                     this.publishers = response.data;
+
+                    console.log(response)
                 });
             },
 

@@ -114,19 +114,18 @@ class Author extends Model
                 }
             });
 
-            if ($query->count() > 80) {
+            if ($query->count() > 100) {
                 $query->featured();
             }
         }
 
         if ($request['publisher'] && ! $request['group']) {
-            Log::info($request['publisher']);
             $query->whereHas('products', function ($query) use ($request) {
-                $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id'));
+                $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
 
-            if ($query->count() > 80) {
-                //$query->featured();
+            if ($query->count() > 100) {
+                $query->featured();
             }
         }
 

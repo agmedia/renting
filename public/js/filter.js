@@ -2032,6 +2032,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       var _this = this;
 
       var params = this.setParams();
+      console.log('getCategories()::params', params);
       axios.post('filter/getCategories', {
         params: params
       }).then(function (response) {
@@ -2077,6 +2078,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         params: params
       }).then(function (response) {
         _this3.publishers = response.data;
+        console.log(response);
       });
     },
 

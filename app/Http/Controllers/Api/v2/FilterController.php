@@ -74,6 +74,10 @@ class FilterController extends Controller
             }
         }
 
+        if ( ! $params['group'] && $params['author']) {
+
+        }
+
         return response()->json($response);
     }
 

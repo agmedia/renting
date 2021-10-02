@@ -121,7 +121,7 @@ class Publisher extends Model
 
         if ($request['author'] && ! $request['group']) {
             $query->whereHas('products', function ($query) use ($request) {
-                $query->where('author_id', $request['author']);
+                $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
             });
 
             if ($query->count() > 80) {
