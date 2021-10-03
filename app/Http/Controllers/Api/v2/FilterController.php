@@ -81,54 +81,28 @@ class FilterController extends Controller
             }
         }
 
+        if ($params['ids'] && $params['ids'] != '[]') {
+            $_ids = collect(explode(',', substr($params['ids'], 1, -1)))->unique();
 
+            $categories = Category::active()->whereHas('products', function ($query) use ($_ids) {
+                $query->active()->hasStock()->whereIn('id', $_ids);
+            })->sortByName()->withCount('products')->get()->toArray();
 
-
-        /*if ($params['group']) {
-            if ( ! $params['cat'] && ! $params['subcat']) {
-                $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
-                    return Category::active()->topList($params['group'])->sortByName()->withCount('products')->get()->toArray();
-                });
-
-                $response = $this->resolveCategoryArray($categories, 'categories');
-            }
-
-            //
-            if ($params['cat'] && ! $params['subcat']) {
-                $cat = Category::where('id', $params['cat'])->first();
-
-                if ($cat) {
-                    $item = Cache::remember('category_list.' . $cat['id'], config('cache.life'), function () use ($cat) {
-                        return Category::active()->where('parent_id', $cat['id'])->sortByName()->withCount('products')->get()->toArray();
-                    });
-
-                    if ($item) {
-                        $response = $this->resolveCategoryArray($item, 'categories', null, $cat['slug']);
-                    }
-                }
-            }
+            $response = $this->resolveCategoryArray($categories, 'categories');
         }
-
-        if ( ! $params['group'] && $params['author']) {
-            $author = Author::where('slug', $params['author'])->first();
-
-            if ( ! $params['cat'] && ! $params['subcat']) {
-                $a_cats = $author->categories();
-                $response = $this->resolveCategoryArray($a_cats, 'author', $author);
-            }
-
-            if ($params['cat'] && ! $params['subcat']) {
-                $cat = Category::where('id', $params['cat'])->first();
-                $a_cats = (new Author())->categories($cat['id']);
-
-                $response = $this->resolveCategoryArray($a_cats, 'author', $author, $cat['slug']);
-            }
-        }*/
 
         return response()->json($response);
     }
 
 
+    /**
+     * @param             $categories
+     * @param string      $type
+     * @param null        $target
+     * @param string|null $parent_slug
+     *
+     * @return array
+     */
     private function resolveCategoryArray($categories, string $type, $target = null, string $parent_slug = null): array
     {
         $response = [];
@@ -148,6 +122,14 @@ class FilterController extends Controller
     }
 
 
+    /**
+     * @param             $category
+     * @param string      $type
+     * @param             $target
+     * @param string|null $parent_slug
+     *
+     * @return string
+     */
     private function resolveCategoryUrl($category, string $type, $target, string $parent_slug = null): string
     {
         if ($type == 'author') {
@@ -217,12 +199,8 @@ class FilterController extends Controller
 
         $request_data = [];
 
-        if (isset($params['start']) && $params['start']) {
-            $request_data['start'] = $params['start'];
-        }
-
-        if (isset($params['end']) && $params['end']) {
-            $request_data['end'] = $params['end'];
+        if (isset($params['ids']) && $params['ids'] != '[]') {
+            $request_data['ids'] = $params['ids'];
         }
 
         if (isset($params['group']) && $params['group']) {
@@ -243,6 +221,14 @@ class FilterController extends Controller
 
         if (isset($params['nakladnik']) && $params['nakladnik']) {
             $request_data['nakladnik'] = $this->publishers;
+        }
+
+        if (isset($params['start']) && $params['start']) {
+            $request_data['start'] = $params['start'];
+        }
+
+        if (isset($params['end']) && $params['end']) {
+            $request_data['end'] = $params['end'];
         }
 
         if (isset($params['sort']) && $params['sort']) {

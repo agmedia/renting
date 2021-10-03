@@ -113,10 +113,6 @@ class Author extends Model
                     }
                 }
             });
-
-            if ($query->count() > 100) {
-                $query->featured();
-            }
         }
 
         if ($request['publisher'] && ! $request['group']) {
@@ -124,10 +120,18 @@ class Author extends Model
                 $query = ProductHelper::queryCategories($query, $request);
                 $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
+        }
 
-            if ($query->count() > 100) {
-                $query->featured();
-            }
+        if ($request['ids'] && $request['ids'] != '[]') {
+            $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
+
+            $query->whereHas('products', function ($query) use ($_ids) {
+                $query->active()->hasStock()->whereIn('id', $_ids);
+            });
+        }
+
+        if ($query->count() > 140) {
+            $query->featured();
         }
 
         return $query->limit($limit)->orderBy('title');

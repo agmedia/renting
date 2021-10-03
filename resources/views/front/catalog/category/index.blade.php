@@ -55,14 +55,10 @@
 
                 </div>
             @endif
-            @php
-                $name = Route::currentRouteName()
-            @endphp
 
-
-            @if ($name == 'pretrazi')
+            @if (Route::currentRouteName() == 'pretrazi')
                 <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                    <h1 class="h3 text-light mb-0">{{ 'Rezultati za:' }}  {{ $searchterm = request()->input('pojam') }}</h1>
+                    <h1 class="h3 text-light mb-0"><span class="small fw-light me-2">Rezultati pretrage za pojam:</span> {{ request()->input('pojam') }}</h1>
                 </div>
             @endif
 
@@ -120,79 +116,40 @@
     </div>
     <div class="container pb-4 mb-2 mb-md-4" id="filter-app" v-cloak>
         <div class="row">
-            <filter-view group="{{ $group }}" cat="{{ isset($cat) ? $cat : null }}" subcat="{{ isset($subcat) ? $subcat : null }}" author="{{ isset($author) ? $author['slug'] : null }}" publisher="{{ isset($publisher) ? $publisher['slug'] : null }}"></filter-view>
-            <products-view group="{{ $group }}" cat="{{ isset($cat) ? $cat['id'] : null }}" subcat="{{ isset($subcat) ? $subcat['id'] : null }}" author="{{ isset($author) ? $author['slug'] : null }}" publisher="{{ isset($publisher) ? $publisher['slug'] : null }}"></products-view>
+            <filter-view ids="{{ isset($ids) ? $ids : null }}"
+                         group="{{ isset($group) ? $group : null }}"
+                         cat="{{ isset($cat) ? $cat : null }}"
+                         subcat="{{ isset($subcat) ? $subcat : null }}"
+                         author="{{ isset($author) ? $author['slug'] : null }}"
+                         publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
+            </filter-view>
+            <products-view ids="{{ isset($ids) ? $ids : null }}"
+                           group="{{ isset($group) ? $group : null }}"
+                           cat="{{ isset($cat) ? $cat['id'] : null }}"
+                           subcat="{{ isset($subcat) ? $subcat['id'] : null }}"
+                           author="{{ isset($author) ? $author['slug'] : null }}"
+                           publisher="{{ isset($publisher) ? $publisher['slug'] : null }}">
+            </products-view>
         </div>
 
-{{--        <div class="row">--}}
-{{--            <!-- FILTER -->--}}
-{{--            @if (isset($author) && $author)--}}
-{{--            @livewire('front.partials.author-filter', ['ids' => $ids, 'selected_author' => $author, 'category' => $cat, 'subcategory' => $subcat])--}}
-{{--            @elseif (isset($publisher) && $publisher)--}}
-{{--            @livewire('front.partials.author-filter', ['ids' => $ids, 'selected_publisher' => $publisher, 'category' => $cat, 'subcategory' => $subcat])--}}
-{{--            @else--}}
-{{--            @livewire('front.partials.catalog-filter', ['ids' => $ids, 'group' => $group, 'category' => $cat, 'subcategory' => $subcat])--}}
-{{--        @endif--}}
+        {{--        <div class="row">--}}
+        {{--            <!-- FILTER -->--}}
+        {{--            @if (isset($author) && $author)--}}
+        {{--            @livewire('front.partials.author-filter', ['ids' => $ids, 'selected_author' => $author, 'category' => $cat, 'subcategory' => $subcat])--}}
+        {{--            @elseif (isset($publisher) && $publisher)--}}
+        {{--            @livewire('front.partials.author-filter', ['ids' => $ids, 'selected_publisher' => $publisher, 'category' => $cat, 'subcategory' => $subcat])--}}
+        {{--            @else--}}
+        {{--            @livewire('front.partials.catalog-filter', ['ids' => $ids, 'group' => $group, 'category' => $cat, 'subcategory' => $subcat])--}}
+        {{--        @endif--}}
 
-{{--        <!-- PRODUCTS  -->--}}
-{{--            @livewire('front.product-category-list', ['ids' => $ids, 'author' => isset($author) ? $author : null, 'publisher' => isset($publisher) ? $publisher : null, 'group' => $group, 'cat' => $cat, 'subcat' => $subcat])--}}
+        {{--        <!-- PRODUCTS  -->--}}
+        {{--            @livewire('front.product-category-list', ['ids' => $ids, 'author' => isset($author) ? $author : null, 'publisher' => isset($publisher) ? $publisher : null, 'group' => $group, 'cat' => $cat, 'subcat' => $subcat])--}}
 
-{{--        </div>--}}
+        {{--        </div>--}}
     </div>
 
 @endsection
 
 @push('js_after')
-
-{{--    <script src="{{ asset('js/filter.js') }}"></script>--}}
-
-    <script>
-        $(() => {
-            //
-            /*$('#sorting-select').on('change', (e) => {
-                setURL('sort', e.currentTarget.selectedOptions[0]);
-            });*/
-        });
-
-        /**
-         *
-         * @param type
-         * @param search
-         */
-        /*function setURL(type, search) {
-            let url = new URL(location.href);
-            let params = new URLSearchParams(url.search);
-            let keys = [];
-
-            for(var key of params.keys()) {
-                if (key === type) {
-                    keys.push(key);
-                }
-            }
-
-            keys.forEach((value) => {
-                if (params.has(value)) {
-                    params.delete(value);
-                }
-            })
-
-            if (search.value) {
-                params.append(type, search.value);
-            }
-
-            url.search = params;
-            location.href = url;
-        }*/
-
-        /**
-         *
-         */
-        /*function cleanURL() {
-            let url = location.protocol + "//" + location.host + location.pathname;
-
-            location.href = url;
-        }*/
-
-    </script>
 
 @endpush

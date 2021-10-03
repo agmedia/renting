@@ -73,6 +73,7 @@
     export default {
         name: 'ProductsList',
         props: {
+            ids: String,
             group: String,
             cat: String,
             subcat: String,
@@ -114,6 +115,8 @@
              */
             getProducts() {
                 let params = this.setParams();
+
+                console.log('getProducts()::params', params)
 
                 axios.post('filter/getProducts', { params }).then(response => {
                     this.products = response.data;
@@ -198,6 +201,7 @@
              */
             setParams() {
                 let params = {
+                    ids: this.ids,
                     group: this.group,
                     cat: this.cat,
                     subcat: this.subcat,

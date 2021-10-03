@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="widget widget-filter mb-4 pb-4 border-bottom" v-if="show_authors">
-                    <h3 class="widget-title">Autori</h3>
+                    <h3 class="widget-title">Autori<span v-if="!authors_loaded" class="spinner-border spinner-border-sm" style="float: right;"></span></h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" v-model="searchAuthor" class="form-control rounded-end pe-5" placeholder="Pretraži autora"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                     </div>
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="widget widget-filter mb-4 pb-4 border-bottom" v-if="show_publishers">
-                    <h3 class="widget-title">Nakladnici</h3>
+                    <h3 class="widget-title">Nakladnici<span v-if="!publishers_loaded" class="spinner-border spinner-border-sm" style="float: right;"></span></h3>
                     <div class="input-group input-group-sm mb-2 autocomplete">
                         <input type="search" v-model="searchPublisher" class="form-control rounded-end pe-5" placeholder="Pretraži nakladnike"><i class="ci-search position-absolute top-50 end-0 translate-middle-y fs-sm me-3"></i>
                     </div>
@@ -85,6 +85,7 @@
 <script>
     export default {
         props: {
+            ids: String,
             group: String,
             cat: String,
             subcat: String,
@@ -105,10 +106,13 @@
                 end: '',
                 autor: '',
                 nakladnik: '',
+                search_query: '',
                 searchAuthor: '',
                 searchPublisher: '',
                 show_authors: false,
+                authors_loaded: false,
                 show_publishers: false,
+                publishers_loaded: false,
                 origin: location.origin + '/'
             }
         },
@@ -169,8 +173,6 @@
             getCategories() {
                 let params = this.setParams();
 
-                console.log('getCategories()::params', params)
-
                 axios.post('filter/getCategories', { params }).then(response => {
                     this.categories = response.data;
                 });
@@ -196,6 +198,7 @@
 
                 axios.post('filter/getAuthors', { params }).then(response => {
                     this.authors = response.data;
+                    this.authors_loaded = true;
                 });
             },
 
@@ -207,8 +210,7 @@
 
                 axios.post('filter/getPublishers', { params }).then(response => {
                     this.publishers = response.data;
-
-                    console.log(response)
+                    this.publishers_loaded = true;
                 });
             },
 
@@ -245,7 +247,8 @@
                     end: this.end,
                     autor: this.autor,
                     nakladnik: this.nakladnik,
-                    page: this.page
+                    page: this.page,
+                    pojam: this.search_query,
                 };
 
                 return Object.entries(params).reduce((acc, [key, val]) => {
@@ -262,7 +265,7 @@
                 this.end = params.query.end ? params.query.end : '';
                 this.autor = params.query.autor ? params.query.autor : '';
                 this.nakladnik = params.query.nakladnik ? params.query.nakladnik : '';
-                //this.page = params.query.page ? params.query.page : '';
+                this.search_query = params.query.pojam ? params.query.pojam : '';
             },
 
             /**
@@ -270,13 +273,15 @@
              */
             setParams() {
                 let params = {
+                    ids: this.ids,
                     group: this.group,
                     cat: this.category ? this.category.id : this.cat,
                     subcat: this.subcategory ? this.subcategory.id : this.subcat,
                     author: this.author,
                     publisher: this.publisher,
                     search_author: this.searchAuthor,
-                    search_publisher: this.searchPublisher
+                    search_publisher: this.searchPublisher,
+                    pojam: this.search_query
                 };
 
                 if (this.author != '') {

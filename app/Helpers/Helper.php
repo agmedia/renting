@@ -126,7 +126,7 @@ class Helper
                 return $response;
             }
 
-            return $response->toArray();
+            return $response['products']->toJson();
         }
 
         return false;

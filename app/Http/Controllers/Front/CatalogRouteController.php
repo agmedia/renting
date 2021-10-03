@@ -229,8 +229,6 @@ class CatalogRouteController extends Controller
                 $request->input(config('settings.search_keyword'))
             );
 
-            $ids = $ids['products'];
-
             return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
         }
 

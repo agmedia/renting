@@ -99,7 +99,7 @@ class Publisher extends Model
             $query = Helper::searchByTitle($query, $request['search_publisher']);
         }
 
-        if ($request['group']) {
+        if ($request['group'] && ! $request['search_publisher']) {
             $query->whereHas('products', function ($query) use ($request) {
                 $query = ProductHelper::queryCategories($query, $request);
 
@@ -114,10 +114,6 @@ class Publisher extends Model
                     }
                 }
             });
-
-            if ($query->count() > 80) {
-                $query->featured();
-            }
         }
 
         if ($request['author'] && ! $request['group']) {
@@ -125,10 +121,18 @@ class Publisher extends Model
                 $query = ProductHelper::queryCategories($query, $request);
                 $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
             });
+        }
 
-            if ($query->count() > 80) {
-                $query->featured();
-            }
+        if ($request['ids'] && $request['ids'] != '[]') {
+            $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
+
+            $query->whereHas('products', function ($query) use ($_ids) {
+                $query->active()->hasStock()->whereIn('id', $_ids);
+            });
+        }
+
+        if ($query->count() > 80) {
+            $query->featured();
         }
 
         return $query->limit($limit)->orderBy('title');
