@@ -4,18 +4,16 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Filter from "./components/Filter/Filter";
-
 require('./bootstrap');
 
 import Vue from "vue";
 window.Vue = Vue;
 
-import Vuex from 'vuex';
+/*import Vuex from 'vuex';
 window.Vuex = Vuex;
 Vue.use(Vuex);
 
-import store from './../cart/store';
+import store from './../cart/store';*/
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -28,21 +26,9 @@ const router = new VueRouter({
         { path: '/', component: Filter, name: 'home' }
     ]*/
 });
-/*import Vuex from 'vuex';
-window.Vuex = Vuex;
-Vue.use(Vuex);
-
-import VueSweetalert2 from "vue-sweetalert2";
-import 'sweetalert2/dist/sweetalert2.min.css';
-Vue.use(VueSweetalert2)
-
-import store from './store.js';*/
-
-//import Storage from './services/Storage'
 
 Vue.component('filter-view', require('./components/Filter/Filter').default);
 Vue.component('products-view', require('./components/ProductsList/ProductsList').default);
-
 Vue.component('pagination', require('./components/Pagination/LaravelVuePagination').default);
 
 /**
@@ -51,8 +37,8 @@ Vue.component('pagination', require('./components/Pagination/LaravelVuePaginatio
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+const filter = new Vue({
     router,
-    store: new Vuex.Store(store)
+    /*store: new Vuex.Store(store)*/
 }).$mount('#filter-app');
 

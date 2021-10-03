@@ -16,7 +16,7 @@
                     </select>
                 </div>
             </div>
-            <div class="d-flex pb-3"><span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ Number(products.total).toLocaleString('hr-HR') }} artikala</span></div>
+            <div class="d-flex pb-3"><span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }} artikala</span></div>
         </div>
         <!-- Products grid-->
         <div class="row mx-n2 mb-3">
@@ -25,8 +25,8 @@
                     <div class="product-thumb">
                         <div class="product-card-actions">
                             <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" :href="origin + product.url"><i class="ci-eye"></i></a>
-<!--                            <button type="button" class="btn btn-light btn-icon btn-shadow fs-base mx-2" v-on:click="add(product.id)"><i class="ci-cart"></i></button>-->
-                            <add-to-cart-btn-simple :id="(product.id).toString()"></add-to-cart-btn-simple>
+                            <button type="button" class="btn btn-light btn-icon btn-shadow fs-base mx-2" v-on:click="add(product.id)"><i class="ci-cart"></i></button>
+<!--                            <add-to-cart-btn-simple :id="(product.id).toString()"></add-to-cart-btn-simple>-->
                         </div>
                         <a class="product-thumb-overlay" :href="origin + product.url"></a>
                         <img load="lazy" :src="product.image.replace('.webp', '-thumb.webp')" width="250" height="300" :alt="product.name">
@@ -70,13 +70,8 @@
 </template>
 
 <script>
-import AddToCartBtnSimple from "../../../cart/components/AddToCartBtnSimple/AddToCartBtnSimple";
-
     export default {
         name: 'ProductsList',
-        components: {
-            AddToCartBtnSimple
-        },
         props: {
             group: String,
             cat: String,
@@ -240,15 +235,10 @@ import AddToCartBtnSimple from "../../../cart/components/AddToCartBtnSimple/AddT
              * @param id
              */
             add(id) {
-                /*this.$store.dispatch('addToCart', {
+                this.$store.dispatch('addToCart', {
                     id: id,
                     quantity: 1
-                }, {root:true});*/
-
-                dispatch('addToCart', {
-                    id: id,
-                    quantity: 1
-                }, {root:true})
+                })
             }
         }
     };

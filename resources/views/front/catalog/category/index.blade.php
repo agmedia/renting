@@ -144,7 +144,7 @@
 
 @push('js_after')
 
-    <script src="{{ asset('js/filter.js') }}"></script>
+{{--    <script src="{{ asset('js/filter.js') }}"></script>--}}
 
     <script>
         $(() => {
@@ -159,7 +159,7 @@
          * @param type
          * @param search
          */
-        function setURL(type, search) {
+        /*function setURL(type, search) {
             let url = new URL(location.href);
             let params = new URLSearchParams(url.search);
             let keys = [];
@@ -182,16 +182,16 @@
 
             url.search = params;
             location.href = url;
-        }
+        }*/
 
         /**
          *
          */
         function cleanURL() {
-            let url = location.protocol + "//" + location.host + location.pathname;
+         /*   let url = location.protocol + "//" + location.host + location.pathname;
 
             location.href = url;
-        }
+        }*/
 
     </script>
 

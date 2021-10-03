@@ -44,8 +44,6 @@
         [v-cloak] { display:none !important; }
     </style>
 
-    @livewireStyles
-
 </head>
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
@@ -132,8 +130,6 @@
 </script>
 
 @stack('js_after')
-
-@livewireScripts
 
 </body>
 </html>
