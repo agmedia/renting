@@ -388,8 +388,6 @@ class Product extends Model
         if ($request->has('sort')) {
             $sort = $request->input('sort');
 
-            Log::info($sort);
-
             if ($sort == 'novi') {
                 $query->orderBy('created_at', 'desc');
             }
@@ -414,8 +412,6 @@ class Product extends Model
         } else {
             $query->orderBy('updated_at', 'desc');
         }
-
-        Log::info($query->toSql());
 
         return $query;
     }

@@ -31,22 +31,66 @@ class FilterController extends Controller
         $response = [];
         $params = $request->input('params');
 
-        if ($params['group']) {
-            if ( ! $params['cat'] && ! $params['subcat']) {
-                $response = [];
+        $author = $params['author'] ? Author::where('slug', $params['author'])->first() : null;
+        $publisher = $params['publisher'] ? Publisher::where('slug', $params['publisher'])->first() : null;
+
+        if ( ! $params['cat'] && ! $params['subcat']) {
+            // Ako je normal kategorija
+            if ($params['group']) {
                 $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
-                    return Category::active()->topList($params['group'])->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
+                    return Category::active()->topList($params['group'])->sortByName()->withCount('products')->get()->toArray();
                 });
 
-                foreach ($categories as $category) {
-                    $response[] = [
-                        'id' => $category['id'],
-                        'title' => $category['title'],
-                        'count' => $category['products_count'],
-                        'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $category['slug']])
-                        //'url' => Str::slug($category['group']) . '/' . $category['slug']
-                    ];
-                }
+                $response = $this->resolveCategoryArray($categories, 'categories');
+            }
+
+            // Ako je autor
+            if ( ! $params['group'] && $params['author']) {
+                $a_cats = $author->categories();
+                $response = $this->resolveCategoryArray($a_cats, 'author', $author);
+            }
+
+            // Ako je nakladnik
+            if ( ! $params['group'] && $params['publisher']) {
+                $a_cats = $publisher->categories();
+                $response = $this->resolveCategoryArray($a_cats, 'publisher', $publisher);
+            }
+        }
+        //
+        if ($params['cat'] && ! $params['subcat']) {
+            $cat = Category::where('id', $params['cat'])->first();
+
+            if ($params['group']) {
+                $item = Cache::remember('category_list.' . $cat['id'], config('cache.life'), function () use ($cat) {
+                    return Category::active()->where('parent_id', $cat['id'])->sortByName()->withCount('products')->get()->toArray();
+                });
+
+                $response = $this->resolveCategoryArray($item, 'categories', null, $cat['slug']);
+            }
+
+            // Ako je autor
+            if ( ! $params['group'] && $params['author']) {
+                $a_cats = (new Author())->categories($cat['id']);
+                $response = $this->resolveCategoryArray($a_cats, 'author', $author, $cat['slug']);
+            }
+
+            // Ako je nakladnik
+            if ( ! $params['group'] && $params['publisher']) {
+                $a_cats = (new Publisher())->categories($cat['id']);
+                $response = $this->resolveCategoryArray($a_cats, 'publisher', $publisher, $cat['slug']);
+            }
+        }
+
+
+
+
+        /*if ($params['group']) {
+            if ( ! $params['cat'] && ! $params['subcat']) {
+                $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
+                    return Category::active()->topList($params['group'])->sortByName()->withCount('products')->get()->toArray();
+                });
+
+                $response = $this->resolveCategoryArray($categories, 'categories');
             }
 
             //
@@ -54,31 +98,79 @@ class FilterController extends Controller
                 $cat = Category::where('id', $params['cat'])->first();
 
                 if ($cat) {
-                    $item = Cache::remember('category_list.' . $cat->id, config('cache.life'), function () use ($cat) {
-                        return Category::active()->where('parent_id', $cat->id)->sortByName()/*->with('subcategories')*/->withCount('products')->get()->toArray();
+                    $item = Cache::remember('category_list.' . $cat['id'], config('cache.life'), function () use ($cat) {
+                        return Category::active()->where('parent_id', $cat['id'])->sortByName()->withCount('products')->get()->toArray();
                     });
 
                     if ($item) {
-                        $response = [];
-
-                        foreach ($item as $category) {
-                            $response[] = [
-                                'id' => $category['id'],
-                                'title' => $category['title'],
-                                'count' => $category['products_count'],
-                                'url' => route('catalog.route', ['group' => Str::slug($category['group']), 'cat' => $cat['slug'], 'subcat' => $category['slug']])
-                            ];
-                        }
+                        $response = $this->resolveCategoryArray($item, 'categories', null, $cat['slug']);
                     }
                 }
             }
         }
 
         if ( ! $params['group'] && $params['author']) {
+            $author = Author::where('slug', $params['author'])->first();
 
-        }
+            if ( ! $params['cat'] && ! $params['subcat']) {
+                $a_cats = $author->categories();
+                $response = $this->resolveCategoryArray($a_cats, 'author', $author);
+            }
+
+            if ($params['cat'] && ! $params['subcat']) {
+                $cat = Category::where('id', $params['cat'])->first();
+                $a_cats = (new Author())->categories($cat['id']);
+
+                $response = $this->resolveCategoryArray($a_cats, 'author', $author, $cat['slug']);
+            }
+        }*/
 
         return response()->json($response);
+    }
+
+
+    private function resolveCategoryArray($categories, string $type, $target = null, string $parent_slug = null): array
+    {
+        $response = [];
+
+        foreach ($categories as $category) {
+            $url = $this->resolveCategoryUrl($category, $type, $target, $parent_slug);
+
+            $response[] = [
+                'id' => $category['id'],
+                'title' => $category['title'],
+                'count' => $category['products_count'],
+                'url' => $url
+            ];
+        }
+
+        return $response;
+    }
+
+
+    private function resolveCategoryUrl($category, string $type, $target, string $parent_slug = null): string
+    {
+        if ($type == 'author') {
+            return route('catalog.route.author', [
+                'author' => $target,
+                'cat' => $parent_slug ?: $category['slug'],
+                'subcat' => $parent_slug ? $category['slug'] : null
+            ]);
+
+        } elseif ($type == 'publisher') {
+            return route('catalog.route.publisher', [
+                'publisher' => $target,
+                'cat' => $parent_slug ?: $category['slug'],
+                'subcat' => $parent_slug ? $category['slug'] : null
+            ]);
+
+        } else {
+            return route('catalog.route', [
+                'group' => Str::slug($category['group']),
+                'cat' => $parent_slug ?: $category['slug'],
+                'subcat' => $parent_slug ? $category['slug'] : null
+            ]);
+        }
     }
 
 

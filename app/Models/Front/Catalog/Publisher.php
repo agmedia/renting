@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Catalog;
 
+use App\Models\Front\Catalog\Category;
 use App\Helpers\Helper;
 use App\Helpers\ProductHelper;
 use Illuminate\Database\Eloquent\Builder;
@@ -121,6 +122,7 @@ class Publisher extends Model
 
         if ($request['author'] && ! $request['group']) {
             $query->whereHas('products', function ($query) use ($request) {
+                $query = ProductHelper::queryCategories($query, $request);
                 $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
             });
 
@@ -156,6 +158,36 @@ class Publisher extends Model
         }
 
         return $letters;
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function categories(int $id = 0): Collection
+    {
+        $query = (new Category())->newQuery();
+
+        $query->active();
+
+        if ( ! $id) {
+            $query =$query->topList()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            });
+
+        } else {
+            $query = $query->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            })->where('parent_id', $id);
+        }
+
+        return $query->withCount(['products as products_count' => function ($query) {
+                         $query->where('publisher_id', $this->id);
+                     }])
+                     ->orderBy('title')
+                     ->get();
     }
 
 }

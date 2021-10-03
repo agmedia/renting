@@ -25,7 +25,8 @@
                     <div class="product-thumb">
                         <div class="product-card-actions">
                             <a class="btn btn-light btn-icon btn-shadow fs-base mx-2" :href="origin + product.url"><i class="ci-eye"></i></a>
-                            <button type="button" class="btn btn-light btn-icon btn-shadow fs-base mx-2" v-on:click="add(product.id)"><i class="ci-cart"></i></button>
+<!--                            <button type="button" class="btn btn-light btn-icon btn-shadow fs-base mx-2" v-on:click="add(product.id)"><i class="ci-cart"></i></button>-->
+                            <add-to-cart-btn-simple :id="(product.id).toString()"></add-to-cart-btn-simple>
                         </div>
                         <a class="product-thumb-overlay" :href="origin + product.url"></a>
                         <img load="lazy" :src="product.image.replace('.webp', '-thumb.webp')" width="250" height="300" :alt="product.name">
@@ -69,8 +70,13 @@
 </template>
 
 <script>
+import AddToCartBtnSimple from "../../../cart/components/AddToCartBtnSimple/AddToCartBtnSimple";
+
     export default {
         name: 'ProductsList',
+        components: {
+            AddToCartBtnSimple
+        },
         props: {
             group: String,
             cat: String,
@@ -234,12 +240,15 @@
              * @param id
              */
             add(id) {
-                this.$store.dispatch('addToCart', {
+                /*this.$store.dispatch('addToCart', {
                     id: id,
                     quantity: 1
-                });
+                }, {root:true});*/
 
-                this.$store.commit('setCart');
+                dispatch('addToCart', {
+                    id: id,
+                    quantity: 1
+                }, {root:true})
             }
         }
     };

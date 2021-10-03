@@ -121,6 +121,7 @@ class Author extends Model
 
         if ($request['publisher'] && ! $request['group']) {
             $query->whereHas('products', function ($query) use ($request) {
+                $query = ProductHelper::queryCategories($query, $request);
                 $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
 
@@ -156,5 +157,35 @@ class Author extends Model
         }
 
         return $letters;
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function categories(int $id = 0): Collection
+    {
+        $query = (new Category())->newQuery();
+
+        $query->active();
+
+        if ( ! $id) {
+            $query->topList()->select('id', 'group', 'title', 'slug')->whereHas('products', function ($query) {
+                $query->where('author_id', $this->id);
+            });
+
+        } else {
+            $query->whereHas('products', function ($query) {
+                $query->where('author_id', $this->id);
+            })->where('parent_id', $id);
+        }
+
+        return $query->withCount(['products as products_count' => function ($query) {
+                         $query->where('author_id', $this->id);
+                     }])
+                     ->sortByName()
+                     ->get();
     }
 }
