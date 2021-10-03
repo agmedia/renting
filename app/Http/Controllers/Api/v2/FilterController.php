@@ -199,7 +199,7 @@ class FilterController extends Controller
 
         $request_data = [];
 
-        if (isset($params['ids']) && $params['ids'] != '[]') {
+        if (isset($params['ids']) && $params['ids'] != '') {
             $request_data['ids'] = $params['ids'];
         }
 

@@ -194,11 +194,12 @@
              *
              **/
             getAuthors() {
+                this.authors_loaded = false;
                 let params = this.setParams();
 
                 axios.post('filter/getAuthors', { params }).then(response => {
-                    this.authors = response.data;
                     this.authors_loaded = true;
+                    this.authors = response.data;
                 });
             },
 
@@ -206,11 +207,12 @@
              *
              **/
             getPublishers() {
+                this.publishers_loaded = false;
                 let params = this.setParams();
 
                 axios.post('filter/getPublishers', { params }).then(response => {
-                    this.publishers = response.data;
                     this.publishers_loaded = true;
+                    this.publishers = response.data;
                 });
             },
 

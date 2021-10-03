@@ -18,8 +18,9 @@
             </div>
             <div class="d-flex pb-3"><span class="fs-sm text-light btn btn-primary btn-sm text-nowrap ms-2 d-none d-sm-block">Ukupno {{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }} artikala</span></div>
         </div>
+
         <!-- Products grid-->
-        <div class="row mx-n2 mb-3">
+        <div class="row mx-n2 mb-3" v-if="products.total">
             <div class="col-md-4 col-6 px-2 mb-4" v-for="product in products.data">
                 <div class="card product-card-alt">
                     <div class="product-thumb">
@@ -57,12 +58,39 @@
 
         <pagination :data="products" align="center" :show-disabled="true" :limit="4" @pagination-change-page="getProductsPage"></pagination>
 
-        <div class="col-md-12 d-flex justify-content-center mt-4" v-cloak>
-            <p class="fs-sm" v-cloak>Prikazano
+        <div class="row" v-if="!products_loaded">
+            <div class="col-md-12 d-flex justify-content-center mt-4">
+                <div class="spinner-border text-muted opacity-75" role="status" style="width: 9rem; height: 9rem;"></div>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center mt-4">
+                <p class="fs-3 fw-lighter opacity-50">Učitavanje knjiga...</p>
+            </div>
+        </div>
+
+        <div class="col-md-12 d-flex justify-content-center mt-4" v-if="products.total">
+            <p class="fs-sm">Prikazano
                 <span class="font-weight-bolder mx-1">{{ products.from ? Number(products.from).toLocaleString('hr-HR') : 0 }}</span> do
                 <span class="font-weight-bolder mx-1">{{ products.to ? Number(products.to).toLocaleString('hr-HR') : 0 }}</span> od
                 <span class="font-weight-bold mx-1">{{ products.total ? Number(products.total).toLocaleString('hr-HR') : 0 }}</span> {{ hr_total }}
             </p>
+        </div>
+
+        <div class="col-md-12 px-2 mb-4" v-if="products_loaded && search_zero_result">
+            <h2>Nema rezultata pretrage</h2>
+            <p> Vaša pretraga za  <mark>{{ search_query }}</mark> pronašla je 0 rezultata.</p>
+            <h4 class="h5">Savjeti i smjernica</h4>
+            <ul class="list-style">
+                <li>Dvaput provjerite pravopis.</li>
+                <li>Ograničite pretragu na samo jedan ili dva pojma.</li>
+                <li>Budite manje precizni u terminologiji. Koristeći više općenitih termina prije ćete doći do sličnih i povezanih proizvoda.</li>
+            </ul>
+            <hr class="d-sm-none">
+        </div>
+
+        <div class="col-md-12 px-2 mb-4" v-if="products_loaded && navigation_zero_result">
+            <h2>Trenutno nema proizvoda</h2>
+            <p> Pogledajte u nekoj drugoj kategoriji ili probajte sa tražilicom :-)</p>
+            <hr class="d-sm-none">
         </div>
 
         <hr class="my-3">
@@ -92,7 +120,10 @@
                 search_query: '',
                 page: 1,
                 origin: location.origin + '/',
-                hr_total: 'rezultata'
+                hr_total: 'rezultata',
+                products_loaded: false,
+                search_zero_result: false,
+                navigation_zero_result: false,
             }
         },
         //
@@ -114,13 +145,25 @@
              *
              */
             getProducts() {
+                this.search_zero_result = false;
+                this.navigation_zero_result = false;
+                this.products_loaded = false;
                 let params = this.setParams();
 
-                console.log('getProducts()::params', params)
+                console.log(params)
 
                 axios.post('filter/getProducts', { params }).then(response => {
+                    this.products_loaded = true;
                     this.products = response.data;
                     this.checkHrTotal();
+
+                    if (params.pojam != '' && !this.products.total) {
+                        this.search_zero_result = true;
+                    }
+
+                    if (params.pojam == '' && !this.products.total) {
+                        this.navigation_zero_result = true;
+                    }
                 });
             },
 

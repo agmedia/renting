@@ -122,7 +122,7 @@ class Author extends Model
             });
         }
 
-        if ($request['ids'] && $request['ids'] != '[]') {
+        if ($request['ids'] && $request['ids'] != '') {
             $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
 
             $query->whereHas('products', function ($query) use ($_ids) {
