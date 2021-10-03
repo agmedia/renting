@@ -187,8 +187,8 @@
         /**
          *
          */
-        function cleanURL() {
-         /*   let url = location.protocol + "//" + location.host + location.pathname;
+        /*function cleanURL() {
+            let url = location.protocol + "//" + location.host + location.pathname;
 
             location.href = url;
         }*/
