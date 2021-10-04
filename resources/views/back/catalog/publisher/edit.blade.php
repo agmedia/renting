@@ -35,7 +35,7 @@
                     <div class="block-options d-inline-block">
                         <div class="custom-control custom-switch d-inline-block custom-control-success mr-5">
                             <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured"{{ (isset($publisher->featured) and $publisher->featured) ? 'checked' : '' }}>
-                            <label class="custom-control-label" for="featured-switch">Izdvojeni nakladnik</label>
+                            <label class="custom-control-label" for="featured-switch">Izdvojeni izdavač</label>
                         </div>
                         <div class="custom-control custom-switch d-inline-block custom-control-success">
                             <input type="checkbox" class="custom-control-input" id="publisher-switch" name="status"{{ (isset($publisher->status) and $publisher->status) ? 'checked' : '' }}>
