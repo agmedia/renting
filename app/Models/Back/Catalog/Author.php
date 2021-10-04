@@ -87,6 +87,7 @@ class Author extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'featured'         => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
             'slug'             => $slug,
             'url'              => config('settings.author_path') . '/' . $slug,
             'created_at'       => Carbon::now(),
@@ -119,6 +120,7 @@ class Author extends Model
             'lang'             => 'hr',
             'sort_order'       => 0,
             'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'featured'         => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
             'slug'             => $slug,
             'url'              => config('settings.author_path') . '/' . $slug,
             'updated_at'       => Carbon::now()

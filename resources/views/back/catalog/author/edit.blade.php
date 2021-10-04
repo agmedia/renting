@@ -34,6 +34,10 @@
                     </a>
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-success">
+                            <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured"{{ (isset($author->featured) and $author->featured) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="featured-switch">Aktiviraj</label>
+                        </div>
+                        <div class="custom-control custom-switch custom-control-success">
                             <input type="checkbox" class="custom-control-input" id="author-switch" name="status"{{ (isset($author->status) and $author->status) ? 'checked' : '' }}>
                             <label class="custom-control-label" for="author-switch">Aktiviraj</label>
                         </div>
