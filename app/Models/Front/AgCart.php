@@ -182,11 +182,17 @@ class AgCart extends Model
         $response = [];
 
         foreach ($this->cart->getConditions() as $condition) {
+            $value = $condition->getValue();
+
+            if ($this->cart->getTotal() > 500) {
+                $value = 0;
+            }
+
             $response[] = [
                 'name' => $condition->getName(),
                 'type' => $condition->getType(),
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $condition->getValue(),
+                'value' => $value,
                 'attributes' => $condition->getAttributes()
             ];
         }
