@@ -9,6 +9,12 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba pregled <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
+                <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('orders') }}">Sve narudžbe</a></li>
+
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
@@ -48,7 +54,7 @@
 
                         @foreach ($order->totals as $total)
                             <tr>
-                                <td colspan="4" class="text-right"><strong>{{ $total->title }}:</strong></td>
+                                <td colspan="5" class="text-right"><strong>{{ $total->title }}:</strong></td>
                                 <td class="text-right">{!! \App\Helpers\Helper::priceString($total->value) !!}</td>
                             </tr>
                         @endforeach
@@ -101,7 +107,7 @@
                 <h3 class="block-title">Povijest narudžbe</h3>
                 <div class="block-options">
                     <div class="dropdown">
-                        <button type="button" class="btn btn-alt-secondary" id="btn-add-comment">
+                        <button type="button" class="btn btn-alt-secondary d-none d-xl-block" id="btn-add-comment">
                             Dodaj komentar
                         </button>
                         <button type="button" class="btn btn-light" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,7 +130,7 @@
                     <tbody>
                     @foreach ($order->history as $record)
                         <tr>
-                            <td class="font-size-base">
+                            <td class="font-size-base d-none d-xl-block">
                                 @if ($record->status)
                                     <span class="badge badge-pill badge-{{ $record->status->color }}">{{ $record->status->title }}</span>
                                 @else
