@@ -121,6 +121,8 @@ class CheckoutController extends Controller
             Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
         });
 
+        Log::info($data['order']);
+
         foreach ($data['order']->products as $product) {
             $product->real->decrement('quantity', $product->quantity);
 
