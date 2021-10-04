@@ -32,12 +32,12 @@
                     <a class="btn btn-light" href="{{ back()->getTargetUrl() }}">
                         <i class="fa fa-arrow-left mr-1"></i> Povratak
                     </a>
-                    <div class="block-options">
-                        <div class="custom-control custom-switch custom-control-success">
+                    <div class="block-options d-inline-block">
+                        <div class="custom-control custom-switch d-inline-block custom-control-success mr-5">
                             <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured"{{ (isset($publisher->featured) and $publisher->featured) ? 'checked' : '' }}>
-                            <label class="custom-control-label" for="featured-switch">Aktiviraj</label>
+                            <label class="custom-control-label" for="featured-switch">Izdvojeni nakladnik</label>
                         </div>
-                        <div class="custom-control custom-switch custom-control-success">
+                        <div class="custom-control custom-switch d-inline-block custom-control-success">
                             <input type="checkbox" class="custom-control-input" id="publisher-switch" name="status"{{ (isset($publisher->status) and $publisher->status) ? 'checked' : '' }}>
                             <label class="custom-control-label" for="publisher-switch">Aktiviraj</label>
                         </div>
