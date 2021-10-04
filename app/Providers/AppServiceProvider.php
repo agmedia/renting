@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Front\Catalog\Category;
 use App\Models\Front\Page;
 use App\Models\User;
 use App\Models\Front\Catalog\Product;
@@ -42,6 +43,12 @@ class AppServiceProvider extends ServiceProvider
 
         $users = User::count();
         View::share('users', $users);
+
+        $knjige = Category::active()->topList('Knjige')->sortByName()->select('id', 'title', 'group', 'slug')->get();
+        View::share('knjige', $knjige);
+
+        $zemljovidi_vedute = Category::active()->topList('Zemljovidi i vedute')->select('id', 'title', 'group', 'slug')->sortByName()->get();
+        View::share('zemljovidi_vedute', $zemljovidi_vedute);
 
         Paginator::useBootstrap();
     }
