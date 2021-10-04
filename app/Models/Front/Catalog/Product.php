@@ -246,6 +246,17 @@ class Product extends Model
      *
      * @return mixed
      */
+    public function scopeCreated($query, $count = 9)
+    {
+        return $query->where('status', 1)->orderBy('created_at', 'desc')->limit($count);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function scopeAvailable($query)
     {
         return $query->where('quantity', '!=', 0);

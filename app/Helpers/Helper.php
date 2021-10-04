@@ -276,7 +276,7 @@ class Helper
         $prods->active()->available();
 
         if (isset($data['new']) && $data['new'] == 'on') {
-            $prods->last();
+            $prods->created();
         }
 
         if (isset($data['popular']) && $data['popular'] == 'on') {
