@@ -224,7 +224,7 @@ class PaymentMethod
      * @return \Darryldecode\Cart\CartCondition|false
      * @throws \Darryldecode\Cart\Exceptions\InvalidConditionException
      */
-    public static function condition()
+    public static function condition($cart = null)
     {
         $payment = false;
         $condition = false;
@@ -234,11 +234,17 @@ class PaymentMethod
         }
 
         if ($payment) {
+            $value = $payment->data->price;
+
+            if ($cart->getTotal() > 500) {
+                $value = 0;
+            }
+
             $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'Naknada za pouzeće',
                 'type' => 'payment',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => '+' . $payment->data->price ?: 0,
+                'value' => '+' . $value ?: 0,
                 'attributes' => [
                     'description' => $payment->data->short_description ?: '',
                     'geo_zone' => $payment->geo_zone ?: 0

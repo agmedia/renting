@@ -164,8 +164,8 @@ class AgCart extends Model
     {
         $this->cart->clearCartConditions();
 
-        $shipping_method = ShippingMethod::condition();
-        $payment_method = PaymentMethod::condition();
+        $shipping_method = ShippingMethod::condition($this->cart);
+        $payment_method = PaymentMethod::condition($this->cart);
 
         if ($payment_method) {
             $str = str_replace('+', '', $payment_method->getValue());
@@ -183,10 +183,6 @@ class AgCart extends Model
 
         foreach ($this->cart->getConditions() as $condition) {
             $value = $condition->getValue();
-
-            if ($this->cart->getTotal() > 500) {
-                $value = 0;
-            }
 
             $response[] = [
                 'name' => $condition->getName(),

@@ -85,7 +85,7 @@ class ShippingMethod
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
-    public static function condition()
+    public static function condition($cart = null)
     {
         $shipping = false;
         $condition = false;
@@ -95,11 +95,17 @@ class ShippingMethod
         }
 
         if ($shipping) {
+            $value = $shipping->data->price;
+
+            if ($cart->getTotal() > 500) {
+                $value = 0;
+            }
+
             $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => $shipping->title,
                 'type' => 'shipping',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => '+' . $shipping->data->price,
+                'value' => '+' . $value,
                 'attributes' => [
                     'description' => $shipping->data->short_description,
                     'geo_zone' => $shipping->geo_zone
