@@ -3,7 +3,7 @@
 @section('content')
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
-            <td class="ag-mail-tableset">{!! __('Dobili ste novu narudžbu') !!}</td>
+            <td class="ag-mail-tableset">{!! __('Dobili ste novu narudžbu') !!} - {{ $order->created_at }}</td>
         </tr>
         <tr>
             <td class="ag-mail-tableset"> <h3>Narudžba broj: {{ $order->id }} </h3></td>

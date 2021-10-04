@@ -15,7 +15,7 @@ return [
     */
 
     'pagination' => [
-        'front' => 18,
+        'front' => 30,
         'back' => 30
     ],
 
