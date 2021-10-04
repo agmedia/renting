@@ -57,11 +57,11 @@
                         <ul class="list-unstyled fs-sm">
                             @if (auth()->guest())
                                 <li><span class="text-muted">Korisnik:&nbsp;</span>{{ $data['address']['fname'] }} {{ $data['address']['lname'] }}</li>
-                                <li><span class="text-muted">Adresa:&nbsp;</span>{{ $data['address']['address'] }}, {{ $data['address']['zip'] }} {{ $data['address']['city'] }}, Hrvatska</li>
+                                <li><span class="text-muted">Adresa:&nbsp;</span>{{ $data['address']['address'] }}, {{ $data['address']['zip'] }} {{ $data['address']['city'] }}, {{ $data['address']['state'] }}</li>
                                 <li><span class="text-muted">Email:&nbsp;</span>{{ $data['address']['email'] }}</li>
                             @else
                                 <li><span class="text-muted">Korisnik:&nbsp;</span>{{ auth()->user()->details->fname }} {{ auth()->user()->details->lname }}</li>
-                                <li><span class="text-muted">Adresa:&nbsp;</span>{{ auth()->user()->details->address }}, {{ auth()->user()->details->zip }} {{ auth()->user()->details->city }}, Hrvatska</li>
+                                <li><span class="text-muted">Adresa:&nbsp;</span>{{ auth()->user()->details->address }}, {{ auth()->user()->details->zip }} {{ auth()->user()->details->city }}, {{ $data['address']['state'] }}</li>
                                 <li><span class="text-muted">Email:&nbsp;</span>{{ auth()->user()->email }}</li>
                             @endif
                         </ul>
@@ -70,7 +70,7 @@
                         <h4 class="h6">Dostaviti na:</h4>
                         <ul class="list-unstyled fs-sm">
                             <li><span class="text-muted">Korisnik:&nbsp;</span>{{ $data['address']['fname'] }} {{ $data['address']['lname'] }}</li>
-                            <li><span class="text-muted">Adresa:&nbsp;</span>{{ $data['address']['address'] }}, {{ $data['address']['zip'] }} {{ $data['address']['city'] }}, Hrvatska</li>
+                            <li><span class="text-muted">Adresa:&nbsp;</span>{{ $data['address']['address'] }}, {{ $data['address']['zip'] }} {{ $data['address']['city'] }}, {{ $data['address']['state'] }}</li>
                             <li><span class="text-muted">Email:&nbsp;</span>{{ $data['address']['email'] }}</li>
                         </ul>
                     </div>
