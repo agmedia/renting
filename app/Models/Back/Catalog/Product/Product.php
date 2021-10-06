@@ -202,7 +202,7 @@ class Product extends Model
 
             $product->update([
                 'url'             => ProductHelper::url($product),
-                'category_string' => ProductHelper::categoryString($this)
+                'category_string' => ProductHelper::categoryString($product)
             ]);
 
             return $product;
