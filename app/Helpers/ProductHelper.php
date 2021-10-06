@@ -78,20 +78,18 @@ class ProductHelper
     public static function queryCategories(Builder $query, array $request): Builder
     {
         $query->whereHas('categories', function ($query) use ($request) {
-            $query->where('group', 'like', '%' . $request['group'] . '%');
-        });
+            if ($request['group'] && ! $request['cat'] && ! $request['subcat']) {
+                $query->where('group', $request['group']);
+            }
 
-        if ($request['cat'] && ! $request['subcat']) {
-            $query->whereHas('categories', function ($query) use ($request) {
+            if ($request['cat'] && ! $request['subcat']) {
                 $query->where('category_id', $request['cat']);
-            });
-        }
+            }
 
-        if ($request['subcat']) {
-            $query->whereHas('categories', function ($query) use ($request) {
+            if ($request['subcat']) {
                 $query->where('category_id', $request['subcat']);
-            });
-        }
+            }
+        });
 
         return $query;
     }
