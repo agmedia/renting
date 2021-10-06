@@ -135,7 +135,7 @@
                             <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
-                        <tbody id="ag-table-with-input-fields js-gallery" >
+                        <tbody id="ag-table-with-input-fields" class="js-gallery" >
                         @forelse ($products as $product)
                             <tr>
                                 <td class="text-center font-size-sm">
