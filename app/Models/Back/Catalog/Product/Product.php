@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Bouncer;
+use Illuminate\Validation\ValidationException;
 
 class Product extends Model
 {
@@ -142,6 +143,10 @@ class Product extends Model
 
         // Set Product Model request variable
         $this->setRequest($request);
+
+        if ($this->isDuplicateSku()) {
+            throw ValidationException::withMessages(['sku_dupl' => 'Upisana šifra već postoji...']);
+        }
 
         return $this;
     }
@@ -269,8 +274,6 @@ class Product extends Model
     {
         return [
             'categories' => (new Category())->getList(false),
-            /*'authors'    => Author::all()->pluck('title', 'id'),
-            'publishers' => Publisher::all()->pluck('title', 'id'),*/
             'letters'    => Settings::get('product', 'letter_styles'),
             'conditions' => Settings::get('product', 'condition_styles'),
             'bindings'   => Settings::get('product', 'binding_styles'),
@@ -373,38 +376,6 @@ class Product extends Model
 
 
     /**
-     * @param $p_query
-     *
-     * @return array
-     */
-    public static function setCounts($p_query = null)
-    {
-        $all = Product::all()->count();
-        $active = Product::where('status', 1)->count();
-        $inactive = Product::where('status', 0)->count();
-        /*$actions = Product::whereNotNull('special')->where('special_from', '<', Carbon::now())->where(function ($query) {
-            $query->where('special_to', '>', Carbon::now())->orWhereNull('special_to');
-        })->count();*/
-        $actions = 0;
-
-        $products = Product::all();
-
-        foreach ($products as $product) {
-            if ($product->special()) {
-                $actions++;
-            }
-        }
-
-        return [
-            'all' => $all,
-            'active' => $active,
-            'inactive' => $inactive,
-            'actions' => $actions,
-        ];
-    }
-
-
-    /**
      * Set Product Model request variable.
      *
      * @param $request
@@ -426,66 +397,6 @@ class Product extends Model
 
         return preg_replace('/ face=("|\')(.*?)("|\')/', '', $clean);
     }
-
-
-    /**
-     * @return false|mixed
-     */
-    /*private function resolveAuthor()
-    {
-        if ($this->request->author) {
-            $author = Author::where('id', $this->request->author)->first();
-
-            if ( ! $author) {
-                $id = Author::insertGetId([
-                    'title'            => $this->request->author,
-                    'meta_title'       => $this->request->author,
-                    'lang'             => 'hr',
-                    'sort_order'       => 0,
-                    'status'           => 1,
-                    'slug'             => Str::slug($this->request->author),
-                    'created_at'       => Carbon::now(),
-                    'updated_at'       => Carbon::now()
-                ]);
-
-                return Author::find($id);
-            }
-
-            return $author;
-        }
-
-        return false;
-    }*/
-
-
-    /**
-     * @return false|mixed
-     */
-    /*private function resolvePublisher()
-    {
-        if ($this->request->publisher) {
-            $publisher = Author::where('id', $this->request->publisher)->first();
-
-            if ( ! $publisher) {
-                $id = Publisher::insertGetId([
-                    'title'            => $this->request->publisher,
-                    'meta_title'       => $this->request->publisher,
-                    'lang'             => 'hr',
-                    'sort_order'       => 0,
-                    'status'           => 1,
-                    'slug'             => Str::slug($this->request->publisher),
-                    'created_at'       => Carbon::now(),
-                    'updated_at'       => Carbon::now()
-                ]);
-
-                return Publisher::find($id);
-            }
-
-            return $publisher;
-        }
-
-        return false;
-    }*/
 
 
     /**
@@ -527,6 +438,21 @@ class Product extends Model
         }
 
         return $slug;
+    }
+
+
+    /**
+     * @return bool
+     */
+    private function isDuplicateSku(): bool
+    {
+        $exist = $this->where('sku', $this->request->sku)->first();
+
+        if ($exist) {
+            return true;
+        }
+
+        return false;
     }
 
 }
