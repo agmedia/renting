@@ -2,6 +2,9 @@
 
 @push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Page JS Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('js/plugins/magnific-popup/magnific-popup.css') }}">
 @endpush
 
 @section('content')
@@ -20,48 +23,6 @@
     <div class="content">
         @include('back.layouts.partials.session')
 
-       {{-- <div class="row row-deck">
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" href="{{ route('products') }}">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-dark mb-1">{{ $counts['all'] }}</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Svi artikli
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-inactive" href="{{ route('products', ['active' => 0]) }}">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-danger mb-1">{{ $counts['inactive'] }}</div>
-                        <p class="font-w600 font-size-sm text-danger text-uppercase mb-0">
-                            Neaktivnih
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-active" href="{{ route('products', ['active' => 1]) }}">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-success mb-1">{{ $counts['active'] }}</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Aktivnih
-                        </p>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-lg-3">
-                <a class="block block-rounded block-link-shadow text-center" id="btn-actions" href="{{ route('products', ['actions' => 1]) }}">
-                    <div class="block-content py-5">
-                        <div class="font-size-h3 font-w600 text-info mb-1">{{ $counts['actions'] }}</div>
-                        <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Sa Akcijama
-                        </p>
-                    </div>
-                </a>
-            </div>
-        </div>--}}
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
@@ -71,26 +32,7 @@
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa fa-filter"></i> Filter
                         </button>
-
                         <a class="btn btn-primary btn-inline-block" href="{{route('products')}}"><i class=" ci-trash"></i> Očisti filtere</a>
-<!--                        <button type="button" class="btn btn-outline-primary" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filtriraj <i class="fa fa-angle-down ml-1"></i>
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Aktivno
-                                <span class="badge badge-success badge-pill">26000</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Neaktivno
-                                <span class="badge badge-danger badge-pill">10000</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                                Svi artikli
-                                <span class="badge badge-secondary badge-pill">36000</span>
-                            </a>
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -185,6 +127,7 @@
                             <th class="text-right">Cijena</th>
                             <th class="text-center">God.</th>
                             <th class="text-center">Polica</th>
+                            <th class="text-center">Dimenzija</th>
                             <th class="text-center">Kol.</th>
                             <th>Dodano</th>
                             <th>Zadnja izmjena</th>
@@ -192,11 +135,13 @@
                             <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
-                        <tbody id="ag-table-with-input-fields">
+                        <tbody id="ag-table-with-input-fields js-gallery" >
                         @forelse ($products as $product)
                             <tr>
                                 <td class="text-center font-size-sm">
+                                    <a class="img-link img-link-zoom-in img-lightbox" href="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}">
                                     <img src="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
+                                    </a>
                                 </td>
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('products.edit', ['product' => $product]) }}">{{ $product->name }}</a><br>
@@ -214,6 +159,7 @@
                                     <ag-input-field item="{{ $product }}" target="year"></ag-input-field>
                                 </td>
                                 <td class="font-size-sm text-center">{{ $product->polica }}</td>
+                                <td class="font-size-sm text-center">  <ag-input-field item="{{ $product }}" target="dimensions"></ag-input-field></td>
                                 <td class="font-size-sm text-center">{{ $product->quantity }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->created_at)->format('d.m.Y') }}</td>
                                 <td class="font-size-sm">{{ \Illuminate\Support\Carbon::make($product->updated_at)->format('d.m.Y') }}</td>
@@ -250,6 +196,12 @@
 
 @push('js_after')
     <script src="{{ asset('js/ag-input-field.js') }}"></script>
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+
+    <!-- Page JS Helpers (Magnific Popup Plugin) -->
+    <script>jQuery(function(){Dashmix.helpers('magnific-popup');});</script>
 
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>

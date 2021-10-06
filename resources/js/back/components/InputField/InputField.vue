@@ -24,6 +24,17 @@
             </div>
         </div>
 
+
+        <div v-if="target == 'dimensions'">
+            <span v-if="! view_input" style="cursor: pointer;" v-on:click="viewField">{{ product.dimensions }}</span>
+            <div class="input-group" v-if="view_input">
+                <input type="text" class="form-control" v-model="field_value" v-on:keyup.enter="updateField">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-alt-success" v-on:click="updateField"><i class="fa fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -65,6 +76,10 @@
                 if (this.target == 'year') {
                     this.field_value = this.product.year;
                 }
+
+                if (this.target == 'dimensions') {
+                    this.field_value = this.product.dimensions;
+                }
             },
 
             /**
@@ -96,7 +111,6 @@
                     target: this.target,
                     new_value: this.field_value
                 };
-
                 let context = this;
 
                 axios.post('products/update-item/single', { product }).then(response => {
@@ -110,6 +124,10 @@
                         }
                         if (this.target == 'year') {
                             context.product.year = response.data.value_1;
+                        }
+
+                        if (this.target == 'dimensions') {
+                            context.product.dimensions = response.data.value_1;
                         }
                     }
                     //
