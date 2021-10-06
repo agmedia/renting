@@ -1874,6 +1874,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     item: {
@@ -1911,6 +1919,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.target == 'year') {
         this.field_value = this.product.year;
+      }
+
+      if (this.target == 'dimensions') {
+        this.field_value = this.product.dimensions;
       }
     },
 
@@ -1960,6 +1972,10 @@ __webpack_require__.r(__webpack_exports__);
 
           if (_this.target == 'year') {
             context.product.year = response.data.value_1;
+          }
+
+          if (_this.target == 'dimensions') {
+            context.product.dimensions = response.data.value_1;
           }
         } //
 
@@ -2344,6 +2360,68 @@ var render = function() {
                   on: { click: _vm.viewField }
                 },
                 [_vm._v(_vm._s(_vm.product.year))]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.view_input
+            ? _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.field_value,
+                      expression: "field_value"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.field_value },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.updateField.apply(null, arguments)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.field_value = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "input-group-append" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-alt-success",
+                      attrs: { type: "button" },
+                      on: { click: _vm.updateField }
+                    },
+                    [_c("i", { staticClass: "fa fa-save" })]
+                  )
+                ])
+              ])
+            : _vm._e()
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.target == "dimensions"
+      ? _c("div", [
+          !_vm.view_input
+            ? _c(
+                "span",
+                {
+                  staticStyle: { cursor: "pointer" },
+                  on: { click: _vm.viewField }
+                },
+                [_vm._v(_vm._s(_vm.product.dimensions))]
               )
             : _vm._e(),
           _vm._v(" "),

@@ -23,8 +23,6 @@
                 </div>
             </div>
         </div>
-
-
         <div v-if="target == 'dimensions'">
             <span v-if="! view_input" style="cursor: pointer;" v-on:click="viewField">{{ product.dimensions }}</span>
             <div class="input-group" v-if="view_input">
@@ -34,7 +32,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -81,7 +78,6 @@
                     this.field_value = this.product.dimensions;
                 }
             },
-
             /**
              *
              * @param price
@@ -94,7 +90,6 @@
                     currency: 'HRK'
                 });
             },
-
             /**
              *
              */
