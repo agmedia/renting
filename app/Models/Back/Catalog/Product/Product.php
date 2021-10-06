@@ -107,7 +107,7 @@ class Product extends Model
         // If special is set, return special.
         if ($this->special) {
             $from = now()->subDay();
-            $to = now()->addDay();
+            $to   = now()->addDay();
 
             if ($this->special_from) {
                 $from = Carbon::make($this->special_from);
@@ -201,7 +201,8 @@ class Product extends Model
             $product = $this->find($id);
 
             $product->update([
-                'url' => ProductHelper::url($product)
+                'url'             => ProductHelper::url($product),
+                'category_string' => ProductHelper::categoryString($this)
             ]);
 
             return $product;
@@ -257,7 +258,8 @@ class Product extends Model
             $this->resolveCategories($this->id);
 
             $this->update([
-                'url' => ProductHelper::url($this)
+                'url'             => ProductHelper::url($this),
+                'category_string' => ProductHelper::categoryString($this)
             ]);
 
             return $this;
@@ -318,8 +320,8 @@ class Product extends Model
         if ($request->has('search') && ! empty($request->input('search'))) {
             $query->where('name', 'like', '%' . $request->input('search') . '%')
                   ->orWhere('sku', 'like', '%' . $request->input('search') . '%')
-                    ->orWhere('polica', 'like', '%' . $request->input('search') . '%')
-                    ->orWhere('year', 'like', '' . $request->input('search') . '');
+                  ->orWhere('polica', 'like', '%' . $request->input('search') . '%')
+                  ->orWhere('year', 'like', '' . $request->input('search') . '');
         }
 
         if ($request->has('category') && ! empty($request->input('category'))) {
@@ -364,9 +366,7 @@ class Product extends Model
             if ($request->input('sort') == 'za') {
                 $query->orderBy('name', 'desc');
             }
-        }
-
-        else{
+        } else {
             $query->orderBy('updated_at', 'desc');
 
         }
@@ -448,7 +448,7 @@ class Product extends Model
     {
         $exist = $this->where('sku', $this->request->sku)->first();
 
-        if ($exist) {
+        if (isset($this->id) && $exist && $exist->id != $this->id) {
             return true;
         }
 
