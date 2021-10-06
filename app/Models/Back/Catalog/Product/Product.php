@@ -145,7 +145,7 @@ class Product extends Model
         $this->setRequest($request);
 
         if ($this->isDuplicateSku()) {
-            throw ValidationException::withMessages(['sku_dupl' => 'Upisana šifra već postoji...']);
+            throw ValidationException::withMessages(['sku_dupl' => $this->request->sku . ' - Šifra već postoji...']);
         }
 
         return $this;

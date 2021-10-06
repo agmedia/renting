@@ -74,7 +74,7 @@
                                     <span class="text-danger font-italic">Šifra je potrebna...</span>
                                     @enderror
                                     @error('sku_dupl')
-                                    <span class="text-danger font-italic">{{ $message }}</span>
+                                    <span class="text-danger small font-italic">{{ $message }}</span>
                                     @enderror
                                 </div>
 
