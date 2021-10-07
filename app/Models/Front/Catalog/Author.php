@@ -92,7 +92,7 @@ class Author extends Model
     {
         $query = (new Author())->newQuery();
 
-        $query->active();
+        $query->active()->featured();
 
         Log::info('$request from Author::filter(array $request, int $limit = 20): Builder...........');
         Log::info($request);
@@ -141,12 +141,12 @@ class Author extends Model
             });
         }
 
-        Log::info((microtime(true) - $start) * 1000 * 1000);
+        /*Log::info((microtime(true) - $start) * 1000 * 1000);
         $start = microtime(true);
 
         if ($query->count() > 140) {
             $query->featured();
-        }
+        }*/
 
         Log::info((microtime(true) - $start) * 1000 * 1000);
         $start = microtime(true);
