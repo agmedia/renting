@@ -88,20 +88,19 @@ class Author extends Model
      *
      * @return Builder
      */
-    public function filter(array $request, int $limit = 20): Builder
+    public function filter(array $request, int $limit = 20, bool $featured = true): Builder
     {
         $query = (new Author())->newQuery();
 
-        $query->active()->featured();
+        $query->active();
 
-        Log::info('$request from Author::filter(array $request, int $limit = 20): Builder...........');
-        Log::info($request);
+        if ($featured) {
+            $query->featured();
+        }
 
         if ($request['search_author']) {
             $query = Helper::searchByTitle($query, $request['search_author']);
         }
-
-        $start = microtime(true);
 
         if ($request['group'] && ! $request['search_author']) {
             $query->whereHas('products', function ($query) use ($request) {
@@ -120,18 +119,12 @@ class Author extends Model
             });
         }
 
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
         if (! $request['group'] && $request['publisher']) {
             $query->whereHas('products', function ($query) use ($request) {
                 $query = ProductHelper::queryCategories($query, $request);
                 $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
         }
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
 
         if (! $request['group'] && $request['ids']) {
             $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
@@ -141,22 +134,10 @@ class Author extends Model
             });
         }
 
-        /*Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
-        if ($query->count() > 140) {
-            $query->featured();
-        }*/
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
         $query->limit($limit)
               ->basicData()
               ->withCount('products')
               ->orderBy('title');
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
 
         return $query;
     }
