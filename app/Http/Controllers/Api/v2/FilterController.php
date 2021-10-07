@@ -254,13 +254,11 @@ class FilterController extends Controller
     public function authors(Request $request)
     {
         if ($request->has('params')) {
-            $authors = (new Author())->filter($request->input('params'))->get();
-
-            if ( ! $authors->count()) {
-                $authors = (new Author())->filter($request->input('params'), 20, false)->get();
-            }
-
-            return response()->json($authors->toArray());
+            return response()->json(
+                (new Author())->filter($request->input('params'))
+                              ->get()
+                              ->toArray()
+            );
         }
 
         return response()->json(
