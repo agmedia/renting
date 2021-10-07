@@ -257,7 +257,7 @@ class FilterController extends Controller
             return response()->json(
                 (new Author())->filter($request->input('params'))
                               ->basicData()
-                              ->withCount('products')
+                              /*->withCount('products')*/
                               ->get()
                               ->toArray()
             );
