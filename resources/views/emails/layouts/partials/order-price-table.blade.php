@@ -41,7 +41,7 @@
     </tr>
     @foreach ($order->products as $product)
         <tr>
-            <td>{{ $product->name }} - {{ $product->sku}}</td>
+            <td>{{ $product->name }} - {{ $product->product->sku}}</td>
             <td style="text-align: center;">{{ $product->quantity }}</td>
             <td style="text-align: right;">{{ number_format($product->price, 2, ',', '.') }}</td>
             <td style="text-align: right;">{{ number_format($product->total, 2, ',', '.') }}</td>
