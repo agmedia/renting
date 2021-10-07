@@ -76,16 +76,24 @@ class AgCart extends Model
      */
     public function add($request, $id = null)
     {
-        Log::info('add($request, $id = null)');
-
-        if ($id) {
+        //if ($id) {
             // Updejtaj artikl sa apsolutnom količinom.
             foreach ($this->cart->getContent() as $item) {
                 if ($item->id == $request['item']['id']) {
+                    $product = Product::where('id', $request['item']['id'])->first();
+
+                    Log::info($request);
+                    Log::info($item);
+                    Log::info($product);
+
+                    if (($request['item']['quantity'] + $item->quantity) > $product->quantity) {
+                        return ['error' => 'Nažalost nema dovoljnih količina artikla..!'];
+                    }
+
                     return $this->updateCartItem($item->id, $request);
                 }
             }
-        }
+        //}
 
         return $this->addToCart($request);
     }
@@ -239,6 +247,13 @@ class AgCart extends Model
     private function structureCartItem($request)
     {
         $product = Product::where('id', $request['item']['id'])->first();
+
+        Log::info($request);
+        Log::info($product);
+
+        if ($request['item']['quantity'] > $product->quantity) {
+            return ['error' => 'Nažalost nema dovoljnih količina artikla..!'];
+        }
 
         $response = [
             'id'              => $product->id,

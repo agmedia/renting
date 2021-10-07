@@ -33,6 +33,11 @@ class AgService {
     addToCart(item) {
         return axios.post('cart/add', {item: item})
         .then(response => {
+            if (response.data.error) {
+                this.returnError(response.data.error);
+                return false;
+            }
+
             this.returnSuccess(messages.cartAdd);
             return response.data
         })
@@ -47,6 +52,11 @@ class AgService {
     updateCart(item) {
         return axios.post('cart/update/' + item.id, {item: item})
         .then(response => {
+            if (response.data.error) {
+                this.returnError(response.data.error);
+                return false;
+            }
+
             this.returnSuccess(messages.cartUpdate);
             return response.data
         })
@@ -188,8 +198,10 @@ let store = {
             let state = context.state;
 
             state.service.addToCart(item).then(cart => {
-                state.storage.setCart(cart);
-                state.cart = cart;
+                if (cart) {
+                    state.storage.setCart(cart);
+                    state.cart = cart;
+                }
             });
         },
 
@@ -202,8 +214,10 @@ let store = {
             let state = context.state;
 
             state.service.updateCart(item).then(cart => {
-                state.storage.setCart(cart);
-                state.cart = cart;
+                if (cart) {
+                    state.storage.setCart(cart);
+                    state.cart = cart;
+                }
             });
         },
 
