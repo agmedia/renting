@@ -123,20 +123,26 @@ class Author extends Model
         Log::info((microtime(true) - $start) * 1000 * 1000);
         $start = microtime(true);
 
-        if ($request['publisher'] && ! $request['group']) {
+        if (! $request['group'] && $request['publisher']) {
             $query->whereHas('products', function ($query) use ($request) {
                 $query = ProductHelper::queryCategories($query, $request);
                 $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
         }
 
-        if ($request['ids'] && $request['ids'] != '') {
+        Log::info((microtime(true) - $start) * 1000 * 1000);
+        $start = microtime(true);
+
+        if (! $request['group'] && $request['ids']) {
             $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
 
             $query->whereHas('products', function ($query) use ($_ids) {
                 $query->active()->hasStock()->whereIn('id', $_ids);
             });
         }
+
+        Log::info((microtime(true) - $start) * 1000 * 1000);
+        $start = microtime(true);
 
         if ($query->count() > 140) {
             $query->featured();
