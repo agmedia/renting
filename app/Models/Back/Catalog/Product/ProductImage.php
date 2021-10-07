@@ -69,7 +69,8 @@ class ProductImage extends Model
             }
 
             foreach ($existing as $key => $image) {
-                if ($key != 'default' && $key) {
+
+                if (isset($image['image'])) {
                     $data = json_decode($image['image']);
 
                     if ($data) {

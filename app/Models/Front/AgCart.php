@@ -76,24 +76,18 @@ class AgCart extends Model
      */
     public function add($request, $id = null)
     {
-        //if ($id) {
-            // Updejtaj artikl sa apsolutnom količinom.
-            foreach ($this->cart->getContent() as $item) {
-                if ($item->id == $request['item']['id']) {
-                    $product = Product::where('id', $request['item']['id'])->first();
+        // Updejtaj artikl sa apsolutnom količinom.
+        foreach ($this->cart->getContent() as $item) {
+            if ($item->id == $request['item']['id']) {
+                $product = Product::where('id', $request['item']['id'])->first();
 
-                    Log::info($request);
-                    Log::info($item);
-                    Log::info($product);
-
-                    if (($request['item']['quantity'] + $item->quantity) > $product->quantity) {
-                        return ['error' => 'Nažalost nema dovoljnih količina artikla..!'];
-                    }
-
-                    return $this->updateCartItem($item->id, $request);
+                if (($request['item']['quantity'] + $item->quantity) > $product->quantity) {
+                    return ['error' => 'Nažalost nema dovoljnih količina artikla..!'];
                 }
+
+                return $this->updateCartItem($item->id, $request);
             }
-        //}
+        }
 
         return $this->addToCart($request);
     }
@@ -212,8 +206,6 @@ class AgCart extends Model
      */
     private function addToCart($request): array
     {
-        Log::info('addToCart($request): array');
-
         $this->cart->add($this->structureCartItem($request));
 
         return $this->get();
@@ -247,9 +239,6 @@ class AgCart extends Model
     private function structureCartItem($request)
     {
         $product = Product::where('id', $request['item']['id'])->first();
-
-        Log::info($request);
-        Log::info($product);
 
         if ($request['item']['quantity'] > $product->quantity) {
             return ['error' => 'Nažalost nema dovoljnih količina artikla..!'];
@@ -308,48 +297,6 @@ class AgCart extends Model
         // Ako nema akcije na artiklu.
         // Ako nije ispravan kupon.
         return false;
-    }
-
-
-    /**
-     * @param $cart
-     *
-     * @return array[]
-     */
-    private function getTax($cart)
-    {
-        $without = $cart['subtotal'] / 1.25;
-
-        /*return [
-            0 => [
-                'title' => 'Iznos bez PDV-a',
-                'value' => $without
-            ],
-            1 => [
-                'title' => 'PDV (25%)',
-                'value' => $without * 0.25
-            ]
-        ];*/
-        return [
-            0 => [
-                'title' => 'PDV (25%)',
-                'value' => /*$cart['subtotal'] * 0.25*/0
-            ]
-        ];
-    }
-
-
-    private function getTotals()
-    {
-        $response = ['tax' => []];
-
-        /*$totals = new Totals($this->cart);
-
-        if ($totals->hasActive()) {
-            $response = $totals->fetch();
-        }*/
-
-        return $response;
     }
 
 }
