@@ -35,7 +35,7 @@
                     <div class="card-body pt-2">
                         <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
                             <div class="text-muted fs-xs me-1">
-                                <a class="product-meta fw-medium" :href="origin + product.author.url">{{ product.author.title }}</a>
+                                <a class="product-meta fw-medium" :href="product.author ? (origin + product.author.url) : '#'">{{ product.author ? product.author.title : '' }}</a>
                             </div>
 
                         </div>

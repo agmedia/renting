@@ -94,6 +94,9 @@ class Author extends Model
 
         $query->active();
 
+        Log::info('$request from Author::filter(array $request, int $limit = 20): Builder...........');
+        Log::info($request);
+
         if ($request['search_author']) {
             $query = Helper::searchByTitle($query, $request['search_author']);
         }
