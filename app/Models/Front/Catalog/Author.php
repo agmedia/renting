@@ -105,7 +105,7 @@ class Author extends Model
 
         if ($request['group'] && ! $request['search_author']) {
             $query->whereHas('products', function ($query) use ($request) {
-                //$query = ProductHelper::queryCategories($query, $request);
+                $query = ProductHelper::queryCategories($query, $request);
 
                 if ($request['publisher']) {
                     if (strpos($request['publisher'], '+') !== false) {
@@ -125,7 +125,7 @@ class Author extends Model
 
         if ($request['publisher'] && ! $request['group']) {
             $query->whereHas('products', function ($query) use ($request) {
-                //$query = ProductHelper::queryCategories($query, $request);
+                $query = ProductHelper::queryCategories($query, $request);
                 $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
             });
         }
