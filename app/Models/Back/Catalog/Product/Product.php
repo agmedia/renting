@@ -138,7 +138,8 @@ class Product extends Model
         $request->validate([
             'name'  => 'required',
             'sku'   => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'category' => 'required'
         ]);
 
         // Set Product Model request variable
@@ -164,8 +165,8 @@ class Product extends Model
         $publisher = $this->resolvePublisher();*/
 
         $id = $this->insertGetId([
-            'author_id'        => $this->request->author_id,
-            'publisher_id'     => $this->request->publisher_id,
+            'author_id'        => $this->request->author_id ?: 6,
+            'publisher_id'     => $this->request->publisher_id ?: 2,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -224,8 +225,8 @@ class Product extends Model
         $publisher = $this->resolvePublisher();*/
 
         $updated = $this->update([
-            'author_id'        => $this->request->author_id,
-            'publisher_id'     => $this->request->publisher_id,
+            'author_id'        => $this->request->author_id ?: 6,
+            'publisher_id'     => $this->request->publisher_id ?: 2,
             'action_id'        => $this->request->action ?: 0,
             'name'             => $this->request->name,
             'sku'              => $this->request->sku,
@@ -365,6 +366,12 @@ class Product extends Model
             }
             if ($request->input('sort') == 'za') {
                 $query->orderBy('name', 'desc');
+            }
+            if ($request->input('sort') == 'qty_up') {
+                $query->orderBy('quantity', 'asc');
+            }
+            if ($request->input('sort') == 'qty_down') {
+                $query->orderBy('quantity', 'desc');
             }
         } else {
             $query->orderBy('updated_at', 'desc');

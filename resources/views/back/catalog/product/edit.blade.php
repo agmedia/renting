@@ -138,7 +138,7 @@
 
                             <div class="form-group row items-push mb-4">
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-slug">Kategorija</label>
+                                    <label for="dm-post-edit-slug">Kategorija <span class="text-danger">*</span></label>
                                     <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberite kategoriju">
                                         <option></option>
                                         @foreach ($data['categories'] as $group => $cats)
@@ -152,6 +152,9 @@
                                             @endforeach
                                         @endforeach
                                     </select>
+                                    @error('category')
+                                    <span class="text-danger font-italic">Kategorija je potrebna...</span>
+                                    @enderror
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-slug">Autor</label>
