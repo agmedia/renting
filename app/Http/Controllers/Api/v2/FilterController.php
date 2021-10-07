@@ -256,8 +256,6 @@ class FilterController extends Controller
         if ($request->has('params')) {
             return response()->json(
                 (new Author())->filter($request->input('params'))
-                              ->basicData()
-                              /*->withCount('products')*/
                               ->get()
                               ->toArray()
             );

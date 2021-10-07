@@ -101,6 +101,8 @@ class Author extends Model
             $query = Helper::searchByTitle($query, $request['search_author']);
         }
 
+        $start = microtime(true);
+
         if ($request['group'] && ! $request['search_author']) {
             $query->whereHas('products', function ($query) use ($request) {
                 //$query = ProductHelper::queryCategories($query, $request);
@@ -117,6 +119,9 @@ class Author extends Model
                 }
             });
         }
+
+        Log::info((microtime(true) - $start) * 1000 * 1000);
+        $start = microtime(true);
 
         if ($request['publisher'] && ! $request['group']) {
             $query->whereHas('products', function ($query) use ($request) {
@@ -137,7 +142,17 @@ class Author extends Model
             $query->featured();
         }
 
-        return $query->limit($limit)->orderBy('title');
+        Log::info((microtime(true) - $start) * 1000 * 1000);
+        $start = microtime(true);
+
+        $query->limit($limit)
+              ->basicData()
+              ->withCount('products')
+              ->orderBy('title');
+
+        Log::info((microtime(true) - $start) * 1000 * 1000);
+
+        return $query;
     }
 
 
