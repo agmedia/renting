@@ -121,7 +121,6 @@ class Helper
 
             $response->put('products', $products->unique());
 
-
             if ($builder) {
                 return $response;
             }
