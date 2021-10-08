@@ -93,46 +93,45 @@ class Publisher extends Model
     {
         $query = (new Publisher())->newQuery();
 
-        $query->active();
-
         if ($request['search_publisher']) {
+            $query->active();
+
             $query = Helper::searchByTitle($query, $request['search_publisher']);
-        }
 
-        if ($request['group'] && ! $request['search_publisher']) {
-            $query->whereHas('products', function ($query) use ($request) {
-                $query = ProductHelper::queryCategories($query, $request);
+        } else {
+            $query->active()->featured();
 
-                if ($request['author']) {
-                    if (strpos($request['author'], '+') !== false) {
-                        $arr = explode('+', $request['author']);
-                        $pubs = Author::query()->whereIn('slug', $arr)->pluck('id');
+            if ($request['group'] && ! $request['search_publisher']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
 
-                        $query->whereIn('author_id', $pubs);
-                    } else {
-                        $query->where('author_id', $request['author']);
+                    if ($request['author']) {
+                        if (strpos($request['author'], '+') !== false) {
+                            $arr = explode('+', $request['author']);
+                            $pubs = Author::query()->whereIn('slug', $arr)->pluck('id');
+
+                            $query->whereIn('author_id', $pubs);
+                        } else {
+                            $query->where('author_id', $request['author']);
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
 
-        if ($request['author'] && ! $request['group']) {
-            $query->whereHas('products', function ($query) use ($request) {
-                $query = ProductHelper::queryCategories($query, $request);
-                $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
-            });
-        }
+            if ($request['author'] && ! $request['group']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
+                    $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
+                });
+            }
 
-        if ($request['ids'] && $request['ids'] != '') {
-            $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
+            if ($request['ids'] && $request['ids'] != '') {
+                $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
 
-            $query->whereHas('products', function ($query) use ($_ids) {
-                $query->active()->hasStock()->whereIn('id', $_ids);
-            });
-        }
-
-        if ($query->count() > 80) {
-            $query->featured();
+                $query->whereHas('products', function ($query) use ($_ids) {
+                    $query->active()->hasStock()->whereIn('id', $_ids);
+                });
+            }
         }
 
         return $query->limit($limit)->orderBy('title');
