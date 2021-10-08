@@ -116,10 +116,10 @@ class Helper
             }
 
             foreach ($authors as $author) {
-                $products = $products->merge($author->products()->pluck('id'));
+                $products = $products->merge($author->products->pluck('id'));
             }
 
-            $response->put('products', $products->unique());
+            $response->put('products', $products->unique()->flatten());
 
             if ($builder) {
                 return $response;
