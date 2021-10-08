@@ -92,71 +92,53 @@ class Author extends Model
     {
         $query = (new Author())->newQuery();
 
-        $query->active()->featured();
-
-        Log::info('$request from Author::filter(array $request, int $limit = 20): Builder...........');
         Log::info($request);
 
         if ($request['search_author']) {
+            $query->active();
+            
             $query = Helper::searchByTitle($query, $request['search_author']);
-        }
 
-        $start = microtime(true);
+        } else {
+            $query->active()->featured();
 
-        if ($request['group'] && ! $request['search_author']) {
-            $query->whereHas('products', function ($query) use ($request) {
-                $query = ProductHelper::queryCategories($query, $request);
+            if ($request['group'] && ! $request['search_author']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
 
-                if ($request['publisher']) {
-                    if (strpos($request['publisher'], '+') !== false) {
-                        $arr = explode('+', $request['publisher']);
-                        $pubs = Publisher::query()->whereIn('slug', $arr)->pluck('id');
+                    if ($request['publisher']) {
+                        if (strpos($request['publisher'], '+') !== false) {
+                            $arr = explode('+', $request['publisher']);
+                            $pubs = Publisher::query()->whereIn('slug', $arr)->pluck('id');
 
-                        $query->whereIn('publisher_id', $pubs);
-                    } else {
-                        $query->where('publisher_id', $request['publisher']);
+                            $query->whereIn('publisher_id', $pubs);
+                        } else {
+                            $query->where('publisher_id', $request['publisher']);
+                        }
                     }
-                }
-            });
+                });
+            }
+
+            if (! $request['group'] && $request['publisher']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
+                    $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
+                });
+            }
+
+            if (! $request['group'] && $request['ids']) {
+                $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
+
+                $query->whereHas('products', function ($query) use ($_ids) {
+                    $query->active()->hasStock()->whereIn('id', $_ids);
+                });
+            }
         }
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
-        if (! $request['group'] && $request['publisher']) {
-            $query->whereHas('products', function ($query) use ($request) {
-                $query = ProductHelper::queryCategories($query, $request);
-                $query->where('publisher_id', Publisher::where('slug', $request['publisher'])->pluck('id')->first());
-            });
-        }
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
-        if (! $request['group'] && $request['ids']) {
-            $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
-
-            $query->whereHas('products', function ($query) use ($_ids) {
-                $query->active()->hasStock()->whereIn('id', $_ids);
-            });
-        }
-
-        /*Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
-
-        if ($query->count() > 140) {
-            $query->featured();
-        }*/
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
-        $start = microtime(true);
 
         $query->limit($limit)
               ->basicData()
               ->withCount('products')
               ->orderBy('title');
-
-        Log::info((microtime(true) - $start) * 1000 * 1000);
 
         return $query;
     }
