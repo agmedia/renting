@@ -1,6 +1,7 @@
 @extends('front.layouts.app')
 
 @push('css_after')
+    @livewireStyles
 @endpush
 
 @section('content')
@@ -36,5 +37,5 @@
 @endsection
 
 @push('js_after')
-
+    @livewireScripts
 @endpush

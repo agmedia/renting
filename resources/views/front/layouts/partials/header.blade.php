@@ -11,21 +11,20 @@
                     <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
                 </a>
                 <div style="width:46px">
-                                <cart-nav-icon carturl="{{ route('kosarica') }}" checkouturl="{{ route('naplata') }}"></cart-nav-icon>
+                    <cart-nav-icon carturl="{{ route('kosarica') }}" checkouturl="{{ route('naplata') }}"></cart-nav-icon>
                 </div>
             </div>
+
             <div class="collapse navbar-collapse me-auto mx-auto order-lg-2" id="navbarCollapse">
                 <form action="{{ route('pretrazi') }}" id="search-form-mobile" method="get">
-                <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-
-                    <input class="form-control rounded-start" type="text"  name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
-                    <button type="submit" class="btn btn-primary btn-lg fs-base"><i class="ci-search"></i></button>
-
-                </div>
+                    <div class="input-group d-lg-none my-3"><i class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
+                        <input class="form-control rounded-start" type="text" name="{{ config('settings.search_keyword') }}" value="{{ request()->query('pojam') ?: '' }}" placeholder="Pretražite po nazivu ili autoru">
+                        <button type="submit" class="btn btn-primary btn-lg fs-base"><i class="ci-search"></i></button>
+                    </div>
                 </form>
+
                 <ul class="navbar-nav pe-lg-2 me-lg-2">
                     <li class="nav-item  d-none d-lg-block"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'knjige']) }}"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a></li>
-
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a>
                         <ul class="dropdown-menu">
                             <li class="dropdown"><a class="nav-link dropdown-item " href="https://www.antikvarijat-biblos.hr/knjige">Sve knjige</a></li>
@@ -33,33 +32,29 @@
                             <li class="dropdown"><a class="nav-link dropdown-item " href="{{ url(\Illuminate\Support\Str::slug($navitem->group) . '/' . $navitem->slug) }}">{{ $navitem->title}}</a></li>
                             @endforeach
                         </ul>
-
                     </li>
-
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}"><i class="ci-map d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Zemljovidi i vedute</a></li>
-
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Zemljovidi i vedute</a>
                         <ul class="dropdown-menu">
-
-
                             <li class="dropdown"><a class="nav-link dropdown-item " href="https://www.antikvarijat-biblos.hr/zemljovidi-i-vedute">Svi zemljovidi i vedute</a></li>
-
                             @foreach($zemljovidi_vedute as $nav_item)
                                 <li class="dropdown"><a class="nav-link dropdown-item " href="{{ url(\Illuminate\Support\Str::slug($nav_item->group) . '/' . $nav_item->slug) }}">{{ $nav_item->title}}</a></li>
                             @endforeach
                         </ul>
-
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.author') }}"><i class="ci-user-circle d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Autori</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.publisher') }}"><i class="ci-bookmark d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Nakladnici</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'knjige']) }}"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.author') }}"><i class="ci-user-circle d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Autori</a>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.publisher') }}"><i class="ci-bookmark d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Nakladnici</a>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}"><i class="ci-map d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Zemljovidi i vedute</a></li>
+{{--                    <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.actions') }}"><i class="ci-discount d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Sniženje</a></li>--}}
 
-                  <!--  <li class="nav-item"><a class="nav-link" href="{{ route('catalog.route.actions') }}"><i class="ci-discount d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Sniženje</a></li>-->
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="{{ route('catalog.route.page',['page' => 'o-nama']) }}">O nama</a></li>
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="{{ route('catalog.route.blog') }}">Iz medija</a></li>
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="{{ route('faq') }}">Česta pitanja</a></li>
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link" href="{{ route('kontakt') }}">Kontakt</a></li>
                 </ul>
+
                 <div class="offcanvas-cap d-block d-lg-none px-grid-gutter pt-4 pb-3 mb-2">
                     <div class="d-flex mb-3"><i class="ci-phone h4 mb-0 fw-normal text-primary mt-1 me-1"></i>
                         <div class="ps-2">
@@ -85,13 +80,11 @@
             <div class="container">
                 <form action="{{ route('pretrazi') }}" id="search-form" method="get">
                     <div class="input-group">
-
-                        <input class="form-control rounded-start" type="text" id="search-input" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
+                        <input class="form-control rounded-start" type="text" name="{{ config('settings.search_keyword') }}" value="{{ request()->query('pojam') ?: '' }}" placeholder="Pretražite po nazivu ili autoru">
                         <button type="submit" class="btn btn-primary btn-lg fs-base"><i class="ci-search"></i></button>
                     </div>
                 </form>
             </div>
-<!--            <div class="row justify-content-center" style="z-index: 999;" id="search-view-panel"></div>-->
         </div>
     </div>
 </header>

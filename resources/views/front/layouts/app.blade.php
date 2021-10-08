@@ -26,19 +26,23 @@
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY35049KQZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    @if (config('app.env') == 'production')
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY35049KQZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-        gtag('config', 'G-YY35049KQZ');
-    </script>
+            gtag('config', 'G-YY35049KQZ');
+        </script>
+    @endif
 
     @stack('css_after')
 
-    @livewireStyles
+    <style>
+        [v-cloak] { display:none !important; }
+    </style>
 
 </head>
 <!-- Body-->
@@ -126,8 +130,6 @@
 </script>
 
 @stack('js_after')
-
-@livewireScripts
 
 </body>
 </html>

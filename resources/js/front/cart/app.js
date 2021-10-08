@@ -12,6 +12,13 @@ import Vuex from 'vuex';
 window.Vuex = Vuex;
 Vue.use(Vuex);
 
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+    mode: 'history',
+});
+
 import VueSweetalert2 from "vue-sweetalert2";
 import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(VueSweetalert2)
@@ -26,6 +33,10 @@ Vue.component('cart-nav-icon', require('./components/CartNavIcon/CartNavIcon').d
 Vue.component('cart-footer-icon', require('./components/CartFooterIcon/CartFooterIcon').default);
 Vue.component('add-to-cart-btn', require('./components/AddToCartBtn/AddToCartBtn').default);
 Vue.component('add-to-cart-btn-simple', require('./components/AddToCartBtnSimple/AddToCartBtnSimple').default);
+// FILTERS
+Vue.component('filter-view', require('./../filter/components/Filter/Filter').default);
+Vue.component('products-view', require('./../filter/components/ProductsList/ProductsList').default);
+Vue.component('pagination', require('./../filter/components/Pagination/LaravelVuePagination').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,6 +46,7 @@ Vue.component('add-to-cart-btn-simple', require('./components/AddToCartBtnSimple
 
 const app = new Vue({
     el: '#agapp',
+    router,
     store: new Vuex.Store(store)
 });
 
