@@ -92,11 +92,9 @@ class Author extends Model
     {
         $query = (new Author())->newQuery();
 
-        Log::info($request);
-
         if ($request['search_author']) {
             $query->active();
-            
+
             $query = Helper::searchByTitle($query, $request['search_author']);
 
         } else {
