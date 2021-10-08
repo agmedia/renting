@@ -80,11 +80,11 @@
 <!-- Vendor scrits: js libraries and plugins-->
 <script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/tiny-slider.js') }}"></script>
 <script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
 
 <script>
     $(() => {
@@ -95,38 +95,6 @@
             }
         })
     });
-
-    /**
-     *
-     * @param type
-     * @param search
-     */
-    function setURL(type, search) {
-        let url = new URL(location.href);
-        let params = new URLSearchParams(url.search);
-        let keys = [];
-
-        for(var key of params.keys()) {
-            if (key === type) {
-                keys.push(key);
-            }
-        }
-
-        keys.forEach((value) => {
-            if (params.has(value)) {
-                params.delete(value);
-            }
-        })
-
-        if (search) {
-            params.append(type, search);
-        }
-
-        console.log(params)
-
-        url.search = params;
-        //location.href = url;
-    }
 </script>
 
 @stack('js_after')
