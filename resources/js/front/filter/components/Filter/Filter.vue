@@ -318,6 +318,8 @@
              */
             cleanQuery() {
                 this.$router.push({query: {}}).catch(()=>{});
+                this.selectedAuthors = [];
+                this.selectedPublishers = [];
             },
 
             /**
