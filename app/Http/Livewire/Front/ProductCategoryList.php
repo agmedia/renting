@@ -69,9 +69,27 @@ class ProductCategoryList extends Component
     protected $end;
 
     /**
+     * @var
+     */
+    public $sort;
+
+    /**
      * @var string[]
      */
     protected $listeners = ['idChanged'];
+
+    /**
+     * @var \string[][]
+     */
+    protected $queryString = [
+        'sort' => ['except' => '']
+    ];
+
+
+    public function updatingSort()
+    {
+        $this->resetPage();
+    }
 
 
     /**
@@ -172,11 +190,17 @@ class ProductCategoryList extends Component
             $request_data['end'] = $this->end;
         }
 
+        if ($this->sort) {
+            $request_data['sort'] = $this->sort;
+        }
+
         $request = new Request($request_data);
 
         if (is_array($this->ids)) {
             $this->ids = collect($this->ids);
         }
+
+        Log::info($request_data);
 
         $products = (new Product())->filter($request, $this->ids)->with('author')->paginate(config('settings.pagination.front'));
 

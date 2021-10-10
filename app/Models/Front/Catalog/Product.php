@@ -385,8 +385,8 @@ class Product extends Model
 
         $query->active()->where('quantity', '!=', 0);
 
-        if (\request()->has('sort')) {
-            $sort = \request()->input('sort');
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
 
             if ($sort == 'novi') {
                 $query->orderBy('created_at', 'desc');
