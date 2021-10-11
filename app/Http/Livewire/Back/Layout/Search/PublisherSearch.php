@@ -73,8 +73,8 @@ class PublisherSearch extends Component
         $this->search_results = [];
 
         if ($this->search != '') {
-            $this->search_results = (new Publisher())->where('title', 'LIKE', '%' . $this->search . '%')
-                                                  ->limit(5)
+            $this->search_results = (new Publisher())->where('title', 'LIKE', '' . $this->search . '%')
+                                                  ->limit(10)
                                                   ->get();
         }
     }
