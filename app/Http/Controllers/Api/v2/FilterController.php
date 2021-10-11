@@ -163,7 +163,7 @@ class FilterController extends Controller
      */
     public function products(Request $request)
     {
-        if ( ! $request->input('params')) {
+        if ( ! $request->has('params')) {
             return response()->json(['status' => 300, 'message' => 'Error!']);
         }
 

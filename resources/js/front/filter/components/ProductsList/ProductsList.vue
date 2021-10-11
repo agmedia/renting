@@ -150,9 +150,11 @@
                 this.products_loaded = false;
                 let params = this.setParams();
 
-                console.log(params)
+                console.log('ProductList::getProducts() params:: ' + params)
 
                 axios.post('filter/getProducts', { params }).then(response => {
+
+                    console.log('axios:: getProducts:: ', response)
                     this.products_loaded = true;
                     this.products = response.data;
                     this.checkHrTotal();
