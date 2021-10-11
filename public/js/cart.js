@@ -3194,11 +3194,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       this.navigation_zero_result = false;
       this.products_loaded = false;
       var params = this.setParams();
-      console.log('ProductList::getProducts() params:: ' + params);
+      console.log('ProductList::getProducts() params:: ');
+      console.log(params);
       axios.post('filter/getProducts', {
         params: params
       }).then(function (response) {
-        console.log('axios:: getProducts:: ', response);
+        console.log('axios:: getProducts:: ');
+        console.log(response.data);
         _this.products_loaded = true;
         _this.products = response.data;
 
@@ -3584,7 +3586,7 @@ var AgService = /*#__PURE__*/function () {
     value: function formatPrice(price) {
       return Number(price).toLocaleString('hr-HR', {
         style: 'currency',
-        currencyDisplay: 'narrowSymbol',
+        currencyDisplay: 'symbol',
         currency: 'HRK'
       });
     }
