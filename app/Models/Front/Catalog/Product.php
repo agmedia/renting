@@ -310,14 +310,15 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        Log::info('public function filter(Request $request, Collection $ids = null): Builder :::: $request variable data');
-        Log::info($request);
-
         if ($ids && $ids->count() && ! \request()->has('pojam')) {
+            Log::info('$request 1');
+            Log::info($request);
             $query->whereIn('id', $ids->unique());
         }
 
         if ($request->has('ids') && $request->input('ids') != '') {
+            Log::info('$request 2');
+            Log::info($request);
             $_ids = explode(',', substr($request->input('ids'), 1, -1));
             $query->whereIn('id', collect($_ids)->unique());
         }
