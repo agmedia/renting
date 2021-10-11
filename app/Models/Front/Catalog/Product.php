@@ -308,7 +308,9 @@ class Product extends Model
      */
     public function filter(Request $request, Collection $ids = null): Builder
     {
-        $query = (new Product())->newQuery();
+        $query = $this->newQuery();
+
+        $query->active()->hasStock();
 
         if ($ids && $ids->count() && ! \request()->has('pojam')) {
             Log::info('$request 1');
@@ -398,8 +400,6 @@ class Product extends Model
                 $query->where('year', '<=', $request->input('end'))->orWhereNull('year');
             });
         }
-
-        $query->active()->hasStock();
 
         if ($request->has('sort')) {
             $sort = $request->input('sort');
