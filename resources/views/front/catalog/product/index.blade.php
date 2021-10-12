@@ -1,12 +1,12 @@
 @extends('front.layouts.app')
-@section ( 'title', $prod->author->title.':'.$prod->name. '- Antikvarijat Biblos' )
+@section ( 'title', isset($prod->author->title) ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' )
 @section ( 'description', $prod->meta_description )
 @push('meta_tags')
 
     <link rel="canonical" href="{{ env('APP_URL')}}/{{ $prod->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
-    <meta property="og:title" content="{{ $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos'}}" />
+    <meta property="og:title" content="{{ $prod->author ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' }}" />
     <meta property="og:description" content="{{ $prod->meta_description  }}" />
     <meta property="og:url" content="{{ env('APP_URL')}}/{{ $prod->url }}"  />
     <meta property="og:site_name" content="Antikvarijat Biblos" />
@@ -22,7 +22,7 @@
     <meta property="product:availability" content="instock" />
     <meta property="product:retailer_item_id" content="{{ $prod->sku }}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos'}}" />
+    <meta name="twitter:title" content="{{ $prod->author ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' }}" />
     <meta name="twitter:description" content="{{ $prod->meta_description  }}" />
     <meta name="twitter:image" content="{{ asset($prod->image) }}" />
 
@@ -68,7 +68,7 @@
                 </nav>
             </div>
             <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                <h1 class="h3 text-light mb-0"><span style="font-weight: lighter;">{{ $prod->author->title }}:</span> {{ $prod->name }}</h1>
+                <h1 class="h3 text-light mb-0"><span style="font-weight: lighter;">{{ $prod->author ? $prod->author->title : '' }}:</span> {{ $prod->name }}</h1>
             </div>
         </div>
     </div>
@@ -118,7 +118,6 @@
                                 @else
                                     <span class="h3 fw-normal text-accent me-1">{!! $prod->priceString() !!}</span>
                                 @endif
-
                                 @if ($prod->quantity)
                                     <span class="badge bg-success align-middle mt-n2">Dostupno</span>
                                 @else
@@ -130,8 +129,12 @@
 
                             <!-- Product panels-->
                             <ul class="list-unstyled fs-sm spec">
-                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Autor</span><span class="text-muted"><a class="product-meta text-primary" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">{{ $prod->author->title }}</a></span></li>
-                                <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Izdavač</span><a class="product-meta text-primary" href="{{ route('catalog.route.publisher', ['publisher' => $prod->publisher]) }}">{{ $prod->publisher->title }}</a></li>
+                                @if ($prod->author)
+                                    <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Autor</span><span class="text-muted"><a class="product-meta text-primary" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">{{ $prod->author->title }}</a></span></li>
+                                @endif
+                                @if ($prod->publisher)
+                                    <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Izdavač</span><a class="product-meta text-primary" href="{{ route('catalog.route.publisher', ['publisher' => $prod->publisher]) }}">{{ $prod->publisher->title }}</a></li>
+                                @endif
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Šifra</span><span class="text-muted">{{ $prod->sku }}</span></li>
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Broj stranica</span><span class="text-muted">{{ $prod->pages ?: '...' }}</span></li>
                                 <li class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="text-dark fw-medium">Godina izdanja</span><span class="text-muted">{{ $prod->year ?: '...' }}</span></li>
@@ -156,9 +159,13 @@
         <div class="row align-items-center py-md-3">
             <div class="col-lg-8 col-md-12 offset-lg-2 py-4 text-center">
                 <h2 class="h3 mb-2 pb-0">{{ $prod->name }}</h2>
-                <h3 class="h6 mb-4">{{ $prod->author->title }}</h3>
+                @if ($prod->author)
+                    <h3 class="h6 mb-4">{{ $prod->author->title }}</h3>
+                @endif
                 <p class="fs-md pb-2">{!! $prod->description !!}</p>
-                <div class="mt-3 me-3"><a class="btn-tag me-2 mb-2" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">#{{ $prod->author->title }}</a></div>
+                @if ($prod->author)
+                    <div class="mt-3 me-3"><a class="btn-tag me-2 mb-2" href="{{ route('catalog.route.author', ['author' => $prod->author]) }}">#{{ $prod->author->title }}</a></div>
+                @endif
             </div>
         </div>
     </div>
@@ -179,11 +186,8 @@
         </div>
     </div>
 
-
 @endsection
 
 @push('js_after')
-
     <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=6134a372eae16400120a5035&product=sop' async='async'></script>
-
 @endpush
