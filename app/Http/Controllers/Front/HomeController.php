@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
 use App\Models\Front\Page;
+use App\Models\Sitemap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
@@ -134,6 +135,30 @@ class HomeController extends Controller
         }, config('imagecache.lifetime'));
 
         return Image::make($cacheimage)->response();
+    }
+
+
+    /**
+     * @param Request $request
+     * @param null    $sitemap
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function sitemapXML(Request $request, $sitemap = null)
+    {
+        if ( ! $sitemap) {
+            $items = config('settings.sitemap');
+
+            return response()->view('front.layouts.partials.sitemap-index', [
+                'items' => $items
+            ])->header('Content-Type', 'text/xml');
+        }
+
+        $sm = new Sitemap($sitemap);
+
+        return response()->view('front.layouts.partials.sitemap', [
+            'items' => $sm->getSitemap()
+        ])->header('Content-Type', 'text/xml');
     }
 
 }

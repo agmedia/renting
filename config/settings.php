@@ -67,6 +67,14 @@ return [
             'bank' => \App\Models\Front\Checkout\Payment\Bank::class,
             'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
         ]
+    ],
+
+    'sitemap' => [
+        0 => 'pages',
+        1 => 'categories',
+        2 => 'products',
+        3 => 'authors',
+        4 => 'publishers'
     ]
 
 ];

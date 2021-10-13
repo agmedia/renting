@@ -302,6 +302,9 @@ Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catal
 //
 Route::get('cache/image', [HomeController::class, 'imageCache']);
 Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
+
+Route::redirect('/sitemap.xml', '/sitemap');
+Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
 /*
  * Groups, Categories and Products routes resolver.
  * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
