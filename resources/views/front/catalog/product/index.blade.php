@@ -92,7 +92,7 @@
                                 @endif
                             </div>
 
-                            <div class="product-gallery-thumblist order-sm-1">
+                            <div class="product-gallery-thumblist order-sm-1" style="z-index: 10;position: relative;">
                                 @if ($prod->images->count())
                                 @if ( ! empty($prod->thumb))
                                     <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->thumb) }}" alt="{{ $prod->name }}"></a>
