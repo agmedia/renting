@@ -50,7 +50,11 @@ class AuthorSearch extends Component
     public function mount()
     {
         if ($this->author_id) {
-            $this->search = Author::find($this->author_id)->title;
+            $author = Author::find($this->author_id);
+
+            if ($author) {
+                $this->search = $author->title;
+            }
         }
     }
 

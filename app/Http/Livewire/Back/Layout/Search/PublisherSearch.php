@@ -50,7 +50,11 @@ class PublisherSearch extends Component
     public function mount()
     {
         if ($this->publisher_id) {
-            $this->search = Publisher::find($this->publisher_id)->title;
+            $publisher = Publisher::find($this->publisher_id);
+
+            if ($publisher) {
+                $this->search = $publisher->title;
+            }
         }
     }
 
