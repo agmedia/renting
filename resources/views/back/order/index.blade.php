@@ -55,9 +55,14 @@
             </div>
             <div class="block-content bg-body-dark">
                 <!-- Search Form -->
-                <form action="be_pages_ecom_orders.html" method="POST" onsubmit="return false;">
+                <form action="{{ route('orders') }}" method="GET">
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-alt" id="dm-ecom-orders-search" name="dm-ecom-orders-search" placeholder="Pretraži narudžbe">
+                        <div class="form-group">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...">
+                                <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <!-- END Search Form -->

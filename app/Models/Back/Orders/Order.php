@@ -380,18 +380,19 @@ class Order extends Model
      */
     public function filter(Request $request): Builder
     {
-        $query = (new Order())->newQuery();
-
-        if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where('id', 'like', '%' . $request->input('search') . '%')
-                  ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_city', 'like', '%' . $request->input('search'))
-                  ->orWhere('payment_email', 'like', '%' . $request->input('search'));
-        }
+        $query = $this->newQuery();
 
         if ($request->has('status')) {
-            $query->where('order_status_id', $request->input('status'));
+            $query->where('order_status_id', '=', $request->input('status'));
+        }
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->where(function ($query) use ($request) {
+                $query->where('id', 'like', '%' . $request->input('search') . '%')
+                      ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+            });
         }
 
         return $query->orderBy('created_at', 'desc');
