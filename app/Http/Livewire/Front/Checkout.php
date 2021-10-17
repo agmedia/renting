@@ -152,6 +152,7 @@ class Checkout extends Component
 
         // Dostava
         if (in_array($step, ['dostava', 'placanje'])) {
+            $this->setAddress($this->address);
             $this->validate($this->address_rules);
         }
 
