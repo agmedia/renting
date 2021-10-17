@@ -40,6 +40,11 @@ class Product extends Model
      */
     protected $request;
 
+    /**
+     * @var null
+     */
+    protected $old_product = null;
+
 
     /**
      * @return Relation
@@ -161,8 +166,6 @@ class Product extends Model
     public function create()
     {
         $slug = $this->resolveSlug();
-        /*$author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();*/
 
         $id = $this->insertGetId([
             'author_id'        => $this->request->author_id ?: 6,
@@ -220,9 +223,9 @@ class Product extends Model
      */
     public function edit()
     {
+        $this->old_product = $this->where('id', $this->id)->with('categories', 'images')->first()->toArray();
+
         $slug = $this->resolveSlug('update');
-        /*$author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();*/
 
         $updated = $this->update([
             'author_id'        => $this->request->author_id ?: 6,
@@ -294,6 +297,9 @@ class Product extends Model
         Settings::setProduct('condition_styles', $this->request->condition);
         Settings::setProduct('binding_styles', $this->request->binding);
 
+        /*Log::info($this->old_product->toArray());
+        Log::info($this->request->toArray());*/
+
         return $this;
     }
 
@@ -306,6 +312,22 @@ class Product extends Model
     public function storeImages(Product $product)
     {
         return (new ProductImage())->store($product, $this->request);
+    }
+
+
+    /**
+     * @param string  $type
+     * @param Product $product
+     *
+     * @return false
+     */
+    public function addHistoryData(string $type)
+    {
+        $new = Product::where('id', $this->id)->with('categories', 'images')->first()->toArray();
+
+        $history = new ProductHistory($new, $this->old_product);
+
+        return $history->addData($type);
     }
 
 

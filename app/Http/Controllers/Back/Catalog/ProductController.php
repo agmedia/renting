@@ -134,6 +134,8 @@ class ProductController extends Controller
             $product->checkSettings()
                     ->storeImages($updated);
 
+            $product->addHistoryData('change');
+
             return redirect()->route('products.edit', ['product' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
         }
 
