@@ -223,7 +223,7 @@ class Product extends Model
      */
     public function edit()
     {
-        $this->old_product = $this->where('id', $this->id)->with('categories', 'images')->first()->toArray();
+        $this->old_product = $this->setHistoryProduct();
 
         $slug = $this->resolveSlug('update');
 
@@ -297,9 +297,6 @@ class Product extends Model
         Settings::setProduct('condition_styles', $this->request->condition);
         Settings::setProduct('binding_styles', $this->request->binding);
 
-        /*Log::info($this->old_product->toArray());
-        Log::info($this->request->toArray());*/
-
         return $this;
     }
 
@@ -323,7 +320,7 @@ class Product extends Model
      */
     public function addHistoryData(string $type)
     {
-        $new = Product::where('id', $this->id)->with('categories', 'images')->first()->toArray();
+        $new = $this->setHistoryProduct();
 
         $history = new ProductHistory($new, $this->old_product);
 
@@ -412,6 +409,19 @@ class Product extends Model
     private function setRequest($request)
     {
         $this->request = $request;
+    }
+
+
+    private function setHistoryProduct()
+    {
+        $product = $this->where('id', $this->id)->first();
+
+        $response = $product->toArray();
+        $response['category'] = $product->category()->toArray();
+        $response['subcategory'] = $product->subcategory() ? $product->subcategory()->toArray() : [];
+        $response['images'] = $product->images()->get()->toArray();
+
+        return $response;
     }
 
 

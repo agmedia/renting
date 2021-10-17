@@ -19,9 +19,8 @@ class CreateHistoryLogTable extends Migration
             $table->string('type'); // change, create, delete
             $table->string('target'); // product, order, category, author...
             $table->bigInteger('target_id')->default(0);
-            $table->text('description')->nullable();
-            $table->longText('change_fields')->nullable();
-            $table->longText('change_values')->nullable();
+            $table->string('title')->nullable();
+            $table->longText('changes')->nullable();
             $table->longText('old_model')->nullable();
             $table->longText('new_model')->nullable();
             $table->tinyInteger('badge')->default(0);

@@ -24,6 +24,11 @@ class ProductHistory extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @var array
      */
     private $new;
@@ -41,6 +46,11 @@ class ProductHistory extends Model
     /**
      * @var string
      */
+    private $title_column = 'name';
+
+    /**
+     * @var string
+     */
     private $target = 'product';
 
 
@@ -54,6 +64,8 @@ class ProductHistory extends Model
     {
         $this->new = $new;
         $this->old = $old ?: null;
+
+        $this->changed = $this->new[$this->title_column];
     }
 
 
@@ -62,36 +74,59 @@ class ProductHistory extends Model
      */
     public function addData(string $type)
     {
-        Log::info($this->new);
-        Log::info($this->old);
+        $this->type = $type;
 
         if ($this->old) {
             $this->collectChangedValues();
-        } else {
-            $this->addNewValue();
         }
 
-        return $this->valueResponse();
+        return $this->saveResponse();
     }
 
 
-    private function valueResponse()
+    /**
+     * @return mixed
+     */
+    private function saveResponse()
     {
-        if ($this->changed != '') {
-            return $this->changed;
+        return $this->insert([
+            'user_id'    => auth()->user()->id,
+            'type'       => $this->type,
+            'target'     => $this->target,
+            'target_id'  => $this->new['id'],
+            'title'      => $this->resolveTitle(),
+            'changes'    => $this->changed,
+            'old_model'  => collect($this->old)->toJson(),
+            'new_model'  => collect($this->new)->toJson(),
+            'badge'      => 0,
+            'comment'    => '',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+    }
+
+
+    /**
+     * @return string
+     */
+    private function resolveTitle(): string
+    {
+        if ( ! $this->old) {
+            return 'Dodana je nova knjiga.';
         }
 
-        return 'Proizvod je snimljen. Bez promjene...';
+        if ($this->changed != $this->new[$this->title_column]) {
+            return 'Knjiga je editirana.';
+        }
+
+        return 'Knjiga je snimljena bez promjene.';
     }
 
 
-    private function addNewValue()
-    {
-        $this->changed = 'Dodana je nova knjiga.';
-    }
-
-
-    private function collectChangedValues()
+    /**
+     *
+     */
+    private function collectChangedValues(): void
     {
         // Author changed
         if ($this->old['author_id'] != $this->new['author_id']) {
@@ -173,6 +208,20 @@ class ProductHistory extends Model
         if ($this->old['image'] != $this->new['image']) {
             $this->changed .= '<br>Promijenjena je glavna slika knjige.';
         }
+        if (count($this->old['images']) != count($this->new['images'])) {
+            $this->changed .= '<br>Promijenjene su dodatne slika knjige.';
+        } else {
+            $changed = false;
+            for ($i = 0; $i < count($this->old['images']); $i++) {
+                if ($this->old['images'][$i]['image'] != $this->new['images'][$i]['image']) {
+                    $changed = true;
+                }
+            }
+
+            if ($changed) {
+                $this->changed .= '<br>Promijenjene su dodatne slika knjige.';
+            }
+        }
 
         // Price changed
         if ($this->old['price'] != $this->new['price']) {
@@ -238,8 +287,19 @@ class ProductHistory extends Model
         }
 
         // category changed
-        if ($this->old['categories'][0]['id'] != $this->new['categories'][0]['id']) {
-            $this->changed .= '<br>Promijenjena kategorija: <b>' . $this->old['categories'][0]['title'] . '</b> u <b>' . $this->new['categories'][0]['title'] . '</b>';
+        if (isset($this->old['category']['id']) && isset($this->new['category']['id'])) {
+            if ($this->old['category']['id'] != $this->new['category']['id']) {
+                $this->changed .= '<br>Promijenjena kategorija: <b>' . $this->old['category']['title'] . '</b> u <b>' . $this->new['category']['title'] . '</b>';
+            }
+        }
+        if (isset($this->old['subcategory']['id']) || isset($this->new['subcategory']['id'])) {
+            if ((isset($this->old['subcategory']['id']) && isset($this->new['subcategory']['id'])) && $this->old['subcategory']['id'] != $this->new['subcategory']['id']) {
+                $this->changed .= '<br>Promijenjena podkategorija: <b>' . $this->old['subcategory']['title'] . '</b> u <b>' . $this->new['subcategory']['title'] . '</b>';
+            } elseif (isset($this->old['subcategory']['id']) && ! isset($this->new['subcategory']['id'])) {
+                $this->changed .= '<br>Iz podkategorije: <b>' . $this->old['subcategory']['title'] . '</b> stavljeno u kategoriju <b>' . $this->new['category']['title'] . '</b>';
+            } elseif ( ! isset($this->old['subcategory']['id']) && isset($this->new['subcategory']['id'])) {
+                $this->changed .= '<br>Iz kategorija: <b>' . $this->old['category']['title'] . '</b> stavljeno u podkategoriju <b>' . $this->new['subcategory']['title'] . '</b>';
+            }
         }
     }
 }
