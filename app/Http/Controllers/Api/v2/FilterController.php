@@ -168,32 +168,45 @@ class FilterController extends Controller
         }
 
         $params = $request->input('params');
+        $cache_string = '';
 
         if (isset($params['autor']) && $params['autor']) {
+            $cache_string .= '&author=';
             if (strpos($params['autor'], '+') !== false) {
                 $arr = explode('+', $params['autor']);
 
                 foreach ($arr as $item) {
                     $_author = Author::where('slug', $item)->first();
                     $this->authors[] = $_author;
+                    $cache_string .= $_author->id . '+';
                 }
+
+                $cache_string = substr($cache_string, 0, -1);
+
             } else {
                 $_author = Author::where('slug', $params['autor'])->first();
                 $this->authors[] = $_author;
+                $cache_string .= $_author->id;
             }
         }
 
         if (isset($params['nakladnik']) && $params['nakladnik']) {
+            $cache_string .= '&pub=';
             if (strpos($params['nakladnik'], '+') !== false) {
                 $arr = explode('+', $params['nakladnik']);
 
                 foreach ($arr as $item) {
                     $_publisher = Publisher::where('slug', $item)->first();
                     $this->publishers[] = $_publisher;
+                    $cache_string .= $_publisher->id . '+';
                 }
+
+                $cache_string = substr($cache_string, 0, -1);
+
             } else {
                 $_publisher = Publisher::where('slug', $params['nakladnik'])->first();
                 $this->publishers[] = $_publisher;
+                $cache_string .= $_publisher->id . '_';
             }
         }
 
@@ -205,14 +218,17 @@ class FilterController extends Controller
 
         if (isset($params['group']) && $params['group']) {
             $request_data['group'] = $params['group'];
+            $cache_string .= '&group=' . $params['group'];
         }
 
         if (isset($params['cat']) && $params['cat']) {
             $request_data['cat'] = $params['cat'];
+            $cache_string .= '&cat=' . $params['cat'];
         }
 
         if (isset($params['subcat']) && $params['subcat']) {
             $request_data['subcat'] = $params['subcat'];
+            $cache_string .= '&subcat=' . $params['subcat'];
         }
 
         if (isset($params['autor']) && $params['autor']) {
@@ -225,22 +241,34 @@ class FilterController extends Controller
 
         if (isset($params['start']) && $params['start']) {
             $request_data['start'] = $params['start'];
+            $cache_string .= '&start=' . $params['start'];
         }
 
         if (isset($params['end']) && $params['end']) {
             $request_data['end'] = $params['end'];
+            $cache_string .= '&end=' . $params['end'];
         }
 
         if (isset($params['sort']) && $params['sort']) {
             $request_data['sort'] = $params['sort'];
+            $cache_string .= '&sort=' . $params['sort'];
         }
 
         $request = new Request($request_data);
 
-        $products = (new Product())->filter($request)
-                                   /*->basicData()*/
-                                   ->with('author')
-                                   ->paginate(config('settings.pagination.front'));
+        if (isset($params['ids']) && $params['ids'] != '') {
+            $products = (new Product())->filter($request)
+                                       ->with('author')
+                                       ->paginate(config('settings.pagination.front'));
+        } else {
+            $products = Cache::remember($cache_string, config('cache.life'), function () use ($request) {
+                 return (new Product())->filter($request)
+                                       ->with('author')
+                                       ->paginate(config('settings.pagination.front'));
+            });
+        }
+
+
 
         return response()->json($products);
     }
