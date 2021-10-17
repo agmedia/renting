@@ -1,13 +1,14 @@
 @extends('back.layouts.backend')
 
+@push('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+@endpush
+
 @section('content')
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Kategorije</h1>
-                <a class="btn btn-hero-success my-2" href="{{ route('category.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova kategorija</span>
-                </a>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">History Log</h1>
             </div>
         </div>
     </div>
@@ -18,6 +19,34 @@
             <!-- Main Content -->
             <div class="content content-full">
             @include('back.layouts.partials.session')
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <div class="block-content">
+                            <form action="{{ route('history') }}" method="GET">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select class="js-select2 form-control" id="trazi-select" name="trazi" style="width: 100%;" data-placeholder="Odaberi model pretrage">
+                                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                                <option value="knjige" {{ 'knjige' == request()->input('trazi') ? 'selected' : '' }}>Knjige</option>
+                                                <option value="narudzba" {{ 'narudzba' == request()->input('trazi') ? 'selected' : '' }}>Narudžbe</option>
+                                                <option value="autor" {{ 'autor' == request()->input('trazi') ? 'selected' : '' }}>Autori</option>
+                                                <option value="nakladnik" {{ 'nakladnik' == request()->input('trazi') ? 'selected' : '' }}>Nakladnici</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control" id="search-input" name="pojam" placeholder="Pretraži..." value="{{ request()->query('pojam') }}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary btn-block fs-base"><i class="fa fa-search"></i> Traži</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="accordion" role="tablist" aria-multiselectable="true">
                     @forelse($history as $item)
                         <div class="block block-rounded mb-1">
@@ -53,5 +82,52 @@
 @endsection
 
 @push('js_after')
-    <script src="{{ asset('js/pages/be_pages_projects_tasks.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+        $(() => {
+            $('#trazi-select').select2({
+                placeholder: 'Pretraži logove prema...',
+                allowClear: true
+            });
+            $('#trazi-select').on('change', (e) => {
+                setURL('trazi', e.currentTarget.selectedOptions[0]);
+            });
+        });
+
+        /**
+         *
+         * @param type
+         * @param search
+         * @param isValue
+         */
+        function setURL(type, search, isValue = false) {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let keys = [];
+
+            for(var key of params.keys()) {
+                if (key === type) {
+                    keys.push(key);
+                }
+            }
+
+            keys.forEach((value) => {
+                if (params.has(value)) {
+                    params.delete(value);
+                }
+            })
+
+            if (search.value) {
+                params.append(type, search.value);
+            }
+
+            if (isValue && search) {
+                params.append(type, search);
+            }
+
+            url.search = params;
+            location.href = url;
+        }
+    </script>
 @endpush
