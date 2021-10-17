@@ -119,7 +119,7 @@ class CatalogRouteController extends Controller
     public function author(Request $request, Author $author = null, Category $cat = null, Category $subcat = null)
     {
         if ( ! $author) {
-            $letters = Cache::remember('author.letters', config('cache.life'), function () {
+            $letters = Helper::resolveCache('authors')->remember('letters', config('cache.life'), function () {
                 return Author::letters();
             });
             $letter = $this->checkLetter($letters);
@@ -130,7 +130,7 @@ class CatalogRouteController extends Controller
 
             $currentPage = request()->get('page', 1);
 
-            $authors = Cache::remember('author.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
+            $authors = Helper::resolveCache('authors')->remember($letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Author::query()->select('id', 'title', 'url')
                                       ->where('status',  1)
                                       ->where('letter', $letter)
@@ -166,7 +166,7 @@ class CatalogRouteController extends Controller
     public function publisher(Request $request, Publisher $publisher = null, Category $cat = null, Category $subcat = null)
     {
         if ( ! $publisher) {
-            $letters = Cache::remember('publisher.letters', config('cache.life'), function () {
+            $letters = Helper::resolveCache('publishers')->remember('letters', config('cache.life'), function () {
                 return Publisher::letters();
             });
             $letter = $this->checkLetter($letters);
@@ -177,7 +177,7 @@ class CatalogRouteController extends Controller
 
             $currentPage = request()->get('page', 1);
 
-            $publishers = Cache::remember('publisher.' . $letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
+            $publishers = Helper::resolveCache('publishers')->remember($letter . '.' . $currentPage, config('cache.life'), function () use ($letter) {
                 return Publisher::query()->select('id', 'title', 'url')
                                          ->where('status',  1)
                                          ->where('letter', $letter)

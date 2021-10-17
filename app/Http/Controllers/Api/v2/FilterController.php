@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v2;
 
+use App\Helpers\Helper;
 use App\Models\Front\Catalog\Product;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Front\Catalog\Author;
@@ -37,7 +38,7 @@ class FilterController extends Controller
         if ( ! $params['cat'] && ! $params['subcat']) {
             // Ako je normal kategorija
             if ($params['group']) {
-                $categories = Cache::remember('category_list.' . $params['group'], config('cache.life'), function () use ($params) {
+                $categories = Helper::resolveCache('categories')->remember($params['group'], config('cache.life'), function () use ($params) {
                     return Category::active()->topList($params['group'])->sortByName()->withCount('products')->get()->toArray();
                 });
 
@@ -61,7 +62,7 @@ class FilterController extends Controller
             $cat = Category::where('id', $params['cat'])->first();
 
             if ($params['group']) {
-                $item = Cache::remember('category_list.' . $cat['id'], config('cache.life'), function () use ($cat) {
+                $item = Helper::resolveCache('categories')->remember($cat['id'], config('cache.life'), function () use ($cat) {
                     return Category::active()->where('parent_id', $cat['id'])->sortByName()->withCount('products')->get()->toArray();
                 });
 
@@ -261,7 +262,7 @@ class FilterController extends Controller
                                        ->with('author')
                                        ->paginate(config('settings.pagination.front'));
         } else {
-            $products = Cache::remember($cache_string, config('cache.life'), function () use ($request) {
+            $products = Helper::resolveCache('products')->remember($cache_string, config('cache.life'), function () use ($request) {
                  return (new Product())->filter($request)
                                        ->with('author')
                                        ->paginate(config('settings.pagination.front'));
@@ -290,12 +291,14 @@ class FilterController extends Controller
         }
 
         return response()->json(
-            Author::query()->active()
-                           ->featured()
-                           ->basicData()
-                           ->withCount('products')
-                           ->get()
-                           ->toArray()
+            Helper::resolveCache('authors')->remember('featured', config('cache.life'), function () {
+                return Author::query()->active()
+                             ->featured()
+                             ->basicData()
+                             ->withCount('products')
+                             ->get()
+                             ->toArray();
+            })
         );
     }
 
@@ -318,12 +321,14 @@ class FilterController extends Controller
         }
 
         return response()->json(
-            Publisher::active()
-                     ->featured()
-                     ->basicData()
-                     ->withCount('products')
-                     ->get()
-                     ->toArray()
+            Helper::resolveCache('publishers')->remember('featured', config('cache.life'), function () {
+                return Publisher::active()
+                                ->featured()
+                                ->basicData()
+                                ->withCount('products')
+                                ->get()
+                                ->toArray();
+            })
         );
     }
 

@@ -18,7 +18,8 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    //'default' => env('CACHE_DRIVER', 'file'),
+    'default' => env((env('APP_ENV') == 'production' ? 'CACHE_DRIVER' : 'file'), 'file'),
 
     /*
     |--------------------------------------------------------------------------
