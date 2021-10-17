@@ -18,7 +18,22 @@ class HistoryController extends Controller
      */
     public function index(Request $request)
     {
-        $history = History::orderBy('created_at', 'desc')->paginate(20);
+        $query = (new History())->newQuery();
+
+        if ($request->has('trazi')) {
+            if ($request->input('trazi') == 'knjige') {
+                $query->where('target', 'product');
+
+                if ($request->has('pojam') && $request->input('pojam') != '') {
+                    $query->whereHas('product', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->input('pojam') . '%')
+                              ->orWhere('sku', 'like', '%' . $request->input('pojam') . '%');
+                    });
+                }
+            }
+        }
+
+        $history = $query->orderBy('created_at', 'desc')->paginate(20);
 
         return view('back.settings.history.index', compact('history'));
     }

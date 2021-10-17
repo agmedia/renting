@@ -44,6 +44,15 @@ class History extends Model
 
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'target_id');
+    }
+
+
+    /**
      * @param string $type
      * @param int    $id
      *
