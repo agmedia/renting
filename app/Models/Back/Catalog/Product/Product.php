@@ -70,7 +70,7 @@ class Product extends Model
     public function category()
     {
         return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
-                    ->where('parent_id', 0)
+                    ->where('parent_id', '=', 0)
                     ->first();
     }
 
@@ -436,7 +436,7 @@ class Product extends Model
     private function resolveCategories(int $product_id)
     {
         if ($this->request->category) {
-            return ProductCategory::storeData($this->request->category, $product_id);
+            return ProductCategory::storeData(intval($this->request->category), $product_id);
         }
 
         return false;
