@@ -78,10 +78,9 @@ class ProductHistory extends Model
     private function valueResponse()
     {
         if ($this->changed != '') {
-            Log::info($this->changed);
             return $this->changed;
         }
-        Log::info('Proizvod je snimljen. Bez promjene...');
+
         return 'Proizvod je snimljen. Bez promjene...';
     }
 
