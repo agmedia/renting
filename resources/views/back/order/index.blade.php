@@ -20,7 +20,7 @@
     <!-- Page Content -->
     <div class="content">
     @include('back.layouts.partials.session')
-        <!-- All Orders -->
+    <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Lista narudžbi <small class="font-weight-light">{{ $orders->total() }}</small></h3>
@@ -55,9 +55,14 @@
             </div>
             <div class="block-content bg-body-dark">
                 <!-- Search Form -->
-                <form action="be_pages_ecom_orders.html" method="POST" onsubmit="return false;">
+                <form action="{{ route('orders') }}" method="GET">
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-alt" id="dm-ecom-orders-search" name="dm-ecom-orders-search" placeholder="Pretraži narudžbe">
+                        <div class="form-group">
+                            <div class="input-group flex-nowrap">
+                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...">
+                                <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <!-- END Search Form -->
@@ -71,7 +76,7 @@
                             <th class="text-center" style="width: 30px;">
                                 <div class="form-group">
                                     <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
+                                        <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
                                     </div>
                                 </div>
                             </th>
@@ -208,10 +213,10 @@
             location.href = url;
         }
     </script>
-<script>
-    $("#checkAll").click(function () {
-        $('input:checkbox').not(this).prop('checked', this.checked);
-    });
-</script>
+    <script>
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>
 
 @endpush
