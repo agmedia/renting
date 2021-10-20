@@ -70,12 +70,14 @@ class CheckoutController extends Controller
             $data['id'] = CheckoutSession::getOrder()['id'];
 
             $order->updateData($data);
+            $order->setData($data['id']);
+
         } else {
             $order->createFrom($data);
+        }
 
-            if ($order->isCreated()) {
-                CheckoutSession::setOrder($order->getData());
-            }
+        if ($order->isCreated()) {
+            CheckoutSession::setOrder($order->getData());
         }
 
         $data['payment_form'] = $order->resolvePaymentForm();
@@ -120,8 +122,6 @@ class CheckoutController extends Controller
             Mail::to(config('mail.admin'))->send(new OrderReceived($data['order']));
             Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
         });
-
-        Log::info($data['order']);
 
         foreach ($data['order']->products as $product) {
             $product->real->decrement('quantity', $product->quantity);
