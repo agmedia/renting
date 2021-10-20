@@ -263,7 +263,7 @@ export default {
             total = subtotal;
 
             this.totals_local.forEach((item) => {
-                if (item.code == 'shipping') {
+                if (item.code == 'shipping' || item.code == 'payment') {
                     total += Number(item.value);
                 }
             });
