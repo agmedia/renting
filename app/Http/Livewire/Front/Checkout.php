@@ -63,6 +63,7 @@ class Checkout extends Component
         'address.fname' => 'required',
         'address.lname' => 'required',
         'address.email' => 'required|email',
+        'address.phone' => 'required',
         'address.address' => 'required',
         'address.city' => 'required',
         'address.zip' => 'required',
