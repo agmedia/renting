@@ -111,8 +111,8 @@
             </div>
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label class="form-label" for="checkout-phone">Telefon</label>
-                    <input class="form-control" type="text" wire:model.defer="address.phone">
+                    <label class="form-label" for="checkout-phone">Telefon <span class="text-danger">*</span></label>
+                    <input class="form-control @error('address.phone') is-invalid  @enderror" type="text" wire:model.defer="address.phone">
                     @error('address.phone') <div class="invalid-feedback animated fadeIn">Broj telefona je obavezan</div> @enderror
                 </div>
             </div>
