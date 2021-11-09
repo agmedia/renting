@@ -1,5 +1,5 @@
 <div class="card product-card-alt">
-    <span class="badge rounded-pill bg-primary mt-3 ms-2 badge-shadow">-20%</span>
+    <span class="badge rounded-pill bg-primary mt-3 ms-1 badge-shadow">-20%</span>
     <div class="product-thumb">
 
 
