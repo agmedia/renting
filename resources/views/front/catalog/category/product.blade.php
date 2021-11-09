@@ -29,10 +29,10 @@
         @endif
         <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
             @if ($product->special())
-                <div class="bg-faded-accent text-accent text-sm rounded-1 py-1 px-2" style="text-decoration: line-through;">{!! $product->priceString() !!}</div>
-                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $product->priceString($product->special()) !!}</div>
+                <div class="bg-faded-accent text-accent text-sm rounded-1 py-1 px-1" style="text-decoration: line-through;">{!! $product->priceString() !!}</div>
+                <div class="bg-faded-accent text-accent rounded-1 py-1 px-1">{!! $product->priceString($product->special()) !!}</div>
             @else
-                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">{!! $product->priceString() !!}</div>
+                <div class="bg-faded-accent text-accent rounded-1 py-1 px-1">{!! $product->priceString() !!}</div>
             @endif
         </div>
     </div>
