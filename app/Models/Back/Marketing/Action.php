@@ -226,6 +226,9 @@ class Action extends Model
 
         DB::select(DB::raw("UPDATE products p INNER JOIN temp_table tt ON p.id = tt.product_id SET p.special = tt.special, p.action_id = " . $id . ", p.special_from = '" . $start . "', p.special_to = '" . $end . "';"));
 
+
+
+
         DB::table('temp_table')->truncate();
     }
 
