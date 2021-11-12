@@ -304,6 +304,9 @@ Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
  * Groups, Categories and Products routes resolver.
  * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
  */
+Route::redirect('/sitemap.xml', '/sitemap');
+Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
+
 Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
 Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
 //
