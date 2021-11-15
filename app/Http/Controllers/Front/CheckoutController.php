@@ -118,30 +118,39 @@ class CheckoutController extends Controller
     {
         $data['order'] = CheckoutSession::getOrder();
 
-        dispatch(function () use ($data) {
-            Mail::to(config('mail.admin'))->send(new OrderReceived($data['order']));
-            Mail::to($data['order']['payment_email'])->send(new OrderSent($data['order']));
-        });
-
-        Log::info($data['order']);
-
-        foreach ($data['order']->products as $product) {
-            $product->real->decrement('quantity', $product->quantity);
-
-            if ( ! $product->real->quantity) {
-                $product->real->update([
-                    'status' => 0
-                ]);
-            }
+        if ( ! $data['order']) {
+            Log::alert('No order data ::: null');
+            return redirect()->route('front.checkout.checkout', ['step' => '']);
         }
 
-        CheckoutSession::forgetOrder();
-        CheckoutSession::forgetStep();
-        CheckoutSession::forgetPayment();
-        CheckoutSession::forgetShipping();
-        $this->shoppingCart()->flush();
+        $order = \App\Models\Back\Orders\Order::where('id', $data['order']['id'])->first();
 
-        return view('front.checkout.success', compact('data'));
+        if ($order) {
+            dispatch(function () use ($order) {
+                Mail::to(config('mail.admin'))->send(new OrderReceived($order));
+                Mail::to($order->payment_email)->send(new OrderSent($order));
+            });
+
+            foreach ($order->products as $product) {
+                $product->real->decrement('quantity', $product->quantity);
+
+                if ( ! $product->real->quantity) {
+                    $product->real->update([
+                        'status' => 0
+                    ]);
+                }
+            }
+
+            CheckoutSession::forgetOrder();
+            CheckoutSession::forgetStep();
+            CheckoutSession::forgetPayment();
+            CheckoutSession::forgetShipping();
+            $this->shoppingCart()->flush();
+
+            return view('front.checkout.success', compact('data'));
+        }
+
+        return redirect()->route('front.checkout.checkout', ['step' => '']);
     }
 
 
