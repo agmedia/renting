@@ -2,9 +2,9 @@
 <section class="container {{ $data['css'] }}" style="z-index: 10;">
     @if ($data['container'])
         <div class="card px-lg-2 border-0 shadow-lg">
-            <div class="card-body px-4 pt-5 pb-4">
+            <div class="card-body px-4 pt-4 pb-4">
                 @if($data['title'] =='Knjige')
-                  <<!--  <a href="{{ url($data['url']) }}"><img src="media/img/banner-homepage.jpg" style="margin-top: -10px;margin-bottom: 30px;"></a> -->
+                  <!--  <a href="{{ url($data['url']) }}"><img src="media/img/banner-homepage.jpg" style="margin-top: -10px;margin-bottom: 30px;"></a> -->
                 @endif
 
                 <h2 class="h3 text-center">{{ $data['title'] }}</h2>
