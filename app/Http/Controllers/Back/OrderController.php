@@ -139,8 +139,6 @@ class OrderController extends Controller
             return response()->json(['message' => 'Statusi su uspješno promijenjeni..!']);
         }
 
-        Log::info($request);
-
         if ($request->has('order_id')) {
             if ($request->has('status') && $request->input('status')) {
                 Order::where('id', $request->input('order_id'))->update([

@@ -72,7 +72,7 @@ class Totals
             $this->currentSum = $instance->getCurrentSum();
         }
 
-        Log::warning($response);
+        //Log::warning($response);
 
         return $response;
     }

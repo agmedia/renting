@@ -38,7 +38,6 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request->toArray());
         $updated = Settings::setListItem('payment', 'list.' . $request->data['code'], $request->data);
 
         if ($updated) {
