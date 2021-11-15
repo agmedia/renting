@@ -114,8 +114,9 @@ class CheckoutController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function success()
+    public function success(Request $request)
     {
+        Log::info($request);
         $data['order'] = CheckoutSession::getOrder();
 
         if ( ! $data['order']) {
