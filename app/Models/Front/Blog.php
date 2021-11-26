@@ -63,7 +63,7 @@ class Blog extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)->orderBy('created_at', 'desc');
     }
 
 
