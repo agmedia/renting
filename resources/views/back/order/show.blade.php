@@ -2,8 +2,6 @@
 
 @push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-
-
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/magnific-popup/magnific-popup.css') }}">
 @endpush
@@ -33,7 +31,7 @@
             </div>
             <div class="block-content">
                 <div class="table-responsive">
-                    <table class="table table-borderless table-striped table-vcenter font-size-sm"  >
+                    <table class="table table-borderless table-striped table-vcenter font-size-sm">
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 100px;">Slika</th>
@@ -47,13 +45,14 @@
                         <tbody class="js-gallery">
                         @foreach ($order->products as $product)
                             <tr>
-                                <td class="text-center"> <a class="img-link img-link-zoom-in img-lightbox" href="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}">
-                                        <img src="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
-                                    </a></td>
 
 
 
 
+                                <td class="text-center"> <a class="img-link img-link-zoom-in img-lightbox" href="{{ $product->product->image ? asset($product->product->image) : asset('media/avatars/avatar0.jpg') }}">
+                                        <img src="{{ $product->product->image ? asset($product->product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
+                                    </a>
+                                </td>
 
 
 
@@ -220,6 +219,7 @@
 @endpush
 
 @push('js_after')
+
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
 
