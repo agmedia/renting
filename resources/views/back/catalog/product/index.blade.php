@@ -171,6 +171,12 @@
                                     </div>
                                 </td>
                                 <td class="text-right font-size-sm">
+
+
+
+                                    <a class="btn btn-sm btn-alt-secondary" target="_blank" href=" {{ url($product->url) }}">
+                                        <i class="fa fa-fw fa-eye"></i>
+                                    </a>
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('products.edit', ['product' => $product]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
