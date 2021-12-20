@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Front\Catalog\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class ProductHelper
@@ -65,5 +66,31 @@ class ProductHelper
         }
 
         return '/';
+    }
+
+
+    /**
+     * @param Builder $query
+     * @param array   $request
+     *
+     * @return Builder
+     */
+    public static function queryCategories(Builder $query, array $request): Builder
+    {
+        $query->whereHas('categories', function ($query) use ($request) {
+            if ($request['group'] && ! $request['cat'] && ! $request['subcat']) {
+                $query->where('group', $request['group']);
+            }
+
+            if ($request['cat'] && ! $request['subcat']) {
+                $query->where('category_id', $request['cat']);
+            }
+
+            if ($request['subcat']) {
+                $query->where('category_id', $request['subcat']);
+            }
+        });
+
+        return $query;
     }
 }

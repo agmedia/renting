@@ -50,8 +50,6 @@ class CatalogRouteController extends Controller
             return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat'));
         }
 
-        $ids = collect();
-
         // If only group...
         if ($group && ! $cat && ! $subcat) {
             if ($group == 'zemljovidi-i-vedute') {
@@ -65,7 +63,14 @@ class CatalogRouteController extends Controller
             }
         }
 
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'prod'));
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
+
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'prod'));
     }
 
 
@@ -138,11 +143,16 @@ class CatalogRouteController extends Controller
             return view('front.catalog.authors.index', compact('authors', 'letters', 'letter'));
         }
 
-        $group = null;
         $letter = null;
-        $ids = collect();
 
-        return view('front.catalog.category.index', compact('author', 'ids', 'letter', 'group', 'cat', 'subcat'));
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
+
+        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat'));
     }
 
 
@@ -180,11 +190,16 @@ class CatalogRouteController extends Controller
             return view('front.catalog.publishers.index', compact('publishers', 'letters', 'letter'));
         }
 
-        $group = null;
         $letter = null;
-        $ids = collect();
 
-        return view('front.catalog.category.index', compact('publisher', 'ids', 'letter', 'group', 'cat', 'subcat'));
+        if ($cat) {
+            $cat->count = $cat->products()->count();
+        }
+        if ($subcat) {
+            $subcat->count = $subcat->products()->count();
+        }
+
+        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat'));
     }
 
 
@@ -207,8 +222,6 @@ class CatalogRouteController extends Controller
             $ids = Helper::search(
                 $request->input(config('settings.search_keyword'))
             );
-
-            $ids = $ids['products'];
 
             return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
         }

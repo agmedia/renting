@@ -38,6 +38,9 @@ class Category extends Model
     }
 
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function parent()
     {
         return $this->hasOne(Category::class, 'id', 'parent_id');
@@ -69,7 +72,7 @@ class Category extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)->where('title', '!=', '');
     }
 
 

@@ -202,9 +202,9 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', 1)->where('price', '!=', 0);
     }
 
 
@@ -213,7 +213,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeInactive($query)
+    public function scopeInactive(Builder $query): Builder
     {
         return $query->where('status', 0);
     }
@@ -224,7 +224,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeHasStock($query)
+    public function scopeHasStock(Builder $query): Builder
     {
         return $query->where('quantity', '!=', 0);
     }
@@ -235,7 +235,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeLast($query, $count = 9)
+    public function scopeLast(Builder $query, $count = 12): Builder
     {
         return $query->where('status', 1)->orderBy('updated_at', 'desc')->limit($count);
     }
@@ -257,7 +257,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeAvailable($query)
+    public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('quantity', '!=', 0);
     }
@@ -268,7 +268,7 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopePopular($query, $count = 9)
+    public function scopePopular(Builder $query, $count = 12): Builder
     {
         return $query->where('status', 1)->orderBy('viewed', 'desc')->limit($count);
     }
@@ -279,9 +279,20 @@ class Product extends Model
      *
      * @return mixed
      */
-    public function scopeTopPonuda($query, $count = 9)
+    public function scopeTopPonuda(Builder $query, $count = 12): Builder
     {
         return $query->where('status', 1)->where('topponuda', 1)->orderBy('updated_at', 'desc')->limit($count);
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeBasicData(Builder $query): Builder
+    {
+        return $query->select('id', 'name', 'url', 'image', 'price', 'special', 'author_id');
     }
 
     /*******************************************************************************
@@ -299,12 +310,13 @@ class Product extends Model
     {
         $query = (new Product())->newQuery();
 
-        if ($ids->count() && ! \request()->has('pojam')) {
+        if ($ids && $ids->count() && ! \request()->has('pojam')) {
             $query->whereIn('id', $ids->unique());
         }
 
-        if ($ids && \request()->has('pojam')) {
-            $query->whereIn('id', $ids->unique());
+        if ($request->has('ids') && $request->input('ids') != '') {
+            $_ids = explode(',', substr($request->input('ids'), 1, -1));
+            $query->whereIn('id', collect($_ids)->unique());
         }
 
         if ($request->has('group')) {
@@ -333,13 +345,13 @@ class Product extends Model
 
         if ($request->has('cat')) {
             $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('category_id', $request->input('cat')['id']);
+                $query->where('category_id', $request->input('cat'));
             });
         }
 
         if ($request->has('subcat')) {
             $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('category_id', $request->input('subcat')['id']);
+                $query->where('category_id', $request->input('subcat'));
             });
         }
 
@@ -383,7 +395,7 @@ class Product extends Model
             });
         }
 
-        $query->active()->where('quantity', '!=', 0);
+        $query->active()->hasStock();
 
         if ($request->has('sort')) {
             $sort = $request->input('sort');
@@ -393,10 +405,12 @@ class Product extends Model
             }
 
             if ($sort == 'price_up') {
-                $query->orderBy('price');
+                Log::info('price_up entered');
+                $query->orderBy('price', 'asc');
             }
 
             if ($sort == 'price_down') {
+                Log::info('price_down entered');
                 $query->orderBy('price', 'desc');
             }
 

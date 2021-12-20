@@ -2,14 +2,13 @@
 
 namespace App\Models\Front\Catalog;
 
+use App\Models\Front\Catalog\Category;
 use App\Helpers\Helper;
-use Carbon\Carbon;
+use App\Helpers\ProductHelper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -63,42 +62,79 @@ class Publisher extends Model
 
 
     /**
-     * @param int $id
+     * @param $query
      *
-     * @return Collection
+     * @return mixed
      */
-    public function categories(int $id = 0): Collection
+    public function scopeFeatured($query)
     {
-        return Cache::remember('publisher.category.' . $id, config('cache.life'), function () use ($id) {
-            if ( ! $id) {
-                $query = Category::query()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
-                    $query->where('publisher_id', $this->id);
-                });
-
-            } else {
-                $query = Category::query()->whereHas('products', function ($query) {
-                    $query->where('publisher_id', $this->id);
-                })->where('parent_id', $id);
-            }
-
-            return $query->with('parent')
-                         ->withCount(['products as products_count' => function ($query) {
-                             $query->where('publisher_id', $this->id);
-                         }])
-                         ->orderBy('title')
-                         ->get();
-        });
+        return $query->where('featured', 1);
     }
 
 
     /**
-     * @return string
+     * @param $query
+     *
+     * @return mixed
      */
-    public function url()
+    public function scopeBasicData($query)
     {
-        return route('catalog.route.publisher', [
-            'publisher' => $this
-        ]);
+        return $query->select('id', 'title', 'slug', 'url');
+    }
+
+
+    /**
+     * @param array $request
+     * @param int   $limit
+     *
+     * @return Builder
+     */
+    public function filter(array $request, int $limit = 20): Builder
+    {
+        $query = (new Publisher())->newQuery();
+
+        if ($request['search_publisher']) {
+            $query->active();
+
+            $query = Helper::searchByTitle($query, $request['search_publisher']);
+
+        } else {
+            $query->active()->featured();
+
+            if ($request['group'] && ! $request['search_publisher']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
+
+                    if ($request['author']) {
+                        if (strpos($request['author'], '+') !== false) {
+                            $arr = explode('+', $request['author']);
+                            $pubs = Author::query()->whereIn('slug', $arr)->pluck('id');
+
+                            $query->whereIn('author_id', $pubs);
+                        } else {
+                            $query->where('author_id', $request['author']);
+                        }
+                    }
+                });
+            }
+
+            if ($request['author'] && ! $request['group']) {
+                $query->whereHas('products', function ($query) use ($request) {
+                    $query = ProductHelper::queryCategories($query, $request);
+                    $query->where('author_id', Author::where('slug', $request['author'])->pluck('id')->first());
+                });
+            }
+
+            if ($request['ids'] && $request['ids'] != '') {
+                $_ids = collect(explode(',', substr($request['ids'], 1, -1)))->unique();
+
+                $query->whereHas('products', function ($query) use ($_ids) {
+                    $query->active()->hasStock()->whereIn('id', $_ids);
+                });
+            }
+        }
+
+        return $query->limit($limit)->orderBy('title');
     }
 
 
@@ -125,6 +161,36 @@ class Publisher extends Model
         }
 
         return $letters;
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function categories(int $id = 0): Collection
+    {
+        $query = (new Category())->newQuery();
+
+        $query->active();
+
+        if ( ! $id) {
+            $query =$query->topList()->select('id', 'title', 'slug')->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            });
+
+        } else {
+            $query = $query->whereHas('products', function ($query) {
+                $query->where('publisher_id', $this->id);
+            })->where('parent_id', $id);
+        }
+
+        return $query->withCount(['products as products_count' => function ($query) {
+                         $query->where('publisher_id', $this->id);
+                     }])
+                     ->orderBy('title')
+                     ->get();
     }
 
 }

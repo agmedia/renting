@@ -107,7 +107,7 @@ class Order extends Model
      */
     public function scopeLast($query, $count = 9)
     {
-        return $query->orderBy('created_at', 'desc')->limit($count);
+        return $query->whereIn('order_status_id', [4, 5, 6, 7])->orderBy('created_at', 'desc')->limit($count);
     }
 
 
