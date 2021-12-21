@@ -2,11 +2,11 @@
 <html lang="{{ config('app.locale') }}">
 <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<!--    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TV7RKFH');</script>
+        })(window,document,'script','dataLayer','GTM-TV7RKFH');</script>-->
     <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <title> @yield('title') </title>
@@ -34,21 +34,23 @@
     <!-- Main Theme Styles + Bootstrap-->
     <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY35049KQZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    @if (config('app.env') == 'production')
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY35049KQZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-        gtag('config', 'G-YY35049KQZ');
-    </script>
+            gtag('config', 'G-YY35049KQZ');
+        </script>
+    @endif
 
     @stack('css_after')
 
     @livewireStyles
     <!-- Facebook Pixel Code -->
-    <script>
+<!--    <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -62,8 +64,12 @@
     </script>
     <noscript><img height="1" width="1" style="display:none"
                    src="https://www.facebook.com/tr?id=659899245170060&ev=PageView&noscript=1"
-        /></noscript>
+        /></noscript>-->
     <!-- End Facebook Pixel Code -->
+    <style>
+        [v-cloak] { display:none !important; }
+    </style>
+
 </head>
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
@@ -105,11 +111,11 @@
 <!-- Vendor scrits: js libraries and plugins-->
 <script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/tiny-slider.js') }}"></script>
 <script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
 <!-- Main theme script-->
 <script src="{{ asset('js/theme.min.js') }}"></script>
+<script src="{{ asset('js/cart.js') }}"></script>
 
 <script>
     $(() => {
@@ -120,43 +126,9 @@
             }
         })
     });
-
-    /**
-     *
-     * @param type
-     * @param search
-     */
-    function setURL(type, search) {
-        let url = new URL(location.href);
-        let params = new URLSearchParams(url.search);
-        let keys = [];
-
-        for(var key of params.keys()) {
-            if (key === type) {
-                keys.push(key);
-            }
-        }
-
-        keys.forEach((value) => {
-            if (params.has(value)) {
-                params.delete(value);
-            }
-        })
-
-        if (search) {
-            params.append(type, search);
-        }
-
-        console.log(params)
-
-        url.search = params;
-        //location.href = url;
-    }
 </script>
 
 @stack('js_after')
-
-@livewireScripts
 
 </body>
 </html>
