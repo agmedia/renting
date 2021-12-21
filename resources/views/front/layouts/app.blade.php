@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 <head>
-    <!-- Google Tag Manager -->
-<!--    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TV7RKFH');</script>-->
-    <!-- End Google Tag Manager -->
+    @if (config('app.env') == 'production')
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                                                              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TV7RKFH');
+        </script>
+    @endif
+
     <meta charset="utf-8">
     <title> @yield('title') </title>
     <!-- SEO Meta Tags-->
@@ -48,24 +51,25 @@
 
     @stack('css_after')
 
-    @livewireStyles
-    <!-- Facebook Pixel Code -->
-<!--    <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '659899245170060');
-        fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=659899245170060&ev=PageView&noscript=1"
-        /></noscript>-->
-    <!-- End Facebook Pixel Code -->
+    @if (config('app.env') == 'production')
+        <!-- Facebook Pixel Code -->
+        <script>
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '659899245170060');
+            fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+                       src="https://www.facebook.com/tr?id=659899245170060&ev=PageView&noscript=1"
+            /></noscript>
+    @endif
+
     <style>
         [v-cloak] { display:none !important; }
     </style>
@@ -73,10 +77,14 @@
 </head>
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV7RKFH"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
+@if (config('app.env') == 'production')
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TV7RKFH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+@endif
+
 <!-- Topbar-->
 <div class="topbar topbar-light bg-light d-none d-md-block">
     <div class="container">

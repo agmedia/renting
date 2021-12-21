@@ -21,9 +21,9 @@
     </div>
 
     <div class="content">
-        @include('back.layouts.partials.session')
+    @include('back.layouts.partials.session')
 
-        <!-- All Products -->
+    <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Svi artikli {{ $products->total() }}</h3>
@@ -48,10 +48,7 @@
                                         <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                                     </div>
                                     <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
-
                                 </div>
-
-
                             </div>
 
                             <div class="col-md-3">
@@ -73,9 +70,7 @@
                             </div>
 
                         </div>
-
-                                <div class="form-group row items-push mb-0">
-
+                        <div class="form-group row items-push mb-0">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     @livewire('back.layout.search.author-search', ['author_id' => request()->input('author') ?: '', 'list' => true])
@@ -132,7 +127,7 @@
                             <th>Dodano</th>
                             <th>Zadnja izmjena</th>
                             <th class="text-center">Status</th>
-                            <th class="text-right" style="width: 10%;">Uredi</th>
+                            <th class="text-right" style="width: 12%;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody id="ag-table-with-input-fields" class="js-gallery" >
@@ -140,7 +135,7 @@
                             <tr>
                                 <td class="text-center font-size-sm">
                                     <a class="img-link img-link-zoom-in img-lightbox" href="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}">
-                                    <img src="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
+                                        <img src="{{ $product->image ? asset($product->image) : asset('media/avatars/avatar0.jpg') }}" height="80px"/>
                                     </a>
                                 </td>
                                 <td class="font-size-sm">
@@ -171,9 +166,6 @@
                                     </div>
                                 </td>
                                 <td class="text-right font-size-sm">
-
-
-
                                     <a class="btn btn-sm btn-alt-secondary" target="_blank" href=" {{ url($product->url) }}">
                                         <i class="fa fa-fw fa-eye"></i>
                                     </a>
