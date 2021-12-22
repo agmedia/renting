@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
+use App\Models\Back\Catalog\Product\ProductAction;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
@@ -74,8 +75,9 @@ class ProductController extends Controller
         $product = new Product();
 
         $data = $product->getRelationsData();
+        $active_actions = ProductAction::active()->get();
 
-        return view('back.catalog.product.edit', compact('data'));
+        return view('back.catalog.product.edit', compact('data', 'active_actions'));
     }
 
 

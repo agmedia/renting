@@ -121,7 +121,7 @@ class AgService {
     formatPrice(price) {
         return Number(price).toLocaleString('hr-HR', {
             style: 'currency',
-            currencyDisplay: 'narrowSymbol',
+            //currencyDisplay: 'narrowSymbol',
             currency: 'HRK'
         });
     }

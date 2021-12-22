@@ -97,6 +97,22 @@
                                 </div>
                             </div>
 
+{{--                            @if( ! isset($product) && $active_actions->count())--}}
+{{--                                <div class="alert alert-secondary d-flex align-items-center justify-content-between" role="alert">--}}
+{{--                                    <div class="flex-fill mr-3">--}}
+{{--                                        <p class="mb-0">Upozorenje..! Postoje aktivne akcije u trgovini!</p>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="flex-00-auto">--}}
+{{--                                        <select class="js-select2 form-control" id="action-select" style="width: 100%;" data-placeholder="Odaberite akciju...">--}}
+{{--                                            <option></option>--}}
+{{--                                            @foreach ($active_actions as $action)--}}
+{{--                                                <option value="{{ $action->id }}">{{ $action->title }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-3">
                                     <label for="special-input">Akcija</label>
@@ -280,13 +296,13 @@
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
-                        @if (isset($product))
-                            <div class="col-md-5 text-right">
+                        <div class="col-md-5 text-right">
+                            @if (isset($product))
                                 <a href="{{ route('products.destroy', ['product' => $product]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-product-form{{ $product->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -325,6 +341,10 @@
 
             $('#category-select').select2({});
             $('#tax-select').select2({});
+            $('#action-select').select2({
+                placeholder: 'Odaberite...',
+                minimumResultsForSearch: Infinity
+            });
             $('#author-select').select2({
                 tags: true
             });
