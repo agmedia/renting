@@ -134,6 +134,19 @@ class AgService {
      * @param items
      * @return {string}
      */
+    getDiscountAmount(price, special) {
+        let discount = ((price - special) / price) * 100;
+
+        return parseInt(discount);
+    }
+
+    /**
+     * Calculate tax on items.
+     * Item can be number or object.
+     *
+     * @param items
+     * @return {string}
+     */
     calculateItemsTax(items) {
         let tax = 0;
 
