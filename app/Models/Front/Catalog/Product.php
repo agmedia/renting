@@ -308,7 +308,9 @@ class Product extends Model
      */
     public function filter(Request $request, Collection $ids = null): Builder
     {
-        $query = (new Product())->newQuery();
+        $query = $this->newQuery();
+
+        $query->active()->hasStock();
 
         if ($ids && $ids->count() && ! \request()->has('pojam')) {
             $query->whereIn('id', $ids->unique());
@@ -395,8 +397,6 @@ class Product extends Model
             });
         }
 
-        $query->active()->hasStock();
-
         if ($request->has('sort')) {
             $sort = $request->input('sort');
 
@@ -405,12 +405,10 @@ class Product extends Model
             }
 
             if ($sort == 'price_up') {
-                Log::info('price_up entered');
-                $query->orderBy('price', 'asc');
+                $query->orderBy('price');
             }
 
             if ($sort == 'price_down') {
-                Log::info('price_down entered');
                 $query->orderBy('price', 'desc');
             }
 

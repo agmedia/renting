@@ -16,6 +16,7 @@ use App\Http\Controllers\Back\Settings\App\PaymentController;
 use App\Http\Controllers\Back\Settings\App\ShippingController;
 use App\Http\Controllers\Back\Settings\App\TaxController;
 use App\Http\Controllers\Back\Settings\FaqController;
+use App\Http\Controllers\Back\Settings\HistoryController;
 use App\Http\Controllers\Back\Settings\PageController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
 use App\Http\Controllers\Back\Settings\SettingsController;
@@ -178,6 +179,10 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
             Route::get('payments', [PaymentController::class, 'index'])->name('payments');
             Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
         });
+
+        // HISTORY
+        Route::get('history', [HistoryController::class, 'index'])->name('history');
+        Route::get('history/log/{history}', [HistoryController::class, 'show'])->name('history.show');
     });
 
     // SETTINGS
@@ -302,6 +307,9 @@ Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catal
 //
 Route::get('cache/image', [HomeController::class, 'imageCache']);
 Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
+
+Route::redirect('/sitemap.xml', '/sitemap');
+Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
 /*
  * Groups, Categories and Products routes resolver.
  * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/

@@ -116,6 +116,8 @@ class ProductController extends Controller
     {
         $data = $product->getRelationsData();
 
+        //dd($data['categories'], $product->subcategories()->get(), $product->subcategory()->id);
+
         return view('back.catalog.product.edit', compact('product', 'data'));
     }
 
@@ -130,11 +132,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        //dd($request);
         $updated = $product->validateRequest($request)->edit();
 
         if ($updated) {
             $product->checkSettings()
                     ->storeImages($updated);
+
+            $product->addHistoryData('change');
 
             return redirect()->route('products.edit', ['product' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
         }

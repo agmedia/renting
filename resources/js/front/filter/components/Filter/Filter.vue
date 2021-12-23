@@ -221,10 +221,12 @@
              **/
             setQueryParam(type, value) {
                 if (value.length > 3 && value.length < 5) {
+                    this.closeWindow();
                     this.$router.push({query: this.resolveQuery()}).catch(()=>{});
                 }
 
                 if (value == '') {
+                    this.closeWindow();
                     this.$router.push({query: this.resolveQuery()}).catch(()=>{});
                 }
             },
@@ -233,6 +235,7 @@
              *
              **/
             setQueryParamOther(type, value) {
+                this.closeWindow();
                 this.$router.push({query: this.resolveQuery()}).catch(()=>{});
 
                 if (value == '') {

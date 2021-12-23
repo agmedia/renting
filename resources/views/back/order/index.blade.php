@@ -20,7 +20,7 @@
     <!-- Page Content -->
     <div class="content">
     @include('back.layouts.partials.session')
-        <!-- All Orders -->
+    <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Lista narudžbi <small class="font-weight-light">{{ $orders->total() }}</small></h3>
@@ -76,7 +76,7 @@
                             <th class="text-center" style="width: 30px;">
                                 <div class="form-group">
                                     <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
+                                        <input class="form-check-input" type="checkbox" value="" id="checkAll" name="status">
                                     </div>
                                 </div>
                             </th>
@@ -213,10 +213,10 @@
             location.href = url;
         }
     </script>
-<script>
-    $("#checkAll").click(function () {
-        $('input:checkbox').not(this).prop('checked', this.checked);
-    });
-</script>
+    <script>
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>
 
 @endpush

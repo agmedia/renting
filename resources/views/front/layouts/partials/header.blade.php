@@ -27,7 +27,7 @@
                     <li class="nav-item  d-none d-lg-block"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'knjige']) }}"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a></li>
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Knjige</a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown"><a class="nav-link dropdown-item " href="https://www.antikvarijat-biblos.hr/knjige">Sve knjige</a></li>
+                            <li class="dropdown"><a class="nav-link dropdown-item " href="{{ route('catalog.route', ['group' => 'knjige']) }}">Sve knjige</a></li>
                             @foreach($knjige as $navitem)
                             <li class="dropdown"><a class="nav-link dropdown-item " href="{{ url(\Illuminate\Support\Str::slug($navitem->group) . '/' . $navitem->slug) }}">{{ $navitem->title}}</a></li>
                             @endforeach
@@ -36,7 +36,7 @@
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}"><i class="ci-map d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Zemljovidi i vedute</a></li>
                     <li class="nav-item d-inloine-block d-lg-none"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="ci-book d-none d-xl-inline-block align-middle mt-n1 me-1"></i>Zemljovidi i vedute</a>
                         <ul class="dropdown-menu">
-                            <li class="dropdown"><a class="nav-link dropdown-item " href="https://www.antikvarijat-biblos.hr/zemljovidi-i-vedute">Svi zemljovidi i vedute</a></li>
+                            <li class="dropdown"><a class="nav-link dropdown-item " href="{{ route('catalog.route', ['group' => 'zemljovidi-i-vedute']) }}">Svi zemljovidi i vedute</a></li>
                             @foreach($zemljovidi_vedute as $nav_item)
                                 <li class="dropdown"><a class="nav-link dropdown-item " href="{{ url(\Illuminate\Support\Str::slug($nav_item->group) . '/' . $nav_item->slug) }}">{{ $nav_item->title}}</a></li>
                             @endforeach

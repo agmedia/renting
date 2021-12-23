@@ -145,6 +145,9 @@
                                             <span class="badge badge-secondary">{{ $cat->title }}</span>
                                         @endforeach
                                     @endif
+                                    @if ($product->subcategory())
+                                        <span class="badge badge-secondary">{{ $product->subcategory()->title }}</span>
+                                    @endif
                                 </td>
                                 <td class="font-size-sm">{{ $product->sku }}</td>
                                 <td class="font-size-sm text-right">

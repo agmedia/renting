@@ -344,4 +344,19 @@ class Helper
         return $blogs;
     }
 
+
+    /**
+     * @param string $tag
+     *
+     * @return \Illuminate\Cache\TaggedCache|mixed|object
+     */
+    public static function resolveCache(string $tag): ?object
+    {
+        if (env('APP_ENV') == 'local') {
+            return Cache::getFacadeRoot();
+        }
+
+        return Cache::tags([$tag]);
+    }
+
 }

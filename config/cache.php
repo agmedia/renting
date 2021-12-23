@@ -18,7 +18,8 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    //'default' => env('CACHE_DRIVER', 'file'),
+    'default' => env((env('APP_ENV') == 'production' ? 'CACHE_DRIVER' : 'file'), 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +107,7 @@ return [
     *                              email: filip@agmedia.hr                         *
     *******************************************************************************/
 
-    'widget_life' => 60,
-    'page_life' => 60,
-    'life' => 2592000
+    'widget_life' => 86400, // 1 day
+    'page_life' => 86400,
+    'life' => 2592000, //30 Days
 ];

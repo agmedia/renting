@@ -189,6 +189,11 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['history', 'history.*']) ? ' active' : '' }}" href="{{ route('history') }}">
+                                <span class="nav-main-link-name">History log</span>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>

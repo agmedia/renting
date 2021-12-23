@@ -150,8 +150,6 @@
                 this.products_loaded = false;
                 let params = this.setParams();
 
-                console.log(params)
-
                 axios.post('filter/getProducts', { params }).then(response => {
                     this.products_loaded = true;
                     this.products = response.data;
@@ -172,6 +170,7 @@
              * @param page
              */
             getProductsPage(page = 1) {
+                this.products_loaded = false;
                 this.page = page;
                 this.setQueryParam('page', page);
 
@@ -179,6 +178,7 @@
                 window.scrollTo({top: 0, behavior: 'smooth'});
 
                 axios.post('filter/getProducts?page=' + page, { params }).then(response => {
+                    this.products_loaded = true;
                     this.products = response.data;
                     this.checkHrTotal();
                 });
@@ -190,6 +190,7 @@
              * @param value
              */
             setQueryParam(type, value) {
+                this.closeFilter();
                 this.$router.push({query: this.resolveQuery()}).catch(()=>{});
 
                 if (value == '' || value == 1) {
@@ -286,6 +287,13 @@
                     id: id,
                     quantity: 1
                 })
+            },
+
+            /**
+             *
+             */
+            closeFilter() {
+                $('#shop-sidebar').removeClass('collapse show');
             }
         }
     };

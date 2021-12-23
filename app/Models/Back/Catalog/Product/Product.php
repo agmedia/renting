@@ -40,6 +40,11 @@ class Product extends Model
      */
     protected $request;
 
+    /**
+     * @var null
+     */
+    protected $old_product = null;
+
 
     /**
      * @return Relation
@@ -65,7 +70,7 @@ class Product extends Model
     public function category()
     {
         return $this->hasOneThrough(Category::class, ProductCategory::class, 'product_id', 'id', 'id', 'category_id')
-                    ->where('parent_id', 0)
+                    ->where('parent_id', '=', 0)
                     ->first();
     }
 
@@ -161,8 +166,6 @@ class Product extends Model
     public function create()
     {
         $slug = $this->resolveSlug();
-        /*$author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();*/
 
         $id = $this->insertGetId([
             'author_id'        => $this->request->author_id ?: 6,
@@ -220,9 +223,9 @@ class Product extends Model
      */
     public function edit()
     {
+        $this->old_product = $this->setHistoryProduct();
+
         $slug = $this->resolveSlug('update');
-        /*$author = $this->resolveAuthor();
-        $publisher = $this->resolvePublisher();*/
 
         $updated = $this->update([
             'author_id'        => $this->request->author_id ?: 6,
@@ -310,6 +313,22 @@ class Product extends Model
 
 
     /**
+     * @param string  $type
+     * @param Product $product
+     *
+     * @return false
+     */
+    public function addHistoryData(string $type)
+    {
+        $new = $this->setHistoryProduct();
+
+        $history = new ProductHistory($new, $this->old_product);
+
+        return $history->addData($type);
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return Builder
@@ -393,6 +412,19 @@ class Product extends Model
     }
 
 
+    private function setHistoryProduct()
+    {
+        $product = $this->where('id', $this->id)->first();
+
+        $response = $product->toArray();
+        $response['category'] = $product->category()->toArray();
+        $response['subcategory'] = $product->subcategory() ? $product->subcategory()->toArray() : [];
+        $response['images'] = $product->images()->get()->toArray();
+
+        return $response;
+    }
+
+
     /**
      * @param null $description
      *
@@ -414,7 +446,7 @@ class Product extends Model
     private function resolveCategories(int $product_id)
     {
         if ($this->request->category) {
-            return ProductCategory::storeData($this->request->category, $product_id);
+            return ProductCategory::storeData(intval($this->request->category), $product_id);
         }
 
         return false;
