@@ -147,8 +147,8 @@ class Order extends Model
                 'shipping_email'   => $this->order['address']['email'],
                 'shipping_method'  => $this->order['shipping']->title,
                 'shipping_code'    => $this->order['shipping']->code,
-                'company'          => '',
-                'oib'              => '',
+                'company'          => $this->order['address']['company'],
+                'oib'              => $this->order['address']['oib'],
                 'created_at'       => Carbon::now(),
                 'updated_at'       => Carbon::now()
             ]);
@@ -208,8 +208,8 @@ class Order extends Model
             'shipping_email'   => $this->order['address']['email'],
             'shipping_method'  => $this->order['shipping']->title,
             'shipping_code'    => $this->order['shipping']->code,
-            'company'          => '',
-            'oib'              => '',
+            'company'          => $this->order['address']['company'],
+            'oib'              => $this->order['address']['oib'],
             'updated_at'       => Carbon::now()
         ]);
 
