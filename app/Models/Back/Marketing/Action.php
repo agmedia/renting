@@ -200,28 +200,35 @@ class Action extends Model
     private function updateProducts($ids, int $id, $start, $end): void
     {
         $query    = [];
-
+        Log::info('0');
         if ($ids == 'all') {
             $products = Product::all()->pluck('price', 'id');
         } else {
             $products = Product::whereIn('id', $ids)->pluck('price', 'id');
         }
-
+        Log::info('1');
         foreach ($products as $k_id => $price) {
             $query[] = [
                 'product_id' => $k_id,
                 'special'    => Helper::calculateDiscountPrice($price, $this->request->discount)
             ];
         }
-
+        Log::info('2');
         $start = $start ?: 'null';
         $end = $end ?: 'null';
 
+        Log::info('3');
+
         DB::table('temp_table')->truncate();
 
-        foreach (array_chunk($query,1000) as $chunk) {
+        Log::info('4');
+
+        foreach (array_chunk($query,500) as $chunk) {
             DB::table('temp_table')->insert($chunk);
         }
+
+
+
 
 
         DB::select(DB::raw("UPDATE products p INNER JOIN temp_table tt ON p.id = tt.product_id SET p.special = tt.special, p.action_id = " . $id . ", p.special_from = '" . $start . "', p.special_to = '" . $end . "';"));
