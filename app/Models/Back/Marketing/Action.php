@@ -204,7 +204,7 @@ class Action extends Model
         Log::info($ids);
         if ($ids == 'all') {
             Log::info('0.1');
-            $products = Product::all()->pluck('price', 'id');
+            $products = Product::pluck('price', 'id');
             Log::info('0.2');
         } else {
             $products = Product::whereIn('id', $ids)->pluck('price', 'id');
