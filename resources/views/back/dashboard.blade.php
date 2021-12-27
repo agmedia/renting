@@ -223,7 +223,7 @@
                     intersect: false,
                     callbacks: {
                         label: function(tooltipItems, data) {
-                            return ' $' + tooltipItems.yLabel;
+                            return  tooltipItems.yLabel + 'kn';
                         }
                     }
                 }
@@ -234,7 +234,7 @@
                 labels: this_year.names,
                 datasets: [
                     {
-                        label: 'This Year',
+                        label: 'Ova godina',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .5)',
                         borderColor: 'transparent',
@@ -245,7 +245,7 @@
                         data: this_year.values
                     },
                     {
-                        label: 'Last Year',
+                        label: 'Zadnja godina',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .2)',
                         borderColor: 'transparent',

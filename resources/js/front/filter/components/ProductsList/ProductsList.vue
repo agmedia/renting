@@ -45,7 +45,7 @@
                             <div class="fs-sm me-2"><i class="ci-book text-muted" style="font-size: 11px;"></i> <span v-html="product.category_string"></span></div>
                         </div>
 
-                        <div class="d-flex flex-wrap justify-content-between align-items-center mt-2">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center price-box mt-2">
                             <div class="bg-faded-accent text-accent fs-sm rounded-1 py-1 px-2" v-if="product.special" style="text-decoration: line-through;">{{ $store.state.service.formatPrice(product.price) }}</div>
                             <div class="bg-faded-accent text-accent rounded-1 py-1 px-2" v-if="product.special">{{ $store.state.service.formatPrice(product.special) }}</div>
                             <div class="fs-sm rounded-1 py-1 px-2" v-if="!product.special"></div>
