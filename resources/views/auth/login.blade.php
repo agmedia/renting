@@ -3,6 +3,13 @@
 @section('content')
 
     <div class="row no-gutters justify-content-center bg-body-dark bckimagelogin">
+
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <div class="hero-static col-sm-10 col-md-8 col-xl-6 d-flex align-items-center p-2 px-sm-0">
             <!-- Sign In Block -->
             <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/img/lightslider.webp') }});">
@@ -36,7 +43,6 @@
                                     </button>
                                 </div>
                             </form>
-
                             <div class="mb-2 text-center">
                                 @if (Route::has('password.request'))
                                     <a class="link-fx font-size-sm" href="{{ route('password.request') }}">
@@ -44,18 +50,11 @@
                                     </a>
                                 @endif
                             </div>
-
-
                             <div class="mb-2 text-center">
-
-                                    <a class="link-fx font-size-sm" href="{{ route('register') }}">
-                                        {{ __('Nemate račun? Registrirajte se') }}
-                                    </a>
-
+                                <a class="link-fx font-size-sm" href="{{ route('register') }}">
+                                    {{ __('Nemate račun? Registrirajte se') }}
+                                </a>
                             </div>
-
-
-
                         </div>
                     </div>
                     <div class="col-md-6 order-md-0 bg-primary-dark-op d-flex align-items-center">
