@@ -255,18 +255,26 @@ class FilterController extends Controller
             $cache_string .= '&sort=' . $params['sort'];
         }
 
+        $request_data['page'] = $request->input('page');
+
         $request = new Request($request_data);
+
+        Log::info($request->input('page'));
 
         if (isset($params['ids']) && $params['ids'] != '') {
             $products = (new Product())->filter($request)
                                        ->with('author')
                                        ->paginate(config('settings.pagination.front'));
         } else {
-            $products = Helper::resolveCache('products')->remember($cache_string, config('cache.life'), function () use ($request) {
+            /*$products = Helper::resolveCache('products')->remember($cache_string, config('cache.life'), function () use ($request) {
                  return (new Product())->filter($request)
                                        ->with('author')
+                                       ->paginate(config('settings.pagination.front'), ['*'], 'page', $request->input('page'));
+            });*/
+
+            $products = (new Product())->filter($request)
+                                       ->with('author')
                                        ->paginate(config('settings.pagination.front'));
-            });
         }
 
 
