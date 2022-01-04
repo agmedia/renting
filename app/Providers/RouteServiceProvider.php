@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    // protected $namespace = 'App\\Http\\Controllers';
+    /// protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -59,6 +60,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function removeIndexPHPFromURL()
     {
+        if ( ! Str::contains(request()->fullUrl(), 'https://www.')) {
+            $url = str_replace('https://', 'https://www.', request()->fullUrl());
+
+            if (strlen($url) > 0) {
+                header("Location: $url", true, 301);
+                exit;
+            }
+        }
+
         if (Str::contains(request()->getRequestUri(), '/index.php/')) {
             $url = str_replace('index.php/', '', request()->getRequestUri());
 
