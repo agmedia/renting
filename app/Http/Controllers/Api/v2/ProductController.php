@@ -23,7 +23,8 @@ class ProductController extends Controller
         $query = (new Product())->newQuery();
 
         if ($request->has('query')) {
-            $query->where('name', 'like', '%' . $request->input('query') . '%');
+            $query->where('name', 'like', '%' . $request->input('query') . '%')
+                  ->orWhere('sku', 'like', '%' . $request->input('query'));
         }
 
         $products = $query->get();

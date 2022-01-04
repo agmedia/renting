@@ -151,10 +151,8 @@ class AgService {
         let tax = 0;
 
         if (isNaN(items)) {
-            console.log(items)
             for (const key in items) {
                 tax += items[key].price - (items[key].price / (Number(items[key].attributes.tax.rate) / 100 + 1));
-                console.log(tax)
             }
         } else {
             tax = items - (items / 1.25);
