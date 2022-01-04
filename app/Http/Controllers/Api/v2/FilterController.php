@@ -259,8 +259,6 @@ class FilterController extends Controller
 
         $request = new Request($request_data);
 
-        Log::info($request->input('page'));
-
         if (isset($params['ids']) && $params['ids'] != '') {
             $products = (new Product())->filter($request)
                                        ->with('author')
@@ -276,8 +274,6 @@ class FilterController extends Controller
                                        ->with('author')
                                        ->paginate(config('settings.pagination.front'));
         }
-
-
 
         return response()->json($products);
     }
