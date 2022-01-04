@@ -7,7 +7,7 @@
                 <div class="panel-footer" v-if="results.length">
                     <ul class="list-group agm">
                         <li class="list-group-item" v-for="result in results" @click="select(result)">
-                            {{ result.name }}
+                            {{ result.name }} -  {{ result.sku }}
                         </li>
                     </ul>
                 </div>
