@@ -35,7 +35,7 @@
     <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css' }}">
+    <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css?v=1.2' }}">
 
     @if (config('app.env') == 'production')
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -115,15 +115,15 @@
 <!-- Back To Top Button-->
 <a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
 <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-<link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/tiny-slider.css' }}"/>
+<link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/tiny-slider.css?v=1.2' }}"/>
 <!-- Vendor scrits: js libraries and plugins-->
-<script src="{{ asset('js/jquery/jquery-2.1.1.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/tiny-slider.js') }}"></script>
-<script src="{{ asset('js/smooth-scroll.polyfills.min.js') }}"></script>
+<script src="{{ asset('js/jquery/jquery-2.1.1.min.js?v=1.2') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js?v=1.2') }}"></script>
+<script src="{{ asset('js/tiny-slider.js?v=1.2') }}"></script>
+<script src="{{ asset('js/smooth-scroll.polyfills.min.js?v=1.2') }}"></script>
 <!-- Main theme script-->
-<script src="{{ asset('js/theme.min.js') }}"></script>
-<script src="{{ asset('js/cart.js') }}"></script>
+<script src="{{ asset('js/theme.min.js?v=1.2') }}"></script>
+<script src="{{ asset('js/cart.js?v=1.2') }}"></script>
 
 <script>
     $(() => {
