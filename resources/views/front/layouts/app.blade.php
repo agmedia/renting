@@ -122,7 +122,7 @@
 <script src="{{ asset('js/tiny-slider.js?v=1.2') }}"></script>
 <script src="{{ asset('js/smooth-scroll.polyfills.min.js?v=1.2') }}"></script>
 <!-- Main theme script-->
-<script src="{{ asset('js/theme.min.js?v=1.2') }}"></script>
+<script src="{{ asset('js/theme.min.js') }}"></script>
 <script src="{{ asset('js/cart.js?v=1.2') }}"></script>
 
 <script>
