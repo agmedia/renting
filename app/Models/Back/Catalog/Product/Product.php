@@ -464,17 +464,31 @@ class Product extends Model
             $this->request = $request;
         }
 
+        Log::info($target);
+        Log::info($this->request);
+
         $slug = $this->request->slug ?: Str::slug($this->request->name);
 
         $exist = $this->where('slug', $slug)->count();
 
+        Log::info($exist);
+
         if ($exist > 1 && $target == 'update') {
+            Log::info('update');
+            Log::info($slug . '-' . time());
+
             return $slug . '-' . time();
         }
 
         if ($exist && $target == 'insert') {
+            Log::info('insert');
+            Log::info($slug . '-' . time());
+
             return $slug . '-' . time();
         }
+
+        Log::info('normal');
+        Log::info($slug);
 
         return $slug;
     }
