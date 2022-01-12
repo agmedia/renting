@@ -460,14 +460,24 @@ class Product extends Model
      */
     private function resolveSlug(string $target = 'insert', Request $request = null): string
     {
+        $slug = null;
+
         if ($request) {
             $this->request = $request;
         }
 
         Log::info($target);
-        Log::info($this->request);
 
-        $slug = $this->request->slug ?: Str::slug($this->request->name);
+        if ($target == 'update') {
+            Log::info($this->id);
+            $product = Product::where('id', $this->id)->first();
+
+            if ($product) {
+                $slug = $product->slug;
+            }
+        }
+
+        $slug = $slug ?: Str::slug($this->request->name);
 
         $exist = $this->where('slug', $slug)->count();
 
