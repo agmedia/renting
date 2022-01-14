@@ -316,6 +316,10 @@ class Order extends Model
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        \App\Models\Back\Orders\Order::where('id', $order_id)->update([
+            'total' => $this->order['cart']['total']
+        ]);
     }
 
 
