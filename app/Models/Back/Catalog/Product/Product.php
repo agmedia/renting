@@ -417,7 +417,7 @@ class Product extends Model
         $product = $this->where('id', $this->id)->first();
 
         $response = $product->toArray();
-        $response['category'] = $product->category()->toArray();
+        $response['category'] = $product->category() ? $product->category()->toArray() : [];
         $response['subcategory'] = $product->subcategory() ? $product->subcategory()->toArray() : [];
         $response['images'] = $product->images()->get()->toArray();
 
