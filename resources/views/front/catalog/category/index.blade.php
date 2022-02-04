@@ -13,8 +13,13 @@
 @endif
 
 @if (isset($author) && $author)
-    @section ( 'title',  $author->title . ' - Antikvarijat Biblos' )
-@section ( 'description', $author->meta_description )
+    @section ('title',  $seo['title'])
+@section ('description', $seo['description'])
+@endif
+
+@if (isset($publisher) && $publisher)
+    @section ('title',  $seo['title'])
+@section ('description', $seo['description'])
 @endif
 
 

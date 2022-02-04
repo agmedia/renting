@@ -12,6 +12,7 @@ use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use App\Models\Seo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -47,7 +48,9 @@ class CatalogRouteController extends Controller
 
         // Check if there is Product set.
         if ($prod) {
-            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat'));
+            $seo = Seo::getProductData($prod);
+
+            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo'));
         }
 
         // If only group...
@@ -152,7 +155,9 @@ class CatalogRouteController extends Controller
             $subcat->count = $subcat->products()->count();
         }
 
-        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat'));
+        $seo = Seo::getAuthorData($author);
+
+        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat', 'seo'));
     }
 
 
@@ -199,7 +204,9 @@ class CatalogRouteController extends Controller
             $subcat->count = $subcat->products()->count();
         }
 
-        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat'));
+        $seo = Seo::getPublisherData($publisher);
+
+        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat', 'seo'));
     }
 
 

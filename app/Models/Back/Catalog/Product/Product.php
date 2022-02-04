@@ -417,7 +417,12 @@ class Product extends Model
         $product = $this->where('id', $this->id)->first();
 
         $response = $product->toArray();
-        $response['category'] = $product->category() ? $product->category()->toArray() : [];
+        $response['category'] = [];
+
+        if ($product->category()) {
+            $response['category'] = $product->category()->toArray();
+        }
+
         $response['subcategory'] = $product->subcategory() ? $product->subcategory()->toArray() : [];
         $response['images'] = $product->images()->get()->toArray();
 
@@ -466,10 +471,7 @@ class Product extends Model
             $this->request = $request;
         }
 
-        Log::info($target);
-
         if ($target == 'update') {
-            Log::info($this->id);
             $product = Product::where('id', $this->id)->first();
 
             if ($product) {
@@ -478,27 +480,15 @@ class Product extends Model
         }
 
         $slug = $slug ?: Str::slug($this->request->name);
-
         $exist = $this->where('slug', $slug)->count();
 
-        Log::info($exist);
-
         if ($exist > 1 && $target == 'update') {
-            Log::info('update');
-            Log::info($slug . '-' . time());
-
             return $slug . '-' . time();
         }
 
         if ($exist && $target == 'insert') {
-            Log::info('insert');
-            Log::info($slug . '-' . time());
-
             return $slug . '-' . time();
         }
-
-        Log::info('normal');
-        Log::info($slug);
 
         return $slug;
     }

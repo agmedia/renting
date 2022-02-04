@@ -1,13 +1,13 @@
 @extends('front.layouts.app')
-@section ( 'title', isset($prod->author->title) ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' )
-@section ( 'description', $prod->meta_description )
+@section ('title', $seo['title'])
+@section ('description', $seo['description'])
 @push('meta_tags')
 
     <link rel="canonical" href="{{ env('APP_URL')}}/{{ $prod->url }}" />
     <meta property="og:locale" content="hr_HR" />
     <meta property="og:type" content="product" />
-    <meta property="og:title" content="{{ $prod->author ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' }}" />
-    <meta property="og:description" content="{{ $prod->meta_description  }}" />
+    <meta property="og:title" content="{{ $seo['title'] }}" />
+    <meta property="og:description" content="{{ $seo['description']  }}" />
     <meta property="og:url" content="{{ env('APP_URL')}}/{{ $prod->url }}"  />
     <meta property="og:site_name" content="Antikvarijat Biblos" />
     <meta property="og:updated_time" content="{{ $prod->updated_at  }}" />
@@ -22,8 +22,8 @@
     <meta property="product:availability" content="instock" />
     <meta property="product:retailer_item_id" content="{{ $prod->sku }}" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ $prod->author ? $prod->author->title.':'.$prod->name. ' - Antikvarijat Biblos' : $prod->name. ' - Antikvarijat Biblos' }}" />
-    <meta name="twitter:description" content="{{ $prod->meta_description  }}" />
+    <meta name="twitter:title" content="{{ $seo['title'] }}" />
+    <meta name="twitter:description" content="{{ $seo['description'] }}" />
     <meta name="twitter:image" content="{{ asset($prod->image) }}" />
 
 @endpush
