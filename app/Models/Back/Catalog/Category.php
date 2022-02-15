@@ -164,8 +164,6 @@ class Category extends Model
             $group  = $topcat->group;
         }
 
-        //dd($parent, $group, $this->request);
-
         $id = $this->insertGetId([
             'parent_id'        => $parent,
             'title'            => $this->request->title,

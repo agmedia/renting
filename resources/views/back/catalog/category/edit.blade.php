@@ -68,7 +68,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="slug-input">SEO link (url)</label>
-                                <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($category) ? $category->slug : old('slug') }}" disabled>
+                                <input type="text" class="form-control" id="slug-input" name="slug" value="{{ isset($category) ? $category->slug : old('slug') }}">
                             </div>
 
                             <div class="form-group">
@@ -121,13 +121,13 @@
                 </div>
                 <div class="block-content bg-body-light">
                     <div class="row justify-content-center push">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i> Snimi
                             </button>
                         </div>
                         @if (isset($category))
-                            <div class="col-md-6 text-right">
+                            <div class="col-md-5 text-right">
                                 <a href="{{ route('category.destroy', ['category' => $category]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-category-form{{ $category->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
