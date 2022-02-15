@@ -116,11 +116,9 @@ class CheckoutController extends Controller
      */
     public function success(Request $request)
     {
-        Log::info($request);
         $data['order'] = CheckoutSession::getOrder();
 
         if ( ! $data['order']) {
-            Log::alert('No order data ::: null');
             return redirect()->route('front.checkout.checkout', ['step' => '']);
         }
 

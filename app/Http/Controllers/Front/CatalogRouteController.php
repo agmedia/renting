@@ -148,14 +148,10 @@ class CatalogRouteController extends Controller
 
         $letter = null;
 
-        if ($cat) {
-            $cat->count = $cat->products()->count();
-        }
-        if ($subcat) {
-            $subcat->count = $subcat->products()->count();
-        }
+        if ($cat) { $cat->count = $cat->products()->count(); }
+        if ($subcat) { $subcat->count = $subcat->products()->count(); }
 
-        $seo = Seo::getAuthorData($author);
+        $seo = Seo::getAuthorData($author, $cat, $subcat);
 
         return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat', 'seo'));
     }
@@ -197,14 +193,10 @@ class CatalogRouteController extends Controller
 
         $letter = null;
 
-        if ($cat) {
-            $cat->count = $cat->products()->count();
-        }
-        if ($subcat) {
-            $subcat->count = $subcat->products()->count();
-        }
+        if ($cat) { $cat->count = $cat->products()->count(); }
+        if ($subcat) { $subcat->count = $subcat->products()->count(); }
 
-        $seo = Seo::getPublisherData($publisher);
+        $seo = Seo::getPublisherData($publisher, $cat, $subcat);
 
         return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat', 'seo'));
     }

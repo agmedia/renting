@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Front\Catalog\Author;
+use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
 
@@ -29,11 +30,25 @@ class Seo
     /**
      * @return array
      */
-    public static function getAuthorData(Author $author): array
+    public static function getAuthorData(Author $author, Category $cat = null, Category $subcat = null): array
     {
+        $title = $author->title . ' knjige - Antikvarijat Biblos';
+        $description = 'Knjige autora ' . $author->title . ' danas su jako popularne u svijetu. Bogati izbor knjiga autora ' . $author->title . ' uz brzu dostavu i sigurnu kupovinu.';
+
+        // Check if there is meta title or description and set vars.
+        if ($cat) {
+            if ($cat->meta_title) { $title = $cat->meta_title; }
+            //if ($cat->meta_description) { $description = $cat->meta_description; }
+        }
+
+        if ($subcat) {
+            if ($subcat->meta_title) { $title = $subcat->meta_title; }
+            //if ($subcat->meta_description) { $description = $subcat->meta_description; }
+        }
+
         return [
-            'title'       => $author->title . ' knjige - Antikvarijat Biblos',
-            'description' => 'Knjige autora ' . $author->title . ' danas su jako popularne u svijetu. Bogati izbor knjiga autora ' . $author->title . ' uz brzu dostavu i sigurnu kupovinu.'
+            'title'       => $title,
+            'description' => $description
         ];
     }
 
@@ -41,11 +56,25 @@ class Seo
     /**
      * @return array
      */
-    public static function getPublisherData(Publisher $publisher): array
+    public static function getPublisherData(Publisher $publisher, Category $cat = null, Category $subcat = null): array
     {
+        $title = $publisher->title . ' knjige - Antikvarijat Biblos';
+        $description = 'Ponuda knjiga nakladnika ' . $publisher->title . '. Knjige iz antikvarijata, naklade ' . $publisher->title . ' mogu biti u vašem domu uz brzu dostavu.';
+
+        // Check if there is meta title or description and set vars.
+        if ($cat) {
+            if ($cat->meta_title) { $title = $cat->meta_title; }
+            //if ($cat->meta_description) { $description = $cat->meta_description; }
+        }
+
+        if ($subcat) {
+            if ($subcat->meta_title) { $title = $subcat->meta_title; }
+            //if ($subcat->meta_description) { $description = $subcat->meta_description; }
+        }
+
         return [
-            'title'       => $publisher->title . ' knjige - Antikvarijat Biblos',
-            'description' => 'Ponuda knjiga nakladnika ' . $publisher->title . '. Knjige iz antikvarijata, naklade ' . $publisher->title . ' mogu biti u vašem domu uz brzu dostavu.'
+            'title'       => $title,
+            'description' => $description
         ];
     }
 

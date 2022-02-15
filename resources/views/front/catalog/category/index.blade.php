@@ -1,25 +1,26 @@
 @extends('front.layouts.app')
+
 @if (isset($group) && $group)
     @if ($group && ! $cat && ! $subcat)
         @section ( 'title',  \Illuminate\Support\Str::ucfirst($group). ' - Antikvarijat Biblos' )
-@endif
-@if ($cat && ! $subcat)
-    @section ( 'title',  $cat->title . ' - Antikvarijat Biblos' )
-@section ( 'description', $cat->meta_description )
-@elseif ($cat && $subcat)
-    @section ( 'title', $subcat->title . ' - Antikvarijat Biblos' )
-@section ( 'description', $cat->meta_description )
-@endif
+    @endif
+    @if ($cat && ! $subcat)
+        @section ( 'title',  $cat->title . ' - Antikvarijat Biblos' )
+        @section ( 'description', $cat->meta_description )
+    @elseif ($cat && $subcat)
+        @section ( 'title', $subcat->title . ' - Antikvarijat Biblos' )
+        @section ( 'description', $cat->meta_description )
+    @endif
 @endif
 
 @if (isset($author) && $author)
     @section ('title',  $seo['title'])
-@section ('description', $seo['description'])
+    @section ('description', $seo['description'])
 @endif
 
 @if (isset($publisher) && $publisher)
     @section ('title',  $seo['title'])
-@section ('description', $seo['description'])
+    @section ('description', $seo['description'])
 @endif
 
 
