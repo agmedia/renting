@@ -9,6 +9,7 @@ use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Order;
+use App\Models\TagManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -145,6 +146,8 @@ class CheckoutController extends Controller
             CheckoutSession::forgetPayment();
             CheckoutSession::forgetShipping();
             $this->shoppingCart()->flush();
+
+            $data['google_tag_manager'] = TagManager::getGoogleDataLayer($order);
 
             return view('front.checkout.success', compact('data'));
         }
