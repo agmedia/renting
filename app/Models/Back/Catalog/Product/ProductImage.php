@@ -295,21 +295,24 @@ class ProductImage extends Model
      *
      * @return Collection
      */
-    public static function getAdminList(int $product_id): Collection
+    public static function getAdminList(int $product_id = null): Collection
     {
         $response = [];
-        $images   = self::where('product_id', $product_id)->orderBy('sort_order')->get();
 
-        foreach ($images as $image) {
-            $response[] = [
-                'id'         => $image->id,
-                'product_id' => $image->product_id,
-                'image'      => $image->image,
-                'title'      => ProductHelper::getCleanImageTitle($image->image),
-                'alt'        => $image->alt,
-                'published'  => $image->published,
-                'sort_order' => $image->sort_order,
-            ];
+        if ($product_id) {
+            $images   = self::where('product_id', $product_id)->orderBy('sort_order')->get();
+
+            foreach ($images as $image) {
+                $response[] = [
+                    'id'         => $image->id,
+                    'product_id' => $image->product_id,
+                    'image'      => $image->image,
+                    'title'      => ProductHelper::getCleanImageTitle($image->image),
+                    'alt'        => $image->alt,
+                    'published'  => $image->published,
+                    'sort_order' => $image->sort_order,
+                ];
+            }
         }
 
         return collect($response);
