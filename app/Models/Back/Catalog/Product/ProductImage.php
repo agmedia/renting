@@ -242,7 +242,7 @@ class ProductImage extends Model
      *
      * @return string
      */
-    private function saveImage($image, $title)
+    private function saveImage($image, $title = null)
     {
         if ( ! $title) {
             $title = $this->resource->name;
