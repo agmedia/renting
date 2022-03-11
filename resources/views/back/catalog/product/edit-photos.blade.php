@@ -48,79 +48,114 @@
             </div>
         </div>
     </div>
+
     <div class="row items-push" id="sortable">
         @if (isset($product))
             @if (! empty($product->image))
-                <div class="col-lg-3 col-md-3 col-sm4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_0' }}">
-                    <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
-                        <div class="ribbon-box" style="background-color: #c3c3c3">
-                            <i class="fa fa-check"></i> Glavna Slika
-                        </div>
-                        <div class="slim"
-                             {{--data-service="{{ route('images.upload') }}"--}}
-                             data-ratio="free"
-{{--                             data-size="600,800"--}}
-                             data-max-file-size="2"
-                             data-meta-type="products"
-                             data-meta-type_id="{{ $product->id }}"
-                             data-will-remove="removeImage"
-                            {{--data-will-request="handleXHRRequest"--}}>
-                            <img src="{{ asset($product->image) }}" alt="{{ 'image_' . $product->id }}"/>
-                            <input type="file" name="slim[0][image]"/>
-                        </div>
-                    </div>
+                <div class="col-sm-12 animated fadeIn mb-0 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_0' }}">
                     <div class="row form-group mt-2">
-                        <div class="col-sm-12">
-                            <label class="css-control css-control-primary css-radio">
-                                <input type="radio" class="css-control-input" name="slim[default]" checked>
-                                Glavna slika<span class="css-control-indicator"></span>
-                            </label>
+                        <div class="col-sm-3">
+                            <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
+                                <div class="ribbon-box" style="background-color: #c3c3c3">
+                                    <i class="fa fa-check"></i> Glavna Slika
+                                </div>
+                                <div class="slim"
+                                     {{--data-service="{{ route('images.upload') }}"--}}
+                                     data-ratio="free"
+                                     {{--                             data-size="600,800"--}}
+                                     data-max-file-size="2"
+                                     data-meta-type="products"
+                                     data-meta-type_id="{{ $product->id }}"
+                                     data-will-remove="removeImage"
+                                        {{--data-will-request="handleXHRRequest"--}}>
+                                    <img src="{{ asset($product->image) }}" alt="{{ 'image_' . $product->id }}"/>
+                                    <input type="file" name="slim[0][image]"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="row mb-2">
+                                <label class="col-sm-3 text-right font-size-sm pt-2">Naziv fotografije</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="max" class="form-control js-tooltip-enabled" name="slim[0][title]" value="{{ $product->imageName() }}" data-toggle="tooltip" data-placement="top" title="Image Title" placeholder="Naziv fotografije">
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 text-right font-size-sm pt-2">Alt. tekst</label>
+                                <div class="col-sm-9 font-size-sm pt-2">
+                                    Alternativni tekst glavne fotografije je jednak nazivu knjige + autor.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <label class="css-control css-control-primary css-radio">
+                                        <input type="radio" class="css-control-input" name="slim[default]" checked>
+                                        Glavna fotografija<span class="css-control-indicator"></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             @endif
 
-            <div class="col-lg-9 col-md-9 col-sm-8">
+            <div class="col-sm-12">
                 <div class="row items-push" id="new-images">
-                    @if (! empty($product->images))
-                        @foreach($product->images as $key => $image)
-                            <div class="col-xl-3 col-lg-4 col-md-4 animated fadeIn mb-5 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_id_' . $image->id }}">
-                                <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
-                                    <div class="slim"
-                                         {{--data-service="{{ route('images.ajax.upload') }}"--}}
-                                         data-ratio="free"
-{{--                                         data-size="600,800"--}}
-                                         data-max-file-size="2"
-                                         data-meta-type="products"
-                                         data-meta-type_id="{{ $product->id }}"
-                                         data-meta-image_id="{{ $image->id }}"
-                                         data-will-remove="removeImage"
-                                    >
-                                        <img src="{{ asset($image->image) }}" alt="{{ 'image_' . $image->id }}"/>
-                                        <input type="file" name="slim[{{ $image->id }}][image]"/>
-                                    </div>
-                                </div>
+                    @if (! empty($data['images']))
+                        @foreach($data['images'] as $image)
+                            <div class="col-sm-12 animated fadeIn mb-0 p-3 ribbon ribbon-left ribbon-bookmark ribbon-crystal" id="{{ 'image_id_' . $image['id'] }}">
                                 <div class="row form-group mt-2">
-                                    <div class="col-sm-3" style="padding-right: 0;">
-                                        <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image->id }}][sort_order]" value="{{ $image->sort_order }}" data-toggle="tooltip" data-placement="top" title="Sort Order">
+                                    <div class="col-md-2 col-sm-3">
+                                        <div class="options-container fx-item-zoom-in fx-overlay-zoom-out">
+                                            <div class="slim"
+                                                 {{--data-service="{{ route('images.ajax.upload') }}"--}}
+                                                 data-ratio="free"
+                                                 {{--                                         data-size="600,800"--}}
+                                                 data-max-file-size="2"
+                                                 data-meta-type="products"
+                                                 data-meta-type_id="{{ $product->id }}"
+                                                 data-meta-image_id="{{ $image['id'] }}"
+                                                 data-will-remove="removeImage"
+                                            >
+                                                <img src="{{ asset($image['image']) }}" alt="{{ 'image_' . $image['id'] }}"/>
+                                                <input type="file" name="slim[{{ $image['id'] }}][image]"/>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-9 text-right">
-
-                                        <div class="custom-control custom-radio mb-1">
-                                            <input type="radio" class="custom-control-input" id="radio-default" name="slim[default]" value="{{ $image->id }}">
-                                            <label class="custom-control-label" for="radio-default">Glavna</label>
+                                    <div class="col-md-10 col-sm-9">
+                                        <div class="row mb-2">
+                                            <label class="col-sm-3 text-right font-size-sm pt-2">Naziv fotografije</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image['id'] }}][title]" value="{{ $image['title'] }}" data-toggle="tooltip" data-placement="top" title="Image Title" placeholder="Naziv fotografije">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label class="col-sm-3 text-right font-size-sm pt-2">Alt. tekst</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image['id'] }}][alt]" value="{{ $image['alt'] }}" data-toggle="tooltip" data-placement="top" title="Image Alt Text" placeholder="Alternativni tekst fotografije">
+                                            </div>
                                         </div>
 
-                                        <div class="custom-control custom-checkbox custom-checkbox-square custom-control-success mb-1">
-                                            <input type="checkbox" class="custom-control-input" id="check-published[{{ $image->id }}]" name="slim[{{ $image->id }}][published]" @if($image->published) checked @endif>
-                                            <label class="custom-control-label" for="check-published[{{ $image->id }}]">Vidljiva</label>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-9 text-right font-size-sm pt-2" >Redosljed</label>
+                                            <div class="col-sm-3">
+                                                <input type="text" class="form-control js-tooltip-enabled" name="slim[{{ $image['id'] }}][sort_order]" value="{{ $image['sort_order'] }}" data-toggle="tooltip" data-placement="top" title="Sort Order">
+                                            </div>
                                         </div>
-
-
-                                     <!--   <label class="css-control css-control-primary css-radio">
-                                            <input type="radio" class="css-control-input" name="slim[default]" value="{{ $image->id }}">
-                                            <span class="mr-4">Default</span> <span class="css-control-indicator"></span>
-                                        </label>-->
+                                        <div class="row">
+                                            <div class="col-md-12 text-right mb-2">
+                                                <div class="custom-control custom-radio mb-1">
+                                                    <input type="radio" class="custom-control-input" id="radio-default" name="slim[default]" value="{{ $image['id'] }}">
+                                                    <label class="custom-control-label" for="radio-default">Glavna fotografija</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 text-right">
+                                                <div class="custom-control custom-checkbox custom-checkbox-square custom-control-success mb-1">
+                                                    <input type="checkbox" class="custom-control-input" id="check-published[{{ $image['id'] }}]" name="slim[{{ $image['id'] }}][published]" @if($image['published']) checked @endif>
+                                                    <label class="custom-control-label" for="check-published[{{ $image['id'] }}]">Vidljivost foto.</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +172,22 @@
 </div>
 
 @push('product_scripts')
+
+    <script>
+        let el = $('#max');
+
+        el.maxlength({
+            alwaysShow: true,
+            threshold: el.data('threshold') || 10,
+            warningClass: el.data('warning-class') || 'badge badge-warning',
+            limitReachedClass: el.data('limit-reached-class') || 'badge badge-danger',
+            placement: el.data('placement') || 'bottom',
+            preText: el.data('pre-text') || '',
+            separator: el.data('separator') || '/',
+            postText: el.data('post-text') || ''
+        });
+    </script>
+
     <script>
         //
         let blocks = "{{ (isset($product) && isset($product->images)) ? count($product->images) : 0 }}";

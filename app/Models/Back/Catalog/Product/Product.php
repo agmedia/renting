@@ -130,6 +130,15 @@ class Product extends Model
     }
 
 
+    public function imageName()
+    {
+        $from   = strrpos($this->image, '/') + 1;
+        $length = strrpos($this->image, '-') - $from;
+
+        return substr($this->image, $from, $length);
+    }
+
+
     /**
      * Validate New Product Request.
      *
@@ -141,9 +150,9 @@ class Product extends Model
     {
         // Validate the request.
         $request->validate([
-            'name'  => 'required',
-            'sku'   => 'required',
-            'price' => 'required',
+            'name'     => 'required',
+            'sku'      => 'required',
+            'price'    => 'required',
             'category' => 'required'
         ]);
 
@@ -280,6 +289,7 @@ class Product extends Model
     {
         return [
             'categories' => (new Category())->getList(false),
+            'images'     => ProductImage::getAdminList($this->id),
             'letters'    => Settings::get('product', 'letter_styles'),
             'conditions' => Settings::get('product', 'condition_styles'),
             'bindings'   => Settings::get('product', 'binding_styles'),
@@ -412,11 +422,14 @@ class Product extends Model
     }
 
 
+    /**
+     * @return mixed
+     */
     private function setHistoryProduct()
     {
         $product = $this->where('id', $this->id)->first();
 
-        $response = $product->toArray();
+        $response             = $product->toArray();
         $response['category'] = [];
 
         if ($product->category()) {
@@ -424,7 +437,7 @@ class Product extends Model
         }
 
         $response['subcategory'] = $product->subcategory() ? $product->subcategory()->toArray() : [];
-        $response['images'] = $product->images()->get()->toArray();
+        $response['images']      = $product->images()->get()->toArray();
 
         return $response;
     }
@@ -479,7 +492,7 @@ class Product extends Model
             }
         }
 
-        $slug = $slug ?: Str::slug($this->request->name);
+        $slug  = $slug ?: Str::slug($this->request->name);
         $exist = $this->where('slug', $slug)->count();
 
         if ($exist > 1 && $target == 'update') {

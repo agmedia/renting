@@ -93,4 +93,43 @@ class ProductHelper
 
         return $query;
     }
+
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function getCleanImageTitle(string $path): string
+    {
+        $from   = strrpos($path, '/') + 1;
+        $length = strrpos($path, '-') - $from;
+
+        return substr($path, $from, $length);
+    }
+
+
+    /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function getFullImageTitle(string $path): string
+    {
+        $from   = strrpos($path, '/') + 1;
+        $length = strrpos($path, '.') - $from;
+
+        return substr($path, $from, $length);
+    }
+
+
+    /**
+     * @param string $title
+     *
+     * @return string
+     */
+    public static function setFullImageTitle(string $title): string
+    {
+        return $title . '-' . Str::random(4);
+    }
 }

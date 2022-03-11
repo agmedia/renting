@@ -2,8 +2,10 @@
 
 namespace App\Models\Back\Catalog\Product;
 
+use App\Helpers\ProductHelper;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -37,8 +39,10 @@ class ProductImage extends Model
     public function store($resource, $request)
     {
         $this->resource = $resource;
-        $existing = isset($request['slim']) ? $request['slim'] : null;
-        $new      = isset($request['files']) ? $request['files'] : null;
+        $existing       = isset($request['slim']) ? $request['slim'] : null;
+        $new            = isset($request['files']) ? $request['files'] : null;
+
+        //dd($request, $resource, $existing, $new);
 
         // Ako ima novih slika
         if ($new) {
@@ -69,22 +73,29 @@ class ProductImage extends Model
             }
 
             foreach ($existing as $key => $image) {
-
-                if (isset($image['image'])) {
+                if (isset($image['image']) && $image['image']) {
                     $data = json_decode($image['image']);
 
                     if ($data) {
-                        $this->replace($key, $data->output);
+                        $this->replace($key, $data->output, $image['title']);
                     }
+                }
 
-                    if ($key) {
-                        $published = (isset($image['published']) && $image['published'] == 'on') ? 1 : 0;
+                if ( ! $key) {
+                    $this->saveMainTitle($image['title']);
+                    // zamjeni title na glavnoj
+                }
 
-                        $this->where('id', $key)->update([
-                            'sort_order' => $image['sort_order'],
-                            'published' => $published
-                        ]);
-                    }
+                if ($key && $key != 'default') {
+                    $published = (isset($image['published']) && $image['published'] == 'on') ? 1 : 0;
+
+                    $this->where('id', $key)->update([
+                        'alt'        => $image['alt'],
+                        'sort_order' => $image['sort_order'],
+                        'published'  => $published
+                    ]);
+
+                    $this->saveTitle($key, $image['title']);
                 }
             }
         }
@@ -99,7 +110,7 @@ class ProductImage extends Model
      *
      * @return mixed
      */
-    public function replace($id, $new)
+    public function replace($id, $new, $title)
     {
         // Nađi staru sliku i izdvoji path
         $old  = $id ? $this->where('id', $id)->first() : $this->resource;
@@ -107,7 +118,7 @@ class ProductImage extends Model
         // Obriši staru sliku
         Storage::disk('products')->delete($path);
 
-        $path = $this->saveImage($new->image);
+        $path = $this->saveImage($new->image, $title);
 
         // Ako nije glavna slika updejtaj path na product_images DB
         if ($id) {
@@ -173,15 +184,72 @@ class ProductImage extends Model
     }
 
 
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @param string $title
+     */
+    private function saveMainTitle(string $title)
+    {
+        $existing_clean = ProductHelper::getCleanImageTitle($this->resource->image);
+
+        if ($existing_clean != $title) {
+            $path          = $this->resource->id . '/';
+            $existing_full = ProductHelper::getFullImageTitle($this->resource->image);
+            $new_full      = ProductHelper::setFullImageTitle($title);
+
+            Storage::disk('products')->move($path . $existing_full . '.jpg', $path . $new_full . '.jpg');
+            Storage::disk('products')->move($path . $existing_full . '.webp', $path . $new_full . '.webp');
+            Storage::disk('products')->move($path . $existing_full . '-thumb.webp', $path . $new_full . '-thumb.webp');
+
+            Product::where('id', $this->resource->id)->update([
+                'image' => config('filesystems.disks.products.url') . $path . $new_full . '.jpg'
+            ]);
+        }
+    }
+
+
+    /**
+     * @param int    $id
+     * @param string $title
+     */
+    private function saveTitle(int $id, string $title)
+    {
+        $resource = $this->where('id', $id)->first();
+        $existing_clean = ProductHelper::getCleanImageTitle($resource->image);
+
+        if ($existing_clean != $title) {
+            $path          = $this->resource->id . '/';
+            $existing_full = ProductHelper::getFullImageTitle($resource->image);
+            $new_full      = ProductHelper::setFullImageTitle($title);
+
+            Storage::disk('products')->move($path . $existing_full . '.jpg', $path . $new_full . '.jpg');
+            Storage::disk('products')->move($path . $existing_full . '.webp', $path . $new_full . '.webp');
+            Storage::disk('products')->move($path . $existing_full . '-thumb.webp', $path . $new_full . '-thumb.webp');
+
+            $this->where('id', $id)->update([
+                'image' => config('filesystems.disks.products.url') . $path . $new_full . '.jpg'
+            ]);
+        }
+    }
+
+
     /**
      * @param $image
      *
      * @return string
      */
-    private function saveImage($image)
+    private function saveImage($image, $title)
     {
-        $time = Str::random(9);
-        $img = Image::make($this->makeImageFromBase($image));
+        if ( ! $title) {
+            $title = $this->resource->name;
+        }
+
+        $time = Str::random(4);
+        $img  = Image::make($this->makeImageFromBase($image));
         $path = $this->resource->id . '/' . Str::slug($this->resource->name) . '-' . $time . '.';
 
         $path_jpg = $path . 'jpg';
@@ -201,6 +269,50 @@ class ProductImage extends Model
         Storage::disk('products')->put($path_webp_thumb, $img->encode('webp'));
 
         return $path_jpg;
+    }
+
+
+    /**
+     * @param string $base_64_string
+     *
+     * @return false|string
+     */
+    private function makeImageFromBase(string $base_64_string)
+    {
+        $image_parts = explode(";base64,", $base_64_string);
+
+        return base64_decode($image_parts[1]);
+    }
+
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @param int $product_id
+     *
+     * @return Collection
+     */
+    public static function getAdminList(int $product_id): Collection
+    {
+        $response = [];
+        $images   = self::where('product_id', $product_id)->orderBy('sort_order')->get();
+
+        foreach ($images as $image) {
+            $response[] = [
+                'id'         => $image->id,
+                'product_id' => $image->product_id,
+                'image'      => $image->image,
+                'title'      => ProductHelper::getCleanImageTitle($image->image),
+                'alt'        => $image->alt,
+                'published'  => $image->published,
+                'sort_order' => $image->sort_order,
+            ];
+        }
+
+        return collect($response);
     }
 
 
@@ -283,16 +395,4 @@ class ProductImage extends Model
         ]);
     }
 
-
-    /**
-     * @param string $base_64_string
-     *
-     * @return false|string
-     */
-    private function makeImageFromBase(string $base_64_string)
-    {
-        $image_parts = explode(";base64,", $base_64_string);
-
-        return base64_decode($image_parts[1]);
-    }
 }

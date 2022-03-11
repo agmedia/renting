@@ -249,7 +249,7 @@
                 </div>
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
-                        <div class="col-md-12">
+                        <div class="col-md-10">
                             <!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
                             <!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
 <!--                            <div class="dropzone">
@@ -323,6 +323,7 @@
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
     <script src="{{ asset('js/plugins/dropzone/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
     <script src="{{ asset('js/plugins/slim/slim.kickstart.js') }}"></script>
 
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
