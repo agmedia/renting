@@ -83,6 +83,7 @@ class ProductImage extends Model
 
                 if ( ! $key) {
                     $this->saveMainTitle($image['title']);
+                    //$this->saveMainTitle($image['title'], $image['alt']);
                     // zamjeni title na glavnoj
                 }
 
@@ -192,7 +193,7 @@ class ProductImage extends Model
     /**
      * @param string $title
      */
-    private function saveMainTitle(string $title)
+    private function saveMainTitle(string $title/*, string $alt*/)
     {
         $existing_clean = ProductHelper::getCleanImageTitle($this->resource->image);
 
@@ -209,6 +210,10 @@ class ProductImage extends Model
                 'image' => config('filesystems.disks.products.url') . $path . $new_full . '.jpg'
             ]);
         }
+
+        /*Product::where('id', $this->resource->id)->update([
+            'image_alt' => $alt
+        ]);*/
     }
 
 
@@ -219,20 +224,23 @@ class ProductImage extends Model
     private function saveTitle(int $id, string $title)
     {
         $resource = $this->where('id', $id)->first();
-        $existing_clean = ProductHelper::getCleanImageTitle($resource->image);
 
-        if ($existing_clean != $title) {
-            $path          = $this->resource->id . '/';
-            $existing_full = ProductHelper::getFullImageTitle($resource->image);
-            $new_full      = ProductHelper::setFullImageTitle($title);
+        if ($resource && isset($resource->image)) {
+            $existing_clean = ProductHelper::getCleanImageTitle($resource->image);
 
-            Storage::disk('products')->move($path . $existing_full . '.jpg', $path . $new_full . '.jpg');
-            Storage::disk('products')->move($path . $existing_full . '.webp', $path . $new_full . '.webp');
-            Storage::disk('products')->move($path . $existing_full . '-thumb.webp', $path . $new_full . '-thumb.webp');
+            if ($existing_clean != $title) {
+                $path          = $this->resource->id . '/';
+                $existing_full = ProductHelper::getFullImageTitle($resource->image);
+                $new_full      = ProductHelper::setFullImageTitle($title);
 
-            $this->where('id', $id)->update([
-                'image' => config('filesystems.disks.products.url') . $path . $new_full . '.jpg'
-            ]);
+                Storage::disk('products')->move($path . $existing_full . '.jpg', $path . $new_full . '.jpg');
+                Storage::disk('products')->move($path . $existing_full . '.webp', $path . $new_full . '.webp');
+                Storage::disk('products')->move($path . $existing_full . '-thumb.webp', $path . $new_full . '-thumb.webp');
+
+                $this->where('id', $id)->update([
+                    'image' => config('filesystems.disks.products.url') . $path . $new_full . '.jpg'
+                ]);
+            }
         }
     }
 
