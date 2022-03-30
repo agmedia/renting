@@ -398,4 +398,21 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+
+    /**
+     *
+     */
+    public function duplicateImages()
+    {
+        $paths = ProductImage::query()->groupBy('image')->havingRaw('COUNT(id) > 1')->pluck('image', 'id')->toArray();
+
+        foreach ($paths as $path) {
+            $first = ProductImage::where('image', $path)->first();
+
+            ProductImage::where('image', $path)->where('id', '!=', $first->id)->delete();
+        }
+
+        return redirect()->route('dashboard');
+    }
 }
