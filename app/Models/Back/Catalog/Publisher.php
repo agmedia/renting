@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Catalog;
 
+use App\Models\Back\Catalog\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,15 @@ class Publisher extends Model
      * @var Request
      */
     protected $request;
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'publisher_id', 'id');
+    }
 
 
     /**

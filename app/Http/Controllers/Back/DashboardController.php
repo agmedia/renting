@@ -403,16 +403,47 @@ class DashboardController extends Controller
     /**
      *
      */
-    public function duplicateImages()
+    public function duplicate(string $target = null)
     {
-        $paths = ProductImage::query()->groupBy('image')->havingRaw('COUNT(id) > 1')->pluck('image', 'id')->toArray();
+        if ($target === 'images') {
+            $paths = ProductImage::query()->groupBy('image')->havingRaw('COUNT(id) > 1')->pluck('image', 'id')->toArray();
 
-        foreach ($paths as $path) {
-            $first = ProductImage::where('image', $path)->first();
+            foreach ($paths as $path) {
+                $first = ProductImage::where('image', $path)->first();
 
-            ProductImage::where('image', $path)->where('id', '!=', $first->id)->delete();
+                ProductImage::where('image', $path)->where('id', '!=', $first->id)->delete();
+            }
+        }
+
+        if ($target === 'publishers') {
+            $paths = Publisher::query()->groupBy('title')->havingRaw('COUNT(id) > 1')->pluck('title', 'id')->toArray();
+
+            //dd($paths);
+
+            foreach ($paths as $id => $path) {
+                $group = Publisher::where('title', $path)->get();
+                //$arr = [];
+
+                foreach ($group as $item) {
+                    if ($item->id != $id) {
+                        foreach ($item->products()->get() as $product) {
+                            Product::where('id', $product->id)->update([
+                                'publisher_id' => $id
+                            ]);
+                        }
+
+                        Publisher::where('id', $item->id)->delete();
+                    }
+
+                    //array_push($arr, $item->products()->count());
+                }
+
+                //dd($arr);
+            }
         }
 
         return redirect()->route('dashboard');
     }
+
+
 }
