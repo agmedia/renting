@@ -48,6 +48,10 @@ class CatalogRouteController extends Controller
 
         // Check if there is Product set.
         if ($prod) {
+            if ( ! $prod->status) {
+                abort(404);
+            }
+
             $seo = Seo::getProductData($prod);
 
             return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo'));
