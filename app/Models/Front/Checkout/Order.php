@@ -7,6 +7,7 @@ use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Catalog\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -238,7 +239,7 @@ class Order extends Model
             $discount = 0;
             $price    = $item->price;
 
-            if ($item->associatedModel->special) {
+            if ($this->checkSpecial($item->associatedModel)) {
                 $price    = $item->associatedModel->special;
                 $discount = Helper::calculateDiscount($item->price, $price);
             }
@@ -320,6 +321,33 @@ class Order extends Model
         \App\Models\Back\Orders\Order::where('id', $order_id)->update([
             'total' => $this->order['cart']['total']
         ]);
+    }
+
+
+    /**
+     * @param Product $model
+     *
+     * @return bool
+     */
+    public function checkSpecial(Product $model): bool
+    {
+        if ($model->special) {
+            $from = now()->subDay();
+            $to = now()->addDay();
+
+            if ($model->special_from && $model->special_from != '0000-00-00 00:00:00') {
+                $from = Carbon::make($model->special_from);
+            }
+            if ($model->special_to && $model->special_to != '0000-00-00 00:00:00') {
+                $to = Carbon::make($model->special_to);
+            }
+
+            if ($from <= now() && now() <= $to) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
