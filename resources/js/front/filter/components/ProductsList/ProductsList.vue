@@ -138,6 +138,8 @@
         //
         mounted() {
             this.checkQuery(this.$route);
+
+            console.log('TU SAM')
         },
 
         methods: {
@@ -154,6 +156,7 @@
                     this.products_loaded = true;
                     this.products = response.data;
                     this.checkHrTotal();
+                    this.checkSpecials();
 
                     if (params.pojam != '' && !this.products.total) {
                         this.search_zero_result = true;
@@ -265,6 +268,21 @@
                 }
 
                 return params;
+            },
+
+
+            checkSpecials() {
+                let now = new Date();
+
+                for (let i = 0; i < this.products.data.length; i++) {
+                    let from = new Date(this.products.data[i].special_from);
+                    let to = new Date(this.products.data[i].special_to);
+
+                    if (now > from && now < to) {
+                    } else {
+                        this.products.data[i].special = null;
+                    }
+                }
             },
 
             /**
