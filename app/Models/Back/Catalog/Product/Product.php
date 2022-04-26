@@ -495,11 +495,13 @@ class Product extends Model
         $slug  = $slug ?: Str::slug($this->request->name);
         $exist = $this->where('slug', $slug)->count();
 
-        if ($exist > 1 && $target == 'update') {
+        $cat_exist = Category::where('slug', $slug)->count();
+
+        if (($cat_exist || $exist > 1) && $target == 'update') {
             return $slug . '-' . time();
         }
 
-        if ($exist && $target == 'insert') {
+        if (($cat_exist || $exist) && $target == 'insert') {
             return $slug . '-' . time();
         }
 
