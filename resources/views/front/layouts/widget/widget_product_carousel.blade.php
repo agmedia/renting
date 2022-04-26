@@ -4,9 +4,7 @@
         <div class="card px-lg-2 border-0 shadow-lg">
             <div class="card-body px-4 pt-4 pb-4">
 
-                @if($data['title'] =='Knjige')
-<a href="knjige"><img src="media/banner-biblos.jpg" style="margin-bottom:30px"/></a>
-                @endif
+
                 <h2 class="h3 text-center">{{ $data['title'] }}</h2>
                 <p class="text-muted-light text-center ">{{ $data['subtitle'] }}</p>
                 @if($data['url'] !='/')
