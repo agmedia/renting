@@ -184,6 +184,7 @@
                     this.products_loaded = true;
                     this.products = response.data;
                     this.checkHrTotal();
+                    this.checkSpecials();
                 });
             },
 

@@ -69,6 +69,7 @@
             setFieldValue() {
                 if (this.target == 'price') {
                     this.field_value = Number(this.product.price).toFixed(2);
+                    this.checkSpecials();
                 }
                 if (this.target == 'year') {
                     this.field_value = this.product.year;
@@ -86,7 +87,8 @@
             formatPrice(price) {
                 return Number(price).toLocaleString('hr-HR', {
                     style: 'currency',
-                    currencyDisplay: 'narrowSymbol',
+                    //currencyDisplay: 'narrowSymbol',
+                    currencyDisplay: 'symbol',
                     currency: 'HRK'
                 });
             },
@@ -96,7 +98,19 @@
             viewField() {
                 this.view_input = true;
             },
+            /**
+             *
+             */
+            checkSpecials() {
+                let now = new Date();
+                let from = new Date(this.product.special_from);
+                let to = new Date(this.product.special_to);
 
+                if (now > from && now < to) {
+                } else {
+                    this.product.special = null;
+                }
+            },
             /**
              *
              */
