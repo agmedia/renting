@@ -39,13 +39,13 @@
         <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url({{ config('settings.images_domain') . 'media/img/lightslider.webp' }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
             <div class="pb-lg-5 mb-lg-3">
                 <div class="container py-lg-4 my-lg-5">
-                    <div class="row mb-3 mb-sm-3">
+                    <div class="row mb-2 mb-sm-3">
                         <div class="col-lg-7 col-md-9  text-start">
                             <h1 class="text-white lh-base">Knjige, vedute & zemljovidi</h1>
 
                         </div>
                     </div>
-                    <div class="row pb-lg-2 mb-2 mb-sm-3">
+                    <div class="row pb-lg-2 mb-3 mb-sm-3">
                         <div class="col-lg-7 col-md-8">
                             <form action="{{ route('pretrazi', ['tip' => 'all']) }}" method="get">
                                 <div class="input-group input-group-lg flex-nowrap">
