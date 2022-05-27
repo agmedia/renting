@@ -42,11 +42,10 @@
                     <div class="row mb-3 mb-sm-3">
                         <div class="col-lg-7 col-md-9  text-start">
                             <h1 class="text-white lh-base">Knjige, vedute & zemljovidi</h1>
-                            <h2 class="h5 text-white fw-light">Dobrodošli na stranice Antikvarijata Biblos</h2>
-                            <p class="text-white fw-light">Palmotićeva 28, Zagreb (križanje Palmotićeve i Đorđićeve ulice) radno vrijeme ponedjeljak-petak 09-20h, subotom 09-14h.</p>
+
                         </div>
                     </div>
-                    <div class="row pb-lg-5 mb-4 mb-sm-5">
+                    <div class="row pb-lg-2 mb-2 mb-sm-3">
                         <div class="col-lg-7 col-md-8">
                             <form action="{{ route('pretrazi', ['tip' => 'all']) }}" method="get">
                                 <div class="input-group input-group-lg flex-nowrap">
@@ -56,6 +55,19 @@
                             </form>
                             <div class="form-text text-white py-2"><span class="text-muted-light">*</span> Sve knjige na stranici su dostupne</div>
                         </div>
+                    </div>
+
+                    <div class="row mb-3 mb-sm-3">
+                        <div class="col-lg-7 col-md-9  text-start">
+
+                            <h2 class="h5 text-white fw-light">Dobrodošli na stranice Antikvarijata Biblos</h2>
+                            <p class="text-white fw-light">Palmotićeva 28, Zagreb (križanje Palmotićeve i Đorđićeve ulice) radno vrijeme ponedjeljak-petak 09-20h, subotom 09-14h.</p>
+                        </div>
+                    </div>
+
+                    <div class="widget mt-4 text-md-nowrap  pb-lg-5 mb-4 mb-sm-3 text-start">
+                        <a class="btn-social bs-dark bs-instagram me-2 mb-2" href="https://www.instagram.com/antikvarijat_biblos/"><i class="ci-instagram"></i></a>
+                        <a class="btn-social bs-dark bs-facebook me-2 mb-2" href="https://www.facebook.com/AntikvarijatBiblos/"><i class="ci-facebook"></i></a>
                     </div>
                 </div>
             </div>
