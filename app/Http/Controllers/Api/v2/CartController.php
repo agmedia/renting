@@ -72,12 +72,27 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function check(Request $request)
+    {
+        $response = $this->cart->check($request);
+
+        $this->resolveDB($response);
+
+        return response()->json($response);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function add(Request $request)
     {
         $response = $this->cart->add($request);
-    
+
         $this->resolveDB($response);
-    
+
         return response()->json($response);
     }
 

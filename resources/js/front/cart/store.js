@@ -30,6 +30,18 @@ class AgService {
      * @param item
      * @returns {*}
      */
+    checkCart(ids) {
+        return axios.post('cart/check', {ids: ids})
+        .then(response => { return response.data })
+        .catch(error => { return this.returnError(messages.error) })
+    }
+
+
+    /**
+     *
+     * @param item
+     * @returns {*}
+     */
     addToCart(item) {
         return axios.post('cart/add', {item: item})
         .then(response => {
@@ -248,6 +260,30 @@ let store = {
                 state.storage.setCart(cart);
                 state.cart = cart;
             });
+        },
+
+        /**
+         *
+         * @param context
+         * @param ids
+         */
+        checkCart(context, ids) {
+            let state = context.state;
+
+            state.service.checkCart(ids).then(response => {
+                state.storage.setCart(response.cart);
+
+                if (response.message) {
+                    window.ToastWarningLong.fire(response.message)
+
+                    if (window.location.pathname != '/kosarica') {
+                        window.setTimeout(() => {
+                            window.location.href = '/kosarica';
+                        }, 5000);
+                    }
+                }
+
+            })
         },
 
         /**

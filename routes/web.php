@@ -211,6 +211,7 @@ Route::prefix('api/v2')->group(function () {
     // CART
     Route::prefix('cart')->group(function () {
         Route::get('/get', [CartController::class, 'get']);
+        Route::post('/check', [CartController::class, 'check']);
         Route::post('/add', [CartController::class, 'add']);
         Route::post('/update/{id}', [CartController::class, 'update']);
         Route::get('/remove/{id}', [CartController::class, 'remove']);
@@ -293,25 +294,21 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
 Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
 Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
-
+//
 Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
 Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
 Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
-
 Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
-
+//
 Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
-
+//
 Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
 Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
 //
 Route::get('cache/image', [HomeController::class, 'imageCache']);
 Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
-
-Route::redirect('/sitemap.xml', '/sitemap');
-Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
 /**
  * Sitemap routes
  */

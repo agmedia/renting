@@ -66,3 +66,11 @@ window.ToastWarning = app.$swal.mixin({
     showConfirmButton: false,
     timer: 2500,
 })
+
+window.ToastWarningLong = app.$swal.mixin({
+    toast: true,
+    icon: 'warning',
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000,
+})

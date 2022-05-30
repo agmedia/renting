@@ -405,6 +405,7 @@ class DashboardController extends Controller
      */
     public function duplicate(string $target = null)
     {
+        // Duplicate images
         if ($target === 'images') {
             $paths = ProductImage::query()->groupBy('image')->havingRaw('COUNT(id) > 1')->pluck('image', 'id')->toArray();
 
@@ -415,14 +416,12 @@ class DashboardController extends Controller
             }
         }
 
+        // Duplicate publishers
         if ($target === 'publishers') {
             $paths = Publisher::query()->groupBy('title')->havingRaw('COUNT(id) > 1')->pluck('title', 'id')->toArray();
 
-            //dd($paths);
-
             foreach ($paths as $id => $path) {
                 $group = Publisher::where('title', $path)->get();
-                //$arr = [];
 
                 foreach ($group as $item) {
                     if ($item->id != $id) {
@@ -434,11 +433,7 @@ class DashboardController extends Controller
 
                         Publisher::where('id', $item->id)->delete();
                     }
-
-                    //array_push($arr, $item->products()->count());
                 }
-
-                //dd($arr);
             }
         }
 
