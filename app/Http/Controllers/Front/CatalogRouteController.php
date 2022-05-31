@@ -58,8 +58,6 @@ class CatalogRouteController extends Controller
             $bc = new Breadcrumb();
             $crumbs = $bc->product($group, $cat, $subcat, $prod)->resolve();
 
-            dd($crumbs);
-
             return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs'));
         }
 
