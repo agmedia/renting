@@ -164,7 +164,9 @@ class CatalogRouteController extends Controller
 
         $seo = Seo::getAuthorData($author, $cat, $subcat);
 
-        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat', 'seo'));
+        $crumbs = null;
+
+        return view('front.catalog.category.index', compact('author', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
     }
 
 
@@ -209,7 +211,9 @@ class CatalogRouteController extends Controller
 
         $seo = Seo::getPublisherData($publisher, $cat, $subcat);
 
-        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat', 'seo'));
+        $crumbs = null;
+
+        return view('front.catalog.category.index', compact('publisher', 'letter', 'cat', 'subcat', 'seo', 'crumbs'));
     }
 
 
@@ -233,7 +237,9 @@ class CatalogRouteController extends Controller
                 $request->input(config('settings.search_keyword'))
             );
 
-            return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
+            $crumbs = null;
+
+            return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'crumbs'));
         }
 
         if ($request->has(config('settings.search_keyword') . '_api')) {
@@ -258,7 +264,9 @@ class CatalogRouteController extends Controller
         $ids = collect();
         $group = 'snizenja';
 
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids'));
+        $crumbs = null;
+
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'ids', 'crumbs'));
     }
 
 
