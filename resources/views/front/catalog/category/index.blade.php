@@ -165,6 +165,6 @@
 
 @push('js_after')
     <script type="application/ld+json">
-        {{ collect($crumbs)->toJson() }}
+        {!! collect($crumbs)->toJson() !!}
     </script>
 @endpush

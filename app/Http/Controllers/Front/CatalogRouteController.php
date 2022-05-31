@@ -57,8 +57,9 @@ class CatalogRouteController extends Controller
 
             $bc = new Breadcrumb();
             $crumbs = $bc->product($group, $cat, $subcat, $prod)->resolve();
+            $bookscheme = $bc->productBookSchema($prod);
 
-            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs'));
+            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs', 'bookscheme'));
         }
 
         // If only group...
