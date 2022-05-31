@@ -16,7 +16,7 @@
     <meta property="og:image:width" content="640" />
     <meta property="og:image:height" content="480" />
     <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:alt" content="{{ $prod->name }}" />
+    <meta property="og:image:alt" content="{{ $prod->image_alt }}" />
     <meta property="product:price:amount" content="{{ number_format($prod->price, 2) }}" />
     <meta property="product:price:currency" content="HRK" />
     <meta property="product:availability" content="instock" />
@@ -82,7 +82,7 @@
                         <div class="product-gallery">
                             <div class="product-gallery-preview order-sm-2">
                                 @if ( ! empty($prod->image))
-                                    <div class="product-gallery-preview-item active" id="first"><img  src="{{ asset($prod->image) }}"  alt="{{ $prod->name }}"></div>
+                                    <div class="product-gallery-preview-item active" id="first"><img  src="{{ asset($prod->image) }}"  alt="{{ $prod->image_alt }}"></div>
                                 @endif
 
                                 @if ($prod->images->count())
@@ -95,7 +95,7 @@
                             <div class="product-gallery-thumblist order-sm-1" style="z-index: 10;position: relative;">
                                 @if ($prod->images->count())
                                 @if ( ! empty($prod->thumb))
-                                    <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->thumb) }}" alt="{{ $prod->name }}"></a>
+                                    <a class="product-gallery-thumblist-item active" href="#first"><img src="{{ asset($prod->thumb) }}" alt="{{ $prod->image_alt }}"></a>
                                 @endif
 
 
@@ -189,5 +189,8 @@
 @endsection
 
 @push('js_after')
+    <script type="application/ld+json">
+        {{ collect($crumbs)->toJson() }}
+    </script>
     <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=6134a372eae16400120a5035&product=sop' async='async'></script>
 @endpush

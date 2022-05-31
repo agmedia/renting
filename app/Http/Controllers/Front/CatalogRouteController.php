@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Breadcrumb;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
@@ -54,7 +55,12 @@ class CatalogRouteController extends Controller
 
             $seo = Seo::getProductData($prod);
 
-            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo'));
+            $bc = new Breadcrumb();
+            $crumbs = $bc->product($group, $cat, $subcat, $prod)->resolve();
+
+            dd($crumbs);
+
+            return view('front.catalog.product.index', compact('prod', 'group', 'cat', 'subcat', 'seo', 'crumbs'));
         }
 
         // If only group...
@@ -77,7 +83,9 @@ class CatalogRouteController extends Controller
             $subcat->count = $subcat->products()->count();
         }
 
-        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'prod'));
+        $crumbs = (new Breadcrumb())->category($group, $cat, $subcat)->resolve();
+
+        return view('front.catalog.category.index', compact('group', 'cat', 'subcat', 'prod', 'crumbs'));
     }
 
 
