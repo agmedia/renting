@@ -25,6 +25,15 @@ class Product extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    protected $appends = ['eur_price'];
+
+    protected $eur;
+
+    public function __construct()
+    {
+        $this->eur = Settings::get('currency', 'list')->where('code', 'EUR')->first();
+    }
+
 
     /**
      * Get the route key for the model.
@@ -34,6 +43,13 @@ class Product extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+
+    public function getEurPriceAttribute()
+    {
+
+        return number_format(($this->price * $this->eur->value), 2);
     }
 
 

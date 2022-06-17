@@ -11,6 +11,7 @@ use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
+use App\Http\Controllers\Back\Settings\App\CurrencyController;
 use App\Http\Controllers\Back\Settings\App\GeoZoneController;
 use App\Http\Controllers\Back\Settings\App\OrderStatusController;
 use App\Http\Controllers\Back\Settings\App\PaymentController;
@@ -180,6 +181,7 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
             Route::get('shippings', [ShippingController::class, 'index'])->name('shippings');
             Route::get('payments', [PaymentController::class, 'index'])->name('payments');
             Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
+            Route::get('currencies', [CurrencyController::class, 'index'])->name('currencies');
         });
 
         // HISTORY
@@ -273,6 +275,12 @@ Route::prefix('api/v2')->group(function () {
             Route::prefix('taxes')->group(function () {
                 Route::post('store', [TaxController::class, 'store'])->name('api.taxes.store');
                 Route::post('destroy', [TaxController::class, 'destroy'])->name('api.taxes.destroy');
+            });
+            // CURRENCIES
+            Route::prefix('currencies')->group(function () {
+                Route::post('store', [CurrencyController::class, 'store'])->name('api.currencies.store');
+                Route::post('store/main', [CurrencyController::class, 'storeMain'])->name('api.currencies.store.main');
+                Route::post('destroy', [CurrencyController::class, 'destroy'])->name('api.currencies.destroy');
             });
             // TOTALS
             /*Route::prefix('totals')->group(function () {

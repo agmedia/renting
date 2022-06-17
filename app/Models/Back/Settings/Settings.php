@@ -51,7 +51,7 @@ class Settings extends Model
             return $styles->value;
         }
 
-        return [];
+        return collect();
     }
 
 

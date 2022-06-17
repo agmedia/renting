@@ -1,28 +1,42 @@
 <?php
 
-
 namespace App\Helpers;
-
 
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Breadcrumb
 {
+
+    /**
+     * @var array
+     */
     private $schema = [];
 
+    /**
+     * @var array
+     */
     private $breadcrumbs = [];
 
+
+    /**
+     * Breadcrumb constructor.
+     */
     public function __construct()
     {
         $this->setDefault();
     }
 
 
+    /**
+     * @param               $group
+     * @param Category|null $cat
+     * @param null          $subcat
+     *
+     * @return $this
+     */
     public function category($group, Category $cat = null, $subcat = null)
     {
         if (isset($group) && $group) {
@@ -51,6 +65,14 @@ class Breadcrumb
     }
 
 
+    /**
+     * @param               $group
+     * @param Category|null $cat
+     * @param null          $subcat
+     * @param Product|null  $prod
+     *
+     * @return $this
+     */
     public function product($group, Category $cat = null, $subcat = null, Product $prod = null)
     {
         $this->category($group, $cat, $subcat);
@@ -70,6 +92,11 @@ class Breadcrumb
     }
 
 
+    /**
+     * @param Product|null $prod
+     *
+     * @return array
+     */
     public function productBookSchema(Product $prod = null)
     {
         if ($prod) {
@@ -98,6 +125,9 @@ class Breadcrumb
     }
 
 
+    /**
+     * @return array
+     */
     public function resolve()
     {
         $this->schema['itemListElement'] = $this->breadcrumbs;
@@ -106,6 +136,9 @@ class Breadcrumb
     }
 
 
+    /**
+     *
+     */
     private function setDefault()
     {
         $this->schema = [
@@ -122,6 +155,9 @@ class Breadcrumb
     }
 
 
+    /**
+     * @param $group
+     */
     public function addGroup($group)
     {
         array_push($this->breadcrumbs, [
