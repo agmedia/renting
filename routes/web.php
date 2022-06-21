@@ -3,6 +3,8 @@
 use App\Actions\Fortify\ForgotPasswordController;
 use App\Http\Controllers\Api\v2\CartController;
 use App\Http\Controllers\Api\v2\FilterController;
+use App\Http\Controllers\Back\ApartmentController;
+use App\Http\Controllers\Back\CalendarController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
 use App\Http\Controllers\Back\Catalog\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
 use App\Http\Controllers\Back\Settings\App\CurrencyController;
 use App\Http\Controllers\Back\Settings\App\GeoZoneController;
+use App\Http\Controllers\Back\Settings\App\LanguagesController;
 use App\Http\Controllers\Back\Settings\App\OrderStatusController;
 use App\Http\Controllers\Back\Settings\App\PaymentController;
 use App\Http\Controllers\Back\Settings\App\ShippingController;
@@ -33,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 
 
 /*Route::domain('https://images.antikvarijatbibl.lin73.host25.com/')->group(function () {
-    Route::get('media/img/products/{id}/{image}', function ($id, $image) {
+    Route::get('media/img/apartments/{id}/{image}', function ($id, $image) {
         \Illuminate\Support\Facades\Log::info($id . ' --- ' . $image);
     });
 });*/
@@ -62,40 +65,13 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('statuses', [DashboardController::class, 'statuses'])->name('statuses.cron');
     Route::get('duplicate/{target?}', [DashboardController::class, 'duplicate'])->name('duplicate.revision');
 
-    // CATALOG
-    Route::prefix('catalog')->group(function () {
-        // KATEGORIJE
-        Route::get('categories', [CategoryController::class, 'index'])->name('categories');
-        Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
-        Route::post('category', [CategoryController::class, 'store'])->name('category.store');
-        Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-        Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
-        Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
-
-        // IZDAVAČI
-        Route::get('publishers', [PublisherController::class, 'index'])->name('publishers');
-        Route::get('publisher/create', [PublisherController::class, 'create'])->name('publishers.create');
-        Route::post('publisher', [PublisherController::class, 'store'])->name('publishers.store');
-        Route::get('publisher/{publisher}/edit', [PublisherController::class, 'edit'])->name('publishers.edit');
-        Route::patch('publisher/{publisher}', [PublisherController::class, 'update'])->name('publishers.update');
-        Route::delete('publisher/{publisher}', [PublisherController::class, 'destroy'])->name('publishers.destroy');
-
-        // AUTORI
-        Route::get('authors', [AuthorController::class, 'index'])->name('authors');
-        Route::get('author/create', [AuthorController::class, 'create'])->name('authors.create');
-        Route::post('author', [AuthorController::class, 'store'])->name('authors.store');
-        Route::get('author/{author}/edit', [AuthorController::class, 'edit'])->name('authors.edit');
-        Route::patch('author/{author}', [AuthorController::class, 'update'])->name('authors.update');
-        Route::delete('author/{author}', [AuthorController::class, 'destroy'])->name('authors.destroy');
-
-        // ARTIKLI
-        Route::get('products', [ProductController::class, 'index'])->name('products');
-        Route::get('product/create', [ProductController::class, 'create'])->name('products.create');
-        Route::post('product', [ProductController::class, 'store'])->name('products.store');
-        Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
-        Route::patch('product/{product}', [ProductController::class, 'update'])->name('products.update');
-        Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-    });
+    // APARTMANI
+    Route::get('apartments', [ApartmentController::class, 'index'])->name('apartments');
+    Route::get('apartment/create', [ApartmentController::class, 'create'])->name('apartments.create');
+    Route::post('apartment', [ApartmentController::class, 'store'])->name('apartments.store');
+    Route::get('apartment/{apartment}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
+    Route::patch('apartment/{apartment}', [ApartmentController::class, 'update'])->name('apartments.update');
+    Route::delete('apartment/{apartment}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
 
     // NARUDŽBE
     Route::get('orders', [OrderController::class, 'index'])->name('orders');
@@ -104,6 +80,14 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
     Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+
+    // KALENDAR
+    Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+    Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
+    Route::post('calendar', [CalendarController::class, 'store'])->name('calendar.store');
+    Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
+    Route::patch('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
+    Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
 
     // MARKETING
     Route::prefix('marketing')->group(function () {
@@ -122,6 +106,22 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
         Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
         Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+        // WIDGETS
+        Route::prefix('widgets')->group(function () {
+            Route::get('/', [WidgetController::class, 'index'])->name('widgets');
+            Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
+            Route::post('/', [WidgetController::class, 'store'])->name('widget.store');
+            Route::get('{widget}/edit', [WidgetController::class, 'edit'])->name('widget.edit');
+            Route::patch('{widget}', [WidgetController::class, 'update'])->name('widget.update');
+            // GROUP
+            Route::prefix('groups')->group(function () {
+                Route::get('create', [WidgetGroupController::class, 'create'])->name('widget.group.create');
+                Route::post('/', [WidgetGroupController::class, 'store'])->name('widget.group.store');
+                Route::get('{widget}/edit', [WidgetGroupController::class, 'edit'])->name('widget.group.edit');
+                Route::patch('{widget}', [WidgetGroupController::class, 'update'])->name('widget.group.update');
+            });
+        });
     });
 
     // KORISNICI
@@ -131,43 +131,40 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
     Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('user/{user}', [UserController::class, 'update'])->name('users.update');
 
-    // WIDGETS
-    Route::prefix('widgets')->group(function () {
-        Route::get('/', [WidgetController::class, 'index'])->name('widgets');
-        Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
-        Route::post('/', [WidgetController::class, 'store'])->name('widget.store');
-        Route::get('{widget}/edit', [WidgetController::class, 'edit'])->name('widget.edit');
-        Route::patch('{widget}', [WidgetController::class, 'update'])->name('widget.update');
-        // GROUP
-        Route::prefix('groups')->group(function () {
-            Route::get('create', [WidgetGroupController::class, 'create'])->name('widget.group.create');
-            Route::post('/', [WidgetGroupController::class, 'store'])->name('widget.group.store');
-            Route::get('{widget}/edit', [WidgetGroupController::class, 'edit'])->name('widget.group.edit');
-            Route::patch('{widget}', [WidgetGroupController::class, 'update'])->name('widget.group.update');
-        });
-    });
-
     // POSTAVKE
     Route::prefix('settings')->group(function () {
-        // INFO PAGES
-        Route::get('pages', [PageController::class, 'index'])->name('pages');
-        Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
-        Route::post('page', [PageController::class, 'store'])->name('pages.store');
-        Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
-        Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
-        Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+        // SISTEM
+        Route::prefix('system')->group(function () {
+            // KATEGORIJE
+            Route::get('categories', [CategoryController::class, 'index'])->name('categories');
+            Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+            Route::post('category', [CategoryController::class, 'store'])->name('category.store');
+            Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+            Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
+            Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-        // FAQ
-        Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
-        Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
-        Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
-        Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
-        Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
-        Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
+            // INFO PAGES
+            Route::get('pages', [PageController::class, 'index'])->name('pages');
+            Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
+            Route::post('page', [PageController::class, 'store'])->name('pages.store');
+            Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
+            Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
+            Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+
+            // FAQ
+            Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
+            Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
+            Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
+            Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
+            Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
+            Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
+        });
 
         //Route::get('application', [SettingsController::class, 'index'])->name('settings');
 
         Route::prefix('application')->group(function () {
+            //
+            Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
             // GEO ZONES
             Route::get('geo-zones', [GeoZoneController::class, 'index'])->name('geozones');
             Route::get('geo-zone/create', [GeoZoneController::class, 'create'])->name('geozones.create');
@@ -220,21 +217,21 @@ Route::prefix('api/v2')->group(function () {
         Route::get('/coupon/{coupon}', [CartController::class, 'coupon']);;
     });
 
-    Route::get('/products/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('products.autocomplete');
-    Route::post('/products/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('products.destroy.image');
-    Route::post('/products/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('products.change.status');
-    Route::post('products/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('products.update.item');
+    Route::get('/apartments/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('apartments.autocomplete');
+    Route::post('/apartments/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('apartments.destroy.image');
+    Route::post('/apartments/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('apartments.change.status');
+    Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
     Route::post('/authors/destroy/api', [AuthorController::class, 'destroyApi'])->name('authors.destroy.api');
     Route::post('/publishers/destroy/api', [PublisherController::class, 'destroyApi'])->name('publishers.destroy.api');
-    Route::post('/products/destroy/api', [ProductController::class, 'destroyApi'])->name('products.destroy.api');
+    Route::post('/apartments/destroy/api', [ProductController::class, 'destroyApi'])->name('apartments.destroy.api');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
     // FILTER
     Route::prefix('filter')->group(function () {
         Route::post('/getCategories', [FilterController::class, 'categories']);
-        Route::post('/getProducts', [FilterController::class, 'products']);
+        Route::post('/getProducts', [FilterController::class, 'apartments']);
         Route::post('/getAuthors', [FilterController::class, 'authors']);
         Route::post('/getPublishers', [FilterController::class, 'publishers']);
     });
@@ -254,6 +251,13 @@ Route::prefix('api/v2')->group(function () {
                 Route::post('store', 'Back\Settings\Store\GeoZoneController@store')->name('geo-zone.store');
                 Route::post('destroy', 'Back\Settings\Store\GeoZoneController@destroy')->name('geo-zone.destroy');
             });*/
+            // CURRENCIES
+            Route::prefix('languages')->group(function () {
+                Route::post('store', [LanguagesController::class, 'store'])->name('api.languages.store');
+                Route::post('store/main', [LanguagesController::class, 'storeMain'])->name('api.languages.store.main');
+                Route::post('destroy', [LanguagesController::class, 'destroy'])->name('api.languages.destroy');
+            });
+
             // ORDER STATUS
             Route::prefix('order-status')->group(function () {
                 Route::post('store', [OrderStatusController::class, 'store'])->name('api.order.status.store');

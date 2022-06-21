@@ -16,7 +16,7 @@
     </div>
     <!-- END Hero -->
 
-    @if (auth()->user()->can('*'))
+    {{--@if (auth()->user()->can('*'))
         <div class="block block-rounded">
             <div class="block-content block-content-full">
                 <div class="content pt-0">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif--}}
 
     <!-- Page Content -->
     <div class="content">
@@ -117,10 +117,10 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td class="text-center" style="width: 100px;">
-                                        <a class="font-w600" href="{{ route('products.edit', ['product' => $product->product_id]) }}">{{ $product->id }}</a>
+                                        <a class="font-w600" href="{{ route('apartments.edit', ['apartment' => $product->product_id]) }}">{{ $product->id }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('products.edit', ['product' => $product->product_id]) }}">{{ $product->name }}</a>
+                                        <a href="{{ route('apartments.edit', ['apartment' => $product->product_id]) }}">{{ $product->name }}</a>
                                     </td>
                                     <td class="font-w600 text-right">{{ number_format($product->price, 2, ',', '.') }} kn</td>
                                 </tr>
