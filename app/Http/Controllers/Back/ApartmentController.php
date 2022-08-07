@@ -57,6 +57,8 @@ class ApartmentController extends Controller
         }
 
         $categories = (new Category())->getList(false);
+
+
         /*$authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');*/
         $counts = [];//Apartment::setCounts($query);

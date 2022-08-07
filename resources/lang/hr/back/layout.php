@@ -24,6 +24,14 @@ return [
     'btn_clean_filter' => 'Očisti filtere',
     'btn' => [
         'edit' => 'Uredi',
+        'discard' => 'Odustani',
+        'save' => 'Snimi'
+    ],
+    /*
+     * Forms
+     */
+    'form' => [
+        'title' => 'Naslov',
     ],
 
     /*

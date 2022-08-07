@@ -102,13 +102,16 @@
 </div>
 
 <div id="agapp">
-    @include('front.layouts.partials.header')
+
+    {{ \Illuminate\Support\Facades\App::getLocale() }}
+
+    {{--@include('front.layouts.partials.header')
 
     @yield('content')
 
     @include('front.layouts.partials.footer')
 
-    @include('front.layouts.partials.handheld')
+    @include('front.layouts.partials.handheld')--}}
 </div>
 
 <!-- Back To Top Button-->

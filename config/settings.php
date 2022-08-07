@@ -48,6 +48,106 @@ return [
         ],
     ],
 
+    /**
+     * Treba prebaciti u administraciju
+     * + treba smisliti kako implementirati drugi jezik.
+     */
+    'apartment_types' => [
+        0 => [
+            'title' => 'Apartman',
+            'id' => 1,
+            'default' => 1
+        ],
+        1 => [
+            'title' => 'Kuća',
+            'id' => 2,
+            'default' => 0
+        ],
+        2 => [
+            'title' => 'Soba',
+            'id' => 3,
+            'default' => 0
+        ]
+    ],
+    'apartment_targets' => [
+        0 => [
+            'title' => 'Najam',
+            'id' => 1,
+            'default' => 1
+        ],
+        1 => [
+            'title' => 'Prodaja',
+            'id' => 2,
+            'default' => 0
+        ]
+    ],
+    'apartment_price_by' => [
+        1 => [
+            'title' => 'Dan',
+            'default' => 1
+        ],
+        2 => [
+            'title' => 'Tjedan',
+            'default' => 0
+        ],
+        3 => [
+            'title' => 'Mjesec',
+            'default' => 0
+        ]
+    ],
+
+    'apartment_details' => [
+        1 => [
+            'title' => 'Parking',
+            'icon' => 'carpark',
+            'code' => null,
+            'status' => 0
+        ],
+        2 => [
+            'title' => 'Bazen',
+            'icon' => 'pool',
+            'code' => null,
+            'status' => 0
+        ],
+        3 => [
+            'title' => 'Klima',
+            'icon' => 'ac',
+            'code' => null,
+            'status' => 0
+        ],
+        4 => [
+            'title' => 'Kuhinja',
+            'icon' => 'kitchen',
+            'code' => null,
+            'status' => 0
+        ],
+        5 => [
+            'title' => 'Igralište',
+            'icon' => 'pool',
+            'code' => null,
+            'status' => 0
+        ],
+        6 => [
+            'title' => 'Roštilj',
+            'icon' => 'ac',
+            'code' => null,
+            'status' => 0
+        ],
+        7 => [
+            'title' => 'Garaža',
+            'icon' => 'kitchen',
+            'code' => null,
+            'status' => 0
+        ],
+        8 => [
+            'title' => 'Alarm',
+            'icon' => 'kitchen',
+            'code' => null,
+            'status' => 0
+        ],
+    ],
+
+
     'order' => [
         'made_text' => 'Narudžba napravljena.',
         'status' => [

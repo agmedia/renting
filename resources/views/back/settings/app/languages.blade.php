@@ -33,7 +33,8 @@
                     <tr>
                         <th style="width: 5%;">{{ __('back/layout.br') }}</th>
                         <th style="width: 60%;">{{ __('back/app.languages.table_title') }}</th>
-                        <th class="text-center">Kod</th>
+                        <th class="text-center">{{ __('back/app.languages.code_title') }}</th>
+                        <th class="text-center">{{ __('back/app.languages.status_title') }}</th>
                         <th class="text-right">{{ __('back/layout.btn.edit') }}</th>
                     </tr>
                     </thead>
@@ -41,12 +42,13 @@
                     @forelse ($items as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td>{{ $item->title }}
+                            <td class="text-primary">{{ $item->title }}
                                 @if (isset($item->main) && $item->main)
-                                    <strong><small>&nbsp;(Glavna)</small></strong>
+                                    <strong><small>&nbsp;({{ __('back/app.languages.main_lang') }})</small></strong>
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->code }}</td>
+                            <td class="text-center">@include('back.layouts.partials.status', ['status' => $item->status])</td>
                             <td class="text-right font-size-sm">
                                 <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($item) }});">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
@@ -74,7 +76,7 @@
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Valuta Edit</h3>
+                        <h3 class="block-title">{{ __('back/app.languages.table_title') }}</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>
@@ -85,26 +87,26 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
                                 <div class="form-group mb-4">
-                                    <label for="language-title">Naslov</label>
+                                    <label for="language-title">{{ __('back/app.languages.input_title') }}</label>
                                     <input type="text" class="form-control" id="language-title" name="title">
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <label for="language-code">Kod</label>
+                                    <label for="language-code">{{ __('back/app.languages.code_title') }}</label>
                                     <input type="text" class="form-control" id="language-code" name="code">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="css-control css-control-sm css-control-success css-switch res">
                                         <input type="checkbox" class="css-control-input" id="language-status" name="status">
-                                        <span class="css-control-indicator"></span> Status valute
+                                        <span class="css-control-indicator"></span> {{ __('back/app.languages.status_title') }}
                                     </label>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="css-control css-control-sm css-control-success css-switch res">
                                         <input type="checkbox" class="css-control-input" id="language-main" name="main">
-                                        <span class="css-control-indicator"></span> Glavna valuta
+                                        <span class="css-control-indicator"></span> {{ __('back/app.languages.main_title') }}
                                     </label>
                                 </div>
 
@@ -114,10 +116,10 @@
                     </div>
                     <div class="block-content block-content-full text-right bg-light">
                         <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
-                            Odustani <i class="fa fa-times ml-2"></i>
+                            {{ __('back/layout.btn.discard') }} <i class="fa fa-times ml-2"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-primary" onclick="event.preventDefault(); createCurrency();">
-                            Snimi <i class="fa fa-arrow-right ml-2"></i>
+                            {{ __('back/layout.btn.save') }} <i class="fa fa-arrow-right ml-2"></i>
                         </button>
                     </div>
                 </div>

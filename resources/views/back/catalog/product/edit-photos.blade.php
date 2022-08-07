@@ -39,6 +39,12 @@
     </style>
 @endpush
 
+<!-- Dropzone (functionality is auto initialized by the plugin itself in js/plugins/dropzone/dropzone.min.js) -->
+<!-- For more info and examples you can check out http://www.dropzonejs.com/#usage -->
+<!--                            <div class="dropzone">
+                                <div class="dz-message" data-dz-message><span>Klikni ovdje ili dovuci slike za uplad</span></div>
+                            </div>-->
+
 <div>
     <div class="row">
         <div class="col-12">
@@ -300,7 +306,7 @@
 
         function removeImage(data, slim) {
             if (data.meta.hasOwnProperty('image_id')) {
-                axios.post("{{ route('products.destroy.image') }}", { data: data.meta.image_id })
+                axios.post("{{--{{ route('products.destroy.image') }}--}}", { data: data.meta.image_id })
                     .then((response) => {
                         successToast.fire({
                             text: 'Fotografija je uspješno izbrisana',

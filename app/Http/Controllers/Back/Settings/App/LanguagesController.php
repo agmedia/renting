@@ -18,10 +18,6 @@ class LanguagesController extends Controller
      */
     public function index(Request $request)
     {
-        Log::info(App::getLocale());
-        App::setLocale('en');
-        Log::info(App::getLocale());
-
         $items = Settings::get('language', 'list')->sortBy('sort_order');
         $main = $items->where('main', 1)->first();
 
@@ -38,7 +34,8 @@ class LanguagesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->data;
+        return Settings::storeList($request);
+        /*$data = $request->data;
 
         $setting = Settings::where('code', 'language')->where('key', 'list')->first();
 
@@ -56,10 +53,6 @@ class LanguagesController extends Controller
             $values->where('id', $data['id'])->map(function ($item) use ($data) {
                 $item->title = $data['title'];
                 $item->code = $data['code'];
-                $item->symbol_left = $data['symbol_left'];
-                $item->symbol_right = $data['symbol_right'];
-                $item->value = $data['value'];
-                $item->decimal_places = $data['decimal_places'];
                 $item->status = $data['status'];
                 $item->main = $data['main'];
 
@@ -70,14 +63,14 @@ class LanguagesController extends Controller
         if ( ! $setting) {
             $stored = Settings::insert('language', 'list', $values->toJson(), true);
         } else {
-            $stored = Settings::edit($setting->id, 'currency', 'list', $values->toJson(), true);
+            $stored = Settings::edit($setting->id, 'language', 'list', $values->toJson(), true);
         }
 
         if ($stored) {
             return response()->json(['success' => 'Jezik je uspješno snimljen.']);
         }
 
-        return response()->json(['message' => 'Server error! Pokušajte ponovo ili kontaktirajte administratora!']);
+        return response()->json(['message' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);*/
     }
 
 
@@ -115,10 +108,10 @@ class LanguagesController extends Controller
         $stored = Settings::edit($setting->id, 'language', 'list', $values->toJson(), true);
 
         if ($stored) {
-            return response()->json(['success' => 'Jezik je uspješno snimljen.']);
+            return response()->json(['success' => 'Glavni jezik je uspješno izmjenjen.']);
         }
 
-        return response()->json(['message' => 'Server error! Pokušajte ponovo ili kontaktirajte administratora!']);
+        return response()->json(['message' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);
     }
 
 
@@ -149,6 +142,6 @@ class LanguagesController extends Controller
             return response()->json(['success' => 'Jezik je uspješno obrisan.']);
         }
 
-        return response()->json(['message' => 'Server error! Pokušajte ponovo ili kontaktirajte administratora!']);
+        return response()->json(['message' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);
     }
 }

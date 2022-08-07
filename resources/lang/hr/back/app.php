@@ -19,6 +19,12 @@ return [
         'main_select' => 'Odaberite glavni jezik',
         'new' => 'Dodaj novi jezik',
         'empty_list' => 'Nemate upisanih jezika...',
+        'main_lang' => 'Glavni jezik',
+        'edit_title' => 'Editiraj jezik',
+        'input_title' => 'Naslov',
+        'code_title' => 'Kod',
+        'status_title' => 'Status',
+        'main_title' => 'Glavni jezik',
     ],
 
     'title' => 'Apartman',
