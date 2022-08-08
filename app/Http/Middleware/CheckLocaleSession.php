@@ -21,7 +21,7 @@ class CheckLocaleSession
      */
     public function handle($request, Closure $next)
     {
-        if (Session::has('locale')) {
+        /*if (Session::has('locale')) {
             $locale = Session::get('locale', Config::get('app.locale'));
         } else {
             $locale = 'hr'; // $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
@@ -29,7 +29,7 @@ class CheckLocaleSession
             Session::push('locale', $locale);
         }
 
-        App::setLocale($locale);
+        App::setLocale($locale);*/
 
         return $next($request);
     }
