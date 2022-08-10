@@ -26,7 +26,7 @@ class ApartmentController extends Controller
 
         $apartments = $query->paginate(20)->appends(request()->query());
 
-        if ($request->has('status')) {
+        /*if ($request->has('status')) {
             if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
                 $apartments = collect();
                 $temps = Apartment::all();
@@ -49,7 +49,7 @@ class ApartmentController extends Controller
 
                 $apartments = $this->paginateColl($apartments);
             }
-        }
+        }*/
 
         $categories = (new Category())->getList(false);
 
