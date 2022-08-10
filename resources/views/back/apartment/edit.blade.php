@@ -44,49 +44,28 @@
 
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Osnovne informacije</h3>
+                    <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
                 </div>
 
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
                             <div class="form-group row items-push">
-                                <div class="col-md-4">
-                                    <div class="row gutters-tiny">
-                                        <div class="col-md-12 mb-2">
-                                            <a class="img-thumb img-lightbox" href="{{ asset('media/photos/photo1.jpg') }}">
-                                                <img class="img-fluid" src="{{ asset('media/photos/photo1.jpg') }}" alt="">
-                                            </a>
-                                        </div>
-                                        @foreach ([2,3,4,5] as $photo)
-                                            <div class="col-md-3">
-                                                <a class="img-thumb img-lightbox" href="{{ asset('media/photos/photo' . $photo . '.jpg') }}">
-                                                    <img class="img-fluid" src="{{ asset('media/photos/photo' . $photo . '.jpg') }}" alt="">
-                                                </a>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="row gutters-tiny">
-                                        <div class="col-md-12 mt-3">
-                                            <button class="btn btn-block btn-outline-info" onclick="event.preventDefault(); openModal({{ json_encode(\Illuminate\Support\Facades\URL::previous()) }});">
-                                                <i class="fa fa-fw fa-pencil-alt"></i> Editiraj fotografije
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="col-md-12 ">
 
-                                <div class="col-md-8 pl-5">
+
                                     <div class="row">
                                         <div class="col-md-12 mt-3 mb-3">
-                                            <label for="dm-post-edit-title">Naziv apartmana <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+
+                                            <label for="dm-post-edit-title">{{ __('back/apartment.nazivapartmana') }}  <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="title-input" name="title" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
                                             @error('name')
-                                            <span class="text-danger font-italic">Naziv je potreban...</span>
+                                            <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="type-select">Tip <span class="text-danger">*</span></label>
+                                            <label for="type-select">{{ __('back/apartment.tip') }} <span class="text-danger">*</span></label>
                                             <select class="js-select2 form-control" id="type-select" name="type_id" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_types') as $select_item)
@@ -95,7 +74,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="target-select">Namjena <span class="text-danger">*</span></label>
+                                            <label for="target-select">{{ __('back/apartment.namjena') }}<span class="text-danger">*</span></label>
                                             <select class="js-select2 form-control" id="target-select" name="target_id" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_targets') as $select_item)
@@ -104,52 +83,74 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="dm-post-edit-title">Šifra <span class="text-danger"></span></label>
-                                            <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                            <label for="dm-post-edit-title">{{ __('back/apartment.sifra') }} <span class="text-danger"></span></label>
+                                            <input type="text" class="form-control" id="sku-input" name=sku" placeholder="" value="{{ isset($apartment) ? $product->sku : old('sku') }}">
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
-                            <h2 class="content-heading">Lokacija</h2>
+                            <h2 class="content-heading">{{ __('back/apartment.lokacija') }}</h2>
 
                             <div class="form-group row items-push">
-                                <div class="col-md-6">
-                                    <label for="dm-post-edit-title">Ulica <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                <div class="col-md-12">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.ulica') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $product->address : old('addres') }}" readonly>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Grad <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.grad') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ isset($apartment) ? $product->city : old('city') }}" readonly>
                                 </div>
-                                <div class="col-md-2">
-                                    <label for="dm-post-edit-title">Zip <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.zip') }}<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="{{ isset($apartment) ? $product->zip : old('zip') }}" readonly>
                                 </div>
 
-                                <div class="col-md-6 text-right mt-4"><label for="dm-post-edit-title">Geografska duljina <span class="text-danger"></span></label></div>
-                                <div class="col-md-6 mt-3">
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                <div class="col-md-4">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.drzava') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="country" name="country" placeholder="" value="{{ isset($apartment) ? $product->country : old('country') }}" readonly>
                                 </div>
-                                <div class="col-md-6 text-right mt-2"><label for="dm-post-edit-title">Geografska širina <span class="text-danger"></span></label></div>
+
+                                <div class="col-md-6 ">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.latitude') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtLat" name="txtLat" placeholder="" value="{{ isset($apartment) ? $product->txtLat : old('txtLat') }}" readonly>
+                                </div>
+
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.longitude') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="txtLng" name="txtLng" placeholder="" value="{{ isset($apartment) ? $product->txtLng : old('txtLng') }}" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="alert alert-info mb-0" role="alert">
+                                        <i class="fa fa-info-circle"></i> {{ __('back/apartment.porukakarta') }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <input
+                                        id="pac-input"
+                                        class="controls form-control "
+                                        type="text"
+                                        placeholder="{{ __('back/apartment.searchaddress') }}" style="height:42px;margin-top:9px;width:400px;border-radius:0"
+                                    />
+                                    <div id="map_canvas" style="width: auto; height: 500px;">
+                                    </div>
                                 </div>
                             </div>
 
 
-                            <h2 class="content-heading">Cijena, akcije i porez
-                                <small class="text-gray-dark ml-3">Treba li možda više cijena. Kao pred/post sezonske cijene?...</small>
+                            <h2 class="content-heading">{{ __('back/apartment.cijenetitle') }}
+                              <!--  <small class="text-gray-dark ml-3">{{ __('back/apartment.cijenetitle') }}Treba li možda više cijena. Kao pred/post sezonske cijene?...</small> -->
                             </h2>
 
                             <div class="form-group row items-push">
                                 <div class="col-md-6">
-                                    <label for="dm-post-edit-title">Cijena <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.price') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="price-input" name="price" placeholder="" value="{{ isset($apartment) ? $product->price : old('price') }}">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="dm-post-edit-title">Cijena prema <span class="text-danger"></span></label>
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.priceprema') }} <span class="text-danger"></span></label>
                                     <select class="js-select2 form-control" id="price-by-select" name="price_by" style="width: 100%;">
                                         <option></option>
                                         @foreach (config('settings.apartment_price_by') as $key => $select_item)
@@ -158,19 +159,17 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="price-input">Porez</label>
-                                    <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="Odaberite porez...">
+                                    <label for="price-input">{{ __('back/apartment.tax') }}</label>
+                                    <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
                                         <option></option>
-                                        @foreach ($data['taxes'] as $tax)
-                                            <option value="{{ $tax->id }}" {{ ((isset($apartment)) and ($tax->id == $apartment->tax_id)) ? 'selected' : (( ! isset($apartment) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
-                                        @endforeach
+
                                     </select>
                                 </div>
                             </div>
 
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-6">
-                                    <label for="special-input">Akcija</label>
+                                    <label for="special-input">{{ __('back/apartment.cijanapopust') }}</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="special-input" name="special" placeholder="00.00" value="{{ isset($apartment) ? $apartment->special : old('special') }}">
                                         <div class="input-group-append">
@@ -179,19 +178,19 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="special-from-input">Akcija vrijedi</label>
+                                    <label for="special-from-input">{{ __('back/apartment.trajanjepopusta') }}</label>
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="od" value="{{ isset($apartment->special_from) ? \Carbon\Carbon::make($apartment->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="{{ __('back/apartment.od') }}" value="{{ isset($apartment->special_from) ? \Carbon\Carbon::make($apartment->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <div class="input-group-prepend input-group-append">
                                             <span class="input-group-text font-w600"><i class="fa fa-fw fa-arrow-right"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="do" value="{{ isset($apartment->special_to) ? \Carbon\Carbon::make($apartment->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="{{ __('back/apartment.do') }}" value="{{ isset($apartment->special_to) ? \Carbon\Carbon::make($apartment->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                     </div>
                                 </div>
                             </div>
 
 
-                            <h2 class="content-heading">Opis apartmana</h2>
+                            <h2 class="content-heading">{{ __('back/apartment.opis') }}</h2>
 
                             <div class="form-group row mb-4">
                                 <div class="col-md-12">
@@ -207,32 +206,14 @@
 
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Dodatne informacija</h3>
+                    <h3 class="block-title">{{ __('back/apartment.amenities') }}</h3>
                 </div>
 
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
-                            <div class="form-group row items-push">
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">Kvadratnih metara</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">Broj soba</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">Broj kreveta</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">Broj kupaonica</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                            </div>
 
-                            <h2 class="content-heading">Brzi izbor dodatnih informacija</h2>
+                            <h2 class="content-heading">{{ __('back/apartment.amenities') }}</h2>
 
                             <div class="form-group row items-push">
                                 @foreach (config('settings.apartment_details') as $detail)
@@ -245,44 +226,87 @@
                                 @endforeach
                             </div>
 
-                            <h2 class="content-heading">Unos dodatnih informacija</h2>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">{{ __('back/apartment.dodatneinformacije') }}</h3>
+                </div>
+
+                <div class="block-content block-content-full">
+                    <div class="row justify-content-center push">
+                        <div class="col-md-11">
+                            <div class="form-group row items-push">
+                                <div class="col-md-3">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
+                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
+                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
+                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
+                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                </div>
+                            </div>
+
+
+
+                            <h2 class="content-heading">{{ __('back/apartment.unosinfo') }}</h2>
 
                             <div class="form-group row items-push">
-                                <div class="col-md-12 p-3 bg-gray-light text-gray-darker">
-                                    <div class="row">
-                                        <div class="col-md-8 mt-3">
-                                            <p>Odaberite spremljeni info...<br>
-                                                <small>U bazi spremljen kao favorit. Prikazuje se u listi zavisno od Tip-a.</small>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-4 mt-4">
-                                            <select class="js-select2 form-control" id="favorite-select" name="favorite_id" style="width: 100%;" data-placeholder="Odaberite...">
-                                                <option></option>
-                                                <option value="1">Favorit bazen</option>
-                                                <option value="2">Favorit parking</option>
-                                                <option value="3">Favorit roštilj</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                    <div class=" col-md-12 ">
+
+                                        <div class="bg-gray-light text-gray-darker p-3 pt-0 pb-0">
+                                        <div class="row ">
+
+                                                <div class="col-md-8 mt-3">
+                                                    <p>{{ __('back/apartment.odaberiteinfo') }}<br>
+                                                        <small>{{ __('back/apartment.odaberiteinfotext') }}</small>
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-4 mt-4">
+                                                    <select class="js-select2 form-control" id="favorite-select" name="favorite_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
+                                                        <option></option>
+                                                        <option value="1">Favorit bazen</option>
+                                                        <option value="2">Favorit parking</option>
+                                                        <option value="3">Favorit roštilj</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                       </div>
+                                    </div>
                                 <div class="col-md-8">
-                                    <label for="dm-post-edit-title">Naslov ?</label>
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.titleinfo') }}</label>
                                     <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dm-post-edit-title">Vrijednost</label>
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.value') }}</label>
                                     <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="dm-post-edit-title">Kratki opis informacije</label>
-                                    <textarea class="form-control" id="name-input" name="name" placeholder="Opis..." rows="4">{{ isset($apartment) ? $apartment->title : old('title') }}</textarea>
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.kratkiopisinfo') }}</label>
+                                    <textarea class="form-control" id="name-input" name="name" placeholder="{{ __('back/apartment.opisinfo') }}" rows="4">{{ isset($apartment) ? $apartment->title : old('title') }}</textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="dm-post-edit-title">Ikona</label>
-                                            <select class="js-select2 form-control" id="icon-select" name="icon_id" style="width: 100%;" data-placeholder="Odaberite ikonu...">
+                                            <label for="dm-post-edit-title">{{ __('back/apartment.ikona') }}</label>
+                                            <select class="js-select2 form-control" id="icon-select" name="icon_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.odaberiteikonu') }}">
                                                 <option></option>
                                                 <option value="1">Ikona bazen</option>
                                                 <option value="2">Ikona parking</option>
@@ -290,8 +314,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="dm-post-edit-title">Galerija</label>
-                                            <select class="js-select2 form-control" id="gallery-select" name="gallery_id" style="width: 100%;" data-placeholder="Odaberite galeriju...">
+                                            <label for="dm-post-edit-title">{{ __('back/apartment.galerijainfo') }}</label>
+                                            <select class="js-select2 form-control" id="gallery-select" name="gallery_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.galerijainfotext') }}">
                                                 <option></option>
                                                 <option value="1">Galerija Bazen mali</option>
                                                 <option value="2">Galerija Bazen veliki</option>
@@ -301,14 +325,14 @@
                                         </div>
 
                                         <div class="col-md-4 mt-4">
-                                            <button type="submit" class="btn btn-outline-info btn-block my-2">Nova galerija</button>
+                                            <button type="submit" class="btn btn-outline-info btn-block my-2">{{ __('back/apartment.btnnovagalerija') }}</button>
                                         </div>
                                         <div class="col-md-4 mt-4">
-                                            <button type="submit" class="btn btn-outline-info btn-block my-2">Dodaj u favorite</button>
+                                            <button type="submit" class="btn btn-outline-info btn-block my-2">{{ __('back/apartment.btnfavoriti') }}</button>
                                         </div>
                                         <div class="col-md-4 mt-4">
                                             <button type="submit" class="btn btn-success btn-block my-2">
-                                                <i class="fas fa-save mr-1"></i> Snimi
+                                                <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
                                             </button>
                                         </div>
 
@@ -316,7 +340,7 @@
                                 </div>
                             </div>
 
-                            <h2 class="content-heading">Lista unesenih dodatnih informacija</h2>
+                            <h2 class="content-heading">{{ __('back/apartment.listaunesenihnaslov') }}</h2>
 
                             <div class="form-group row items-push">
                                 <div class="col-md-12">
@@ -325,9 +349,9 @@
                                         <thead>
                                         <tr>
                                             <th class="text-center" style="width: 50px;">#</th>
-                                            <th>Naslov</th>
-                                            <th class="d-none d-sm-table-cell" style="width: 25%;">Vrijednost</th>
-                                            <th class="text-center" style="width: 100px;">Akcije</th>
+                                            <th>{{ __('back/apartment.titleinfo') }}</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 25%;">{{ __('back/apartment.value') }}</th>
+                                            <th class="text-center" style="width: 100px;">{{ __('back/apartment.action') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -345,7 +369,7 @@
                                                     <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-pencil-alt"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
+                                                    <button type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </div>
@@ -365,7 +389,7 @@
                                                     <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
                                                         <i class="fa fa-pencil-alt"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
+                                                    <button type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </div>
@@ -383,12 +407,12 @@
 
             <div class="block">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Slike</h3>
+                    <h3 class="block-title">{{ __('back/apartment.galerijainfo') }}</h3>
                 </div>
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
-                        <div class="col-md-10">
-                            @include('back.catalog.product.edit-photos')
+                        <div class="col-md-11">
+
                         </div>
                     </div>
                 </div>
@@ -413,7 +437,7 @@
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Fotografije</h3>
+                        <h3 class="block-title">{{ __('back/apartment.slike') }}</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>
@@ -423,16 +447,16 @@
                     <div class="block-content">
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
-                                @include('back.catalog.product.edit-photos')
+
                             </div>
                         </div>
                     </div>
                     <div class="block-content block-content-full text-right bg-light">
                         <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
-                            Odustani <i class="fa fa-times ml-2"></i>
+                            {{ __('back/apartment.btnodustani') }} <i class="fa fa-times ml-2"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-success" onclick="event.preventDefault(); confirmDelete();">
-                            Snimi <i class="fa fa-save ml-2"></i>
+                            {{ __('back/apartment.btnsnimi') }} <i class="fa fa-save ml-2"></i>
                         </button>
                     </div>
                 </div>

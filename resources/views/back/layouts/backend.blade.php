@@ -30,9 +30,200 @@
         <!-- Scripts -->
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
 
+
+
         @livewireStyles
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb7BR7bJL5O1ABqq9q3ZACc1Rt7eLCii8&libraries=places" ></script>
+
+
+        <script type="text/javascript">
+
+                var map;
+                var geocoder;
+                var mapOptions = { center: new google.maps.LatLng(0.0, 0.0), zoom: 2,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP };
+
+                function initialize() {
+                    var myOptions = {
+                        center: new google.maps.LatLng(45.80594482207321, 15.978759628343616 ),
+                        zoom: 15,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+
+
+
+                    geocoder = new google.maps.Geocoder();
+                    var map = new google.maps.Map(document.getElementById("map_canvas"),
+                        myOptions);
+                    google.maps.event.addListener(map, 'click', function(event) {
+
+                        placeMarker(event.latLng);
+
+                        // Clear out the old markers.
+                        markers.forEach(function(marker) {
+                            marker.setMap(null);
+                        });
+
+
+                    });
+
+
+                    // Create the search box and link it to the UI element.
+                    var input = document.getElementById('pac-input');
+                    var searchBox = new google.maps.places.SearchBox(input);
+                    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+                    // Bias the SearchBox results towards current map's viewport.
+                    map.addListener('bounds_changed', function() {
+                        searchBox.setBounds(map.getBounds());
+                    });
+
+                    var markers = [];
+                    // Listen for the event fired when the user selects a prediction and retrieve
+                    // more details for that place.
+                    searchBox.addListener('places_changed', function() {
+                        var places = searchBox.getPlaces();
+
+                        if (places.length == 0) {
+                            return;
+                        }
+
+                        // Clear out the old markers.
+                        markers.forEach(function(marker) {
+                            marker.setMap(null);
+                        });
+                        markers = [];
+
+                        // For each place, get the icon, name and location.
+                        var bounds = new google.maps.LatLngBounds();
+                        places.forEach(function(place) {
+                            if (!place.geometry) {
+                                console.log("Returned place contains no geometry");
+                                return;
+                            }
+                            var icon = {
+                                url: place.icon,
+                                size: new google.maps.Size(71, 71),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(17, 34),
+                                scaledSize: new google.maps.Size(25, 25)
+                            };
+
+
+                            markers.push(new google.maps.Marker({
+                                map: map,
+                                title: place.name,
+                                position: place.geometry.location
+                            }));
+
+                            getAddress(place.geometry.location);
+
+                            if (place.geometry.viewport) {
+                                // Only geocodes have viewport.
+                                bounds.union(place.geometry.viewport);
+                            } else {
+                                bounds.extend(place.geometry.location);
+                            }
+                        });
+
+                        map.fitBounds(bounds);
+                    });
+
+                    var marker;
+                    function placeMarker(location) {
+                        if(marker){ //on vérifie si le marqueur existe
+                            marker.setPosition(location); //on change sa position
+                        }else{
+                            marker = new google.maps.Marker({ //on créé le marqueur
+                                position: location,
+                                map: map
+                            });
+                        }
+                        document.getElementById('txtLat').value=location.lat();
+                        document.getElementById('txtLng').value=location.lng();
+                        getAddress(location);
+                    }
+
+
+
+                    function getAddress(latLng) {
+                        geocoder.geocode( {'latLng': latLng},
+                            function(results, status) {
+                                if(status == google.maps.GeocoderStatus.OK) {
+                                    if(results[0]) {
+
+                                        document.getElementById("pac-input").value = '';
+                                        console.log(results[0].address_components);
+                                        var arrAddress = results[0].address_components;
+                                        var itemRoute='';
+                                        var itemLocality='';
+                                        var itemCountry='';
+                                        var itemPc='';
+                                        var itemSnumber='';
+
+                                        // iterate through address_component array
+                                        $.each(arrAddress, function (i, address_component) {
+                                            console.log('address_component:'+i);
+
+                                            if (address_component.types[0] == "route"){
+                                                console.log(i+": route:"+address_component.long_name);
+                                                itemRoute = address_component.long_name;
+                                            }
+
+                                            if (address_component.types[0] == "locality"){
+                                                console.log("town:"+address_component.long_name);
+                                                itemLocality = address_component.long_name;
+                                            }
+
+                                            if (address_component.types[0] == "country"){
+                                                console.log("country:"+address_component.long_name);
+                                                itemCountry = address_component.long_name;
+                                            }
+
+                                            if (address_component.types[0] == "postal_code"){
+                                                console.log("pc:"+address_component.long_name);
+                                                itemPc = address_component.long_name;
+                                            }
+
+                                            if (address_component.types[0] == "street_number"){
+                                                console.log("street_number:"+address_component.long_name);
+                                                itemSnumber = address_component.long_name;
+                                            }
+                                            //return false; // break the loop
+                                        });
+
+
+                                        document.getElementById("address").value = itemRoute +', ' + itemSnumber;
+                                        document.getElementById("city").value = itemLocality;
+                                        document.getElementById("zip").value = itemPc;
+                                        document.getElementById("country").value = itemCountry;
+
+                                    }
+                                    else {
+                                        document.getElementById("address").value = "No results";
+                                    }
+                                }
+                                else {
+                                    document.getElementById("address").value = status;
+                                }
+                            });
+                    }
+
+
+
+
+
+
+
+
+
+
+            }
+        </script>
     </head>
-    <body>
+    <body onload="initialize();">
 
         <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed main-content-narrow">
 
@@ -71,6 +262,8 @@
         <!-- END Page Container -->
         <script src="{{ asset('js/dashmix.app.js') }}"></script>
         <script src="{{ asset('/js/laravel.app.js') }}"></script>
+
+
 
         <script>
             const confirmPopUp = Swal.mixin({
