@@ -3,13 +3,8 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Models\Back\Catalog\Author;
-use App\Models\Back\Catalog\Category;
+use App\Models\Back\Settings\System\Category;
 use App\Models\Back\Apartment\Apartment;
-use App\Models\Back\Catalog\Product\ProductAction;
-use App\Models\Back\Catalog\Product\ProductCategory;
-use App\Models\Back\Catalog\Product\ProductImage;
-use App\Models\Back\Catalog\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -76,10 +71,7 @@ class ApartmentController extends Controller
     {
         $apartment = new Apartment();
 
-        $data = $apartment->getRelationsData();
-        $active_actions = ProductAction::active()->get();
-
-        return view('back.apartment.edit', compact('data', 'active_actions'));
+        return view('back.apartment.edit'/*, compact('data')*/);
     }
 
 
@@ -97,8 +89,8 @@ class ApartmentController extends Controller
         $stored = $apartment->validateRequest($request)->create();
 
         if ($stored) {
-            $apartment->checkSettings()
-                    ->storeImages($stored);
+            /*$apartment->checkSettings()
+                    ->storeImages($stored);*/
 
             return redirect()->route('products.edit', ['Apartment' => $stored])->with(['success' => 'Artikl je uspješno snimljen!']);
         }
@@ -116,9 +108,9 @@ class ApartmentController extends Controller
      */
     public function edit(Apartment $apartment)
     {
-        $data = $apartment->getRelationsData();
+        //$data = $apartment->getRelationsData();
 
-        return view('back.catalog.Apartment.edit', compact('Apartment', 'data'));
+        return view('back.catalog.Apartment.edit', compact('apartment'));
     }
 
 
@@ -135,10 +127,10 @@ class ApartmentController extends Controller
         $updated = $apartment->validateRequest($request)->edit();
 
         if ($updated) {
-            $apartment->checkSettings()
+            /*$apartment->checkSettings()
                     ->storeImages($updated);
 
-            $apartment->addHistoryData('change');
+            $apartment->addHistoryData('change');*/
 
             return redirect()->route('products.edit', ['Apartment' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
         }
@@ -156,8 +148,8 @@ class ApartmentController extends Controller
      */
     public function destroy(Request $request, Apartment $apartment)
     {
-        ProductImage::where('product_id', $apartment->id)->delete();
-        ProductCategory::where('product_id', $apartment->id)->delete();
+        /*ProductImage::where('product_id', $apartment->id)->delete();
+        ProductCategory::where('product_id', $apartment->id)->delete();*/
 
         Storage::deleteDirectory(config('filesystems.disks.products.root') . $apartment->id);
 
@@ -183,8 +175,8 @@ class ApartmentController extends Controller
         if ($request->has('id')) {
             $id = $request->input('id');
             
-            ProductImage::where('product_id', $id)->delete();
-            ProductCategory::where('product_id', $id)->delete();
+            /*ProductImage::where('product_id', $id)->delete();
+            ProductCategory::where('product_id', $id)->delete();*/
 
             Storage::deleteDirectory(config('filesystems.disks.products.root') . $id);
 
