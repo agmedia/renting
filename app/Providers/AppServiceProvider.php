@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 
-        $uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
+        /*$uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
         View::share('uvjeti_kupnje', $uvjeti_kupnje);
 
         $nacini_placanja = Page::where('subgroup', 'Načini plaćanja')->get();
@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
         View::share('knjige', $knjige);
 
         $zemljovidi_vedute = Category::active()->topList('Zemljovidi i vedute')->select('id', 'title', 'group', 'slug')->sortByName()->get();
-        View::share('zemljovidi_vedute', $zemljovidi_vedute);
+        View::share('zemljovidi_vedute', $zemljovidi_vedute);*/
 
         Paginator::useBootstrap();
     }

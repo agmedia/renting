@@ -14,12 +14,15 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned()->default(0);
-            $table->bigInteger('affiliate_id')->unsigned()->default(0);
+            $table->id();
+            $table->unsignedBigInteger('apartment_id');
+            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('affiliate_id')->default(0);
             $table->integer('order_status_id')->unsigned();
             $table->string('invoice')->nullable();
             $table->decimal('total', 15, 4)->default(0);
+            $table->timestamp('date_from')->nullable()->index();
+            $table->timestamp('date_to')->nullable()->index();
             $table->string('payment_fname');
             $table->string('payment_lname');
             $table->string('payment_address');
@@ -31,52 +34,33 @@ class CreateOrdersTable extends Migration
             $table->string('payment_code')->nullable();
             $table->string('payment_card')->nullable();
             $table->integer('payment_installment')->unsigned()->default(0);
-            $table->string('shipping_fname');
-            $table->string('shipping_lname');
-            $table->string('shipping_address');
-            $table->string('shipping_zip');
-            $table->string('shipping_city');
-            $table->string('shipping_phone')->nullable();
-            $table->string('shipping_email');
-            $table->string('shipping_method');
-            $table->string('shipping_code')->nullable();
             $table->string('company');
             $table->string('oib');
             $table->text('comment')->nullable();
-            $table->string('tracking_code');
-            $table->boolean('shipped')->default(false);
-            $table->boolean('printed')->default(false);
+            $table->boolean('approved')->default(false);
+            $table->unsignedBigInteger('approved_user_id')->default(0);
             $table->timestamps();
-        });
 
-
-        Schema::create('order_products', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('order_id')->unsigned();
-            $table->bigInteger('product_id')->unsigned();
-            $table->string('name');
-            $table->integer('quantity')->unsigned();
-            $table->decimal('org_price', 15, 4)->default(0);
-            $table->integer('discount')->unsigned()->nullable();
-            $table->decimal('price', 15, 4)->default(0);
-            $table->decimal('total', 15, 4)->default(0);
-            $table->timestamps();
+            $table->foreign('apartment_id')
+                  ->references('id')->on('apartments');
         });
 
 
         Schema::create('order_total', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('order_id')->unsigned();
             $table->string('code')->nullable(); // Can be shipping, action, coupon, subtotal, discount, tax, total
-            $table->string('title')->nullable();
             $table->decimal('value', 15, 4)->default(0);
             $table->integer('sort_order')->unsigned();
             $table->timestamps();
+
+            $table->foreign('order_id')
+                  ->references('id')->on('orders');
         });
 
 
         Schema::create('order_transactions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('order_id')->unsigned();
             $table->tinyInteger('success');
             $table->decimal('amount', 10, 2);
@@ -91,16 +75,25 @@ class CreateOrdersTable extends Migration
             $table->string('stan')->nullable();
             $table->string('error')->nullable();
             $table->timestamps();
+
+            $table->foreign('order_id')
+                  ->references('id')->on('orders');
         });
 
 
         Schema::create('order_history', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('order_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->tinyInteger('status')->unsigned()->default(0);
             $table->text('comment')->nullable();
             $table->timestamps();
+
+            $table->foreign('order_id')
+                  ->references('id')->on('orders');
+
+            $table->foreign('user_id')
+                  ->references('id')->on('users');
         });
     }
 
@@ -112,7 +105,6 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('orders');
-        Schema::dropIfExists('order_products');
         Schema::dropIfExists('order_total');
         Schema::dropIfExists('order_transactions');
         Schema::dropIfExists('order_history');

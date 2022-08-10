@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Back\Orders\Order;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Product;
@@ -14,9 +15,10 @@ use App\Models\Front\Catalog\Publisher;
 class Seo
 {
 
-
     /**
-     * @return array
+     * @param Product $product
+     *
+     * @return string[]
      */
     public static function getProductData(Product $product): array
     {
@@ -28,54 +30,41 @@ class Seo
 
 
     /**
+     * @param Order $order
+     *
      * @return array
      */
-    public static function getAuthorData(Author $author, Category $cat = null, Category $subcat = null): array
+    public static function getGoogleDataLayer(Order $order)
     {
-        $title = $author->title . ' knjige - Antikvarijat Biblos';
-        $description = 'Knjige autora ' . $author->title . ' danas su jako popularne u svijetu. Bogati izbor knjiga autora ' . $author->title . ' uz brzu dostavu i sigurnu kupovinu.';
+        $products = [];
 
-        // Check if there is meta title or description and set vars.
-        if ($cat) {
-            if ($cat->meta_title) { $title = $cat->meta_title; }
-            //if ($cat->meta_description) { $description = $cat->meta_description; }
+        foreach ($order->products as $product) {
+            $category = '';
+            $p = $product->real;
+
+            if ($p->category()) { $category = $p->category()->title; }
+            if ($p->subcategory()) { $category = $p->subcategory()->title; }
+
+            $products[] = [
+                'sku' => $p->sku,
+                'name' => $product->name,
+                'category' => $category,
+                'price' => $product->price,
+                'quantity' => $product->quantity
+            ];
         }
 
-        if ($subcat) {
-            if ($subcat->meta_title) { $title = $subcat->meta_title; }
-            //if ($subcat->meta_description) { $description = $subcat->meta_description; }
-        }
-
-        return [
-            'title'       => $title,
-            'description' => $description
+        $data = [
+            'event' => 'orderComplete',
+            'transactionId' => $order->id,
+            'transactionAffiliation' => 'AntikvarijatBiblos',
+            'transactionTotal' => $order->total,
+            'transactionTax' => 0,
+            'transactionShipping' => 0,
+            'transactionProducts' => $products
         ];
-    }
 
-
-    /**
-     * @return array
-     */
-    public static function getPublisherData(Publisher $publisher, Category $cat = null, Category $subcat = null): array
-    {
-        $title = $publisher->title . ' knjige - Antikvarijat Biblos';
-        $description = 'Ponuda knjiga nakladnika ' . $publisher->title . '. Knjige iz antikvarijata, naklade ' . $publisher->title . ' mogu biti u vašem domu uz brzu dostavu.';
-
-        // Check if there is meta title or description and set vars.
-        if ($cat) {
-            if ($cat->meta_title) { $title = $cat->meta_title; }
-            //if ($cat->meta_description) { $description = $cat->meta_description; }
-        }
-
-        if ($subcat) {
-            if ($subcat->meta_title) { $title = $subcat->meta_title; }
-            //if ($subcat->meta_description) { $description = $subcat->meta_description; }
-        }
-
-        return [
-            'title'       => $title,
-            'description' => $description
-        ];
+        return $data;
     }
 
 

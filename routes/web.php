@@ -6,10 +6,11 @@ use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\ApartmentController;
 use App\Http\Controllers\Back\CalendarController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
-use App\Http\Controllers\Back\Catalog\CategoryController;
+use App\Http\Controllers\Back\Settings\System\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
 use App\Http\Controllers\Back\DashboardController;
+use App\Http\Controllers\Back\Marketing\GalleryController;
 use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
@@ -20,11 +21,10 @@ use App\Http\Controllers\Back\Settings\App\OrderStatusController;
 use App\Http\Controllers\Back\Settings\App\PaymentController;
 use App\Http\Controllers\Back\Settings\App\ShippingController;
 use App\Http\Controllers\Back\Settings\App\TaxController;
-use App\Http\Controllers\Back\Settings\FaqController;
+use App\Http\Controllers\Back\Settings\System\FaqController;
 use App\Http\Controllers\Back\Settings\HistoryController;
-use App\Http\Controllers\Back\Settings\PageController;
+use App\Http\Controllers\Back\Settings\System\PageController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
-use App\Http\Controllers\Back\Settings\SettingsController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Back\Widget\WidgetController;
 use App\Http\Controllers\Back\Widget\WidgetGroupController;
@@ -91,14 +91,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
 
     // MARKETING
     Route::prefix('marketing')->group(function () {
-        // AKCIJE
-        Route::get('actions', [ActionController::class, 'index'])->name('actions');
-        Route::get('action/create', [ActionController::class, 'create'])->name('actions.create');
-        Route::post('action', [ActionController::class, 'store'])->name('actions.store');
-        Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
-        Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
-        Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
-
         // BLOG
         Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
         Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
@@ -106,6 +98,22 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
         Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
         Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
         Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+        // AKCIJE
+        Route::get('galleries', [GalleryController::class, 'index'])->name('galleries');
+        Route::get('gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+        Route::post('gallery', [GalleryController::class, 'store'])->name('gallery.store');
+        Route::get('gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+        Route::patch('gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+        Route::delete('gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+
+        // AKCIJE
+        Route::get('actions', [ActionController::class, 'index'])->name('actions');
+        Route::get('action/create', [ActionController::class, 'create'])->name('actions.create');
+        Route::post('action', [ActionController::class, 'store'])->name('actions.store');
+        Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
+        Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
+        Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
 
         // WIDGETS
         Route::prefix('widgets')->group(function () {
@@ -175,7 +183,6 @@ Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')
             //
             Route::get('order-statuses', [OrderStatusController::class, 'index'])->name('order.statuses');
             //
-            Route::get('shippings', [ShippingController::class, 'index'])->name('shippings');
             Route::get('payments', [PaymentController::class, 'index'])->name('payments');
             Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
             Route::get('currencies', [CurrencyController::class, 'index'])->name('currencies');
@@ -207,15 +214,6 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(func
 Route::prefix('api/v2')->group(function () {
     // SEARCH
     Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('api.front.search');
-    // CART
-    Route::prefix('cart')->group(function () {
-        Route::get('/get', [CartController::class, 'get']);
-        Route::post('/check', [CartController::class, 'check']);
-        Route::post('/add', [CartController::class, 'add']);
-        Route::post('/update/{id}', [CartController::class, 'update']);
-        Route::get('/remove/{id}', [CartController::class, 'remove']);
-        Route::get('/coupon/{coupon}', [CartController::class, 'coupon']);;
-    });
 
     Route::get('/apartments/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('apartments.autocomplete');
     Route::post('/apartments/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('apartments.destroy.image');
@@ -223,8 +221,6 @@ Route::prefix('api/v2')->group(function () {
     Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
-    Route::post('/authors/destroy/api', [AuthorController::class, 'destroyApi'])->name('authors.destroy.api');
-    Route::post('/publishers/destroy/api', [PublisherController::class, 'destroyApi'])->name('publishers.destroy.api');
     Route::post('/apartments/destroy/api', [ProductController::class, 'destroyApi'])->name('apartments.destroy.api');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
@@ -232,8 +228,6 @@ Route::prefix('api/v2')->group(function () {
     Route::prefix('filter')->group(function () {
         Route::post('/getCategories', [FilterController::class, 'categories']);
         Route::post('/getProducts', [FilterController::class, 'apartments']);
-        Route::post('/getAuthors', [FilterController::class, 'authors']);
-        Route::post('/getPublishers', [FilterController::class, 'publishers']);
     });
 
     // SETTINGS
@@ -262,7 +256,6 @@ Route::prefix('api/v2')->group(function () {
             Route::prefix('order-status')->group(function () {
                 Route::post('store', [OrderStatusController::class, 'store'])->name('api.order.status.store');
                 Route::post('destroy', [OrderStatusController::class, 'destroy'])->name('api.order.status.destroy');
-
                 Route::post('change', [OrderController::class, 'api_status_change'])->name('api.order.status.change');
             });
             // PAYMENTS

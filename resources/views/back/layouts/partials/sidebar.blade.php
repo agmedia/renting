@@ -93,7 +93,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['actions', 'actions.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
+                            <a class="nav-main-link{{ request()->routeIs(['galleries', 'gallery.*']) ? ' active' : '' }}" href="{{ route('galleries') }}">
                                 <span class="nav-main-link-name">Galerije</span>
                             </a>
                         </li>
@@ -103,7 +103,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['widgets', 'widgets.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
+                            <a class="nav-main-link{{ request()->routeIs(['widgets', 'widget.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.widgets') }}</span>
                             </a>
                         </li>
