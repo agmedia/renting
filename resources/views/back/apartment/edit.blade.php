@@ -53,45 +53,38 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-12 ">
 
-
                                     <div class="row">
-                                        <div class="col-md-12 mt-3 mb-3">
+                                        <div class="col-md-12 mt-3 mb-3" >
 
-                                            <ul class="nav nav-tabs nav-tabs-block" data-toggle="tabs" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" href="#btabs-static-home">Home</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#btabs-static-profile">Profile</a>
-                                                </li>
-                                                <li class="nav-item ml-auto">
-                                                    <a class="nav-link" href="#btabs-static-settings">
-                                                        <i class="si si-settings"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="block-content tab-content">
-                                                <div class="tab-pane active" id="btabs-static-home" role="tabpanel">
-                                                    <h4 class="font-w400">Home Content</h4>
-                                                    <p>...</p>
+                                            <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }}  <span class="text-danger">*</span>
+
+                                                <ul class="nav nav-pills float-right">
+                                                    <li class="active ">  <a class="btn btn-sm btn-outline-secondary float-right mx-2" data-toggle="pill" href="#hr" ><img src="{{ asset('media/flags/hr.png') }}" /></a></li>
+                                                    <li> <a  class="btn btn-sm btn-outline-secondary float-right  " data-toggle="pill" href="#en"><img src="{{ asset('media/flags/gb.png') }}" /></a></li>
+                                                </ul>
+                                            </label>
+
+
+
+                                            <div class=" tab-content">
+
+                                                <div id="hr" class="tab-pane active"  >
+
+                                                    <input type="text" class="form-control" id="title-input" name="title" placeholder="hr" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                                    @error('name')
+                                                    <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="tab-pane" id="btabs-static-profile" role="tabpanel">
-                                                    <h4 class="font-w400">Profile Content</h4>
-                                                    <p>...</p>
+
+                                                <div class="tab-pane " id="en" >
+                                                    <input type="text" class="form-control" id="title-input" name="title" placeholder="en" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                                    @error('name')
+                                                    <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
+                                                    @enderror
                                                 </div>
-                                                <div class="tab-pane" id="btabs-static-settings" role="tabpanel">
-                                                    <h4 class="font-w400">Settings Content</h4>
-                                                    <p>...</p>
-                                                </div>
+
                                             </div>
 
-
-
-                                            <label for="dm-post-edit-title">{{ __('back/apartment.nazivapartmana') }}  <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="title-input" name="title" placeholder="" value="{{ isset($apartment) ? $product->title : old('title') }}">
-                                            @error('name')
-                                            <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
-                                            @enderror
                                         </div>
 
                                         <div class="col-md-4">
@@ -126,7 +119,7 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-12">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.ulica') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $product->address : old('addres') }}" readonly>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $product->address : old('address') }}" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.grad') }} <span class="text-danger">*</span></label>
