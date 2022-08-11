@@ -69,6 +69,7 @@ return [
     'slike' => 'Images',
     'slikeodaberi' => 'Select unit photos...',
     'btnodustani' => 'Cancel',
+    //
     'amenities_bathroom' => 'Bathroom',
     'amenities_bedroom_and_laundry' => 'Bedroom and laundry',
     'amenities_entertainment' => 'Entertainment',

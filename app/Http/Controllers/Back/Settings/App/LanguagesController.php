@@ -23,9 +23,8 @@ class LanguagesController extends Controller
     public function index(Request $request)
     {
         $items = LanguageHelper::adminList();
-        $main = $items->where('main', 1)->first();
 
-        return view('back.settings.app.languages', compact('items', 'main'));
+        return view('back.settings.app.languages', compact('items'));
     }
 
 
@@ -165,7 +164,10 @@ class LanguagesController extends Controller
      */
     private function clearCache()
     {
-        Cache::forget('lang');
+        foreach (LanguageHelper::adminList() as $lang) {
+            Cache::forget('lang_' . $lang->code);
+        }
+
         Cache::forget('lang_list');
     }
 }

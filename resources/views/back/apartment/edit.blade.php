@@ -240,9 +240,9 @@
 
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
-                                                    @foreach($langs as $lang)
-                                                        <li @if ($lang->code == LaravelLocalization::getCurrentLocale()) class="active" @endif>
-                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->code == LaravelLocalization::getCurrentLocale()) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
+                                                    @foreach(ag_lang() as $lang)
+                                                        <li @if ($lang->code == current_locale()) class="active" @endif>
+                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->code == current_locale()) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
                                                         </li>
@@ -251,8 +251,8 @@
                                             </label>
 
                                             <div class="tab-content">
-                                                @foreach($langs as $lang)
-                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->code == LaravelLocalization::getCurrentLocale()) active @endif">
+                                                @foreach(ag_lang() as $lang)
+                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
                                                         <input type="text" class="form-control" id="title-input" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
                                                         @error('name')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
@@ -412,193 +412,24 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
 
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_bathroom') }}</h2>
+                            @foreach ($amenities as $key => $items)
+                                <h2 class="content-heading">{{ $items[0]['group_title'][current_locale()] }}</h2>
 
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Bathroom')
-                                    <div class="col-md-3">
-                                        <div class="custom-control custom-switch custom-control-lg mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                        </div>
-                                    </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_bedroom_and_laundry') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Bedroom and laundry')
-                                        <div class="col-md-3">
+                                <div class="form-group row items-push mb-4">
+                                    @foreach ($items as $detail)
+                                        <div class="col-md-4">
                                             <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
+                                                <input type="checkbox" class="custom-control-input" name="amenity[{{ $detail['id'] }}]" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="example-sw-custom-lg1"><i class="fa fa-circle-notch mx-2"></i> {{ $detail['title'][current_locale()] }}</label>
                                             </div>
                                         </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_entertainment') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Entertainment')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_family') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Family')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_heating_and_cooling') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Heating and cooling')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_home_safety') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Home safety')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_internet_and_office') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Internet and office')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_kitchen_and_dining') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Kitchen and dining')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_location_features') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Location features')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_parking_and_facilities') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Parking and facilities')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_services') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Services')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.amenities_not_included') }}</h2>
-
-                            <div class="form-group row items-push">
-                                @foreach (config('settings.apartment_details') as $detail)
-                                    @if ($detail['group'] == 'Not included')
-                                        <div class="col-md-3">
-                                            <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" id="example-sw-custom-lg1" name="example-sw-custom-lg1" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1">{{ $detail['title'][app()->getLocale()] }}</label>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
 
                         </div>
                     </div>
                 </div>
-
-
-
 
             </div>
 

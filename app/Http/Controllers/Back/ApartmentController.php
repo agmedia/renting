@@ -70,11 +70,11 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        $langs = LanguageHelper::list();
+        $amenities = collect(config('settings.apartment_details'))->groupBy('group');
 
-        //dd($langs);
+        //dd($amenities);
 
-        return view('back.apartment.edit', compact('langs'));
+        return view('back.apartment.edit', compact('amenities'));
     }
 
 

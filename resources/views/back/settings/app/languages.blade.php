@@ -90,8 +90,8 @@
                                     <label for="language-title" class="w-100">{{ __('back/app.languages.input_title') }} <span class="text-danger">*</span>
                                         <ul class="nav nav-pills float-right">
                                             @foreach($items as $lang)
-                                                <li @if (LaravelLocalization::getCurrentLocale() == $lang->code) class="active" @endif>
-                                                    <a class="btn btn-sm btn-outline-secondary float-right @if (LaravelLocalization::getCurrentLocale() == $lang->code) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
+                                                <li @if (current_locale() == $lang->code) class="active" @endif>
+                                                    <a class="btn btn-sm btn-outline-secondary float-right @if (current_locale() == $lang->code) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
                                                         <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                     </a>
                                                 </li>
@@ -101,8 +101,8 @@
 
                                     <div class="tab-content">
                                         @foreach($items as $lang)
-                                            <div id="{{ $lang->code }}" class="tab-pane @if (LaravelLocalization::getCurrentLocale() == $lang->code) active @endif">
-                                                <input type="text" class="form-control" id="language-title[{{ $lang->code }}]" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="">
+                                            <div id="{{ $lang->code }}" class="tab-pane @if (current_locale() == $lang->code) active @endif">
+                                                <input type="text" class="form-control" id="language-title-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="">
                                                 @error('title')
                                                 <span class="text-danger font-italic">Greška. Niste unijeli naslov.</span>
                                                 @enderror
@@ -209,7 +209,7 @@
             let values = {};
 
             {!! $items !!}.forEach(function(item) {
-                values[item.code] = document.getElementById('language-title[' + item.code + ']').value;
+                values[item.code] = document.getElementById('language-title-' + item.code).value;
             });
 
             let item = {
@@ -276,19 +276,17 @@
          * @param item
          */
         function editCurrency(item) {
-            console.log(item)
-
             $('#language-id').val(item.id);
-            $('#language-title').val(item.title);
             $('#language-code').val(item.code);
+
+            Object.keys(item.title).forEach((key) => {
+                $('#language-title-' + key).val(item.title[key]);
+            });
 
             if (item.status) {
                 $('#language-status')[0].checked = item.status ? true : false;
             }
 
-            /*if (item.main) {
-                $('#language-main')[0].checked = item.main ? true : false;
-            }*/
         }
     </script>
 @endpush

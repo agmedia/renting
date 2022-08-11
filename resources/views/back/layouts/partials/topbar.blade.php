@@ -28,7 +28,7 @@
                         Languages
                     </div>
                     <ul class="nav-items my-2">
-                        @foreach (\App\Helpers\LanguageHelper::list() as $lang)
+                        @foreach (ag_lang() as $lang)
                             <li>
                                 <a class="text-dark media py-2" href="{{ LaravelLocalization::getLocalizedURL($lang->code, null, [], true) }}">
                                     <div class="mx-3">

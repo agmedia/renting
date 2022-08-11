@@ -69,6 +69,7 @@ return [
     'slike' => 'Fotografije',
     'slikeodaberi' => 'Odaberite fotografije apartmana...',
     'btnodustani' => 'Odustani',
+    //
     'amenities_bathroom' => 'Kupaonica',
     'amenities_bedroom_and_laundry' => 'Spavaća soba i praonica rublja',
     'amenities_entertainment' => 'Zabava',

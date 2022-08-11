@@ -5,6 +5,7 @@ namespace App\Helpers;
 
 use App\Models\Back\Settings\Settings;
 use Illuminate\Support\Facades\Cache;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class LanguageHelper
 {
@@ -29,15 +30,26 @@ class LanguageHelper
     }
 
 
+    /**
+     * @return mixed
+     */
     public static function getMain()
     {
-        return Settings::get('language', 'list')->where('status', true)->where('main', true)->first();
+        return Cache::rememberForever('lang_' . LaravelLocalization::getCurrentLocale(), function () {
+            return Settings::get('language', 'list')
+                           ->where('status', true)
+                           ->where('code', LaravelLocalization::getCurrentLocale())
+                           ->first();
+        });
     }
 
 
-    public static function get()
+    /**
+     * @return string
+     */
+    public static function getCurrentLocale()
     {
-
+        return LaravelLocalization::getCurrentLocale();
     }
 
 
