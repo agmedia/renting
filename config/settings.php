@@ -54,44 +54,60 @@ return [
      */
     'apartment_types' => [
         0 => [
-            'title' => 'Apartman',
+            'title' => [
+                'en' => 'Apartment',
+                'hr' => 'Apartman',
+            ],
             'id' => 1,
             'default' => 1
         ],
         1 => [
-            'title' => 'Kuća',
+            'title' => [
+                'en' => 'House',
+                'hr' => 'Kuća za odmor',
+            ],
             'id' => 2,
-            'default' => 0
-        ],
-        2 => [
-            'title' => 'Soba',
-            'id' => 3,
             'default' => 0
         ]
     ],
     'apartment_targets' => [
         0 => [
-            'title' => 'Najam',
+            'title' => [
+                'en' => 'For Lease',
+                'hr' => 'Najam',
+            ],
             'id' => 1,
             'default' => 1
         ],
         1 => [
-            'title' => 'Prodaja',
+            'title' => [
+                'en' => 'For Sale',
+                'hr' => 'Prodaja',
+            ],
             'id' => 2,
             'default' => 0
         ]
     ],
     'apartment_price_by' => [
         1 => [
-            'title' => 'Dan',
+            'title' => [
+                'en' => 'Day',
+                'hr' => 'Dan',
+            ],
             'default' => 1
         ],
         2 => [
-            'title' => 'Tjedan',
+            'title' => [
+                'en' => 'Week',
+                'hr' => 'Tjedan',
+            ],
             'default' => 0
         ],
         3 => [
-            'title' => 'Mjesec',
+            'title' => [
+                'en' => 'Month',
+                'hr' => 'Mjesec',
+            ],
             'default' => 0
         ]
     ],

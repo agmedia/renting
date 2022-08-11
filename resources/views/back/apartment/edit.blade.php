@@ -60,7 +60,7 @@
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach($langs as $lang)
                                                         <li @if ($lang->main) class="active" @endif>
-                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->main) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
+                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->main) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
                                                         </li>
@@ -86,7 +86,7 @@
                                             <select class="js-select2 form-control" id="type-select" name="type_id" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_types') as $select_item)
-                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->type_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'] }}</option>
+                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->type_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -95,7 +95,7 @@
                                             <select class="js-select2 form-control" id="target-select" name="target_id" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_targets') as $select_item)
-                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'] }}</option>
+                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -171,7 +171,7 @@
                                     <select class="js-select2 form-control" id="price-by-select" name="price_by" style="width: 100%;">
                                         <option></option>
                                         @foreach (config('settings.apartment_price_by') as $key => $select_item)
-                                            <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'] }}</option>
+                                            <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
