@@ -229,7 +229,7 @@
                 title: $('#language-title').val(),
                 code: $('#language-code').val(),
                 status: $('#language-status')[0].checked,
-                main: $('#language-main')[0].checked,
+                //main: $('#language-main')[0].checked,
             };
 
             axios.post("{{ route('api.languages.store') }}", { data: item })
@@ -296,9 +296,9 @@
                 $('#language-status')[0].checked = item.status ? true : false;
             }
 
-            if (item.main) {
+            /*if (item.main) {
                 $('#language-main')[0].checked = item.main ? true : false;
-            }
+            }*/
         }
     </script>
 @endpush

@@ -228,44 +228,4 @@ class Settings extends Model
         ]);
     }
 
-
-    public static function storeList(Request $request)
-    {
-        $data = $request->data;
-
-        $setting = Settings::where('code', 'language')->where('key', 'list')->first();
-
-        $values = collect();
-
-        if ($setting) {
-            $values = collect(json_decode($setting->value));
-        }
-
-        if ( ! $data['id']) {
-            $data['id'] = $values->count() + 1;
-            $values->push($data);
-        }
-        else {
-            $values->where('id', $data['id'])->map(function ($item) use ($data) {
-                $item->title = $data['title'];
-                $item->code = $data['code'];
-                $item->status = $data['status'];
-                $item->main = $data['main'];
-
-                return $item;
-            });
-        }
-
-        if ( ! $setting) {
-            $stored = Settings::insert('language', 'list', $values->toJson(), true);
-        } else {
-            $stored = Settings::edit($setting->id, 'language', 'list', $values->toJson(), true);
-        }
-
-        if ($stored) {
-            return response()->json(['success' => 'Jezik je uspješno snimljen.']);
-        }
-
-        return response()->json(['message' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);
-    }
 }
