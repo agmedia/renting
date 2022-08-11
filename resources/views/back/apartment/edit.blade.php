@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="target-select">{{ __('back/apartment.namjena') }}<span class="text-danger">*</span></label>
-                                            <select class="js-select2 form-control" id="target-select" name="target_id" style="width: 100%;">
+                                            <select class="js-select2 form-control" id="target-select" name="target" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_targets') as $select_item)
                                                     <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
@@ -126,17 +126,17 @@
 
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.drzava') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="country" name="country" placeholder="" value="{{ isset($apartment) ? $product->country : old('country') }}" readonly>
+                                    <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ isset($apartment) ? $product->state : old('state') }}" readonly>
                                 </div>
 
                                 <div class="col-md-6 ">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.latitude') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="txtLat" name="txtLat" placeholder="" value="{{ isset($apartment) ? $product->txtLat : old('txtLat') }}" readonly>
+                                    <input type="text" class="form-control" id="txtLat" name="latitude" placeholder="" value="{{ isset($apartment) ? $product->latitude : old('latitude') }}" readonly>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.longitude') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="txtLng" name="txtLng" placeholder="" value="{{ isset($apartment) ? $product->txtLng : old('txtLng') }}" readonly>
+                                    <input type="text" class="form-control" id="txtLng" name="longitude" placeholder="" value="{{ isset($apartment) ? $product->longitude : old('longitude') }}" readonly>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="alert alert-info mb-0" role="alert">
@@ -168,7 +168,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.priceprema') }} <span class="text-danger"></span></label>
-                                    <select class="js-select2 form-control" id="price-by-select" name="price_by" style="width: 100%;">
+                                    <select class="js-select2 form-control" id="price-by-select" name="price_per" style="width: 100%;">
                                         <option></option>
                                         @foreach (config('settings.apartment_price_by') as $key => $select_item)
                                             <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
@@ -432,19 +432,19 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                    <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                    <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                    <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                    <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
                                 </div>
                             </div>
 
