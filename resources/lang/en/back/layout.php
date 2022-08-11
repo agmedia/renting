@@ -13,25 +13,25 @@ return [
     |
     */
 
-    'dashboard' => 'Nadzorna ploča',
-    'list' => 'Lista',
-    'br' => 'Br.',
+    'dashboard' => 'Dashboard',
+    'list' => 'Lis',
+    'br' => 'No.',
 
     /*
      * Buttons
      */
     'btn_filter' => 'Filter',
-    'btn_clean_filter' => 'Očisti filtere',
+    'btn_clean_filter' => 'Clear Filters',
     'btn' => [
-        'edit' => 'Uredi',
-        'discard' => 'Odustani',
-        'save' => 'Snimi'
+        'edit' => 'Edit',
+        'discard' => 'Cancel',
+        'save' => 'Save'
     ],
     /*
      * Forms
      */
     'form' => [
-        'title' => 'Naslov',
+        'title' => 'Title',
     ],
 
     /*
@@ -41,27 +41,27 @@ return [
     //
     'sidebar' => [
         'orders' => 'Orders',
-        'calendar' => 'Kalendar',
+        'calendar' => 'Calendar',
         'marketing' => 'Marketing',
-        'actions' => 'Akcije',
+        'actions' => 'Actions',
         'blog' => 'Blog',
         'widgets' => 'Widgets',
-        'users' => 'Korisnici',
-        'application' => 'Aplikacija',
-        'my_profile' => 'Moj profil',
-        'settings' => 'Postavke',
-        'system' => 'Sistem',
-        'category' => 'Kategorije',
-        'general_settings' => 'Generalne postavke',
-        'pages' => 'Info stranice',
+        'users' => 'Users',
+        'application' => 'Application',
+        'my_profile' => 'My Account',
+        'settings' => 'Settings',
+        'system' => 'System',
+        'category' => 'Categories',
+        'general_settings' => 'General Settings',
+        'pages' => 'Info Pages',
         'faq' => 'FAQ',
-        'local_settings' => 'Lokalne postavke',
-        'languages' => 'Jezici',
-        'geozones' => 'Geo Zone',
-        'order_statuses' => 'Statusi Narudžbi',
-        'taxes' => 'Porezi',
-        'currencies' => 'Valute',
-        'payments' => 'Načini plaćanja',
+        'local_settings' => 'Local Settings',
+        'languages' => 'Languages',
+        'geozones' => 'Geo Zones',
+        'order_statuses' => 'Order Statuses',
+        'taxes' => 'Taxes',
+        'currencies' => 'Currencies',
+        'payments' => 'Payment Methods',
 
     ]
 
