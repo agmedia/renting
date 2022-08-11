@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Back\Settings\App;
 
+use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class LanguagesController extends Controller
 {
@@ -18,7 +21,7 @@ class LanguagesController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Settings::get('language', 'list')->sortBy('sort_order');
+        $items = LanguageHelper::adminList();
         $main = $items->where('main', 1)->first();
 
         return view('back.settings.app.languages', compact('items', 'main'));
@@ -29,48 +32,14 @@ class LanguagesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     *
+     *val
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        Cache::forget('lang_list');
+
         return Settings::storeList($request);
-        /*$data = $request->data;
-
-        $setting = Settings::where('code', 'language')->where('key', 'list')->first();
-
-        $values = collect();
-
-        if ($setting) {
-            $values = collect(json_decode($setting->value));
-        }
-
-        if ( ! $data['id']) {
-            $data['id'] = $values->count() + 1;
-            $values->push($data);
-        }
-        else {
-            $values->where('id', $data['id'])->map(function ($item) use ($data) {
-                $item->title = $data['title'];
-                $item->code = $data['code'];
-                $item->status = $data['status'];
-                $item->main = $data['main'];
-
-                return $item;
-            });
-        }
-
-        if ( ! $setting) {
-            $stored = Settings::insert('language', 'list', $values->toJson(), true);
-        } else {
-            $stored = Settings::edit($setting->id, 'language', 'list', $values->toJson(), true);
-        }
-
-        if ($stored) {
-            return response()->json(['success' => 'Jezik je uspješno snimljen.']);
-        }
-
-        return response()->json(['message' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);*/
     }
 
 
@@ -81,6 +50,8 @@ class LanguagesController extends Controller
      */
     public function storeMain(Request $request)
     {
+        Cache::forget('lang_list');
+
         $data = $request->data;
 
         $setting = Settings::where('code', 'language')->where('key', 'list')->first();
@@ -124,6 +95,8 @@ class LanguagesController extends Controller
      */
     public function destroy(Request $request)
     {
+        Cache::forget('lang_list');
+
         $data = $request->data;
 
         if ($data['id']) {

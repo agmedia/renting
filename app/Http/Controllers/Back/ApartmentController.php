@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\System\Category;
 use App\Models\Back\Apartment\Apartment;
@@ -69,9 +70,11 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        $apartment = new Apartment();
+        $langs = LanguageHelper::list();
 
-        return view('back.apartment.edit'/*, compact('data')*/);
+        //dd($langs);
+
+        return view('back.apartment.edit', compact('langs'));
     }
 
 

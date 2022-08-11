@@ -2,12 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
+use App\Helpers\LanguageHelper;
 use Closure;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class CheckLocaleSession
 {
@@ -21,15 +18,23 @@ class CheckLocaleSession
      */
     public function handle($request, Closure $next)
     {
-        /*if (Session::has('locale')) {
-            $locale = Session::get('locale', Config::get('app.locale'));
-        } else {
-            $locale = 'hr'; // $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+        Log::info('public function handle($request, Closure $next)');
+        Log::info(session('locale'));
 
-            Session::push('locale', $locale);
+        $locale = session('locale', false);
+
+        if (empty($locale)) {
+            Log::info('else');
+            $main = LanguageHelper::getMain();
+            $locale = $main->code;
+
+            session(['locale' => $locale]);
+            Log::info('else-over');
         }
 
-        App::setLocale($locale);*/
+        app()->setLocale($locale);
+
+        Log::info(app()->getLocale());
 
         return $next($request);
     }

@@ -51,161 +51,153 @@ use Illuminate\Support\Facades\Route;
 |
 */
 /**
- * BACK ROUTES
+ * BACK ROUTES LOCALIZED
  */
-Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')->group(function () {
-    Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::group(
+    [
+        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function() {
 
-    Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
-    Route::get('import', [DashboardController::class, 'import'])->name('import.initial');
-    Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
+    Route::middleware(['auth:sanctum', 'verified', 'no.customers'])->prefix('admin')->group(function () {
 
-    Route::get('letters', [DashboardController::class, 'letters'])->name('letters.import');
-    Route::get('slugs', [DashboardController::class, 'slugs'])->name('slugs.revision');
-    Route::get('statuses', [DashboardController::class, 'statuses'])->name('statuses.cron');
-    Route::get('duplicate/{target?}', [DashboardController::class, 'duplicate'])->name('duplicate.revision');
+        // DASHBOARD
+        Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('setRoles', [DashboardController::class, 'setRoles'])->name('roles.set');
+        Route::get('mailing-test', [DashboardController::class, 'mailing'])->name('mailing.test');
 
-    // APARTMANI
-    Route::get('apartments', [ApartmentController::class, 'index'])->name('apartments');
-    Route::get('apartment/create', [ApartmentController::class, 'create'])->name('apartments.create');
-    Route::post('apartment', [ApartmentController::class, 'store'])->name('apartments.store');
-    Route::get('apartment/{apartment}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
-    Route::patch('apartment/{apartment}', [ApartmentController::class, 'update'])->name('apartments.update');
-    Route::delete('apartment/{apartment}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
+        // APARTMANI
+        Route::get('apartments', [ApartmentController::class, 'index'])->name('apartments');
+        Route::get('apartment/create', [ApartmentController::class, 'create'])->name('apartments.create');
+        Route::post('apartment', [ApartmentController::class, 'store'])->name('apartments.store');
+        Route::get('apartment/{apartment}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
+        Route::patch('apartment/{apartment}', [ApartmentController::class, 'update'])->name('apartments.update');
+        Route::delete('apartment/{apartment}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
 
-    // NARUDŽBE
-    Route::get('orders', [OrderController::class, 'index'])->name('orders');
-    Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
-    Route::post('order', [OrderController::class, 'store'])->name('orders.store');
-    Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-    Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+        // NARUDŽBE
+        Route::get('orders', [OrderController::class, 'index'])->name('orders');
+        Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('order', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
 
-    // KALENDAR
-    Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
-    Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
-    Route::post('calendar', [CalendarController::class, 'store'])->name('calendar.store');
-    Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
-    Route::patch('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
-    Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+        // KALENDAR
+        Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+        Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
+        Route::post('calendar', [CalendarController::class, 'store'])->name('calendar.store');
+        Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
+        Route::patch('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
+        Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
 
-    // MARKETING
-    Route::prefix('marketing')->group(function () {
-        // BLOG
-        Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
-        Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
-        Route::post('blog', [BlogController::class, 'store'])->name('blogs.store');
-        Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
-        Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
-        Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+        // MARKETING
+        Route::prefix('marketing')->group(function () {
+            // BLOG
+            Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
+            Route::get('blog/create', [BlogController::class, 'create'])->name('blogs.create');
+            Route::post('blog', [BlogController::class, 'store'])->name('blogs.store');
+            Route::get('blog/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+            Route::patch('blog/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+            Route::delete('blog/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
 
-        // AKCIJE
-        Route::get('galleries', [GalleryController::class, 'index'])->name('galleries');
-        Route::get('gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
-        Route::post('gallery', [GalleryController::class, 'store'])->name('gallery.store');
-        Route::get('gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
-        Route::patch('gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
-        Route::delete('gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+            // AKCIJE
+            Route::get('galleries', [GalleryController::class, 'index'])->name('galleries');
+            Route::get('gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+            Route::post('gallery', [GalleryController::class, 'store'])->name('gallery.store');
+            Route::get('gallery/{gallery}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+            Route::patch('gallery/{gallery}', [GalleryController::class, 'update'])->name('gallery.update');
+            Route::delete('gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
-        // AKCIJE
-        Route::get('actions', [ActionController::class, 'index'])->name('actions');
-        Route::get('action/create', [ActionController::class, 'create'])->name('actions.create');
-        Route::post('action', [ActionController::class, 'store'])->name('actions.store');
-        Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
-        Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
-        Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
+            // AKCIJE
+            Route::get('actions', [ActionController::class, 'index'])->name('actions');
+            Route::get('action/create', [ActionController::class, 'create'])->name('actions.create');
+            Route::post('action', [ActionController::class, 'store'])->name('actions.store');
+            Route::get('action/{action}/edit', [ActionController::class, 'edit'])->name('actions.edit');
+            Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
+            Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
 
-        // WIDGETS
-        Route::prefix('widgets')->group(function () {
-            Route::get('/', [WidgetController::class, 'index'])->name('widgets');
-            Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
-            Route::post('/', [WidgetController::class, 'store'])->name('widget.store');
-            Route::get('{widget}/edit', [WidgetController::class, 'edit'])->name('widget.edit');
-            Route::patch('{widget}', [WidgetController::class, 'update'])->name('widget.update');
-            // GROUP
-            Route::prefix('groups')->group(function () {
-                Route::get('create', [WidgetGroupController::class, 'create'])->name('widget.group.create');
-                Route::post('/', [WidgetGroupController::class, 'store'])->name('widget.group.store');
-                Route::get('{widget}/edit', [WidgetGroupController::class, 'edit'])->name('widget.group.edit');
-                Route::patch('{widget}', [WidgetGroupController::class, 'update'])->name('widget.group.update');
+            // WIDGETS
+            Route::prefix('widgets')->group(function () {
+                Route::get('/', [WidgetController::class, 'index'])->name('widgets');
+                Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
+                Route::post('/', [WidgetController::class, 'store'])->name('widget.store');
+                Route::get('{widget}/edit', [WidgetController::class, 'edit'])->name('widget.edit');
+                Route::patch('{widget}', [WidgetController::class, 'update'])->name('widget.update');
+                // GROUP
+                Route::prefix('groups')->group(function () {
+                    Route::get('create', [WidgetGroupController::class, 'create'])->name('widget.group.create');
+                    Route::post('/', [WidgetGroupController::class, 'store'])->name('widget.group.store');
+                    Route::get('{widget}/edit', [WidgetGroupController::class, 'edit'])->name('widget.group.edit');
+                    Route::patch('{widget}', [WidgetGroupController::class, 'update'])->name('widget.group.update');
+                });
             });
         });
-    });
 
-    // KORISNICI
-    Route::get('users', [UserController::class, 'index'])->name('users');
-    Route::get('user/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('user', [UserController::class, 'store'])->name('users.store');
-    Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::patch('user/{user}', [UserController::class, 'update'])->name('users.update');
+        // KORISNICI
+        Route::get('users', [UserController::class, 'index'])->name('users');
+        Route::get('user/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('user', [UserController::class, 'store'])->name('users.store');
+        Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::patch('user/{user}', [UserController::class, 'update'])->name('users.update');
 
-    // POSTAVKE
-    Route::prefix('settings')->group(function () {
-        // SISTEM
-        Route::prefix('system')->group(function () {
-            // KATEGORIJE
-            Route::get('categories', [CategoryController::class, 'index'])->name('categories');
-            Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
-            Route::post('category', [CategoryController::class, 'store'])->name('category.store');
-            Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-            Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
-            Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        // POSTAVKE
+        Route::prefix('settings')->group(function () {
+            // SISTEM
+            Route::prefix('system')->group(function () {
+                // KATEGORIJE
+                Route::get('categories', [CategoryController::class, 'index'])->name('categories');
+                Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+                Route::post('category', [CategoryController::class, 'store'])->name('category.store');
+                Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+                Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
+                Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
-            // INFO PAGES
-            Route::get('pages', [PageController::class, 'index'])->name('pages');
-            Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
-            Route::post('page', [PageController::class, 'store'])->name('pages.store');
-            Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
-            Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
-            Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+                // INFO PAGES
+                Route::get('pages', [PageController::class, 'index'])->name('pages');
+                Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
+                Route::post('page', [PageController::class, 'store'])->name('pages.store');
+                Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
+                Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
+                Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
 
-            // FAQ
-            Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
-            Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
-            Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
-            Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
-            Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
-            Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
+                // FAQ
+                Route::get('faqs', [FaqController::class, 'index'])->name('faqs');
+                Route::get('faq/create', [FaqController::class, 'create'])->name('faqs.create');
+                Route::post('faq', [FaqController::class, 'store'])->name('faqs.store');
+                Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
+                Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
+                Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
+            });
+
+            // LOCALE SETTINGS
+            Route::prefix('application')->group(function () {
+                //
+                Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
+                // GEO ZONES
+                Route::get('geo-zones', [GeoZoneController::class, 'index'])->name('geozones');
+                Route::get('geo-zone/create', [GeoZoneController::class, 'create'])->name('geozones.create');
+                Route::post('geo-zone', [GeoZoneController::class, 'store'])->name('geozones.store');
+                Route::get('geo-zone/{geozone}/edit', [GeoZoneController::class, 'edit'])->name('geozones.edit');
+                Route::patch('geo-zone/{geozone}', [GeoZoneController::class, 'store'])->name('geozones.update');
+                Route::delete('geo-zone/{geozone}', [GeoZoneController::class, 'destroy'])->name('geozones.destroy');
+                //
+                Route::get('order-statuses', [OrderStatusController::class, 'index'])->name('order.statuses');
+                //
+                Route::get('payments', [PaymentController::class, 'index'])->name('payments');
+                Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
+                Route::get('currencies', [CurrencyController::class, 'index'])->name('currencies');
+            });
+
+            // HISTORY
+            Route::get('history', [HistoryController::class, 'index'])->name('history');
+            Route::get('history/log/{history}', [HistoryController::class, 'show'])->name('history.show');
         });
 
-        //Route::get('application', [SettingsController::class, 'index'])->name('settings');
-
-        Route::prefix('application')->group(function () {
-            //
-            Route::get('languages', [LanguagesController::class, 'index'])->name('languages');
-            // GEO ZONES
-            Route::get('geo-zones', [GeoZoneController::class, 'index'])->name('geozones');
-            Route::get('geo-zone/create', [GeoZoneController::class, 'create'])->name('geozones.create');
-            Route::post('geo-zone', [GeoZoneController::class, 'store'])->name('geozones.store');
-            Route::get('geo-zone/{geozone}/edit', [GeoZoneController::class, 'edit'])->name('geozones.edit');
-            Route::patch('geo-zone/{geozone}', [GeoZoneController::class, 'store'])->name('geozones.update');
-            Route::delete('geo-zone/{geozone}', [GeoZoneController::class, 'destroy'])->name('geozones.destroy');
-            //
-            Route::get('order-statuses', [OrderStatusController::class, 'index'])->name('order.statuses');
-            //
-            Route::get('payments', [PaymentController::class, 'index'])->name('payments');
-            Route::get('taxes', [TaxController::class, 'index'])->name('taxes');
-            Route::get('currencies', [CurrencyController::class, 'index'])->name('currencies');
-        });
-
-        // HISTORY
-        Route::get('history', [HistoryController::class, 'index'])->name('history');
-        Route::get('history/log/{history}', [HistoryController::class, 'show'])->name('history.show');
+        // SETTINGS
+        Route::get('/clean/cache', [QuickMenuController::class, 'cache'])->name('cache');
+        Route::get('maintenance/on', [QuickMenuController::class, 'maintenanceModeON'])->name('maintenance.on');
+        Route::get('maintenance/off', [QuickMenuController::class, 'maintenanceModeOFF'])->name('maintenance.off');
     });
-
-    // SETTINGS
-    Route::get('/clean/cache', [QuickMenuController::class, 'cache'])->name('cache');
-    Route::get('maintenance/on', [QuickMenuController::class, 'maintenanceModeON'])->name('maintenance.on');
-    Route::get('maintenance/off', [QuickMenuController::class, 'maintenanceModeOFF'])->name('maintenance.off');
-});
-
-/**
- * CUSTOMER BACK ROUTES
- */
-Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(function () {
-    Route::get('/', [CustomerController::class, 'index'])->name('moj-racun');
-    Route::patch('/snimi/{user}', [CustomerController::class, 'save'])->name('moj-racun.snimi');
-    Route::get('/narudzbe', [CustomerController::class, 'orders'])->name('moje-narudzbe');
 });
 
 /**
@@ -288,59 +280,82 @@ Route::prefix('api/v2')->group(function () {
     });
 });
 
+/**
+ * FRONT ROUTES LOCALIZED
+ */
+Route::group(
+    [
+        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function() {
+
+    /**
+     * CUSTOMER BACK ROUTES
+     */
+    Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('moj-racun');
+        Route::patch('/snimi/{user}', [CustomerController::class, 'save'])->name('moj-racun.snimi');
+        Route::get('/narudzbe', [CustomerController::class, 'orders'])->name('moje-narudzbe');
+    });
+
+    /**
+     * FRONT ROUTES
+     */
+    Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
+    Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
+    Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
+//
+    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
+    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
+    Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
+    Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
+    Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
+//
+    Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
+//
+    Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
+    Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
+//
+    Route::get('cache/image', [HomeController::class, 'imageCache']);
+    Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
+    /**
+     * Sitemap routes
+     */
+    Route::redirect('/sitemap.xml', '/sitemap');
+    Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
+    /**
+     * Forgot password & login routes.
+     */
+    Route::get('forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+    Route::post('forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+    Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+    Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+    /*
+     * Groups, Categories and Products routes resolver.
+     * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
+     */
+    Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
+    Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
+//
+    Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
+    Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
+//
+    Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
+//
+    Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
+
+
+    Route::fallback(function () {
+        return view('front.404');
+    });
+
+});
+
+/**
+ *  TESTING ROUTES
+ */
 Route::get('/phpinfo', function () {
     return phpinfo();
 })->name('index');
-
-/**
- * FRONT ROUTES
- */
-Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
-Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
-Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
-//
-Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
-Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
-Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
-Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
-Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
-Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
-//
-Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
-//
-Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
-Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
-//
-Route::get('cache/image', [HomeController::class, 'imageCache']);
-Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
-/**
- * Sitemap routes
- */
-Route::redirect('/sitemap.xml', '/sitemap');
-Route::get('sitemap/{sitemap?}', [HomeController::class, 'sitemapXML'])->name('sitemap');
-/**
- * Forgot password & login routes.
- */
-Route::get('forgot-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-Route::post('forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
-Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-/*
- * Groups, Categories and Products routes resolver.
- * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
- */
-Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
-Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
-//
-Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
-Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
-//
-Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
-//
-Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
-
-
-Route::fallback(function () {
-    return view('front.404');
-});

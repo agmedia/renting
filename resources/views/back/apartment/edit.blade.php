@@ -56,33 +56,27 @@
                                     <div class="row">
                                         <div class="col-md-12 mt-3 mb-3" >
 
-                                            <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }}  <span class="text-danger">*</span>
-
+                                            <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
-                                                    <li class="active ">  <a class="btn btn-sm btn-outline-secondary float-right mx-2" data-toggle="pill" href="#hr" ><img src="{{ asset('media/flags/hr.png') }}" /></a></li>
-                                                    <li> <a  class="btn btn-sm btn-outline-secondary float-right  " data-toggle="pill" href="#en"><img src="{{ asset('media/flags/gb.png') }}" /></a></li>
+                                                    @foreach($langs as $lang)
+                                                        <li @if ($lang->main) class="active" @endif>
+                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->main) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
+                                                                <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
                                                 </ul>
                                             </label>
 
-
-
-                                            <div class=" tab-content">
-
-                                                <div id="hr" class="tab-pane active"  >
-
-                                                    <input type="text" class="form-control" id="title-input" name="title" placeholder="hr" value="{{ isset($apartment) ? $product->title : old('title') }}">
-                                                    @error('name')
-                                                    <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="tab-pane " id="en" >
-                                                    <input type="text" class="form-control" id="title-input" name="title" placeholder="en" value="{{ isset($apartment) ? $product->title : old('title') }}">
-                                                    @error('name')
-                                                    <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
-                                                    @enderror
-                                                </div>
-
+                                            <div class="tab-content">
+                                                @foreach($langs as $lang)
+                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->main) active @endif">
+                                                        <input type="text" class="form-control" id="title-input" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                                        @error('name')
+                                                        <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
+                                                        @enderror
+                                                    </div>
+                                                @endforeach
                                             </div>
 
                                         </div>

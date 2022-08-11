@@ -19,6 +19,31 @@
 
         <!-- Right Section -->
         <div>
+            <div class="dropdown d-inline-block show">
+                <button type="button" class="btn btn-dual" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-fw fa-globe"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" aria-labelledby="page-header-notifications-dropdown" style="position: absolute; transform: translate3d(-228px, 38px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-end">
+                    <div class="bg-primary rounded-top font-w600 text-white text-center p-3">
+                        Languages
+                    </div>
+                    <ul class="nav-items my-2">
+                        @foreach (\App\Helpers\LanguageHelper::list() as $lang)
+                            <li>
+                                <a class="text-dark media py-2" href="{{ LaravelLocalization::getLocalizedURL($lang->code, null, [], true) }}">
+                                    <div class="mx-3">
+                                        <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                    </div>
+                                    <div class="media-body font-size-sm pr-2">
+                                        <div class="font-w600">{{ $lang->title }}</div>
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
             <!-- User Dropdown -->
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-dual" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

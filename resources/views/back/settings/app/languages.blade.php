@@ -44,7 +44,7 @@
                             <td>{{ $item->id }}</td>
                             <td class="text-primary">{{ $item->title }}
                                 @if (isset($item->main) && $item->main)
-                                    <strong><small>&nbsp;({{ __('back/app.languages.main_lang') }})</small></strong>
+                                    <span class="small font-weight-bold text-info">&nbsp;({{ __('back/app.languages.main_lang') }})</span>
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->code }}</td>
@@ -100,13 +100,6 @@
                                     <label class="css-control css-control-sm css-control-success css-switch res">
                                         <input type="checkbox" class="css-control-input" id="language-status" name="status">
                                         <span class="css-control-indicator"></span> {{ __('back/app.languages.status_title') }}
-                                    </label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="css-control css-control-sm css-control-success css-switch res">
-                                        <input type="checkbox" class="css-control-input" id="language-main" name="main">
-                                        <span class="css-control-indicator"></span> {{ __('back/app.languages.main_title') }}
                                     </label>
                                 </div>
 

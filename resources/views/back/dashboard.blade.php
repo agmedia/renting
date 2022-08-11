@@ -21,13 +21,7 @@
             <div class="block-content block-content-full">
                 <div class="content pt-0">
                     <a href="{{ route('roles.set') }}" class="btn btn-hero-sm btn-rounded btn-hero-info mb-3 mr-3">Set Roles</a>
-                    <a href="{{ route('import.initial') }}" class="btn btn-hero-sm btn-rounded btn-hero-info mb-3 mr-3">Initial Import</a>
                     <a href="{{ route('mailing.test') }}" class="btn btn-hero-sm btn-rounded btn-hero-info mb-3 mr-3">Mail Test</a>
-                    <a href="{{ route('letters.import') }}" class="btn btn-hero-sm btn-rounded btn-hero-warning mb-3 mr-3">First Letters Import</a>
-                    <a href="{{ route('statuses.cron') }}" class="btn btn-hero-sm btn-rounded btn-hero-success mb-3 mr-3">Statuses</a>
-                    <a href="{{ route('slugs.revision') }}" class="btn btn-hero-sm btn-rounded btn-hero-primary mb-3 mr-3">Slugs revision</a>
-                    <a href="{{ route('duplicate.revision', ['target' => 'images']) }}" class="btn btn-hero-sm btn-rounded btn-hero-primary mb-3 mr-3">Duplicate Images revision</a>
-                    <a href="{{ route('duplicate.revision', ['target' => 'publishers']) }}" class="btn btn-hero-sm btn-rounded btn-hero-primary mb-3 mr-3">Duplicate Publishers revision</a>
                 </div>
             </div>
         </div>
@@ -104,7 +98,7 @@
                 <!-- Top Products -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Zadnje prodani artikli</h3>
+                        <h3 class="block-title">Apartmani</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -114,7 +108,7 @@
                     <div class="block-content">
                         <table class="table table-borderless table-striped table-vcenter font-size-sm">
                             <tbody>
-                            @foreach ($products as $product)
+                            {{--@foreach ($products as $product)
                                 <tr>
                                     <td class="text-center" style="width: 100px;">
                                         <a class="font-w600" href="{{ route('apartments.edit', ['apartment' => $product->product_id]) }}">{{ $product->id }}</a>
@@ -124,7 +118,7 @@
                                     </td>
                                     <td class="font-w600 text-right">{{ number_format($product->price, 2, ',', '.') }} kn</td>
                                 </tr>
-                            @endforeach
+                            @endforeach--}}
                             </tbody>
                         </table>
                     </div>

@@ -103,13 +103,11 @@
 
 <div id="agapp">
 
-    {{ \Illuminate\Support\Facades\App::getLocale() }}
-
-    {{--@include('front.layouts.partials.header')
+    {{--@include('front.layouts.partials.header')--}}
 
     @yield('content')
 
-    @include('front.layouts.partials.footer')
+    {{--@include('front.layouts.partials.footer')
 
     @include('front.layouts.partials.handheld')--}}
 </div>
