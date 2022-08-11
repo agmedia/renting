@@ -185,16 +185,6 @@
                         }
                     });
             }
-
-
-
-
-
-
-
-
-
-
         }
     </script>
 
@@ -251,8 +241,8 @@
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach($langs as $lang)
-                                                        <li @if ($lang->main) class="active" @endif>
-                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->main) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
+                                                        <li @if ($lang->code == LaravelLocalization::getCurrentLocale()) class="active" @endif>
+                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->code == LaravelLocalization::getCurrentLocale()) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
                                                         </li>
@@ -262,8 +252,8 @@
 
                                             <div class="tab-content">
                                                 @foreach($langs as $lang)
-                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->main) active @endif">
-                                                        <input type="text" class="form-control" id="title-input" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $product->title : old('title') }}">
+                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->code == LaravelLocalization::getCurrentLocale()) active @endif">
+                                                        <input type="text" class="form-control" id="title-input" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
                                                         @error('name')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                                         @enderror
