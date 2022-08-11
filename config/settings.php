@@ -98,53 +98,412 @@ return [
 
     'apartment_details' => [
         1 => [
-            'title' => 'Parking',
-            'icon' => 'carpark',
-            'code' => null,
+            'title' => [
+                'en' => 'Hair dryer',
+                'hr' => 'Sušilo',
+            ],
+            'icon' => 'hair_dryer.svg',
+            'group' => 'Bathroom',
+            'featured' => 0,
             'status' => 0
         ],
         2 => [
-            'title' => 'Bazen',
-            'icon' => 'pool',
-            'code' => null,
+            'title' => [
+                'en' => 'Shampoo',
+                'hr' => 'Šampon za kosu',
+            ],
+            'icon' => 'shampoo.svg',
+            'group' => 'Bathroom',
+            'featured' => 0,
             'status' => 0
         ],
         3 => [
-            'title' => 'Klima',
-            'icon' => 'ac',
-            'code' => null,
+            'title' => [
+                'en' => 'Hot water',
+                'hr' => 'Topla voda',
+            ],
+            'icon' => 'hot_water.svg',
+            'group' => 'Bathroom',
+            'featured' => 0,
             'status' => 0
         ],
         4 => [
-            'title' => 'Kuhinja',
-            'icon' => 'kitchen',
-            'code' => null,
+            'title' => [
+                'en' => 'Shower gel',
+                'hr' => 'Gel za tuširanje',
+            ],
+            'icon' => 'shower_gel.svg',
+            'group' => 'Bathroom',
+            'featured' => 0,
             'status' => 0
         ],
         5 => [
-            'title' => 'Igralište',
-            'icon' => 'pool',
-            'code' => null,
+            'title' => [
+                'en' => 'Washer',
+                'hr' => 'Perilica rublja',
+            ],
+            'icon' => 'washer.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
             'status' => 0
         ],
         6 => [
-            'title' => 'Roštilj',
-            'icon' => 'ac',
-            'code' => null,
+            'title' => [
+                'en' => 'Essentials',
+                'hr' => 'Osnove',
+            ],
+            'description' => [
+                'en' => 'Towels, bed sheets, soap, and toilet paper',
+                'hr' => 'Ručnici, posteljina, sapun i toaletni papir',
+            ],
+            'icon' => 'essentials.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
             'status' => 0
         ],
         7 => [
-            'title' => 'Garaža',
-            'icon' => 'kitchen',
-            'code' => null,
+            'title' => [
+                'en' => 'Hangers',
+                'hr' => 'Vješalice',
+            ],
+            'icon' => 'hangers.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
             'status' => 0
         ],
         8 => [
-            'title' => 'Alarm',
-            'icon' => 'kitchen',
-            'code' => null,
+            'title' => [
+                'en' => 'Bed linens',
+                'hr' => 'Posteljina',
+            ],
+            'icon' => 'bad_linens.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
             'status' => 0
         ],
+        9 => [
+            'title' => [
+                'en' => 'Extra pillows and blankets',
+                'hr' => 'Dodatni jastuci i deke',
+            ],
+            'icon' => 'extra_pillows_and_blankets.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
+            'status' => 0
+        ],
+        10 => [
+            'title' => [
+                'en' => 'Iron',
+                'hr' => 'Pegla',
+            ],
+            'icon' => 'iron.svg',
+            'group' => 'Bedroom and laundry',
+            'featured' => 0,
+            'status' => 0
+        ],
+        11 => [
+            'title' => [
+                'en' => 'TV',
+                'hr' => 'TV',
+            ],
+            'icon' => 'tv.svg',
+            'group' => 'Entertainment',
+            'featured' => 0,
+            'status' => 0
+        ],
+        12 => [
+            'title' => [
+                'en' => 'Pack ’n play/Travel crib - available upon request',
+                'hr' => 'Prijenosni dječji krevetić',
+            ],
+            'icon' => 'crib.svg',
+            'group' => 'Family',
+            'featured' => 0,
+            'status' => 0
+        ],
+        13 => [
+            'title' => [
+                'en' => 'Air conditioning',
+                'hr' => 'Klima',
+            ],
+            'icon' => 'air_conditioning.svg',
+            'group' => 'Heating and cooling',
+            'featured' => 0,
+            'status' => 0
+        ],
+        14 => [
+            'title' => [
+                'en' => 'Heating',
+                'hr' => 'Grijanje',
+            ],
+            'icon' => 'heating.svg',
+            'group' => 'Heating and cooling',
+            'featured' => 0,
+            'status' => 0
+        ],
+        15 => [
+            'title' => [
+                'en' => 'Smoke alarm',
+                'hr' => 'Alarm za dim',
+            ],
+            'icon' => 'smoke_alarm.svg',
+            'group' => 'Home safety',
+            'featured' => 0,
+            'status' => 0
+        ],
+        16 => [
+            'title' => [
+                'en' => 'Carbon monoxide alarm',
+                'hr' => 'Alarm za ugljični monoksid',
+            ],
+            'icon' => 'carbon_monoxide_alarm.svg',
+            'group' => 'Home safety',
+            'featured' => 0,
+            'status' => 0
+        ],
+        17 => [
+            'title' => [
+                'en' => 'Fire extinguisher',
+                'hr' => 'Aparat za gašenje požara',
+            ],
+            'icon' => 'fire_extinguisher.svg',
+            'group' => 'Home safety',
+            'featured' => 0,
+            'status' => 0
+        ],
+        18 => [
+            'title' => [
+                'en' => 'First aid kit',
+                'hr' => 'Prva pomoć',
+            ],
+            'icon' => 'first_aid_kit.svg',
+            'group' => 'Home safety',
+            'featured' => 0,
+            'status' => 0
+        ],
+        19 => [
+            'title' => [
+                'en' => 'Wifi',
+                'hr' => 'Wifi',
+            ],
+            'icon' => 'wifi.svg',
+            'group' => 'Internet and office',
+            'featured' => 0,
+            'status' => 0
+        ],
+        20 => [
+            'title' => [
+                'en' => 'Kitchen',
+                'hr' => 'Kuhinja',
+            ],
+            'description' => [
+                'en' => 'Space where guests can cook their own meals',
+                'hr' => 'Prostor u kojem gosti mogu sami kuhati obroke',
+            ],
+            'icon' => 'kitchen.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        21 => [
+            'title' => [
+                'en' => 'Refrigerator',
+                'hr' => 'Hladnjak',
+            ],
+            'icon' => 'refrigerator.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        22 => [
+            'title' => [
+                'en' => 'Microwave',
+                'hr' => 'Mikrovalna pećnica',
+            ],
+            'icon' => 'microwave.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        23 => [
+            'title' => [
+                'en' => 'Cooking basics',
+                'hr' => 'Osnove za kuhanje',
+            ],
+            'description' => [
+                'en' => 'Pots and pans, oil, salt and pepper',
+                'hr' => 'Lonci i tave, ulje, sol i papar',
+            ],
+            'icon' => 'cooking_basics.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        24 => [
+            'title' => [
+                'en' => 'Dishes and silverware',
+                'hr' => 'Posuđe i srebrnina',
+            ],
+            'description' => [
+                'en' => 'Bowls, chopsticks, plates, cups, etc.',
+                'hr' => 'Zdjele, štapići, tanjuri, šalice itd.',
+            ],
+            'icon' => 'dishes_and_silverware.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        25 => [
+            'title' => [
+                'en' => 'Dishwasher',
+                'hr' => 'Perilica suđa',
+            ],
+            'icon' => 'dishwasher.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        26 => [
+            'title' => [
+                'en' => 'Stove',
+                'hr' => 'Štednjak',
+            ],
+            'icon' => 'stove.svg',
+            'group' => 'Kitchen and dining',
+            'featured' => 0,
+            'status' => 0
+        ],
+        27 => [
+            'title' => [
+                'en' => 'Private entrance',
+                'hr' => 'Privatni ulaz',
+            ],
+            'description' => [
+                'en' => 'Separate street or building entrance',
+                'hr' => 'Poseban ulaz s ulice ili zgrade',
+            ],
+            'icon' => 'private_entrance.svg',
+            'group' => 'Location features',
+            'featured' => 0,
+            'status' => 0
+        ],
+        28 => [
+            'title' => [
+                'en' => 'Free parking on premises',
+                'hr' => 'Besplatan parking u sklopu objekta',
+            ],
+            'icon' => 'free_parking_on_premises.svg',
+            'group' => 'Parking and facilities',
+            'featured' => 0,
+            'status' => 0
+        ],
+        29 => [
+            'title' => [
+                'en' => 'Free street parking',
+                'hr' => 'Besplatan parking na ulici',
+            ],
+            'icon' => 'free_street_parking.svg',
+            'group' => 'Parking and facilities',
+            'featured' => 0,
+            'status' => 0
+        ],
+        30 => [
+            'title' => [
+                'en' => 'Pool',
+                'hr' => 'Bazen',
+            ],
+            'icon' => 'pool.svg',
+            'group' => 'Parking and facilities',
+            'featured' => 0,
+            'status' => 0
+        ],
+        31 => [
+            'title' => [
+                'en' => 'Hot tub',
+                'hr' => 'Vruća kupelj',
+            ],
+            'icon' => 'hot_tub.svg',
+            'group' => 'Parking and facilities',
+            'featured' => 0,
+            'status' => 0
+        ],
+        32 => [
+            'title' => [
+                'en' => 'EV charger',
+                'hr' => 'Punjač za električna vozila',
+            ],
+            'description' => [
+                'en' => 'Guests can charge their electric vehicles on the property.',
+                'hr' => 'Gosti mogu puniti svoja električna vozila na imanju.',
+            ],
+            'icon' => 'ev_charger.svg',
+            'group' => 'Parking and facilities',
+            'featured' => 0,
+            'status' => 0
+        ],
+        33 => [
+            'title' => [
+                'en' => 'Luggage dropoff allowed',
+                'hr' => 'Dopušten predaja prtljage',
+            ],
+            'description' => [
+                'en' => 'For guests convenience when they have early arrival or late departure',
+                'hr' => 'Za udobnost gostiju kada imaju rani dolazak ili kasni odlazak',
+            ],
+            'icon' => 'luggage_dropoff_allowed.svg',
+            'group' => 'Services',
+            'featured' => 0,
+            'status' => 0
+        ],
+        34 => [
+            'title' => [
+                'en' => 'Self check-in',
+                'hr' => 'Samostalna prijava',
+            ],
+            'icon' => 'self_check_in.svg',
+            'group' => 'Services',
+            'featured' => 0,
+            'status' => 0
+        ],
+        35 => [
+            'title' => [
+                'en' => 'Keypad',
+                'hr' => 'Tipkovnica za ulaz',
+            ],
+            'description' => [
+                'en' => 'Check yourself into the home with a door code',
+                'hr' => 'Prijavite se u dom pomoću koda na vratima',
+            ],
+            'icon' => 'keypad.svg',
+            'group' => 'Services',
+            'featured' => 0,
+            'status' => 0
+        ],
+        36 => [
+            'title' => [
+                'en' => 'Long term stays allowed',
+                'hr' => 'Dugotrajni boravci dozvoljeni',
+            ],
+            'description' => [
+                'en' => 'Allow stay for 28 days or more',
+                'hr' => 'Dozvoljen boravak 28 dana ili više',
+            ],
+            'icon' => 'long_term_stays_allowed.svg',
+            'group' => 'Services',
+            'featured' => 0,
+            'status' => 0
+        ],
+        37 => [
+            'title' => [
+                'en' => 'Security cameras on property',
+                'hr' => 'Sigurnosna kamera',
+            ],
+            'icon' => 'security_cameras_on_property.svg',
+            'group' => 'Not included',
+            'featured' => 0,
+            'status' => 0
+        ],
+
     ],
 
 

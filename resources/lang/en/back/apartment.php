@@ -49,7 +49,6 @@ return [
     'brojkreveta' => 'Number of beds',
     'brojkupaonica' => 'Number of bathrooms',
     'amenities' => 'Amenities',
-
     'unosinfo' => 'Enter additional information',
     'odaberiteinfo' => 'Select saved info',
     'odaberiteinfotext' => 'Saved as a favorite in the database. It is displayed in the list depending on the Type.',
@@ -70,5 +69,17 @@ return [
     'slike' => 'Images',
     'slikeodaberi' => 'Select unit photos...',
     'btnodustani' => 'Cancel',
+    'amenities_bathroom' => 'Bathroom',
+    'amenities_bedroom_and_laundry' => 'Bedroom and laundry',
+    'amenities_entertainment' => 'Entertainment',
+    'amenities_family' => 'Family',
+    'amenities_heating_and_cooling' => 'Heating and cooling',
+    'amenities_home_safety' => 'Home safety',
+    'amenities_internet_and_office' => 'Internet and office',
+    'amenities_kitchen_and_dining' => 'Kitchen and dining',
+    'amenities_location_features' => 'Location features',
+    'amenities_parking_and_facilities' => 'Parking and facilities',
+    'amenities_services' => 'Services',
+    'amenities_not_included' => 'Not included',
 
 ];

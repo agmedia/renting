@@ -48,8 +48,7 @@ return [
     'brojsoba' => 'Broj soba',
     'brojkreveta' => 'Broj kreveta',
     'brojkupaonica' => 'Broj kupaonica',
-    'amenities' => 'Brzi izbor dodatnih informacija',
-
+    'amenities' => 'Opremljenost',
     'unosinfo' => 'Unos dodatnih informacija',
     'odaberiteinfo' => 'Odaberite spremljeni info',
     'odaberiteinfotext' => 'U bazi spremljen kao favorit. Prikazuje se u listi zavisno od Tip-a.',
@@ -70,6 +69,18 @@ return [
     'slike' => 'Fotografije',
     'slikeodaberi' => 'Odaberite fotografije apartmana...',
     'btnodustani' => 'Odustani',
+    'amenities_bathroom' => 'Kupaonica',
+    'amenities_bedroom_and_laundry' => 'Spavaća soba i praonica rublja',
+    'amenities_entertainment' => 'Zabava',
+    'amenities_family' => 'Obitelj',
+    'amenities_heating_and_cooling' => 'Grijanje i hlađenje',
+    'amenities_home_safety' => 'Sigurnost',
+    'amenities_internet_and_office' => 'Interneti ured',
+    'amenities_kitchen_and_dining' => 'Kuhinja',
+    'amenities_location_features' => 'Značajke lokacije',
+    'amenities_parking_and_facilities' => 'Parking i dodatni sadržaji',
+    'amenities_services' => 'Usluge',
+    'amenities_not_included' => 'Nije uključeno',
 
 
 ];
