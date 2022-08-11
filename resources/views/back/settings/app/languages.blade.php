@@ -10,9 +10,9 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.languages.title') }}</h1>
-                <button class="btn btn-hero-secondary my-2 mr-2" onclick="event.preventDefault(); openMainModal();">
+<!--                <button class="btn btn-hero-secondary my-2 mr-2" onclick="event.preventDefault(); openMainModal();">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/app.languages.main_select') }}</span>
-                </button>
+                </button>-->
                 <button class="btn btn-hero-success my-2" onclick="event.preventDefault(); openModal();">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/app.languages.new') }}</span>
                 </button>
@@ -42,9 +42,9 @@
                     @forelse ($items as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td class="text-primary">{{ $item->title }}
-                                @if (isset($item->main) && $item->main)
-                                    <span class="small font-weight-bold text-info">&nbsp;({{ __('back/app.languages.main_lang') }})</span>
+                            <td class="text-primary">{{ $item->title->{LaravelLocalization::getCurrentLocale()} }}
+                                @if (LaravelLocalization::getCurrentLocale() == $item->code)
+                                    <span class="small font-weight-bold text-info">&nbsp;({{ __('back/settings.current_lang') }})</span>
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->code }}</td>
@@ -87,8 +87,29 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
                                 <div class="form-group mb-4">
-                                    <label for="language-title">{{ __('back/app.languages.input_title') }}</label>
-                                    <input type="text" class="form-control" id="language-title" name="title">
+                                    <label for="language-title" class="w-100">{{ __('back/app.languages.input_title') }} <span class="text-danger">*</span>
+                                        <ul class="nav nav-pills float-right">
+                                            @foreach($items as $lang)
+                                                <li @if (LaravelLocalization::getCurrentLocale() == $lang->code) class="active" @endif>
+                                                    <a class="btn btn-sm btn-outline-secondary float-right @if (LaravelLocalization::getCurrentLocale() == $lang->code) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
+                                                        <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </label>
+
+                                    <div class="tab-content">
+                                        @foreach($items as $lang)
+                                            <div id="{{ $lang->code }}" class="tab-pane @if (LaravelLocalization::getCurrentLocale() == $lang->code) active @endif">
+                                                <input type="text" class="form-control" id="language-title[{{ $lang->code }}]" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="">
+                                                @error('title')
+                                                <span class="text-danger font-italic">Greška. Niste unijeli naslov.</span>
+                                                @enderror
+                                            </div>
+                                        @endforeach
+                                    </div>
+
                                 </div>
 
                                 <div class="form-group mb-4">
@@ -120,51 +141,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="main-language-modal" tabindex="-1" role="dialog" aria-labelledby="main-language-modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-popout" role="document">
-            <div class="modal-content rounded">
-                <div class="block block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary">
-                        <h3 class="block-title">Odaberite glavnu valutu</h3>
-                        <div class="block-options">
-                            <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="block-content">
-                        <div class="row justify-content-center mb-3">
-                            <div class="col-md-10 mt-3">
-                                <div class="form-group">
-                                    <select class="js-select2 form-control" id="language-main-select" name="currency_main_select" style="width: 100%;" data-placeholder="Odaberite glavnu valutu">
-                                        <option></option>
-                                        @foreach ($items as $item)
-                                            <option value="{{ $item->id }}" {{ ((isset($main)) and ($main->id == $item->id)) ? 'selected' : '' }}>{{ $item->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-content block-content-full text-right bg-light">
-                        <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
-                            Odustani <i class="fa fa-times ml-2"></i>
-                        </a>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="event.preventDefault(); storeMainCurrency();">
-                            Snimi <i class="fa fa-arrow-right ml-2"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="delete-language-modal" tabindex="-1" role="dialog" aria-labelledby="language-modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-popout" role="document">
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Obriši valutu</h3>
+                        <h3 class="block-title">Obriši jezik</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>
@@ -174,7 +156,7 @@
                     <div class="block-content">
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
-                                <h4>Jeste li sigurni da želite obrisati valutu?</h4>
+                                <h4>Jeste li sigurni da želite obrisati jezik?</h4>
                                 <input type="hidden" id="delete-language-id" value="0">
                             </div>
                         </div>
@@ -224,9 +206,15 @@
          *
          */
         function createCurrency() {
+            let values = {};
+
+            {!! $items !!}.forEach(function(item) {
+                values[item.code] = document.getElementById('language-title[' + item.code + ']').value;
+            });
+
             let item = {
                 id: $('#language-id').val(),
-                title: $('#language-title').val(),
+                title: values,
                 code: $('#language-code').val(),
                 status: $('#language-status')[0].checked,
                 //main: $('#language-main')[0].checked,
@@ -288,6 +276,8 @@
          * @param item
          */
         function editCurrency(item) {
+            console.log(item)
+
             $('#language-id').val(item.id);
             $('#language-title').val(item.title);
             $('#language-code').val(item.code);

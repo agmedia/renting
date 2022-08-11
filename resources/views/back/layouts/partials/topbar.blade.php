@@ -35,7 +35,12 @@
                                         <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                     </div>
                                     <div class="media-body font-size-sm pr-2">
-                                        <div class="font-w600">{{ $lang->title }}</div>
+                                        <div class="font-w600">
+                                            {{ $lang->title->{LaravelLocalization::getCurrentLocale()} }}
+                                            @if (LaravelLocalization::getCurrentLocale() == $lang->code)
+                                                <span class="small font-weight-bold text-info">&nbsp;({{ __('back/settings.current_lang') }})</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </a>
                             </li>

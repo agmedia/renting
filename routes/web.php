@@ -358,4 +358,4 @@ Route::group(
  */
 Route::get('/phpinfo', function () {
     return phpinfo();
-})->name('index');
+})->name('phpinfo');

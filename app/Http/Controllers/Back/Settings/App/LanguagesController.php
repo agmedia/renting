@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class LanguagesController extends Controller
 {
@@ -56,7 +57,7 @@ class LanguagesController extends Controller
                 $item->title = $data['title'];
                 $item->code = $data['code'];
                 $item->status = $data['status'];
-                //$item->main = $data['main'];
+                $item->main = false;
 
                 return $item;
             });
@@ -113,6 +114,11 @@ class LanguagesController extends Controller
 
         if ($stored) {
             $this->clearCache();
+
+            $main = LanguageHelper::getMain();
+            //App::setLocale($main->code);
+
+            return redirect()->to(LaravelLocalization::getLocalizedUrl($main->code));
 
             return response()->json(['success' => 'Glavni jezik je uspješno izmjenjen.']);
         }
