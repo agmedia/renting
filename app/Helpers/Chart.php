@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class Chart
 {
-    
+
     /**
      * @var array
      */
@@ -22,8 +22,10 @@ class Chart
      * @var string[]
      */
     public $month_names = ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'];
-    
-    
+
+    public $month_names_en = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+
     /**
      * Set chart data query params.
      *
@@ -43,7 +45,7 @@ class Chart
             'from'     => $from,
             'to'       => $to,
             'iterator' => $this->months,
-            'iterator_names' => $this->month_names,
+            'iterator_names' => $this->GetLocaleMonths(current_locale()),
             'group'    => 'm'
         ];
     }
@@ -58,17 +60,19 @@ class Chart
     {
         $response = new Collection();
 
+
+
         foreach ($this->months as $key => $month) {
             if ( ! $data->has($month)) {
                 $response->put($month, [
-                    'title' => $this->month_names[$key],
+                    'title' => $this->GetLocaleMonths(current_locale())[$key],
                     'value' => 0
                 ]);
             } else {
                 $sum = $this->sumOvjere($data[$month]);
 
                 $response->put($month, [
-                    'title' => $this->month_names[$key],
+                    'title' => $this->GetLocaleMonths(current_locale())[$key],
                     'value' => $sum
                 ]);
             }
@@ -110,5 +114,18 @@ class Chart
 
         return $sum;
     }
-    
+
+
+    public function GetLocaleMonths($locale)
+    {
+        if($locale == 'hr'){
+            $mjeseci = $this->month_names;
+        }
+        else{
+            $mjeseci = $this->month_names_en;
+        }
+
+        return $mjeseci;
+    }
+
 }
