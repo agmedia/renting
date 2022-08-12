@@ -19,11 +19,26 @@ class Chart
     public $months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
     /**
+     * @var \string[][]
+     */
+    private $names = [
+        'hr' => ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'],
+        'en' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    ];
+
+    /**
      * @var string[]
      */
-    public $month_names = ['Sij', 'Velj', 'Ožu', 'Tra', 'Svi', 'Lip', 'Srp', 'Kol', 'Ruj', 'Lis', 'Stu', 'Pro'];
+    public $month_names = [];
 
-    public $month_names_en = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    /**
+     * Chart constructor.
+     */
+    public function __construct()
+    {
+        $this->month_names = $this->names[current_locale()];
+    }
 
 
     /**
@@ -45,7 +60,7 @@ class Chart
             'from'     => $from,
             'to'       => $to,
             'iterator' => $this->months,
-            'iterator_names' => $this->GetLocaleMonths(current_locale()),
+            'iterator_names' => $this->month_names,
             'group'    => 'm'
         ];
     }
@@ -65,14 +80,14 @@ class Chart
         foreach ($this->months as $key => $month) {
             if ( ! $data->has($month)) {
                 $response->put($month, [
-                    'title' => $this->GetLocaleMonths(current_locale())[$key],
+                    'title' => $this->month_names[$key],
                     'value' => 0
                 ]);
             } else {
                 $sum = $this->sumOvjere($data[$month]);
 
                 $response->put($month, [
-                    'title' => $this->GetLocaleMonths(current_locale())[$key],
+                    'title' => $this->month_names[$key],
                     'value' => $sum
                 ]);
             }
@@ -113,19 +128,6 @@ class Chart
         }
 
         return $sum;
-    }
-
-
-    public function GetLocaleMonths($locale)
-    {
-        if($locale == 'hr'){
-            $mjeseci = $this->month_names;
-        }
-        else{
-            $mjeseci = $this->month_names_en;
-        }
-
-        return $mjeseci;
     }
 
 }
