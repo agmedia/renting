@@ -6,12 +6,7 @@
     <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/plugins/slim/slim.css') }}">
 
-
-
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb7BR7bJL5O1ABqq9q3ZACc1Rt7eLCii8&libraries=places" ></script>
-
-
     <script type="text/javascript">
 
         var map;
@@ -246,7 +241,7 @@
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
                                                         <li @if ($lang->code == current_locale()) class="active" @endif ">
-                                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active  @endif " data-toggle="pill" href="#{{ $lang->code }}">
+                                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
                                                         </li>
@@ -256,8 +251,8 @@
 
                                             <div class="tab-content">
                                                 @foreach(ag_lang() as $lang)
-                                                    <div id="{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                        <input type="text" class="form-control" id="title-input" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                                    <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
                                                         @error('name')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                                         @enderror
@@ -393,11 +388,31 @@
                             </div>
 
 
-                            <h2 class="content-heading">{{ __('back/apartment.opis') }}</h2>
+                            <h2 class="content-heading">
+                                {{ __('back/apartment.opis') }}
+                                <div class="float-right">
+                                    <ul class="nav nav-pills float-right">
+                                        @foreach(ag_lang() as $lang)
+                                            <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#description-{{ $lang->code }}">
+                                                <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                            </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </h2>
 
                             <div class="form-group row mb-4">
                                 <div class="col-md-12">
-                                    <textarea id="description-editor" name="description">{!! isset($apartment) ? $apartment->description : old('description') !!}</textarea>
+                                    <div class="tab-content">
+                                        @foreach(ag_lang() as $lang)
+                                            <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->description : old('description') !!}</textarea>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -681,14 +696,19 @@
 
     <script>
         $(() => {
-            ClassicEditor
-            .create(document.querySelector('#description-editor'))
-            .then(editor => {
-                console.log(editor);
-            })
-            .catch(error => {
-                console.error(error);
+            {!! ag_lang() !!}.forEach(function(item) {
+                ClassicEditor
+                .create(document.querySelector('#description-editor-' + item.code))
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
             });
+
+
+
 
             $('#tax-select').select2({ minimumResultsForSearch: Infinity });
             $('#favorite-select').select2({ minimumResultsForSearch: Infinity });

@@ -53,8 +53,4 @@ class LanguageHelper
     }
 
 
-    public static function set()
-    {
-
-    }
 }
