@@ -434,7 +434,7 @@
                             @foreach ($amenities as $key => $items)
                                 <h2 class="content-heading">{{ $items[0]['group_title'][current_locale()] }}</h2>
 
-                                <div class="form-group row items-push mb-4">
+                                <div class="form-group row items-push mb-0">
                                     @foreach ($items as $detail)
                                         <div class="col-md-4">
                                             <div class="custom-control custom-switch custom-control-lg mb-2">
