@@ -13,11 +13,14 @@ return [
     |
     */
 
-    'current_lang' => 'Trenutni jezik',
-    'brzi_linkovi' => 'Brzi linkovi',
-    'pocetna_stranica' => 'Početna stranica',
-    'ocisti_cache' => 'Očisti Cache',
-    'odrzavanje_on' => 'Održavanje ON',
-    'odrzavanje_off' => 'Održavanje OFF',
-    'odjava' => 'Odjava',
+    'narudzba_obrada' => 'Reservations Pending',
+    'narudzba_gotovo' => 'Reservations Finished',
+    'narudzba_danas' => 'Reservations Today ',
+    'narudzba_mjesec' => 'Reservations this Month',
+    'mjesecni_pregled' => 'Monthly View',
+    'zadnje_dodani_apartmani' => 'Recently Added Units',
+    'zadnje_dodane_rezervacije' => 'Recent Reservations',
+    'ova_godina' => 'This Year',
+    'zadnja_godina' => 'Last Year',
+
 ];

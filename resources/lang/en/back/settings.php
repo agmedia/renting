@@ -14,5 +14,11 @@ return [
     */
 
     'current_lang' => 'Current language',
+    'brzi_linkovi' => 'Quick Links',
+    'pocetna_stranica' => 'View Home Page',
+    'ocisti_cache' => 'Clear Cache',
+    'odrzavanje_on' => 'Maintenance ON',
+    'odrzavanje_off' => 'Maintenance OFF',
+    'odjava' => 'Logout',
 
 ];

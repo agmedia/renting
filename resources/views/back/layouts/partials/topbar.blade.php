@@ -58,29 +58,29 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="page-header-user-dropdown">
                     <div class="bg-primary-darker rounded-top font-w600 text-white text-center p-3">
-                        Brzi Linkovi
+                        {{ __('back/settings.brzi_linkovi') }}
                     </div>
                     <div class="p-2">
                         <a class="dropdown-item text-info" href="{{ route('index') }}" target="_blank">
-                            <i class="si si-screen-desktop mr-1"></i> Početna stranica
+                            <i class="si si-screen-desktop mr-1"></i> {{ __('back/settings.pocetna_stranica') }}
                         </a>
                         <a class="dropdown-item text-warning" href="{{ route('cache') }}">
-                            <span><i class="si si-magic-wand mr-1"></i> Očisti Cache</span>
+                            <span><i class="si si-magic-wand mr-1"></i>  {{ __('back/settings.ocisti_cache') }}</span>
                         </a>
 
                         <div role="separator" class="dropdown-divider"></div>
 
                         <a class="dropdown-item text-danger" href="{{ route('maintenance.on') }}">
-                            <i class="si si-ban mr-1"></i> Održavanje ON
+                            <i class="si si-ban mr-1"></i> {{ __('back/settings.odrzavanje_on') }}
                         </a>
                         <a class="dropdown-item text-success" href="{{ route('maintenance.off') }}">
-                            <i class="si si-control-play mr-1"></i> Održavanje OFF
+                            <i class="si si-control-play mr-1"></i> {{ __('back/settings.odrzavanje_off') }}
                         </a>
 
                         <div role="separator" class="dropdown-divider"></div>
 
                         <a class="dropdown-item text-danger-light" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="si si-logout mr-1"></i> Odjava
+                            <i class="si si-logout mr-1"></i> {{ __('back/settings.odjava') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf

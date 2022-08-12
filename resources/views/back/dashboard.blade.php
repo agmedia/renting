@@ -5,10 +5,10 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Nadzorna ploča</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/layout.dashboard') }}</h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">Nadzorna ploča</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('back/layout.dashboard') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -36,7 +36,7 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-warning mb-1">{{ $data['proccess'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Narudžbi u obradi
+                            {{ __('back/dashboard.narudzba_obrada') }}
                         </p>
                     </div>
                 </a>
@@ -46,7 +46,8 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 font-w600 text-success mb-1">{{ $data['finished'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Dovršenih narudžbi
+                            {{ __('back/dashboard.narudzba_gotovo') }}
+
                         </p>
                     </div>
                 </a>
@@ -56,7 +57,7 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['today'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Narudžbi danas
+                           {{ __('back/dashboard.narudzba_danas') }}
                         </p>
                     </div>
                 </a>
@@ -66,7 +67,7 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['this_month'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                            Narudžbi ovaj mjesec
+                             {{ __('back/dashboard.narudzba_mjesec') }}
                         </p>
                     </div>
                 </a>
@@ -77,7 +78,7 @@
         <!-- Orders Overview -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Mjesečni pregled</h3>
+                <h3 class="block-title"> {{ __('back/dashboard.mjesecni_pregled') }} </h3>
                 <div class="block-options">
                     <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                         <i class="si si-refresh"></i>
@@ -98,7 +99,7 @@
                 <!-- Top Products -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Apartmani</h3>
+                        <h3 class="block-title">{{ __('back/dashboard.zadnje_dodani_apartmani') }} </h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -129,7 +130,7 @@
                 <!-- Latest Orders -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Zadnje narudžbe</h3>
+                        <h3 class="block-title">{{ __('back/dashboard.zadnje_dodane_rezervacije') }}</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-toggle="block-option" data-action="state_toggle" data-action-mode="demo">
                                 <i class="si si-refresh"></i>
@@ -150,7 +151,7 @@
                                     <td>
                                         <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
                                     </td>
-                                    <td class="font-w600 text-right">{{ number_format($order->total, 2, ',', '.') }} kn</td>
+                                    <td class="font-w600 text-right">{{ number_format($order->total, 2, ',', '.') }} €</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -219,7 +220,7 @@
                     intersect: false,
                     callbacks: {
                         label: function(tooltipItems, data) {
-                            return  tooltipItems.yLabel + 'kn';
+                            return  tooltipItems.yLabel + '€';
                         }
                     }
                 }
@@ -230,7 +231,7 @@
                 labels: this_year.names,
                 datasets: [
                     {
-                        label: 'Ova godina',
+                        label: '{{ __('back/dashboard.ova_godina') }}',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .5)',
                         borderColor: 'transparent',
@@ -241,7 +242,7 @@
                         data: this_year.values
                     },
                     {
-                        label: 'Zadnja godina',
+                        label: '{{ __('back/dashboard.zadnja_godina') }}',
                         fill: true,
                         backgroundColor: 'rgba(6, 101, 208, .2)',
                         borderColor: 'transparent',

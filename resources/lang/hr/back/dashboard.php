@@ -13,11 +13,13 @@ return [
     |
     */
 
-    'current_lang' => 'Trenutni jezik',
-    'brzi_linkovi' => 'Brzi linkovi',
-    'pocetna_stranica' => 'Početna stranica',
-    'ocisti_cache' => 'Očisti Cache',
-    'odrzavanje_on' => 'Održavanje ON',
-    'odrzavanje_off' => 'Održavanje OFF',
-    'odjava' => 'Odjava',
+    'narudzba_obrada' => 'Rezervacija u obradi',
+    'narudzba_gotovo' => 'Rezervacija dovršenih',
+    'narudzba_danas' => 'Rezervacija danas ',
+    'narudzba_mjesec' => 'Rezervacija ovaj mjesec',
+    'mjesecni_pregled' => 'Mjesečni pregled',
+    'zadnje_dodani_apartmani' => 'Zadnje dodani apartmani',
+    'zadnje_dodane_rezezvacije' => 'Zadnje rezervacije',
+    'ova_godina' => 'Ova godina',
+    'zadnja_godina' => 'Zadnja godina',
 ];
