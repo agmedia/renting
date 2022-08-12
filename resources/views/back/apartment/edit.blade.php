@@ -424,7 +424,7 @@
                                         <div class="col-md-4">
                                             <div class="custom-control custom-switch custom-control-lg mb-2">
                                                 <input type="checkbox" class="custom-control-input" name="amenity[{{ $detail['id'] }}]" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1"><i class="fa fa-circle-notch mx-2"></i> {{ $detail['title'][current_locale()] }}</label>
+                                                <label class="custom-control-label" for="example-sw-custom-lg1"><img src ="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="icon"/> {{ $detail['title'][current_locale()] }}</label>
                                             </div>
                                         </div>
                                     @endforeach
