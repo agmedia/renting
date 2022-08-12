@@ -25,7 +25,8 @@ return [
     'btn' => [
         'edit' => 'Uredi',
         'discard' => 'Odustani',
-        'save' => 'Snimi'
+        'save' => 'Snimi',
+        'delete' => 'Obriši'
     ],
     /*
      * Forms

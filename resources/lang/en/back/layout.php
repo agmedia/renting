@@ -25,7 +25,8 @@ return [
     'btn' => [
         'edit' => 'Edit',
         'discard' => 'Cancel',
-        'save' => 'Save'
+        'save' => 'Save',
+        'delete' => 'Delete'
     ],
     /*
      * Forms
