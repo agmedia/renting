@@ -72,8 +72,6 @@ class ApartmentController extends Controller
     {
         $amenities = collect(config('settings.apartment_details'))->groupBy('group');
 
-        //dd($amenities);
-
         return view('back.apartment.edit', compact('amenities'));
     }
 
