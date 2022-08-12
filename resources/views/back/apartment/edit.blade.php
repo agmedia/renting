@@ -21,7 +21,7 @@
 
         function initialize() {
             var myOptions = {
-                center: new google.maps.LatLng(45.80594482207321, 15.978759628343616 ),
+                center: new google.maps.LatLng(45.8059448, 15.9787596 ),
                 zoom: 15,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
@@ -116,8 +116,8 @@
                         map: map
                     });
                 }
-                document.getElementById('txtLat').value=location.lat();
-                document.getElementById('txtLng').value=location.lng();
+                document.getElementById('txtLat').value=location.lat().toFixed(7);
+                document.getElementById('txtLng').value=location.lng().toFixed(7);
                 getAddress(location);
             }
 
@@ -173,7 +173,11 @@
                                 document.getElementById("address").value = itemRoute +', ' + itemSnumber;
                                 document.getElementById("city").value = itemLocality;
                                 document.getElementById("zip").value = itemPc;
-                                document.getElementById("country").value = itemCountry;
+                                document.getElementById("state").value = itemCountry;
+
+                                document.getElementById('txtLat').value=latLng.lat().toFixed(7);
+                                document.getElementById('txtLng').value=latLng.lng().toFixed(7);
+
 
                             }
                             else {
@@ -241,8 +245,8 @@
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
-                                                        <li @if ($lang->code == current_locale()) class="active" @endif>
-                                                            <a class="btn btn-sm btn-outline-secondary float-right @if ($lang->code == current_locale()) active mx-2 @endif " data-toggle="pill" href="#{{ $lang->code }}">
+                                                        <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active  @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
                                                         </li>
