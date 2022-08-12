@@ -1059,6 +1059,21 @@ return [
             'featured' => 0,
             'status' => 0
         ],
+        61 => [
+            'id' => 61,
+            'title' => [
+                'en' => 'Bathtub',
+                'hr' => 'Kada',
+            ],
+            'icon' => 'bathtub.svg',
+            'group' => 'Bathroom',
+            'group_title' => [
+                'en' => 'Bathroom',
+                'hr' => 'Kupaonica',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
 
     ],
 
