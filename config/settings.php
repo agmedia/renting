@@ -559,7 +559,7 @@ return [
                 'en' => 'Free street parking',
                 'hr' => 'Besplatan parking na ulici',
             ],
-            'icon' => 'free_street_parking.svg',
+            'icon' => 'free_parking_on_premises.svg',
             'group' => 'Parking and facilities',
             'group_title' => [
                 'en' => 'Parking and facilities',
@@ -700,6 +700,361 @@ return [
             'group_title' => [
                 'en' => 'Not included',
                 'hr' => 'Nije uključeno',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+
+        38 => [
+            'id' => 38,
+            'title' => [
+                'en' => 'City skyline view',
+                'hr' => 'Panoramski pogled',
+            ],
+            'icon' => 'city_skyline_view.svg',
+            'group' => 'Scenic views',
+            'group_title' => [
+                'en' => 'Scenic views',
+                'hr' => 'Slikoviti pogled',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        39 => [
+            'id' => 39,
+            'title' => [
+                'en' => 'Cleaning products',
+                'hr' => 'Sredstva za čišćenje',
+            ],
+            'icon' => 'cleaning_products.svg',
+            'group' => 'Bathroom',
+            'group_title' => [
+                'en' => 'Bathroom',
+                'hr' => 'Kupaonica',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        40 => [
+            'id' => 40,
+            'title' => [
+                'en' => 'Bidet',
+                'hr' => 'Bidet',
+            ],
+            'icon' => 'bidet.svg',
+            'group' => 'Bathroom',
+            'group_title' => [
+                'en' => 'Bathroom',
+                'hr' => 'Kupaonica',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        41 => [
+            'id' => 41,
+            'title' => [
+                'en' => 'Outdoor shower',
+                'hr' => 'Vanjski tuš',
+            ],
+            'icon' => 'outdoor_shower.svg',
+            'group' => 'Bathroom',
+            'group_title' => [
+                'en' => 'Bathroom',
+                'hr' => 'Kupaonica',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        42 => [
+            'id' => 42,
+            'title' => [
+                'en' => 'Room-darkening shades',
+                'hr' => 'Sjenila za zamračivanje prostora',
+            ],
+            'icon' => 'room_darkening_shades.svg',
+            'group' => 'Bedroom and laundry',
+            'group_title' => [
+                'en' => 'Bedroom and laundry',
+                'hr' => 'Spavaća soba i praonica rublja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        43 => [
+            'id' => 43,
+            'title' => [
+                'en' => 'Clothing storage: closet and wardrobe',
+                'hr' => 'Spremište za odjeću: ormar',
+            ],
+            'icon' => 'clothing_storage.svg',
+            'group' => 'Bedroom and laundry',
+            'group_title' => [
+                'en' => 'Bedroom and laundry',
+                'hr' => 'Spavaća soba i praonica rublja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        44 => [
+            'id' => 44,
+            'title' => [
+                'en' => 'Ethernet connection',
+                'hr' => 'Ethernet veza',
+            ],
+            'icon' => 'ethernet_connection.svg',
+            'group' => 'Entertainment',
+            'group_title' => [
+                'en' => 'Entertainment',
+                'hr' => 'Zabava',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        45 => [
+            'id' => 45,
+            'title' => [
+                'en' => '50" HDTV with Netflix, premium cable, standard cable',
+                'hr' => '50" HDTV s Netflixom, premium kabel, standardni kabel',
+            ],
+            'icon' => 'tv.svg',
+            'group' => 'Entertainment',
+            'group_title' => [
+                'en' => 'Entertainment',
+                'hr' => 'Zabava',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+
+        46 => [
+            'id' => 469,
+            'title' => [
+                'en' => 'Dedicated workspace',
+                'hr' => 'Namjenski radni prostor',
+            ],
+            'icon' => 'dedicated_workspace.svg',
+            'group' => 'Internet and office',
+            'group_title' => [
+                'en' => 'Internet and office',
+                'hr' => 'Wifi',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        47 => [
+            'id' => 47,
+            'title' => [
+                'en' => 'Mini fridge',
+                'hr' => 'Mini hladnjak',
+            ],
+            'icon' => 'mini_fridge.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        48 => [
+            'id' => 48,
+            'title' => [
+                'en' => 'Freezer',
+                'hr' => 'Zamrzivač',
+            ],
+            'icon' => 'refrigerator.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        49 => [
+            'id' => 49,
+            'title' => [
+                'en' => 'Stainless steel oven',
+                'hr' => 'Pećnica od nehrđajućeg čelika',
+            ],
+            'icon' => 'stainless_steel_oven.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        50 => [
+            'id' => 50,
+            'title' => [
+                'en' => 'Hot water kettle',
+                'hr' => 'Kuhalo za toplu vodu',
+            ],
+            'icon' => 'hot_water_kettle.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        51 => [
+            'id' => 51,
+            'title' => [
+                'en' => 'Wine glasses',
+                'hr' => 'Čaše za vino',
+            ],
+            'icon' => 'wine_glasses.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        52 => [
+            'id' => 52,
+            'title' => [
+                'en' => 'Baking sheet',
+                'hr' => 'Folija za pečenje',
+            ],
+            'icon' => 'baking_sheet.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        53 => [
+            'id' => 53,
+            'title' => [
+                'en' => 'Barbecue utensils',
+                'hr' => 'Roštilj i pribor',
+            ],
+            'description' => [
+                'en' => 'Grill, charcoal, bamboo skewers/iron skewers, etc.',
+                'hr' => 'Roštilj, drveni ugljen, bambusovi ražnjići/željezni ražnjići itd.',
+            ],
+            'icon' => 'barbecue_utensils.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        54 => [
+            'id' => 54,
+            'title' => [
+                'en' => 'Dining table',
+                'hr' => 'Blagovaonski stol',
+            ],
+            'icon' => 'dining_table.svg',
+            'group' => 'Kitchen and dining',
+            'group_title' => [
+                'en' => 'Kitchen and dining',
+                'hr' => 'Kuhinja',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        55 => [
+            'id' => 55,
+            'title' => [
+                'en' => 'Single level home',
+                'hr' => 'Kuća na jednom katu',
+            ],
+            'description' => [
+                'en' => 'No stairs in home',
+                'hr' => 'Nema stepenica u kući',
+            ],
+            'icon' => 'single_level_home.svg',
+            'group' => 'Parking and facilities',
+            'group_title' => [
+                'en' => 'Parking and facilities',
+                'hr' => 'Parking i dodatni sadržaji',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        56 => [
+            'id' => 56,
+            'title' => [
+                'en' => 'Private patio or balcony',
+                'hr' => 'Kuća na jednom katu',
+            ],
+            'icon' => 'private_patio_or_balcony.svg',
+            'group' => 'Outdoor',
+            'group_title' => [
+                'en' => 'Outdoor',
+                'hr' => 'Vanjski sadržaji',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        57 => [
+            'id' => 57,
+            'title' => [
+                'en' => 'Outdoor furniture',
+                'hr' => 'Vanjski namještaj',
+            ],
+            'icon' => 'outdoor_furniture.svg',
+            'group' => 'Outdoor',
+            'group_title' => [
+                'en' => 'Outdoor',
+                'hr' => 'Vanjski sadržaji',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        58 => [
+            'id' => 58,
+            'title' => [
+                'en' => 'Outdoor dining area',
+                'hr' => 'Vanjska blagovaonica',
+            ],
+            'icon' => 'outdoor_furniture.svg',
+            'group' => 'Outdoor',
+            'group_title' => [
+                'en' => 'Outdoor',
+                'hr' => 'Vanjski sadržaji',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        59 => [
+            'id' => 59,
+            'title' => [
+                'en' => 'BBQ grill',
+                'hr' => 'Vanjski roštilj',
+            ],
+            'icon' => 'bbq_grill.svg',
+            'group' => 'Outdoor',
+            'group_title' => [
+                'en' => 'Outdoor',
+                'hr' => 'Vanjski sadržaji',
+            ],
+            'featured' => 0,
+            'status' => 0
+        ],
+        60 => [
+            'id' => 60,
+            'title' => [
+                'en' => 'Dryer',
+                'hr' => 'Sušilica rublja',
+            ],
+            'icon' => 'dryer.svg',
+            'group' => 'Bedroom and laundry',
+            'group_title' => [
+                'en' => 'Bedroom and laundry',
+                'hr' => 'Spavaća soba i praonica rublja',
             ],
             'featured' => 0,
             'status' => 0
