@@ -138,11 +138,11 @@
                             </a>
 
                             <ul class="nav-main-submenu">
-                                <li class="nav-main-item">
+                      <!--          <li class="nav-main-item">
                                     <a class="nav-main-link{{ request()->routeIs(['categories', 'category.*']) ? ' active' : '' }}" href="{{ route('categories') }}">
                                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.category') }}</span>
                                     </a>
-                                </li>
+                                </li>-->
                                 <li class="nav-main-item">
                                     <a class="nav-main-link{{ request()->routeIs(['pages', 'pages.*']) ? ' active' : '' }}" href="{{ route('pages') }}">
                                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.pages') }}</span>
@@ -194,11 +194,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-main-item">
+                    <!--    <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['history', 'history.*']) ? ' active' : '' }}" href="{{ route('history') }}">
                                 <span class="nav-main-link-name">History</span>
                             </a>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
