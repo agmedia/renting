@@ -91,7 +91,7 @@
                                         <ul class="nav nav-pills float-right">
                                             @foreach($items as $lang)
                                                 <li @if (current_locale() == $lang->code) class="active" @endif>
-                                                    <a class="btn btn-sm btn-outline-secondary float-right @if (current_locale() == $lang->code) active @endif mx-2" data-toggle="pill" href="#{{ $lang->code }}">
+                                                    <a class="btn btn-sm btn-outline-secondary ml-2 @if (current_locale() == $lang->code) active @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                         <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                     </a>
                                                 </li>
