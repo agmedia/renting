@@ -103,13 +103,15 @@
                                 <i class="fas fa-save mr-1"></i> {{ __('back/layout.btn.save') }}
                             </button>
                         </div>
-                        @if (isset($faq))
+
                             <div class="col-md-5 text-right">
+                                @if (isset($faq))
                                 <a href="{{ route('faqs.destroy', ['faq' => $faq]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-faq-form{{ $faq->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
+                                @endif
                             </div>
-                        @endif
+
                     </div>
                 </div>
             </div>

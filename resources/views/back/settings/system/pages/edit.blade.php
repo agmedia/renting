@@ -197,19 +197,19 @@
                     </div>
                 </div>
                 <div class="block-content bg-body-light">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
+                    <div class="row justify-content-center push mb-3">
+                        <div class="col-md-5">
                             <button type="submit" class="btn btn-hero-success my-2">
                                 <i class="fas fa-save mr-1"></i>  {{ __('back/layout.btn.save') }}
                             </button>
                         </div>
-                        @if (isset($page) && $page->subgroup != '/')
-                            <div class="col-md-6 text-right">
+                        <div class="col-md-5 text-right">
+                                @if (isset($page) && $page->subgroup != '/')
                                 <a href="{{ route('pages.destroy', ['page' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
-                            </div>
-                        @endif
+                                @endif
+                         </div>
                     </div>
                 </div>
             </div>
