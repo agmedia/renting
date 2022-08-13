@@ -81,7 +81,7 @@
                     </a>
                 </li>
 
-                <li class="nav-main-item{{ request()->is(['admin/marketing/*']) ? ' open' : '' }}">
+                <li class="nav-main-item{{ request()->is([current_locale() . '/admin/marketing/*']) ? ' open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-bar-chart"></i>
                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.marketing') }}</span>
@@ -126,13 +126,13 @@
                     </a>
                 </li>
 
-                <li class="nav-main-item{{ request()->is(['admin/settings/*']) ? ' open' : '' }}">
+                <li class="nav-main-item{{ request()->is([current_locale() . '/admin/settings/*']) ? ' open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-settings"></i>
                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.settings') }}</span>
                     </a>
                     <ul class="nav-main-submenu">
-                        <li class="nav-main-item{{ request()->is(['admin/settings/system/*']) ? ' open' : '' }}">
+                        <li class="nav-main-item{{ request()->is([current_locale() . '/admin/settings/system/*']) ? ' open' : '' }}">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.system') }}</span>
                             </a>
@@ -156,7 +156,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-main-item{{ request()->is(['admin/settings/application/*']) ? ' open' : '' }}">
+                        <li class="nav-main-item{{ request()->is([current_locale() . '/admin/settings/application/*']) ? ' open' : '' }}">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.local_settings') }}</span>
                             </a>

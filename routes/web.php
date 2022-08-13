@@ -214,6 +214,8 @@ Route::prefix('api/v2')->group(function () {
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
     Route::post('/apartments/destroy/api', [ProductController::class, 'destroyApi'])->name('apartments.destroy.api');
+    Route::post('/gallery/destroy/api', [GalleryController::class, 'destroyApi'])->name('gallery.destroy.api');
+    Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
     // FILTER
