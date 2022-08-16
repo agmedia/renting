@@ -10,6 +10,13 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.geozone.main_title') }}</h1>
+
+                <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('geozones') }}">{{ __('back/app.geozone.title') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('back/app.geozone.main_title') }}</li>
+                    </ol>
+                </nav>
             </div>
         </div>
     </div>
@@ -59,11 +66,11 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
                             <button type="submit" class="btn btn-hero-success">
-                                <i class="fas fa-save mr-1"></i> Snimi
+                                <i class="fas fa-save mr-1"></i> {{ __('back/layout.btn.save') }}
                             </button>
                             @if (isset($geo_zone))
-                                <a href="{{ route('geozones.destroy', ['geozone' => $geo_zone->id]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled float-right" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-geozone-form{{ $geo_zone->id }}').submit();">
-                                    <i class="fa fa-trash-alt"></i> Obriši
+                                <a href="{{ route('geozones.destroy', ['geozone' => $geo_zone->id]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled float-right" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-geozone-form{{ $geo_zone->id }}').submit();">
+                                    <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
                             @endif
                         </div>

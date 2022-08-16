@@ -45,6 +45,28 @@ return [
         'select_country' => 'Select Country...',
     ],
 
+    'statuses' => [
+        'title' => 'Order Statuses',
+        'new' => 'Add new',
+        'edit_title' => 'Edit',
+        'input_title' => 'Title',
+        'status_title' => 'Status',
+        'list' => 'List',
+        'color' => 'Color',
+        'br' => 'No.',
+        'sort_order' => 'Sort Order',
+        'main_title' => 'Order Status',
+        'back' => 'Back',
+        'enter_title' => 'Enter title...',
+        'delete' => 'Delete',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'delete_status' => 'Delete status',
+        'delete_shure' => 'Are you sure you want to delete the status?',
+        'select_status' => 'Select status color...',
+
+    ],
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',

@@ -10,7 +10,7 @@
             </div>
         @endif
 
-        <div class="hero-static col-sm-10 col-md-8 col-xl-8 col-xxl-6 d-flex align-items-center p-2 px-sm-0">
+        <div class="hero-static col-sm-10 col-md-8 col-xl-8 col-xxl-6 d-flex align-items-center p-2 px-sm-0" style="max-width:900px">
             <!-- Sign In Block -->
             <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/img/login-bck.jpg') }});">
                 <div class="row no-gutters">
