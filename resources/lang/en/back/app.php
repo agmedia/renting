@@ -67,6 +67,26 @@ return [
 
     ],
 
+    'tax' => [
+        'title' => 'Taxes',
+        'new' => 'Add new',
+        'edit_title' => 'Edit',
+        'input_title' => 'Title',
+        'br' => 'No.',
+        'status_title' => 'Status',
+        'list' => 'List',
+        'sort_order' => 'Sort Order',
+        'main_title' => 'Tax',
+        'back' => 'Back',
+        'delete' => 'Delete',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'delete_tax' => 'Delete tax',
+        'delete_shure' => 'Are you sure you want to delete tax?',
+
+
+    ],
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',
