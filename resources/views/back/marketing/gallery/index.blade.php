@@ -39,21 +39,34 @@
                         <tr>
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-left">Naziv</th>
-                            <th>Fotografije (5)</th>
+                            <th>Fotografije</th>
                             <th>Grupa</th>
+                            <th class="text-center" style="width: 10%;">Featured</th>
+                            <th class="text-center" style="width: 10%;">Status</th>
                             <th class="text-right" style="width: 10%;">Uredi</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse ($galleries as $gallery)
                             <tr>
+                                <td class="font-size-sm">{{ $loop->iteration }}</td>
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('gallery.edit', ['gallery' => $gallery]) }}">{{ $gallery->title }}</a>
                                 </td>
-                                <td class="font-size-sm">{{ $gallery->image }}</td>
+                                <td class="font-size-sm">
+                                    @foreach ($gallery->images()->limit(4)->get() as $image)
+                                        <img class="img-avatar img-avatar32 ml-1" src="{{ asset($image->image) }}" alt="">
+                                    @endforeach
+                                </td>
                                 <td class="font-size-sm">{{ $gallery->group }}</td>
+                                <td class="text-center font-size-sm">
+                                    @include('back.layouts.partials.status', ['status' => $gallery->featured, 'simple' => true])
+                                </td>
+                                <td class="text-center font-size-sm">
+                                    @include('back.layouts.partials.status', ['status' => $gallery->status, 'simple' => true])
+                                </td>
                                 <td class="text-right font-size-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('gallery.edit', ['action' => $gallery]) }}">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('gallery.edit', ['gallery' => $gallery]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
                                     <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $gallery->id }}, '{{ route('gallery.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>

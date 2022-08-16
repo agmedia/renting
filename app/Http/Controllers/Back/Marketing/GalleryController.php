@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Back\Marketing;
 
+use App\Helpers\Image;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Product\Product;
 use App\Models\Back\Marketing\Action;
-use App\Models\Back\Marketing\Gallery;
+use App\Models\Back\Marketing\Gallery\Gallery;
+use App\Models\Back\Marketing\Gallery\GalleryImage;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -32,7 +34,7 @@ class GalleryController extends Controller
      */
     public function create()
     {
-        $groups = [];
+        $groups = Gallery::groupBy('group')->pluck('group');
 
         return view('back.marketing.gallery.edit', compact('groups'));
     }
@@ -47,15 +49,17 @@ class GalleryController extends Controller
      */
     public function store(Request $request)
     {
-        $action = new Action();
+        $gallery = new Gallery();
 
-        $stored = $action->validateRequest($request)->create();
+        $stored = $gallery->validateRequest($request)->create();
 
         if ($stored) {
-            return redirect()->route('actions.edit', ['action' => $stored])->with(['success' => 'Action was succesfully saved!']);
+            $gallery->storeImages($stored);
+
+            return redirect()->route('gallery.edit', ['gallery' => $stored])->with(['success' => 'Gallery was succesfully saved!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the gallery.']);
     }
 
 
@@ -66,12 +70,12 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Action $action)
+    public function edit(Gallery $gallery)
     {
-        $groups = Settings::get('action', 'group_list');
-        $types = Settings::get('action', 'type_list');
+        $groups = Gallery::groupBy('group')->pluck('group');
+        $existing = $gallery->images(true)->get()->groupBy('lang')->toArray();
 
-        return view('back.marketing.action.edit', compact('action', 'groups', 'types'));
+        return view('back.marketing.gallery.edit', compact('gallery', 'groups', 'existing'));
     }
 
 
@@ -83,15 +87,17 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Action $action)
+    public function update(Request $request, Gallery $gallery)
     {
-        $updated = $action->validateRequest($request)->edit();
+        $updated = $gallery->validateRequest($request)->edit();
 
         if ($updated) {
-            return redirect()->route('actions.edit', ['action' => $updated])->with(['success' => 'Action was succesfully saved!']);
+            $gallery->storeImages($updated);
+
+            return redirect()->route('gallery.edit', ['gallery' => $updated])->with(['success' => 'Gallery was succesfully saved!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the gallery.']);
     }
 
 
@@ -124,9 +130,8 @@ class GalleryController extends Controller
     public function destroyApi(Request $request)
     {
         if ($request->has('id')) {
-            $action = Action::find($request->input('id'));
-            $action->truncateProducts();
-            $destroyed = $action->delete();
+            $gallery = Gallery::find($request->input('id'));
+            $destroyed = $gallery->delete();
 
             if ($destroyed) {
                 return response()->json(['success' => 200]);
@@ -134,5 +139,31 @@ class GalleryController extends Controller
         }
 
         return response()->json(['error' => 300]);
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyImage(Request $request)
+    {
+        if ($request->has('data')) {
+            $image = GalleryImage::find($request->input('data'));
+
+            $deleted = GalleryImage::where('gallery_id', $image->gallery_id)->where('image', $image->image)->delete();
+
+            if ($deleted) {
+                $path = Image::cleanPath('gallery', $image->gallery_id, $image->image);
+                Image::delete('gallery', $image->gallery_id, $path);
+
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 400]);
     }
 }

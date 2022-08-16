@@ -187,7 +187,15 @@
         }
     </script>
 
-    @stack('product_css')
+    @stack('apartment_css')
+
+    @if (isset($js_lang))
+        <script>
+            window.trans = {!! $js_lang !!};
+            window.locale = "{{ current_locale() }}";
+        </script>
+    @endif
+
 @endpush
 
 @section('content')
@@ -240,7 +248,7 @@
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
-                                                        <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                        <li @if ($lang->code == current_locale()) class="active" @endif>
                                                             <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
                                                                 <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
                                                             </a>
@@ -264,10 +272,10 @@
 
                                         <div class="col-md-4">
                                             <label for="type-select">{{ __('back/apartment.tip') }} <span class="text-danger">*</span></label>
-                                            <select class="js-select2 form-control" id="type-select" name="type_id" style="width: 100%;">
+                                            <select class="js-select2 form-control" id="type-select" name="type" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_types') as $select_item)
-                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->type_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
+                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->type)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -276,13 +284,13 @@
                                             <select class="js-select2 form-control" id="target-select" name="target" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_targets') as $select_item)
-                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target_id)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
+                                                    <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="dm-post-edit-title">{{ __('back/apartment.sifra') }} <span class="text-danger"></span></label>
-                                            <input type="text" class="form-control" id="sku-input" name=sku" placeholder="" value="{{ isset($apartment) ? $product->sku : old('sku') }}">
+                                            <input type="text" class="form-control" id="sku-input" name=sku" placeholder="" value="{{ isset($apartment) ? $apartment->sku : old('sku') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -294,30 +302,30 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-12">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.ulica') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $product->address : old('address') }}" readonly>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $apartment->address : old('address') }}" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.grad') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ isset($apartment) ? $product->city : old('city') }}" readonly>
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="" value="{{ isset($apartment) ? $apartment->city : old('city') }}" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.zip') }}<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="{{ isset($apartment) ? $product->zip : old('zip') }}" readonly>
+                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="" value="{{ isset($apartment) ? $apartment->zip : old('zip') }}" readonly>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.drzava') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ isset($apartment) ? $product->state : old('state') }}" readonly>
+                                    <input type="text" class="form-control" id="state" name="state" placeholder="" value="{{ isset($apartment) ? $apartment->state : old('state') }}" readonly>
                                 </div>
 
                                 <div class="col-md-6 ">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.latitude') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="txtLat" name="latitude" placeholder="" value="{{ isset($apartment) ? $product->latitude : old('latitude') }}" readonly>
+                                    <input type="text" class="form-control" id="txtLat" name="latitude" placeholder="" value="{{ isset($apartment) ? $apartment->latitude : old('latitude') }}" readonly>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.longitude') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="txtLng" name="longitude" placeholder="" value="{{ isset($apartment) ? $product->longitude : old('longitude') }}" readonly>
+                                    <input type="text" class="form-control" id="txtLng" name="longitude" placeholder="" value="{{ isset($apartment) ? $apartment->longitude : old('longitude') }}" readonly>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="alert alert-info mb-0" role="alert">
@@ -345,7 +353,7 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-6">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.price') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="price-input" name="price" placeholder="" value="{{ isset($apartment) ? $product->price : old('price') }}">
+                                    <input type="text" class="form-control" id="price-input" name="price" placeholder="" value="{{ isset($apartment) ? $apartment->price : old('price') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.priceprema') }} <span class="text-danger"></span></label>
@@ -459,9 +467,9 @@
                 </div>
 
                 <div class="block-content block-content-full">
-                    <div class="row justify-content-center push">
-                        <div class="col-md-11">
-                            <div class="form-group row items-push">
+                    <div class="row justify-content-center push mb-0">
+                        <div class="col-md-11 pt-2">
+                            <div class="form-group row items-push mb-0">
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
                                     <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
@@ -479,144 +487,15 @@
                                     <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
                                 </div>
                             </div>
-
-
-
-                            <h2 class="content-heading">{{ __('back/apartment.unosinfo') }}</h2>
-
-                            <div class="form-group row items-push">
-
-                                    <div class=" col-md-12 ">
-
-                                        <div class="bg-gray-light text-gray-darker p-3 pt-0 pb-0">
-                                        <div class="row ">
-
-                                                <div class="col-md-8 mt-3">
-                                                    <p>{{ __('back/apartment.odaberiteinfo') }}<br>
-                                                        <small>{{ __('back/apartment.odaberiteinfotext') }}</small>
-                                                    </p>
-                                                </div>
-                                                <div class="col-md-4 mt-4">
-                                                    <select class="js-select2 form-control" id="favorite-select" name="favorite_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
-                                                        <option></option>
-                                                        <option value="1">Favorit bazen</option>
-                                                        <option value="2">Favorit parking</option>
-                                                        <option value="3">Favorit roštilj</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                       </div>
-                                    </div>
-                                <div class="col-md-8">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.titleinfo') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.value') }}</label>
-                                    <input type="text" class="form-control" id="name-input" name="name" placeholder="" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.kratkiopisinfo') }}</label>
-                                    <textarea class="form-control" id="name-input" name="name" placeholder="{{ __('back/apartment.opisinfo') }}" rows="4">{{ isset($apartment) ? $apartment->title : old('title') }}</textarea>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="dm-post-edit-title">{{ __('back/apartment.ikona') }}</label>
-                                            <select class="js-select2 form-control" id="icon-select" name="icon_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.odaberiteikonu') }}">
-                                                <option></option>
-                                                <option value="1">Ikona bazen</option>
-                                                <option value="2">Ikona parking</option>
-                                                <option value="3">Ikona roštilj</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="dm-post-edit-title">{{ __('back/apartment.galerijainfo') }}</label>
-                                            <select class="js-select2 form-control" id="gallery-select" name="gallery_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.galerijainfotext') }}">
-                                                <option></option>
-                                                <option value="1">Galerija Bazen mali</option>
-                                                <option value="2">Galerija Bazen veliki</option>
-                                                <option value="3">Galerija Parking Vila Ante 1</option>
-                                                <option value="3">Galerija Parking Vila Mila 1</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4 mt-4">
-                                            <button type="submit" class="btn btn-outline-info btn-block my-2">{{ __('back/apartment.btnnovagalerija') }}</button>
-                                        </div>
-                                        <div class="col-md-4 mt-4">
-                                            <button type="submit" class="btn btn-outline-info btn-block my-2">{{ __('back/apartment.btnfavoriti') }}</button>
-                                        </div>
-                                        <div class="col-md-4 mt-4">
-                                            <button type="submit" class="btn btn-success btn-block my-2">
-                                                <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h2 class="content-heading">{{ __('back/apartment.listaunesenihnaslov') }}</h2>
-
-                            <div class="form-group row items-push">
-                                <div class="col-md-12">
-
-                                    <table class="table table-vcenter">
-                                        <thead>
-                                        <tr>
-                                            <th class="text-center" style="width: 50px;">#</th>
-                                            <th>{{ __('back/apartment.titleinfo') }}</th>
-                                            <th class="d-none d-sm-table-cell" style="width: 25%;">{{ __('back/apartment.value') }}</th>
-                                            <th class="text-center" style="width: 100px;">{{ __('back/apartment.action') }}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th class="text-center" scope="row">1</th>
-                                            <td class="font-w600">
-                                                <a href="be_pages_generic_profile.html">Blizina bolnice</a>
-                                                <p class="small text-gray-dark mb-0">Neki kratki opis informacije za bolnicu i zašto je super što je 450m.</p>
-                                            </td>
-                                            <td class="d-none d-sm-table-cell">
-                                                450m
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
-                                                        <i class="fa fa-pencil-alt"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="text-center" scope="row">2</th>
-                                            <td class="font-w600">
-                                                <a href="be_pages_generic_profile.html">VIP Organizirani izlet</a>
-                                                <p class="small text-gray-dark mb-0">Neki kratki tekst o izletu. Može biti i prazno.</p>
-                                            </td>
-                                            <td class="d-none d-sm-table-cell">
-                                                Besplatno
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Edit">
-                                                        <i class="fa fa-pencil-alt"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
+                    </div>
+
+                    <div class="row justify-content-center push" id="placeholder-ag-apartment-details-input">
+                        <ag-apartment-details-input
+                                favorite="{{--{{ $favorites->toJson() }}--}}"
+                                galleries="{{ $galleries->toJson() }}"
+                                languages="{{ ag_lang() }}"
+                                locale="{{ current_locale() }}"></ag-apartment-details-input>
                     </div>
                 </div>
             </div>
@@ -635,15 +514,33 @@
                 </div>
             </div>
 
+            <div class="block">
+                <div class="block-content">
+                    <div class="row justify-content-center push">
+                        <div class="col-md-5">
+                            <button type="submit" class="btn btn-hero-success my-2">
+                                <i class="fas fa-save mr-1"></i> Snimi
+                            </button>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @if (isset($gallery))
+                                <a href="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
+                                    <i class="fa fa-trash-alt"></i> Obriši
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </form>
 
-        {{--@if (isset($product))
-            <form id="delete-product-form{{ $product->id }}" action="{{ route('products.destroy', ['product' => $product]) }}" method="POST" style="display: none;">
+        @if (isset($product))
+            <form id="delete-gallery-form{{ $gallery->id }}" action="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>
-        @endif--}}
+        @endif
     </div>
 @endsection
 
@@ -691,51 +588,41 @@
     <script src="{{ asset('js/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
     <script src="{{ asset('js/plugins/slim/slim.kickstart.js') }}"></script>
 
+    <script src="{{ asset('js/ag-apartment-details-input.js') }}"></script>
+
     <!-- Page JS Helpers (CKEditor 5 plugins) -->
     <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
 
     <script>
         $(() => {
+            initialize();
+
             {!! ag_lang() !!}.forEach(function(item) {
                 ClassicEditor
                 .create(document.querySelector('#description-editor-' + item.code))
                 .then(editor => {
-                    console.log(editor);
+                    //console.log(editor);
                 })
                 .catch(error => {
-                    console.error(error);
+                    //console.error(error);
                 });
             });
 
-
-
-
             $('#tax-select').select2({ minimumResultsForSearch: Infinity });
-            $('#favorite-select').select2({ minimumResultsForSearch: Infinity });
-            $('#icon-select').select2({ minimumResultsForSearch: Infinity });
-            $('#gallery-select').select2({ minimumResultsForSearch: Infinity });
+
+            $('#favorite-select').select2();
+            $('#size-select').select2({ minimumResultsForSearch: Infinity });
+            $('#icon-select').select2({ tags: true });
+            $('#gallery-select').select2();
 
             $('#type-select').select2({ minimumResultsForSearch: Infinity });
             $('#target-select').select2({ minimumResultsForSearch: Infinity });
             $('#price-by-select').select2({ minimumResultsForSearch: Infinity });
 
-
-          /*  Livewire.on('success_alert', () => {
-
-            });
-
-            Livewire.on('error_alert', (e) => {
-
-            });*/
         })
     </script>
 
     <script>
-        function SetSEOPreview() {
-            let title = $('#name-input').val();
-            $('#slug-input').val(slugify(title));
-        }
-
 
         /**
          *
@@ -750,6 +637,6 @@
         }
     </script>
 
-    @stack('product_scripts')
+    @stack('apartment_scripts')
 
 @endpush

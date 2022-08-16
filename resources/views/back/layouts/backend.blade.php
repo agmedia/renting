@@ -34,7 +34,8 @@
 
 
     </head>
-    <body onload="initialize();">
+    <body>
+<!--    <body onload="initialize();">-->
 
         <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed main-content-narrow">
 

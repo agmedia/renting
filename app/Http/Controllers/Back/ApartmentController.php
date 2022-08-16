@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Back\Apartment\ApartmentDetail;
+use App\Models\Back\Marketing\Gallery\Gallery;
 use App\Models\Back\Settings\System\Category;
 use App\Models\Back\Apartment\Apartment;
 use Illuminate\Http\Request;
@@ -11,6 +13,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ApartmentController extends Controller
@@ -23,43 +27,9 @@ class ApartmentController extends Controller
      */
     public function index(Request $request, Apartment $apartment)
     {
-        $query = $apartment->filter($request);
+        $apartments = $apartment->paginate(20)->appends(request()->query());
 
-        $apartments = $query->paginate(20)->appends(request()->query());
-
-        /*if ($request->has('status')) {
-            if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
-                $apartments = collect();
-                $temps = Apartment::all();
-
-                if ($request->input('status') == 'with_action') {
-                    foreach ($temps as $apartment) {
-                        if ($apartment->special()) {
-                            $apartments->push($apartment);
-                        }
-                    }
-                }
-
-                if ($request->input('status') == 'without_action') {
-                    foreach ($temps as $apartment) {
-                        if ( ! $apartment->special()) {
-                            $apartments->push($apartment);
-                        }
-                    }
-                }
-
-                $apartments = $this->paginateColl($apartments);
-            }
-        }*/
-
-        $categories = (new Category())->getList(false);
-
-
-        /*$authors    = Author::all()->pluck('title', 'id');
-        $publishers = Publisher::all()->pluck('title', 'id');*/
-        $counts = [];//Apartment::setCounts($query);
-
-        return view('back.apartment.index', compact('apartments', 'categories'/*, 'authors', 'publishers'*/, 'counts'));
+        return view('back.apartment.index', compact('apartments'));
     }
 
 
@@ -71,8 +41,13 @@ class ApartmentController extends Controller
     public function create()
     {
         $amenities = collect(config('settings.apartment_details'))->groupBy('group');
+        $js_lang = json_encode(Lang::get('back/apartment'));
+        $favorites = [];//ApartmentDetail::all();
+        $galleries = Gallery::adminSelectList();
 
-        return view('back.apartment.edit', compact('amenities'));
+        //dd($galleries);
+
+        return view('back.apartment.edit', compact('amenities', 'favorites', 'galleries', 'js_lang'));
     }
 
 
@@ -93,7 +68,7 @@ class ApartmentController extends Controller
             /*$apartment->checkSettings()
                     ->storeImages($stored);*/
 
-            return redirect()->route('products.edit', ['Apartment' => $stored])->with(['success' => 'Artikl je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartment' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
@@ -111,7 +86,12 @@ class ApartmentController extends Controller
     {
         //$data = $apartment->getRelationsData();
 
-        return view('back.catalog.Apartment.edit', compact('apartment'));
+        $amenities = collect(config('settings.apartment_details'))->groupBy('group');
+        $js_lang = json_encode(Lang::get('back/apartment'));
+        $favorites = [];//ApartmentDetail::all();
+        $galleries = Gallery::adminSelectList();
+
+        return view('back.apartment.edit', compact('apartment', 'amenities', 'favorites', 'galleries', 'js_lang'));
     }
 
 

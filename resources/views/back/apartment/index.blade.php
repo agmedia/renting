@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach ($categories as $group => $cats)
+                                        {{--@foreach ($categories as $group => $cats)
                                             @foreach ($cats as $id => $category)
                                                 <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
                                                 @if ( ! empty($category['subs']))
@@ -64,7 +64,7 @@
                                                     @endforeach
                                                 @endif
                                             @endforeach
-                                        @endforeach
+                                        @endforeach--}}
                                     </select>
                                 </div>
                             </div>
@@ -73,12 +73,12 @@
                         <div class="form-group row items-push mb-0">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    @livewire('back.layout.search.author-search', ['author_id' => request()->input('author') ?: '', 'list' => true])
+
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    @livewire('back.layout.search.publisher-search', ['publisher_id' => request()->input('publisher') ?: '', 'list' => true])
+
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -119,7 +119,6 @@
 @endsection
 
 @push('js_after')
-    <script src="{{ asset('js/ag-input-field.js') }}"></script>
 
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
@@ -155,23 +154,6 @@
                 setURL('sort', e.currentTarget.selectedOptions[0]);
             });
 
-            //
-            Livewire.on('authorSelect', (e) => {
-                setURL('author', e.author.id, true);
-            });
-            Livewire.on('publisherSelect', (e) => {
-                setURL('publisher', e.publisher.id, true);
-            });
-
-            /*$('#btn-inactive').on('click', () => {
-                setRegularURL('active', false);
-            });
-            $('#btn-today').on('click', () => {
-                setRegularURL('today', true);
-            });
-            $('#btn-week').on('click', () => {
-                setRegularURL('week', true);
-            });*/
 
         });
 
@@ -209,50 +191,6 @@
             location.href = url;
         }
 
-        /**
-         *
-         * @param type
-         * @param search
-         */
-        function setRegularURL(type, search) {
-            let searches = ['active', 'today', 'week'];
-            let url = new URL(location.href);
-            let params = new URLSearchParams(url.search);
-            let keys = [];
-
-            for(var key of params.keys()) {
-                if (key === type) {
-                    keys.push(key);
-                }
-            }
-
-            keys.forEach((value) => {
-                if (params.has(value)) {
-                    params.delete(value);
-                }
-            })
-
-            params.append(type, search);
-
-            url.search = params;
-            location.href = url;
-        }
-
-        /**
-         *
-         * @param id
-         */
-        function setStatus(id) {
-            let val = $('#status-' + id)[0].checked;
-
-            axios.post("{{ route('apartments.change.status') }}", { id: id, value: val })
-            .then((response) => {
-                successToast.fire()
-            })
-            .catch((error) => {
-                errorToast.fire()
-            });
-        }
     </script>
 
 @endpush

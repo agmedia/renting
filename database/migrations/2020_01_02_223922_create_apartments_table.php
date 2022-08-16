@@ -43,8 +43,8 @@ class CreateApartmentsTable extends Migration
             $table->boolean('status')->default(false);
             $table->timestamps();
 
-            $table->foreign('action_id')
-                  ->references('id')->on('apartment_actions');
+            /*$table->foreign('action_id')
+                  ->references('id')->on('apartment_actions');*/
         });
 
 
@@ -58,7 +58,7 @@ class CreateApartmentsTable extends Migration
             $table->string('meta_description')->nullable();
             $table->string('slug');
             $table->string('url', 255);
-            $table->string('tags');
+            $table->string('tags')->nullable();
             $table->timestamps();
 
             $table->foreign('apartment_id')
@@ -71,9 +71,11 @@ class CreateApartmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('apartment_id')->index();
             $table->string('value');
+            $table->string('group')->nullable();
             $table->string('icon')->nullable();
-            $table->string('gallery_id')->nullable();
-            $table->string('favorite')->nullable();
+            $table->integer('gallery_id')->nullable()->unsigned();
+            $table->boolean('amenity')->default(false);
+            $table->boolean('favorite')->default(false);
             $table->boolean('status')->default(false);
             $table->timestamps();
 
@@ -89,6 +91,7 @@ class CreateApartmentsTable extends Migration
             $table->string('lang', 2)->default(config('app.locale'));
             $table->string('title');
             $table->text('subtitle')->nullable();
+            $table->string('group_title')->nullable();
             $table->timestamps();
 
             $table->foreign('apartment_detail_id')

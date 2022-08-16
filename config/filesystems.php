@@ -80,22 +80,10 @@ return [
             'url' => 'media/img/category/'
         ],
         //
-        'publisher' => [
+        'gallery' => [
             'driver' => 'local',
-            'root' => public_path('media/img/publisher/'),
-            'url' => 'media/img/publisher/'
-        ],
-        //
-        'author' => [
-            'driver' => 'local',
-            'root' => public_path('media/img/author/'),
-            'url' => 'media/img/author/'
-        ],
-        //
-        'products' => [
-            'driver' => 'local',
-            'root' => public_path('media/img/products/'),
-            'url' => 'media/img/products/'
+            'root' => public_path('media/img/gallery/'),
+            'url' => 'media/img/gallery/'
         ],
         //
         'blog' => [

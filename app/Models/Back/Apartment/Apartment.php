@@ -2,21 +2,12 @@
 
 namespace App\Models\Back\Apartment;
 
-use App\Helpers\Helper;
-use App\Helpers\ProductHelper;
-use App\Models\Back\Settings\System\Category;
-use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Bouncer;
-use Illuminate\Validation\ValidationException;
 
 class Apartment extends Model
 {
@@ -26,7 +17,7 @@ class Apartment extends Model
     /**
      * @var string
      */
-    protected $table = 'products';
+    protected $table = 'apartments';
 
     /**
      * @var array
@@ -50,18 +41,12 @@ class Apartment extends Model
     {
         // Validate the request.
         $request->validate([
-            'name'     => 'required',
-            'sku'      => 'required',
-            'price'    => 'required',
-            'category' => 'required'
+            'title.*' => 'required',
+            'description.*' => 'required'
         ]);
 
         // Set Product Model request variable
         $this->setRequest($request);
-
-        if ($this->isDuplicateSku()) {
-            throw ValidationException::withMessages(['sku_dupl' => $this->request->sku . ' - Šifra već postoji...']);
-        }
 
         return $this;
     }
@@ -74,51 +59,16 @@ class Apartment extends Model
      */
     public function create()
     {
-        $slug = $this->resolveSlug();
-
-        $id = $this->insertGetId([
-            'author_id'        => $this->request->author_id ?: 6,
-            'publisher_id'     => $this->request->publisher_id ?: 2,
-            'action_id'        => $this->request->action ?: 0,
-            'name'             => $this->request->name,
-            'sku'              => $this->request->sku,
-            'polica'           => $this->request->polica,
-            'description'      => $this->cleanHTML($this->request->description),
-            'slug'             => $slug,
-            'price'            => $this->request->price,
-            'quantity'         => $this->request->quantity ?: 0,
-            'tax_id'           => $this->request->tax_id ?: 1,
-            'special'          => $this->request->special,
-            'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
-            'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ?: $this->request->name/* . ($author ? '-' . $author->title : '')*/,
-            'meta_description' => $this->request->meta_description,
-            'pages'            => $this->request->pages,
-            'dimensions'       => $this->request->dimensions,
-            'origin'           => $this->request->origin,
-            'letter'           => $this->request->letter,
-            'condition'        => $this->request->condition,
-            'binding'          => $this->request->binding,
-            'year'             => $this->request->year,
-            'viewed'           => 0,
-            'sort_order'       => 0,
-            'push'             => 0,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'created_at'       => Carbon::now(),
-            'updated_at'       => Carbon::now()
-        ]);
+        $id = $this->insertGetId(
+            $this->createModelArray()
+        );
 
         if ($id) {
-            $this->resolveCategories($id);
+            ApartmentTranslation::create($id, $this->request);
+            ApartmentDetail::createAmenities($id, $this->request);
+            ApartmentDetail::createDetails($id, $this->request);
 
-            $product = $this->find($id);
-
-            $product->update([
-                'url'             => ProductHelper::url($product),
-                'category_string' => ProductHelper::categoryString($product)
-            ]);
-
-            return $product;
+            return $this->find($id);
         }
 
         return false;
@@ -132,48 +82,14 @@ class Apartment extends Model
      */
     public function edit()
     {
-        $this->old_product = $this->setHistoryProduct();
-
-        $slug = $this->resolveSlug('update');
-
-        $updated = $this->update([
-            'author_id'        => $this->request->author_id ?: 6,
-            'publisher_id'     => $this->request->publisher_id ?: 2,
-            'action_id'        => $this->request->action ?: 0,
-            'name'             => $this->request->name,
-            'sku'              => $this->request->sku,
-            'polica'           => $this->request->polica,
-            'description'      => $this->cleanHTML($this->request->description),
-            'slug'             => $slug,
-            'price'            => isset($this->request->price) ? $this->request->price : 0,
-            'quantity'         => $this->request->quantity ?: 0,
-            'tax_id'           => $this->request->tax_id ?: 1,
-            'special'          => $this->request->special,
-            'special_from'     => $this->request->special_from ? Carbon::make($this->request->special_from) : null,
-            'special_to'       => $this->request->special_to ? Carbon::make($this->request->special_to) : null,
-            'meta_title'       => $this->request->meta_title ?: $this->request->name/* . '-' . ($author ? '-' . $author->title : '')*/,
-            'meta_description' => $this->request->meta_description,
-            'pages'            => $this->request->pages,
-            'dimensions'       => $this->request->dimensions,
-            'origin'           => $this->request->origin,
-            'letter'           => $this->request->letter,
-            'condition'        => $this->request->condition,
-            'binding'          => $this->request->binding,
-            'year'             => $this->request->year,
-            'viewed'           => 0,
-            'sort_order'       => 0,
-            'push'             => 0,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'       => Carbon::now()
-        ]);
+        $updated = $this->update(
+            $this->createModelArray('update')
+        );
 
         if ($updated) {
-            $this->resolveCategories($this->id);
-
-            $this->update([
-                'url'             => ProductHelper::url($this),
-                'category_string' => ProductHelper::categoryString($this)
-            ]);
+            ApartmentTranslation::edit($this->id, $this->request);
+            ApartmentDetail::editAmenities($this->id, $this->request);
+            ApartmentDetail::editDetails($this->id, $this->request);
 
             return $this;
         }
@@ -182,21 +98,56 @@ class Apartment extends Model
     }
 
 
-
-
     /**
-     * @param Request $request
+     * @param string $method
      *
-     * @return Builder
+     * @return array
      */
-    public function filter(Request $request): Builder
+    private function createModelArray(string $method = 'insert'): array
     {
-        $query = (new Apartment())->newQuery();
+        $response = [
+            'action_id'    => $this->request->action ?: 0,
+            'sku'          => $this->request->sku,
+            'address'      => $this->request->address,
+            'zip'          => $this->request->zip,
+            'city'         => $this->request->city,
+            //'region'       => $this->request->region,
+            //'state'        => $this->request->state,
+            'type'         => $this->request->type,
+            'target'       => $this->request->target,
+            'longitude'    => $this->request->longitude,
+            'latitude'     => $this->request->latitude,
+            'price'        => $this->request->price ?: 0,
+            'price_per'    => $this->request->price_per ?: 1,
+            'tax_id'       => $this->request->tax_id ?: 1,
+            'special'      => $this->request->special,
+            'special_from' => $this->request->special_from,
+            'special_to'   => $this->request->special_to,
+            'm2'           => $this->request->m2,
+            'beds'         => $this->request->beds,
+            'rooms'        => $this->request->rooms,
+            'baths'        => $this->request->baths,
+            'sort_order'   => 0,
+            'featured'     => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'       => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'   => Carbon::now()
+        ];
 
+        if ($method == 'insert') {
+            $response['created_at'] = Carbon::now();
+        }
 
-
-        return $query;
+        return $response;
     }
 
 
+    /**
+     * Set Product Model request variable.
+     *
+     * @param $request
+     */
+    private function setRequest($request)
+    {
+        $this->request = $request;
+    }
 }

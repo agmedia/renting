@@ -40,8 +40,11 @@ class CreateGalleriesTable extends Migration
         Schema::create('gallery_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('gallery_id')->index();
+            $table->string('lang', 2)->default('en');
             $table->string('image');
+            $table->string('title')->nullable();
             $table->string('alt')->nullable();
+            $table->boolean('default')->default(false);
             $table->boolean('published')->default(false);
             $table->integer('sort_order')->unsigned();
             $table->timestamps();
