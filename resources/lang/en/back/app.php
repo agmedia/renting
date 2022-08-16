@@ -87,6 +87,33 @@ return [
 
     ],
 
+    'currency' => [
+        'title' => 'Currency',
+        'new' => 'Add new',
+        'select_main' => 'Select default currency',
+        'edit_title' => 'Edit',
+        'input_title' => 'Title',
+        'code' => 'Code',
+        'value' => 'Value',
+        'decimal' => 'Decimal places',
+        'symbol_left' => 'Symbol left',
+        'symbol_right' => 'Symbol right',
+        'default_currency' => 'Default currency',
+        'br' => 'No.',
+        'status_title' => 'Status',
+        'list' => 'List',
+        'sort_order' => 'Sort Order',
+        'main_title' => 'Tax',
+        'back' => 'Back',
+        'delete' => 'Delete',
+        'save' => 'Save',
+        'cancel' => 'Cancel',
+        'delete_tax' => 'Delete currency',
+        'delete_shure' => 'Are you sure you want to delete currency?',
+
+
+    ],
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',
