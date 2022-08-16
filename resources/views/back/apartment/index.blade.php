@@ -112,7 +112,55 @@
                 </div>
             </div>
             <div class="block-content">
-
+                <!-- All Products Table -->
+                <div class="table-responsive">
+                    <table class="table table-borderless table-striped table-vcenter">
+                        <thead>
+                        <tr>
+                            <th class="text-center" style="width: 36px;">Br.</th>
+                            <th class="text-left">Naziv</th>
+                            <th>Grad</th>
+                            <th>Popust</th>
+                            <th class="text-center" style="width: 10%;">Featured</th>
+                            <th class="text-center" style="width: 10%;">Status</th>
+                            <th class="text-right" style="width: 10%;">Uredi</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse ($apartments as $apartment)
+                            <tr>
+                                <td class="font-size-sm">{{ $loop->iteration }}</td>
+                                <td class="font-size-sm">
+                                    <a class="font-w600" href="{{ route('apartments.edit', ['apartment' => $apartment]) }}">{{ $apartment->title }}</a>
+                                </td>
+                                <td class="font-size-sm">
+                                    {{ $apartment->city }}
+                                </td>
+                                <td class="font-size-sm">@include('back.layouts.partials.status', ['status' => $apartment->special, 'simple' => true])</td>
+                                <td class="text-center font-size-sm">
+                                    @include('back.layouts.partials.status', ['status' => $apartment->featured, 'simple' => true])
+                                </td>
+                                <td class="text-center font-size-sm">
+                                    @include('back.layouts.partials.status', ['status' => $apartment->status, 'simple' => true])
+                                </td>
+                                <td class="text-right font-size-sm">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('apartments.edit', ['apartment' => $apartment]) }}">
+                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $apartment->id }}, '{{ route('apartments.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="font-size-sm text-center" colspan="7">
+                                    <label for="">Nema Apartmana...</label>
+                                </td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                {{ $apartments->links() }}
             </div>
         </div>
     </div>

@@ -234,6 +234,16 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
+                    <div class="block-options">
+                        <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
+                            <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured" @if (isset($apartment) and $apartment->featured) checked @endif>
+                            <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">Featured</label>
+                        </div>
+                        <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
+                            <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($apartment) and $apartment->status) checked @endif>
+                            <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">Status</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="block-content block-content-full">
