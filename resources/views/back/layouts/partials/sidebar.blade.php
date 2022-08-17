@@ -94,7 +94,7 @@
                         </li>-->
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['galleries', 'gallery.*']) ? ' active' : '' }}" href="{{ route('galleries') }}">
-                                <span class="nav-main-link-name">Galerije</span>
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.gallery') }}</span>
                             </a>
                         </li>
                         <li class="nav-main-item">

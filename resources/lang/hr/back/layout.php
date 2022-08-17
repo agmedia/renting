@@ -45,6 +45,7 @@ return [
         'calendar' => 'Kalendar',
         'marketing' => 'Marketing',
         'actions' => 'Akcije',
+        'gallery' => 'Galerije',
         'blog' => 'Blog',
         'widgets' => 'Widgets',
         'users' => 'Korisnici',

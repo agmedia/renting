@@ -10,9 +10,9 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Galerije</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/gallery.gallery_title') }}</h1>
                 <a class="btn btn-hero-success my-2" href="{{ route('gallery.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Nova galerija</span>
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/gallery.gallery_new') }}</span>
                 </a>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Sve galerije ({{ $galleries->total() }})</h3>
+                <h3 class="block-title">{{ __('back/gallery.gallery_all') }} ({{ $galleries->total() }})</h3>
 
             </div>
 
@@ -37,13 +37,13 @@
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
                         <tr>
-                            <th class="text-center" style="width: 36px;">Br.</th>
-                            <th class="text-left">Naziv</th>
-                            <th>Fotografije</th>
-                            <th>Grupa</th>
-                            <th class="text-center" style="width: 10%;">Featured</th>
-                            <th class="text-center" style="width: 10%;">Status</th>
-                            <th class="text-right" style="width: 10%;">Uredi</th>
+                            <th class="text-center" style="width: 36px;">{{ __('back/gallery.br') }}</th>
+                            <th class="text-left">{{ __('back/gallery.title') }}</th>
+                            <th>{{ __('back/gallery.photos') }}</th>
+                            <th>{{ __('back/gallery.group') }}</th>
+                            <th class="text-center" style="width: 10%;">{{ __('back/gallery.featured') }}</th>
+                            <th class="text-center" style="width: 10%;">{{ __('back/gallery.status') }}</th>
+                            <th class="text-right" style="width: 10%;">{{ __('back/gallery.edit') }}i</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -74,8 +74,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="font-size-sm text-center" colspan="6">
-                                    <label for="">Nema Galerija...</label>
+                                <td class="font-size-sm text-center" colspan="7">
+                                    <label for="">{{ __('back/gallery.no') }}</label>
                                 </td>
                             </tr>
                         @endforelse

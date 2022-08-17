@@ -43,7 +43,7 @@
     <div class="row">
         <div class="col-12">
             <div class="file-drop-area">
-                <label for="files" style="display: block;padding: 1rem 2rem;border: 1px solid #CCCCCC;background-color: #eee;text-align: center;cursor: pointer;">Odaberite fotografiju... Ili više njih...</label>
+                <label for="files" style="display: block;padding: 1rem 2rem;border: 1px solid #CCCCCC;background-color: #eee;text-align: center;cursor: pointer;">{{ __('back/gallery.select_photo') }}</label>
                 <input name="files[][image]" id="files" type="file" multiple>
             </div>
         </div>

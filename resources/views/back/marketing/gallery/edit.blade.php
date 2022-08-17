@@ -13,11 +13,11 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Galerija edit</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/gallery.gallery_edit') }}</h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('galleries') }}">Galerije</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Nova galerija</li>
+                        <li class="breadcrumb-item"><a href="{{ route('galleries') }}">{{ __('back/gallery.gallery_title') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('back/gallery.gallery_new') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -38,16 +38,16 @@
                     <div class="block">
                         <div class="block-header block-header-default">
                             <a class="btn btn-light" href="{{ route('galleries') }}">
-                                <i class="fa fa-arrow-left mr-1"></i> Povratak
+                                <i class="fa fa-arrow-left mr-1"></i> {{ __('back/gallery.back') }}
                             </a>
                             <div class="block-options">
                                 <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured" @if (isset($gallery) and $gallery->featured) checked @endif>
-                                    <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">Featured</label>
+                                    <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">{{ __('back/gallery.featured') }}</label>
                                 </div>
                                 <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($gallery) and $gallery->status) checked @endif>
-                                    <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">Status</label>
+                                    <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">{{ __('back/gallery.status') }}</label>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                             <div class="row justify-content-center push">
                                 <div class="col-md-4">
                                     <div class="form-group mb-2">
-                                        <label for="group" style="margin-bottom: 13px;">Grupa galerije</label>
+                                        <label for="group" style="margin-bottom: 13px;">{{ __('back/gallery.group') }}</label>
                                         <select class="js-select2 form-control" id="group-select" name="group" style="width: 100%;">
                                             <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                                             @foreach ($groups as $group)
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group mb-2">
-                                        <label for="title-input" class="w-100" >Naziv galerije <span class="text-danger">*</span>
+                                        <label for="title-input" class="w-100" >{{ __('back/gallery.title') }} <span class="text-danger">*</span>
                                             <ul class="nav nav-pills float-right">
                                                 @foreach(ag_lang() as $lang)
                                                     <li @if ($lang->code == current_locale()) class="active" @endif>
@@ -102,21 +102,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     @if (isset($gallery))
-                                        <a href="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
-                                            <i class="fa fa-trash-alt"></i> Obriši
+                                        <a href="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/gallery.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
+                                            <i class="fa fa-trash-alt"></i> {{ __('back/gallery.delete') }}
                                         </a>
                                     @endif
                                 </div>
                                 <div class="col-md-6">
                                     <button type="submit" class="btn btn-hero-success mb-3 float-right">
-                                        <i class="fas fa-save mr-1"></i> Snimi
+                                        <i class="fas fa-save mr-1"></i>  {{ __('back/gallery.save') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </form>
 
@@ -141,7 +141,7 @@
              *
              */
             $('#group-select').select2({
-                placeholder: '-- Molimo odaberite, ili upišite novu. --',
+                placeholder: '--  {{ __('back/gallery.please_select') }} --',
                 tags: true
             })
             /*$('#group-select').select2({
