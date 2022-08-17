@@ -3,7 +3,7 @@
         <div class="modal-content rounded">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary">
-                    <h3 class="block-title">T-com Payway Payment Gateway</h3>
+                    <h3 class="block-title">{{ __('back/app.payments.payway') }}</h3>
                     <div class="block-options">
                         <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-times"></i>
@@ -17,59 +17,133 @@
                             <div class="row mb-3">
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label for="payway-title">Naslov</label>
-                                        <input type="text" class="form-control" id="payway-title" name="title">
+                                        <label for="payway-title" class="w-100">{{ __('back/app.payments.input_title') }}
+                                            <ul class="nav nav-pills float-right">
+                                                @foreach(ag_lang() as $lang)
+                                                    <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                    <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
+                                                        <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                    </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+
+                                        </label>
+                                        <div class="tab-content">
+                                            @foreach(ag_lang() as $lang)
+                                                <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                    <input type="text" class="form-control" id="payway-title-{{ $lang->code }}" name="payway-title[{{ $lang->code }}]" placeholder="{{ $lang->code }}"  >
+                                                </div>
+                                            @endforeach
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="payway-min">Min. iznos narudžbe</label>
+                                        <label for="payway-min">{{ __('back/app.payments.min_order_amount') }}</label>
                                         <input type="text" class="form-control" id="payway-min" name="min">
                                     </div>
                                 </div>
-                                <div class="col-md-8"></div>
+                                <div class="col-md-8">
+                                    <label for="payway-geo-zone">{{ __('back/app.payments.geo_zone') }} <span class="small text-gray">{{ __('back/app.payments.geo_zone_label') }}</span></label>
+                                    <select class="js-select2 form-control" id="payway-geo-zone" name="payway_geo_zone" style="width: 100%;" data-placeholder="{{ __('back/app.payments.select_geo') }}">
+                                        <option></option>
+                                        @foreach ($geo_zones as $geo_zone)
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="payway-price">Iznos naknade</label>
+                                        <label for="payway-price">{{ __('back/app.payments.fee_amount') }}</label>
                                         <input type="text" class="form-control" id="payway-price" name="data['price']">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label for="payway-short-description">Kratki opis <span class="small text-gray">(Prikazuje se prilikom odabira plaćanja.)</span></label>
-                                <textarea class="js-maxlength form-control" id="payway-short-description" name="data['short_description']" rows="2" maxlength="160" data-always-show="true" data-placement="top"></textarea>
+                                <label for="bank-short-description" class="w-100">{{ __('back/app.payments.short_desc') }} <span class="small text-gray">{{ __('back/app.payments.short_desc_label') }}</span>
+
+
+                                    <div class="float-right">
+                                        <ul class="nav nav-pills float-right">
+                                            @foreach(ag_lang() as $lang)
+                                                <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#payway-description-{{ $lang->code }}">
+                                                    <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+
+                                </label>
+
+
+                                <div class="tab-content">
+                                    @foreach(ag_lang() as $lang)
+                                        <div id="payway-description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                            <textarea id="payway-short-description-{{ $lang->code }}" class=" form-control"  name="data['short_description'][{{ $lang->code }}]" placeholder="{{ $lang->code }}" ></textarea>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+
+
+
                                 <small class="form-text text-muted">
-                                    160 znakova max
+                                    160 {{ __('back/app.payments.chars') }} max
                                 </small>
+
+
+
+
                             </div>
 
                             <div class="form-group mb-4">
-                                <label for="payway-description">Detaljni opis <span class="small text-gray">(Ako je potreban. Prikazuje se ako je plaćanje odabrano prilikom kupnje.)</span></label>
-                                <textarea class="form-control" id="payway-description" name="data['description']" rows="4"></textarea>
+                                <label for="payway-description" class="w-100">{{ __('back/app.payments.long_desc') }}<span class="small text-gray"> {{ __('back/app.payments.long_desc_label') }}</span>
+                                    <div class="float-right">
+                                        <ul class="nav nav-pills float-right">
+                                            @foreach(ag_lang() as $lang)
+                                                <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#payway-long-description-{{ $lang->code }}">
+                                                    <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+
+                                </label>
+
+                                <div class="tab-content">
+                                    @foreach(ag_lang() as $lang)
+                                        <div id="payway-long-description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                            <textarea id="payway-description-{{ $lang->code }}" class="form-control" rows="4" maxlength="160" data-always-show="true" name="data['description'][{{ $lang->code }}]" placeholder="{{ $lang->code }}" data-placement="top"></textarea>
+                                        </div>
+                                    @endforeach
+                                </div>
+
                             </div>
+
+
 
                             <div class="block block-themed block-transparent mb-4">
                                 <div class="block-content bg-body pb-3">
                                     <div class="row justify-content-center">
                                         <div class="col-md-11">
                                             <div class="form-group">
-                                                <label for="payway-shop-id">ID prodajnog mjesta (ShopID):</label>
+                                                <label for="payway-shop-id">ShopID:</label>
                                                 <input type="text" class="form-control" id="payway-shop-id" name="data['shop_id']">
                                             </div>
                                             <div class="form-group">
-                                                <label for="payway-secret-key">Tajni ključ (SecretKey):</label>
+                                                <label for="payway-secret-key">SecretKey:</label>
                                                 <input type="text" class="form-control" id="payway-secret-key" name="data['secret_key']">
                                             </div>
+
                                             <div class="form-group">
-                                                <label for="payway-type">Tip autorizacije</label>
-                                                <select class="js-select2 form-control" id="payway-type" name="data['type']" style="width: 100%;" data-placeholder="Odaberite tip autorizacije">
-                                                    <option value="1">Autorizacija u jednom koraku (automatska autorizacija)</option>
-                                                    <option value="0">Authtorizacija u dva koraka (predautorizacija)</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="payway-callback">URL za slanje odgovora: <span class="small text-gray">Ovo također mora biti upisano u payway control panelu.</span></label>
+                                                <label for="payway-callback">CallbackURL: </label>
                                                 <input type="text" class="form-control" id="payway-callback" name="data['callback']" value="{{ url('/') }}">
                                             </div>
 
@@ -81,25 +155,16 @@
                                                     <div class="col-md-9">
                                                         <div class="custom-control custom-radio custom-control-inline custom-control-success custom-control-lg">
                                                             <input type="radio" class="custom-control-input" id="payway-test-on" name="test" checked="" value="1">
-                                                            <label class="custom-control-label" for="payway-test-on">Da</label>
+                                                            <label class="custom-control-label" for="payway-test-on">On</label>
                                                         </div>
                                                         <div class="custom-control custom-radio custom-control-inline custom-control-danger custom-control-lg">
                                                             <input type="radio" class="custom-control-input" id="payway-test-off" name="test" value="0">
-                                                            <label class="custom-control-label" for="payway-test-off">Ne</label>
+                                                            <label class="custom-control-label" for="payway-test-off">Off</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="payway-geo-zone">Geo zona <span class="small text-gray">(Ostaviti prazno ako se odnosi na sve..)</span></label>
-                                                <select class="js-select2 form-control" id="payway-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
-                                                    <option></option>
-                                                    @foreach ($geo_zones as $geo_zone)
-                                                        <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
 
                                         </div>
                                     </div>
@@ -109,7 +174,7 @@
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="payway-price">Poredak</label>
+                                        <label for="payway-price">{{ __('back/app.payments.sort_order') }}</label>
                                         <input type="text" class="form-control" id="payway-sort-order" name="sort_order">
                                     </div>
                                 </div>
@@ -117,7 +182,7 @@
                                     <div class="form-group">
                                         <label class="css-control css-control-sm css-control-success css-switch res">
                                             <input type="checkbox" class="css-control-input" id="payway-status" name="status">
-                                            <span class="css-control-indicator"></span> Status načina plaćanja
+                                            <span class="css-control-indicator"></span> {{ __('back/app.payments.status_title') }}
                                         </label>
                                     </div>
                                 </div>
@@ -129,10 +194,10 @@
                 </div>
                 <div class="block-content block-content-full text-right bg-light">
                     <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
-                        Odustani <i class="fa fa-times ml-2"></i>
+                        {{ __('back/app.payments.cancel') }} <i class="fa fa-times ml-2"></i>
                     </a>
                     <button type="button" class="btn btn-sm btn-primary" onclick="event.preventDefault(); create_payway();">
-                        Snimi <i class="fa fa-arrow-right ml-2"></i>
+                        {{ __('back/app.payments.save') }} <i class="fa fa-arrow-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -144,7 +209,7 @@
     <script>
         $(() => {
             $('#payway-type').select2({
-                minimumResultsForSearch: Infinity,
+                minimumResultsForSearch: Infinity
             });
 
             $('#payway-geo-zone').select2({

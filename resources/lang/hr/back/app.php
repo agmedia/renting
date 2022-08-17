@@ -134,6 +134,7 @@ return [
         'long_desc' => 'Detaljni opis',
         'long_desc_label' => '(Ako je potreban. Prikazuje se ako je plaćanje odabrano prilikom kupnje.)',
         'chars' => 'znakova',
+        'select_geo' => 'Odaberite geo zonu',
 
     ],
 

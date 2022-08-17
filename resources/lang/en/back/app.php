@@ -140,7 +140,7 @@ return [
         'long_desc' => 'Long description',
         'long_desc_label' => '(If required. Displayed if payment is selected during purchase.)',
         'chars' => 'chars',
-        ''
+        'select_geo' => 'Select geo zone',
 
 
 

@@ -47,10 +47,10 @@
                                 </div>
                                 <div class="col-md-8">
                                     <label for="wspay-geo-zone">{{ __('back/app.payments.geo_zone') }} <span class="small text-gray">{{ __('back/app.payments.geo_zone_label') }}</span></label>
-                                    <select class="js-select2 form-control" id="bank-geo-zone" name="geo_zone" style="width: 100%;" data-placeholder="Odaberite geo zonu">
+                                    <select class="js-select2 form-control" id="wspay-geo-zone" name="wspay_geo_zone" style="width: 100%;" data-placeholder="{{ __('back/app.payments.select_geo') }}">
                                         <option></option>
                                         @foreach ($geo_zones as $geo_zone)
-                                            <option value="{{ $geo_zone->id }}" {{ ((isset($payment)) and ($payment->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -64,8 +64,6 @@
 
                             <div class="form-group mb-4">
                                 <label for="bank-short-description" class="w-100">{{ __('back/app.payments.short_desc') }} <span class="small text-gray">{{ __('back/app.payments.short_desc_label') }}</span>
-
-
                                     <div class="float-right">
                                         <ul class="nav nav-pills float-right">
                                             @foreach(ag_lang() as $lang)
@@ -79,8 +77,6 @@
                                     </div>
 
                                 </label>
-
-
                                 <div class="tab-content">
                                     @foreach(ag_lang() as $lang)
                                         <div id="wspay-description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
@@ -88,17 +84,9 @@
                                         </div>
                                     @endforeach
                                 </div>
-
-
-
-
                                 <small class="form-text text-muted">
                                     160 {{ __('back/app.payments.chars') }} max
                                 </small>
-
-
-
-
                             </div>
 
                             <div class="form-group mb-4">
