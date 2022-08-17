@@ -2,11 +2,11 @@
     <div class="block-content bg-body-light" style="padding: 12px 20px;">
         <div class="row">
             <div class="col-md-3">
-                <h3 class="block-title pt-1">Stavke</h3>
+                <h3 class="block-title pt-1">{{ __('back/action.items') }}</h3>
             </div>
             <div class="col-md-9">
                 <div class="block-options">
-                    <input type="search" wire:model.debounce.300ms="search" class="form-control" style="display: block;" placeholder="Traži...">
+                    <input type="search" wire:model.debounce.300ms="search" class="form-control" style="display: block;" placeholder="{{ __('back/action.search') }}">
                     @if( ! empty($search_results))
                         <div class="autocomplete" >
                             <div id="myInputautocomplete-list" class="autocomplete-items">
@@ -27,8 +27,8 @@
             <table class="table table-sm table-borderless table-striped table-vcenter">
                 <thead>
                 <tr>
-                    <th>Naziv</th>
-                    <th class="text-right" style="width: 100px;">Izbriši</th>
+                    <th>{{ __('back/action.title') }}</th>
+                    <th class="text-right" style="width: 100px;">{{ __('back/action.delete') }}</th>
                 </tr>
                 </thead>
                 <tbody>

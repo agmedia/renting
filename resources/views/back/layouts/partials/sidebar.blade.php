@@ -87,11 +87,11 @@
                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.marketing') }}</span>
                     </a>
                     <ul class="nav-main-submenu">
-                        <li class="nav-main-item">
+                    <!--    <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['blogs', 'blogs.*']) ? ' active' : '' }}" href="{{ route('blogs') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.blog') }}</span>
                             </a>
-                        </li>
+                        </li>-->
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['galleries', 'gallery.*']) ? ' active' : '' }}" href="{{ route('galleries') }}">
                                 <span class="nav-main-link-name">Galerije</span>
@@ -102,11 +102,11 @@
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.actions') }}</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
+                    <!--    <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['widgets', 'widget.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.widgets') }}</span>
                             </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
 
