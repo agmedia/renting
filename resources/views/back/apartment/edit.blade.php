@@ -530,7 +530,7 @@
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
                         <div class="col-md-11">
-                            @include('back.apartment.edit-photos', ['resource' => $apartment, 'existing' => $data['images'], 'delete_url' => route('apartments.destroy.image')])
+                            @include('back.apartment.edit-photos', ['resource' => isset($apartment) ? $apartment : null, 'existing' => $data['images'], 'delete_url' => route('apartments.destroy.image')])
                         </div>
                     </div>
                 </div>
@@ -545,8 +545,8 @@
                             </button>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if (isset($gallery))
-                                <a href="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
+                            @if (isset($apartment))
+                                <a href="{{ route('gallery.destroy', ['apartment' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
                             @endif
