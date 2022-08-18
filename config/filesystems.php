@@ -86,6 +86,12 @@ return [
             'url' => 'media/img/gallery/'
         ],
         //
+        'apartment' => [
+            'driver' => 'local',
+            'root' => public_path('media/img/apartment/'),
+            'url' => 'media/img/apartment/'
+        ],
+        //
         'blog' => [
             'driver' => 'local',
             'root' => public_path('media/img/blog/'),

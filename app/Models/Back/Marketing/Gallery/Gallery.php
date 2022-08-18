@@ -2,8 +2,6 @@
 
 namespace App\Models\Back\Marketing\Gallery;
 
-use App\Helpers\ProductHelper;
-use App\Models\Back\Catalog\Product\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -127,14 +125,7 @@ class Gallery extends Model
      */
     public function create()
     {
-        $id = $this->insertGetId([
-            'group'      => $this->request->group ?: '/',
-            'featured'   => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'sort_order' => 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
+        $id = $this->insertGetId($this->createModelArray());
 
         if ($id) {
             GalleryTranslation::create($id, $this->request);
@@ -151,13 +142,7 @@ class Gallery extends Model
      */
     public function edit()
     {
-        $id = $this->update([
-            'group'      => $this->request->group ?: '/',
-            'featured'   => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'sort_order' => 0,
-            'updated_at' => Carbon::now()
-        ]);
+        $id = $this->update($this->createModelArray('update'));
 
         if ($id) {
             GalleryTranslation::edit($this->id, $this->request);
@@ -179,6 +164,33 @@ class Gallery extends Model
         return (new GalleryImage())->store($gallery, $this->request);
     }
 
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @param string $method
+     *
+     * @return array
+     */
+    private function createModelArray(string $method = 'insert'): array
+    {
+        $response = [
+            'group'      => $this->request->group ?: '/',
+            'featured'   => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'sort_order' => 0,
+            'updated_at' => Carbon::now()
+        ];
+
+        if ($method == 'insert') {
+            $response['created_at'] = Carbon::now();
+        }
+
+        return $response;
+    }
+
 
     /**
      * Set Product Model request variable.
@@ -190,19 +202,20 @@ class Gallery extends Model
         $this->request = $request;
     }
 
+
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     public static function adminSelectList()
     {
         $response = [];
-        $items = static::all();
+        $items    = static::all();
 
         foreach ($items as $item) {
             $response[] = [
-                'id' => $item->id,
+                'id'    => $item->id,
                 'title' => $item->title,
             ];
         }

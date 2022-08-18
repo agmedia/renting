@@ -103,6 +103,8 @@ class CreateApartmentsTable extends Migration
         Schema::create('apartment_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('apartment_id')->index();
+            $table->string('image');
+            $table->boolean('default')->default(false);
             $table->boolean('published')->default(false);
             $table->integer('sort_order')->unsigned();
             $table->timestamps();
@@ -117,7 +119,7 @@ class CreateApartmentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('apartment_image_id')->index();
             $table->string('lang', 2)->default(config('app.locale'));
-            $table->string('image');
+            $table->string('title')->nullable();
             $table->string('alt')->nullable();
             $table->timestamps();
 

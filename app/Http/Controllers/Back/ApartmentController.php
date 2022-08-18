@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Helpers\Image;
 use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Apartment\ApartmentDetail;
+use App\Models\Back\Apartment\ApartmentImage;
 use App\Models\Back\Marketing\Gallery\Gallery;
 use App\Models\Back\Settings\System\Category;
 use App\Models\Back\Apartment\Apartment;
@@ -40,14 +42,10 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        $amenities = collect(config('settings.apartment_details'))->groupBy('group');
+        $data = (new Apartment())->getEditViewData();
         $js_lang = json_encode(Lang::get('back/apartment'));
-        $favorites = [];//ApartmentDetail::all();
-        $galleries = Gallery::adminSelectList();
 
-        //dd($galleries);
-
-        return view('back.apartment.edit', compact('amenities', 'favorites', 'galleries', 'js_lang'));
+        return view('back.apartment.edit', compact('js_lang', 'data'));
     }
 
 
@@ -65,8 +63,7 @@ class ApartmentController extends Controller
         $stored = $apartment->validateRequest($request)->create();
 
         if ($stored) {
-            /*$apartment->checkSettings()
-                    ->storeImages($stored);*/
+            $apartment->storeImages();
 
             return redirect()->route('apartments.edit', ['apartment' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
         }
@@ -84,14 +81,12 @@ class ApartmentController extends Controller
      */
     public function edit(Apartment $apartment)
     {
-        //$data = $apartment->getRelationsData();
-
-        $amenities = collect(config('settings.apartment_details'))->groupBy('group');
+        $data = $apartment->getEditViewData();
         $js_lang = json_encode(Lang::get('back/apartment'));
-        $favorites = [];//ApartmentDetail::all();
-        $galleries = Gallery::adminSelectList();
 
-        return view('back.apartment.edit', compact('apartment', 'amenities', 'favorites', 'galleries', 'js_lang'));
+        //dd($data['images']);
+
+        return view('back.apartment.edit', compact('apartment', 'js_lang', 'data'));
     }
 
 
@@ -108,12 +103,9 @@ class ApartmentController extends Controller
         $updated = $apartment->validateRequest($request)->edit();
 
         if ($updated) {
-            /*$apartment->checkSettings()
-                    ->storeImages($updated);
+            $updated->storeImages();
 
-            $apartment->addHistoryData('change');*/
-
-            return redirect()->route('products.edit', ['Apartment' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartment' => $updated])->with(['success' => 'Apartment je uspješno snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
@@ -173,17 +165,27 @@ class ApartmentController extends Controller
 
 
     /**
-     * @param       $items
-     * @param int   $perPage
-     * @param null  $page
-     * @param array $options
+     * Remove the specified resource from storage.
      *
-     * @return LengthAwarePaginator
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function paginateColl($items, $perPage = 20, $page = null, $options = []): LengthAwarePaginator
+    public function destroyImage(Request $request)
     {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        if ($request->has('data')) {
+            $image = ApartmentImage::find($request->input('data'));
+
+            $deleted = $image->delete();
+
+            if ($deleted) {
+                $path = Image::cleanPath('apartment', $image->apartment_id, $image->image);
+                Image::delete('apartment', $image->apartment_id, $path);
+
+                return response()->json(['success' => 200]);
+            }
+        }
+
+        return response()->json(['error' => 400]);
     }
 }

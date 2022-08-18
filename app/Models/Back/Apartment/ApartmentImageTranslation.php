@@ -12,61 +12,62 @@ class ApartmentImageTranslation extends Model
     /**
      * @var string
      */
-    protected $table = 'gallery_images_translations';
+    protected $table = 'apartment_images_translations';
 
     /**
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    /**
-     * @var Request
-     */
-    protected $request;
-
 
     /**
-     * Create and return new Product Model.
+     * @param int   $id
+     * @param array $title
      *
-     * @return mixed
+     * @return bool
      */
-    public function create()
+    public static function create(int $id, array $title): bool
     {
-        $id = $this->insertGetId([
-            'author_id'        => $this->request->author_id ?: 6,
-            'sort_order'       => 0,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'created_at'       => Carbon::now(),
-            'updated_at'       => Carbon::now()
-        ]);
+        foreach (ag_lang() as $lang) {
+            $saved = self::insertGetId([
+                'apartment_image_id' => $id,
+                'lang'               => $lang->code,
+                'title'              => $title[$lang->code],
+                'alt'                => $title[$lang->code],
+                'created_at'         => Carbon::now(),
+                'updated_at'         => Carbon::now()
+            ]);
 
-        if ($id) {
-
+            if ( ! $saved) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 
     /**
-     * Update and return new Product Model.
+     * @param int   $id
+     * @param array $title
      *
-     * @return mixed
+     * @return bool
      */
-    public function edit()
+    public static function edit(int $id, array $image): bool
     {
-        $updated = $this->update([
-            'author_id'        => $this->request->author_id ?: 6,
-            'sort_order'       => 0,
-            'status'           => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'       => Carbon::now()
-        ]);
+        foreach (ag_lang() as $lang) {
+            $saved = self::where('apartment_image_id', $id)->where('lang', $lang->code)->update([
+                'title'      => $image['title'][$lang->code],
+                'alt'        => $image['alt'][$lang->code],
+                'updated_at' => Carbon::now()
+            ]);
 
-        if ($updated) {
-
+            if ( ! $saved) {
+                return false;
+            }
         }
 
-        return false;
+        return true;
     }
 
 }

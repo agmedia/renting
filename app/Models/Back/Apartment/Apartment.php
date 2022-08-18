@@ -2,6 +2,8 @@
 
 namespace App\Models\Back\Apartment;
 
+use App\Models\Back\Marketing\Gallery\Gallery;
+use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,6 +56,17 @@ class Apartment extends Model
 
 
     /**
+     * @param bool $all
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(ApartmentImage::class, 'apartment_id')->orderBy('sort_order');
+    }
+
+
+    /**
      * @param null  $lang
      * @param false $all
      *
@@ -93,8 +106,10 @@ class Apartment extends Model
     {
         // Validate the request.
         $request->validate([
-            'title.*'       => 'required',
-            'description.*' => 'required'
+            'title.*' => 'required',
+            'type'    => 'required',
+            'target'  => 'required',
+            'price'   => 'required'
         ]);
 
         // Set Product Model request variable
@@ -111,16 +126,14 @@ class Apartment extends Model
      */
     public function create()
     {
-        $id = $this->insertGetId(
-            $this->createModelArray()
-        );
+        $id = $this->insertGetId($this->createModelArray());
 
         if ($id) {
             ApartmentTranslation::create($id, $this->request);
             ApartmentDetail::createAmenities($id, $this->request);
             ApartmentDetail::createDetails($id, $this->request);
 
-            return $this->find($id);
+            return $this;
         }
 
         return false;
@@ -134,9 +147,7 @@ class Apartment extends Model
      */
     public function edit()
     {
-        $updated = $this->update(
-            $this->createModelArray('update')
-        );
+        $updated = $this->update($this->createModelArray('update'));
 
         if ($updated) {
             ApartmentTranslation::edit($this->id, $this->request);
@@ -147,6 +158,31 @@ class Apartment extends Model
         }
 
         return false;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getEditViewData()
+    {
+        return [
+            'details'   => ApartmentDetail::getDetailsByApartment(($this->id ?: 0)),
+            'amenities' => ApartmentDetail::getAmenitiesByApartment($this->id ?: 0),
+            'images'    => ApartmentImage::getExistingImages($this ?: null),
+            'favorites' => ApartmentDetail::getFavorites(),
+            'galleries' => Gallery::adminSelectList(),
+            'taxes'     => Settings::get('tax', 'list')
+        ];
+    }
+
+
+    /**
+     * @return bool|mixed
+     */
+    public function storeImages()
+    {
+        return (new ApartmentImage())->store($this->find($this->id), $this->request);
     }
 
 

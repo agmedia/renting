@@ -13,9 +13,16 @@
                             </p>
                         </div>
                         <div class="col-md-4 mt-4">
-                            <select class="js-select2 form-control" id="favorite-select" name="favorite_id" style="width: 100%;" :data-placeholder="lang.select">
-                                <option v-for="(favorite, index) in favorites" :value="favorite.id">{{ favorite.title }}</option>
-                            </select>
+                            <div class="input-group">
+                                <select class="js-select2 form-control" id="favorite-select" :data-placeholder="lang.select">
+                                    <option></option>
+                                    <option v-for="(favorite, index) in favorites_list" :value="JSON.stringify(favorite)">{{ favorite.title[current_language] }}</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-alt-success" @click="selectFavorite()"><i class="fas fa-save"></i></button>
+                                    <button type="button" class="btn btn-alt-secondary" @click="removeSelected('favorite')"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,8 +77,6 @@
                                 <button type="button" class="btn btn-alt-secondary" @click="removeSelected('icon')"><i class="fas fa-times"></i></button>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="col-md-6">
                         <label for="dm-post-edit-title">{{ lang.galerijainfo }}</label>
@@ -104,11 +109,10 @@
 
         <div class="form-group row items-push">
             <div class="col-md-12">
-
                 <table class="table table-vcenter">
                     <thead>
                     <tr>
-                        <th class="text-center" style="width: 50px;">#</th>
+<!--                        <th class="text-center" style="width: 50px;">#</th>-->
                         <th>{{ lang.titleinfo }}</th>
                         <th class="d-none d-sm-table-cell" style="width: 25%;">{{ lang.value }}</th>
                         <th class="text-center" style="width: 100px;">{{ lang.action }}</th>
@@ -116,7 +120,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(detail, index) in added_details">
-                        <th class="text-center" scope="row">{{ index + 1 }}</th>
+<!--                        <th class="text-center" scope="row">{{ index + 1 }}</th>-->
                         <td class="font-w600">
                             <a href="be_pages_generic_profile.html">{{ detail.title[current_language] }}</a>
                             <p class="small text-gray-dark mb-0" v-if="detail.description[current_language]">{{ detail.description[current_language] }}</p>
@@ -133,6 +137,25 @@
                             </div>
                         </td>
                     </tr>
+<!--                    -->
+<!--                    <tr v-for="(detail, index) in existing_details" style="background-color: #F5F5F5;">
+                        <th class="text-center" scope="row">{{ detail.id }}</th>
+                        <td class="font-w600">
+                            <a href="be_pages_generic_profile.html">{{ detail.title[current_language] }}</a>
+                            <p class="small text-gray-dark mb-0" v-if="detail.description[current_language]">{{ detail.description[current_language] }}</p>
+                        </td>
+                        <td class="d-none d-sm-table-cell">{{ detail.value }}</td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary js-tooltip-enabled" @click="editItem(index)">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-danger js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Delete">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>-->
                     </tbody>
                 </table>
             </div>
@@ -175,7 +198,7 @@
         data() {
             return {
                 base_path: window.location.origin + '/',
-                existing_details: [],
+                existing_details: JSON.parse(this.details),
                 added_details: [],
                 added_detail: {
                     title: {},
@@ -187,12 +210,13 @@
                     favorite: false
                 },
                 lang: window.trans,
-                selected_favorite: null,
-                gallery_list: JSON.parse(this.galleries),
-                selected_gallery: null,
-                selected_group: null,
                 language_list: JSON.parse(this.languages),
+                gallery_list: JSON.parse(this.galleries),
+                favorites_list: JSON.parse(this.favorites),
                 current_language: this.locale,
+                selected_gallery: null,
+                selected_favorite: null,
+                selected_group: null,
                 view_input: false,
                 field_value: 0,
                 title_error: false,
@@ -203,9 +227,15 @@
         //
         mounted() {
             //this.resetDetail();
+
+            this.setExistingDetails();
         },
         //
         methods: {
+
+            setExistingDetails() {
+                this.added_details = this.existing_details;
+            },
 
             /**
              *
@@ -248,16 +278,33 @@
                 let item = this.added_details[index];
                 this.edit_index = index + 1;
 
-                this.language_list.forEach((language) => {
-                    this.added_detail.title[language.code] = item.title[language.code];
-                    this.added_detail.description[language.code] = item.description[language.code];
-                });
+                this.fillFormDetail(item);
+            },
 
+            /**
+             *
+             */
+            selectFavorite() {
+                let favorite = JSON.parse($('#favorite-select').val());
+
+                this.fillFormDetail(favorite);
+            },
+
+            /**
+             *
+             * @param item
+             */
+            fillFormDetail(item) {
                 this.added_detail.value = item.value;
                 this.added_detail.favorite = item.favorite;
                 this.added_detail.group = $('#size-select').val(item.group).trigger('change');
                 this.added_detail.icon = $('#icon-select').val(item.icon).trigger('change');
-                this.added_detail.gallery_id = $('#gallery-select').val(item.gallery).trigger('change');
+                this.added_detail.gallery_id = $('#gallery-select').val(item.gallery_id).trigger('change');
+
+                this.language_list.forEach((language) => {
+                    this.added_detail.title[language.code] = item.title[language.code];
+                    this.added_detail.description[language.code] = item.description[language.code];
+                });
             },
 
             /**
@@ -291,6 +338,10 @@
              */
             removeSelected(target) {
                 $('#' + target + '-select').val(null).trigger('change');
+
+                if (target === 'favorite') {
+                    this.resetDetail();
+                }
             },
 
             /**

@@ -75,6 +75,8 @@ class GalleryController extends Controller
         $groups = Gallery::groupBy('group')->pluck('group');
         $existing = $gallery->images(true)->get()->groupBy('lang')->toArray();
 
+        dd($existing);
+
         return view('back.marketing.gallery.edit', compact('gallery', 'groups', 'existing'));
     }
 

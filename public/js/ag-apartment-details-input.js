@@ -1989,6 +1989,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     details: {
@@ -2021,7 +2044,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       base_path: window.location.origin + '/',
-      existing_details: [],
+      existing_details: JSON.parse(this.details),
       added_details: [],
       added_detail: {
         title: {},
@@ -2033,12 +2056,13 @@ __webpack_require__.r(__webpack_exports__);
         favorite: false
       },
       lang: window.trans,
-      selected_favorite: null,
-      gallery_list: JSON.parse(this.galleries),
-      selected_gallery: null,
-      selected_group: null,
       language_list: JSON.parse(this.languages),
+      gallery_list: JSON.parse(this.galleries),
+      favorites_list: JSON.parse(this.favorites),
       current_language: this.locale,
+      selected_gallery: null,
+      selected_favorite: null,
+      selected_group: null,
       view_input: false,
       field_value: 0,
       title_error: false,
@@ -2047,10 +2071,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   //
-  mounted: function mounted() {//this.resetDetail();
+  mounted: function mounted() {
+    //this.resetDetail();
+    this.setExistingDetails();
   },
   //
   methods: {
+    setExistingDetails: function setExistingDetails() {
+      this.added_details = this.existing_details;
+    },
+
     /**
      *
      */
@@ -2087,19 +2117,35 @@ __webpack_require__.r(__webpack_exports__);
      * @param index
      */
     editItem: function editItem(index) {
-      var _this2 = this;
-
       var item = this.added_details[index];
       this.edit_index = index + 1;
-      this.language_list.forEach(function (language) {
-        _this2.added_detail.title[language.code] = item.title[language.code];
-        _this2.added_detail.description[language.code] = item.description[language.code];
-      });
+      this.fillFormDetail(item);
+    },
+
+    /**
+     *
+     */
+    selectFavorite: function selectFavorite() {
+      var favorite = JSON.parse($('#favorite-select').val());
+      this.fillFormDetail(favorite);
+    },
+
+    /**
+     *
+     * @param item
+     */
+    fillFormDetail: function fillFormDetail(item) {
+      var _this2 = this;
+
       this.added_detail.value = item.value;
       this.added_detail.favorite = item.favorite;
       this.added_detail.group = $('#size-select').val(item.group).trigger('change');
       this.added_detail.icon = $('#icon-select').val(item.icon).trigger('change');
-      this.added_detail.gallery_id = $('#gallery-select').val(item.gallery).trigger('change');
+      this.added_detail.gallery_id = $('#gallery-select').val(item.gallery_id).trigger('change');
+      this.language_list.forEach(function (language) {
+        _this2.added_detail.title[language.code] = item.title[language.code];
+        _this2.added_detail.description[language.code] = item.description[language.code];
+      });
     },
 
     /**
@@ -2134,6 +2180,10 @@ __webpack_require__.r(__webpack_exports__);
      */
     removeSelected: function removeSelected(target) {
       $('#' + target + '-select').val(null).trigger('change');
+
+      if (target === 'favorite') {
+        this.resetDetail();
+      }
     },
 
     /**
@@ -2462,24 +2512,60 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-4 mt-4" }, [
-                _c(
-                  "select",
-                  {
-                    staticClass: "js-select2 form-control",
-                    staticStyle: { width: "100%" },
-                    attrs: {
-                      id: "favorite-select",
-                      name: "favorite_id",
-                      "data-placeholder": _vm.lang.select
-                    }
-                  },
-                  _vm._l(_vm.favorites, function(favorite, index) {
-                    return _c("option", { domProps: { value: favorite.id } }, [
-                      _vm._v(_vm._s(favorite.title))
-                    ])
-                  }),
-                  0
-                )
+                _c("div", { staticClass: "input-group" }, [
+                  _c(
+                    "select",
+                    {
+                      staticClass: "js-select2 form-control",
+                      attrs: {
+                        id: "favorite-select",
+                        "data-placeholder": _vm.lang.select
+                      }
+                    },
+                    [
+                      _c("option"),
+                      _vm._v(" "),
+                      _vm._l(_vm.favorites_list, function(favorite, index) {
+                        return _c(
+                          "option",
+                          { domProps: { value: JSON.stringify(favorite) } },
+                          [_vm._v(_vm._s(favorite.title[_vm.current_language]))]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-group-append" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-alt-success",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.selectFavorite()
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-save" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-alt-secondary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.removeSelected("favorite")
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-times" })]
+                    )
+                  ])
+                ])
               ])
             ])
           ]
@@ -2861,7 +2947,7 @@ var render = function() {
               },
               [
                 _c("i", { staticClass: "fas fa-save mr-1" }),
-                _vm._v(" Add to list\n                    ")
+                _vm._v(" Add to list\n                        ")
               ]
             )
           ])
@@ -2878,12 +2964,6 @@ var render = function() {
         _c("table", { staticClass: "table table-vcenter" }, [
           _c("thead", [
             _c("tr", [
-              _c(
-                "th",
-                { staticClass: "text-center", staticStyle: { width: "50px" } },
-                [_vm._v("#")]
-              ),
-              _vm._v(" "),
               _c("th", [_vm._v(_vm._s(_vm.lang.titleinfo))]),
               _vm._v(" "),
               _c(
@@ -2907,12 +2987,6 @@ var render = function() {
             "tbody",
             _vm._l(_vm.added_details, function(detail, index) {
               return _c("tr", [
-                _c(
-                  "th",
-                  { staticClass: "text-center", attrs: { scope: "row" } },
-                  [_vm._v(_vm._s(index + 1))]
-                ),
-                _vm._v(" "),
                 _c("td", { staticClass: "font-w600" }, [
                   _c(
                     "a",

@@ -1095,7 +1095,7 @@ return [
             'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
             'cod' => \App\Models\Front\Checkout\Payment\Cod::class,
             'bank' => \App\Models\Front\Checkout\Payment\Bank::class,
-            'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
+            //'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
         ]
     ],
 

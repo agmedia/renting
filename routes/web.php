@@ -208,9 +208,9 @@ Route::prefix('api/v2')->group(function () {
     Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('api.front.search');
 
     Route::get('/apartments/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('apartments.autocomplete');
-    Route::post('/apartments/image/delete', [\App\Http\Controllers\Api\v2\ProductController::class, 'destroyImage'])->name('apartments.destroy.image');
-    Route::post('/apartments/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('apartments.change.status');
-    Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
+    Route::post('/apartments/image/delete', [ApartmentController::class, 'destroyImage'])->name('apartments.destroy.image');
+    //Route::post('/apartments/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('apartments.change.status');
+    //Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
     Route::post('/apartments/destroy/api', [ProductController::class, 'destroyApi'])->name('apartments.destroy.api');

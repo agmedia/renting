@@ -5,6 +5,7 @@ namespace App\Models\Back\Apartment;
 use Carbon\Carbon;
 use App\Helpers\Image;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class ApartmentImage extends Model
 {
@@ -12,7 +13,7 @@ class ApartmentImage extends Model
     /**
      * @var string
      */
-    protected $table = 'gallery_images';
+    protected $table = 'apartment_images';
 
     /**
      * @var array
@@ -20,9 +21,75 @@ class ApartmentImage extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['title', 'alt'];
+
+    /**
+     * @var string
+     */
+    protected $locale = 'en';
+
+    /**
      * @var Model
      */
     protected $resource;
+
+
+    /**
+     * apartment constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->locale = current_locale();
+    }
+
+
+    /**
+     * @param null $lang
+     *
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
+     */
+    public function translation($lang = null)
+    {
+        if ($lang) {
+            return $this->hasOne(ApartmentImageTranslation::class, 'apartment_image_id')->where('lang', $lang)->first();
+        }
+
+        return $this->hasOne(ApartmentImageTranslation::class, 'apartment_image_id')->where('lang', $this->locale)->first();
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations()
+    {
+        return $this->hasMany(ApartmentImageTranslation::class, 'apartment_image_id');
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTitleAttribute()
+    {
+        //dd($this->translation()->toArray());
+        return (isset($this->translation()->title) && $this->translation()->title) ? $this->translation()->title : '';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAltAttribute()
+    {
+        return (isset($this->translation()->alt) && $this->translation()->alt) ? $this->translation()->alt : '';
+    }
 
 
     /**
@@ -41,7 +108,7 @@ class ApartmentImage extends Model
         if ($new) {
             foreach ($new as $new_image) {
                 if (isset($new_image['image']) && $new_image['image']) {
-                    $this->saveNew($new_image);
+                    $this->saveNew($new_image, $request['title']);
                 }
             }
         }
@@ -63,64 +130,31 @@ class ApartmentImage extends Model
 
 
     /**
-     * @param $id
-     * @param $new
-     *
-     * @return mixed
-     */
-    public function replace(int $id, array $image)
-    {
-        // Nađi staru sliku, izdvoji naziv
-        $old  = $this->where('id', $id)->first();
-        $path = Image::cleanPath('gallery', $this->resource->id, $old->image);
-
-        // Obriši staru i snimi novu fotku
-        Image::delete('gallery', $this->resource->id, $path);
-        $new_path = Image::save('gallery', $image, $this->resource);
-
-        foreach (ag_lang() as $lang) {
-            $updated = $this->where('image', $old->image)->where('lang', $lang->code)->update([
-                'image' => config('filesystems.disks.gallery.url') . $new_path
-            ]);
-
-            if ( ! $updated) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-    /**
      * @param array $new_image
      *
      * @return bool
      */
-    public function saveNew(array $new_image): bool
+    public function saveNew(array $new_image, array $title): bool
     {
-        $path = Image::save('gallery', $new_image, $this->resource);
+        $path = Image::save('apartment', $new_image, $this->resource);
 
-        foreach (ag_lang() as $lang) {
-            $id = $this->insertGetId([
-                'gallery_id' => $this->resource->id,
-                'lang'       => $lang->code,
-                'image'      => config('filesystems.disks.gallery.url') . $path,
-                'title'      => $this->resource->translation($lang->code)->title,
-                'alt'        => $this->resource->translation($lang->code)->title,
-                'default'    => (isset($new_image['default']) && $new_image['default']) ? 1 : 0,
-                'published'  => 1,
-                'sort_order' => (isset($new_image['sort_order']) && $new_image['sort_order']) ? $new_image['sort_order'] : 0,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
+        $id = $this->insertGetId([
+            'apartment_id' => $this->resource->id,
+            'image'        => config('filesystems.disks.apartment.url') . $path,
+            'default'      => (isset($new_image['default']) && $new_image['default']) ? 1 : 0,
+            'published'    => 1,
+            'sort_order'   => (isset($new_image['sort_order']) && $new_image['sort_order']) ? $new_image['sort_order'] : 0,
+            'created_at'   => Carbon::now(),
+            'updated_at'   => Carbon::now()
+        ]);
 
-            if ( ! $id) {
-                return false;
-            }
+        if ($id) {
+            ApartmentImageTranslation::create($id, $title);
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 
@@ -132,25 +166,88 @@ class ApartmentImage extends Model
      */
     public function updateImageData(int $id, array $image_data): bool
     {
-        $original    = $this->find($id);
-        $lang_images = $this->where('image', $original->image)->get();
+        $updated = $this->where('id', $id)->update([
+            'default'    => (isset($image_data['default']) && $image_data['default']) ? 1 : 0,
+            'published'  => (isset($image_data['published']) and $image_data['published'] == 'on') ? 1 : 0,
+            'sort_order' => (isset($image_data['sort_order']) && $image_data['sort_order']) ? $image_data['sort_order'] : 0,
+            'updated_at' => Carbon::now()
+        ]);
 
-        foreach ($lang_images as $image) {
-            $id = $image->update([
-                'title'      => $image_data['title'][$image->lang],
-                'alt'        => $image_data['alt'][$image->lang],
-                'default'    => (isset($image_data['default']) && $image_data['default']) ? 1 : 0,
-                'published'  => (isset($image_data['published']) and $image_data['published'] == 'on') ? 1 : 0,
-                'sort_order' => (isset($image_data['sort_order']) && $image_data['sort_order']) ? $image_data['sort_order'] : 0,
-                'updated_at' => Carbon::now()
-            ]);
+        if ($updated) {
+            ApartmentImageTranslation::edit($id, $image_data);
 
-            if ( ! $id) {
-                return false;
-            }
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param $id
+     * @param $new
+     *
+     * @return mixed
+     */
+    public function replace(int $id, array $image)
+    {
+        // Nađi staru sliku, izdvoji naziv
+        $old  = $this->where('id', $id)->first();
+        $path = Image::cleanPath('apartment', $this->resource->id, $old->image);
+
+        // Obriši staru i snimi novu fotku
+        Image::delete('apartment', $this->resource->id, $path);
+        $new_path = Image::save('apartment', $image, $this->resource);
+
+        $updated = $this->where('id', $id)->update([
+            'image' => config('filesystems.disks.apartment.url') . $new_path
+        ]);
+
+        if ( ! $updated) {
+            return false;
         }
 
         return true;
+    }
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @param Apartment|null $apartment
+     *
+     * @return array
+     */
+    public static function getExistingImages(Apartment $apartment = null): array
+    {
+        if ( ! $apartment || empty($apartment)) {
+            return [];
+        }
+
+        $response = [];
+        $images   = $apartment->images()->get();
+
+        foreach ($images as $image) {
+            $response[$image->id] = [
+                'id'         => $image->id,
+                'image'      => $image->image,
+                'default'    => $image->default,
+                'published'  => $image->published,
+                'sort_order' => $image->sort_order,
+            ];
+
+            foreach (ag_lang() as $lang) {
+                $title = isset($image->translation($lang->code)->title) ? $image->translation($lang->code)->title : '';
+                $alt   = isset($image->translation($lang->code)->alt) ? $image->translation($lang->code)->alt : '';
+
+                $response[$image->id]['title'][$lang->code] = $title;
+                $response[$image->id]['alt'][$lang->code]   = $alt;
+            }
+        }
+
+        return $response;
     }
 
 }

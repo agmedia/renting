@@ -187,7 +187,7 @@
         }
     </script>
 
-    @stack('apartment_css')
+    @stack('gallery_css')
 
     @if (isset($js_lang))
         <script>
@@ -270,8 +270,8 @@
                                             <div class="tab-content">
                                                 @foreach(ag_lang() as $lang)
                                                     <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
-                                                        @error('name')
+                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title.*') }}">
+                                                        @error('title.*')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                                         @enderror
                                                     </div>
@@ -288,6 +288,9 @@
                                                     <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->type)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('type')
+                                            <span class="text-danger font-italic">ERROR TYPE</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
                                             <label for="target-select">{{ __('back/apartment.namjena') }}<span class="text-danger">*</span></label>
@@ -297,10 +300,13 @@
                                                     <option value="{{ $select_item['id'] }}" {{ ((isset($apartment)) and ($select_item['id'] == $apartment->target)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
                                                 @endforeach
                                             </select>
+                                            @error('target')
+                                            <span class="text-danger font-italic">ERROR TARGET</span>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="dm-post-edit-title">{{ __('back/apartment.sifra') }} <span class="text-danger"></span></label>
-                                            <input type="text" class="form-control" id="sku-input" name=sku" placeholder="" value="{{ isset($apartment) ? $apartment->sku : old('sku') }}">
+                                            <label for="sku">{{ __('back/apartment.sifra') }}</label>
+                                            <input type="text" class="form-control" name="sku" placeholder="" value="{{ isset($apartment) ? $apartment->sku : old('sku') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -364,6 +370,9 @@
                                 <div class="col-md-6">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.price') }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="price-input" name="price" placeholder="" value="{{ isset($apartment) ? $apartment->price : old('price') }}">
+                                    @error('price')
+                                    <span class="text-danger font-italic">ERROR PRICE</span>
+                                    @enderror
                                 </div>
                                 <div class="col-md-3">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.priceprema') }} <span class="text-danger"></span></label>
@@ -378,7 +387,9 @@
                                     <label for="price-input">{{ __('back/apartment.tax') }}</label>
                                     <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
                                         <option></option>
-
+                                        @foreach ($data['taxes'] as $tax)
+                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -426,7 +437,7 @@
                                     <div class="tab-content">
                                         @foreach(ag_lang() as $lang)
                                             <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->description : old('description') !!}</textarea>
+                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->description : old('description.*') !!}</textarea>
                                             </div>
                                         @endforeach
                                     </div>
@@ -449,15 +460,15 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
 
-                            @foreach ($amenities as $key => $items)
-                                <h2 class="content-heading">{{ $items[0]['group_title'][current_locale()] }}</h2>
+                            @foreach ($data['amenities'] as $group => $items)
+                                <h2 class="content-heading">{{ $group }}</h2>
 
                                 <div class="form-group row items-push mb-0">
                                     @foreach ($items as $detail)
                                         <div class="col-md-4">
                                             <div class="custom-control custom-switch custom-control-lg mb-2">
-                                                <input type="checkbox" class="custom-control-input" name="amenity[{{ $detail['id'] }}]" {{ (isset($apartment->detail) and $apartment->detail) ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="example-sw-custom-lg1"><img src ="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="icon"/> {{ $detail['title'][current_locale()] }}</label>
+                                                <input type="checkbox" class="custom-control-input" name="amenity[{{ $detail['id'] }}]" @if($detail['status']) checked @endif>
+                                                <label class="custom-control-label" for="example-sw-custom-lg1"><img src ="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="icon"/> {{ $detail['title'] }}</label>
                                             </div>
                                         </div>
                                     @endforeach
@@ -502,8 +513,9 @@
 
                     <div class="row justify-content-center push" id="placeholder-ag-apartment-details-input">
                         <ag-apartment-details-input
-                                favorite="{{--{{ $favorites->toJson() }}--}}"
-                                galleries="{{ $galleries->toJson() }}"
+                                favorites="{{ $data['favorites']->toJson() }}"
+                                details="{{ $data['details']->toJson() }}"
+                                galleries="{{ $data['galleries']->toJson() }}"
                                 languages="{{ ag_lang() }}"
                                 locale="{{ current_locale() }}"></ag-apartment-details-input>
                     </div>
@@ -518,7 +530,7 @@
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
                         <div class="col-md-11">
-
+                            @include('back.apartment.edit-photos', ['resource' => $apartment, 'existing' => $data['images'], 'delete_url' => route('apartments.destroy.image')])
                         </div>
                     </div>
                 </div>
@@ -647,6 +659,6 @@
         }
     </script>
 
-    @stack('apartment_scripts')
+    @stack('gallery_scripts')
 
 @endpush
