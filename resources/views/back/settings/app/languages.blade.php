@@ -42,8 +42,8 @@
                     @forelse ($items as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td class="text-primary">{{ $item->title->{LaravelLocalization::getCurrentLocale()} }}
-                                @if (LaravelLocalization::getCurrentLocale() == $item->code)
+                            <td class="text-primary">{{ $item->title->{current_locale()} }}
+                                @if (current_locale() == $item->code)
                                     <span class="small font-weight-bold text-info">&nbsp;({{ __('back/settings.current_lang') }})</span>
                                 @endif
                             </td>
@@ -89,7 +89,7 @@
                                 <div class="form-group mb-4">
                                     <label for="language-title" class="w-100">{{ __('back/app.languages.input_title') }} <span class="text-danger">*</span>
                                         <ul class="nav nav-pills float-right">
-                                            @foreach($items as $lang)
+                                            @foreach(ag_lang() as $lang)
                                                 <li @if (current_locale() == $lang->code) class="active" @endif>
                                                     <a class="btn btn-sm btn-outline-secondary ml-2 @if (current_locale() == $lang->code) active @endif " data-toggle="pill" href="#{{ $lang->code }}">
                                                         <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
@@ -100,10 +100,10 @@
                                     </label>
 
                                     <div class="tab-content">
-                                        @foreach($items as $lang)
+                                        @foreach(ag_lang() as $lang)
                                             <div id="{{ $lang->code }}" class="tab-pane @if (current_locale() == $lang->code) active @endif">
                                                 <input type="text" class="form-control" id="language-title-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="">
-                                                @error('title')
+                                                @error('title.*')
                                                 <span class="text-danger font-italic">Greška. Niste unijeli naslov.</span>
                                                 @enderror
                                             </div>

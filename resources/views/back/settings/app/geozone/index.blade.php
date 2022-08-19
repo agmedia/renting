@@ -33,7 +33,7 @@
                     @forelse ($geo_zones as $geo_zone)
                         <tr>
                             <td>
-                                <a href="{{ route('geozones.edit', ['geozone' => $geo_zone->id]) }}">{{ $geo_zone->title }}</a>
+                                <a href="{{ route('geozones.edit', ['geozone' => $geo_zone->id]) }}">{{ isset($geo_zone->title->{current_locale()}) ? $geo_zone->title->{current_locale()} : $geo_zone->title }}</a>
                             </td>
                             <td class="text-center">
                                 @include('back.layouts.partials.status', ['status' => $geo_zone->status])

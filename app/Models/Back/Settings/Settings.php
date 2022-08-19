@@ -73,7 +73,13 @@ class Settings extends Model
                     $temp_style = collect(json_decode($style->value))->all();
 
                     foreach ($temp_style as $item) {
-                        $return_styles->put($item->title, $item);
+                        if (isset($item->title->{current_locale()})) {
+                            $title = $item->title->{current_locale()};
+                        } else {
+                            $title = $item->title;
+                        }
+
+                        $return_styles->put($title, $item);
                     }
                 }
             }

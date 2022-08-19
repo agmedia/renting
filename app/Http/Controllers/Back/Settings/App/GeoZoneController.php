@@ -19,7 +19,7 @@ class GeoZoneController extends Controller
      */
     public function index(Request $request)
     {
-        $geo_zones = (new GeoZone())->list(false);
+        $geo_zones = Settings::getList('geo_zone', 'list');
 
         return view('back.settings.app.geozone.index', compact('geo_zones'));
     }
