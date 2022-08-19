@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\ApartmentController;
 use App\Http\Controllers\Back\CalendarController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
+use App\Http\Controllers\Back\Settings\System\AmenitiesController;
 use App\Http\Controllers\Back\Settings\System\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
@@ -167,6 +168,9 @@ Route::group(
                 Route::get('faq/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
                 Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
                 Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
+
+                // AMENITIES
+                Route::get('amenities', [AmenitiesController::class, 'index'])->name('amenities');
             });
 
             // LOCALE SETTINGS
@@ -213,7 +217,7 @@ Route::prefix('api/v2')->group(function () {
     //Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
-    Route::post('/apartments/destroy/api', [ProductController::class, 'destroyApi'])->name('apartments.destroy.api');
+    Route::post('/apartments/destroy/api', [ApartmentController::class, 'destroyApi'])->name('apartments.destroy.api');
     Route::post('/gallery/destroy/api', [GalleryController::class, 'destroyApi'])->name('gallery.destroy.api');
     Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');

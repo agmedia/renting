@@ -124,7 +124,7 @@ class ApartmentController extends Controller
         /*ProductImage::where('product_id', $apartment->id)->delete();
         ProductCategory::where('product_id', $apartment->id)->delete();*/
 
-        Storage::deleteDirectory(config('filesystems.disks.apartments.root') . $apartment->id);
+        Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $apartment->id);
 
         $destroyed = Apartment::destroy($apartment->id);
 
@@ -151,7 +151,7 @@ class ApartmentController extends Controller
             /*ProductImage::where('product_id', $id)->delete();
             ProductCategory::where('product_id', $id)->delete();*/
 
-            Storage::deleteDirectory(config('filesystems.disks.products.root') . $id);
+            Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $id);
 
             $destroyed = Apartment::destroy($id);
 

@@ -557,8 +557,8 @@
 
         </form>
 
-        @if (isset($product))
-            <form id="delete-gallery-form{{ $apartment->id }}" action="{{ route('apartments.destroy', ['partment' => $partment]) }}" method="POST" style="display: none;">
+        @if (isset($apartment))
+            <form id="delete-gallery-form{{ $apartment->id }}" action="{{ route('apartments.destroy', ['apartment' => $apartment]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>
