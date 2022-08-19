@@ -200,7 +200,7 @@ class Apartment extends Model
             'zip'          => $this->request->zip,
             'city'         => $this->request->city,
             //'region'       => $this->request->region,
-            //'state'        => $this->request->state,
+            'state'        => $this->request->state,
             'type'         => $this->request->type,
             'target'       => $this->request->target,
             'longitude'    => $this->request->longitude,

@@ -41,68 +41,39 @@
                     <form action="{{ route('apartments') }}" method="get">
 
                         <div class="form-group row items-push mb-0">
-                            <div class="col-md-9 mb-0">
+                            <div class="col-md-6 mb-0">
                                 <div class="form-group">
                                     <div class="input-group flex-nowrap">
-                                        <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Upiši pojam pretraživanja">
+                                        <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/apartment.searchname') }}">
                                         <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                                     </div>
-                                    <div class="form-text small">Pretraži po imenu, šifri, godini izdanja ili šifri police.</div>
+
                                 </div>
                             </div>
 
+
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="js-select2 form-control" id="category-select" name="category" style="width: 100%;" data-placeholder="Odaberi kategoriju">
+                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="{{ __('back/apartment.select_status') }}">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        {{--@foreach ($categories as $group => $cats)
-                                            @foreach ($cats as $id => $category)
-                                                <option value="{{ $id }}" class="font-weight-bold small" {{ $id == request()->input('category') ? 'selected' : '' }}>{{ $group . ' >> ' . $category['title'] }}</option>
-                                                @if ( ! empty($category['subs']))
-                                                    @foreach ($category['subs'] as $sub_id => $subcategory)
-                                                        <option value="{{ $sub_id }}" class="pl-3 text-sm" {{ $sub_id == request()->input('category') ? 'selected' : '' }}>{{ $subcategory['title'] }}</option>
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
-                                        @endforeach--}}
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group row items-push mb-0">
-                            <div class="col-md-3">
-                                <div class="form-group">
-
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Odaberi Status">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="all" {{ 'all' == request()->input('status') ? 'selected' : '' }}>Svi artikli</option>
-                                        <option value="active" {{ 'active' == request()->input('status') ? 'selected' : '' }}>Aktivni</option>
-                                        <option value="inactive" {{ 'inactive' == request()->input('status') ? 'selected' : '' }}>Neaktivni</option>
-                                        <option value="with_action" {{ 'with_action' == request()->input('status') ? 'selected' : '' }}>Sa akcijama</option>
-                                        <option value="without_action" {{ 'without_action' == request()->input('status') ? 'selected' : '' }}>Bez akcija</option>
+                                        <option value="all" {{ 'all' == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_all') }}</option>
+                                        <option value="active" {{ 'active' == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_active') }}</option>
+                                        <option value="inactive" {{ 'inactive' == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_inactive') }}</option>
+                                        <option value="with_action" {{ 'with_action' == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_discounted') }}</option>
+                                        <option value="without_action" {{ 'without_action' == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_not_discounted') }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="Sortiraj artikle">
+                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="{{ __('back/apartment.sort') }}">
                                         <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        <option value="new" {{ 'new' == request()->input('sort') ? 'selected' : '' }}>Najnovije</option>
-                                        <option value="old" {{ 'old' == request()->input('sort') ? 'selected' : '' }}>Najstarije</option>
-                                        <option value="price_up" {{ 'price_up' == request()->input('sort') ? 'selected' : '' }}>Cijena od manje</option>
-                                        <option value="price_down" {{ 'price_down' == request()->input('sort') ? 'selected' : '' }}>Cijena od više</option>
-                                        <option value="az" {{ 'az' == request()->input('sort') ? 'selected' : '' }}>Od A do Ž</option>
-                                        <option value="za" {{ 'za' == request()->input('sort') ? 'selected' : '' }}>Od Ž do A</option>
+                                        <option value="new" {{ 'new' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_new') }}</option>
+                                        <option value="old" {{ 'old' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_old') }}</option>
+                                        <option value="price_up" {{ 'price_up' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_price_low') }}</option>
+                                        <option value="price_down" {{ 'price_down' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_price_high') }}</option>
+                                        <option value="az" {{ 'az' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_A_Z') }}</option>
+                                        <option value="za" {{ 'za' == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_Z_A') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -117,13 +88,13 @@
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
                         <tr>
-                            <th class="text-center" style="width: 36px;">Br.</th>
-                            <th class="text-left">Naziv</th>
-                            <th>Grad</th>
-                            <th>Popust</th>
-                            <th class="text-center" style="width: 10%;">Featured</th>
-                            <th class="text-center" style="width: 10%;">Status</th>
-                            <th class="text-right" style="width: 10%;">Uredi</th>
+                            <th class="text-center" style="width: 36px;">{{ __('back/apartment.br') }}</th>
+                            <th class="text-left">{{ __('back/apartment.nazivapartmana') }}</th>
+                            <th>{{ __('back/apartment.grad') }}</th>
+                            <th>{{ __('back/apartment.action') }}</th>
+                            <th class="text-center" style="width: 10%;">{{ __('back/apartment.featured') }}</th>
+                            <th class="text-center" style="width: 10%;">{{ __('back/apartment.status') }}</th>
+                            <th class="text-right" style="width: 10%;">{{ __('back/apartment.uredi') }}</th>
                         </tr>
                         </thead>
                         <tbody>

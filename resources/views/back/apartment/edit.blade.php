@@ -16,29 +16,26 @@
 
         function initialize() {
             var myOptions = {
-                center: new google.maps.LatLng(45.8059448, 15.9787596 ),
+                center: new google.maps.LatLng({{ isset($apartment) ? $apartment->latitude : '45.8059448' }}, {{ isset($apartment) ? $apartment->longitude : '15.9787596' }} ),
                 zoom: 15,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
-
-
-
             geocoder = new google.maps.Geocoder();
-            var map = new google.maps.Map(document.getElementById("map_canvas"),
-                myOptions);
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+            CurrentLocation = new google.maps.LatLng({{ isset($apartment) ? $apartment->latitude : '45.8059448' }}, {{ isset($apartment) ? $apartment->longitude : '15.9787596' }});
+
+            defaultMarker(CurrentLocation);
+
+
             google.maps.event.addListener(map, 'click', function(event) {
-
                 placeMarker(event.latLng);
-
                 // Clear out the old markers.
                 markers.forEach(function(marker) {
                     marker.setMap(null);
                 });
-
-
             });
-
 
             // Create the search box and link it to the UI element.
             var input = document.getElementById('pac-input');
@@ -70,7 +67,7 @@
                 var bounds = new google.maps.LatLngBounds();
                 places.forEach(function(place) {
                     if (!place.geometry) {
-                        console.log("Returned place contains no geometry");
+                      //  console.log("Returned place contains no geometry");
                         return;
                     }
                     var icon = {
@@ -117,6 +114,20 @@
             }
 
 
+            var marker;
+            function defaultMarker(location) {
+                if(marker){ //on vérifie si le marqueur existe
+                    marker.setPosition(location); //on change sa position
+                }else{
+                    marker = new google.maps.Marker({ //on créé le marqueur
+                        position: location,
+                        map: map
+                    });
+                }
+
+            }
+
+
 
             function getAddress(latLng) {
                 geocoder.geocode( {'latLng': latLng},
@@ -125,7 +136,7 @@
                             if(results[0]) {
 
                                 document.getElementById("pac-input").value = '';
-                                console.log(results[0].address_components);
+                             //   console.log(results[0].address_components);
                                 var arrAddress = results[0].address_components;
                                 var itemRoute='';
                                 var itemLocality='';
@@ -135,30 +146,30 @@
 
                                 // iterate through address_component array
                                 $.each(arrAddress, function (i, address_component) {
-                                    console.log('address_component:'+i);
+                                  //  console.log('address_component:'+i);
 
                                     if (address_component.types[0] == "route"){
-                                        console.log(i+": route:"+address_component.long_name);
+                                      //  console.log(i+": route:"+address_component.long_name);
                                         itemRoute = address_component.long_name;
                                     }
 
                                     if (address_component.types[0] == "locality"){
-                                        console.log("town:"+address_component.long_name);
+                                     //   console.log("town:"+address_component.long_name);
                                         itemLocality = address_component.long_name;
                                     }
 
                                     if (address_component.types[0] == "country"){
-                                        console.log("country:"+address_component.long_name);
+                                    //    console.log("country:"+address_component.long_name);
                                         itemCountry = address_component.long_name;
                                     }
 
                                     if (address_component.types[0] == "postal_code"){
-                                        console.log("pc:"+address_component.long_name);
+                                      //  console.log("pc:"+address_component.long_name);
                                         itemPc = address_component.long_name;
                                     }
 
                                     if (address_component.types[0] == "street_number"){
-                                        console.log("street_number:"+address_component.long_name);
+                                       // console.log("street_number:"+address_component.long_name);
                                         itemSnumber = address_component.long_name;
                                     }
                                     //return false; // break the loop
@@ -237,11 +248,11 @@
                     <div class="block-options">
                         <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
                             <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured" @if (isset($apartment) and $apartment->featured) checked @endif>
-                            <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">Featured</label>
+                            <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">{{ __('back/apartment.featured') }}</label>
                         </div>
                         <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                             <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($apartment) and $apartment->status) checked @endif>
-                            <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">Status</label>
+                            <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">{{ __('back/apartment.status') }}</label>
                         </div>
                     </div>
                 </div>
@@ -541,13 +552,13 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-5">
                             <button type="submit" class="btn btn-hero-success my-2">
-                                <i class="fas fa-save mr-1"></i> Snimi
+                                <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
                             </button>
                         </div>
                         <div class="col-md-6 text-right">
                             @if (isset($apartment))
                                 <a href="{{ route('apartments.destroy', ['apartment' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $apartment->id }}').submit();">
-                                    <i class="fa fa-trash-alt"></i> Obriši
+                                    <i class="fa fa-trash-alt"></i> {{ __('back/apartment.delete') }}
                                 </a>
                             @endif
                         </div>

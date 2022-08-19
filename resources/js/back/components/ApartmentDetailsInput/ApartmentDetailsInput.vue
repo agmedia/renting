@@ -48,7 +48,7 @@
                 <input type="text" class="form-control" v-model="added_detail.value">
             </div>
             <div class="col-md-2 mt-2">
-                <label for="dm-post-edit-title">Veličina <span class="text-danger">*</span></label>
+                <label for="dm-post-edit-title">{{ lang.size }} <span class="text-danger">*</span></label>
                 <select class="js-select2 form-control" id="size-select" style="width: 100%;" :data-placeholder="lang.select">
                     <option value="S">S</option>
                     <option value="M">M</option>
@@ -314,7 +314,7 @@
             formHasErrors() {
                 this.title_error = false;
                 this.group_error = false;
-                
+
                 this.language_list.forEach((language) => {
                     if (this.added_detail.title[language.code] === undefined) {
                         this.title_error = true;
