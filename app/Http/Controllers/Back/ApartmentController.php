@@ -124,12 +124,12 @@ class ApartmentController extends Controller
         /*ProductImage::where('product_id', $apartment->id)->delete();
         ProductCategory::where('product_id', $apartment->id)->delete();*/
 
-        Storage::deleteDirectory(config('filesystems.disks.products.root') . $apartment->id);
+        Storage::deleteDirectory(config('filesystems.disks.apartments.root') . $apartment->id);
 
         $destroyed = Apartment::destroy($apartment->id);
 
         if ($destroyed) {
-            return redirect()->route('products')->with(['success' => 'Artikl je uspješno snimljen!']);
+            return redirect()->route('apartments')->with(['success' => 'Artikl je uspješno snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
@@ -147,7 +147,7 @@ class ApartmentController extends Controller
     {
         if ($request->has('id')) {
             $id = $request->input('id');
-            
+
             /*ProductImage::where('product_id', $id)->delete();
             ProductCategory::where('product_id', $id)->delete();*/
 

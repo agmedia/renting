@@ -546,7 +546,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             @if (isset($apartment))
-                                <a href="{{ route('gallery.destroy', ['apartment' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $gallery->id }}').submit();">
+                                <a href="{{ route('apartments.destroy', ['apartment' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $apartment->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> Obriši
                                 </a>
                             @endif
@@ -558,7 +558,7 @@
         </form>
 
         @if (isset($product))
-            <form id="delete-gallery-form{{ $gallery->id }}" action="{{ route('gallery.destroy', ['gallery' => $gallery]) }}" method="POST" style="display: none;">
+            <form id="delete-gallery-form{{ $apartment->id }}" action="{{ route('apartments.destroy', ['partment' => $partment]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>

@@ -107,11 +107,13 @@ class ApartmentDetail extends Model
             ]);
 
             ApartmentDetailTranslation::create($saved, $detail);
+
+
+            if ( ! $saved) {
+                return false;
+            }
         }
 
-        if ( ! $saved) {
-            return false;
-        }
 
         return true;
     }
