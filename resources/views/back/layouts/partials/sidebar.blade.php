@@ -138,7 +138,7 @@
                             </a>
 
                             <ul class="nav-main-submenu">
-                      <!--          <li class="nav-main-item">
+<!--                                <li class="nav-main-item">
                                     <a class="nav-main-link{{ request()->routeIs(['categories', 'category.*']) ? ' active' : '' }}" href="{{ route('categories') }}">
                                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.category') }}</span>
                                     </a>
@@ -151,6 +151,11 @@
                                 <li class="nav-main-item">
                                     <a class="nav-main-link{{ request()->routeIs(['faqs', 'faqs.*']) ? ' active' : '' }}" href="{{ route('faqs') }}">
                                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.faq') }}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->routeIs(['amenities', 'amenities.*']) ? ' active' : '' }}" href="{{ route('amenities') }}">
+                                        <span class="nav-main-link-name">{{ __('back/layout.sidebar.amenities') }}</span>
                                     </a>
                                 </li>
                             </ul>

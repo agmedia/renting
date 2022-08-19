@@ -21,4 +21,18 @@ return [
     'odrzavanje_off' => 'Maintenance OFF',
     'odjava' => 'Logout',
 
+    'amenities' => [
+        'title' => 'Amenities',
+        'table_title' => 'Amenity Name',
+        'main_select' => 'Select default amenity',
+        'new' => 'Add new amenity',
+        'empty_list' => 'You have no amenities entered...',
+        'main_lang' => 'Default amenity',
+        'edit_title' => 'Edit amenity',
+        'input_title' => 'Title',
+        'group_title' => 'Group',
+        'icon_title' => 'Icon',
+        'main_title' => 'Default amenity',
+    ],
+
 ];

@@ -235,6 +235,16 @@ Route::prefix('api/v2')->group(function () {
             Route::post('destroy', [WidgetController::class, 'destroy'])->name('widget.destroy');
             Route::get('get-links', [WidgetController::class, 'getLinks'])->name('widget.api.get-links');
         });
+
+        // SYSTEM SETTINGS
+        Route::prefix('system')->group(function () {
+            // AMENITIES
+            Route::prefix('amenities')->group(function () {
+                Route::post('store', [AmenitiesController::class, 'store'])->name('api.amenities.store');
+                Route::post('destroy', [AmenitiesController::class, 'destroy'])->name('api.amenities.destroy');
+            });
+        });
+
         // APPLICATION SETTINGS
         Route::prefix('app')->group(function () {
             // GEO ZONE
@@ -243,7 +253,7 @@ Route::prefix('api/v2')->group(function () {
                 Route::post('store', 'Back\Settings\Store\GeoZoneController@store')->name('geo-zone.store');
                 Route::post('destroy', 'Back\Settings\Store\GeoZoneController@destroy')->name('geo-zone.destroy');
             });*/
-            // CURRENCIES
+            // LANGUAGES
             Route::prefix('languages')->group(function () {
                 Route::post('store', [LanguagesController::class, 'store'])->name('api.languages.store');
                 Route::post('store/main', [LanguagesController::class, 'storeMain'])->name('api.languages.store.main');

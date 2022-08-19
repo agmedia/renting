@@ -57,6 +57,7 @@ return [
         'general_settings' => 'Generalne postavke',
         'pages' => 'Info stranice',
         'faq' => 'FAQ',
+        'amenities' => 'Pogodnosti',
         'local_settings' => 'Lokalne postavke',
         'languages' => 'Jezici',
         'geozones' => 'Geo Zone',

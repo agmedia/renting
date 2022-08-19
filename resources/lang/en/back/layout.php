@@ -57,6 +57,7 @@ return [
         'general_settings' => 'General Settings',
         'pages' => 'Info Pages',
         'faq' => 'FAQ',
+        'amenities' => 'Apartment Amenities',
         'local_settings' => 'Local Settings',
         'languages' => 'Languages',
         'geozones' => 'Geo Zones',

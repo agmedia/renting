@@ -109,6 +109,13 @@ return [
             'root' => public_path('media/img/widget/'),
             'url' => 'media/img/widget/'
         ],
+        //
+        'icons' => [
+            'driver' => 'local',
+            'root' => public_path('media/icons/'),
+            'url' => 'media/icons/'
+        ],
+        //
         'qr' => [
             'driver' => 'local',
             'root' => public_path('media/img/qr/'),
