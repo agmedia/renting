@@ -194,6 +194,10 @@
          */
         function openModal(item = {}) {
             $('#amenity-modal').modal('show');
+
+            if (Object.keys(item).length !== 0) {
+                editItem(item);
+            }
         }
 
 

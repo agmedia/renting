@@ -24,9 +24,7 @@
                 <table class="table table-striped table-borderless table-vcenter">
                     <thead class="thead-light">
                     <tr>
-
                         <th style="width: 80%;">{{ __('back/faq.pitanje') }}</th>
-
                         <th class="text-right"  class="text-center">{{ __('back/layout.btn.edit') }}</th>
                     </tr>
                     </thead>

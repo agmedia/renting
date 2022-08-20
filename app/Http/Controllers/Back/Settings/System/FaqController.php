@@ -15,11 +15,7 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search') && ! empty($request->search)) {
-            $faqs = Faq::where('title', 'like', '%' . $request->search . '%')->paginate(12);
-        } else {
-            $faqs = Faq::paginate(12);
-        }
+        $faqs = Faq::paginate(12);
 
         return view('back.settings.system.faq.index', compact('faqs'));
     }

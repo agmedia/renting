@@ -41,7 +41,6 @@
                         <div class="col-md-10">
 
                             <div class="form-group">
-
                                 <label for="dm-post-edit-title" class="w-100" >{{ __('back/faq.pitanje') }} <span class="text-danger">*</span>
                                     <ul class="nav nav-pills float-right">
                                         @foreach(ag_lang() as $lang)
@@ -53,18 +52,16 @@
                                         @endforeach
                                     </ul>
                                 </label>
-
                                 <div class="tab-content">
                                     @foreach(ag_lang() as $lang)
                                         <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($faq) ? $faq->title : old('title') }}" onkeyup="SetSEOPreview()">
+                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($faq) ? $faq->translation($lang->code)->title : old('title.*') }}">
                                         </div>
                                     @endforeach
                                 </div>
-
                             </div>
 
-                            <div class="form-group row  mb-4">
+                            <div class="form-group row mb-4">
                                 <div class="col-md-12">
                                     <label for="description-editor" class="w-100">{{ __('back/faq.odgovor') }}
                                         <div class="float-right">
@@ -78,21 +75,18 @@
                                                 @endforeach
                                             </ul>
                                         </div>
-
                                     </label>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="tab-content">
-                                    @foreach(ag_lang() as $lang)
-                                        <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                            <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($faq) ? $faq->description : old('description') !!}</textarea>
-                                        </div>
-                                    @endforeach
+                                        @foreach(ag_lang() as $lang)
+                                            <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($faq) ? $faq->translation($lang->code)->description : old('description.*') !!}</textarea>
+                                            </div>
+                                        @endforeach
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -103,15 +97,13 @@
                                 <i class="fas fa-save mr-1"></i> {{ __('back/layout.btn.save') }}
                             </button>
                         </div>
-
-                            <div class="col-md-5 text-right">
-                                @if (isset($faq))
+                        <div class="col-md-5 text-right">
+                            @if (isset($faq))
                                 <a href="{{ route('faqs.destroy', ['faq' => $faq]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-faq-form{{ $faq->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
-                                @endif
-                            </div>
-
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,13 +124,13 @@
         $(() => {
             {!! ag_lang() !!}.forEach(function(item) {
                 ClassicEditor
-                    .create(document.querySelector('#description-editor-' + item.code))
-                    .then(editor => {
-                        console.log(editor);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+                .create(document.querySelector('#description-editor-' + item.code))
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
             });
 
         })
