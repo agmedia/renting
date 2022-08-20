@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back\Settings\App;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
@@ -20,10 +21,8 @@ class PaymentController extends Controller
     {
         $this->checkForNewFiles();
 
-        $payments = Settings::getList('payment', 'list.%', false)->sortBy('title');
+        $payments = $this->getActivePayments();
         $geo_zones = Settings::getList('geo_zone', 'list', false);
-
-        //dd($payments);
 
         return view('back.settings.app.payment.payment', compact('payments', 'geo_zones'));
     }
@@ -85,5 +84,23 @@ class PaymentController extends Controller
 
             }
         }
+    }
+
+
+    /**
+     * @return array|false|\Illuminate\Support\Collection
+     */
+    private function getActivePayments()
+    {
+        $payments = Settings::getList('payment', 'list.%', false)->sortBy('title');
+        $codes = Helper::getActivePaymentCodes();
+
+        foreach ($payments as $key => $payment) {
+            if ( ! in_array($payment->code, $codes)) {
+                $payments->offsetUnset($key);
+            }
+        }
+
+        return $payments;
     }
 }

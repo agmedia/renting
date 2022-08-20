@@ -35,7 +35,7 @@
                     <tbody>
                     @forelse ($payments as $payment)
                         <tr>
-                            <td>{{ $payment->title }}</td>
+                            <td>{{ isset($payment->title->{current_locale()}) ? $payment->title->{current_locale()} : $payment->title }}</td>
                             <td class="small">{{ $payment->code }}</td>
                             <td class="text-center">{{ $payment->sort_order }}</td>
                             <td class="text-center">

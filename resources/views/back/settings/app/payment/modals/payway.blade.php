@@ -50,7 +50,7 @@
                                     <select class="js-select2 form-control" id="payway-geo-zone" name="payway_geo_zone" style="width: 100%;" data-placeholder="{{ __('back/app.payments.select_geo') }}">
                                         <option></option>
                                         @foreach ($geo_zones as $geo_zone)
-                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ isset($geo_zone->title->{current_locale()}) ? $geo_zone->title->{current_locale()} : $geo_zone->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -221,14 +221,24 @@
          *
          */
         function create_payway() {
+            let titles = {};
+            let short = {};
+            let desc = {};
+
+            {!! ag_lang() !!}.forEach(function(lang) {
+                titles[lang.code] = document.getElementById('payway-title-' + lang.code).value;
+                short[lang.code] = document.getElementById('payway-short-description-' + lang.code).value;
+                desc[lang.code] = document.getElementById('payway-description-' + lang.code).value;
+            });
+
             let item = {
-                title: $('#payway-title').val(),
+                title: titles,
                 code: $('#payway-code').val(),
                 min: $('#payway-min').val(),
                 data: {
                     price: $('#payway-price').val(),
-                    short_description: $('#payway-short-description').val(),
-                    description: $('#payway-description').val(),
+                    short_description: short,
+                    description: desc,
                     shop_id: $('#payway-shop-id').val(),
                     secret_key: $('#payway-secret-key').val(),
                     type: $('#payway-type').val(),
@@ -242,7 +252,6 @@
 
             axios.post("{{ route('api.payment.store') }}", {data: item})
                 .then(response => {
-                    console.log(response.data)
                     if (response.data.success) {
                         location.reload();
                     } else {
@@ -256,11 +265,8 @@
          * @param item
          */
         function edit_payway(item) {
-            $('#payway-title').val(item.title);
             $('#payway-min').val(item.min);
             $('#payway-price').val(item.data.price);
-            $('#payway-short-description').val(item.data.short_description);
-            $('#payway-description').val(item.data.description);
 
             $('#payway-shop-id').val(item.data.shop_id);
             $('#payway-secret-key').val(item.data.secret_key);
@@ -275,6 +281,18 @@
 
             $('#payway-sort-order').val(item.sort_order);
             $('#payway-code').val(item.code);
+
+            {!! ag_lang() !!}.forEach((lang) => {
+                if (typeof item.title[lang.code] !== undefined) {
+                    $('#payway-title-' + lang.code).val(item.title[lang.code]);
+                }
+                if (typeof item.data.short_description[lang.code] !== undefined) {
+                    $('#payway-short-description-' + lang.code).val(item.data.short_description[lang.code]);
+                }
+                if (typeof item.data.description[lang.code] !== undefined) {
+                    $('#payway-description-' + lang.code).val(item.data.description[lang.code]);
+                }
+            });
 
             if (item.status) {
                 $('#payway-status')[0].checked = item.status ? true : false;

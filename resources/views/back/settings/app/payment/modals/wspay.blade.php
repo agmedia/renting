@@ -50,7 +50,7 @@
                                     <select class="js-select2 form-control" id="wspay-geo-zone" name="wspay_geo_zone" style="width: 100%;" data-placeholder="{{ __('back/app.payments.select_geo') }}">
                                         <option></option>
                                         @foreach ($geo_zones as $geo_zone)
-                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ $geo_zone->title }}</option>
+                                            <option value="{{ $geo_zone->id }}" {{ ((isset($shipping)) and ($shipping->geo_zone == $geo_zone->id)) ? 'selected' : '' }}>{{ isset($geo_zone->title->{current_locale()}) ? $geo_zone->title->{current_locale()} : $geo_zone->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -209,14 +209,24 @@
          *
          */
         function create_wspay() {
+            let titles = {};
+            let short = {};
+            let desc = {};
+
+            {!! ag_lang() !!}.forEach(function(lang) {
+                titles[lang.code] = document.getElementById('wspay-title-' + lang.code).value;
+                short[lang.code] = document.getElementById('wspay-short-description-' + lang.code).value;
+                desc[lang.code] = document.getElementById('wspay-description-' + lang.code).value;
+            });
+
             let item = {
-                title: $('#wspay-title').val(),
+                title: titles,
                 code: $('#wspay-code').val(),
                 min: $('#wspay-min').val(),
                 data: {
                     price: $('#wspay-price').val(),
-                    short_description: $('#wspay-short-description').val(),
-                    description: $('#wspay-description').val(),
+                    short_description: short,
+                    description: desc,
                     shop_id: $('#wspay-shop-id').val(),
                     secret_key: $('#wspay-secret-key').val(),
                     type: $('#wspay-type').val(),
@@ -230,7 +240,6 @@
 
             axios.post("{{ route('api.payment.store') }}", {data: item})
             .then(response => {
-                console.log(response.data)
                 if (response.data.success) {
                     location.reload();
                 } else {
@@ -244,11 +253,8 @@
          * @param item
          */
         function edit_wspay(item) {
-            $('#wspay-title').val(item.title);
             $('#wspay-min').val(item.min);
             $('#wspay-price').val(item.data.price);
-            $('#wspay-short-description').val(item.data.short_description);
-            $('#wspay-description').val(item.data.description);
 
             $('#wspay-shop-id').val(item.data.shop_id);
             $('#wspay-secret-key').val(item.data.secret_key);
@@ -263,6 +269,18 @@
 
             $('#wspay-sort-order').val(item.sort_order);
             $('#wspay-code').val(item.code);
+
+            {!! ag_lang() !!}.forEach((lang) => {
+                if (typeof item.title[lang.code] !== undefined) {
+                    $('#wspay-title-' + lang.code).val(item.title[lang.code]);
+                }
+                if (typeof item.data.short_description[lang.code] !== undefined) {
+                    $('#wspay-short-description-' + lang.code).val(item.data.short_description[lang.code]);
+                }
+                if (typeof item.data.description[lang.code] !== undefined) {
+                    $('#wspay-description-' + lang.code).val(item.data.description[lang.code]);
+                }
+            });
 
             if (item.status) {
                 $('#wspay-status')[0].checked = item.status ? true : false;

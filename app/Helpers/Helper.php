@@ -8,6 +8,14 @@ class Helper
 {
 
     /**
+     * @return array
+     */
+    public static function getActivePaymentCodes()
+    {
+        return collect(config('settings.payment.providers'))->keys()->toArray();
+    }
+
+    /**
      * @param float $price
      * @param int   $discount
      *
