@@ -37,18 +37,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse ($statuses as $status)
+                    @forelse ($items as $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
-                            <td class="text-center"><span class="text-gray-dark">{{ $status->id }}</span></td>
-                            <td>{{ $status->title }}</td>
-                            <td class="text-center"><span class="badge badge-pill badge-{{ isset($status->color) && $status->color ? $status->color : 'light' }}">{{ $status->title }}</span></td>
-                            <td class="text-center">{{ $status->sort_order }}</td>
+                            <td class="text-center"><span class="text-gray-dark">{{ $item->id }}</span></td>
+                            <td>{{ isset($item->title->{current_locale()}) ? $item->title->{current_locale()} : $item->title }}</td>
+                            <td class="text-center"><span class="badge badge-pill badge-{{ isset($item->color) && $item->color ? $item->color : 'light' }}">{{ isset($item->title->{current_locale()}) ? $item->title->{current_locale()} : $item->title }}</span></td>
+                            <td class="text-center">{{ $item->sort_order }}</td>
                             <td class="text-right font-size-sm">
-                                <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($status) }});">
+                                <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($item) }});">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
-                                <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteStatus({{ $status->id }});">
+                                <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteStatus({{ $item->id }});">
                                     <i class="fa fa-fw fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -81,9 +81,9 @@
                     <div class="block-content">
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
+
                                 <div class="form-group">
                                     <label for="status-title" class="w-100">{{ __('back/app.statuses.input_title') }}
-
                                         <ul class="nav nav-pills float-right">
                                             @foreach(ag_lang() as $lang)
                                                 <li @if ($lang->code == current_locale()) class="active" @endif ">
@@ -93,9 +93,7 @@
                                                 </li>
                                             @endforeach
                                         </ul>
-
                                     </label>
-
                                     <div class="tab-content">
                                         @foreach(ag_lang() as $lang)
                                             <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
@@ -103,7 +101,6 @@
                                             </div>
                                         @endforeach
                                     </div>
-
                                 </div>
 
                                 <div class="form-group">
@@ -207,8 +204,6 @@
          * @param type
          */
         function openModal(item = {}) {
-            //console.log(item);
-
             $('#status-modal').modal('show');
             editStatus(item);
         }
@@ -217,9 +212,15 @@
          *
          */
         function createStatus() {
+            let values = {};
+
+            {!! ag_lang() !!}.forEach(function(item) {
+                values[item.code] = document.getElementById('status-title-' + item.code).value;
+            });
+
             let item = {
                 id: $('#status-id').val(),
-                title: $('#status-title').val(),
+                title: values,
                 sort_order: $('#status-sort-order').val(),
                 color: $('#status-color-select').val()
             };
@@ -268,8 +269,15 @@
          */
         function editStatus(item) {
             $('#status-id').val(item.id);
-            $('#status-title').val(item.title);
             $('#status-sort-order').val(item.sort_order);
+
+            {!! ag_lang() !!}.forEach((lang) => {
+                if (typeof item.title[lang.code] !== undefined) {
+                    $('#status-title-' + lang.code).val(item.title[lang.code]);
+                } else {
+                    $('#status-title-' + lang.code).val(item.title);
+                }
+            });
 
             $('#status-color-select').val(item.color);
             $('#status-color-select').trigger('change');

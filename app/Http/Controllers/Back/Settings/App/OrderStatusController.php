@@ -17,9 +17,9 @@ class OrderStatusController extends Controller
      */
     public function index(Request $request)
     {
-        $statuses = Settings::get('order', 'statuses')->sortBy('sort_order');
+        $items = Settings::get('order', 'statuses')->sortBy('sort_order');
 
-        return view('back.settings.app.order_status', compact('statuses'));
+        return view('back.settings.app.order_status', compact('items'));
     }
 
 
