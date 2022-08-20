@@ -16,9 +16,9 @@ class TaxController extends Controller
      */
     public function index(Request $request)
     {
-        $taxes = Settings::get('tax', 'list')->sortBy('sort_order');
+        $items = Settings::get('tax', 'list')->sortBy('sort_order');
 
-        return view('back.settings.app.tax', compact('taxes'));
+        return view('back.settings.app.tax', compact('items'));
     }
 
 

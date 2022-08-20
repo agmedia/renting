@@ -32,17 +32,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse ($taxes as $tax)
+                    @forelse ($items as $item)
                         <tr>
-                            <td>{{ $tax->id }}</td>
-                            <td>{{ $tax->title }}</td>
-                            <td class="text-center">{{ $tax->rate }}</td>
-                            <td class="text-center">{{ $tax->sort_order }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ isset($item->title->{current_locale()}) ? $item->title->{current_locale()} : $item->title }}</td>
+                            <td class="text-center">{{ $item->rate }}</td>
+                            <td class="text-center">{{ $item->sort_order }}</td>
                             <td class="text-right font-size-sm">
-                                <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($tax) }});">
+                                <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($item) }});">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </button>
-                                <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteTax({{ $tax->id }});">
+                                <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteTax({{ $item->id }});">
                                     <i class="fa fa-fw fa-trash-alt"></i>
                                 </button>
                             </td>
@@ -76,8 +76,24 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
                                 <div class="form-group mb-4">
-                                    <label for="tax-title">{{ __('back/app.tax.input_title') }}</label>
-                                    <input type="text" class="form-control" id="tax-title" name="title">
+                                    <label for="status-title" class="w-100">{{ __('back/app.statuses.input_title') }}
+                                        <ul class="nav nav-pills float-right">
+                                            @foreach(ag_lang() as $lang)
+                                                <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
+                                                    <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </label>
+                                    <div class="tab-content">
+                                        @foreach(ag_lang() as $lang)
+                                            <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                <input type="text" class="form-control" id="tax-title-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}"  >
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
@@ -162,8 +178,6 @@
          * @param type
          */
         function openModal(item = {}) {
-            console.log(item);
-
             $('#tax-modal').modal('show');
             editTax(item);
         }
@@ -172,10 +186,16 @@
          *
          */
         function createTax() {
+            let values = {};
+
+            {!! ag_lang() !!}.forEach(function(item) {
+                values[item.code] = document.getElementById('tax-title-' + item.code).value;
+            });
+
             let item = {
                 id: $('#tax-id').val(),
                 geo_zone: $('#tax-geo-zone').val(),
-                title: $('#tax-title').val(),
+                title: values,
                 rate: $('#tax-rate').val(),
                 sort_order: $('#tax-sort-order').val(),
                 status: $('#tax-status')[0].checked,
@@ -183,7 +203,6 @@
 
             axios.post("{{ route('api.taxes.store') }}", {data: item})
             .then(response => {
-                console.log(response.data)
                 if (response.data.success) {
                     location.reload();
                 } else {
@@ -210,7 +229,6 @@
 
             axios.post("{{ route('api.taxes.destroy') }}", {data: item})
             .then(response => {
-                console.log(response.data)
                 if (response.data.success) {
                     location.reload();
                 } else {
@@ -225,10 +243,15 @@
          */
         function editTax(item) {
             $('#tax-id').val(item.id);
-            $('#tax-geo-zone').val(item.geo_zone);
-            $('#tax-title').val(item.title);
+            //$('#tax-geo-zone').val(item.geo_zone);
             $('#tax-rate').val(item.rate);
             $('#tax-sort-order').val(item.sort_order);
+
+            {!! ag_lang() !!}.forEach((lang) => {
+                if (typeof item.title[lang.code] !== undefined) {
+                    $('#tax-title-' + lang.code).val(item.title[lang.code]);
+                }
+            });
 
             if (item.status) {
                 $('#tax-status')[0].checked = item.status ? true : false;
