@@ -26,19 +26,69 @@ class Page extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['title', 'description'];
+
+    /**
+     * @var string
+     */
+    protected $locale = 'en';
+
+    /**
      * @var Request
      */
     protected $request;
 
 
     /**
-     * @param Builder $query
+     * Gallery constructor.
      *
-     * @return Builder
+     * @param array $attributes
      */
-    public function scopeSubgroups(Builder $query): Builder
+    public function __construct(array $attributes = [])
     {
-        return $query->groupBy('subgroup')->whereNotNull('subgroup');
+        parent::__construct($attributes);
+
+        $this->locale = current_locale();
+    }
+
+
+    /**
+     * @param null  $lang
+     * @param false $all
+     *
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
+     */
+    public function translation($lang = null, bool $all = false)
+    {
+        if ($lang) {
+            return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $lang);
+        }
+
+        if ($all) {
+            return $this->hasMany(PageTranslation::class, 'page_id');
+        }
+
+        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTitleAttribute()
+    {
+        return $this->translation()->first()->title;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->translation()->first()->description;
     }
 
 
@@ -63,7 +113,7 @@ class Page extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'title' => 'required'
+            'title.*' => 'required'
         ]);
 
         $this->request = $request;
@@ -80,24 +130,19 @@ class Page extends Model
     public function create()
     {
         $id = $this->insertGetId([
-            'category_id'       => null,
-            'group'             => 'page',
-            'subgroup'          => $this->request->group ?: null,
-            'title'             => $this->request->title,
-            'short_description' => $this->request->short_description,
-            'description'       => $this->request->description,
-            'meta_title'        => $this->request->meta_title,
-            'meta_description'  => $this->request->meta_description,
-            'slug'              => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
-            'keywords'          => null,
-            'publish_date'      => null,
-            'keywords'          => false,
-            'status'            => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'created_at'        => Carbon::now(),
-            'updated_at'        => Carbon::now()
+            'category_id'  => 0,
+            'group'        => $this->request->group ?: 'page',
+            'image'        => null,
+            'publish_date' => null,
+            'featured'     => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'       => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'created_at'   => Carbon::now(),
+            'updated_at'   => Carbon::now()
         ]);
 
         if ($id) {
+            PageTranslation::create($id, $this->request);
+
             return $this->find($id);
         }
 
@@ -113,23 +158,18 @@ class Page extends Model
     public function edit()
     {
         $id = $this->update([
-            'category_id'       => null,
-            'group'             => 'page',
-            'subgroup'          => $this->request->group ?: null,
-            'title'             => $this->request->title,
-            'short_description' => $this->request->short_description,
-            'description'       => $this->request->description,
-            'meta_title'        => $this->request->meta_title,
-            'meta_description'  => $this->request->meta_description,
-            'slug'              => isset($this->request->slug) ? Str::slug($this->request->slug) : Str::slug($this->request->title),
-            'keywords'          => null,
-            'publish_date'      => null,
-            'keywords'          => false,
-            'status'            => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'        => Carbon::now()
+            'category_id'  => 0,
+            'group'        => $this->request->group ?: 'page',
+            'image'        => null,
+            'publish_date' => null,
+            'featured'     => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'       => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'   => Carbon::now()
         ]);
 
         if ($id) {
+            PageTranslation::edit($this->id, $this->request);
+
             return $this->find($this->id);
         }
 

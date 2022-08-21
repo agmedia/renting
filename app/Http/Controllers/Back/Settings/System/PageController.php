@@ -18,9 +18,11 @@ class PageController extends Controller
     public function index(Request $request)
     {
         if ($request->has('search') && ! empty($request->search)) {
-            $pages = Page::where('group', 'page')->where('title', 'like', '%' . $request->search . '%')->paginate(12);
+            $pages = Page::whereHas('translation', function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->search . '%');
+            })->paginate(12);
         } else {
-            $pages = Page::where('group', 'page')->paginate(12);
+            $pages = Page::paginate(12);
         }
 
         return view('back.settings.system.pages.index', compact('pages'));
@@ -34,7 +36,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        $groups = Page::subgroups()->pluck('subgroup');
+        $groups = Page::groups()->pluck('group');
 
         return view('back.settings.system.pages.edit', compact('groups'));
     }
@@ -49,15 +51,12 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $page = new Page();
 
         $stored = $page->validateRequest($request)->create();
 
         if ($stored) {
-            $page->resolveImage($stored);
-
-            $this->flush($stored);
-
             return redirect()->route('pages.edit', ['page' => $stored])->with(['success' => 'Page was succesfully saved!']);
         }
 
@@ -74,7 +73,7 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-        $groups = $page->subgroups()->pluck('subgroup');
+        $groups = $page->groups()->pluck('group');
 
         return view('back.settings.system.pages.edit', compact('page', 'groups'));
     }

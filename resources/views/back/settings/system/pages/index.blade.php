@@ -57,16 +57,11 @@
                                 </a>
                             </td>-->
                             <td>
-                                <i class="fa fa-eye text-success mr-1"></i>
-                                <a href="{{ route('pages.edit', ['page' => $page]) }}">{{ $page->title }}</a>
+                                <a href="{{ route('pages.edit', ['page' => $page]) }}">{{ isset($page->title->{current_locale()}) ? $page->title->{current_locale()} : $page->title }}</a>
                             </td>
-                            <td>{{ $page->subgroup }}</td>
+                            <td>{{ $page->group }}</td>
                             <td class="text-center">
-                                @if ($page->status)
-                                    <i class="fa fa-check-circle text-success"></i>
-                                @else
-                                    <i class="fa fa-times-circle text-danger"></i>
-                                @endif
+                                @include('back.layouts.partials.status', ['status' => $page->status])
                             </td>
                           <!--  <td class="text-center">
                                 @if ($page->featured)
@@ -83,7 +78,7 @@
                         </tr>
                     @empty
                         <tr class="text-center">
-                            <td colspan="3">{{ __('back/pages.nema') }}</td>
+                            <td colspan="5">{{ __('back/pages.nema') }}</td>
                         </tr>
                     @endforelse
                     </tbody>

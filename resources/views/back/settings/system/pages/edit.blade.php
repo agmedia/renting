@@ -43,9 +43,9 @@
                         <i class="fa fa-arrow-left mr-1"></i> {{ __('back/pages.povratak') }}
                     </a>
                     <div class="block-options">
-                        <div class="custom-control custom-switch custom-control-success">
-                            <input type="checkbox" class="custom-control-input" id="status-switch" name="status" {{ (isset($page) and $page->status) ? 'checked' : '' }}>
-                            <label class="custom-control-label" for="status-switch">{{ __('back/pages.aktiviraj') }}</label>
+                        <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
+                            <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($page) and $page->status) checked @endif>
+                            <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">{{ __('back/apartment.status') }}</label>
                         </div>
                     </div>
                 </div>
@@ -53,36 +53,36 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-10">
                             <div class="form-group">
-                                <label for="title-input" class="w-100" >{{ __('back/pages.title') }}
-                                <ul class="nav nav-pills float-right">
-                                    @foreach(ag_lang() as $lang)
-                                        <li @if ($lang->code == current_locale()) class="active" @endif ">
-                                        <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
-                                            <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
-                                        </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                <label for="title-input" class="w-100" >{{ __('back/pages.title') }} <span class="text-danger">*</span>
+                                    <ul class="nav nav-pills float-right">
+                                        @foreach(ag_lang() as $lang)
+                                            <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#title-{{ $lang->code }}">
+                                                <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                            </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
                                 </label>
                                 <div class="tab-content">
                                     @foreach(ag_lang() as $lang)
                                         <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($page) ? $page->title : old('title') }}" onkeyup="SetSEOPreview()">
+                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($page) ? $page->title : old('title') }}">
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mb-5">
                                 <label for="group-select">{{ __('back/pages.podgrupa') }}</label>
                                 <select class="js-select2 form-control" id="group-select" name="group" style="width: 100%;">
                                     @foreach ($groups as $group)
-                                        <option value="{{ $group }}" {{ ((isset($page)) and ($page->subgroup == $group)) ? 'selected' : '' }}>{{ $group }}</option>
+                                        <option value="{{ $group }}" {{ ((isset($page)) and ($page->group == $group)) ? 'selected' : '' }}>{{ $group }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div class="form-group row  mb-4">
+                            <div class="form-group row mb-4">
                                 <div class="col-md-12">
                                     <label for="description-editor" class="w-100">{{ __('back/pages.opis') }}
                                         <div class="float-right">
@@ -158,8 +158,8 @@
                                             </ul>
                                         </label>
                                     </div>
-                                        <div class="col-md-12">
-                                            <div class="tab-content">
+                                    <div class="col-md-12">
+                                        <div class="tab-content">
                                             @foreach(ag_lang() as $lang)
                                                 <div id="meta-description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
                                                     <textarea class="js-maxlength form-control" id="meta-description-input-{{ $lang->code }}"  placeholder="{{ $lang->code }}" name="meta_description[{{ $lang->code }}]" rows="4" maxlength="160" >{{ isset($page) ? $page->meta_description : old('meta_description') }}</textarea>
@@ -169,27 +169,7 @@
                                                 </div>
 
                                             @endforeach
-                                            </div>
                                         </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="slug-input" class="w-100">SEO link (url)
-                                        <ul class="nav nav-pills float-right">
-                                            @foreach(ag_lang() as $lang)
-                                                <li @if ($lang->code == current_locale()) class="active" @endif ">
-                                                <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#slug-input-{{ $lang->code }}">
-                                                    <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
-                                                </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </label>
-                                    <div class="tab-content">
-                                        @foreach(ag_lang() as $lang)
-                                            <div id="slug-input-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <input type="text" class="js-maxlength form-control" id="slug-input-{{ $lang->code }}" placeholder="{{ $lang->code }}" name="slug[{{ $lang->code }}]" value="{{ isset($page) ? $page->slug : old('slug') }}" disabled>
-                                            </div>
-                                        @endforeach
                                     </div>
                                 </div>
                             </form>
@@ -204,12 +184,12 @@
                             </button>
                         </div>
                         <div class="col-md-5 text-right">
-                                @if (isset($page) && $page->subgroup != '/')
+                            @if (isset($page) && $page->subgroup != '/')
                                 <a href="{{ route('pages.destroy', ['page' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
-                                @endif
-                         </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -237,13 +217,13 @@
         $(() => {
             {!! ag_lang() !!}.forEach(function(item) {
                 ClassicEditor
-                    .create(document.querySelector('#description-editor-' + item.code))
-                    .then(editor => {
-                        console.log(editor);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+                .create(document.querySelector('#description-editor-' + item.code))
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
             });
 
         })
@@ -257,7 +237,7 @@
                 tags: true
             });
 
-            editor = CKEDITOR.replace('js-ckeditor'); // bind editor
+            /*editor = CKEDITOR.replace('js-ckeditor'); // bind editor
 
             editor.addCommand("mySimpleCommand", { // create named command
                 exec: function(edt) {
@@ -270,28 +250,8 @@
                 command: 'mySimpleCommand',
                 //toolbar: 'insert',
                 icon: 'https://avatars1.githubusercontent.com/u/5500999?v=2&s=16'
-            });
+            });*/
         })
-    </script>
-
-    <script>
-        function SetSEOPreview() {
-            let title = $('#title-input').val();
-            $('#slug-input').val(slugify(title));
-        }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#image-view')
-                    .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
     </script>
 
 @endpush

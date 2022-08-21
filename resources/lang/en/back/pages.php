@@ -22,7 +22,7 @@ return [
     'dodaj_novi' => 'Add New Page',
     'nema' => 'No entries found...',
     'title' => 'Title',
-    'podgrupa' => 'Category',
+    'podgrupa' => 'Group',
     'clear' => 'Clear',
     'search' => 'Search Info Pages...',
     'opis' => 'Description',

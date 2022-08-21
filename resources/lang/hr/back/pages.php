@@ -22,7 +22,7 @@ return [
     'dodaj_novi' => 'Dodaj novu stranicu',
     'nema' => 'Nema info stranica...',
     'title' => 'Naziv',
-    'podgrupa' => 'Kategorija',
+    'podgrupa' => 'Grupa',
     'clear' => 'Očisti',
     'search' => 'Pretraži stranice...',
     'opis' => 'Opis',
