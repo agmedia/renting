@@ -390,7 +390,7 @@
                                     <select class="js-select2 form-control" id="price-by-select" name="price_per" style="width: 100%;">
                                         <option></option>
                                         @foreach (config('settings.apartment_price_by') as $key => $select_item)
-                                            <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][app()->getLocale()] }}</option>
+                                            <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][current_locale()] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -399,7 +399,7 @@
                                     <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
                                         <option></option>
                                         @foreach ($data['taxes'] as $tax)
-                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title }}</option>
+                                            <option value="{{ $tax->id }}" {{ ((isset($product)) and ($tax->id == $product->tax_id)) ? 'selected' : (( ! isset($product) and ($tax->id == 1)) ? 'selected' : '') }}>{{ $tax->title->{current_locale()} }}</option>
                                         @endforeach
                                     </select>
                                 </div>
