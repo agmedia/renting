@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
@@ -29,9 +30,13 @@ class CalendarController extends Controller
     {
         $query = $calendar->filter($request);
 
-        $calendars = $query->paginate(20)->appends(request()->query());
+        $calendars = $query->with('apartment')->get()/*->appends(request()->query())*/;
 
-        if ($request->has('status')) {
+        $calendars = Helper::getCalendarBackViewData($calendars);
+
+        //dd($calendars->toArray());
+
+        /*if ($request->has('status')) {
             if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
                 $calendars = collect();
                 $temps = Calendar::all();
@@ -54,7 +59,7 @@ class CalendarController extends Controller
 
                 $calendars = $this->paginateColl($calendars);
             }
-        }
+        }*/
         /*$authors    = Author::all()->pluck('title', 'id');
         $publishers = Publisher::all()->pluck('title', 'id');*/
         $counts = [];//Calendar::setCounts($query);

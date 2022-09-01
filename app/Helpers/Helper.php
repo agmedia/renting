@@ -2,10 +2,31 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class Helper
 {
+
+    /**
+     * @param Collection $calendars
+     *
+     * @return Collection
+     */
+    public static function getCalendarBackViewData(Collection $calendars): Collection
+    {
+        $response = [];
+
+        foreach ($calendars as $calendar) {
+            $response[] = [
+                'title' => $calendar->apartment->title,
+                'start' => $calendar->date_from,
+                'end' => $calendar->date_to
+            ];
+        }
+
+        return collect($response);
+    }
 
     /**
      * @return array

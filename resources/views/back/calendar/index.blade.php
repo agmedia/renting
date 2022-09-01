@@ -46,9 +46,7 @@
                         <div class="input-group">
                             <input type="text" class="js-add-event form-control border-0" placeholder="Add Event..">
                             <div class="input-group-append">
-                                            <span class="input-group-text border-0 bg-white">
-                                                <i class="fa fa-fw fa-plus-circle"></i>
-                                            </span>
+                                <span class="input-group-text border-0 bg-white"><i class="fa fa-fw fa-plus-circle"></i></span>
                             </div>
                         </div>
                     </form>
@@ -56,33 +54,9 @@
 
                     <!-- Event List -->
                     <ul id="js-events" class="list list-events">
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Codename X</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-success">Weekend Adventure</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Project Mars</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-warning">Meeting</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-success">Walk the dog</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-info">AI schedule</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-success">Cinema</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-danger">Project X</div>
-                        </li>
-                        <li>
-                            <div class="js-event p-2 text-white font-size-sm font-w500 bg-warning">Skype Meeting</div>
-                        </li>
+                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Čišćenje</div></li>
+                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Uređenje okučnice</div></li>
+                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Održavanje bazena</div></li>
                     </ul>
                     <div class="text-center">
                         <em class="font-size-sm text-muted">
@@ -179,6 +153,17 @@
                 let m    = date.getMonth();
                 let y    = date.getFullYear();
 
+                let zauzetost = [];
+                {!! $calendars->toJson() !!}.forEach((item) => {
+                    zauzetost.push({
+                        title: item.title,
+                        start: item.start,
+                        end: item.end,
+                        allDay: true,
+                        color: '#3c90df'
+                    });
+                });
+
                 let calendar = new FullCalendar.Calendar(document.getElementById('js-calendar'), {
                     themeSystem: 'bootstrap',
                     firstDay: 1,
@@ -186,82 +171,12 @@
                     droppable: true,
                     headerToolbar: {
                         left: 'title',
-                        right: 'prev,next today dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        right: 'prev,next dayGridMonth,listWeek'
                     },
                     drop: function(info) {
                         info.draggedEl.parentNode.remove();
                     },
-                    events: [
-                        {
-                            title: 'Gaming Day',
-                            start: new Date(y, m, 1),
-                            allDay: true
-                        },
-                        {
-                            title: 'Skype Meeting',
-                            start: new Date(y, m, 3)
-                        },
-                        {
-                            title: 'Project X',
-                            start: new Date(y, m, 9),
-                            end: new Date(y, m, 12),
-                            allDay: true,
-                            color: '#e04f1a'
-                        },
-                        {
-                            title: 'Work',
-                            start: new Date(y, m, 17),
-                            end: new Date(y, m, 19),
-                            allDay: true,
-                            color: '#82b54b'
-                        },
-                        {
-                            id: 999,
-                            title: 'Hiking (repeated)',
-                            start: new Date(y, m, d - 1, 15, 0)
-                        },
-                        {
-                            id: 999,
-                            title: 'Hiking (repeated)',
-                            start: new Date(y, m, d + 3, 15, 0)
-                        },
-                        {
-                            title: 'Landing Template',
-                            start: new Date(y, m, d - 3),
-                            end: new Date(y, m, d - 3),
-                            allDay: true,
-                            color: '#ffb119'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: new Date(y, m, d + 7, 15, 0),
-                            color: '#82b54b'
-                        },
-                        {
-                            title: 'Coding',
-                            start: new Date(y, m, d, 8, 0),
-                            end: new Date(y, m, d, 14, 0),
-                        },
-                        {
-                            title: 'Trip',
-                            start: new Date(y, m, 25),
-                            end: new Date(y, m, 27),
-                            allDay: true,
-                            color: '#ffb119'
-                        },
-                        {
-                            title: 'Reading',
-                            start: new Date(y, m, d + 8, 20, 0),
-                            end: new Date(y, m, d + 8, 22, 0)
-                        },
-                        {
-                            title: 'Follow us on Twitter',
-                            start: new Date(y, m, 22),
-                            allDay: true,
-                            url: 'http://twitter.com/pixelcave',
-                            color: '#3c90df'
-                        }
-                    ]
+                    events: zauzetost
                 });
 
                 calendar.render();

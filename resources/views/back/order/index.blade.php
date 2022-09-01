@@ -29,7 +29,7 @@
                         <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
                             <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                             @foreach ($statuses as $status)
-                                <option value="{{ $status->id }}">{{ $status->title }}</option>
+                                <option value="{{ $status->id }}">{{ $status->title->{current_locale()} }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -46,7 +46,7 @@
                             </a>
                             @foreach ($statuses as $status)
                                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', {{ $status->id }})">
-                                    <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title }}</span>
+                                    <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title->{current_locale()} }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -82,19 +82,13 @@
                             </th>
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Datum</th>
+                            <th>Apartman</th>
                             <th>Status</th>
-                            <th>Plaćanje</th>
-                            <th>Kupac</th>
-                            <th class="text-center">Artikli</th>
-                            <th class="text-right">Vrijednost</th>
                             <th class="text-right">Detalji</th>
                         </tr>
                         </thead>
                         <tbody>
                         @forelse ($orders->sortByDesc('id') as $order)
-
-
-
 
                             <tr>
                                 <td class="text-center">
@@ -109,17 +103,10 @@
                                         <strong>{{ $order->id }}</strong>
                                     </a>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ $order->count() }}</td>
                                 <td class="font-size-base">
-                                    <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
-                                </td>
-                                <td class="text-lwft">{{ $order->payment_method }}</td>
-                                <td>
-                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">{{ $order->shipping_fname }} {{ $order->shipping_lname }}</a>
-                                </td>
-                                <td class="text-center">{{ $order->products->count() }}</td>
-                                <td class="text-right">
-                                    <strong>{{ number_format($order->total, 2, ',', '.') }} kn</strong>
+                                    <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
                                 </td>
                                 <td class="text-right font-size-base">
                                     <a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $order]) }}">
@@ -132,7 +119,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center font-size-sm" colspan="8">
+                                <td class="text-center font-size-sm" colspan="6">
                                     <label>Nema narudžbi...</label>
                                 </td>
                             </tr>

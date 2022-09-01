@@ -96,6 +96,24 @@ class Apartment extends Model
 
 
     /**
+     * @return string
+     */
+    public function getImageAttribute()
+    {
+        return 'test-img';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getThumbAttribute()
+    {
+        return 'test-thumb';
+    }
+
+
+    /**
      * Validate New Product Request.
      *
      * @param Request $request

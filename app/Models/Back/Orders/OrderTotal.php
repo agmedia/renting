@@ -33,7 +33,6 @@ class OrderTotal extends Model
             self::insertGetId([
                 'order_id'   => $order_id,
                 'code'       => $totals[$i]->code,
-                'title'      => $totals[$i]->name,
                 'value'      => $totals[$i]->value,
                 'sort_order' => $i,
                 'created_at' => Carbon::now(),
@@ -68,7 +67,6 @@ class OrderTotal extends Model
             $this->insertGetId([
                 'order_id'   => $order_id,
                 'code'       => $code,
-                'title'      => $total['title'],
                 'value'      => $value,
                 'sort_order' => $total['sort_order'],
                 'created_at' => Carbon::now(),

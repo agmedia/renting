@@ -21,8 +21,8 @@ class CreateOrdersTable extends Migration
             $table->integer('order_status_id')->unsigned();
             $table->string('invoice')->nullable();
             $table->decimal('total', 15, 4)->default(0);
-            $table->timestamp('date_from')->nullable()->index();
-            $table->timestamp('date_to')->nullable()->index();
+            $table->timestamp('date_from');
+            $table->timestamp('date_to');
             $table->string('payment_fname');
             $table->string('payment_lname');
             $table->string('payment_address');
@@ -37,8 +37,8 @@ class CreateOrdersTable extends Migration
             $table->string('company');
             $table->string('oib');
             $table->text('comment')->nullable();
-            $table->boolean('approved')->default(false);
-            $table->unsignedBigInteger('approved_user_id')->default(0);
+            $table->boolean('approved')->default(false); // Ako admin treba odobriti najam.
+            $table->unsignedBigInteger('approved_user_id')->default(0); // ID admina.
             $table->timestamps();
 
             $table->foreign('apartment_id')
@@ -49,7 +49,7 @@ class CreateOrdersTable extends Migration
         Schema::create('order_total', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('order_id')->unsigned();
-            $table->string('code')->nullable(); // Can be shipping, action, coupon, subtotal, discount, tax, total
+            $table->string('code')->nullable(); // Can be action, coupon, subtotal, discount, tax, total
             $table->decimal('value', 15, 4)->default(0);
             $table->integer('sort_order')->unsigned();
             $table->timestamps();
