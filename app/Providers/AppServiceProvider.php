@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Page;
 use App\Models\User;
 use App\Models\Front\Catalog\Product;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -49,6 +51,12 @@ class AppServiceProvider extends ServiceProvider
 
         $zemljovidi_vedute = Category::active()->topList('Zemljovidi i vedute')->select('id', 'title', 'group', 'slug')->sortByName()->get();
         View::share('zemljovidi_vedute', $zemljovidi_vedute);*/
+
+        Route::bind('apartment', function ($value) {
+            return Apartment::whereHas('translation', function ($query) use ($value) {
+                $query->where('slug', $value);
+            })->firstOrFail();
+        });
 
         Paginator::useBootstrap();
     }

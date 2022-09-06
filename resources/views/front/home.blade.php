@@ -1,563 +1,357 @@
 @extends('front.layouts.app')
 
-    <!-- Hero section -->
-    <section class="bg-accent bg-position-top-left bg-repeat-0 py-5" style="background-image: url('media/img/lightslider.webp');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
-        <div class="pb-lg-5 mb-lg-3">
-            <div class="container py-lg-4 my-lg-5">
-                <div class="row mb-3 mb-sm-3">
-                    <div class="col-lg-7 col-md-9  text-start">
-                        <h1 class="text-white lh-base">Knjige, vedute & zemljovidi</h1>
-                        <h2 class="h5 text-white fw-light">Dobrodošli na stranice Antikvarijata Biblos.</h2>
-                    </div>
-                </div>
-                <div class="row pb-lg-5 mb-4 mb-sm-5">
-                    <div class="col-lg-6 col-md-8">
-                        <form action="{{ route('pretrazi', ['tip' => 'autor']) }}" method="get">
-                            <div class="input-group input-group-lg flex-nowrap">
-                                <input type="text" class="form-control rounded-start" name="{{ config('settings.search_keyword') }}" placeholder="Pretražite po nazivu ili autoru">
-                                <button class="btn btn-primary btn-lg fs-base" type="submit"><i class="ci-search"></i></button>
-                            </div>
-                        </form>
-                        <div class="form-text text-white py-2"><span class="text-muted-light">*</span> Sve knjige na stranici su dostupne</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured products (Carousel) -->
-    <section class="container position-relative pt-3 pt-lg-0 pb-5 mt-lg-n10" style="z-index: 10;">
-        <div class="card px-lg-2 border-0 shadow-lg">
-            <div class="card-body px-4 pt-5 pb-4">
-                <h2 class="h3 text-center">Novo u ponudi</h2>
-                <p class="text-muted-light text-center ">Svakodnevno nove knjige u ponudi</p>
-                <div class="tns-carousel pt-4">
-                    <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
-                        <!-- Product-->
-                        <div>
-                            <div class="card product-card-alt">
-                                <div class="product-thumb">
-
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                        <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                                Wroblewski David </a></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
-                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                        <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                        <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product-->
-                        <div>
-                            <div class="card product-card-alt">
-                                <div class="product-thumb">
-
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                        <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                                Lynds Gayle </a></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
-                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                        <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                        <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product-->
-                        <div>
-                            <div class="card product-card-alt">
-                                <div class="product-thumb">
-
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                        <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                                Gall Zlatko </a></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                        <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                        <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product-->
-                        <div>
-                            <div class="card product-card-alt">
-                                <div class="product-thumb">
-
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                        <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                                Camus Albert </a></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
-                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                        <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                        <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product-->
-                        <div>
-                            <div class="card product-card-alt">
-                                <div class="product-thumb">
-
-                                    <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                        <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                                    </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                        <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                                Gall Zlatko </a></div>
-                                        <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                        </div>
-                                    </div>
-                                    <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                        <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                        <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent products grid -->
-    <section class="container pb-4 mb-lg-3">
-        <h2 class="h3 text-center">Izdvojeno iz naše ponude</h2>
-        <p class="text-muted-light text-center">Svakog tjedna ručno odabiremo neke od najatraktivnijih knjiga iz naše kolekcije</p>
-        <div class="tns-carousel pt-4">
-            <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Wroblewski David </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Lynds Gayle </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Gall Zlatko </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Camus Albert </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Gall Zlatko </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container pb-3 mb-md-3">
-        <div class="row">
-            <div class="col-md-6 mb-4">
-
-
-                <div class="card bg-third" >
-                    <div class="row g-0 d-sm-flex justify-content-between align-items-center">
-
-                        <div class="col-7">
-                            <div class="card-body ps-md-4">
-                                <h3 class="mb-4 ">Stare i rijetke knjige</h3>
-                                <a class="btn btn-primary btn-shadow btn-sm  " href="#">Pogledajte ponudu <i class="ci-arrow-right "></i></a>
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <img src="media/img/canvas1.jpg" class="rounded-start" alt="Card image">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-6 mb-4">
-                <!-- Gallery inside card -->
-                <div class="card bg-third" >
-                    <div class="row g-0 d-sm-flex justify-content-between align-items-center">
-                        <div class="col-5">
-                            <img src="media/img/canvas.jpg" class="rounded-start" alt="Card image">
-                        </div>
-                        <div class="col-7">
-                            <div class="card-body ps-md-4">
-                                <h3 class="mb-4">Vedute i karte</h3>
-                                <a class="btn btn-primary btn-shadow btn-sm" href="#">Pogledajte ponudu <i class="ci-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent products grid -->
-    <section class="container pb-5 mb-lg-3">
-        <h2 class="h3 text-center">Knjige za djecu i mlade</h2>
-        <p class="text-muted-light text-center">Lektira i knjige za djecu i mlade</p>
-        <div class="tns-carousel pt-4">
-            <div class="tns-carousel-inner" data-carousel-options='{"items": 2, "controls": false, "nav": true, "autoHeight": true, "responsive": {"0":{"items":1},"500":{"items":2, "gutter": 18},"768":{"items":3, "gutter": 20}, "1100":{"items":4, "gutter": 30}}}'>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="#"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Wroblewski David </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Priča o Edgaru Sawtelleu</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga2.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Lynds Gayle </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Mozaik</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">80.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Gall Zlatko </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga4.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Camus Albert </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Stranac</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Književnost</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product-->
-                <div>
-                    <div class="card product-card-alt">
-                        <div class="product-thumb">
-
-                            <div class="product-card-actions"><a class="btn btn-light btn-icon btn-shadow fs-base mx-2" href="{{ route('knjiga') }}"><i class="ci-eye"></i></a>
-                                <button class="btn btn-light btn-icon btn-shadow fs-base mx-2" type="button"><i class="ci-cart"></i></button>
-                            </div><a class="product-thumb-overlay" href="{{ route('knjiga') }}"></a><img src="media/img/knjiga3.jpg" alt="Product">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-wrap justify-content-between align-items-start pb-2">
-                                <div class="text-muted fs-xs me-1"><a class="product-meta fw-medium" href="{{ route('knjiga') }}">
-
-                                        Gall Zlatko </a></div>
-                                <div class="star-rating"><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i><i class="star-rating-icon ci-star-filled active"></i>
-                                </div>
-                            </div>
-                            <h3 class="product-title fs-sm mb-2"><a href="{{ route('knjiga') }}">Velika svjetska rock enciklopedija</a></h3>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                <div class="fs-sm me-2"><i class="ci-book text-muted me-1"></i><span class="fs-xs ms-1">Glazba</span></div>
-                                <div class="bg-faded-accent text-accent rounded-1 py-1 px-2">100.<small>00kn</small></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog posts carousel -->
-    <section class="border-top mb-0 pb-5 py-5" style="background-image: url('media/img/glag.png');-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
-        <div class="container py-lg-3">
-            <h2 class="h3 text-center">Iz medija</h2>
-            <p class="text-muted-light text-center mb-3 pb-4">Medijske objave, članci i obavijesti</p>
-            <div class="tns-carousel pb-5">
-                <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;gutter&quot;: 15, &quot;controls&quot;: false, &quot;nav&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3}, &quot;992&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">
-                    <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti.jpg" alt="Post"></a>
-                            <div class="card-body">
-                                <h2 class="h6 blog-entry-title"><a href="{{ route('knjiga') }}">Vlasnik Daniel: Trudim se naći najstarije primjerke naših djela</a></h2>
-                                <p class="fs-sm">Bavimo se vraćanju hrvatske knjižne građe koja svjedoči našoj povijesti i običajima. Većina tih knjiga tiskana je vani te ih je teško naći...</p>
-                                <div class="fs-xs text-nowrap"><a class="blog-entry-meta-link text-nowrap" href="#">23. Lip 2021</a><span class="blog-entry-meta-divider mx-2"></span> 24 sata</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti2.jpg" alt="Post"></a>
-                            <div class="card-body">
-                                <h2 class="h6 blog-entry-title"><a href="#">Dvostruki je užitak spasiti vrijednu staru knjigu i još zaraditi na tome</a></h2>
-                                <p class="fs-sm">Zagrebački antikvarijat Biblos uspješno posluje već sedamnaest godina, što je za vrijeme u kojem su knjige sve manje na cijeni impresivan broj.</p>
-                                <div class="fs-xs text-nowrap"><a class="blog-entry-meta-link text-nowrap" href="#">23. Lip 2021</a><span class="blog-entry-meta-divider mx-2"></span> Lider Media</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="card"><a class="blog-entry-thumb" href="#"><img class="card-img-top" src="media/img/novosti3.jpg" alt="Post"></a>
-                            <div class="card-body">
-                                <h2 class="h6 blog-entry-title"><a href="#">Od štanda na Britancu do poznatog antikvarijata</a></h2>
-                                <p class="fs-sm">Daniel Glavan o svom putu, opsesiji i rijetkim knjigama koje dovlači iz Europe. Neke spektakularne pronašao je i u zagrebačkim podrumima... </p>
-                                <div class="fs-xs text-nowrap"><a class="blog-entry-meta-link text-nowrap" href="#">23. Lip 2021</a><span class="blog-entry-meta-divider mx-2"></span> Telegram</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container-fluid pt-grid-gutter bg-third">
-        <div class="container">
+@section('content')
+    <div class="full-row bg-white p-0">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-grid-gutter">
-                    <a class="card h-100" href="https://www.google.com/maps/place/Biblos/@45.810942,15.9794894,17.53z/data=!4m5!3m4!1s0x4765d7aac4f8b023:0xb60bceb791b31ede!8m2!3d45.8106161!4d15.9816921?hl=hr" target="_blank">
-                        <div class="card-body text-center"><i class="ci-location h3 mt-2 mb-4 text-primary"></i>
-                            <h3 class="h6 mb-2">Adresa</h3>
-                            <p class="fs-sm text-muted">Palmotićeva 28, Zagreb</p>
-                            <div class="fs-sm text-primary">Kliknite za mapu<i class="ci-arrow-right align-middle ms-1"></i></div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xl-3 col-sm-6 mb-grid-gutter">
-                    <div class="card h-100">
-                        <div class="card-body text-center"><i class="ci-time h3 mt-2 mb-4 text-primary"></i>
-                            <h3 class="h6 mb-3">Radno vrijeme</h3>
-                            <ul class="list-unstyled fs-sm text-muted mb-0">
-                                <li>Pon - pet: 09 - 20h</li>
-                                <li class="mb-0">Sub: 09 - 14h</li>
-                            </ul>
+
+                <!-- listings -->
+                <div class="col-xl-6 ">
+                    <div class="row property-search my-2 mt-0">
+                        <div class="col-md-12">
+                            <div class="row pb-4 mt-4">
+                                <div class="col-6 ">
+                                    <form class="selecting-command d-flex flex-wrap" method="get">
+                                        <div class="select-arrow me-30 d-none d-sm-block">
+                                            <select class="form-control form-select bg-gray">
+                                                <option>Default Order</option>
+                                                <option>Newest First</option>
+                                                <option>Oldest First</option>
+                                                <option>Top Rated</option>
+                                                <option>Most Popular</option>
+                                            </select>
+                                        </div>
+                                        <label>25 results</label>
+                                    </form>
+                                </div>
+                                <div class="col-6">
+                                    <a class="checkbox-collapse btn btn-light bg-gray btn-sm float-end" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" title="Grid" class="active">
+                                        <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!---filters -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="collapse font-14" id="multiCollapseExample1">
+                                        <div class="card card-body px-0 border-0">
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3 class="double-down-line-left text-secondary position-relative pb-4 my-4 mt-0">Property Search</h3>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <div class="select-arrow">
+                                                            <select class="form-control form-select bg-gray">
+                                                                <option>Select City</option>
+                                                                <option selected>Zagreb</option>
+                                                                <option>Split</option>
+                                                                <option>Rijeka</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <button type="submit" class="btn btn-primary w-100 mt-sm-50">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-6">
+                                                    <ul class="check-submit">
+                                                        <li>
+                                                            <input id="feature-1" class="d-none" type="checkbox">
+                                                            <label for="feature-1">Parking Garage</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-2" class="d-none" type="checkbox">
+                                                            <label for="feature-2">Security System</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-3" class="d-none" type="checkbox">
+                                                            <label for="feature-3">Window Covering</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6">
+                                                    <ul class="check-submit">
+                                                        <li>
+                                                            <input id="feature-4" class="d-none" type="checkbox">
+                                                            <label for="feature-4">Swiming Pool</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-5" class="d-none" type="checkbox">
+                                                            <label for="feature-5">Air Condition</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-8" class="d-none" type="checkbox">
+                                                            <label for="feature-8">Fire Protection</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6">
+                                                    <ul class="check-submit">
+                                                        <li>
+                                                            <input id="feature-9" class="d-none" type="checkbox">
+                                                            <label for="feature-9">Garden</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-10" class="d-none" type="checkbox">
+                                                            <label for="feature-10">Fire Place</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-11" class="d-none" type="checkbox">
+                                                            <label for="feature-11">Emeargency Exit</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-lg-3 col-md-6">
+                                                    <ul class="check-submit">
+                                                        <li>
+                                                            <input id="feature-12" class="d-none" type="checkbox">
+                                                            <label for="feature-12">Home Theater</label>
+                                                        </li>
+                                                        <li>
+                                                            <input id="feature-13" class="d-none" type="checkbox">
+                                                            <label for="feature-13">Gym & Sports</label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!---listings -->
+                            <div class="row row-cols-md-2 row-cols-1 g-4">
+                                @foreach ($apartments as $apartment)
+                                    <div class="col">
+                                        <div class="featured-thumb hover-zoomer">
+                                            <div class="overflow-hidden position-relative">
+                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
+                                                <div class="featured bg-primary text-white">€ {{ number_format($apartment->price, 0, ',', '.') }} {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                                                <div class="starmark text-white"><i class="far fa-star"></i></div>
+                                            </div>
+                                            <div class="featured-thumb-data shadow-one">
+                                                <div class="p-4 pb-2">
+                                                    <h5 class="text-secondary hover-text-primary mb-2"><a href="property-single-1.html">{{ $apartment->title }}</a></h5>
+                                                    <span class="location"><i class="fas fa-map-marker-alt text-primary"></i> {{ $apartment->address }}, {{ $apartment->city }}</span> </div>
+                                                <div class="ps-4 pb-2">
+                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} rooms - {{ $apartment->beds }} beds</span>
+                                                </div>
+
+                                                <div class="px-4 pb-4 d-inline-block w-100">
+                                                    <div class="float-start"><i class="fas fa-user text-primary me-1"></i> Apartments Repinc</div>
+                                                    <div class="float-end"><i class="far fa-calendar-alt text-primary me-1"></i> 2 Months Ago</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="row justify-content-center my-5">
+                                <div class="col-auto">
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled"> <span class="page-link">Previous</span> </li>
+                                            <li class="page-item active" aria-current="page"> <span class="page-link"> 1 <span class="sr-only">(current)</span> </span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">...</li>
+                                            <li class="page-item"><a class="page-link" href="#">45</a></li>
+                                            <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6  mb-grid-gutter">
-                    <div class="card h-100">
-                        <div class="card-body text-center"><i class="ci-phone h3 mt-2 mb-4 text-primary"></i>
-                            <h3 class="h6 mb-3">Telefoni</h3>
-                            <ul class="list-unstyled fs-sm mb-0">
-                                <li><a class="nav-link-style text-primary" href="tel:+38514816574"> +385 1 48 16 574</a></li>
-                                <li><a class="nav-link-style text-primary" href="tel:++385981629674"> +385 98 16 29 674</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
+                <!--map -->
+                <div class="col-xl-6  pe-0 2">
+                    <div id="map" class="map-2"></div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-grid-gutter">
-                    <div class="card h-100">
-                        <div class="card-body text-center"><i class="ci-mail h3 mt-2 mb-4 text-primary"></i>
-                            <h3 class="h6 mb-3">Email adresa</h3>
-                            <ul class="list-unstyled fs-sm mb-0">
-                                <li><a class="nav-link-style text-primary" href="mailto:info@antikvarijat-biblos.hr">info@antikvarijat-biblos.hr</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
-    </section>
-
+    </div>
 @endsection
+
+@push('js_after')
+    <script src="{{ asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyBoB-nFyi-8EGpAmsNFREAWk3XzUK3RTOA') }}"></script>
+    <script src="{{ asset('assets/js/map/markerwithlabel_packed.js') }}"></script>
+    <script src="{{ asset('assets/js/map/markerclusterer_packed.js') }}"></script>
+    <script src="{{ asset('assets/js/map/infobox.js') }}"></script>
+    <script src="{{ asset('assets/js/map/custom-map.js') }}"></script>
+
+    <script>
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Google Map - Homepage
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function createHomepageGoogleMap(_latitude,_longitude) {
+            /* setMapHeight(); */
+            if (document.getElementById('map') != null) {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 12,
+                    scrollwheel: false,
+                    center: new google.maps.LatLng(_latitude, _longitude),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                    },
+                    zoomControl: true,
+                    zoomControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_CENTER,
+                    },
+                    scaleControl: true,
+                    streetViewControl: true,
+                    streetViewControlOptions: {
+                        position: google.maps.ControlPosition.RIGHT_TOP,
+                    },
+                    fullscreenControl: true,
+                    fullscreenControlOptions: {
+                        position: google.maps.ControlPosition.LEFT_TOP,
+                    },
+                    styles: mapStyles
+                });
+
+                var i;
+                var newMarkers = [];
+                let locations = {!! $apartments->toJson() !!}.data;
+
+                console.log(locations)
+
+                for (i = 0; i < locations.length; i++) {
+                    var pictureLabel = document.createElement("img");
+                    pictureLabel.src = locations[i].image;
+                    var boxText = document.createElement("div");
+                    infoboxOptions = {
+                        content: boxText,
+                        disableAutoPan: false,
+                        //maxWidth: 150,
+                        pixelOffset: new google.maps.Size(-100, 0),
+                        zIndex: null,
+                        alignBottom: true,
+                        boxClass: "infobox-wrapper",
+                        enableEventPropagation: true,
+                        closeBoxMargin: "0px 0px -8px 0px",
+                        closeBoxURL: "assets/images/map/close.png",
+                        infoBoxClearance: new google.maps.Size(1, 1)
+                    };
+                    var marker = new MarkerWithLabel({
+                        title: locations[i].title,
+                        position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
+                        map: map,
+                        icon: 'assets/images/map/marker.png',
+                        labelContent: pictureLabel,
+                        labelAnchor: new google.maps.Point(50, 0),
+                        labelClass: "marker-style"
+                    });
+
+
+                    newMarkers.push(marker);
+                    boxText.innerHTML =
+                        '<div class="featured-thumb hover-zoomer shadow-one">' +
+                        '<div class=" overflow-hidden position-relative">' +
+                        '<a href="#">' +
+                        '<img src="' + locations[i].image + '" alt="">' +
+                        '</a>' +
+
+                        '<div class="price bg-primary text-white p-2">' + locations[i].price + ' <span>' + locations[i].for  + '</span></div>' +
+                        '</div>' +
+                        '<div class="featured-thumb-data">' +
+                        '<div class="p-4">' +
+                        '<h5 class="text-secondary hover-text-primary mb-2"><a href="' + locations[i].url + '">' + locations[i].title + '</a></h5>' +
+                        '<span class="location font-13"><i class="fas fa-map-marker-alt text-primary mr-1" aria-hidden="true"></i> ' + locations[i].address + '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                    //Define the infobox
+                    newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            for (h = 0; h < newMarkers.length; h++) {
+                                newMarkers[h].infobox.close();
+                            }
+                            newMarkers[i].infobox.open(map, this);
+                        }
+                    })(marker, i));
+
+                }
+                var clusterStyles = [
+                    {
+                        url: 'assets/images/map/cluster.png',
+                        height: 60,
+                        width: 60,
+                        textColor: '#fff',
+                        textSize:15
+                    }
+                ];
+                var markerCluster = new MarkerClusterer(map, newMarkers, {styles: clusterStyles, maxZoom: 14});
+                $('body').addClass('loaded');
+                setTimeout(function() {
+                    $('body').removeClass('has-fullscreen-map');
+                }, 1000);
+                $('#map').removeClass('fade-map');
+
+                //  Dynamically show/hide markers --------------------------------------------------------------
+
+                google.maps.event.addListener(map, 'idle', function() {
+
+                    for (var i=0; i < locations.length; i++) {
+                        if ( map.getBounds().contains(newMarkers[i].getPosition()) ){
+                            newMarkers[i].setVisible(true); // <- Uncomment this line to use dynamic displaying of markers
+
+                            newMarkers[i].setMap(map);
+                            markerCluster.setMap(map);
+                        } else {
+                            newMarkers[i].setVisible(false); // <- Uncomment this line to use dynamic displaying of markers
+
+                            newMarkers[i].setMap(null);
+                            markerCluster.setMap(null);
+                        }
+                    }
+                });
+
+                // Function which set marker to the user position
+                function success(position) {
+                    var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    map.panTo(center);
+                    $('#map').removeClass('fade-map');
+                }
+                // Enable Geo Location on button click
+                $('.geo-location').on("click", function() {
+                    if (navigator.geolocation) {
+                        $('#map').addClass('fade-map');
+                        navigator.geolocation.getCurrentPosition(success);
+                    } else {
+                        error('Geo Location is not supported');
+                    }
+                });
+            }
+        }
+    </script>
+
+    <script>
+        (function($) {
+            var _latitude = 45.8150107380416;
+            var _longitude = 15.981403769351106;
+            createHomepageGoogleMap(_latitude, _longitude);
+        })(jQuery);
+    </script>
+
+@endpush

@@ -7,6 +7,7 @@ use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
+use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Page;
 use App\Models\Sitemap;
 use Illuminate\Http\Request;
@@ -25,13 +26,20 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $page = Cache::remember('page.homepage', config('cache.life'), function () {
-            return Page::where('slug', 'homepage')->first();
-        });
+        $apartments = Apartment::paginate(12);
 
-        $page->description = Helper::setDescription($page->description);
+        return view('front.home', compact('apartments'));
+    }
 
-        return view('front.page', compact('page'));
+
+    /**
+     * @param Apartment $apartment
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function apartment(Apartment $apartment)
+    {
+        return view('front.apartment', compact('apartment'));
     }
 
 

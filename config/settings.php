@@ -91,22 +91,22 @@ return [
     'apartment_price_by' => [
         1 => [
             'title' => [
-                'en' => 'Day',
-                'hr' => 'Dan',
+                'en' => 'day',
+                'hr' => 'dan',
             ],
             'default' => 1
         ],
         2 => [
             'title' => [
-                'en' => 'Week',
-                'hr' => 'Tjedan',
+                'en' => 'week',
+                'hr' => 'tjedan',
             ],
             'default' => 0
         ],
         3 => [
             'title' => [
-                'en' => 'Month',
-                'hr' => 'Mjesec',
+                'en' => 'month',
+                'hr' => 'mjesec',
             ],
             'default' => 0
         ]

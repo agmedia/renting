@@ -1,0 +1,66 @@
+.navbar.navbar-expand-xl	> expand from xl
+.navbar.navbar-expand-lg	> expand form lg
+.navbar.navbar-expand-md    > expand form md
+.navbar.navbar-expand-sm    > expand form sm
+.navbar.navbar-expand       > always expand
+.navbar                     > never expand
+
+form.form-inline	> 1 .from-control and 1 submit/search/action in a line
+
+
+.d-flex
+.d-sm-flex
+.d-inline-flex
+.d-sm-inline-flex
+
+.d-flex.flex-row
+.d-flex.flex-row .flex-md-column
+.d-flex.flex-column
+.d-flex.flex-column .flex-md-row
+.flex-column-reverse
+.flex-sm-column-reverse
+.flex-row-reverse
+.flex-sm-row-reverse
+
+.d-flex.justify-content-start/.align-content-start
+.d-flex.justify-content-end/.align-content-end
+.d-flex.justify-content-center/.align-content-center
+.d-flex.justify-content-between/.align-content-stretch
+.d-flex.justify-content-around/.align-content-around
+.justify-content-sm-start
+.justify-content-xl-between
+.align-content-sm-start
+.align-content-lg-around
+
+.d-flex.align-items-start
+.d-flex.align-items-end
+.d-flex.align-items-center
+.d-flex.align-items-baseline
+.d-flex.align-items-stretch
+.align-items-sm-start
+.align-items-lg-stretch
+
+.d-flex > .align-self-start
+.d-flex > .align-self-end
+.d-flex > .align-self-center
+.d-flex > .align-self-baseline
+.d-flex > .align-self-stretch
+.align-self-sm-start
+.align-self-xl-stretch
+
+.d-flex > .flex-fill = all child take same spaces their width close
+.flex-sm-fill
+.flex-xl-fill
+
+.d-flex > .flex-grow-1 = the child take full area to give others own
+.d-flex.flex-nowrap
+.d-flex.flex-wrap
+.flex-wrap-reverse
+.flex-sm-nowrap
+.flex-lg-wrap
+.flex-lg-wrap-reverse
+.d-flex > .order-0
+.d-flex > .order-1
+.d-flex > .order-12
+.order-sm-0
+.order-sm-11

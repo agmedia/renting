@@ -318,6 +318,8 @@ Route::group(
      * FRONT ROUTES
      */
     Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
+
     Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
     Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
     Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');

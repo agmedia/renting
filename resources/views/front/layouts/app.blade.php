@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
+
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <title> @yield('title') </title>
-    <!-- SEO Meta Tags-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <base href="{{ config('app.url') }}">
+
+    <!-- Title -->
+    <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
 
-    <meta name="author" content="Antikvarijat Biblos">
+    <!-- Meta Tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="author" content="www.agmedia.hr">
     @stack('meta_tags')
-    <!-- Viewport-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="facebook-domain-verification" content="16b3jag78m5ywwi9xfdmmt7r4mmsws" />
-    <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'media/img/favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'media/img/favicon-16x16.png' }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ config('settings.images_domain') . 'apple-touch-icon.png' }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ config('settings.images_domain') . 'favicon-32x32.png' }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ config('settings.images_domain') . 'favicon-16x16.png' }}">
-    <link rel="mask-icon" href="{{ config('settings.images_domain') . 'safari-pinned-tab.svg' }}" color="#314837">
-    <meta name="msapplication-TileColor" content="#314837">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('safari-pinned-tab.svg') }}" color="#183b64">
+    <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/theme.min.css?v=1.2' }}">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+
+    <!-- Css Link -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/all.min.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/jquery-ui.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/color.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css") }}">
 
     @if (config('app.env') == 'production')
         @yield('google_data_layer')
         <!-- Google Tag Manager -->
-            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                                                                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                })(window,document,'script','dataLayer','GTM-TV7RKFH');
-            </script>
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                                                              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TV7RKFH');
+        </script>
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-YY35049KQZ"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
@@ -46,12 +58,8 @@
 
             gtag('config', 'G-YY35049KQZ');
         </script>
-    @endif
 
-    @stack('css_after')
-
-    @if (config('app.env') == 'production')
-        <!-- Facebook Pixel Code -->
+    <!-- Facebook Pixel Code -->
         <script>
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -64,16 +72,18 @@
             fbq('init', '659899245170060');
             fbq('track', 'PageView');
         </script>
-        <noscript><img height="1" width="1" style="display:none"
-                       src="https://www.facebook.com/tr?id=659899245170060&ev=PageView&noscript=1"
-            /></noscript>
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=659899245170060&ev=PageView&noscript=1"/></noscript>
     @endif
+
+    @stack('css_after')
 
     <style>
         [v-cloak] { display:none !important; }
     </style>
 
 </head>
+
+
 <!-- Body-->
 <body class="handheld-toolbar-enabled">
 
@@ -84,48 +94,42 @@
     </noscript>
 @endif
 
-<!-- Topbar-->
-<div class="topbar topbar-light bg-light d-none d-md-block">
-    <div class="container">
-        <div class="topbar-text text-nowrap">
-            <a class="topbar-link me-4" href="tel:+38514816574"><i class="ci-phone"></i> +385 1 48 16 574</a>
-            <a class="topbar-link me-4" href="https://www.google.com/maps/place/Biblos/@45.810942,15.9794894,17.53z/data=!4m5!3m4!1s0x4765d7aac4f8b023:0xb60bceb791b31ede!8m2!3d45.8106161!4d15.9816921?hl=hr" target="_blank"><i class="ci-location"></i> Palmotićeva 28, Zagreb </a>
-           <a class="topbar-link d-none d-md-inline-block me-4" href="{{ route('kontakt') }}"><i class="ci-time"></i> PON-PET: 9-20 | SUB: 9-14</a>
-            <a class="topbar-link d-none d-xl-inline-block" href="mailto:info@antikvarijat-biblos.hr"><i class="ci-mail"></i> info@antikvarijat-biblos.hr</a>
-        </div>
-        <div class="ms-3 text-nowrap">
-            <a class="topbar-link d-none d-md-inline-block" href="{{ route('faq') }}">Česta pitanja</a>
-            <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="{{ route('catalog.route.page',['page' => 'o-nama']) }}">O nama</a>
-            <a class="topbar-link ms-3 ps-3 border-start border-dark d-none d-md-inline-block" href="{{ route('kontakt') }}">Kontakt</a>
-        </div>
+
+<!--<div id="agapp">-->
+    <div id="page-wrapper" class="bg-white">
+
+        @include('front.layouts.partials.header')
+
+        @yield('content')
+
+        {{--@include('front.layouts.partials.footer')
+
+        @include('front.layouts.partials.handheld')--}}
+
+        <!-- Scroll to top -->
+        <a href="#" class="bg-secondary text-white" id="scroll"><i class="fas fa-angle-up"></i></a>
     </div>
-</div>
+<!--</div>-->
 
-<div id="agapp">
 
-    {{--@include('front.layouts.partials.header')--}}
-
-    @yield('content')
-
-    {{--@include('front.layouts.partials.footer')
-
-    @include('front.layouts.partials.handheld')--}}
-</div>
-
-<!-- Back To Top Button-->
-<a class="btn-scroll-top" href="#top" data-scroll><span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span><i class="btn-scroll-top-icon ci-arrow-up"></i></a>
-<!-- Vendor Styles including: Font Icons, Plugins, etc.-->
-<link rel="stylesheet" media="screen" href="{{ config('settings.images_domain') . 'css/tiny-slider.css?v=1.2' }}"/>
-<!-- Vendor scrits: js libraries and plugins-->
-<script src="{{ asset('js/jquery/jquery-2.1.1.min.js?v=1.2') }}"></script>
-<script src="{{ asset('js/bootstrap.bundle.min.js?v=1.2') }}"></script>
-<script src="{{ asset('js/tiny-slider.js?v=1.2') }}"></script>
-<script src="{{ asset('js/smooth-scroll.polyfills.min.js?v=1.2') }}"></script>
-<!-- Main theme script-->
-
-<script src="{{ asset('js/cart.js?v=1.5') }}"></script>
-
-<script src="{{ asset('js/theme.min.js') }}"></script>
+<!-- Javascript Files -->
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<!--jQuery Layer Slider -->
+<script src="{{ asset('assets/js/greensock.js') }}"></script>
+<script src="{{ asset('assets/js/layerslider.transitions.js') }}"></script>
+<script src="{{ asset('assets/js/layerslider.kreaturamedia.jquery.js') }}"></script>
+<!--jQuery Layer Slider -->
+<script src="{{ asset('assets/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/js/tmpl.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.dependClass-0.1.js') }}"></script>
+<script src="{{ asset('assets/js/draggable-0.1.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.slider.js') }}"></script>
+<script src="{{ asset('assets/js/wow.js') }}"></script>
+<script src="{{ asset('assets/js/validate.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.cookie.js') }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}"></script>
 
 <script>
     $(() => {
