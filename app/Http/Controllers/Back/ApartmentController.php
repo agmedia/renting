@@ -65,7 +65,7 @@ class ApartmentController extends Controller
         if ($stored) {
             $apartment->storeImages();
 
-            return redirect()->route('apartments.edit', ['apartment' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartman' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
@@ -107,7 +107,7 @@ class ApartmentController extends Controller
         if ($updated) {
             $updated->storeImages();
 
-            return redirect()->route('apartments.edit', ['apartment' => $updated])->with(['success' => 'Apartment je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartman' => $updated])->with(['success' => 'Apartment je uspješno snimljen!']);
         }
 
         return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
