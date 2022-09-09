@@ -2,10 +2,12 @@
 
 namespace App\Models\Front\Apartment;
 
+use App\Models\Back\Orders\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
+use Illuminate\Support\Carbon;
 
 class Apartment extends Model
 {
@@ -124,6 +126,19 @@ class Apartment extends Model
     public function getUrlAttribute()
     {
         return '#';
+    }
+
+
+    public function dates()
+    {
+        $response = [];
+        $orders = Order::where('date_to', '>', now())->get();
+
+        foreach ($orders as $order) {
+            $response[] = [Carbon::make($order->date_from)->format('Y-m-d'), Carbon::make($order->date_to)->format('Y-m-d')];
+        }
+
+        return $response;
     }
 
 }

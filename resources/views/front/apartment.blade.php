@@ -67,14 +67,18 @@
                                                     <input class="form-control" id="checkindate" name="checkindate" placeholder="Check-in -> Checkout" type="text">
 
                                                     <script>
-                                                        const notallowedDatesres = [
-                                                            '2022-09-01',
-                                                            '2022-09-03',
-                                                            '2022-09-07',
-                                                            '2022-09-16',
-                                                            '2022-09-17',
-                                                            '2022-09-18',
-                                                        ]
+                                                        const DateTime = easepick.DateTime;
+                                                        const bookedDates = {!! collect($dates)->toJson() !!}
+                                                        .map(d => {
+                                                            if (d instanceof Array) {
+                                                                const start = new DateTime(d[0], 'YYYY-MM-DD');
+                                                                const end = new DateTime(d[1], 'YYYY-MM-DD');
+
+                                                                return [start, end];
+                                                            }
+
+                                                            return new DateTime(d, 'YYYY-MM-DD');
+                                                        });
                                                         const pickerres = new easepick.create({
                                                             element: document.getElementById('checkindate'),
                                                             css: [
@@ -84,15 +88,28 @@
                                                             calendars: 1,
                                                             zIndex: 10,
                                                             plugins: ['LockPlugin','RangePlugin'],
+                                                            RangePlugin: {
+                                                                tooltipNumber(num) {
+                                                                    return num - 1;
+                                                                },
+                                                                locale: {
+                                                                    one: 'night',
+                                                                    other: 'nights',
+                                                                },
+                                                            },
                                                             LockPlugin: {
                                                                 minDate: new Date(),
                                                                 minDays: 2,
                                                                 inseparable: true,
-                                                                selectForward: true,
                                                                 filter(date, picked) {
-                                                                    return notallowedDatesres.includes(date.format('YYYY-MM-DD'));
+                                                                    if (picked.length === 1) {
+                                                                        const incl = date.isBefore(picked[0]) ? '[)' : '(]';
+                                                                        return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
+                                                                    }
+
+                                                                    return date.inArray(bookedDates, '[)');
                                                                 },
-                                                            },
+                                                            }
                                                         });
                                                     </script>
 
@@ -265,26 +282,39 @@
 
                                         <input class="form-control d-none" id="datepicker" />
                                         <script>
-                                            const notallowedDates = [
-                                                '2022-09-01',
-                                                '2022-09-03',
-                                                '2022-09-07',
-                                                '2022-09-16',
-                                                '2022-09-17',
-                                                '2022-09-18',
-                                            ]
+
+
                                             const picker = new easepick.create({
                                                 element: document.getElementById('datepicker'),
-                                                css: ['assets/css/reservation.css'],
+                                                css: [
+                                                    'assets/css/reservation.css',
+                                                ],
                                                 grid: 2,
                                                 calendars: 2,
                                                 inline: true,
-                                                plugins: ['LockPlugin'],
-                                                LockPlugin: {
-                                                    filter(date, picked) {
-                                                        return notallowedDates.includes(date.format('YYYY-MM-DD'));
+                                                plugins: ['LockPlugin','RangePlugin'],
+                                                RangePlugin: {
+                                                    tooltipNumber(num) {
+                                                        return num - 1;
+                                                    },
+                                                    locale: {
+                                                        one: 'night',
+                                                        other: 'nights',
                                                     },
                                                 },
+                                                LockPlugin: {
+                                                    minDate: new Date(),
+                                                    minDays: 2,
+                                                    inseparable: true,
+                                                    filter(date, picked) {
+                                                        if (picked.length === 1) {
+                                                            const incl = date.isBefore(picked[0]) ? '[)' : '(]';
+                                                            return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
+                                                        }
+
+                                                        return date.inArray(bookedDates, '[)');
+                                                    },
+                                                }
                                             });
                                         </script>
 

@@ -39,7 +39,9 @@ class HomeController extends Controller
      */
     public function apartment(Apartment $apartment)
     {
-        return view('front.apartment', compact('apartment'));
+        $dates = $apartment->dates();
+
+        return view('front.apartment', compact('apartment', 'dates'));
     }
 
 
