@@ -118,6 +118,9 @@
 <script src="{{ asset('assets/js/greensock.js') }}"></script>
 <script src="{{ asset('assets/js/layerslider.transitions.js') }}"></script>
 <script src="{{ asset('assets/js/layerslider.kreaturamedia.jquery.js') }}"></script>
+
+@stack('js_middle')
+
 <!--jQuery Layer Slider -->
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
