@@ -1,5 +1,5 @@
 
-@if (\Illuminate\Support\Facades\Route::is('/'))
+@if (\Illuminate\Support\Facades\Route::is('index'))
     <header id="header" class="transparent-header-modern fixed-header-bg-white w-100 shadow">
         <div class="top-header bg-white py-2">
             <div class="container-fluid">

@@ -34,7 +34,7 @@ use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*Route::domain('https://images.antikvarijatbibl.lin73.host25.com/')->group(function () {
     Route::get('media/img/apartments/{id}/{image}', function ($id, $image) {
@@ -56,7 +56,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::group(
     [
-        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
+        'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function() {
 
@@ -301,7 +301,7 @@ Route::prefix('api/v2')->group(function () {
  */
 Route::group(
     [
-        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
+        'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function() {
 
