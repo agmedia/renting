@@ -57,13 +57,15 @@
 
                                     <h5 class="mt-2 mb-2 text-primary">Reserve your apartment stay</h5>
 
-                                    <form class="bg-gray-input d-inline-block" action="checkout.html" method="post">
+                                    <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
+                                        {{ csrf_field() }}
                                         <div class="row row-cols-1 ">
                                             <div class="col mt-3">
 
 
                                                 <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                                    <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
                                                     <input class="form-control" id="checkindate" name="checkindate" placeholder="Check-in -> Checkout" type="text">
 
                                                     <script>

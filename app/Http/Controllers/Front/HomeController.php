@@ -45,6 +45,12 @@ class HomeController extends Controller
     }
 
 
+    public function checkout(Request $request)
+    {
+        dd($request);
+    }
+
+
     /**
      * @param Page $page
      *
