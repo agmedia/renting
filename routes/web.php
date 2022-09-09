@@ -34,7 +34,7 @@ use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
 use Illuminate\Support\Facades\Route;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 /*Route::domain('https://images.antikvarijatbibl.lin73.host25.com/')->group(function () {
     Route::get('media/img/apartments/{id}/{image}', function ($id, $image) {
@@ -56,7 +56,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
  */
 Route::group(
     [
-        'prefix' => LaravelLocalization::setLocale(),
+        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function() {
 
@@ -71,9 +71,9 @@ Route::group(
         Route::get('apartments', [ApartmentController::class, 'index'])->name('apartments');
         Route::get('apartment/create', [ApartmentController::class, 'create'])->name('apartments.create');
         Route::post('apartment', [ApartmentController::class, 'store'])->name('apartments.store');
-        Route::get('apartment/{apartment}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
-        Route::patch('apartment/{apartment}', [ApartmentController::class, 'update'])->name('apartments.update');
-        Route::delete('apartment/{apartment}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
+        Route::get('apartment/{apartman}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
+        Route::patch('apartment/{apartman}', [ApartmentController::class, 'update'])->name('apartments.update');
+        Route::delete('apartment/{apartman}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
 
         // NARUDŽBE
         Route::get('orders', [OrderController::class, 'index'])->name('orders');
@@ -301,7 +301,7 @@ Route::prefix('api/v2')->group(function () {
  */
 Route::group(
     [
-        'prefix' => LaravelLocalization::setLocale(),
+        'prefix' => \Mcamara\LaravelLocalization\Facades\LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function() {
 

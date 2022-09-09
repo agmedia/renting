@@ -235,7 +235,7 @@
         @include('back.layouts.partials.session')
 
 
-        <form action="{{ isset($apartment) ? route('apartments.update', ['apartment' => $apartment]) : route('apartments.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ isset($apartment) ? route('apartments.update', ['apartman' => $apartment]) : route('apartments.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($apartment))
                 {{ method_field('PATCH') }}
@@ -557,7 +557,7 @@
                         </div>
                         <div class="col-md-6 text-right">
                             @if (isset($apartment))
-                                <a href="{{ route('apartments.destroy', ['apartment' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $apartment->id }}').submit();">
+                                <a href="{{ route('apartments.destroy', ['apartman' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $apartment->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/apartment.delete') }}
                                 </a>
                             @endif
@@ -569,7 +569,7 @@
         </form>
 
         @if (isset($apartment))
-            <form id="delete-gallery-form{{ $apartment->id }}" action="{{ route('apartments.destroy', ['apartment' => $apartment]) }}" method="POST" style="display: none;">
+            <form id="delete-gallery-form{{ $apartment->id }}" action="{{ route('apartments.destroy', ['apartman' => $apartment]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>

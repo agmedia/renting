@@ -27,9 +27,9 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Apartment $apartment)
+    public function index(Request $request, Apartment $apartman)
     {
-        $apartments = $apartment->paginate(20)->appends(request()->query());
+        $apartments = $apartman->paginate(20)->appends(request()->query());
 
         return view('back.apartment.index', compact('apartments'));
     }
@@ -79,10 +79,11 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Apartment $apartment)
+    public function edit(Apartment $apartman)
     {
-        $data = $apartment->getEditViewData();
+        $data = $apartman->getEditViewData();
         $js_lang = json_encode(Lang::get('back/apartment'));
+        $apartment = $apartman;
 
         //dd($data['images']);
 
@@ -98,9 +99,10 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Apartment $apartment)
+    public function update(Request $request, Apartment $apartman)
     {
-        $updated = $apartment->validateRequest($request)->edit();
+        $updated = $apartman->validateRequest($request)->edit();
+        $apartment = $apartman;
 
         if ($updated) {
             $updated->storeImages();
@@ -119,14 +121,14 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Apartment $apartment)
+    public function destroy(Request $request, Apartment $apartman)
     {
         /*ProductImage::where('product_id', $apartment->id)->delete();
         ProductCategory::where('product_id', $apartment->id)->delete();*/
 
-        Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $apartment->id);
+        Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $apartman->id);
 
-        $destroyed = Apartment::destroy($apartment->id);
+        $destroyed = Apartment::destroy($apartman->id);
 
         if ($destroyed) {
             return redirect()->route('apartments')->with(['success' => 'Artikl je uspješno snimljen!']);

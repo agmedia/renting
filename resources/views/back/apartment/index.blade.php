@@ -102,7 +102,7 @@
                             <tr>
                                 <td class="font-size-sm">{{ $loop->iteration }}</td>
                                 <td class="font-size-sm">
-                                    <a class="font-w600" href="{{ route('apartments.edit', ['apartment' => $apartment]) }}">{{ $apartment->title }}</a>
+                                    <a class="font-w600" href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->title }}</a>
                                 </td>
                                 <td class="font-size-sm">
                                     {{ $apartment->city }}
@@ -115,7 +115,7 @@
                                     @include('back.layouts.partials.status', ['status' => $apartment->status, 'simple' => true])
                                 </td>
                                 <td class="text-right font-size-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('apartments.edit', ['apartment' => $apartment]) }}">
+                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">
                                         <i class="fa fa-fw fa-pencil-alt"></i>
                                     </a>
                                     <button class="btn btn-sm btn-alt-danger" onclick="event.preventDefault(); deleteItem({{ $apartment->id }}, '{{ route('apartments.destroy.api') }}');"><i class="fa fa-fw fa-trash-alt"></i></button>
