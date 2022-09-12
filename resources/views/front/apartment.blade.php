@@ -8,6 +8,7 @@
 @section('content')
     <div class="page-banner bg-white py-3">
         <div class="container">
+            @include('front.layouts.partials.session')
             <div class="row">
                 <div class="col-md-6">
                     <h1 class="mt-2 h3 text-secondary">{{ $apartment->title }}</h1>
@@ -66,7 +67,7 @@
                                                 <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
-                                                    <input class="form-control" id="checkindate" name="checkindate" placeholder="Check-in -> Checkout" type="text">
+                                                    <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
 
                                                     <script>
                                                         const DateTime = easepick.DateTime;
@@ -127,8 +128,8 @@
                                             <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                    <select class="form-control form-select">
-                                                        <option>Adults</option>
+                                                    <select class="form-control form-select" name="adults">
+                                                        <option value="0">Adults</option>
                                                         <option>1</option>
                                                         <option>2</option>
                                                         <option>3</option>
@@ -141,8 +142,8 @@
                                             <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                    <select class="form-control form-select">
-                                                        <option>Children</option>
+                                                    <select class="form-control form-select" name="children">
+                                                        <option value="0">Children</option>
                                                         <option>0</option>
                                                         <option>1</option>
                                                         <option>2</option>

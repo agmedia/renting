@@ -320,6 +320,7 @@ Route::group(
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout-view', [HomeController::class, 'checkoutView'])->name('checkout.view');
 
 
     Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');

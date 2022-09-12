@@ -102,9 +102,9 @@
 
         @yield('content')
 
-        {{--@include('front.layouts.partials.footer')
-
-        @include('front.layouts.partials.handheld')--}}
+        @if ( ! \Illuminate\Support\Facades\Route::is('index'))
+            @include('front.layouts.partials.footer')
+        @endif
 
         <!-- Scroll to top -->
         <a href="#" class="bg-secondary text-white" id="scroll"><i class="fas fa-angle-up"></i></a>
