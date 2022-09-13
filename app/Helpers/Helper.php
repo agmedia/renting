@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class Helper
 {
@@ -16,17 +17,28 @@ class Helper
     public static function getCalendarBackViewData(Collection $calendars): Collection
     {
         $response = [];
+        $count = 0;
 
-        foreach ($calendars as $calendar) {
-            $response[] = [
-                'title' => $calendar->apartment->title,
-                'start' => $calendar->date_from,
-                'end' => $calendar->date_to
-            ];
+        foreach ($calendars->groupBy('apartment_id') as $group) {
+            $color = '#' . config('settings.calendar_colors')[$count];
+
+            foreach ($group as $calendar) {
+                $response[] = [
+                    'title' => $calendar->apartment->title,
+                    'start' => $calendar->date_from,
+                    'end'   => $calendar->date_to,
+                    'color' => $color
+                ];
+            }
+
+            $count++;
         }
+
+
 
         return collect($response);
     }
+
 
     /**
      * @return array
@@ -35,6 +47,7 @@ class Helper
     {
         return collect(config('settings.payment.providers'))->keys()->toArray();
     }
+
 
     /**
      * @param float $price

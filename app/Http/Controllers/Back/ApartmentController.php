@@ -63,7 +63,7 @@ class ApartmentController extends Controller
         $stored = $apartment->validateRequest($request)->create();
 
         if ($stored) {
-            $apartment->storeImages();
+            $stored->storeImages();
 
             return redirect()->route('apartments.edit', ['apartman' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
         }

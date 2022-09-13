@@ -48,6 +48,8 @@ return [
         ],
     ],
 
+    'calendar_colors' => ['3c90df', '2177C7', 'DF8B3C' , '3CDFDC'],
+
     /**
      * Treba prebaciti u administraciju
      * + treba smisliti kako implementirati drugi jezik.

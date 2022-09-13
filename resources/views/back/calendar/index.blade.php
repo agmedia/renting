@@ -160,7 +160,7 @@
                         start: item.start,
                         end: item.end,
                         allDay: true,
-                        color: '#3c90df'
+                        color: item.color
                     });
                 });
 
@@ -174,7 +174,6 @@
                         right: 'prev,next dayGridMonth,listWeek'
                     },
                     drop: function(info) {
-                        console.log(info)
                         alert(info.draggedEl.innerText + " was put on " + info.dateStr.toLocaleString());
                         info.draggedEl.parentNode.remove();
                     },
@@ -183,6 +182,10 @@
                     },
                     eventDrop: function(info) {
                         alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+                    },
+                    eventClick: function(info) {
+                        console.log(info)
+                        alert('You clicked on: ' + info.event.title);
                     },
                     events: zauzetost
                 });

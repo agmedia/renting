@@ -168,7 +168,7 @@ class Apartment extends Model
             ApartmentDetail::createAmenities($id, $this->request);
             ApartmentDetail::createDetails($id, $this->request);
 
-            return $this;
+            return $this->find($id);
         }
 
         return false;
