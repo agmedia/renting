@@ -150,7 +150,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="payment-amount-input">Iznos</label>
-                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">
+                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->total : old('payment_amount') }}">
+<!--                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">-->
                                 </div>
                             </div>
                         </div>
@@ -190,7 +191,7 @@
                             <tr>
                                 <td class="font-size-base">
                                     @if ($record->status)
-                                        <span class="badge badge-pill badge-{{ $record->status->color }}">{{ $record->status->title }}</span>
+                                        <span class="badge badge-pill badge-{{ $record->status->color }}">{{ $record->status->title->{current_locale()} }}</span>
                                     @else
                                         <small>Komentar</small>
                                     @endif
