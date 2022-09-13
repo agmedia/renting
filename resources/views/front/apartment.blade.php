@@ -60,7 +60,7 @@
 
                                     <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
                                         {{ csrf_field() }}
-                                        <div class="row row-cols-1 ">
+                                        <div class="row row-cols-1">
                                             <div class="col mt-3">
 
 

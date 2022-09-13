@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Orders;
 
+use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
 use App\User;
@@ -65,9 +66,9 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function products()
+    public function apartment()
     {
-        return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
+        return $this->hasOne(Apartment::class, 'id', 'apartment_id');
     }
 
 

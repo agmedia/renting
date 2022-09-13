@@ -97,11 +97,11 @@
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.gallery') }}</span>
                             </a>
                         </li>
-                        <li class="nav-main-item">
+<!--                        <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['actions', 'actions.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.actions') }}</span>
                             </a>
-                        </li>
+                        </li>-->
                     <!--    <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['widgets', 'widget.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.widgets') }}</span>

@@ -3,6 +3,7 @@
 namespace App\Models\Back\Apartment;
 
 use App\Models\Back\Marketing\Gallery\Gallery;
+use App\Models\Back\Orders\Order;
 use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -100,7 +101,7 @@ class Apartment extends Model
      */
     public function getImageAttribute()
     {
-        return 'test-img';
+        return $this->images()->where('published', 1)->where('default', 1)->first()->image;
     }
 
 
@@ -110,6 +111,22 @@ class Apartment extends Model
     public function getThumbAttribute()
     {
         return 'test-thumb';
+    }
+
+
+    /**
+     * @return array
+     */
+    public function dates()
+    {
+        $response = [];
+        $orders = Order::where('date_to', '>', now())->get();
+
+        foreach ($orders as $order) {
+            $response[] = [\Illuminate\Support\Carbon::make($order->date_from)->format('Y-m-d'), Carbon::make($order->date_to)->format('Y-m-d')];
+        }
+
+        return $response;
     }
 
 

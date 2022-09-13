@@ -153,10 +153,9 @@ class OrderController extends Controller
     {
         $countries = Country::list();
         $statuses  = Settings::get('order', 'statuses');
-        $shippings = Settings::getList('shipping');
         $payments  = Settings::getList('payment');
 
-        return view('back.order.edit', compact('order', 'countries', 'statuses', 'shippings', 'payments'));
+        return view('back.order.edit', compact('order', 'countries', 'statuses', 'payments'));
     }
 
 
@@ -170,6 +169,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        dd($request, $order);
+
         $updated = $order->validateRequest($request)->store($order->id);
 
         if ($updated) {

@@ -1,6 +1,7 @@
 @extends('back.layouts.backend')
 @push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
 @endpush
 
 @section('content')
@@ -27,14 +28,44 @@
         <!-- Products -->
             <div class="block block-rounded" id="ag-order-products-app">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Artikli</h3>
+                    <h3 class="block-title">Apartment</h3>
                 </div>
                 <div class="block-content">
-                    <ag-order-products
-                            products="{{ isset($order) ? json_encode($order->products) : '' }}"
-                            totals="{{ isset($order) ? json_encode($order->totals) : '' }}"
-                            products_autocomplete_url="{{ route('products.autocomplete') }}">
-                    </ag-order-products>
+                    <div class="row justify-content-center push">
+                        <div class="col-md-4">
+                            <img  class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <h3>{{ $order->apartment->title }}</h3>
+                            <p>
+                                {{ $order->apartment->address }}, {{ $order->apartment->city }}
+                            </p>
+                            <table>
+<!--                                <tr>
+                                    <td>Type</td>
+                                    <td>{{ collect(config('settings.apartment_types'))->where('id', $order->apartment->type)->first()['title'][current_locale()] }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Purpose</td>
+                                    <td>{{ collect(config('settings.apartment_targets'))->where('id', $order->apartment->target)->first()['title'][current_locale()] }}</td>
+                                </tr>-->
+                                <tr>
+                                    <td style="width: 40%;">Datum:</td>
+                                    <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Promijeni datum:</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                            <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- END Products -->
@@ -60,38 +91,38 @@
                                     <div class="form-group row items-push">
                                         <div class="col-md-6">
                                             <label for="fname-input">Ime</label>
-                                            <input type="text" class="form-control" id="fname-input" name="fname" placeholder="Upišite ime kupca" value="{{ isset($order) ? $order->shipping_fname : old('fname') }}">
+                                            <input type="text" class="form-control" id="fname-input" name="fname" placeholder="Upišite ime kupca" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="lname-input">Prezime</label>
-                                            <input type="text" class="form-control" id="lname-input" name="lname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->shipping_lname : old('lname') }}">
+                                            <input type="text" class="form-control" id="lname-input" name="lname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
                                         </div>
 
-                                        <div class="col-md-12">
+<!--                                        <div class="col-md-12">
                                             <label for="address-input">Adresa</label>
-                                            <input type="text" class="form-control" id="address-input" name="address" placeholder="Upišite adresu kupca" value="{{ isset($order) ? $order->shipping_address : old('address') }}">
+                                            <input type="text" class="form-control" id="address-input" name="address" placeholder="Upišite adresu kupca" value="{{ isset($order) ? $order->payment_address : old('address') }}">
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="zip-input">Poštanski br.</label>
-                                            <input type="text" class="form-control" id="zip-input" name="zip" placeholder="Upišite poštanski broj kupca" value="{{ isset($order) ? $order->shipping_zip : old('zip') }}">
+                                            <input type="text" class="form-control" id="zip-input" name="zip" placeholder="Upišite poštanski broj kupca" value="{{ isset($order) ? $order->payment_zip : old('zip') }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="city-input">Grad</label>
-                                            <input type="text" class="form-control" id="city-input" name="city" placeholder="Upišite grad kupca" value="{{ isset($order) ? $order->shipping_city : old('city') }}">
+                                            <input type="text" class="form-control" id="city-input" name="city" placeholder="Upišite grad kupca" value="{{ isset($order) ? $order->payment_city : old('city') }}">
                                         </div>
                                         <div class="col-md-5">
                                             <label for="state-input">Država</label>
-                                            <input type="text" class="form-control" id="state-input" name="state" placeholder="Upišite državu kupca" value="{{ isset($order) ? $order->shipping_state : old('state') }}">
+                                            <input type="text" class="form-control" id="state-input" name="state" placeholder="Upišite državu kupca" value="{{ isset($order) ? $order->payment_state : old('state') }}">
                                         </div>
 
                                         <div class="col-md-6">
                                             <label for="phone-input">Telefon</label>
-                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->shipping_phone : old('phone') }}">
-                                        </div>
-                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
+                                        </div>-->
+                                        <div class="col-md-12">
                                             <label for="email-input">Email</label>
-                                            <input type="text" class="form-control" id="email-input" name="email" placeholder="Upišite email kupca" value="{{ isset($order) ? $order->shipping_email : old('email') }}">
+                                            <input type="text" class="form-control" id="email-input" name="email" placeholder="Upišite email kupca" value="{{ isset($order) ? $order->payment_email : old('email') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -101,29 +132,6 @@
                     <!-- END Billing Address -->
                 </div>
                 <div class="col-sm-5">
-                    <!-- Shipping -->
-                    <div class="block block-rounded">
-                        <div class="block-header block-header-default">
-                            <h3 class="block-title">Način dostave</h3>
-                        </div>
-                        <div class="block-content">
-                            <div class="row mb-4">
-                                <div class="col-md-8">
-                                    <label for="shipping-select">Dostava</label>
-                                    <select class="js-select2 form-control" id="shipping-select" name="shipping" style="width: 100%;" data-placeholder="Odaberite način dostave...">
-                                        <option></option>
-                                        @foreach ($shippings as $shipping)
-                                            <option value="{{ $shipping->code }}" {{ ((isset($order)) and ($order->shipping_code == $shipping->code)) ? 'selected' : '' }}>{{ $shipping->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="shipping-amount-input">Iznos</label>
-                                    <input type="text" class="form-control" id="shipping-amount-input" name="shipping_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->totals()->where('code', 'shipping')->first()->value : old('shipping_amount') }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Payments -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
@@ -136,13 +144,13 @@
                                     <select class="js-select2 form-control" id="payment-select" name="payment" style="width: 100%;" data-placeholder="Odaberite način plaćanja...">
                                         <option></option>
                                         @foreach ($payments as $payment)
-                                            <option value="{{ $payment->code }}" {{ ((isset($order)) and ($order->payment_code == $payment->code)) ? 'selected' : '' }}>{{ $payment->title }}</option>
+                                           <option value="{{ $payment->code }}" {{ ((isset($order)) and ($order->payment_code == $payment->code)) ? 'selected' : '' }}>{{ $payment->title->{current_locale()} }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="payment-amount-input">Iznos</label>
-                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'payment')->first()) ? $order->totals()->where('code', 'payment')->first()->value : old('payment_amount') }}">
+                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">
                                 </div>
                             </div>
                         </div>
@@ -167,7 +175,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
                                 @foreach ($statuses as $status)
                                     <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setStatus({{ $status->id }});">
-                                        <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title }}</span>
+                                        <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title->{current_locale()} }}</span>
                                     </a>
                                 @endforeach
                             </div>
@@ -192,7 +200,7 @@
                                     <span class="font-weight-light">{{ \Illuminate\Support\Carbon::make($record->created_at)->format('d.m.Y - h:i') }}</span>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)">{{ $record->user ? $record->user->name : $record->order->shipping_fname . ' ' . $record->order->shipping_lname }}</a>
+                                    <a href="javascript:void(0)">{{ $record->user ? $record->user->name : $record->order->payment_fname . ' ' . $record->order->payment_lname }}</a>
                                 </td>
                                 <td>{{ $record->comment }}</td>
                             </tr>
@@ -241,7 +249,7 @@
                                     <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
                                         <option value="0">Bez Promjene statusa...</option>
                                         @foreach ($statuses as $status)
-                                            <option value="{{ $status->id }}">{{ $status->title }}</option>
+                                            <option value="{{ $status->id }}">{{ $status->title->{current_locale()} }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -270,13 +278,12 @@
 @endpush
 
 @push('js_after')
-    <script src="{{ asset('js/vue.js') }}"></script>
-    <script src="{{ asset('js/components/ag-order-products.js') }}"></script>
+<!--    <script src="{{ asset('js/vue.js') }}"></script>
+    <script src="{{ asset('js/components/ag-order-products.js') }}"></script>-->
 
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
         $(() => {
-            $('#shipping-select').select2({});
             $('#payment-select').select2({});
 
             $('#status-select').select2({});
@@ -326,6 +333,54 @@
                 }
             });
         }
+    </script>
+
+
+    <script>
+        const DateTime = easepick.DateTime;
+        const bookedDates = {!! collect($order->apartment->dates())->toJson() !!}
+        .map(d => {
+            if (d instanceof Array) {
+                const start = new DateTime(d[0], 'YYYY-MM-DD');
+                const end = new DateTime(d[1], 'YYYY-MM-DD');
+
+                return [start, end];
+            }
+
+            return new DateTime(d, 'YYYY-MM-DD');
+        });
+        const pickerres = new easepick.create({
+            element: document.getElementById('checkindate'),
+            css: [
+                '{{ config('app.url') }}assets/css/reservation.css',
+            ],
+            grid: 1,
+            calendars: 1,
+            zIndex: 10,
+            plugins: ['LockPlugin','RangePlugin'],
+            RangePlugin: {
+                tooltipNumber(num) {
+                    return num - 1;
+                },
+                locale: {
+                    one: 'night',
+                    other: 'nights',
+                },
+            },
+            LockPlugin: {
+                minDate: new Date(),
+                minDays: 2,
+                inseparable: true,
+                filter(date, picked) {
+                    if (picked.length === 1) {
+                        const incl = date.isBefore(picked[0]) ? '[)' : '(]';
+                        return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
+                    }
+
+                    return date.inArray(bookedDates, '[)');
+                },
+            }
+        });
     </script>
 
 @endpush

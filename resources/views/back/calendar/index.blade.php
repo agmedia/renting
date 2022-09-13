@@ -15,9 +15,9 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/apartment.titles') }}</h1>
-                <a class="btn btn-hero-success my-2" href="{{ route('calendar.create') }}">
+<!--                <a class="btn btn-hero-success my-2" href="{{ route('calendar.create') }}">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/apartment.new') }}</span>
-                </a>
+                </a>-->
             </div>
         </div>
     </div>
@@ -174,7 +174,15 @@
                         right: 'prev,next dayGridMonth,listWeek'
                     },
                     drop: function(info) {
+                        console.log(info)
+                        alert(info.draggedEl.innerText + " was put on " + info.dateStr.toLocaleString());
                         info.draggedEl.parentNode.remove();
+                    },
+                    eventResize: function(info) {
+                        alert(info.event.title + " end is now " + info.event.end.toLocaleString());
+                    },
+                    eventDrop: function(info) {
+                        alert(info.event.title + " was dropped on " + info.event.start.toISOString());
                     },
                     events: zauzetost
                 });
