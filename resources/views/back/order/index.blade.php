@@ -99,9 +99,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <a class="font-w600" href="{{ route('orders.show', ['order' => $order]) }}">
-                                        <strong>{{ $order->id }}</strong>
-                                    </a>
+                                    <strong>{{ $order->id }}</strong>
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
                                 <td class="text-center">{{ $order->count() }}</td>
