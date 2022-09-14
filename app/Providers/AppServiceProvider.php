@@ -58,6 +58,12 @@ class AppServiceProvider extends ServiceProvider
             })->firstOrFail();
         });
 
+        Route::bind('page', function ($value) {
+            return Page::whereHas('translation', function ($query) use ($value) {
+                $query->where('slug', $value);
+            })->firstOrFail();
+        });
+
         Paginator::useBootstrap();
     }
 }

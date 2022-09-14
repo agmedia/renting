@@ -2,6 +2,7 @@
 
 namespace App\Models\Front;
 
+use App\Models\Front\Apartment\ApartmentTranslation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,15 +26,42 @@ class Page extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * @var string
+     */
+    protected $locale = 'en';
+
 
     /**
-     * Get the route key for the model.
+     * Gallery constructor.
      *
-     * @return string
+     * @param array $attributes
      */
-    public function getRouteKeyName()
+    public function __construct(array $attributes = [])
     {
-        return 'slug';
+        parent::__construct($attributes);
+
+        $this->locale = current_locale();
+    }
+
+
+    /**
+     * @param null  $lang
+     * @param false $all
+     *
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\HasOne|object|null
+     */
+    public function translation($lang = null, bool $all = false)
+    {
+        if ($lang) {
+            return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $lang)->first();
+        }
+
+        if ($all) {
+            return $this->hasMany(ApartmentTranslation::class, 'apartment_id');
+        }
+
+        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $this->locale)/*->first()*/;
     }
 
 
