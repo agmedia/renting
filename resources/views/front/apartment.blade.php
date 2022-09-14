@@ -11,14 +11,13 @@
             @include('front.layouts.partials.session')
             <div class="row">
                 <div class="col-md-6">
-                    <h1 class="mt-2 h3 text-secondary">{{ $apartment->title }}</h1>
+                    <h1 class="mt-2 h3 text-secondary">{{ $apartment->title }}  </h1>
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
                 <div class="col-md-6">
-                    <div class="text-primary text-start h5 my-2 text-md-end">€ {{ number_format($apartment->price, 0, ',', '.') }} {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    <div class="text-primary text-start h5 my-2 text-md-end">{{ number_format($apartment->cijena, 0, ',', '.') }} {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
                 </div>
             </div>
-
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="row" id="gallery">
@@ -31,13 +30,21 @@
                         </div>
                         <div class="col-md-6 d-none d-md-block ps-3 p-0 pt-1">
                             <div class="row my-0">
-                                @foreach ($apartment->images()->where('default', 0)->get() as $image)
+                                @foreach ($apartment->images()->where('default', 0)->take(4)->get() as $image)
                                     <div class="col-md-6 mb-3 pe-2">
                                         <a href="{{ asset($image->image) }}" class="link">
                                             <img  src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}" />
                                         </a>
                                     </div>
                                 @endforeach
+
+                                    @foreach ($apartment->images()->where('default', 0)->skip(5)->take(10)->get() as $image)
+
+                                            <a href="{{ asset($image->image) }}" class="link d-none">
+                                                <img  src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}" />
+                                            </a>
+
+                                    @endforeach
                             </div>
                         </div>
                     </div>
@@ -85,7 +92,7 @@
                                                         const pickerres = new easepick.create({
                                                             element: document.getElementById('checkindate'),
                                                             css: [
-                                                                'assets/css/reservation.css',
+                                                                'public/assets/css/reservation.css',
                                                             ],
                                                             grid: 1,
                                                             calendars: 1,
@@ -172,21 +179,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h4 class="text-secondary my-4">Description</h4>
-                                        <p>
-
-                                            Located in Zagreb, Jacuzzi - Flexible SelfCheckIns 20 - Zagreb - Luxury - Garage - Smart - Brand New - Apartments Repinc has accommodations with a private pool and city views. This apartment provides free private parking, room service and free WiFi.</p>
-
-                                        <p> The air-conditioned apartment consists of 1 separate bedroom, 1 bathroom with bathrobes and slippers, and a seating area. There's a dining area and a kitchen equipped with a microwave.</p>
-
-                                        <p> The apartment offers 4-star accommodations with a hot tub.</p>
-
-
-                                        <a class="text-primary hover-text-secondary mt-4 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">More Details</a>
-                                        <div class="collapse" id="multiCollapseExample1">
-                                            <p>  Technical Museum in Zagreb is 5.6 km from Jacuzzi - Flexible SelfCheckIns 20 - Zagreb - Luxury - Garage - Smart - Brand New - Apartments Repinc, while St. Mark's Church in Zagreb is 5.6 km away.</p>
-
-                                            <p>   Couples in particular like the location – they rated it 9.5 for a two-person trip. </p>
-                                        </div>
+                                        {!! $apartment->description !!}
                                     </div>
                                 </div>
 
@@ -194,83 +187,23 @@
                                     <div class="col">
                                         <h4 class="text-secondary my-4">What this place offers</h4>
                                         <div>
-                                            <ul class="row">
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/city-skyline-view.svg" class="offer-icon"/>
-                                                    </span>City skyline view
-                                                </li>
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/free-parking.svg" class="offer-icon"/>
-                                                    </span>Free parking on premises
-                                                </li>
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/wifi.svg" class="offer-icon"/>
-                                                    </span>Free Wifi
-                                                </li>
 
+                                                @foreach ($apartment->amenities()->get() as $group => $items)
+                                                    <h5 class="text-secondary mb-3">{{ $group }}</h5>
 
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/hot-tab.svg" class="offer-icon"/>
-                                                    </span>Private hot tub
-                                                </li>
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/private-pool.svg" class="offer-icon"/>
-                                                    </span>Private pool
-                                                </li>
-                                                <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/dedicated-workspace.svg" class="offer-icon"/>
-                                                    </span>Dedicated workspace
-                                                </li>
+                                                    <ul class="form-group row items-push mb-0">
+                                                        @foreach ($items as $detail)
+                                                            <ul class="row">
+                                                                <li class="mb-3 col-md-4">
+                                                                   <span class="text-secondary font-weight-bold">
+                                                                   <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
+                                                                   </span>
+                                                                </li>
+                                                            </ul>
+                                                        @endforeach
+                                                    </div>
+                                                @endforeach
 
-
-                                            </ul>
-                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false" aria-controls="offer">Show all amenities</a>
-                                            <div class="collapse" id="offer">
-
-                                                <h5 class="text-secondary mb-3">Bathroom</h5>
-                                                <ul class="row">
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/city-skyline-view.svg" class="offer-icon"/>
-                                                    </span>City skyline view
-                                                    </li>
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/free-parking.svg" class="offer-icon"/>
-                                                    </span>Free parking on premises
-                                                    </li>
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/wifi.svg" class="offer-icon"/>
-                                                    </span>Free Wifi
-                                                    </li>
-
-
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/hot-tab.svg" class="offer-icon"/>
-                                                    </span>Private hot tub
-                                                    </li>
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/private-pool.svg" class="offer-icon"/>
-                                                    </span>Private pool
-                                                    </li>
-                                                    <li class="mb-3 col-md-4">
-                                                    <span class="text-secondary font-weight-bold">
-                                                        <img src="assets/images/offer-icons/dedicated-workspace.svg" class="offer-icon"/>
-                                                    </span>Dedicated workspace
-                                                    </li>
-
-
-                                                </ul>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -290,7 +223,7 @@
                                             const picker = new easepick.create({
                                                 element: document.getElementById('datepicker'),
                                                 css: [
-                                                    'assets/css/reservation.css',
+                                                    'public/assets/css/reservation.css',
                                                 ],
                                                 grid: 2,
                                                 calendars: 2,
