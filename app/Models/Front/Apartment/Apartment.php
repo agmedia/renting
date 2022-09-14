@@ -65,6 +65,28 @@ class Apartment extends Model
 
 
     /**
+     * @param bool $all
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function details()
+    {
+        return $this->hasMany(ApartmentDetail::class, 'apartment_id')->where('amenity', 0);
+    }
+
+
+    /**
+     * @param bool $all
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function amenities()
+    {
+        return $this->hasMany(ApartmentDetail::class, 'apartment_id')->where('amenity', 1);
+    }
+
+
+    /**
      * @param null  $lang
      * @param false $all
      *
