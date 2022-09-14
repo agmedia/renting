@@ -4,6 +4,7 @@ namespace App\Models\Front\Apartment;
 
 use Illuminate\Database\Eloquent\Model;
 use Bouncer;
+use Illuminate\Support\Collection;
 
 class ApartmentDetail extends Model
 {
@@ -68,6 +69,70 @@ class ApartmentDetail extends Model
     public function getTitleAttribute()
     {
         return $this->translation()->title;
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public static function getAmenitiesByApartment(int $id): array
+    {
+        $locale = current_locale();
+        $response = [];
+
+        $amenities_by_groups = collect(config('settings.apartment_details'))->groupBy('group');
+        $existing = self::where('apartment_id', $id)->where('amenity', 1)->get();
+
+        foreach ($amenities_by_groups as $group => $amenities) {
+            foreach ($amenities as $amenity) {
+                $has = $existing->where('group', $amenity['id'])->first();
+
+                if ($has) {
+                    $response[$amenity['id']] = [
+                        'id' => $amenity['id'],
+                        'icon' => $amenity['icon'],
+                        'group' => $amenity['group_title'][$locale],
+                        'title' => $amenity['title'][$locale],
+                        'status' => 1
+                    ];
+                }
+            }
+        }
+
+        return collect($response)->groupBy('group')->toArray();
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    public static function getDetailsByApartment(int $id): Collection
+    {
+        $response = [];
+        $existing = self::where('apartment_id', $id)->where('amenity', 0)->get();
+
+        foreach ($existing as $detail) {
+            $response[$detail->id] = [
+                'value'        => $detail->value,
+                'group'        => $detail->group,
+                'icon'         => $detail->icon,
+                'gallery_id'   => $detail->gallery_id,
+                'amenity'      => 0,
+                'favorite'     => $detail->favorite,
+                'status'       => 1
+            ];
+
+            foreach (ag_lang() as $lang) {
+                $response[$detail->id]['title'][$lang->code] = $detail->translation($lang->code)->title;
+                $response[$detail->id]['description'][$lang->code] = $detail->translation($lang->code)->subtitle;
+            }
+        }
+
+        return collect($response);
     }
 
 

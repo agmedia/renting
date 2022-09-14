@@ -71,7 +71,7 @@ class Apartment extends Model
      */
     public function details()
     {
-        return $this->hasMany(ApartmentDetail::class, 'apartment_id')->where('amenity', 0);
+        return ApartmentDetail::getDetailsByApartment($this->id);
     }
 
 
@@ -82,7 +82,7 @@ class Apartment extends Model
      */
     public function amenities()
     {
-        return $this->hasMany(ApartmentDetail::class, 'apartment_id')->where('amenity', 1);
+        return ApartmentDetail::getAmenitiesByApartment($this->id);
     }
 
 
