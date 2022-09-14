@@ -155,11 +155,11 @@ Route::group(
 
                 // INFO PAGES
                 Route::get('pages', [PageController::class, 'index'])->name('pages');
-                Route::get('page/create', [PageController::class, 'create'])->name('pages.create');
-                Route::post('page', [PageController::class, 'store'])->name('pages.store');
-                Route::get('page/{page}/edit', [PageController::class, 'edit'])->name('pages.edit');
-                Route::patch('page/{page}', [PageController::class, 'update'])->name('pages.update');
-                Route::delete('page/{page}', [PageController::class, 'destroy'])->name('pages.destroy');
+                Route::get('stranica/create', [PageController::class, 'create'])->name('pages.create');
+                Route::post('stranica', [PageController::class, 'store'])->name('pages.store');
+                Route::get('stranica/{stranica}/edit', [PageController::class, 'edit'])->name('pages.edit');
+                Route::patch('stranica/{stranica}', [PageController::class, 'update'])->name('pages.update');
+                Route::delete('stranica/{stranica}', [PageController::class, 'destroy'])->name('pages.destroy');
 
                 // FAQ
                 Route::get('faqs', [FaqController::class, 'index'])->name('faqs');

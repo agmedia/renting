@@ -57,7 +57,7 @@ class PageController extends Controller
         $stored = $page->validateRequest($request)->create();
 
         if ($stored) {
-            return redirect()->route('pages.edit', ['page' => $stored])->with(['success' => 'Page was succesfully saved!']);
+            return redirect()->route('pages.edit', ['stranica' => $stored])->with(['success' => 'Page was succesfully saved!']);
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the page.']);
@@ -71,9 +71,10 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Page $page)
+    public function edit(Page $stranica)
     {
-        $groups = $page->groups()->pluck('group');
+        $groups = $stranica->groups()->pluck('group');
+        $page   = $stranica;
 
         return view('back.settings.system.pages.edit', compact('page', 'groups'));
     }
@@ -87,16 +88,16 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Page $page)
+    public function update(Request $request, Page $stranica)
     {
-        $updated = $page->validateRequest($request)->edit();
+        $updated = $stranica->validateRequest($request)->edit();
 
         if ($updated) {
-            $page->resolveImage($updated);
+            $stranica->resolveImage($updated);
 
             $this->flush($updated);
 
-            return redirect()->route('pages.edit', ['page' => $updated])->with(['success' => 'Page was succesfully saved!']);
+            return redirect()->route('pages.edit', ['stranica' => $updated])->with(['success' => 'Page was succesfully saved!']);
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the page.']);

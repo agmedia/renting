@@ -31,7 +31,7 @@
     <div class="content content-full content-boxed">
         @include('back.layouts.partials.session')
 
-        <form action="{{ isset($page) ? route('pages.update', ['page' => $page]) : route('pages.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ isset($page) ? route('pages.update', ['stranica' => $page]) : route('pages.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($page))
                 {{ method_field('PATCH') }}
@@ -185,7 +185,7 @@
                         </div>
                         <div class="col-md-5 text-right">
                             @if (isset($page) && $page->subgroup != '/')
-                                <a href="{{ route('pages.destroy', ['page' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
+                                <a href="{{ route('pages.destroy', ['stranica' => $page]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="{{ __('back/layout.btn.delete') }}" onclick="event.preventDefault(); document.getElementById('delete-page-form{{ $page->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/layout.btn.delete') }}
                                 </a>
                             @endif
@@ -196,7 +196,7 @@
         </form>
 
         @if (isset($page))
-            <form id="delete-page-form{{ $page->id }}" action="{{ route('pages.destroy', ['page' => $page]) }}" method="POST" style="display: none;">
+            <form id="delete-page-form{{ $page->id }}" action="{{ route('pages.destroy', ['stranica' => $page]) }}" method="POST" style="display: none;">
                 @csrf
                 {{ method_field('DELETE') }}
             </form>

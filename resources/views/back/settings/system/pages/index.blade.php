@@ -52,12 +52,12 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
                           <!--  <td class="text-center">
-                                <a href="{{ route('pages.edit', ['page' => $page]) }}">
+                                <a href="{{ route('pages.edit', ['stranica' => $page]) }}">
                                     <img src="{{ asset($page->image) }}" height="45px"/>
                                 </a>
                             </td>-->
                             <td>
-                                <a href="{{ route('pages.edit', ['page' => $page]) }}">{{ isset($page->title->{current_locale()}) ? $page->title->{current_locale()} : $page->title }}</a>
+                                <a href="{{ route('pages.edit', ['stranica' => $page]) }}">{{ isset($page->title->{current_locale()}) ? $page->title->{current_locale()} : $page->title }}</a>
                             </td>
                             <td>{{ $page->group }}</td>
                             <td class="text-center">
@@ -71,7 +71,7 @@
                                 @endif
                             </td>-->
                             <td class="text-right font-size-sm">
-                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('pages.edit', ['page' => $page]) }}">
+                                <a class="btn btn-sm btn-alt-secondary" href="{{ route('pages.edit', ['stranica' => $page]) }}">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
                                 </a>
                             </td>
