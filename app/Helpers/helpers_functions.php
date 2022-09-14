@@ -31,3 +31,22 @@ if ( ! function_exists('current_locale')) {
         return \App\Helpers\LanguageHelper::getCurrentLocale();
     }
 }
+
+/**
+ *
+ */
+if ( ! function_exists('ag_currencies')) {
+    /**
+     * @param false $main
+     *
+     * @return mixed
+     */
+    function ag_currencies($main = false)
+    {
+        if ($main) {
+            return \App\Helpers\CurrencyHelper::getMain();
+        }
+
+        return \App\Helpers\CurrencyHelper::list();
+    }
+}

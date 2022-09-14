@@ -341,6 +341,7 @@ Route::group(
 //
     Route::get('cache/image', [HomeController::class, 'imageCache']);
     Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
+    Route::get('set/currency', [HomeController::class, 'setMainCurrency'])->name('set.currency');
     /**
      * Sitemap routes
      */

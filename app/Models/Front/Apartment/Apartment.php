@@ -111,6 +111,12 @@ class Apartment extends Model
     }
 
 
+    /*public function getPriceAttribute()
+    {
+
+    }*/
+
+
     /**
      * @return string
      */
@@ -132,7 +138,7 @@ class Apartment extends Model
     public function dates()
     {
         $response = [];
-        $orders = Order::where('date_to', '>', now())->get();
+        $orders = Order::where('apartment_id', $this->id)->where('date_to', '>', now())->get();
 
         foreach ($orders as $order) {
             $response[] = [Carbon::make($order->date_from)->format('Y-m-d'), Carbon::make($order->date_to)->format('Y-m-d')];

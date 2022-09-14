@@ -44,7 +44,7 @@
                             <td>{{ $item->id }}</td>
                             <td>{{ isset($item->title->{current_locale()}) ? $item->title->{current_locale()} : $item->title }}
                                 @if (isset($item->main) && $item->main)
-                                    <strong><small>&nbsp;(Glavna)</small></strong>
+                                    <strong class="text-info"><small>&nbsp;(Glavna)</small></strong>
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->code }}</td>
@@ -149,12 +149,12 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group">
+<!--                                <div class="form-group">
                                     <label class="css-control css-control-sm css-control-success css-switch res">
                                         <input type="checkbox" class="css-control-input" id="currency-main" name="main">
                                         <span class="css-control-indicator"></span> {{ __('back/app.currency.default_currency') }}
                                     </label>
-                                </div>
+                                </div>-->
 
                                 <input type="hidden" id="currency-id" name="id" value="0">
                             </div>

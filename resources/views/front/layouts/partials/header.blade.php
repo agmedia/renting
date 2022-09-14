@@ -19,29 +19,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="d-flex h-100 align-items-center justify-content-end">
-                            <div class="currency me-2">
-                                <form action="#" method="post">
-                                    <div class="select-arrow text-primary">
-                                        <select class="form-select">
-                                            <option>€ EUR</option>
-                                            <option>$ USD</option>
-                                            <option>kn HRK</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="language">
-                                <div class="dropdown hover-dropdown">
-                                    <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ \Illuminate\Support\Str::upper(current_locale()) }}</button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (ag_lang() as $lang)
-                                            <li>
-                                                <a class="dropdown-item @if (current_locale() == $lang->code) active @endif" href="{{ LaravelLocalization::getLocalizedURL($lang->code, null, [], true) }}">{{ $lang->title->{LaravelLocalization::getCurrentLocale()} }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                            @include('front.layouts.partials.currency-selector')
+                            @include('front.layouts.partials.language-selector')
                         </div>
                     </div>
                 </div>
@@ -61,11 +40,9 @@
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="index.html">Properties</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="faq.html">Freequenly Ask Question</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="#">Contact</a> </li>
-
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="login.html">Login</a> </li>
-
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
                                 </ul>
-                                <a class="btn btn-primary d-none d-xl-block" href="login.html"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
+                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
                             </div>
                         </nav>
                     </div>
@@ -94,30 +71,8 @@
                     </div>
                     <div class="col-md-4">
                         <div class="d-flex h-100 align-items-center justify-content-end">
-                            <div class="currency me-2">
-                                <form action="#" method="post">
-                                    <div class="select-arrow text-primary">
-                                        <select class="form-select">
-                                            <option>€ EUR</option>
-                                            <option>$ USD</option>
-                                            <option>kn HRK</option>
-
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="language">
-                                <div class="dropdown hover-dropdown">
-                                    <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ \Illuminate\Support\Str::upper(current_locale()) }}</button>
-                                    <ul class="dropdown-menu">
-                                        @foreach (ag_lang() as $lang)
-                                            <li>
-                                                <a class="dropdown-item @if (current_locale() == $lang->code) active @endif" href="{{ LaravelLocalization::getLocalizedURL($lang->code, null, [], true) }}">{{ $lang->title->{LaravelLocalization::getCurrentLocale()} }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                            @include('front.layouts.partials.currency-selector')
+                            @include('front.layouts.partials.language-selector')
                         </div>
                     </div>
                 </div>
@@ -137,11 +92,9 @@
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="index.html">Properties</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="faq.html">Freequenly Ask Question</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="#">Contact</a> </li>
-
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="login.html">Login</a> </li>
-
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
                                 </ul>
-                                <a class="btn btn-primary d-none d-xl-block" href="login.html"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
+                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
                             </div>
                         </nav>
                     </div>

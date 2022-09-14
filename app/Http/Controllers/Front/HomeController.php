@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\CurrencyHelper;
 use App\Helpers\Helper;
 use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,7 @@ use App\Models\Sitemap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -28,6 +30,9 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $apartments = Apartment::paginate(12);
+
+        //dd(ag_currencies(true));
+        Log::alert(ag_currencies(true)->code);
 
         return view('front.home', compact('apartments'));
     }
@@ -137,6 +142,21 @@ class HomeController extends Controller
         });
 
         return view('front.contact')->with(['success' => 'Vaša poruka je uspješno poslana.! Odgovoriti ćemo vam uskoro.']);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setMainCurrency(Request $request)
+    {
+        if ($request->has('currency')) {
+            CurrencyHelper::mainSession($request->input('currency'));
+        }
+
+        return redirect()->back();
     }
 
 
