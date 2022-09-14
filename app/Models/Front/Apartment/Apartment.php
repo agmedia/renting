@@ -27,7 +27,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'image', 'thumb', 'for', 'url'];
+    protected $appends = ['title', 'image', 'thumb', 'cijena', 'for', 'url'];
 
     /**
      * @var string
@@ -111,10 +111,16 @@ class Apartment extends Model
     }
 
 
-    /*public function getPriceAttribute()
+    public function getCijenaAttribute()
     {
+        $main = ag_currencies()->where('main', true)->first();
 
-    }*/
+        if ( ! $main) {
+            $main = ag_currencies()->first();
+        }
+
+        return ($main->symbol_left ? $main->symbol_left . ' ' : '') . number_format(($this->price * $main->value), $main->decimal_places, ',', '.') . ($main->symbol_right ? ' ' . $main->symbol_right : '');
+    }
 
 
     /**

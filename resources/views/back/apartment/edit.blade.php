@@ -448,7 +448,7 @@
                                     <div class="tab-content">
                                         @foreach(ag_lang() as $lang)
                                             <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->description : old('description.*') !!}</textarea>
+                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->translation($lang->code)->description : old('description.*') !!}</textarea>
                                             </div>
                                         @endforeach
                                     </div>
