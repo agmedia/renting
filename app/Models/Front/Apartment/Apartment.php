@@ -27,7 +27,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'image', 'thumb', 'cijena', 'for', 'url'];
+    protected $appends = ['title', 'description', 'image', 'thumb', 'cijena', 'for', 'url'];
 
     /**
      * @var string
@@ -90,6 +90,15 @@ class Apartment extends Model
     public function getTitleAttribute()
     {
         return $this->translation()->first()->title;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->translation()->first()->description;
     }
 
 
