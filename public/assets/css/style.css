@@ -464,7 +464,7 @@ blockquote {
 
 .dropdown.dropdown-select .dropdown-toggle,
 .dropdown.hover-dropdown .dropdown-toggle {
-    padding: 0 20px 0 0;
+    padding: 0 10px 0 18px;
 }
 
 .dropdown.hover-dropdown .dropdown-toggle.text-white::after {
@@ -3222,7 +3222,7 @@ Video Pop Up style
 
 
 /*====================================================
-Responsive Media Query CSS 
+Responsive Media Query CSS
 ======================================================*/
 
 @media (min-width: 992px) {
