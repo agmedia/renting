@@ -86,9 +86,9 @@ class HomeController extends Controller
      */
     public function checkoutView(Request $request)
     {
-        dd($request->toArray());
+       // dd($request->toArray());
 
-        return view('front.checkout.checkout', compact('request'));
+        return view('front.checkout.success', compact('request'));
     }
 
 
