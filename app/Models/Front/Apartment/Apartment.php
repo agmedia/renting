@@ -144,7 +144,11 @@ class Apartment extends Model
 
     public function getCijenaAttribute()
     {
+
+        return $this->price;
         $main = ag_currencies()->where('main', true)->first();
+
+
 
         if ( ! $main) {
             $main = ag_currencies()->first();
