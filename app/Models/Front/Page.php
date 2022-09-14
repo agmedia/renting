@@ -54,14 +54,14 @@ class Page extends Model
     public function translation($lang = null, bool $all = false)
     {
         if ($lang) {
-            return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $lang)->first();
+            return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $lang)->first();
         }
 
         if ($all) {
-            return $this->hasMany(ApartmentTranslation::class, 'apartment_id');
+            return $this->hasMany(PageTranslation::class, 'page_id');
         }
 
-        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $this->locale)/*->first()*/;
+        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale)/*->first()*/;
     }
 
 
