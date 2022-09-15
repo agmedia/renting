@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Apartment;
 
+use App\Models\Back\Settings\Settings;
 use Illuminate\Database\Eloquent\Model;
 use Bouncer;
 use Illuminate\Support\Collection;
@@ -82,19 +83,20 @@ class ApartmentDetail extends Model
         $locale = current_locale();
         $response = [];
 
-        $amenities_by_groups = collect(config('settings.apartment_details'))->groupBy('group');
+        $amenities_by_groups = Settings::get('amenity', 'list')->sortBy('group')->groupBy('group');
         $existing = self::where('apartment_id', $id)->where('amenity', 1)->get();
+
         foreach ($amenities_by_groups as $group => $amenities) {
             foreach ($amenities as $amenity) {
-                $has = $existing->where('group', $amenity['id'])->first();
+                $has = $existing->where('group', $amenity->id)->first();
 
                 if ($has) {
-                    $response[$amenity['id']] = [
-                        'id' => $amenity['id'],
-                        'icon' => $amenity['icon'],
-                        'featured' => $amenity['featured'],
-                        'group' => $amenity['group_title'][$locale],
-                        'title' => $amenity['title'][$locale],
+                    $response[$amenity->id] = [
+                        'id' => $amenity->id,
+                        'icon' => $amenity->icon,
+                        'featured' => $amenity->featured,
+                        'group' => $amenity->group_title->{$locale},
+                        'title' => $amenity->title->{$locale},
                         'status' => 1
                     ];
                 }
