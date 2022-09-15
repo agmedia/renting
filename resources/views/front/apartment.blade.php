@@ -25,7 +25,7 @@
                         <div class="col-xs-12 col-md-6 p-1 pe-0 overflow-hidden featured-thumb position-relative">
                             <a href="{{ asset($apartment->image) }}" class="link">
                                 <img  src="{{ asset($apartment->image) }}" class="ls-bg" alt="" />
-                                <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> View Full Gallery ({{ $apartment->images()->where('published', 1)->count() }})</div>
+                                <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> {{ __('front/apartment.view_gallery') }} ({{ $apartment->images()->where('published', 1)->count() }})</div>
                             </a>
                         </div>
                         <div class="col-md-6 d-none d-md-block ps-3 p-0 pt-1">
@@ -63,7 +63,7 @@
                             <div class="sidebar">
                                 <div class="mt-4 p-4 shadow-one reservationbox">
 
-                                    <h5 class="mt-2 mb-2 text-primary">Reserve your apartment stay</h5>
+                                    <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
 
                                     <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
                                         {{ csrf_field() }}
@@ -188,22 +188,43 @@
                                         <h4 class="text-secondary my-4">What this place offers</h4>
                                         <div>
 
-                                                @foreach ($apartment->amenities()->get() as $group => $items)
-                                                    <h5 class="text-secondary mb-3">{{ $group }}</h5>
+                                            <ul class="row">
 
-                                                    <ul class="form-group row items-push mb-0">
+                                                @foreach ($apartment->amenities() as  $items)
+                                                   @foreach ($items as $detail)
+
+                                                       @if($detail['featured'])
+                                                            <li class="mb-3 col-md-4">
+                                                                   <span class="text-secondary font-weight-bold">
+                                                                   <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
+                                                                   </span>
+                                                            </li>
+                                                        @endif
+                                                   @endforeach
+                                                @endforeach
+
+                                            </ul>
+
+                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false" aria-controls="offer">Show all amenities</a>
+
+                                            <div class="collapse m-0" id="offer">
+                                                @foreach ($apartment->amenities() as $group => $items)
+                                                    <h5 class="text-secondary ">{{ $group }}</h5>
+
+                                                    <ul class="row mb-3 mt-2">
                                                         @foreach ($items as $detail)
-                                                            <ul class="row">
+
                                                                 <li class="mb-3 col-md-4">
                                                                    <span class="text-secondary font-weight-bold">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
                                                                    </span>
                                                                 </li>
-                                                            </ul>
-                                                        @endforeach
-                                                    </div>
-                                                @endforeach
 
+                                                        @endforeach
+                                                     </ul>
+                                                    <hr>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -256,9 +277,6 @@
 
                                     </div>
                                 </div>
-
-
-
 
                                 <div class="row mb-4">
                                     <div class="col">
