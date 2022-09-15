@@ -74,7 +74,7 @@
                                                 <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
-                                                    <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
+                                                    <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
 
                                                     <script>
                                                         const DateTime = easepick.DateTime;
@@ -136,7 +136,7 @@
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="adults">
-                                                        <option value="0">Adults</option>
+                                                        <option value="0">{{ __('front/apartment.adults_title') }}</option>
                                                         <option>1</option>
                                                         <option>2</option>
                                                         <option>3</option>
@@ -150,7 +150,7 @@
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="children">
-                                                        <option value="0">Children</option>
+                                                        <option value="0">{{ __('front/apartment.children_title') }}</option>
                                                         <option>0</option>
                                                         <option>1</option>
                                                         <option>2</option>
@@ -166,7 +166,7 @@
 
 
                                             <div class="col mt-4">
-                                                <button type="submit" id="send" value="submit" class="btn btn-primary w-100">Reserve</button>
+                                                <button type="submit" id="send" value="submit" class="btn btn-primary w-100">{{ __('front/apartment.reserve_btn_title') }}</button>
                                             </div>
                                         </div>
                                     </form>
@@ -178,14 +178,14 @@
 
                                 <div class="row">
                                     <div class="col">
-                                        <h4 class="text-secondary my-4">Description</h4>
+                                        <h4 class="text-secondary my-4">{{ __('front/apartment.description_title') }}</h4>
                                         {!! $apartment->description !!}
                                     </div>
                                 </div>
 
                                 <div class="row mb-4">
                                     <div class="col">
-                                        <h4 class="text-secondary my-4">What this place offers</h4>
+                                        <h4 class="text-secondary my-4">{{ __('front/apartment.offer_title') }}</h4>
                                         <div>
 
                                             <ul class="row">
@@ -194,7 +194,7 @@
                                                    @foreach ($items as $detail)
 
                                                        @if($detail['featured'])
-                                                            <li class="mb-3 col-md-4">
+                                                            <li class="mb-3 col-md-6">
                                                                    <span class="text-secondary font-weight-bold">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
                                                                    </span>
@@ -205,7 +205,7 @@
 
                                             </ul>
 
-                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false" aria-controls="offer">Show all amenities</a>
+                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false" aria-controls="offer">{{ __('front/apartment.show_title') }}</a>
 
                                             <div class="collapse m-0" id="offer">
                                                 @foreach ($apartment->amenities() as $group => $items)
@@ -231,7 +231,7 @@
 
 
                                 <div class="row mb-4">
-                                    <h4 class="text-secondary my-4">Availability Calendar</h4>
+                                    <h4 class="text-secondary my-4">{{ __('front/apartment.calendar_title') }}</h4>
 
 
                                     <div class="col-md-12">
@@ -277,7 +277,7 @@
 
                                     </div>
                                 </div>
-
+<!--
                                 <div class="row mb-4">
                                     <div class="col">
                                         <h4 class="text-secondary my-4">User Reviews</h4>
@@ -321,12 +321,12 @@
                                         </ul>
                                     </div>
                                 </div>
-
+-->
 
                                 <div class="row mb-4">
                                     <div class="col">
-                                        <h4 class="text-secondary my-4 mb-2">Where you’ll be</h4>
-                                        <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> 1a Vrbje ulica, Zagreb</span>
+                                        <h4 class="text-secondary my-4 mb-2">{{ __('front/apartment.where_title') }}</h4>
+                                        <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }} </span>
 
                                         <div id="map-single" class="single-map mt-4"></div>
                                     </div>
@@ -334,38 +334,8 @@
 
                                 <div class="row mb-4">
                                     <div class="col">
-                                        <h4 class="text-secondary my-4">Things to know</h4>
-
-                                        <div class="row ">
-                                            <div class="col-md-4 mb-4">
-                                                <h5 class="text-secondary">House rules</h5>
-                                                <ul>
-                                                    <li> <i class="far fa-clock font-13 text-primary me-1"></i> Check-in: 5:00 PM - 2:00 AM</li>
-                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 10:00 AM</li>
-                                                    <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Self check-in with lockbox</li>
-                                                    <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> No smoking</li>
-
-                                                    <li><i class="fas fa-users-slash font-13 text-primary me-1"></i> No parties or events</li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4 mb-4">
-                                                <h5 class="text-secondary">Health & safety</h5>
-                                                <ul>
-                                                    <li><i class="fas fa-shield-virus font-13 text-primary me-1"></i> COVID-19 safety practices apply</li>
-                                                    <li><i class="fas fa-certificate font-13 text-primary me-1"></i> Carbon monoxide alarm </li>
-                                                    <li><i class="fas fa-certificate font-13 text-primary me-1"></i> Smoke alarm </li>
-
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-4 ">
-                                                <h5 class="text-secondary">Cancellation policy</h5>
-                                                <ul>
-                                                    <li>Free cancellation for 48 hours.</li>
-                                                    <li>Review the Host’s full cancellation policy which applies even if you cancel for illness or disruptions caused by COVID-19.</li>
-
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <h4 class="text-secondary my-4">{{ __('front/apartment.things_title') }}</h4>
+                                        {!! __('front/apartment.html_block') !!}
                                     </div>
                                 </div>
 
