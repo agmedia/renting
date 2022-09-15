@@ -47,7 +47,7 @@ class HomeController extends Controller
     {
         $dates = $apartment->dates();
         //dd($apartment);
-        dd($apartment->amenities());
+       // dd($apartment->amenities()->get());
         return view('front.apartment', compact('apartment', 'dates'));
     }
 
