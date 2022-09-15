@@ -96,7 +96,7 @@ function createPropertyGoogleMap(_latitude,_longitude){
                // newMarkers[i].infobox = new InfoBox(infoboxOptions);
 
 
-        const image = "public/assets/images/map/marker.png";
+        const image = "assets/images/map/marker.png";
 
 
         new google.maps.Marker({
