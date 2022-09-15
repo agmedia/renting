@@ -36,6 +36,8 @@ class AmenitiesController extends Controller
             ];
         }
 
+        //dd($items->toArray());
+
         return view('back.settings.system.amenities', compact('items', 'groups', 'icons'));
     }
 
@@ -76,7 +78,7 @@ class AmenitiesController extends Controller
                 $item->group = $data['group'];
                 $item->group_title = $group_title;
                 $item->icon = $data['icon'];
-                $item->featured = 0;
+                $item->featured = $data['featured'];
                 $item->status = 0;
 
                 return $item;
@@ -92,7 +94,7 @@ class AmenitiesController extends Controller
         }
 
         if ($stored) {
-            $this->clearCache();
+            //$this->clearCache();
 
             return response()->json(['success' => 'Pogodnost je uspješno snimljena.']);
         }

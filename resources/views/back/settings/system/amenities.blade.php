@@ -29,9 +29,10 @@
                     <thead class="thead-light">
                     <tr>
                         <th style="width: 5%;">{{ __('back/layout.br') }}</th>
-                        <th style="width: 60%;">{{ __('back/settings.amenities.table_title') }}</th>
-                        <th class="text-center">{{ __('back/settings.amenities.group_title') }}</th>
-                        <th class="text-center">{{ __('back/settings.amenities.icon_title') }}</th>
+                        <th style="width: 50%;">{{ __('back/settings.amenities.table_title') }}</th>
+                        <th>{{ __('back/settings.amenities.group_title') }}</th>
+                        <th style="width: 15%;" class="text-center">{{ __('back/settings.amenities.icon_title') }}</th>
+                        <th class="text-center">{{ __('back/apartment.featured') }}</th>
                         <th class="text-right">{{ __('back/layout.btn.edit') }}</th>
                     </tr>
                     </thead>
@@ -40,8 +41,11 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td class="text-primary">{{ $item->title->{current_locale()} }}</td>
-                            <td class="text-center">{{ $item->group_title->{current_locale()} }}</td>
+                            <td>{{ $item->group_title->{current_locale()} }}</td>
                             <td class="text-center"><img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="icon"/></td>
+                            <td class="text-center font-size-sm">
+                                @include('back.layouts.partials.status', ['status' => $item->featured, 'simple' => true])
+                            </td>
                             <td class="text-right font-size-sm">
                                 <button class="btn btn-sm btn-alt-secondary" onclick="event.preventDefault(); openModal({{ json_encode($item) }});">
                                     <i class="fa fa-fw fa-pencil-alt"></i>
@@ -128,6 +132,13 @@
                                             </button>
                                         </div>
                                     @endforeach
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label class="css-control css-control-sm css-control-success css-switch res">
+                                        <input type="checkbox" class="css-control-input" id="featured" name="featured">
+                                        <span class="css-control-indicator"></span> {{ __('back/apartment.featured') }}
+                                    </label>
                                 </div>
 
                                 <input type="hidden" id="amenity-id" name="id" value="0">
@@ -220,6 +231,7 @@
                 title: values,
                 group: $('#group-select').val(),
                 icon: $('#icon').val(),
+                featured: $('#featured')[0].checked,
             };
 
             axios.post("{{ route('api.amenities.store') }}", { data: item })
@@ -268,6 +280,10 @@
             Object.keys(item.title).forEach((key) => {
                 $('#amenity-title-' + key).val(item.title[key]);
             });
+
+            if (item.featured) {
+                $('#featured')[0].checked = item.featured ? true : false;
+            }
         }
     </script>
 @endpush
