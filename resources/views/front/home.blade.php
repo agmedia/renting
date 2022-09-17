@@ -7,9 +7,9 @@
 
                 <!-- listings -->
                 <div class="col-xl-6 ">
-                    <div class="row property-search my-2 mt-0">
+                    <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
-                            <div class="row pb-4 mt-4">
+                            <div class="row pb-0 mt-3">
                                 <div class="col-6 ">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="col-6">
                                     <a class="checkbox-collapse btn btn-light bg-gray btn-sm float-end" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" title="Grid" class="active">
-                                        <i class="fa fa-filter" aria-hidden="true"></i> Filter
+                                        <i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}
                                     </a>
                                 </div>
                             </div>
@@ -35,105 +35,78 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="collapse font-14" id="multiCollapseExample1">
-                                        <div class="card card-body px-0 border-0">
+                                        <div class="card card-body pb-0 px-0 border-0">
+                                            <div class="mb-0 p-4 shadow-one reservationbox">
+                                                <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.search_box_title') }}</h5>
+                                                <form class="bg-gray-input d-inline-block" action="http://127.0.0.1:8000/en/checkout" method="post">
+                                                    <div class="row row-cols-1">
 
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <h3 class="double-down-line-left text-secondary position-relative pb-4 my-4 mt-0">Property Search</h3>
-                                                </div>
+                                                        <div class="col-md-6 mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                                <select class="form-control form-select ">
+                                                                    <option selected >{{ __('front/apartment.select_city') }}</option>
+                                                                    <option >Zagreb</option>
+                                                                    <option>Split</option>
+                                                                    <option>Rijeka</option>
 
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <div class="select-arrow">
-                                                            <select class="form-control form-select bg-gray">
-                                                                <option>Select City</option>
-                                                                <option selected>Zagreb</option>
-                                                                <option>Split</option>
-                                                                <option>Rijeka</option>
+                                                                </select>
 
-                                                            </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 mt-3">
+
+                                                            <div class="input-group ">
+                                                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                                                <input type="hidden" name="apartment_id" value="">
+                                                                <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-md-4  mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                                <select class="form-control form-select" name="adults">
+                                                                    <option value="0">{{ __('front/apartment.adults_title') }}</option>
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                    <option>5</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4  mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                                <select class="form-control form-select" name="children">
+                                                                    <option value="0">{{ __('front/apartment.children_title') }}</option>
+                                                                    <option>0</option>
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4 mt-3">
+                                                            <button type="submit" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <button type="submit" class="btn btn-primary w-100 mt-sm-50">Submit</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-6">
-                                                    <ul class="check-submit">
-                                                        <li>
-                                                            <input id="feature-1" class="d-none" type="checkbox">
-                                                            <label for="feature-1">Parking Garage</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-2" class="d-none" type="checkbox">
-                                                            <label for="feature-2">Security System</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-3" class="d-none" type="checkbox">
-                                                            <label for="feature-3">Window Covering</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-lg-3 col-md-6">
-                                                    <ul class="check-submit">
-                                                        <li>
-                                                            <input id="feature-4" class="d-none" type="checkbox">
-                                                            <label for="feature-4">Swiming Pool</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-5" class="d-none" type="checkbox">
-                                                            <label for="feature-5">Air Condition</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-8" class="d-none" type="checkbox">
-                                                            <label for="feature-8">Fire Protection</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-lg-3 col-md-6">
-                                                    <ul class="check-submit">
-                                                        <li>
-                                                            <input id="feature-9" class="d-none" type="checkbox">
-                                                            <label for="feature-9">Garden</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-10" class="d-none" type="checkbox">
-                                                            <label for="feature-10">Fire Place</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-11" class="d-none" type="checkbox">
-                                                            <label for="feature-11">Emeargency Exit</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-lg-3 col-md-6">
-                                                    <ul class="check-submit">
-                                                        <li>
-                                                            <input id="feature-12" class="d-none" type="checkbox">
-                                                            <label for="feature-12">Home Theater</label>
-                                                        </li>
-                                                        <li>
-                                                            <input id="feature-13" class="d-none" type="checkbox">
-                                                            <label for="feature-13">Gym & Sports</label>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-
                             <!---listings -->
-                            <div class="row row-cols-md-2 row-cols-1 g-4">
+                            <div class="row mt-0 row-cols-md-2 row-cols-1 g-4">
                                 @foreach ($apartments as $apartment)
                                     <div class="col">
                                         <div class="featured-thumb hover-zoomer">
@@ -144,7 +117,7 @@
                                             </div>
                                             <div class="featured-thumb-data shadow-one">
                                                 <div class="p-4 pb-2">
-                                                    <h5 class="text-secondary hover-text-primary mb-2"><a href="property-single-1.html">{{ $apartment->title }}</a></h5>
+                                                    <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}">{{ $apartment->title }}</a></h5>
                                                     <span class="location"><i class="fas fa-map-marker-alt text-primary"></i> {{ $apartment->address }}, {{ $apartment->city }}</span> </div>
                                                 <div class="ps-4 pb-2">
                                                     <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} rooms - {{ $apartment->beds }} beds</span>

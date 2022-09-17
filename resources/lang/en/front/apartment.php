@@ -19,15 +19,15 @@ return [
     'adults_title' => 'Adults',
     'children_title' => 'Children',
     'reserve_btn_title' => 'Reserve',
-
-
+    'search_title' => 'Search',
+    'search_box_title' => 'Search Availability',
     'description_title' => 'Description',
     'offer_title' => 'What this place offers',
     'show_title' => 'Show all amenities',
     'calendar_title' => 'Availability Calendar',
     'where_title' => 'Where you’ll be',
     'things_title' => 'Things to know',
-
+    'select_city' => 'Select City',
     'html_block' => '<div class="row ">
                                             <div class="col-md-4 mb-4">
                                                 <h5 class="text-secondary">House rules</h5>
