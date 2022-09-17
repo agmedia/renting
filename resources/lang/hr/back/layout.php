@@ -58,6 +58,7 @@ return [
         'pages' => 'Info stranice',
         'faq' => 'FAQ',
         'amenities' => 'Pogodnosti',
+        'options' => 'Opcije Apartmana',
         'local_settings' => 'Lokalne postavke',
         'languages' => 'Jezici',
         'geozones' => 'Geo Zone',

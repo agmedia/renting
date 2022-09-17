@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Back\Marketing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Product\Product;
-use App\Models\Back\Marketing\Action;
+use App\Models\Back\Marketing\Action\Action;
+use App\Models\Back\Marketing\Review;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class ActionController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class ActionController extends Controller
      */
     public function index(Request $request)
     {
-        $actions = Action::paginate(12);
+        $reviews = Review::paginate(12);
 
-        return view('back.marketing.action.index', compact('actions'));
+        return view('back.marketing.review.index', compact('reviews'));
     }
 
 
@@ -31,10 +31,8 @@ class ActionController extends Controller
      */
     public function create()
     {
-        $groups = Settings::get('action', 'group_list');
-        $types = Settings::get('action', 'type_list');
-
-        return view('back.marketing.action.edit', compact('groups', 'types'));
+        //dd('$$$$$');
+        return view('back.marketing.review.edit');
     }
 
 
@@ -47,12 +45,14 @@ class ActionController extends Controller
      */
     public function store(Request $request)
     {
-        $action = new Action();
+        //dd($request);
 
-        $stored = $action->validateRequest($request)->create();
+        $review = new Review();
+
+        $stored = $review->validateRequest($request)->create();
 
         if ($stored) {
-            return redirect()->route('actions.edit', ['action' => $stored])->with(['success' => 'Action was succesfully saved!']);
+            return redirect()->route('reviews.edit', ['review' => $stored])->with(['success' => 'Review was succesfully saved!']);
         }
 
         return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
@@ -66,12 +66,10 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Action $action)
+    public function edit(Review $review)
     {
-        $groups = Settings::get('action', 'group_list');
-        $types = Settings::get('action', 'type_list');
-
-        return view('back.marketing.action.edit', compact('action', 'groups', 'types'));
+        //dd($review->toArray());
+        return view('back.marketing.review.edit', compact('review'));
     }
 
 
@@ -83,15 +81,15 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Action $action)
+    public function update(Request $request, Review $review)
     {
-        $updated = $action->validateRequest($request)->edit();
+        $updated = $review->validateRequest($request)->edit();
 
         if ($updated) {
-            return redirect()->route('actions.edit', ['action' => $updated])->with(['success' => 'Action was succesfully saved!']);
+            return redirect()->route('reviews.edit', ['review' => $updated])->with(['success' => 'Review was succesfully saved!']);
         }
 
-        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the action.']);
+        return redirect()->back()->with(['error' => 'Whoops..! There was an error saving the review.']);
     }
 
 
@@ -102,12 +100,12 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Action $action)
+    public function destroy(Request $request, Review $review)
     {
-        $destroyed = Action::destroy($action->id);
+        $destroyed = Review::destroy($review->id);
 
         if ($destroyed) {
-            return redirect()->route('actions')->with(['success' => 'Akcija je uspjšeno izbrisana!']);
+            return redirect()->route('reviews')->with(['success' => 'Review je uspjšeno izbrisana!']);
         }
 
         return redirect()->back()->with(['error' => 'Oops..! Greška prilikom brisanja.']);
@@ -124,9 +122,8 @@ class ActionController extends Controller
     public function destroyApi(Request $request)
     {
         if ($request->has('id')) {
-            $action = Action::find($request->input('id'));
-            $action->truncateProducts();
-            $destroyed = $action->delete();
+            $review = Review::find($request->input('id'));
+            $destroyed = $review->delete();
 
             if ($destroyed) {
                 return response()->json(['success' => 200]);

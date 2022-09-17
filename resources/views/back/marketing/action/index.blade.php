@@ -12,9 +12,9 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/action.action_title') }}</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Actions <small>({{ __('back/action.action_title') }})</small></h1>
                 <a class="btn btn-hero-success my-2" href="{{ route('actions.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/action.action_new') }}</span>
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/layout.btn.new') }}</span>
                 </a>
             </div>
         </div>
@@ -39,10 +39,12 @@
                     <table class="table table-borderless table-striped table-vcenter">
                         <thead>
                         <tr>
+                            <th style="width: 5%;">#</th>
                             <th class="text-left">{{ __('back/action.title') }}</th>
                             <th>{{ __('back/action.from') }}</th>
                             <th>{{ __('back/action.to') }}</th>
-                            <th>{{ __('back/action.action') }}</th>
+                            <th>Actions</th>
+                            <th class="text-center font-size-sm">Yearly Action</th>
                             <th class="text-center font-size-sm">{{ __('back/action.status') }}</th>
                             <th class="text-right" style="width: 10%;"{{ __('back/action.edit') }}</th>
                         </tr>
@@ -50,12 +52,16 @@
                         <tbody>
                         @forelse ($actions as $action)
                             <tr>
+                                <td>{{ $loop->iteration }}.</td>
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('actions.edit', ['action' => $action]) }}">{{ $action->title }}</a>
                                 </td>
                                 <td class="font-size-sm">{{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : '' }}</td>
                                 <td class="font-size-sm">{{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : '' }}</td>
-                                <td class="font-size-sm">{{ $action->discount }}</td>
+                                <td class="font-size-sm">{{ $action->amount }}</td>
+                                <td class="text-center font-size-sm">
+                                    @include('back.layouts.partials.status', ['status' => $action->repeat, 'simple' => true])
+                                </td>
                                 <td class="text-center font-size-sm">
                                     @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
                                 </td>

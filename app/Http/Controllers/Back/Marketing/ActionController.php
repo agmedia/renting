@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Back\Marketing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Back\Catalog\Product\Product;
-use App\Models\Back\Marketing\Action;
+use App\Models\Back\Marketing\Action\Action;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ActionController extends Controller
 {
@@ -19,6 +18,8 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         $actions = Action::paginate(12);
+
+        //dd($actions);
 
         return view('back.marketing.action.index', compact('actions'));
     }

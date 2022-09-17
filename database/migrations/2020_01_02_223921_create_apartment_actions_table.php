@@ -17,7 +17,8 @@ class CreateApartmentActionsTable extends Migration
         Schema::create('apartment_actions', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->decimal('discount', 15, 4);
+            $table->decimal('discount', 15, 4)->nullable();
+            $table->decimal('extra', 15, 4)->nullable();
             $table->string('group');
             $table->text('links')->nullable();
             $table->timestamp('date_start')->nullable();
@@ -27,6 +28,7 @@ class CreateApartmentActionsTable extends Migration
             $table->integer('uses_customer')->unsigned()->default(1);
             $table->integer('viewed')->unsigned()->default(0);
             $table->integer('clicked')->unsigned()->default(0);
+            $table->boolean('repeat')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

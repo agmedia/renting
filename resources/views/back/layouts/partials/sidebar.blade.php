@@ -93,15 +93,20 @@
                             </a>
                         </li>-->
                         <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['actions', 'actions.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.actions') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['reviews', 'reviews.*']) ? ' active' : '' }}" href="{{ route('reviews') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.reviews') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['galleries', 'gallery.*']) ? ' active' : '' }}" href="{{ route('galleries') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.gallery') }}</span>
                             </a>
                         </li>
-<!--                        <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->routeIs(['actions', 'actions.*']) ? ' active' : '' }}" href="{{ route('actions') }}">
-                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.actions') }}</span>
-                            </a>
-                        </li>-->
                     <!--    <li class="nav-main-item">
                             <a class="nav-main-link{{ request()->routeIs(['widgets', 'widget.*']) ? ' active' : '' }}" href="{{ route('widgets') }}">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.widgets') }}</span>
@@ -132,6 +137,17 @@
                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.settings') }}</span>
                     </a>
                     <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['amenities', 'amenities.*']) ? ' active' : '' }}" href="{{ route('amenities') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.amenities') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['options', 'options.*']) ? ' active' : '' }}" href="{{ route('options') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.options') }}</span>
+                            </a>
+                        </li>
+
                         <li class="nav-main-item{{ request()->is([current_locale() . '/admin/settings/system/*']) ? ' open' : '' }}">
                             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                                 <span class="nav-main-link-name">{{ __('back/layout.sidebar.system') }}</span>
@@ -153,11 +169,7 @@
                                         <span class="nav-main-link-name">{{ __('back/layout.sidebar.faq') }}</span>
                                     </a>
                                 </li>
-                                <li class="nav-main-item">
-                                    <a class="nav-main-link{{ request()->routeIs(['amenities', 'amenities.*']) ? ' active' : '' }}" href="{{ route('amenities') }}">
-                                        <span class="nav-main-link-name">{{ __('back/layout.sidebar.amenities') }}</span>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
 

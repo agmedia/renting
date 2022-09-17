@@ -27,7 +27,8 @@ class CreateApartmentsTable extends Migration
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
             $table->string('image')->nullable();
-            $table->decimal('price', 15, 4)->default(0);
+            $table->decimal('price_regular', 15, 4)->default(0);
+            $table->decimal('price_weekends', 15, 4)->default(0);
             $table->integer('price_per')->unsigned()->default(0);
             $table->integer('tax_id')->unsigned()->default(0);
             $table->decimal('special', 15, 4)->nullable();

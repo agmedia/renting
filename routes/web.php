@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\ApartmentController;
 use App\Http\Controllers\Back\CalendarController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
+use App\Http\Controllers\Back\Marketing\ReviewController;
+use App\Http\Controllers\Back\Settings\OptionController;
 use App\Http\Controllers\Back\Settings\System\AmenitiesController;
 use App\Http\Controllers\Back\Settings\System\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
@@ -117,6 +119,14 @@ Route::group(
             Route::patch('action/{action}', [ActionController::class, 'update'])->name('actions.update');
             Route::delete('action/{action}', [ActionController::class, 'destroy'])->name('actions.destroy');
 
+            // REWIEVS
+            Route::get('reviews', [ReviewController::class, 'index'])->name('reviews');
+            Route::get('review/create', [ReviewController::class, 'create'])->name('reviews.create');
+            Route::post('review', [ReviewController::class, 'store'])->name('reviews.store');
+            Route::get('review/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+            Route::patch('review/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+            Route::delete('review/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
             // WIDGETS
             Route::prefix('widgets')->group(function () {
                 Route::get('/', [WidgetController::class, 'index'])->name('widgets');
@@ -143,6 +153,17 @@ Route::group(
 
         // POSTAVKE
         Route::prefix('settings')->group(function () {
+            // AMENITIES
+            Route::get('amenities', [AmenitiesController::class, 'index'])->name('amenities');
+
+            // OPTIONS: APARTMENT ADDITIONAL PAYMENTS
+            Route::get('options', [OptionController::class, 'index'])->name('options');
+            Route::get('option/create', [OptionController::class, 'create'])->name('options.create');
+            Route::post('option', [OptionController::class, 'store'])->name('options.store');
+            Route::get('option/{option}/edit', [OptionController::class, 'edit'])->name('options.edit');
+            Route::patch('option/{option}', [OptionController::class, 'update'])->name('options.update');
+            Route::delete('option/{option}', [OptionController::class, 'destroy'])->name('options.destroy');
+
             // SISTEM
             Route::prefix('system')->group(function () {
                 // KATEGORIJE
@@ -169,8 +190,6 @@ Route::group(
                 Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
                 Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
 
-                // AMENITIES
-                Route::get('amenities', [AmenitiesController::class, 'index'])->name('amenities');
             });
 
             // LOCALE SETTINGS
@@ -217,6 +236,8 @@ Route::prefix('api/v2')->group(function () {
     //Route::post('apartments/update-item/single', [\App\Http\Controllers\Api\v2\ProductController::class, 'updateItem'])->name('apartments.update.item');
 
     Route::post('/actions/destroy/api', [ActionController::class, 'destroyApi'])->name('actions.destroy.api');
+    Route::post('/options/destroy/api', [OptionController::class, 'destroyApi'])->name('options.destroy.api');
+    Route::post('/reviews/destroy/api', [ReviewController::class, 'destroyApi'])->name('reviews.destroy.api');
     Route::post('/apartments/destroy/api', [ApartmentController::class, 'destroyApi'])->name('apartments.destroy.api');
     Route::post('/gallery/destroy/api', [GalleryController::class, 'destroyApi'])->name('gallery.destroy.api');
     Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');

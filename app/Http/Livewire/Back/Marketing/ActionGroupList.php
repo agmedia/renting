@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Back\Marketing;
 
+use App\Models\Back\Apartment\Apartment;
+use App\Models\Back\Apartment\ApartmentTranslation;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Catalog\Product\Product;
@@ -67,20 +69,8 @@ class ActionGroupList extends Component
 
         if ($this->search != '') {
             switch ($this->group) {
-                case 'product':
-                    $this->search_results = Product::where('name', 'like', '%' . $this->search . '%')->orWhere('sku', 'like', '%' . $this->search . '%')->limit(5)->get();
-                    break;
-                case 'category':
-                    $this->search_results = Category::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
-                    break;
-                case 'publisher':
-                    $this->search_results = Publisher::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
-                    break;
-                case 'author':
-                    $this->search_results = Author::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
-                    break;
-                case 'blog':
-                    $this->search_results = Blog::where('title', 'like', '%' . $this->search . '%')->limit(5)->get();
+                case 'apartment':
+                    $this->search_results = ApartmentTranslation::where('lang', current_locale())->where('title', 'like', '%' . $this->search . '%')->get();
                     break;
             }
         }
@@ -96,20 +86,8 @@ class ActionGroupList extends Component
         $this->search_results = [];
 
         switch ($this->group) {
-            case 'product':
-                $this->list[$id] = Product::where('id', $id)->first();
-                break;
-            case 'category':
-                $this->list[$id] = Category::where('id', $id)->first();
-                break;
-            case 'publisher':
-                $this->list[$id] = Publisher::where('id', $id)->first();
-                break;
-            case 'author':
-                $this->list[$id] = Author::where('id', $id)->first();
-                break;
-            case 'blog':
-                $this->list[$id] = Blog::where('id', $id)->first();
+            case 'apartment':
+                $this->list[$id] = Apartment::where('id', $id)->first();
                 break;
         }
     }

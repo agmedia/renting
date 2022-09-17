@@ -85,7 +85,7 @@ class ApartmentController extends Controller
         $js_lang = json_encode(Lang::get('back/apartment'));
         $apartment = $apartman;
 
-        //dd($data['images']);
+        //dd($apartman->options()->get()->toArray());
 
         return view('back.apartment.edit', compact('apartment', 'js_lang', 'data'));
     }

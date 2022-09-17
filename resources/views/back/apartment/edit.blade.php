@@ -261,11 +261,9 @@
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
                             <div class="form-group row items-push">
-                                <div class="col-md-12 ">
-
-                                    <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row mb-3">
                                         <div class="col-md-12 mt-3 mb-3" >
-
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
@@ -277,18 +275,16 @@
                                                     @endforeach
                                                 </ul>
                                             </label>
-
                                             <div class="tab-content">
                                                 @foreach(ag_lang() as $lang)
                                                     <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title.*') }}">
+                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->translation($lang->code)->title : old('title.*') }}">
                                                         @error('title.*')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                                         @enderror
                                                     </div>
                                                 @endforeach
                                             </div>
-
                                         </div>
 
                                         <div class="col-md-4">
@@ -303,6 +299,7 @@
                                             <span class="text-danger font-italic">ERROR TYPE</span>
                                             @enderror
                                         </div>
+
                                         <div class="col-md-4">
                                             <label for="target-select">{{ __('back/apartment.namjena') }}<span class="text-danger">*</span></label>
                                             <select class="js-select2 form-control" id="target-select" name="target" style="width: 100%;">
@@ -315,18 +312,87 @@
                                             <span class="text-danger font-italic">ERROR TARGET</span>
                                             @enderror
                                         </div>
+
                                         <div class="col-md-4">
                                             <label for="sku">{{ __('back/apartment.sifra') }}</label>
                                             <input type="text" class="form-control" name="sku" placeholder="" value="{{ isset($apartment) ? $apartment->sku : old('sku') }}">
                                         </div>
                                     </div>
+
+                                    <h2 class="content-heading">
+                                        {{ __('back/apartment.opis') }}
+                                        <div class="float-right">
+                                            <ul class="nav nav-pills float-right">
+                                                @foreach(ag_lang() as $lang)
+                                                    <li @if ($lang->code == current_locale()) class="active" @endif ">
+                                                    <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#description-{{ $lang->code }}">
+                                                        <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
+                                                    </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </h2>
+                                    <div class="form-group row mb-4">
+                                        <div class="col-md-12">
+                                            <div class="tab-content">
+                                                @foreach(ag_lang() as $lang)
+                                                    <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
+                                                        <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->translation($lang->code)->description : old('description.*') !!}</textarea>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center push mb-0">
+                                        <div class="col-md-12 pt-2">
+                                            <div class="form-group row items-push mb-0">
+                                                <div class="col-md-6">
+                                                    <label for="adults-input">Adults</label>
+                                                    <input type="text" class="form-control" id="adults-input" name="adults" placeholder="" value="{{ isset($apartment) ? $apartment->adults : old('adults') }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="children-input">Children</label>
+                                                    <input type="text" class="form-control" id="children-input" name="children" placeholder="" value="{{ isset($apartment) ? $apartment->children : old('children') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
+                                                    <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
+                                                    <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
+                                                    <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
+                                                    <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            <h2 class="content-heading">{{ __('back/apartment.lokacija') }}</h2>
 
-                            <div class="form-group row items-push">
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">{{ __('back/apartment.lokacija') }}</h3>
+                </div>
+
+                <div class="block-content block-content-full">
+                    <div class="row justify-content-center push">
+                        <div class="col-md-11">
+                            <div class="form-group row items-push mt-3">
                                 <div class="col-md-12">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.ulica') }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="address" name="address" placeholder="" value="{{ isset($apartment) ? $apartment->address : old('address') }}" readonly>
@@ -362,39 +428,45 @@
 
                                 <div class="col-md-12">
                                     <input
-                                        id="pac-input"
-                                        class="controls form-control "
-                                        type="text"
-                                        placeholder="{{ __('back/apartment.searchaddress') }}" style="height:42px;margin-top:9px;width:400px;border-radius:0"
+                                            id="pac-input"
+                                            class="controls form-control "
+                                            type="text"
+                                            placeholder="{{ __('back/apartment.searchaddress') }}" style="height:42px;margin-top:9px;width:400px;border-radius:0"
                                     />
                                     <div id="map_canvas" style="width: auto; height: 500px;">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-                            <h2 class="content-heading">{{ __('back/apartment.cijenetitle') }}
-                              <!--  <small class="text-gray-dark ml-3">{{ __('back/apartment.cijenetitle') }}Treba li možda više cijena. Kao pred/post sezonske cijene?...</small> -->
-                            </h2>
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">{{ __('back/apartment.cijenetitle') }}</h3>
+                </div>
 
-                            <div class="form-group row items-push">
-                                <div class="col-md-6">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.price') }} <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="price-input" name="price" placeholder="" value="{{ isset($apartment) ? $apartment->price : old('price') }}">
+                <div class="block-content block-content-full">
+                    <div class="row justify-content-center push">
+                        <div class="col-md-11">
+                            <div class="form-group row items-push mt-3">
+                                <div class="col-md-5">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.price_regular') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="price-regular-input" name="price_regular" placeholder="" value="{{ isset($apartment) ? $apartment->price_regular : old('price_regular') }}">
                                     @error('price')
-                                    <span class="text-danger font-italic">ERROR PRICE</span>
+                                    <span class="text-danger font-italic">ERROR PRICE REGULAR</span>
                                     @enderror
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.priceprema') }} <span class="text-danger"></span></label>
-                                    <select class="js-select2 form-control" id="price-by-select" name="price_per" style="width: 100%;">
-                                        <option></option>
-                                        @foreach (config('settings.apartment_price_by') as $key => $select_item)
-                                            <option value="{{ $key }}" {{ ((isset($apartment)) and ($key == $apartment->price_per)) ? 'selected' : (( ! isset($apartment) and ($select_item['default'] == 1)) ? 'selected' : '') }}>{{ $select_item['title'][current_locale()] }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="col-md-5">
+                                    <label for="dm-post-edit-title">{{ __('back/apartment.price_weekends') }} <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="price-weekends-input" name="price_weekends" placeholder="" value="{{ isset($apartment) ? $apartment->price_weekends : old('price_weekends') }}">
+                                    @error('price')
+                                    <span class="text-danger font-italic">ERROR PRICE WEEKENDS</span>
+                                    @enderror
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label for="price-input">{{ __('back/apartment.tax') }}</label>
                                     <select class="js-select2 form-control" id="tax-select" name="tax_id" style="width: 100%;" data-placeholder="{{ __('back/apartment.select') }}">
                                         <option></option>
@@ -405,57 +477,77 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row items-push mb-3">
-                                <div class="col-md-6">
-                                    <label for="special-input">{{ __('back/apartment.cijanapopust') }}</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="special-input" name="special" placeholder="00.00" value="{{ isset($apartment) ? $apartment->special : old('special') }}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">kn</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="special-from-input">{{ __('back/apartment.trajanjepopusta') }}</label>
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="special-from-input" name="special_from" placeholder="{{ __('back/apartment.od') }}" value="{{ isset($apartment->special_from) ? \Carbon\Carbon::make($apartment->special_from)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <div class="input-group-prepend input-group-append">
-                                            <span class="input-group-text font-w600"><i class="fa fa-fw fa-arrow-right"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" id="special-to-input" name="special_to" placeholder="{{ __('back/apartment.do') }}" value="{{ isset($apartment->special_to) ? \Carbon\Carbon::make($apartment->special_to)->format('d.m.Y') : '' }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <h2 class="content-heading">
-                                {{ __('back/apartment.opis') }}
-                                <div class="float-right">
-                                    <ul class="nav nav-pills float-right">
-                                        @foreach(ag_lang() as $lang)
-                                            <li @if ($lang->code == current_locale()) class="active" @endif ">
-                                            <a class="btn btn-sm btn-outline-secondary ml-2 @if ($lang->code == current_locale()) active @endif " data-toggle="pill" href="#description-{{ $lang->code }}">
-                                                <img src="{{ asset('media/flags/' . $lang->code . '.png') }}" />
-                                            </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <h2 class="content-heading">{{ __('back/apartment.discount') }}
+                                <a class="btn btn-sm btn-secondary float-right" href="{{ route('actions.create') }}">
+                                    <i class="far fa-fw fa-plus-square"></i>
+                                </a>
                             </h2>
 
-                            <div class="form-group row mb-4">
-                                <div class="col-md-12">
-                                    <div class="tab-content">
-                                        @foreach(ag_lang() as $lang)
-                                            <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($apartment) ? $apartment->translation($lang->code)->description : old('description.*') !!}</textarea>
-                                            </div>
+                            <div class="form-group row items-push mb-3">
+                                <div class="col-md-12 table-responsive">
+                                    <table class="table table-borderless table-striped table-vcenter">
+                                        @foreach ($apartment->action()->get() as $action)
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ $action->title }}</strong><br>
+                                                    <small>Duration:</small> {{ \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') }}
+                                                </td>
+                                                <td>
+                                                    <small>Amount:</small>
+                                                    @if ($action->discount > 0)
+                                                        <strong>-{{ number_format($action->discount) }}%</strong> Discount
+                                                    @else
+                                                        <strong>+{{ number_format($action->extra) }}%</strong> Extra
+                                                    @endif
+                                                    <br>
+                                                    <small>Status: </small>
+                                                    @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
+                                                </td>
+                                                <td class="text-right">
+                                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
+                                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         @endforeach
-                                    </div>
-
+                                    </table>
                                 </div>
                             </div>
 
+                            <!-- -->
+                            <h2 class="content-heading">Apartment Payable Options
+                                <a class="btn btn-sm btn-secondary float-right" href="{{ route('options.create') }}">
+                                    <i class="far fa-fw fa-plus-square"></i>
+                                </a>
+                            </h2>
+
+                            <div class="form-group row items-push mb-3">
+                                <div class="col-md-12 table-responsive">
+                                    <table class="table table-borderless table-striped table-vcenter">
+                                        @foreach ($apartment->options()->get() as $item)
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ $item->title }}</strong><br>
+                                                </td>
+                                                <td>
+                                                    <small>Price:</small>
+                                                    {{ number_format($item->price, 2, ',', '.') }}
+                                                    <br>
+                                                    <small>Status: </small>
+                                                    @include('back.layouts.partials.status', ['status' => $item->status, 'simple' => true])
+                                                    <small>Featured: </small>
+                                                    @include('back.layouts.partials.status', ['status' => $item->featured, 'simple' => true])
+                                                </td>
+                                                <td class="text-right">
+                                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('options.edit', ['option' => $item]) }}">
+                                                        <i class="fa fa-fw fa-pencil-alt"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -489,7 +581,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
 
@@ -499,29 +590,6 @@
                 </div>
 
                 <div class="block-content block-content-full">
-                    <div class="row justify-content-center push mb-0">
-                        <div class="col-md-11 pt-2">
-                            <div class="form-group row items-push mb-0">
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
-                                    <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
-                                    <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
-                                    <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
-                                    <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="row justify-content-center push" id="placeholder-ag-apartment-details-input">
                         <ag-apartment-details-input
                                 favorites="{{ $data['favorites']->toJson() }}"

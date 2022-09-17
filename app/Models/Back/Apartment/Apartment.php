@@ -2,8 +2,11 @@
 
 namespace App\Models\Back\Apartment;
 
+use App\Models\Back\Marketing\Action\Action;
 use App\Models\Back\Marketing\Gallery\Gallery;
 use App\Models\Back\Orders\Order;
+use App\Models\Back\Settings\Options\Option;
+use App\Models\Back\Settings\Options\OptionApartment;
 use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -88,6 +91,24 @@ class Apartment extends Model
 
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function action()
+    {
+        return $this->belongsTo(Action::class, 'action_id', 'id');
+    }
+
+
+    /**
+     * @return Relation
+     */
+    public function options()
+    {
+        return $this->hasManyThrough(Option::class, OptionApartment::class, 'apartment_id', 'id', 'id', 'option_id');
+    }
+
+
+    /**
      * @return string
      */
     public function getTitleAttribute()
@@ -120,7 +141,7 @@ class Apartment extends Model
     public function dates()
     {
         $response = [];
-        $orders = Order::where('date_to', '>', now())->get();
+        $orders   = Order::where('date_to', '>', now())->get();
 
         foreach ($orders as $order) {
             $response[] = [\Illuminate\Support\Carbon::make($order->date_from)->format('Y-m-d'), Carbon::make($order->date_to)->format('Y-m-d')];
@@ -141,10 +162,11 @@ class Apartment extends Model
     {
         // Validate the request.
         $request->validate([
-            'title.*' => 'required',
-            'type'    => 'required',
-            'target'  => 'required',
-            'price'   => 'required'
+            'title.*'        => 'required',
+            'type'           => 'required',
+            'target'         => 'required',
+            'price_regular'  => 'required',
+            'price_weekends' => 'required'
         ]);
 
         // Set Product Model request variable
@@ -229,31 +251,34 @@ class Apartment extends Model
     private function createModelArray(string $method = 'insert'): array
     {
         $response = [
-            'action_id'    => $this->request->action ?: 0,
-            'sku'          => $this->request->sku,
-            'address'      => $this->request->address,
-            'zip'          => $this->request->zip,
-            'city'         => $this->request->city,
+            /*'action_id'    => $this->request->action ?: 0,*/
+            'sku'            => $this->request->sku,
+            'address'        => $this->request->address,
+            'zip'            => $this->request->zip,
+            'city'           => $this->request->city,
             //'region'       => $this->request->region,
-            'state'        => $this->request->state,
-            'type'         => $this->request->type,
-            'target'       => $this->request->target,
-            'longitude'    => $this->request->longitude,
-            'latitude'     => $this->request->latitude,
-            'price'        => $this->request->price ?: 0,
-            'price_per'    => $this->request->price_per ?: 1,
-            'tax_id'       => $this->request->tax_id ?: 1,
-            'special'      => $this->request->special,
-            'special_from' => $this->request->special_from,
-            'special_to'   => $this->request->special_to,
-            'm2'           => $this->request->m2,
-            'beds'         => $this->request->beds,
-            'rooms'        => $this->request->rooms,
-            'baths'        => $this->request->baths,
-            'sort_order'   => 0,
-            'featured'     => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'       => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'   => Carbon::now()
+            'state'          => $this->request->state,
+            'type'           => $this->request->type,
+            'target'         => $this->request->target,
+            'longitude'      => $this->request->longitude,
+            'latitude'       => $this->request->latitude,
+            'price_regular'  => $this->request->price_regular ?: 0,
+            'price_weekends' => $this->request->price_weekends ?: 0,
+            'price_per'      => $this->request->price_per ?: 1,
+            'tax_id'         => $this->request->tax_id ?: 1,
+            'special'        => $this->request->special,
+            'special_from'   => $this->request->special_from,
+            'special_to'     => $this->request->special_to,
+            'm2'             => $this->request->m2,
+            'beds'           => $this->request->beds,
+            'rooms'          => $this->request->rooms,
+            'baths'          => $this->request->baths,
+            'adults'         => $this->request->adults,
+            'children'       => $this->request->children,
+            'sort_order'     => 0,
+            'featured'       => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'         => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'     => Carbon::now()
         ];
 
         if ($method == 'insert') {

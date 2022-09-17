@@ -27,7 +27,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'description', 'image', 'thumb', 'cijena', 'for', 'url'];
+    protected $appends = ['title', 'description', 'image', 'thumb', 'price', 'for', 'url'];
 
     /**
      * @var string
@@ -142,10 +142,10 @@ class Apartment extends Model
     }
 
 
-    public function getCijenaAttribute()
+    public function getPriceAttribute()
     {
 
-        return $this->price;
+        return $this->price_regular;
         $main = ag_currencies()->where('main', true)->first();
 
 

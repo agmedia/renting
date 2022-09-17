@@ -59,24 +59,18 @@
                                                     @endforeach
                                                 </ul>
                                             </label>
-
-
                                             <div class="tab-content">
                                                 @foreach(ag_lang() as $lang)
                                                     <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($apartment) ? $apartment->title : old('title') }}">
+                                                        <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($action) ? $action->translation($lang->code)->title : old('title.*') }}">
                                                         @error('name')
                                                         <span class="text-danger font-italic">{{ __('back/apartment.nazivapartmana_error') }}</span>
                                                         @enderror
                                                     </div>
                                                 @endforeach
                                             </div>
-
-
-
-
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mt-2">
                                             <label for="group-select">{{ __('back/action.action_group') }} <span class="text-danger">*</span></label>
                                             <select class="form-control" id="group-select" name="group">
                                                 <option></option>
@@ -88,22 +82,22 @@
                                         </div>
                                     </div>
                                     <div class="form-group row items-push mb-2">
-                                        <div class="col-md-6">
+                                        <div class="col-md-8">
+                                            <label for="discount-input">{!! __('back/action.action') !!} @include('back.layouts.partials.required-star')</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="discount-input" name="discount" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? substr($action->amount, 0, -1) : old('discount') }}">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="discount-append-badge">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <label for="type-select">{{ __('back/action.action_type') }} <span class="text-danger">*</span></label>
                                             <select class="form-control" id="type-select" name="type">
                                                 @foreach ($types as $type)
                                                     <option value="{{ $type->id }}" {{ (isset($action) and $type->id == 'P') ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="discount-input">{{ __('back/action.action') }} @include('back.layouts.partials.required-star')</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="discount-input" name="discount" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? $action->discount : old('discount') }}">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="discount-append-badge">%</span>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row items-push mb-2">
@@ -121,6 +115,14 @@
                                                 <input type="text" class="form-control" id="date-end-input" name="date_end"
                                                        value="{{ isset($action) && $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : '' }}"
                                                        placeholder="{{ __('back/action.to') }}" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row items-push mb-0">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="custom-control custom-switch custom-control-info">
+                                                <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($action) and $action->repeat) checked @endif>
+                                                <label class="custom-control-label" for="status-switch">Repeat action every year?</label>
                                             </div>
                                         </div>
                                     </div>
@@ -151,7 +153,7 @@
                     @if (isset($action))
                         @livewire('back.marketing.action-group-list', ['group' => $action->group, 'list' => json_decode($action->links)])
                     @else
-                        @livewire('back.marketing.action-group-list', ['group' => 'products'])
+                        @livewire('back.marketing.action-group-list', ['group' => 'apartment'])
                     @endif
                 </div>
             </div>

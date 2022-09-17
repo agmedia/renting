@@ -42,7 +42,8 @@ mix
 
 // BACK
 //.js('resources/js/back/ag-input-field.js', 'public/js/ag-input-field.js').vue()
-.js('resources/js/back/ag-apartment-details-input.js', 'public/js/ag-apartment-details-input.js').vue()
+//.js('resources/js/back/ag-apartment-details-input.js', 'public/js/ag-apartment-details-input.js').vue()
+.js('resources/js/back/ag-star-rating.js', 'public/js/ag-star-rating.js').vue()
 
 //.js('resources/js/front/cart/app.js', 'public/js/cart.js').vue()
 //.js('resources/js/front/filter/app.js', 'public/js/filter.js').vue()
