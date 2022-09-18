@@ -20,8 +20,7 @@ return [
     ],
 
     'search_keyword' => 'pojam',
-    'author_path' => 'autor',
-    'publisher_path' => 'nakladnik',
+    'admin_input_currency' => 'HRK',
 
     'images_domain' => 'https://images.antikvarijatbibl.lin73.host25.com/',
 
@@ -49,6 +48,35 @@ return [
     ],
 
     'calendar_colors' => ['3c90df', '2177C7', 'DF8B3C' , '3CDFDC'],
+
+    'order' => [
+        'made_text' => 'Narudžba napravljena.',
+        'status' => [
+            'new' => 1,
+            'unfinished' => 8,
+            'declined' => 7,
+            'paid' => 3,
+            'send' => 4,
+        ]
+    ],
+
+    'payment' => [
+        'providers' => [
+            'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
+            'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
+            //'cod' => \App\Models\Front\Checkout\Payment\Cod::class,
+            'bank' => \App\Models\Front\Checkout\Payment\Bank::class,
+            //'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
+        ]
+    ],
+
+    'sitemap' => [
+        0 => 'pages',
+        1 => 'categories',
+        2 => 'products',
+        3 => 'authors',
+        4 => 'publishers'
+    ],
 
     /**
      * Treba prebaciti u administraciju
@@ -1077,36 +1105,9 @@ return [
             'status' => 0
         ],
 
-    ],
-
-
-    'order' => [
-        'made_text' => 'Narudžba napravljena.',
-        'status' => [
-            'new' => 1,
-            'unfinished' => 8,
-            'declined' => 7,
-            'paid' => 3,
-            'send' => 4,
-        ]
-    ],
-
-    'payment' => [
-        'providers' => [
-            'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
-            'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
-            //'cod' => \App\Models\Front\Checkout\Payment\Cod::class,
-            'bank' => \App\Models\Front\Checkout\Payment\Bank::class,
-            //'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
-        ]
-    ],
-
-    'sitemap' => [
-        0 => 'pages',
-        1 => 'categories',
-        2 => 'products',
-        3 => 'authors',
-        4 => 'publishers'
     ]
+
+
+
 
 ];

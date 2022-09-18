@@ -490,7 +490,7 @@
                                             <tr>
                                                 <td>
                                                     <strong>{{ $action->title }}</strong><br>
-                                                    <small>Duration:</small> {{ \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') }}
+                                                    <small>Duration:</small> {{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : 'From Begining' }} - {{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : 'To Indefinitly' }}
                                                 </td>
                                                 <td>
                                                     <small>Amount:</small>
