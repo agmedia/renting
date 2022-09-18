@@ -4,13 +4,11 @@ namespace App\Providers;
 
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Category;
-use App\Models\Front\Page;
-use App\Models\User;
+use App\Models\Front\Catalog\Page;
 use App\Models\Front\Catalog\Product;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -7,18 +7,15 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Front\Blog;
-use App\Models\Front\Page;
-use App\Models\Front\Faq;
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
+use App\Models\Front\Catalog\Page;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
+use App\Models\Front\Faq;
 use App\Models\Seo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
 class CatalogRouteController extends Controller
 {

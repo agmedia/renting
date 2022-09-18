@@ -2,7 +2,7 @@
 
 @push('css_after')
     <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="{{ asset('assets/js/dist/css/lightgallery-bundle.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/js/dist/css/lightgallery-bundle.css') }}"/>
 @endpush
 
 @section('content')
@@ -15,7 +15,7 @@
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
                 <div class="col-md-6">
-                    <div class="text-primary text-start h5 my-2 text-md-end">{{ number_format($apartment->cijena, 0, ',', '.') }} {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    <div class="text-primary text-start h5 my-2 text-md-end">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
                 </div>
             </div>
             <div class="row mt-3">
@@ -24,7 +24,7 @@
                         <!-- Slide 1-->
                         <div class="col-xs-12 col-md-6 p-1 pe-0 overflow-hidden featured-thumb position-relative">
                             <a href="{{ asset($apartment->image) }}" class="link">
-                                <img  src="{{ asset($apartment->image) }}" class="ls-bg" alt="" />
+                                <img src="{{ asset($apartment->image) }}" class="ls-bg" alt=""/>
                                 <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> {{ __('front/apartment.view_gallery') }} ({{ $apartment->images()->where('published', 1)->count() }})</div>
                             </a>
                         </div>
@@ -33,18 +33,16 @@
                                 @foreach ($apartment->images()->where('default', 0)->take(4)->get() as $image)
                                     <div class="col-md-6 mb-3 pe-2">
                                         <a href="{{ asset($image->image) }}" class="link">
-                                            <img  src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}" />
+                                            <img src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}"/>
                                         </a>
                                     </div>
                                 @endforeach
 
-                                    @foreach ($apartment->images()->where('default', 0)->skip(5)->take(10)->get() as $image)
-
-                                            <a href="{{ asset($image->image) }}" class="link d-none">
-                                                <img  src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}" />
-                                            </a>
-
-                                    @endforeach
+                                @foreach ($apartment->images()->where('default', 0)->skip(5)->take(10)->get() as $image)
+                                    <a href="{{ asset($image->image) }}" class="link d-none">
+                                        <img src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}"/>
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -54,15 +52,14 @@
     </div>
 
     <!--============== Property Single Section Start ==============-->
-    <div class=" bg-white" >
+    <div class=" bg-white">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row" >
+                    <div class="row">
                         <div class="col-lg-4 order-lg-2 content">
                             <div class="sidebar">
                                 <div class="mt-4 p-4 shadow-one reservationbox">
-
                                     <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
 
                                     <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
@@ -70,78 +67,21 @@
                                         <div class="row row-cols-1">
                                             <div class="col mt-3">
 
-
                                                 <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
                                                     <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
-
-                                                    <script>
-                                                        const DateTime = easepick.DateTime;
-                                                        const bookedDates = {!! collect($dates)->toJson() !!}
-                                                        .map(d => {
-                                                            if (d instanceof Array) {
-                                                                const start = new DateTime(d[0], 'YYYY-MM-DD');
-                                                                const end = new DateTime(d[1], 'YYYY-MM-DD');
-
-                                                                return [start, end];
-                                                            }
-
-                                                            return new DateTime(d, 'YYYY-MM-DD');
-                                                        });
-                                                        const pickerres = new easepick.create({
-                                                            element: document.getElementById('checkindate'),
-                                                            css: [
-                                                                'assets/css/reservation.css',
-                                                            ],
-                                                            grid: 1,
-                                                            calendars: 1,
-                                                            zIndex: 10,
-                                                            plugins: ['LockPlugin','RangePlugin'],
-                                                            RangePlugin: {
-                                                                tooltipNumber(num) {
-                                                                    return num - 1;
-                                                                },
-                                                                locale: {
-                                                                    one: 'night',
-                                                                    other: 'nights',
-                                                                },
-                                                            },
-                                                            LockPlugin: {
-                                                                minDate: new Date(),
-                                                                minDays: 2,
-                                                                inseparable: true,
-                                                                filter(date, picked) {
-                                                                    if (picked.length === 1) {
-                                                                        const incl = date.isBefore(picked[0]) ? '[)' : '(]';
-                                                                        return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
-                                                                    }
-
-                                                                    return date.inArray(bookedDates, '[)');
-                                                                },
-                                                            }
-                                                        });
-                                                    </script>
-
-
                                                 </div>
-
-
-
-
                                             </div>
-
 
                                             <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="adults">
                                                         <option value="0">{{ __('front/apartment.adults_title') }}</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
+                                                        @for ($i = 1; $i < 6; $i++)
+                                                            <option value="{{ $i }}">{{ $i }} {{ ($i == $apartment->adults) ? ' (Recomended)' : '' }}</option>
+                                                        @endfor
                                                     </select>
                                                 </div>
                                             </div>
@@ -151,25 +91,37 @@
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="children">
                                                         <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                        <option>0</option>
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
+                                                        @for ($i = 1; $i < 6; $i++)
+                                                            <option value="{{ $i }}">{{ $i }} {{ ($i == $apartment->children) ? ' (Recomended)' : '' }}</option>
+                                                        @endfor
                                                     </select>
                                                 </div>
                                             </div>
-
-
-
-
-
-
 
                                             <div class="col mt-4">
                                                 <button type="submit" id="send" value="submit" class="btn btn-primary w-100">{{ __('front/apartment.reserve_btn_title') }}</button>
                                             </div>
                                         </div>
                                     </form>
+                                </div>
+
+                                <div class="mt-4 p-4 shadow-one reservationbox">
+                                    <h5 class="mt-2 mb-2 text-primary">Additional apartment options</h5>
+
+                                    <div class="row">
+                                        @foreach ($apartment->options()->get() as $option)
+                                            <div class="col-md-1">
+                                                <input type="checkbox">
+                                            </div>
+                                            <div class="col-md-8">
+                                                {{ $option->title }}<br>
+                                                <small>{{ $option->description }}</small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{ $option->price_text }}
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -187,41 +139,35 @@
                                     <div class="col">
                                         <h4 class="text-secondary my-4">{{ __('front/apartment.offer_title') }}</h4>
                                         <div>
-
                                             <ul class="row">
-
                                                 @foreach ($apartment->amenities() as  $items)
-                                                   @foreach ($items as $detail)
-
-                                                       @if($detail['featured'])
+                                                    @foreach ($items as $detail)
+                                                        @if($detail['featured'])
                                                             <li class="mb-3 col-md-6">
                                                                    <span class="text-secondary font-weight-bold">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
                                                                    </span>
                                                             </li>
                                                         @endif
-                                                   @endforeach
+                                                    @endforeach
                                                 @endforeach
-
                                             </ul>
 
-                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false" aria-controls="offer">{{ __('front/apartment.show_title') }}</a>
+                                            <a class="text-primary hover-text-secondary mt-3 mb-4 ps-3 position-relative plus-minus d-block" data-bs-toggle="collapse" href="#offer" role="button" aria-expanded="false"
+                                               aria-controls="offer">{{ __('front/apartment.show_title') }}</a>
 
                                             <div class="collapse m-0" id="offer">
                                                 @foreach ($apartment->amenities() as $group => $items)
                                                     <h5 class="text-secondary ">{{ $group }}</h5>
-
                                                     <ul class="row mb-3 mt-2">
                                                         @foreach ($items as $detail)
-
-                                                                <li class="mb-3 col-md-4">
+                                                            <li class="mb-3 col-md-4">
                                                                    <span class="text-secondary font-weight-bold">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
                                                                    </span>
-                                                                </li>
-
+                                                            </li>
                                                         @endforeach
-                                                     </ul>
+                                                    </ul>
                                                     <hr>
                                                 @endforeach
                                             </div>
@@ -229,99 +175,57 @@
                                     </div>
                                 </div>
 
-
                                 <div class="row mb-4">
                                     <h4 class="text-secondary my-4">{{ __('front/apartment.calendar_title') }}</h4>
-
-
                                     <div class="col-md-12">
-
-
-                                        <input class="form-control d-none" id="datepicker" />
-                                        <script>
-
-
-                                            const picker = new easepick.create({
-                                                element: document.getElementById('datepicker'),
-                                                css: [
-                                                    'assets/css/reservation.css',
-                                                ],
-                                                grid: 2,
-                                                calendars: 2,
-                                                inline: true,
-                                                plugins: ['LockPlugin','RangePlugin'],
-                                                RangePlugin: {
-                                                    tooltipNumber(num) {
-                                                        return num - 1;
-                                                    },
-                                                    locale: {
-                                                        one: 'night',
-                                                        other: 'nights',
-                                                    },
-                                                },
-                                                LockPlugin: {
-                                                    minDate: new Date(),
-                                                    minDays: 2,
-                                                    inseparable: true,
-                                                    filter(date, picked) {
-                                                        if (picked.length === 1) {
-                                                            const incl = date.isBefore(picked[0]) ? '[)' : '(]';
-                                                            return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
-                                                        }
-
-                                                        return date.inArray(bookedDates, '[)');
-                                                    },
-                                                }
-                                            });
-                                        </script>
-
+                                        <input class="form-control d-none" id="datepicker"/>
                                     </div>
                                 </div>
-<!--
-                                <div class="row mb-4">
-                                    <div class="col">
-                                        <h4 class="text-secondary my-4">User Reviews</h4>
-                                        <ul class="post-comments">
-                                            <li class="py-4 d-flex">
-                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
-                                                <div class="comment-detail">
-                                                    <div class="d-inline-block mb-3">
-                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
-                                                        <ul class="text-primary d-flex font-13">
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
-                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
-                                                    </p>
-                                                </div>
-                                            </li>
-                                            <li class="py-4 d-flex">
-                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
-                                                <div class="comment-detail">
-                                                    <div class="d-inline-block mb-3">
-                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
-                                                        <ul class="text-primary d-flex font-13">
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                            <li><i class="fas fa-star"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
-                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
-                                                    </p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
--->
+                                <!--
+                                                                <div class="row mb-4">
+                                                                    <div class="col">
+                                                                        <h4 class="text-secondary my-4">User Reviews</h4>
+                                                                        <ul class="post-comments">
+                                                                            <li class="py-4 d-flex">
+                                                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
+                                                                                <div class="comment-detail">
+                                                                                    <div class="d-inline-block mb-3">
+                                                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
+                                                                                        <ul class="text-primary d-flex font-13">
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
+                                                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
+                                                                                    </p>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li class="py-4 d-flex">
+                                                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
+                                                                                <div class="comment-detail">
+                                                                                    <div class="d-inline-block mb-3">
+                                                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
+                                                                                        <ul class="text-primary d-flex font-13">
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                            <li><i class="fas fa-star"></i></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
+                                                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
+                                                                                    </p>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                -->
 
                                 <div class="row mb-4">
                                     <div class="col">
@@ -354,7 +258,7 @@
     <script type="text/javascript" src="{{ asset('assets/js/ResizeSensor.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/theia-sticky-sidebar.min.js') }}"></script>
     <script type="text/javascript">
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             jQuery('.content, .sidebar').theiaStickySidebar({
                 // Settings
                 additionalMarginTop: 80
@@ -372,15 +276,15 @@
 
     <script type="text/javascript">
         lightGallery(document.getElementById('gallery'), {
-            plugins: [lgZoom, lgThumbnail],
-            selector: '.link',
-            download: false,
-            mobileSettings : [{ controls: true, showCloseIcon: true, download: false }],
-            speed: 500,
+            plugins:            [lgZoom, lgThumbnail],
+            selector:           '.link',
+            download:           false,
+            mobileSettings:     [{controls: true, showCloseIcon: true, download: false}],
+            speed:              500,
             showZoomInOutIcons: true,
-            actualSize: false,
-            steps:4,
-            licenseKey:'0000-0000-000-0000'
+            actualSize:         false,
+            steps:              4,
+            licenseKey:         '0000-0000-000-0000'
         });
     </script>
 
@@ -390,10 +294,92 @@
     <script src="{{ asset('assets/js/map/infobox.js') }}"></script>
     <script src="{{ asset('assets/js/map/property-map.js') }}"></script>
     <script>
-        (function($) {
+        (function ($) {
             var _latitude = {{ $apartment->latitude }};
             var _longitude = {{ $apartment->longitude }};
             createPropertyGoogleMap(_latitude, _longitude);
         })(jQuery);
+    </script>
+
+    <script>
+        const DateTime = easepick.DateTime;
+        const bookedDates = {!! collect($dates)->toJson() !!}
+        .map(d => {
+            if (d instanceof Array) {
+                const start = new DateTime(d[0], 'YYYY-MM-DD');
+                const end = new DateTime(d[1], 'YYYY-MM-DD');
+
+                return [start, end];
+            }
+
+            return new DateTime(d, 'YYYY-MM-DD');
+        });
+        const pickerres = new easepick.create({
+            element:     document.getElementById('checkindate'),
+            css:         [
+                'assets/css/reservation.css',
+            ],
+            grid:        1,
+            calendars:   1,
+            zIndex:      10,
+            plugins:     ['LockPlugin', 'RangePlugin'],
+            RangePlugin: {
+                tooltipNumber(num) {
+                    return num - 1;
+                },
+                locale: {
+                    one:   'night',
+                    other: 'nights',
+                },
+            },
+            LockPlugin:  {
+                minDate:     new Date(),
+                minDays:     2,
+                inseparable: true,
+                filter(date, picked) {
+                    if (picked.length === 1) {
+                        const incl = date.isBefore(picked[0]) ? '[)' : '(]';
+                        return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
+                    }
+
+                    return date.inArray(bookedDates, '[)');
+                },
+            }
+        });
+    </script>
+
+    <script>
+        const picker = new easepick.create({
+            element:     document.getElementById('datepicker'),
+            css:         [
+                'assets/css/reservation.css',
+            ],
+            grid:        2,
+            calendars:   2,
+            inline:      true,
+            plugins:     ['LockPlugin', 'RangePlugin'],
+            RangePlugin: {
+                tooltipNumber(num) {
+                    return num - 1;
+                },
+                locale: {
+                    one:   'night',
+                    other: 'nights',
+                },
+            },
+            LockPlugin:  {
+                minDate:     new Date(),
+                minDays:     2,
+                inseparable: true,
+                filter(date, picked) {
+                    if (picked.length === 1) {
+                        const incl = date.isBefore(picked[0]) ? '[)' : '(]';
+                        return !picked[0].isSame(date, 'day') && date.inArray(bookedDates, incl);
+                    }
+
+                    return date.inArray(bookedDates, '[)');
+                },
+            }
+        });
     </script>
 @endpush

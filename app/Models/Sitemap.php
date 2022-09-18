@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
+use App\Models\Front\Catalog\Page;
 use App\Models\Front\Catalog\Product;
 use App\Models\Front\Catalog\Publisher;
-use App\Models\Front\Page;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 

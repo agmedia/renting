@@ -52,11 +52,16 @@ class Helper
     /**
      * @param float $price
      * @param int   $discount
+     * @param bool  $extra
      *
-     * @return float|int
+     * @return float
      */
-    public static function calculateDiscountPrice(float $price, int $discount)
+    public static function calculateDiscountPrice(float $price, int $discount, bool $extra = false)
     {
+        if ($extra) {
+            return $price + ($price * ($discount / 100));
+        }
+
         return $price - ($price * ($discount / 100));
     }
 

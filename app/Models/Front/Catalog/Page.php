@@ -1,20 +1,13 @@
 <?php
 
-namespace App\Models\Front;
+namespace App\Models\Front\Catalog;
 
-use App\Models\Front\Apartment\ApartmentTranslation;
-use Carbon\Carbon;
+use App\Models\Back\Settings\System\PageTranslation;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class Page extends Model
 {
-
-    use HasFactory;
 
     /**
      * @var string

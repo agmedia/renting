@@ -3,22 +3,17 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\CurrencyHelper;
-use App\Helpers\Helper;
 use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
 use App\Models\Front\Apartment\Apartment;
-use App\Models\Front\Page;
+use App\Models\Front\Catalog\Page;
 use App\Models\Sitemap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class HomeController extends Controller
 {
@@ -32,7 +27,6 @@ class HomeController extends Controller
         $apartments = Apartment::paginate(12);
 
         //dd(ag_currencies(true));
-        Log::alert(ag_currencies(true)->code);
 
         return view('front.home', compact('apartments'));
     }
@@ -46,8 +40,9 @@ class HomeController extends Controller
     public function apartment(Apartment $apartment)
     {
         $dates = $apartment->dates();
-        //dd($apartment);
-       // dd($apartment->amenities()->get());
+
+        //dd($apartment->action()->get()->toArray());
+
         return view('front.apartment', compact('apartment', 'dates'));
     }
 
