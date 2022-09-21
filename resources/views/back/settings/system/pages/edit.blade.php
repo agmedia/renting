@@ -67,7 +67,7 @@
                                 <div class="tab-content">
                                     @foreach(ag_lang() as $lang)
                                         <div id="title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($page) ? $page->title : old('title') }}">
+                                            <input type="text" class="form-control" id="title-input-{{ $lang->code }}" name="title[{{ $lang->code }}]" placeholder="{{ $lang->code }}" value="{{ isset($page) ? $page->translation($lang->code)->title : old('title') }}">
                                         </div>
                                     @endforeach
                                 </div>
@@ -102,7 +102,7 @@
                                     <div class="tab-content">
                                         @foreach(ag_lang() as $lang)
                                             <div id="description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($page) ? $page->description : old('description') !!}</textarea>
+                                                <textarea id="description-editor-{{ $lang->code }}" name="description[{{ $lang->code }}]" placeholder="{{ $lang->code }}">{!! isset($page) ? $page->translation($lang->code)->description : old('description') !!}</textarea>
                                             </div>
                                         @endforeach
                                     </div>
@@ -136,7 +136,7 @@
                                     <div class="tab-content">
                                         @foreach(ag_lang() as $lang)
                                             <div id="meta-title-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                <input type="text" class="js-maxlength form-control" id="meta-title-input-{{ $lang->code }}" placeholder="{{ $lang->code }}" name="meta_title[{{ $lang->code }}]" value="{{ isset($page) ? $page->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
+                                                <input type="text" class="js-maxlength form-control" id="meta-title-input-{{ $lang->code }}" placeholder="{{ $lang->code }}" name="meta_title[{{ $lang->code }}]" value="{{ isset($page) ? $page->translation($lang->code)->meta_title : old('meta_title') }}" maxlength="70" data-always-show="true" data-placement="top">
                                                 <small class="form-text text-muted">
                                                     70 {{ __('back/pages.char') }} max
                                                 </small>
@@ -162,7 +162,7 @@
                                         <div class="tab-content">
                                             @foreach(ag_lang() as $lang)
                                                 <div id="meta-description-{{ $lang->code }}" class="tab-pane @if ($lang->code == current_locale()) active @endif">
-                                                    <textarea class="js-maxlength form-control" id="meta-description-input-{{ $lang->code }}"  placeholder="{{ $lang->code }}" name="meta_description[{{ $lang->code }}]" rows="4" maxlength="160" >{{ isset($page) ? $page->meta_description : old('meta_description') }}</textarea>
+                                                    <textarea class="js-maxlength form-control" id="meta-description-input-{{ $lang->code }}"  placeholder="{{ $lang->code }}" name="meta_description[{{ $lang->code }}]" rows="4" maxlength="160" >{{ isset($page) ? $page->translation($lang->code)->meta_description : old('meta_description') }}</textarea>
                                                     <small class="form-text text-muted">
                                                         160 {{ __('back/pages.char') }} max
                                                     </small>

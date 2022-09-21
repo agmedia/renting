@@ -494,10 +494,15 @@
                                                 </td>
                                                 <td>
                                                     <small>{{ __('back/apartment.amount') }}:</small>
-                                                    @if ($action->discount > 0)
-                                                        <strong>-{{ number_format($action->discount) }}%</strong>{{ __('back/apartment.title_discount') }}
-                                                    @else
-                                                        <strong>+{{ number_format($action->extra) }}%</strong> {{ __('back/apartment.extra') }}
+                                                    @if ($action->type == 'P')
+                                                        @if ($action->discount > 0)
+                                                            <strong>-{{ number_format($action->discount) }}%</strong> {{ __('back/apartment.title_discount') }}
+                                                        @else
+                                                            <strong>+{{ number_format($action->extra) }}%</strong> {{ __('back/apartment.extra') }}
+                                                        @endif
+                                                    @endif
+                                                    @if ($action->type == 'F')
+                                                        <strong>{{ number_format(($action->discount > 0) ? $action->discount : $action->extra, 2) }} kn</strong> Fixed
                                                     @endif
                                                     <br>
                                                     <small>Status: </small>
