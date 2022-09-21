@@ -47,6 +47,7 @@ return [
         'actions' => 'Akcije',
         'gallery' => 'Galerije',
         'blog' => 'Blog',
+        'reviews' => 'Komentari',
         'widgets' => 'Widgets',
         'users' => 'Korisnici',
         'application' => 'Aplikacija',
