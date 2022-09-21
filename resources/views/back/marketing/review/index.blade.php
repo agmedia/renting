@@ -12,9 +12,9 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Apartment Reviews</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/review.title') }}</h1>
                 <a class="btn btn-hero-success my-2" href="{{ route('reviews.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> Write New Review</span>
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/review.write_new') }} </span>
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">All Reviews ({{ $reviews->total() }})</h3>
+                <h3 class="block-title">{{ __('back/review.all_reviews') }}   ({{ $reviews->total() }})</h3>
 
             </div>
 
@@ -40,10 +40,10 @@
                         <thead>
                         <tr>
                             <th style="width: 5%;">#</th>
-                            <th>Review</th>
-                            <th>Message</th>
-                            <th>User</th>
-                            <th class="text-center font-size-sm">Featured</th>
+                            <th>{{ __('back/review.title_review') }}</th>
+                            <th>{{ __('back/review.title_review_desc') }} </th>
+                            <th>{{ __('back/review.title_user') }}</th>
+                            <th class="text-center font-size-sm">{{ __('back/review.title_featured') }}</th>
                             <th class="text-center font-size-sm">{{ __('back/action.status') }}</th>
                             <th class="text-right" style="width: 10%;">{{ __('back/action.edit') }}</th>
                         </tr>
@@ -71,7 +71,7 @@
                         @empty
                             <tr>
                                 <td class="font-size-sm text-center" colspan="6">
-                                    <label for="">No reviews so far...</label>
+                                    <label for="">{{ __('back/review.no_reviews') }}</label>
                                 </td>
                             </tr>
                         @endforelse
