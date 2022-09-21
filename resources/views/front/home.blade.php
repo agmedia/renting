@@ -210,7 +210,7 @@
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
-                    pictureLabel.src = locations[i].image;
+                    pictureLabel.src = 'assets/images/map/house.png';
                     var boxText = document.createElement("div");
                     infoboxOptions = {
                         content: boxText,
