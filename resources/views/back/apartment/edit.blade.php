@@ -349,11 +349,11 @@
                                         <div class="col-md-12 pt-2">
                                             <div class="form-group row items-push mb-0">
                                                 <div class="col-md-6">
-                                                    <label for="adults-input">Adults</label>
+                                                    <label for="adults-input">{{ __('back/apartment.adults') }}</label>
                                                     <input type="text" class="form-control" id="adults-input" name="adults" placeholder="" value="{{ isset($apartment) ? $apartment->adults : old('adults') }}">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="children-input">Children</label>
+                                                    <label for="children-input">{{ __('back/apartment.children') }}</label>
                                                     <input type="text" class="form-control" id="children-input" name="children" placeholder="" value="{{ isset($apartment) ? $apartment->children : old('children') }}">
                                                 </div>
                                                 <div class="col-md-3">
@@ -490,14 +490,14 @@
                                             <tr>
                                                 <td>
                                                     <strong>{{ $action->title }}</strong><br>
-                                                    <small>Duration:</small> {{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : 'From Begining' }} - {{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : 'To Indefinitly' }}
+                                                    <small>{{ __('back/apartment.duration') }}:</small> {{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : 'From Begining' }} - {{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : 'To Indefinitly' }}
                                                 </td>
                                                 <td>
-                                                    <small>Amount:</small>
+                                                    <small>{{ __('back/apartment.amount') }}:</small>
                                                     @if ($action->discount > 0)
-                                                        <strong>-{{ number_format($action->discount) }}%</strong> Discount
+                                                        <strong>-{{ number_format($action->discount) }}%</strong>{{ __('back/apartment.title_discount') }}
                                                     @else
-                                                        <strong>+{{ number_format($action->extra) }}%</strong> Extra
+                                                        <strong>+{{ number_format($action->extra) }}%</strong> {{ __('back/apartment.extra') }}
                                                     @endif
                                                     <br>
                                                     <small>Status: </small>
@@ -515,7 +515,7 @@
                             </div>
 
                             <!-- -->
-                            <h2 class="content-heading">Apartment Payable Options
+                            <h2 class="content-heading">{{ __('back/apartment.apo_title') }}
                                 <a class="btn btn-sm btn-secondary float-right" href="{{ route('options.create') }}">
                                     <i class="far fa-fw fa-plus-square"></i>
                                 </a>
@@ -530,12 +530,12 @@
                                                     <strong>{{ $item->title }}</strong><br>
                                                 </td>
                                                 <td>
-                                                    <small>Price:</small>
+                                                    <small>{{ __('back/apartment.price') }}:</small>
                                                     {{ number_format($item->price, 2, ',', '.') }}
                                                     <br>
-                                                    <small>Status: </small>
+                                                    <small>{{ __('back/apartment.status') }}: </small>
                                                     @include('back.layouts.partials.status', ['status' => $item->status, 'simple' => true])
-                                                    <small>Featured: </small>
+                                                    <small>{{ __('back/apartment.featured') }}: </small>
                                                     @include('back.layouts.partials.status', ['status' => $item->featured, 'simple' => true])
                                                 </td>
                                                 <td class="text-right">

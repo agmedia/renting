@@ -40,9 +40,12 @@ return [
     'searchaddress' => 'Pretraži po adresi',
     'searchname' => 'Pretraži po nazivu',
     'cijenetitle' => 'Cijena, akcije i porez',
+    'price_regular' => 'Cijena za dane u tjednu',
+    'price_weekends' => 'Cijena za vikend (Subota & Nedjelja)',
     'price' => 'Cijena',
     'priceprema' => 'Cijena prema',
     'tax' => 'Porez',
+    'discount' => 'Popust ili naknada ',
     'cijanapopust' => 'Cijena na popust',
     'trajanjepopusta' => 'Trajanje popusta',
     'od' => 'od',
@@ -105,4 +108,13 @@ return [
     'sort_A_Z' => 'Od A do Ž',
 
     'sort_Z_A' => 'Od Ž do A',
+    'children' => 'Djeca',
+    'adults' => 'Odrasli',
+    'duration' => 'Trajanje',
+    'amount' => 'Iznos',
+    'title_discount' => 'Popust',
+    'extra' => 'Naknada',
+    'apo_title' => 'Opcije naplate apartmana',
+
+
 ];

@@ -41,7 +41,7 @@ return [
     'searchname' => 'Search by name',
     'cijenetitle' => 'Price, promotions and tax',
     'price_regular' => 'Price for regular days',
-    'price_weekends' => 'Price for weekends (Friday & Saturday)',
+    'price_weekends' => 'Price for weekends (Saturday & Sunday)',
     'priceprema' => 'Price according to',
     'tax' => 'Tax',
     'cijanapopust' => 'Discount Price',
@@ -108,4 +108,11 @@ return [
 
     'sort_Z_A' => 'From Ž to A',
 
+    'children' => 'Children',
+    'adults' => 'Adults',
+    'duration' => 'Duration',
+    'amount' => 'Amount',
+    'title_discount' => 'Discount',
+    'extra' => 'Extra',
+    'apo_title' => 'Apartment Payable Options',
 ];
