@@ -12,7 +12,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Actions <small>({{ __('back/action.action_title') }})</small></h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/action.action_title') }} </h1>
                 <a class="btn btn-hero-success my-2" href="{{ route('actions.create') }}">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/layout.btn.new') }}</span>
                 </a>
@@ -43,8 +43,8 @@
                             <th class="text-left">{{ __('back/action.title') }}</th>
                             <th>{{ __('back/action.from') }}</th>
                             <th>{{ __('back/action.to') }}</th>
-                            <th>Actions</th>
-                            <th class="text-center font-size-sm">Yearly Action</th>
+                            <th>{{ __('back/action.action_one_title') }}</th>
+                            <th class="text-center font-size-sm">{{ __('back/action.yearly_action') }}</th>
                             <th class="text-center font-size-sm">{{ __('back/action.status') }}</th>
                             <th class="text-right" style="width: 10%;"{{ __('back/action.edit') }}</th>
                         </tr>

@@ -14,6 +14,8 @@ return [
     */
 
     'action_title' => 'Akcije',
+    'action_one_title' => 'Akcija',
+    'yearly_action' => 'Godišnja akcija',
     'action_new' => 'Nova akcija',
     'action_all' => 'Sve akcije',
     'action_edit' => 'Uredi akciju',
@@ -37,6 +39,7 @@ return [
     'please_select' => 'Molimo odaberite',
     'items' => 'Stavke',
     'search' => 'Traži...',
+    'repeat_action' => 'Ponovi akciju svake godine?',
 
 
 ];

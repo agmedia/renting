@@ -122,7 +122,7 @@
                                         <div class="col-md-12 mt-3">
                                             <div class="custom-control custom-switch custom-control-info">
                                                 <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($action) and $action->repeat) checked @endif>
-                                                <label class="custom-control-label" for="status-switch">Repeat action every year?</label>
+                                                <label class="custom-control-label" for="status-switch">{{ __('back/action.repeat_action') }}</label>
                                             </div>
                                         </div>
                                     </div>

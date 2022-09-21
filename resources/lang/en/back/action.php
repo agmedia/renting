@@ -14,6 +14,8 @@ return [
     */
 
     'action_title' => 'Discounts & Extra',
+    'action_one_title' => 'Action',
+    'yearly_action' => 'Yearly Action',
     'action_new' => 'New Discount or Extra',
     'action_all' => 'All discounts or extra',
     'action_edit' => 'Edit Discount or Extra',
@@ -37,5 +39,6 @@ return [
     'please_select' => 'Please select',
     'items' => 'Items',
     'search' => 'Search...',
+    'repeat_action' => 'Repeat action every year?',
 
 ];
