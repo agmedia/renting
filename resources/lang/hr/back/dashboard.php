@@ -19,7 +19,7 @@ return [
     'narudzba_mjesec' => 'Rezervacija ovaj mjesec',
     'mjesecni_pregled' => 'Mjesečni pregled',
     'zadnje_dodani_apartmani' => 'Zadnje dodani apartmani',
-    'zadnje_dodane_rezezvacije' => 'Zadnje rezervacije',
+    'zadnje_dodane_rezervacije' => 'Zadnje rezervacije',
     'ova_godina' => 'Ova godina',
     'zadnja_godina' => 'Zadnja godina',
 ];
