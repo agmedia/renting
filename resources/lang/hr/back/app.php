@@ -124,7 +124,7 @@ return [
         'bank' => 'Općom uplatnicom / Virmanom / Internet bankarstvom',
         'wspay' => 'WSPay',
         'payway' => 'T-Com Payway',
-        'corvuspay' => 'Corvus Pay',
+        'corvus' => 'Corvus Pay',
         'min_order_amount' => 'Minimalan iznos narudžbe',
         'fee_amount' => 'Iznos naknade',
         'geo_zone' => 'Geo zona',

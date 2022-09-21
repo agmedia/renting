@@ -130,7 +130,7 @@ return [
         'bank' => 'Bank transfer',
         'wspay' => 'WSPay',
         'payway' => 'T-Com Payway',
-        'corvuspay' => 'Corvus Pay',
+        'corvus' => 'Corvus Pay',
         'min_order_amount' => 'Minimum order amount',
         'fee_amount' => 'Fee amount',
         'geo_zone' => 'Geo zone',
