@@ -12,9 +12,9 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Payable Options</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/options.title') }}</h1>
                 <a class="btn btn-hero-success my-2" href="{{ route('options.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> New Option</span>
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/options.write_new') }}</span>
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <!-- All Products -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">All Options ({{ $options->total() }})</h3>
+                <h3 class="block-title"> {{ __('back/options.all_options') }} ({{ $options->total() }})</h3>
 
             </div>
 
@@ -41,8 +41,8 @@
                         <tr>
                             <th style="width: 5%;">#</th>
                             <th class="text-left">{{ __('back/action.title') }}</th>
-                            <th>Value</th>
-                            <th class="text-center font-size-sm">Featured</th>
+                            <th>{{ __('back/options.title_value') }}</th>
+                            <th class="text-center font-size-sm">{{ __('back/options.title_featured') }}</th>
                             <th class="text-center font-size-sm">{{ __('back/action.status') }}</th>
                             <th class="text-right" style="width: 10%;">{{ __('back/action.edit') }}</th>
                         </tr>
@@ -71,7 +71,7 @@
                         @empty
                             <tr>
                                 <td class="font-size-sm text-center" colspan="6">
-                                    <label for="">No payable options on apartment or services...</label>
+                                    <label for="">{{ __('back/options.no_options') }}</label>
                                 </td>
                             </tr>
                         @endforelse

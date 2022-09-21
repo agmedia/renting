@@ -9,11 +9,11 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Edit Option</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/options.title_edit') }}</h1>
                 <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('options') }}">Options</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Option</li>
+                        <li class="breadcrumb-item"><a href="{{ route('options') }}">{{ __('back/options.title') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ __('back/options.title_edit') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -39,7 +39,7 @@
                             <div class="block-options">
                                 <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured" @if (isset($option) and $option->featured) checked @endif>
-                                    <label class="custom-control-label" for="featured-switch">Featured</label>
+                                    <label class="custom-control-label" for="featured-switch">{{ __('back/options.title_featured') }}</label>
                                 </div>
                                 <div class="custom-control custom-switch custom-control-success block-options-item ml-4">
                                     <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($option) and $option->status) checked @endif>
@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="form-group row items-push mb-2">
                                         <div class="col-md-12">
-                                            <label for="description-input" class="w-100">Short Description
+                                            <label for="description-input" class="w-100">{{ __('back/options.title_short_desc') }}
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
                                                         <li @if ($lang->code == current_locale()) class="active" @endif>
@@ -103,7 +103,7 @@
 
                                     <div class="form-group row items-push">
                                         <div class="col-md-6 mt-2">
-                                            <label for="price-input">Price</label>
+                                            <label for="price-input">{{ __('back/options.title_price') }}</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="price-input" name="price" value="{{ isset($option) ? $option->price : old('price') }}">
                                                 <div class="input-group-append">
