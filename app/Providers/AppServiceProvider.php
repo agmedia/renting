@@ -50,17 +50,17 @@ class AppServiceProvider extends ServiceProvider
         $zemljovidi_vedute = Category::active()->topList('Zemljovidi i vedute')->select('id', 'title', 'group', 'slug')->sortByName()->get();
         View::share('zemljovidi_vedute', $zemljovidi_vedute);*/
 
-        Route::bind('apartment', function ($value) {
+        /*Route::bind('apartment', function ($value) {
             return Apartment::whereHas('translation', function ($query) use ($value) {
                 $query->where('slug', $value);
             })->firstOrFail();
-        });
+        });*/
 
-        Route::bind('page', function ($value) {
+        /*Route::bind('page', function ($value) {
             return Page::whereHas('translation', function ($query) use ($value) {
                 $query->where('slug', $value);
             })->firstOrFail();
-        });
+        });*/
 
         Paginator::useBootstrap();
     }

@@ -5,8 +5,9 @@ namespace App\Models\Front\Catalog;
 use App\Models\Back\Settings\System\PageTranslation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Mcamara\LaravelLocalization\Interfaces\LocalizedUrlRoutable;
 
-class Page extends Model
+class Page extends Model implements LocalizedUrlRoutable
 {
 
     /**
@@ -35,6 +36,31 @@ class Page extends Model
         parent::__construct($attributes);
 
         $this->locale = current_locale();
+    }
+
+
+    /**
+     * @param $locale
+     *
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed
+     */
+    public function getLocalizedRouteKey($locale)
+    {
+        return $this->translation($locale)->slug;
+    }
+
+
+    /**
+     * @param $value
+     * @param $field
+     *
+     * @return Model|never|null
+     */
+    public function resolveRouteBinding($value, $field = NULL)
+    {
+        return static::whereHas('translation', function ($query) use ($value) {
+            $query->where('slug', $value);
+        })->first() ?? abort(404);
     }
 
 

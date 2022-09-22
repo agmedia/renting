@@ -14,8 +14,9 @@ use Illuminate\Http\Request;
 use Bouncer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Mcamara\LaravelLocalization\Interfaces\LocalizedUrlRoutable;
 
-class Apartment extends Model
+class Apartment extends Model implements LocalizedUrlRoutable
 {
 
     use HasFactory;
@@ -62,6 +63,31 @@ class Apartment extends Model
 
         $this->locale = current_locale();
         $this->main_currency = CurrencyHelper::mainSession();
+    }
+
+
+    /**
+     * @param $locale
+     *
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed
+     */
+    public function getLocalizedRouteKey($locale)
+    {
+        return $this->translation($locale)->slug;
+    }
+
+
+    /**
+     * @param $value
+     * @param $field
+     *
+     * @return Model|never|null
+     */
+    public function resolveRouteBinding($value, $field = NULL)
+    {
+        return static::whereHas('translation', function ($query) use ($value) {
+            $query->where('slug', $value);
+        })->first() ?? abort(404);
     }
 
 

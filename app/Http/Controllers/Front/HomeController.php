@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class HomeController extends Controller
 {
@@ -41,9 +42,17 @@ class HomeController extends Controller
     {
         $dates = $apartment->dates();
 
-        //dd($apartment->action()->get()->toArray());
+        $langs = [];
 
-        return view('front.apartment', compact('apartment', 'dates'));
+        foreach (ag_lang() as $lang) {
+            $langs[$lang->code] = [
+                'code' => $lang->code,
+                'slug' => $apartment->translation($lang->code)->slug,
+                'title' => $lang->title->{current_locale()}
+            ];
+        }
+
+        return view('front.apartment', compact('apartment', 'dates', 'langs'));
     }
 
 
@@ -95,7 +104,17 @@ class HomeController extends Controller
      */
     public function page(Page $page)
     {
-        return view('front.page', compact('page'));
+        $langs = [];
+
+        foreach (ag_lang() as $lang) {
+            $langs[$lang->code] = [
+                'code' => $lang->code,
+                'slug' => $page->translation($lang->code)->slug,
+                'title' => $lang->title->{current_locale()}
+            ];
+        }
+
+        return view('front.page', compact('page', 'langs'));
     }
 
 
