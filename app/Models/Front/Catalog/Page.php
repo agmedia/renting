@@ -94,7 +94,7 @@ class Page extends Model implements LocalizedUrlRoutable
      */
     public function getTitleAttribute()
     {
-        return $this->translation()->title;
+        return $this->translation()->first()->title;
     }
 
 
@@ -103,7 +103,7 @@ class Page extends Model implements LocalizedUrlRoutable
      */
     public function getDescriptionAttribute()
     {
-        return $this->translation()->description;
+        return $this->translation()->first()->description;
     }
 
 

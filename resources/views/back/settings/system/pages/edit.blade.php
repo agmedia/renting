@@ -207,11 +207,10 @@
 @push('js_after')
 
     <script src="{{ asset('js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
-    <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js') }}"></script>
+
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
-    <!-- Page JS Helpers (CKEditor 5 plugins) -->
-    <script>jQuery(function(){Dashmix.helpers(['flatpickr']);});</script>
+
 
     <script>
         $(() => {
