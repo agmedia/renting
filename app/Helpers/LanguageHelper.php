@@ -53,4 +53,26 @@ class LanguageHelper
     }
 
 
+    /**
+     * @param $model
+     * @param $prefix
+     *
+     * @return array
+     */
+    public static function resolveSelector($model, $url_prefix = ''): array
+    {
+        $langs = [];
+
+        foreach (ag_lang() as $lang) {
+            $langs[$lang->code] = [
+                'code' => $lang->code,
+                'slug' => $url_prefix . $model->translation($lang->code)->slug,
+                'title' => $lang->title->{current_locale()}
+            ];
+        }
+
+        return $langs;
+    }
+
+
 }

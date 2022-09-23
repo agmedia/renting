@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\CurrencyHelper;
+use App\Helpers\LanguageHelper;
 use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
@@ -42,15 +43,7 @@ class HomeController extends Controller
     {
         $dates = $apartment->dates();
 
-        $langs = [];
-
-        foreach (ag_lang() as $lang) {
-            $langs[$lang->code] = [
-                'code' => $lang->code,
-                'slug' => $apartment->translation($lang->code)->slug,
-                'title' => $lang->title->{current_locale()}
-            ];
-        }
+        $langs = LanguageHelper::resolveSelector($apartment);
 
         return view('front.apartment', compact('apartment', 'dates', 'langs'));
     }
@@ -104,15 +97,7 @@ class HomeController extends Controller
      */
     public function page(Page $page)
     {
-        $langs = [];
-
-        foreach (ag_lang() as $lang) {
-            $langs[$lang->code] = [
-                'code' => $lang->code,
-                'slug' => $page->translation($lang->code)->slug,
-                'title' => $lang->title->{current_locale()}
-            ];
-        }
+        $langs = LanguageHelper::resolveSelector($page, 'info/');
 
         return view('front.page', compact('page', 'langs'));
     }

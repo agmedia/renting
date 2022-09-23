@@ -21,6 +21,11 @@ class Page extends Model implements LocalizedUrlRoutable
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['title', 'description'];
+
+    /**
      * @var string
      */
     protected $locale = 'en';
@@ -81,6 +86,24 @@ class Page extends Model implements LocalizedUrlRoutable
         }
 
         return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale)/*->first()*/;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTitleAttribute()
+    {
+        return $this->translation()->title;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDescriptionAttribute()
+    {
+        return $this->translation()->description;
     }
 
 

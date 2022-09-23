@@ -342,8 +342,10 @@ Route::group(
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::post('/checkout-view', [HomeController::class, 'checkoutView'])->name('checkout.view');
+    Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
 
 
+    // OLD ROUTES... CHECK & DELETE
     Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
     Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
     Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
@@ -357,7 +359,6 @@ Route::group(
 //
     Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 //
-    Route::get('info/{page}', [CatalogRouteController::class, 'page'])->name('catalog.route.page');
     Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
 //
     Route::get('cache/image', [HomeController::class, 'imageCache']);
