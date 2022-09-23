@@ -343,12 +343,12 @@ Route::group(
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::post('/checkout-view', [HomeController::class, 'checkoutView'])->name('checkout.view');
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
+    Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 
     // OLD ROUTES... CHECK & DELETE
     Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
     Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
-    Route::get('/faq', [CatalogRouteController::class, 'faq'])->name('faq');
 //
     Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
     Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');

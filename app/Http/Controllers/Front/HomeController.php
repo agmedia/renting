@@ -10,6 +10,7 @@ use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Page;
+use App\Models\Front\Faq;
 use App\Models\Sitemap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -100,6 +101,19 @@ class HomeController extends Controller
         $langs = LanguageHelper::resolveSelector($page, 'info/');
 
         return view('front.page', compact('page', 'langs'));
+    }
+
+
+    /**
+     * @param Faq $faq
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function faq()
+    {
+        $faqs = Faq::where('status', 1)->with('translation')->orderBy('sort_order')->get();
+
+        return view('front.faq', compact('faqs'));
     }
 
 
