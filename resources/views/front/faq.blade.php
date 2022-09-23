@@ -32,7 +32,7 @@
     <div class="accordion accordion-flush" id="accordionFlushExample">
 
 
-    @foreach ($faq as $fa)
+    @foreach ($faqs as $fa)
 
         <!-- Item -->
             <div class="accordion-item">

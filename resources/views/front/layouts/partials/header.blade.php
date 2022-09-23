@@ -9,10 +9,15 @@
                             <!-- <div class="me-3"><a href="callto:012345678102" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>(012) 345 678 102</a></div>-->
                             <div class="me-3"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
                             <div class="dropdown hover-dropdown">
-                                <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">Help and Support</button>
+                                <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="faq.html">Freequenly Ask Question</a></li>
-                                    <li><a class="dropdown-item" href="#">Terms & Condition</a></li>
+                                    @foreach($pages as $page)
+                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+
+                                  @endforeach
+
+                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">FAQ</a> </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -26,6 +31,7 @@
                 </div>
             </div>
         </div>
+
         <div class="main-nav bg-gray">
             <div class="container-fluid">
                 <div class="row">
@@ -37,9 +43,12 @@
                             </button>
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="index.html">Properties</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="faq.html">Freequenly Ask Question</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="#">Contact</a> </li>
+                                    @foreach($pages as $page)
+                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+
+                                    @endforeach
+                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">FAQ</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">Contact</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
                                 </ul>
                                 <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
@@ -60,11 +69,13 @@
                             <!-- <div class="me-3"><a href="callto:012345678102" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>(012) 345 678 102</a></div>-->
                             <div class="me-3"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
                             <div class="dropdown hover-dropdown">
-                                <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">Help and Support</button>
+                                <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="faq.html">Freequenly Ask Question</a></li>
+                                    @foreach($pages as $page)
+                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
 
-                                    <li><a class="dropdown-item" href="#">Terms & Condition</a></li>
+                                    @endforeach
+                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">FAQ</a> </li>
                                 </ul>
                             </div>
                         </div>
@@ -89,9 +100,12 @@
                             </button>
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="index.html">Properties</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="faq.html">Freequenly Ask Question</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="#">Contact</a> </li>
+                                    @foreach($pages as $page)
+                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+
+                                    @endforeach
+                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">FAQ</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">Contact</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
                                 </ul>
                                 <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>

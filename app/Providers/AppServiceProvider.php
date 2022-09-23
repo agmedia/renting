@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Illuminate\Support\Facades\View;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Page;
@@ -30,7 +30,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $pages = Page::all();
+        View::share('pages', $pages);
         //
+
+
 
         /*$uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
         View::share('uvjeti_kupnje', $uvjeti_kupnje);
