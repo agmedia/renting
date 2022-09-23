@@ -339,11 +339,11 @@ Route::group(
      * FRONT ROUTES
      */
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
     Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
     Route::post('/checkout-view', [HomeController::class, 'checkoutView'])->name('checkout.view');
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
-    Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+    Route::get('faq', [HomeController::class, 'faq'])->name('faq');
+    Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
 
 
     // OLD ROUTES... CHECK & DELETE
