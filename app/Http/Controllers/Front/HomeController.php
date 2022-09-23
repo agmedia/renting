@@ -111,7 +111,8 @@ class HomeController extends Controller
      */
     public function faq()
     {
-        $faqs = Faq::where('status', 1)->with('translation')->orderBy('sort_order')->get();
+        $faqs = Faq::where('status', 1)->orderBy('sort_order')->get();
+        dd($faqs);
 
         return view('front.faq', compact('faqs'));
     }
