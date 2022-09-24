@@ -29,6 +29,8 @@ class HomeController extends Controller
     {
         $apartments = Apartment::paginate(12);
 
+
+
         //dd(ag_currencies(true));
 
         return view('front.home', compact('apartments'));
@@ -45,6 +47,7 @@ class HomeController extends Controller
         $dates = $apartment->dates();
 
         $langs = LanguageHelper::resolveSelector($apartment);
+
 
         return view('front.apartment', compact('apartment', 'dates', 'langs'));
     }
@@ -87,6 +90,8 @@ class HomeController extends Controller
     {
        // dd($request->toArray());
 
+
+
         return view('front.checkout.success', compact('request'));
     }
 
@@ -112,7 +117,6 @@ class HomeController extends Controller
     public function faq()
     {
         $faqs = Faq::where('status', 1)->orderBy('sort_order')->get();
-        dd($faqs);
 
         return view('front.faq', compact('faqs'));
     }
@@ -125,6 +129,7 @@ class HomeController extends Controller
      */
     public function contact(Request $request)
     {
+
         return view('front.contact');
     }
 

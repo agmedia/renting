@@ -12,7 +12,8 @@
                                 <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
                                     @foreach($pages as $page)
-                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+
+                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
 
                                   @endforeach
 
