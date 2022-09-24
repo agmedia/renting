@@ -14,6 +14,11 @@ return [
     */
 
     'help_and_support' => 'Pomoć i podrška',
-
+    'faq' => 'Česta pitanja',
+    'login' => 'Prijava',
+    'login_register' => 'Prijava / Registracija',
+    'contact' => 'Kontaktirajte nas',
+    'home' => 'Nalovnica',
+    'additional_info' => 'Dodatne informacije',
 
 ];

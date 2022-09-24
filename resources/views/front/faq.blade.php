@@ -1,63 +1,80 @@
 @extends('front.layouts.app')
 
-@section('content')
 
-    <!-- Page Title-->
-    <div class=" bg-dark pt-4 pb-3" style="background-image: url({{ asset('media/img/indexslika.jpg') }});-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;">
+
+@section ( 'title', 'FAQ - SelfCheckIns' )
+
+
+@push('meta_tags')
+
+    <link rel="canonical" href="{{ env('APP_URL')}}" />
+    <meta property="og:locale" content="hr_HR" />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="{{ __('front/common.faq') }} - SelfCheckIns" />
+    <meta property="og:description" content="{{ __('front/common.faq') }}" />
+    <meta property="og:url" content="{{ env('APP_URL')}}"  />
+    <meta property="og:site_name" content="SelfCheckIns" />
+    <meta property="og:image" content="https://images.antikvarijatbibl.lin73.host25.com/media/antikvarijat-biblos.jpg" />
+    <meta property="og:image:secure_url" content="https://images.antikvarijatbibl.lin73.host25.com/media/antikvarijat-biblos.jpg" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="{{ __('front/common.faq') }} - SelfCheckIns" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ __('front/common.faq') }} - SelfCheckIns" />
+    <meta name="twitter:description" content="{{ __('front/common.faq') }}" />
+    <meta name="twitter:image" content="https://images.antikvarijatbibl.lin73.host25.com/media/antikvarijat-biblos.jpg" />
+
+@endpush
+
+
+@section('content')
+    <div class=" bg-white pt-4 pb-3" >
         <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
             <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                        <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>Naslovnica</a></li>
-                        <li class="breadcrumb-item text-nowrap active" aria-current="page">Česta pitanja</li>
+                        <li class="breadcrumb-item"><a class="text-nowrap" href="{{ route('index') }}"><i class="ci-home"></i>{{ __('front/common.home') }}</a></li>
+                        <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ __('front/common.faq') }}</li>
                     </ol>
                 </nav>
 
             </div>
             <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-                <h1 class="text-light">Česta pitanja</h1>
+                <h1 class="h3 text-dark">{{ __('front/common.faq') }}</h1>
             </div>
         </div>
     </div>
+    <div class="full-row bg-white pt-3 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="navigation_link_widget mb-5 bg-gray p-4">
+                        <h5 class="double-down-line-left text-secondary position-relative pb-4 mb-4">{{ __('front/common.additional_info') }}</h5>
+                        <ul>
+                            @foreach($pages as $page)
+                             <li>
+                                 <a href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a>
+                             </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="info-pages bg-gray px-4 py-5 ">
+                            @foreach ($faqs as $fa)
+                                <div class="faq-item mb-4"> <span class="faq-question bg-primary text-white">Q</span>
+                                    <div class="d-table">
+                                        <h5 class="mb-2 text-secondary">{{ $fa->title }}</h5>
+                                        {!! $fa->description !!}
+                                        <hr>
+                                    </div>
 
-
-    <div class="container">
-
-
-
-        <div class="mt-5 mb-5">
-
-    <!-- Flush accordion. Use this when you need to render accordions edge-to-edge with their parent container -->
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-
-
-    @foreach ($faqs as $fa)
-
-        <!-- Item -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-heading{{ $fa->id }}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ $fa->id }}" aria-expanded="false" aria-controls="flush-collapse{{ $fa->id }}">{{ $fa->title }}</button>
-                </h2>
-                <div class="accordion-collapse collapse" id="flush-collapse{{ $fa->id }}" aria-labelledby="flush-heading{{ $fa->id }}" data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">  {!! $fa->description !!}</div>
+                                </div>
+                            @endforeach
+                    </div>
                 </div>
             </div>
-
-    @endforeach
-
-
-
-
-
-
-
-
-
-
-
-    </div>
-
         </div>
     </div>
 

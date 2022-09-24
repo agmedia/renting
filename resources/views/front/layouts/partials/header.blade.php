@@ -6,7 +6,6 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="d-flex h-100 align-items-center justify-content-start">
-                            <!-- <div class="me-3"><a href="callto:012345678102" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>(012) 345 678 102</a></div>-->
                             <div class="me-3"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
                             <div class="dropdown hover-dropdown">
                                 <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
@@ -17,7 +16,7 @@
 
                                   @endforeach
 
-                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">FAQ</a> </li>
+                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
 
                                 </ul>
                             </div>
@@ -45,14 +44,13 @@
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
                                     @foreach($pages as $page)
-                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
-
+                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
                                     @endforeach
-                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">FAQ</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">Contact</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
+                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
                                 </ul>
-                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
+                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> {{ __('front/common.login_register') }}</a>
                             </div>
                         </nav>
                     </div>
@@ -73,10 +71,10 @@
                                 <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
                                     @foreach($pages as $page)
-                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
 
                                     @endforeach
-                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">FAQ</a> </li>
+                                        <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
                                 </ul>
                             </div>
                         </div>
@@ -102,14 +100,14 @@
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
                                     @foreach($pages as $page)
-                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation()->first()->slug]) }}">{{ $page->title }}</a></li>
+                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
 
                                     @endforeach
-                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">FAQ</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">Contact</a> </li>
-                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">Login</a> </li>
+                                        <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
+                                    <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
                                 </ul>
-                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> Login / Register</a>
+                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> {{ __('front/common.login_register') }}</a>
                             </div>
                         </nav>
                     </div>

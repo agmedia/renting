@@ -14,6 +14,10 @@ return [
     */
 
     'help_and_support' => 'Help and Support',
-
-
+    'faq' => 'Faq',
+    'login' => 'Login',
+    'login_register' => 'Login / Register',
+    'contact' => 'Contact us',
+    'home' => 'Home',
+    'additional_info' => 'Aditional Info',
 ];
