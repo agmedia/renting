@@ -35,10 +35,11 @@ class CheckoutController extends Controller
 
         $checkout = new Checkout($request);
         $total = $checkout->getTotal();
+        $options = $checkout->apartment->options()->where('reference', '!=', 'person')->get()->toArray();
 
-        dd($checkout, $checkout->getTotal());
+        dd($checkout, $checkout->getTotal(), $options);
 
-        return view('front.checkout.checkout', compact('checkout', 'total'));
+        return view('front.checkout.checkout', compact('checkout', 'total', 'options'));
     }
 
 
