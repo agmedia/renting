@@ -37,9 +37,9 @@
                                     <ul class="list-group mb-3">
                                         <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                             <div>
-                                                <h6 class="my-0">{{ number_format($data['apartment']->price, 0, ',', '.') }} kn x {{ $data['nights'] }} nights</h6>
+                                                <h6 class="my-0">{{ $data['apartment']->price }} kn x {{ $data['nights'] }} nights</h6>
                                             </div>
-                                            <span class="text-muted">{{ number_format(($data['apartment']->price * $data['nights']), 0, ',', '.') }} kn</span>
+                                            <span class="text-muted">{{ $data['apartment']->price_regular * $data['nights'] }} kn</span>
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                             <div>
@@ -56,7 +56,7 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between bg-light">
                                             <h5 class="my-0">Total (HRK)</h5>
-                                            <strong>{{ number_format(($data['apartment']->price * $data['nights']), 0, ',', '.') }} kn</strong>
+                                            <strong>{{ $data['apartment']->price_regular * $data['nights'] }} kn</strong>
                                         </li>
                                     </ul>
                                 </div>

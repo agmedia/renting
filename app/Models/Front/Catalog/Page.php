@@ -85,7 +85,7 @@ class Page extends Model implements LocalizedUrlRoutable
             return $this->hasMany(PageTranslation::class, 'page_id');
         }
 
-        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale)/*->first()*/;
+        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale)->first();
     }
 
 
@@ -94,7 +94,7 @@ class Page extends Model implements LocalizedUrlRoutable
      */
     public function getTitleAttribute()
     {
-        return $this->translation()->first()->title;
+        return $this->translation()->title;
     }
 
 
@@ -103,7 +103,7 @@ class Page extends Model implements LocalizedUrlRoutable
      */
     public function getDescriptionAttribute()
     {
-        return $this->translation()->first()->description;
+        return $this->translation()->description;
     }
 
 

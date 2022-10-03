@@ -118,7 +118,7 @@ class Option extends Model
      */
     public function scopeBasic(Builder $query): Builder
     {
-        return $query->select('id', 'price', 'featured');
+        return $query->select('id', 'reference', 'price', 'featured', 'status');
     }
 
 }

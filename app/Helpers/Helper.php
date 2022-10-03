@@ -34,9 +34,37 @@ class Helper
             $count++;
         }
 
-
-
         return collect($response);
+    }
+
+
+    /**
+     * @param        $dateFromString
+     * @param        $dateToString
+     * @param string $day
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public static function getDaysInRange(string $from_date, string $to_date, string $day) {
+        $dateFrom = new\ DateTime($from_date);
+        $dateTo = new\ DateTime($to_date);
+        $dates = [];
+
+        if ($dateFrom > $dateTo) {
+            return $dates;
+        }
+
+        if (1 != $dateFrom->format('N')) {
+            $dateFrom->modify('next ' . $day);
+        }
+
+        while ($dateFrom <= $dateTo) {
+            $dates[] = $dateFrom->format('Y-m-d');
+            $dateFrom->modify('+1 week');
+        }
+
+        return $dates;
     }
 
 

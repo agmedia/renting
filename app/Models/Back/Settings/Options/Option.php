@@ -166,6 +166,7 @@ class Option extends Model
 
         $response = [
             'group'      => $this->request->group,
+            'reference'  => $this->request->reference,
             'price'      => $this->request->price,
             'links'      => $this->links->flatten()->toJson(),
             'price'      => $this->request->price,

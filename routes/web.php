@@ -339,8 +339,8 @@ Route::group(
      * FRONT ROUTES
      */
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::post('/checkout', [HomeController::class, 'checkout'])->name('checkout');
-    Route::post('/checkout-view', [HomeController::class, 'checkoutView'])->name('checkout.view');
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout-view', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
     Route::get('faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');

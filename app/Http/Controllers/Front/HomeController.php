@@ -54,49 +54,6 @@ class HomeController extends Controller
 
 
     /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
-     */
-    public function checkout(Request $request)
-    {
-        if ( ! $request->input('dates')) {
-            return redirect()->back()->with('error', 'Enter dates!');
-        }
-
-        $dates = explode(' - ', $request->input('dates'));
-        $from = Carbon::make($dates[0]);
-        $to = Carbon::make($dates[1]);
-
-        $data = [
-            'apartment' => Apartment::find($request->input('apartment_id')),
-            'from' => $from,
-            'to' => $to,
-            'adults' => $request->input('adults') ?: 0,
-            'children' => $request->input('children') ?: 0,
-            'nights' => $from->diffInDays($to)
-        ];
-
-        return view('front.checkout.checkout', compact('data'));
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function checkoutView(Request $request)
-    {
-       // dd($request->toArray());
-
-
-
-        return view('front.checkout.success', compact('request'));
-    }
-
-
-    /**
      * @param Page $page
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

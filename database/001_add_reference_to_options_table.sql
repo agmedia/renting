@@ -1,0 +1,2 @@
+ALTER TABLE `options`
+    ADD COLUMN `reference` VARCHAR(191) NULL DEFAULT NULL AFTER `group`;

@@ -161,8 +161,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
     public function options()
     {
         return $this->hasManyThrough(Option::class, OptionApartment::class, 'apartment_id', 'id', 'id', 'option_id')
-                        ->where('status', 1)
-                        ->basic();
+                        ->where('status', 1);
     }
 
 

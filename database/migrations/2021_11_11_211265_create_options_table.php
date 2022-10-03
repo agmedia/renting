@@ -16,6 +16,7 @@ class CreateOptionsTable extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->string('group')->nullable();
+            $table->string('reference')->nullable();
             $table->decimal('price', 15, 4)->default(0);
             $table->text('links')->nullable();
             $table->string('badge')->nullable();

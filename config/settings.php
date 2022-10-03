@@ -83,6 +83,57 @@ return [
      * Treba prebaciti u administraciju
      * + treba smisliti kako implementirati drugi jezik.
      */
+    'option_references' => [
+        1 => [
+            'title' => [
+                'en' => 'Additional Person',
+                'hr' => 'Dodatna Osoba',
+            ],
+            'id' => 1,
+            'reference' => 'person'
+        ],
+        /*2 => [
+            'title' => [
+                'en' => 'Additional Adult',
+                'hr' => 'Dodatna Odrasla Osoba',
+            ],
+            'id' => 2,
+            'reference' => 'adult'
+        ],
+        3 => [
+            'title' => [
+                'en' => 'Additional Child',
+                'hr' => 'Dodatno Dijete',
+            ],
+            'id' => 3,
+            'reference' => 'child'
+        ],*/
+        4 => [
+            'title' => [
+                'en' => 'Transport',
+                'hr' => 'Transport',
+            ],
+            'id' => 4,
+            'reference' => 'transport'
+        ],
+        5 => [
+            'title' => [
+                'en' => 'Comfort & Luxury',
+                'hr' => 'Konfort i Luksuz',
+            ],
+            'id' => 5,
+            'reference' => 'comfort'
+        ],
+        6 => [
+            'title' => [
+                'en' => 'Service',
+                'hr' => 'Uslužne Djelatnosti',
+            ],
+            'id' => 6,
+            'reference' => 'service'
+        ],
+    ],
+    //
     'apartment_types' => [
         0 => [
             'title' => [
@@ -101,6 +152,7 @@ return [
             'default' => 0
         ]
     ],
+    //
     'apartment_targets' => [
         0 => [
             'title' => [

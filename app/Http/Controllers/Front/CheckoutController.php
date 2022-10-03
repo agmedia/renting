@@ -2,21 +2,70 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Helper;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderReceived;
 use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\AgCart;
+use App\Models\Front\Apartment\Apartment;
+use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
 use App\Models\Seo;
 use App\Models\TagManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function checkout(Request $request)
+    {
+        if ( ! $request->input('dates')) {
+            return redirect()->back()->with('error', 'Enter dates!');
+        }
+
+        $checkout = new Checkout($request);
+        $total = $checkout->getTotal();
+
+        dd($checkout, $checkout->getTotal());
+
+        return view('front.checkout.checkout', compact('checkout', 'total'));
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function checkoutView(Request $request)
+    {
+        // dd($request->toArray());
+
+
+
+        return view('front.checkout.success', compact('request'));
+    }
+
+
+
+
+
+
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
 
     /**
      * @param Request $request
@@ -35,7 +84,7 @@ class CheckoutController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function checkout(Request $request)
+    public function checkout_orig(Request $request)
     {
         $step = '';
 
