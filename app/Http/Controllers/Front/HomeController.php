@@ -14,6 +14,7 @@ use App\Models\Front\Faq;
 use App\Models\Sitemap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -27,11 +28,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $apartments = Apartment::paginate(12);
+        Log::info($request->toArray());
 
-
-
-        //dd(ag_currencies(true));
+        $apartments = Apartment::active()->search($request)->paginate(12);
 
         return view('front.home', compact('apartments'));
     }
@@ -50,6 +49,14 @@ class HomeController extends Controller
 
 
         return view('front.apartment', compact('apartment', 'dates', 'langs'));
+    }
+
+
+    public function search(Request $request)
+    {
+        $apartments = Apartment::active()->paginate(12);
+
+        return redirect()->route('index');
     }
 
 

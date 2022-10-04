@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Front\Catalog\Author;
 use App\Models\Front\Catalog\Category;
 use App\Models\Front\Catalog\Page;
 use App\Models\Front\Catalog\Product;
-use App\Models\Front\Catalog\Publisher;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -67,13 +65,6 @@ class Sitemap
             return $this->getProducts();
         }
 
-        if ($sitemap == 'authors' || $sitemap == 'authors.xml') {
-            return $this->getAuthors();
-        }
-
-        if ($sitemap == 'publishers' || $sitemap == 'publishers.xml') {
-            return $this->getPublishers();
-        }
     }
 
 
@@ -163,68 +154,4 @@ class Sitemap
     }
 
 
-    /**
-     * @return array
-     */
-    private function getAuthors()
-    {
-        $authors = Author::query()->active()->select('url', 'updated_at')->get();
-
-        $this->response[] = [
-            'url' => route('catalog.route.author'),
-            'lastmod' => Carbon::now()->startOfMonth()->tz('UTC')->toAtomString()
-        ];
-
-        foreach ($authors as $author) {
-            $this->response[] = [
-                'url' => url($author->url),
-                'lastmod' => $author->updated_at->tz('UTC')->toAtomString()
-            ];
-
-            /*$cats = Category::query()->topList()->whereHas('products', function ($query) use ($author) {
-                $query->where('author_id', $author->id);
-            })->with('subcategories')->get();
-
-            if ($cats) {
-                foreach ($cats as $category) {
-                    $this->response[] = [
-                        'url' => route('catalog.route.author', ['author' => $author->slug, 'cat' => $category->slug]),
-                        'lastmod' => $author->updated_at->tz('UTC')->toAtomString()
-                    ];
-
-                    foreach ($category->subcategories()->get() as $subcategory) {
-                        $this->response[] = [
-                            'url' => route('catalog.route.author', ['author' => $author->slug, 'cat' => $category->slug, 'subcat' => $subcategory->slug]),
-                            'lastmod' => $author->updated_at->tz('UTC')->toAtomString()
-                        ];
-                    }
-                }
-            }*/
-        }
-
-        return $this->response;
-    }
-
-
-    /**
-     * @return array
-     */
-    private function getPublishers()
-    {
-        $publishers = Publisher::query()->active()->select('url', 'updated_at')->get();
-
-        $this->response[] = [
-            'url' => route('catalog.route.publisher'),
-            'lastmod' => Carbon::now()->startOfMonth()->tz('UTC')->toAtomString()
-        ];
-
-        foreach ($publishers as $publisher) {
-            $this->response[] = [
-                'url' => url($publisher->url),
-                'lastmod' => $publisher->updated_at->tz('UTC')->toAtomString()
-            ];
-        }
-
-        return $this->response;
-    }
 }

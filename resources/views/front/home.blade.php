@@ -13,12 +13,12 @@
                                 <div class="col-6 ">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
-                                            <select class="form-control form-select bg-gray">
-                                                <option>Default Order</option>
-                                                <option>Newest First</option>
-                                                <option>Oldest First</option>
-                                                <option>Top Rated</option>
-                                                <option>Most Popular</option>
+                                            <select class="form-control form-select bg-gray" id="select-sort">
+                                                <option value="0">Default Order</option>
+                                                <option value="new">Newest First</option>
+                                                <option value="old">Oldest First</option>
+                                                <option value="top">Top Rated</option>
+                                                <option value="popular">Most Popular</option>
                                             </select>
                                         </div>
                                         <label>25 results</label>
@@ -38,44 +38,35 @@
                                         <div class="card card-body pb-0 px-0 border-0">
                                             <div class="mb-0 p-4 shadow-one reservationbox">
                                                 <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.search_box_title') }}</h5>
-                                                <form class="bg-gray-input d-inline-block" action="http://127.0.0.1:8000/en/checkout" method="post">
                                                     <div class="row row-cols-1">
 
                                                         <div class="col-md-6 mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select ">
-                                                                    <option selected >{{ __('front/apartment.select_city') }}</option>
+                                                                <select class="form-control form-select" id="select-city">
+                                                                    <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
                                                                     <option >Zagreb</option>
                                                                     <option>Split</option>
                                                                     <option>Rijeka</option>
-
                                                                 </select>
-
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6 mt-3">
-
                                                             <div class="input-group ">
                                                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                                                <input type="hidden" name="apartment_id" value="">
                                                                 <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
-
                                                             </div>
-
                                                         </div>
 
-                                                        <div class="col-md-4  mt-3">
+                                                        <div class="col-md-4 mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select" name="adults">
+                                                                <select class="form-control form-select" id="select-adults">
                                                                     <option value="0">{{ __('front/apartment.adults_title') }}</option>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                    <option>5</option>
+                                                                    @for ($i = 1; $i < 8; $i++)
+                                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -83,22 +74,19 @@
                                                         <div class="col-md-4  mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select" name="children">
+                                                                <select class="form-control form-select" id="select-children">
                                                                     <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                                    <option>0</option>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
+                                                                    @for ($i = 1; $i < 6; $i++)
+                                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
                                                                 </select>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 mt-3">
-                                                            <button type="submit" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
+                                                            <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
                                                         </div>
                                                     </div>
-
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -132,6 +120,8 @@
                                     </div>
                                 @endforeach
                             </div>
+
+                            <!--- pagination -->
                             <div class="row justify-content-center my-5">
                                 <div class="col-auto">
                                     <nav aria-label="Page navigation">
@@ -325,6 +315,60 @@
             var _longitude = 15.981403769351106;
             createHomepageGoogleMap(_latitude, _longitude);
         })(jQuery);
+
+        /**
+         *
+         * @type {URLSearchParams}
+         */
+        var searchParams = new URLSearchParams(window.location.search);
+
+        $(() => {
+            $('#select-sort').on('change', (e) => {
+                searchParams.set('sort', e.currentTarget.value);
+                window.location.search = searchParams.toString();
+            });
+
+            setInputParams();
+        });
+
+        /**
+         *
+         */
+        function setInputParams() {
+            searchParams.forEach((item, key) => {
+                document.getElementById('select-' + key).value = item;
+            })
+        }
+
+        /**
+         *
+         */
+        function updateQueryParams() {
+            let params = ['city', 'adults', 'children', 'sort'];
+
+            params.forEach((item) => {
+                resolveSelectParam(item);
+            });
+
+            window.location.search = searchParams.toString();
+        }
+
+
+        /**
+         *
+         * @param param
+         */
+        function resolveSelectParam(param) {
+            let target = document.getElementById('select-' + param);
+            target = target.options[target.selectedIndex].value;
+
+            if (target != 0) {
+                return searchParams.set(param, target);
+            }
+
+            return searchParams.delete(param);
+        }
+
     </script>
 
 @endpush

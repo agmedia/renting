@@ -4,10 +4,11 @@ namespace App\Models\Front\Apartment;
 
 use App\Helpers\CurrencyHelper;
 use App\Helpers\Helper;
-use App\Models\Back\Orders\Order;
+use App\Models\Front\Checkout\Order;
 use App\Models\Back\Settings\Options\OptionApartment;
 use App\Models\Front\Catalog\Action;
 use App\Models\Front\Catalog\Option;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -18,8 +19,6 @@ use Mcamara\LaravelLocalization\Interfaces\LocalizedUrlRoutable;
 
 class Apartment extends Model implements LocalizedUrlRoutable
 {
-
-    use HasFactory;
 
     /**
      * @var string
@@ -166,6 +165,17 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
+     * @param bool $all
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'apartment_id')/*->orderBy('order_id', 'desc')*/;
+    }
+
+
+    /**
      * @return string
      */
     public function getTitleAttribute()
@@ -241,6 +251,56 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', 1);
+    }
+
+
+    /**
+     * @param Builder $query
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query, Request $request): Builder
+    {
+        if ($request->has('city')) {
+            $query->where('city', $request->input('city'));
+        }
+        if ($request->has('adults')) {
+            $query->where('adults', '>=', $request->input('adults'));
+        }
+        if ($request->has('children')) {
+            $query->where('children', '>=', $request->input('children'));
+        }
+
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
+
+            if ($sort == 'new') {
+                $query->orderBy('created_at', 'desc');
+            }
+            if ($sort == 'old') {
+                $query->orderBy('created_at');
+            }
+            if ($sort == 'top') {
+                $query->orderBy('featured');
+            }
+            if ($sort == 'popular') {
+                $query->orderBy('viewed');
+            }
+        }
+
+        return $query;
+    }
+
+
+    /**
      * @return array
      */
     public function dates()
@@ -257,7 +317,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
-     * @return void
+     * @return mixed
      */
     public function getPriceByDay()
     {
@@ -297,5 +357,6 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
         return $price;
     }
+
 
 }
