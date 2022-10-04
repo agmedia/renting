@@ -35,6 +35,7 @@ use App\Http\Controllers\Front\CatalogRouteController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\SetupController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -327,7 +328,7 @@ Route::group(
     ], function() {
 
     /**
-     * CUSTOMER BACK ROUTES
+     * REGISTERED CUSTOMER BACK ROUTES
      */
     Route::middleware(['auth:sanctum', 'verified'])->prefix('moj-racun')->group(function () {
         Route::get('/', [CustomerController::class, 'index'])->name('moj-racun');
@@ -344,26 +345,28 @@ Route::group(
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
     Route::get('faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
+    // SETUP ROUTES
+    Route::get('cache/image', [SetupController::class, 'imageCache']);
+    Route::get('cache/thumb', [SetupController::class, 'thumbCache']);
+    Route::get('set/currency', [SetupController::class, 'setMainCurrency'])->name('set.currency');
+
 
 
     // OLD ROUTES... CHECK & DELETE
-    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
-    Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
-//
-    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
-    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
-    Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
-    //Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
-    Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
-//
-    Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
+//    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
+//    Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
+////
+//    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
+//    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
+//    Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
+//    //Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
+//    Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
+//    Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
+////
+//    Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
 //
     Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
 //
-    Route::get('cache/image', [HomeController::class, 'imageCache']);
-    Route::get('cache/thumb', [HomeController::class, 'thumbCache']);
-    Route::get('set/currency', [HomeController::class, 'setMainCurrency'])->name('set.currency');
     /**
      * Sitemap routes
      */
@@ -380,15 +383,15 @@ Route::group(
      * Groups, Categories and Products routes resolver.
      * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
      */
-    Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
-    Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
-//
-    Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
-    Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
-//
-    Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
-//
-    Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
+//    Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
+//    Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
+////
+//    Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
+//    Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
+////
+//    Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
+////
+//    Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
 
 
     Route::fallback(function () {
