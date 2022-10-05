@@ -353,8 +353,8 @@ Route::group(
 
 
     // OLD ROUTES... CHECK & DELETE
-//    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
-//    Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
+    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
+   Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
 ////
 //    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 //    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
