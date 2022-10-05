@@ -65,7 +65,7 @@ class Checkout
     public $apartment;
 
     //
-    protected $main_currency;
+    public $main_currency;
 
     //
     private $request;
@@ -164,9 +164,13 @@ class Checkout
                 'amount' => $this->additional_persons * $this->additional_persons_price,
                 'total' => ($this->additional_persons * $this->additional_persons_price) * $this->main_currency->value,
             ];
+
+            $total_sum = ($this->regular_days * $this->apartment->price_regular) + ($this->weekends * $this->apartment->price_weekends) + ($this->additional_persons * $this->additional_persons_price);
+        } else{
+            $total_sum = ($this->regular_days * $this->apartment->price_regular) + ($this->weekends * $this->apartment->price_weekends);
         }
 
-        $total_sum = ($this->regular_days * $this->apartment->price_regular) + ($this->weekends * $this->apartment->price_weekends);
+
         $subtotal = $total_sum / 1.25;
         $tax = $total_sum - $subtotal;
 
