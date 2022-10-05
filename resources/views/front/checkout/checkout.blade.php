@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row row-cols-md-2 row-cols-1 g-3">
                 <div class="col">
-                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a> Confirm and pay</h3>
+                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.main_title') }}</h3>
                 </div>
 
             </div>
@@ -28,11 +28,11 @@
                         <div class="mt-lg-4 p-4 mb-4 shadow-one reservationbox ">
                             <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="assets/images/apartmani/4.jpeg" alt=""></div>
                             <h5 class="mt-2 mb-0 text-primary">{{ $checkout->apartment->title }}</h5>
-                            <p class="mb-0">Entire rental unit</p>
+                            <p class="mb-0">{{ __('front/checkout.entire_rental_unit') }}</p>
                             <div class="clearfix"></div>
                             <div class="row row-cols-1 ">
                                 <div class="col mt-0">
-                                    <h4 class="mt-0 mb-2 text-primary">Price details</h4>
+                                    <h4 class="mt-0 mb-2 text-primary">{{ __('front/checkout.price_details') }}</h4>
                                     <ul class="list-group mb-3">
                                             @foreach ($total['items'] as  $item)
                                                 <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
@@ -66,58 +66,78 @@
 
                         <div class="row mb-4">
                             <div class="col-12">
-                                <h4 class="text-secondary my-4 mt-0">Your reservation</h4>
+                                <h4 class="text-secondary my-4 mt-0">{{ __('front/checkout.your_reservation') }}</h4>
                                 <div class="overflow-x-scroll pb-3">
                                     <table class="tab-table w-100 text-secondary">
                                         <tbody>
                                         <tr>
-                                            <td ><strong>Dates</strong></td>
+                                            <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
                                             <td>{{ $checkout->from->format('d.m.Y') }} – {{ $checkout->to->format('d.m.Y') }}</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Guests</strong></td>
-                                            <td>{{ $checkout->adults + $checkout->children }} guests</td>
+                                            <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
+                                            <td>{{ $checkout->adults + $checkout->children }} {{ __('front/checkout.guests') }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
 
+                            @if($options)
+                                <div class="col-12">
+                                    <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_options') }}</h4>
+                                    <ul class="list-group mb-4">
+                                        @foreach ($options as  $item)
+                                            <li class="list-group-item p-3">
+                                                <label>
+                                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="{{ $item['reference'] }}" value="{{ $item['price'] }}" aria-label="...">
+                                                    {{ $item['title'] }}
+                                                </label>
+                                                <div class="ms-4" style="float:right">
+                                                    {{ $item['price_text'] }}
+                                                </div>
+                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="col-12">
-                                <h4 class="text-secondary my-4 mt-4">Personal Info</h4>
+                                <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.personal_info') }}</h4>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="Name*">
+                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="Surname*">
+                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="Mobile number*">
+                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.mobile_number') }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="Email Address*">
+                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <h4 class="text-secondary my-4 mt-4">Pay with</h4>
+                                <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.pay_with') }}</h4>
                                 <ul class="list-group mb-4">
 
-                                    @foreach ($payment_methods['items'] as  $item)
-
+                                    @foreach ($payment_methods as  $item)
 
                                         <li class="list-group-item p-3">
                                             <label>
-                                                <input class="form-check-input me-1 mt-2" type="radio" name="paymenttype" value="paypal" aria-label="...">
-                                                {{ $item['title'] }}
+                                                <input class="form-check-input me-1 mt-2" type="radio" name="paymenttype" value="{{ $item->code }}" aria-label="...">
+                                                {{ $item->title->{current_locale()} }}
                                             </label>
-                                            <div class="payments-card ms-4" >
-                                                <img class="ccard"  src="assets/images/cards/paypal.svg">
-                                            </div>
+                                            @if($item->code=='corvus')
+                                                <div class="ms-4" style="float:right">
+                                                    <img class="ccard"  src="{{ asset('assets/images/cards/CorvusPay.svg') }}">
+                                                </div>
+                                            @endif
                                         </li>
-
 
                                     @endforeach
 
@@ -127,22 +147,24 @@
                                 </ul>
                             </div>
 
+
+
                             <div class="col-12">
-                                <h4 class="text-secondary my-4 mt-4">Additional Comments</h4>
+                                <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_comments') }}</h4>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <textarea id="message" name="message" class="form-control bg-gray mb-3" rows="5" placeholder="Type Comments..."></textarea>
+                                        <textarea id="message" name="message" class="form-control bg-gray mb-3" rows="5" placeholder="{{ __('front/checkout.type_comments') }}"></textarea>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12 mt-3">
                                 <div class="alert alert-secondary" role="alert">
-                                    By selecting the button below, I agree to the <a href="#" class="alert-link">updated Terms of Service, Payments Terms of Service, and I acknowledge the Privacy Policy.</a>
+                                    {!! __('front/checkout.agree') !!}
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <button type="submit" id="send" value="send message" class="btn btn-lg btn-primary">Confirm and Pay</button>
+                                <button type="submit" id="send" value="send message" class="btn btn-lg btn-primary">{{ __('front/checkout.confirm_and_pay') }}</button>
                             </div>
                         </div>
                     </form>
