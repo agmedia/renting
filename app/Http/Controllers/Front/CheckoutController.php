@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Front\Checkout\PaymentMethod;
+use App\Models\Front\Checkout\GeoZone;
 
 class CheckoutController extends Controller
 {
@@ -37,9 +39,12 @@ class CheckoutController extends Controller
         $total = $checkout->getTotal();
         $options = $checkout->apartment->options()->where('reference', '!=', 'person')->get()->toArray();
 
-        dd($checkout, $checkout->getTotal(), $options);
+        $geo = (new GeoZone())->findState('Croatia');
+        $payment_methods = (new PaymentMethod())->findGeo($geo->id)->resolve();
 
-        return view('front.checkout.checkout', compact('checkout', 'total', 'options'));
+     //  dd($checkout, $checkout->getTotal(), $options, $payment_methods);
+
+        return view('front.checkout.checkout', compact('checkout', 'total', 'options', 'payment_methods'));
     }
 
 
