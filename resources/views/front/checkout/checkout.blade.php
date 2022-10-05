@@ -145,7 +145,9 @@
                                                     <i class="far fa-credit-card fa-2x"></i>
                                                 </div>
                                             @endif
+                                            @if($item->data->short_description)
                                             <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
+                                            @endif
                                         </li>
 
                                     @endforeach
