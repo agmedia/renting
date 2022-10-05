@@ -132,11 +132,20 @@
                                                 <input class="form-check-input me-1 mt-2" type="radio" name="paymenttype" value="{{ $item->code }}" aria-label="...">
                                                 {{ $item->title->{current_locale()} }}
                                             </label>
-                                            @if($item->code=='corvus')
+                                            @if($item->code=='bank')
                                                 <div class="ms-4" style="float:right">
-                                                    <img class="ccard"  src="{{ asset('assets/images/cards/CorvusPay.svg') }}">
+                                                    <i class="fas fa-university fa-2x"></i>
+                                                </div>
+                                            @elseif ($item->code=='cod')
+                                                <div class="ms-4" style="float:right">
+                                                    <i class="fas fa-coins fa-2x"></i>
+                                                </div>
+                                            @else
+                                                <div class="ms-4" style="float:right">
+                                                    <i class="far fa-credit-card fa-2x"></i>
                                                 </div>
                                             @endif
+                                            <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
                                         </li>
 
                                     @endforeach
