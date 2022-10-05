@@ -1,5 +1,9 @@
 @extends('front.layouts.app')
 
+@push('css_after')
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
+@endpush
+
 @section('content')
     <div class="full-row bg-white p-0">
         <div class="container-fluid">
@@ -310,19 +314,60 @@
     </script>
 
     <script>
-        (function($) {
-            var _latitude = 45.8150107380416;
-            var _longitude = 15.981403769351106;
-            createHomepageGoogleMap(_latitude, _longitude);
-        })(jQuery);
-
         /**
          *
          * @type {URLSearchParams}
          */
         var searchParams = new URLSearchParams(window.location.search);
+        /**
+         *
+         * @type {string[]}
+         */
+        var selectParams = ['city', 'adults', 'children', 'sort'];
+        /**
+         *
+         * @type {P.DateTime|*}
+         */
+        var DateTime = easepick.DateTime;
+        /**
+         *
+         */
+        var pickerres = new easepick.create({
+            element:     document.getElementById('checkindate'),
+            css:         [
+                'assets/css/reservation.css',
+            ],
+            grid:        1,
+            calendars:   1,
+            zIndex:      10,
+            plugins:     ['LockPlugin', 'RangePlugin'],
+            RangePlugin: {
+                tooltipNumber(num) {
+                    return num - 1;
+                },
+                locale: {
+                    one:   'night',
+                    other: 'nights',
+                },
+                startDate: startDate(),
+                endDate: endDate()
+            },
+            LockPlugin:  {
+                minDate:     new Date(),
+                minDays:     2,
+                inseparable: true
+            }
+        });
 
+        /**
+         *
+         */
         $(() => {
+            var _latitude = 45.8150107380416;
+            var _longitude = 15.981403769351106;
+            createHomepageGoogleMap(_latitude, _longitude);
+
+            //
             $('#select-sort').on('change', (e) => {
                 searchParams.set('sort', e.currentTarget.value);
                 window.location.search = searchParams.toString();
@@ -333,10 +378,32 @@
 
         /**
          *
+         * @returns {*}
+         */
+        function startDate() {
+            if (searchParams.has('from')) {
+                return new DateTime(searchParams.get('from'), 'YYYY-MM-DD');
+            }
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function endDate() {
+            if (searchParams.has('to')) {
+                return new DateTime(searchParams.get('to'), 'YYYY-MM-DD');
+            }
+        }
+
+        /**
+         *
          */
         function setInputParams() {
             searchParams.forEach((item, key) => {
-                document.getElementById('select-' + key).value = item;
+                if (selectParams.indexOf(key) != -1) {
+                    document.getElementById('select-' + key).value = item;
+                }
             })
         }
 
@@ -344,11 +411,19 @@
          *
          */
         function updateQueryParams() {
-            let params = ['city', 'adults', 'children', 'sort'];
-
-            params.forEach((item) => {
+            selectParams.forEach((item) => {
                 resolveSelectParam(item);
             });
+
+            let dates = document.getElementById('checkindate').value.split(' - ');
+
+            if (dates.length < 2) {
+                searchParams.delete('from');
+                searchParams.delete('to');
+            }
+
+            searchParams.set('from', dates[0]);
+            searchParams.set('to', dates[1]);
 
             window.location.search = searchParams.toString();
         }

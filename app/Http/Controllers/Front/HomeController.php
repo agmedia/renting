@@ -11,6 +11,7 @@ use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Page;
 use App\Models\Front\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller

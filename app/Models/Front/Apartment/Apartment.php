@@ -279,6 +279,20 @@ class Apartment extends Model implements LocalizedUrlRoutable
             $query->where('children', '>=', $request->input('children'));
         }
 
+        if ($request->has('from') || $request->has('to')) {
+            $query->whereHas('orders', function ($query) use ($request) {
+                /*$query->where(function ($query) use ($request) {
+                    $query->where('date_from', '<=', date($request->input('from')))->where('date_to', '>=', date($request->input('to')));
+                });*/
+                $query->orWhere(function ($query) use ($request) {
+                    $query->where('date_from', '<', date($request->input('from')))->where('date_to', '>=', date($request->input('to')));
+                });
+                $query->orWhere(function ($query) use ($request) {
+                    $query->where('date_from', '>=', date($request->input('from')))->where('date_to', '<', date($request->input('to')));
+                });
+            });
+        }
+
         if ($request->has('sort')) {
             $sort = $request->input('sort');
 
