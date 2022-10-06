@@ -18,6 +18,7 @@ class CreateOptionsTable extends Migration
             $table->string('group')->nullable();
             $table->string('reference')->nullable();
             $table->decimal('price', 15, 4)->default(0);
+            $table->string('price_per')->nullable();
             $table->text('links')->nullable();
             $table->string('badge')->nullable();
             $table->integer('sort_order')->default(0);

@@ -102,7 +102,7 @@
                                     </div>
 
                                     <div class="form-group row items-push">
-                                        <div class="col-md-6 mt-2">
+                                        <div class="col-md-4 mt-2">
                                             <label for="price-input">{{ __('back/options.title_price') }}</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="price-input" name="price" value="{{ isset($option) ? $option->price : old('price') }}">
@@ -111,8 +111,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 mt-2">
-                                            <label for="group-select">{{ __('back/action.action_group') }} <span class="text-danger">*</span></label>
+                                        <div class="col-md-4 mt-2">
+                                            <label for="group-select">Price Per</label>
+                                            <select class="form-control" id="price-per-select" name="price_per">
+                                                <option value="day" {{ (isset($option) and 'day' == $option->price_per) ? 'selected="selected"' : '' }}>Price Per Day</option>
+                                                <option value="onetime" {{ (isset($option) and 'onetime' == $option->price_per) ? 'selected="selected"' : '' }}>One Time Payment</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mt-2">
+                                            <label for="group-select">Extra Group <span class="text-danger">*</span></label>
                                             <select class="form-control" id="group-select" name="group">
                                                 @foreach ($groups as $group)
                                                     <option value="{{ $group->id }}" {{ (isset($option) and $group->id == $option->group) ? 'selected="selected"' : '' }}>{{ $group->title }}</option>
@@ -181,6 +188,10 @@
             /**
              *
              */
+            $('#price-per-select').select2({
+                minimumResultsForSearch: Infinity
+            });
+
             $('#group-select').select2({
                 minimumResultsForSearch: Infinity
             });

@@ -1,0 +1,2 @@
+ALTER TABLE `orders`
+    ADD COLUMN `options` TEXT NULL DEFAULT NULL AFTER `oib`;

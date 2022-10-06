@@ -4,7 +4,7 @@
         <ul class="dropdown-menu">
             @foreach (ag_currencies() as $currency)
                 <li>
-                    <a class="dropdown-item @if (current_locale() == $currency->code) active @endif" href="{{ route('set.currency', ['currency' => $currency->code]) }}">{{ $currency->title->{LaravelLocalization::getCurrentLocale()} }}</a>
+                    <a class="dropdown-item @if (ag_currencies(true)->code == $currency->code) active @endif" href="{{ route('set.currency', ['currency' => $currency->code]) }}">{{ $currency->title->{current_locale()} }}</a>
                 </li>
             @endforeach
         </ul>

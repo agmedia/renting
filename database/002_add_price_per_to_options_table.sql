@@ -1,0 +1,2 @@
+ALTER TABLE `options`
+    ADD COLUMN `price_per` VARCHAR(191) NULL DEFAULT NULL AFTER `price`;

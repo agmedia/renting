@@ -36,7 +36,7 @@ class CheckoutController extends Controller
         }*/
 
         $checkout = new Checkout($request);
-        $options  = $checkout->apartment->options()->withoutPersons()->get();
+        $options  = $checkout->getOptions();
 
         CheckoutSession::hasAddress() ? $checkout->setAddress(CheckoutSession::getAddress()) : null;
         CheckoutSession::hasPayment() ? $checkout->setPayment(CheckoutSession::getPayment()) : null;

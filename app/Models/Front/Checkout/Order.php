@@ -162,6 +162,7 @@ class Order extends Model
             'payment_installment' => '',
             'company'             => '',
             'oib'                 => '',
+            'options'             => serialize($this->checkout->added_options),
             'comment'             => '',
             'approved'            => '',
             'approved_user_id'    => '',

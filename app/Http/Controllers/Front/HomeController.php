@@ -40,6 +40,8 @@ class HomeController extends Controller
         $dates = $apartment->dates();
         $langs = LanguageHelper::resolveSelector($apartment);
 
+        //dd($apartment->options()->withoutPersons()->get());
+
         return view('front.apartment', compact('apartment', 'dates', 'langs'));
     }
 

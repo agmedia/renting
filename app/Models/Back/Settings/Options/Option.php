@@ -168,6 +168,7 @@ class Option extends Model
             'group'      => $this->request->group,
             'reference'  => $this->request->reference,
             'price'      => $this->request->price,
+            'price_per'  => $this->request->price_per,
             'links'      => $this->links->flatten()->toJson(),
             'price'      => $this->request->price,
             'sort_order' => $this->request->sort_order ?: 0,

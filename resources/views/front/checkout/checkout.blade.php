@@ -37,15 +37,15 @@
                                         @foreach ($checkout->total['items'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                                 <div>
-                                                    <h6 class="my-0">{{  $item['amount'] }} {{ $checkout->main_currency->symbol_right  }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
+                                                    <h6 class="my-0">{{ $item['amount'] }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
                                                 </div>
-                                                <span class="text-muted">{{ $item['total'] }}  {{ $checkout->main_currency->symbol_right  }}</span>
+                                                <span class="text-muted">{{ $item['total_text'] }}</span>
                                             </li>
                                         @endforeach
                                         @foreach ($checkout->total['total'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
                                                 <h5 class="my-0">{{ $item['title'] }} </h5>
-                                                <strong> {{ $checkout->main_currency->symbol_left  }} {{ $item['total'] }} {{ $checkout->main_currency->symbol_right  }}</strong>
+                                                <strong>{{ $item['total_text'] }}</strong>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -86,16 +86,18 @@
                                 <div class="col-12">
                                     <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_options') }}</h4>
                                     <ul class="list-group mb-4">
-                                        @foreach ($options as  $item)
+                                        @foreach ($options as $item)
                                             <li class="list-group-item p-3">
                                                 <label>
-                                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="{{ $item->reference }}" value="{{ $item->price }}" aria-label="...">
-                                                    {{ $item->title }}
+                                                    <input class="form-check-input me-1 mt-2" type="checkbox"  name="additional[{{ $item['id'] }}]" id="additional[{{ $item['id'] }}]" value="{{ $item['price_text'] }}"
+                                                           @if ($item['checked']) checked="checked" @endif
+                                                    >
+                                                    {{ $item['title'] }}
                                                 </label>
                                                 <div class="ms-4" style="float:right">
-                                                    {{ $item->price_text }}
+                                                    {{ $item['price_text'] }}
                                                 </div>
-                                                <div id="{{ $item->reference }}" class="form-text ps-4 ">{{ $item->description }}</div>
+                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
                                             </li>
                                         @endforeach
                                     </ul>
