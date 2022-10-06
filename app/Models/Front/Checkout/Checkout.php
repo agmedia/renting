@@ -19,55 +19,54 @@ use Illuminate\Support\Facades\Log;
 class Checkout
 {
 
-    //
     public $from;
 
-    //
     public $to;
 
-    //
     public $total_days = 0;
 
-    //
     public $regular_days = 0;
 
-    //
     public $weekends = 0;
 
-    //
     public $fridays;
 
-    //
     public $saturdays;
 
-    //
     public $adults = 0;
 
-    //
     public $children = 0;
 
-    //
     public $additional_adults = 0;
 
-    //
     public $additional_children = 0;
 
-    //
     public $additional_persons = 0;
 
-    //
     public $additional_persons_price = 0.00;
 
-    //
     public $additional_person_object;
 
-    //
+    public $total = [];
+
+    public $total_amount = 0;
+
     public $apartment;
 
-    //
+    public $firstname = '';
+
+    public $lastname = '';
+
+    public $phone = '';
+
+    public $email = '';
+
     public $main_currency;
 
-    //
+    public $payments_list;
+
+    public $payment;
+
     private $request;
 
 
@@ -76,11 +75,37 @@ class Checkout
      */
     public function __construct(Request $request)
     {
-        $this->request = $request;
+        $this->request       = $request;
         $this->main_currency = CurrencyHelper::mainSession();
 
         $this->resolveDays()
-             ->checkAdditionalPersons();
+             ->checkAdditionalPersons()
+             ->getPaymentMethodsList();
+
+        $this->total = $this->getTotal();
+
+        if (isset($this->request->firstname) && $this->request->firstname != '') {
+            $this->setAddress();
+        }
+    }
+
+
+    /**
+     * @param string $state
+     *
+     * @return Collection
+     */
+    private function getPaymentMethodsList(string $state = 'Croatia')
+    {
+        $geo = (new GeoZone())->findState($state);
+
+        $this->payments_list = (new PaymentMethod())->findGeo($geo->id)->resolve();
+
+        if ($this->payments_list && (isset($this->request->payment_type) && $this->request->payment_type != '')) {
+            $this->setPayment($this->request->payment_type);
+        }
+
+        return $this;
     }
 
 
@@ -88,7 +113,7 @@ class Checkout
      * @return $this
      * @throws \Exception
      */
-    public function resolveDays()
+    private function resolveDays()
     {
         $dates = explode(' - ', $this->request->input('dates'));
 
@@ -107,11 +132,11 @@ class Checkout
     /**
      * @return $this
      */
-    public function checkAdditionalPersons()
+    private function checkAdditionalPersons()
     {
         $this->apartment = Apartment::find($this->request->input('apartment_id'));
-        $this->adults    = intval($this->request->input('adults')) ?: 0;
-        $this->children  = intval($this->request->input('children')) ?: 0;
+        $this->adults    = intval($this->request->input('adults')) ?: $this->apartment->adults;
+        $this->children  = intval($this->request->input('children')) ?: $this->apartment->children;
 
         $this->additional_person_object = $this->apartment->options()->where('reference', 'person')->get();
 
@@ -132,69 +157,118 @@ class Checkout
     }
 
 
-    public function checkSelectableOptions() {}
+    public function checkSelectableOptions()
+    {
+    }
 
 
-    public function getTotal()
+    /**
+     * @return array[]
+     */
+    public function getTotal(): array
     {
         $total = [];
         $items = [];
 
         $items[] = [
-            'code' => 'regular_days',
-            'title' => 'Regular days',
-            'count' => $this->regular_days,
+            'code'   => 'regular_days',
+            'title'  => 'Regular days',
+            'count'  => $this->regular_days,
             'amount' => $this->apartment->price_regular * $this->main_currency->value,
-            'total' => ($this->regular_days * $this->apartment->price_regular) * $this->main_currency->value,
+            'total'  => ($this->regular_days * $this->apartment->price_regular) * $this->main_currency->value,
         ];
 
         $items[] = [
-            'code' => 'weekends',
-            'title' => 'Weekends',
-            'count' => $this->weekends,
+            'code'   => 'weekends',
+            'title'  => 'Weekends',
+            'count'  => $this->weekends,
             'amount' => $this->apartment->price_weekends * $this->main_currency->value,
-            'total' => ($this->weekends * $this->apartment->price_weekends) * $this->main_currency->value,
+            'total'  => ($this->weekends * $this->apartment->price_weekends) * $this->main_currency->value,
         ];
 
         if ($this->additional_persons) {
             $items[] = [
-                'code' => 'additional_person',
-                'title' => $this->additional_person_object->first()->title,
-                'count' => $this->additional_persons,
+                'code'   => 'additional_person',
+                'title'  => $this->additional_person_object->first()->title,
+                'count'  => $this->additional_persons,
                 'amount' => $this->additional_persons * $this->additional_persons_price,
-                'total' => ($this->additional_persons * $this->additional_persons_price) * $this->main_currency->value,
+                'total'  => ($this->additional_persons * $this->additional_persons_price) * $this->main_currency->value,
             ];
 
             $total_sum = ($this->regular_days * $this->apartment->price_regular) + ($this->weekends * $this->apartment->price_weekends) + ($this->additional_persons * $this->additional_persons_price);
-        } else{
+        } else {
             $total_sum = ($this->regular_days * $this->apartment->price_regular) + ($this->weekends * $this->apartment->price_weekends);
         }
 
-
         $subtotal = $total_sum / 1.25;
-        $tax = $total_sum - $subtotal;
+        $tax      = $total_sum - $subtotal;
 
         $total[] = [
-            'code' => 'subtotal',
+            'code'  => 'subtotal',
             'title' => 'Subtotal',
             'total' => $subtotal * $this->main_currency->value,
         ];
 
         $total[] = [
-            'code' => 'tax',
+            'code'  => 'tax',
             'title' => 'Tax',
             'total' => $tax * $this->main_currency->value,
         ];
 
         $total[] = [
-            'code' => 'total',
+            'code'  => 'total',
             'title' => 'Total',
             'total' => $total_sum * $this->main_currency->value,
         ];
+
+        $this->total_amount = $total_sum * $this->main_currency->value;
 
         return [
             'items' => $items,
             'total' => $total
         ];
     }
+
+
+    /**
+     * @param $address
+     *
+     * @return array
+     */
+    public function setAddress($address = null): array
+    {
+        if ($address) {
+            $this->firstname = $address['firstname'];
+            $this->lastname = $address['lastname'];
+            $this->phone = $address['phone'];
+            $this->email = $address['email'];
+        } else {
+            $this->firstname = $this->request->input('firstname');
+            $this->lastname = $this->request->input('lastname');
+            $this->phone = $this->request->input('phone');
+            $this->email = $this->request->input('email');
+        }
+
+        return [
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'phone' => $this->phone,
+            'email' => $this->email,
+        ];
+    }
+
+
+    public function setPayment(string $payment = null)
+    {
+        if ($payment) {
+            $this->payment = $this->payments_list->where('code', $payment)->first();
+        } else {
+            $this->payment = $this->payments_list->where('code', $this->request->payment_type)->first();
+        }
+
+        //dd($this->payment);
+
+        return $this->payment->code ?: null;
+    }
+
 }

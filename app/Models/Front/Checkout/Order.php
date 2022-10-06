@@ -7,6 +7,7 @@ use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderProduct;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,13 @@ class Order extends Model
      * @var array
      */
     public $order = [];
+
+    public $id = 0;
+
+    /**
+     * @var Checkout|null
+     */
+    public $checkout = null;
 
     /**
      * @var null|array
@@ -61,11 +69,11 @@ class Order extends Model
 
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function products()
+    public function apartment()
     {
-        return $this->hasMany(OrderProduct::class, 'order_id')->with('product');
+        return $this->hasOne(Apartment::class, 'apartment_id');
     }
 
 
@@ -79,6 +87,112 @@ class Order extends Model
 
 
     /**
+     * @param Checkout $checkout
+     *
+     * @return $this
+     */
+    public function createMissing(Checkout $checkout)
+    {
+        $this->checkout = $checkout;
+        $this->order['order_status_id'] = 0;
+
+        $id = $this->insertForm();
+
+        if ($id) {
+            $this->id = $id;
+            OrderHistory::store($this->id);
+
+            foreach ($this->checkout->total['total'] as $key => $total) {
+                OrderTotal::insertRow($this->id, $total['code'], $total['total'], $key);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return mixed|null
+     */
+    public function resolvePaymentForm()
+    {
+        if ($this->checkout) {
+            $method = new PaymentMethod($this->checkout->payment->code);
+
+            return $method->resolveForm($this);
+        }
+
+        return null;
+    }
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
+
+    /**
+     * @return mixed
+     */
+    private function insertForm()
+    {
+        $user_id = auth()->user() ? auth()->user()->id : 0;
+        $total = collect($this->checkout->total['total'])->where('code', 'total')->first()['total'];
+
+        //dd($this->checkout);
+
+        return \App\Models\Back\Orders\Order::insertGetId([
+            'apartment_id'        => $this->checkout->apartment->id,
+            'user_id'             => $user_id,
+            'affiliate_id'        => 0,
+            'order_status_id'     => $this->order['order_status_id'],
+            'invoice'             => '',
+            'total'               => $total,
+            'date_from'           => Carbon::make($this->checkout->from),
+            'date_to'             => Carbon::make($this->checkout->to),
+            'payment_fname'       => $this->checkout->firstname,
+            'payment_lname'       => $this->checkout->lastname,
+            'payment_address'     => '',
+            'payment_zip'         => '',
+            'payment_city'        => '',
+            'payment_phone'       => $this->checkout->phone,
+            'payment_email'       => $this->checkout->email,
+            'payment_method'      => $this->checkout->payment->code,
+            'payment_code'        => $this->checkout->payment->code,
+            'payment_card'        => '',
+            'payment_installment' => '',
+            'company'             => '',
+            'oib'                 => '',
+            'comment'             => '',
+            'approved'            => '',
+            'approved_user_id'    => '',
+            'created_at'          => Carbon::now(),
+            'updated_at'          => Carbon::now()
+        ]);
+    }
+
+
+    public function getArray()
+    {
+        return $this->toArray();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
      * @param int $id
      *
      * @return $this
@@ -86,7 +200,7 @@ class Order extends Model
     public function setData(string $id)
     {
 
-        $id = str_replace('-' . date('Y'), '', $id);
+        $id   = str_replace('-' . date('Y'), '', $id);
         $data = \App\Models\Back\Orders\Order::where('id', $id)->first();
 
         if ($data) {
@@ -121,37 +235,30 @@ class Order extends Model
             $user_id = auth()->user() ? auth()->user()->id : 0;
 
             $order_id = \App\Models\Back\Orders\Order::insertGetId([
-                'user_id'          => $user_id,
-                'affiliate_id'     => 0,
-                'order_status_id'  => $this->order['order_status_id'],
-                'invoice'          => '',
-                'total'            => $this->order['cart']['total'],
-                'payment_fname'    => $this->order['address']['fname'],
-                'payment_lname'    => $this->order['address']['lname'],
-                'payment_address'  => $this->order['address']['address'],
-                'payment_zip'      => $this->order['address']['zip'],
-                'payment_city'     => $this->order['address']['city'],
-                'payment_state'    => $this->order['address']['state'],
-                'payment_phone'    => $this->order['address']['phone'] ?: null,
-                'payment_email'    => $this->order['address']['email'],
-                'payment_method'   => $this->order['payment']->title,
-                'payment_code'     => $this->order['payment']->code,
-                'payment_card'     => '',
+                'user_id'             => $user_id,
+                'affiliate_id'        => 0,
+                'order_status_id'     => $this->order['order_status_id'],
+                'invoice'             => '',
+                'total'               => $this->order['cart']['total'],
+                'payment_fname'       => $this->order['address']['fname'],
+                'payment_lname'       => $this->order['address']['lname'],
+                'payment_address'     => $this->order['address']['address'],
+                'payment_zip'         => $this->order['address']['zip'],
+                'payment_city'        => $this->order['address']['city'],
+                'payment_state'       => $this->order['address']['state'],
+                'payment_phone'       => $this->order['address']['phone'] ?: null,
+                'payment_email'       => $this->order['address']['email'],
+                'payment_method'      => $this->order['payment']->title,
+                'payment_code'        => $this->order['payment']->code,
+                'payment_card'        => '',
                 'payment_installment' => '',
-                'shipping_fname'   => $this->order['address']['fname'],
-                'shipping_lname'   => $this->order['address']['lname'],
-                'shipping_address' => $this->order['address']['address'],
-                'shipping_zip'     => $this->order['address']['zip'],
-                'shipping_city'    => $this->order['address']['city'],
-                'shipping_state'   => $this->order['address']['state'],
-                'shipping_phone'   => $this->order['address']['phone'] ?: null,
-                'shipping_email'   => $this->order['address']['email'],
-                'shipping_method'  => $this->order['shipping']->title,
-                'shipping_code'    => $this->order['shipping']->code,
-                'company'          => $this->order['address']['company'],
-                'oib'              => $this->order['address']['oib'],
-                'created_at'       => Carbon::now(),
-                'updated_at'       => Carbon::now()
+                'company'             => $this->order['address']['company'],
+                'oib'                 => $this->order['address']['oib'],
+                'comment'             => '',
+                'approved'            => '',
+                'approved_user_id'    => '',
+                'created_at'          => Carbon::now(),
+                'updated_at'          => Carbon::now()
             ]);
 
             if ($order_id) {
@@ -185,80 +292,35 @@ class Order extends Model
         if ( ! empty($data)) {
             $this->order = $data;
         }
-        
+
         $updated = \App\Models\Back\Orders\Order::where('id', $data['id'])->update([
-            'payment_fname'    => $this->order['address']['fname'],
-            'payment_lname'    => $this->order['address']['lname'],
-            'payment_address'  => $this->order['address']['address'],
-            'payment_zip'      => $this->order['address']['zip'],
-            'payment_city'     => $this->order['address']['city'],
-            'payment_state'    => $this->order['address']['state'],
-            'payment_phone'    => $this->order['address']['phone'] ?: null,
-            'payment_email'    => $this->order['address']['email'],
-            'payment_method'   => $this->order['payment']->title,
-            'payment_code'     => $this->order['payment']->code,
-            'payment_card'     => '',
+            'payment_fname'       => $this->order['address']['fname'],
+            'payment_lname'       => $this->order['address']['lname'],
+            'payment_address'     => $this->order['address']['address'],
+            'payment_zip'         => $this->order['address']['zip'],
+            'payment_city'        => $this->order['address']['city'],
+            'payment_state'       => $this->order['address']['state'],
+            'payment_phone'       => $this->order['address']['phone'] ?: null,
+            'payment_email'       => $this->order['address']['email'],
+            'payment_method'      => $this->order['payment']->title,
+            'payment_code'        => $this->order['payment']->code,
+            'payment_card'        => '',
             'payment_installment' => '',
-            'shipping_fname'   => $this->order['address']['fname'],
-            'shipping_lname'   => $this->order['address']['lname'],
-            'shipping_address' => $this->order['address']['address'],
-            'shipping_zip'     => $this->order['address']['zip'],
-            'shipping_city'    => $this->order['address']['city'],
-            'shipping_state'   => $this->order['address']['state'],
-            'shipping_phone'   => $this->order['address']['phone'] ?: null,
-            'shipping_email'   => $this->order['address']['email'],
-            'shipping_method'  => $this->order['shipping']->title,
-            'shipping_code'    => $this->order['shipping']->code,
-            'company'          => $this->order['address']['company'],
-            'oib'              => $this->order['address']['oib'],
-            'updated_at'       => Carbon::now()
+            'company'             => $this->order['address']['company'],
+            'oib'                 => $this->order['address']['oib'],
+            'comment'             => '',
+            'approved'            => '',
+            'approved_user_id'    => '',
+            'updated_at'          => Carbon::now()
         ]);
 
         if ($updated) {
-            $this->updateProducts($data['id']);
             $this->updateTotal($data['id']);
 
             return $this->setData($data['id']);
         }
 
         return null;
-    }
-
-
-    /**
-     * @param int $order_id
-     *
-     * @return bool
-     */
-    private function updateProducts(int $order_id)
-    {
-        OrderProduct::where('order_id', $order_id)->delete();
-
-        // PRODUCTS
-        foreach ($this->order['cart']['items'] as $item) {
-            $discount = 0;
-            $price    = $item->price;
-
-            if ($this->checkSpecial($item->associatedModel)) {
-                $price    = $item->associatedModel->special;
-                $discount = Helper::calculateDiscount($item->price, $price);
-            }
-
-            OrderProduct::insert([
-                'order_id'   => $order_id,
-                'product_id' => $item->id,
-                'name'       => $item->name,
-                'quantity'   => $item->quantity,
-                'org_price'  => $item->price,
-                'discount'   => $discount ? number_format($discount, 2) : 0,
-                'price'      => $price,
-                'total'      => $item->quantity * $price,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
-        }
-
-        return true;
     }
 
 
@@ -273,7 +335,6 @@ class Order extends Model
         OrderTotal::insert([
             'order_id'   => $order_id,
             'code'       => 'subtotal',
-            'title'      => 'Ukupno',
             'value'      => $this->order['cart']['subtotal'],
             'sort_order' => 0,
             'created_at' => Carbon::now(),
@@ -333,7 +394,7 @@ class Order extends Model
     {
         if ($model->special) {
             $from = now()->subDay();
-            $to = now()->addDay();
+            $to   = now()->addDay();
 
             if ($model->special_from && $model->special_from != '0000-00-00 00:00:00') {
                 $from = Carbon::make($model->special_from);
@@ -350,20 +411,6 @@ class Order extends Model
         return false;
     }
 
-
-    /**
-     * @return mixed|null
-     */
-    public function resolvePaymentForm()
-    {
-        if ($this->isCreated()) {
-            $method = new PaymentMethod($this->oc_data['payment_code']);
-
-            return $method->resolveForm($this->oc_data);
-        }
-
-        return null;
-    }
 
 
     /**

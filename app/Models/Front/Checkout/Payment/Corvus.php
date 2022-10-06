@@ -33,9 +33,9 @@ class Corvus
     /**
      * Corvus constructor.
      *
-     * @param Order $order
+     * @param $order
      */
-    public function __construct(Order $order)
+    public function __construct($order)
     {
         $this->order = $order;
     }
@@ -60,7 +60,7 @@ class Corvus
             $action = $this->url['test'];
         }
 
-        $total = number_format($this->order->total,2, '.', '');
+        $total = number_format($this->order->total_amount,2, '.', '');
         $_total = str_replace( ',', '', $total);
         $data['currency'] = 'HRK';
 
@@ -74,14 +74,14 @@ class Corvus
         $data['total'] = $total;
         $data['md5'] = $hash;
 
-        $data['firstname'] = $this->order->payment_fname;
-        $data['lastname'] = $this->order->payment_lname;
-        $data['address'] = $this->order->payment_address;
-        $data['city'] = $this->order->payment_city;
-        $data['country'] = $this->order->payment_state;
-        $data['postcode'] = $this->order->payment_zip;
-        $data['telephone'] = $this->order->payment_phone;
-        $data['email'] = $this->order->payment_email;
+        $data['firstname'] = $this->order->firstname;
+        $data['lastname'] = $this->order->lastname;
+        $data['address'] = '';
+        $data['city'] = '';
+        $data['country'] = '';
+        $data['postcode'] = '';
+        $data['telephone'] = $this->order->phone;
+        $data['email'] = $this->order->email;
         $data['lang'] = 'HR';
         $data['plan'] = '01';
         $data['cc_name'] = 'VISA';//...??
@@ -90,7 +90,7 @@ class Corvus
 
         $data['rate'] = 1;
         $data['return'] = $payment_method->data->callback;
-        $data['cancel'] = route('kosarica');
+        $data['cancel'] = route('index');
         $data['method'] = 'POST';
 
         return view('front.checkout.payment.corvus', compact('data'));

@@ -34,20 +34,20 @@
                                 <div class="col mt-0">
                                     <h4 class="mt-0 mb-2 text-primary">{{ __('front/checkout.price_details') }}</h4>
                                     <ul class="list-group mb-3">
-                                            @foreach ($total['items'] as  $item)
-                                                <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
-                                                    <div>
-                                                        <h6 class="my-0">{{  $item['amount'] }} {{ $checkout->main_currency->symbol_right  }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
-                                                    </div>
-                                                    <span class="text-muted">{{ $item['total'] }}  {{ $checkout->main_currency->symbol_right  }}</span>
-                                                </li>
-                                            @endforeach
-                                             @foreach ($total['total'] as  $item)
-                                                <li class="list-group-item d-flex justify-content-between bg-light">
-                                                    <h5 class="my-0">{{ $item['title'] }} </h5>
-                                                    <strong> {{ $checkout->main_currency->symbol_left  }} {{ $item['total'] }} {{ $checkout->main_currency->symbol_right  }}</strong>
-                                                </li>
-                                            @endforeach
+                                        @foreach ($checkout->total['items'] as  $item)
+                                            <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
+                                                <div>
+                                                    <h6 class="my-0">{{  $item['amount'] }} {{ $checkout->main_currency->symbol_right  }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
+                                                </div>
+                                                <span class="text-muted">{{ $item['total'] }}  {{ $checkout->main_currency->symbol_right  }}</span>
+                                            </li>
+                                        @endforeach
+                                        @foreach ($checkout->total['total'] as  $item)
+                                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                                <h5 class="my-0">{{ $item['title'] }} </h5>
+                                                <strong> {{ $checkout->main_currency->symbol_left  }} {{ $item['total'] }} {{ $checkout->main_currency->symbol_right  }}</strong>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -55,14 +55,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-7  order-lg-1 mt-0">
+                <div class="col-lg-7 order-lg-1 mt-0">
                     <form id="checkout-view-form" class="" action="{{ route('checkout.view') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="apartment_id" value="{{ $checkout->apartment->id }}">
-                        <input type="hidden" name="from" value="{{ $checkout->apartment->from }}">
-                        <input type="hidden" name="to" value="{{ $checkout->apartment->to }}">
-                        <input type="hidden" name="adults" value="{{ $checkout->apartment->adults }}">
-                        <input type="hidden" name="children" value="{{ $checkout->apartment->children }}">
+                        <input type="hidden" name="dates" value="{{ $checkout->from->format('Y-m-d') . ' - ' . $checkout->to->format('Y-m-d') }}">
+                        <input type="hidden" name="adults" value="{{ $checkout->adults }}">
+                        <input type="hidden" name="children" value="{{ $checkout->children }}">
 
                         <div class="row mb-4">
                             <div class="col-12">
@@ -90,13 +89,13 @@
                                         @foreach ($options as  $item)
                                             <li class="list-group-item p-3">
                                                 <label>
-                                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="{{ $item['reference'] }}" value="{{ $item['price'] }}" aria-label="...">
-                                                    {{ $item['title'] }}
+                                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="{{ $item->reference }}" value="{{ $item->price }}" aria-label="...">
+                                                    {{ $item->title }}
                                                 </label>
                                                 <div class="ms-4" style="float:right">
-                                                    {{ $item['price_text'] }}
+                                                    {{ $item->price_text }}
                                                 </div>
-                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
+                                                <div id="{{ $item->reference }}" class="form-text ps-4 ">{{ $item->description }}</div>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -107,16 +106,16 @@
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.personal_info') }}</h4>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}">
+                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}" value="{{ $checkout->firstname }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}">
+                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.mobile_number') }}">
+                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.mobile_number') }}" value="{{ $checkout->phone }}">
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}">
+                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}">
                                     </div>
                                 </div>
                             </div>
@@ -125,11 +124,12 @@
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.pay_with') }}</h4>
                                 <ul class="list-group mb-4">
 
-                                    @foreach ($payment_methods as  $item)
-
+                                    @foreach ($checkout->payments_list as  $item)
                                         <li class="list-group-item p-3">
                                             <label>
-                                                <input class="form-check-input me-1 mt-2" type="radio" name="paymenttype" value="{{ $item->code }}" aria-label="...">
+                                                <input class="form-check-input me-1 mt-2" type="radio" name="payment_type" value="{{ $item->code }}" aria-label="..."
+                                                       @if (isset($checkout->payment->code) && $checkout->payment->code == $item->code) checked="checked" @endif
+                                                >
                                                 {{ $item->title->{current_locale()} }}
                                             </label>
                                             @if($item->code=='bank')
@@ -146,14 +146,10 @@
                                                 </div>
                                             @endif
                                             @if($item->data->short_description)
-                                            <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
+                                                <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
                                             @endif
                                         </li>
-
                                     @endforeach
-
-
-
 
                                 </ul>
                             </div>

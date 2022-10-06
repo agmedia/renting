@@ -17,7 +17,27 @@ class OrderTotal extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    
+
+
+    /**
+     * @param int    $order_id
+     * @param string $code
+     * @param float  $value
+     * @param int    $sort_order
+     *
+     * @return mixed
+     */
+    public static function insertRow(int $order_id, string $code, float $value, int $sort_order)
+    {
+        return self::insertGetId([
+            'order_id'   => $order_id,
+            'code'       => $code,
+            'value'      => $value,
+            'sort_order' => $sort_order,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+    }
     
     /**
      * @param $totals

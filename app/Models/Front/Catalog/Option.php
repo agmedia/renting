@@ -116,6 +116,17 @@ class Option extends Model
      *
      * @return Builder
      */
+    public function scopeWithoutPersons(Builder $query): Builder
+    {
+        return $query->where('reference', '!=', 'person');
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
     public function scopeBasic(Builder $query): Builder
     {
         return $query->select('id', 'reference', 'price', 'featured', 'status');

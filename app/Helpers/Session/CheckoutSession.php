@@ -11,9 +11,9 @@ class CheckoutSession
     private static $session_string = 'checkout';
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * SHIPPING ADDRESS DATA
@@ -55,53 +55,9 @@ class CheckoutSession
     }
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
-
-    /**
-     * SHIPPING
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    public static function getShipping()
-    {
-        return session(static::$session_string . '.shipping');
-    }
-
-
-    /**
-     * @return bool
-     */
-    public static function hasShipping()
-    {
-        return session()->has(static::$session_string . '.shipping');
-    }
-
-
-    /**
-     * @param array|string $value
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    public static function setShipping($value)
-    {
-        return session([static::$session_string . '.shipping' => $value]);
-    }
-
-
-    /**
-     * @return bool
-     */
-    public static function forgetShipping()
-    {
-        return session()->forget(static::$session_string . '.shipping');
-    }
-
-    /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * PAYMENT
@@ -140,50 +96,6 @@ class CheckoutSession
     public static function forgetPayment()
     {
         return session()->forget(static::$session_string . '.payment');
-    }
-
-    /*******************************************************************************
-     *                                Copyright : AGmedia                           *
-     *                              email: filip@agmedia.hr                         *
-     *******************************************************************************/
-
-    /**
-     * STEPS
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    public static function getStep()
-    {
-        return session(static::$session_string . '.step');
-    }
-
-
-    /**
-     * @return bool
-     */
-    public static function hasStep()
-    {
-        return session()->has(static::$session_string . '.step');
-    }
-
-
-    /**
-     * @param array|string $value
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    public static function setStep($value)
-    {
-        return session([static::$session_string . '.step' => $value]);
-    }
-
-
-    /**
-     * @return bool
-     */
-    public static function forgetStep()
-    {
-        return session()->forget(static::$session_string . '.step');
     }
 
     /*******************************************************************************
@@ -264,5 +176,49 @@ class CheckoutSession
     public static function forgetOrder()
     {
         return session()->forget(static::$session_string . '.order');
+    }
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * STEPS
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function getCheckout()
+    {
+        return session(static::$session_string . '.checkout');
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function hasCheckout()
+    {
+        return session()->has(static::$session_string . '.checkout');
+    }
+
+
+    /**
+     * @param array|string $value
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function setCheckout($value)
+    {
+        return session([static::$session_string . '.checkout' => $value]);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function forgetCheckout()
+    {
+        return session()->forget(static::$session_string . '.checkout');
     }
 }

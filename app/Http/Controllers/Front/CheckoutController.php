@@ -31,20 +31,17 @@ class CheckoutController extends Controller
      */
     public function checkout(Request $request)
     {
-        if ( ! $request->input('dates')) {
+        /*if ( ! $request->input('dates')) {
             return redirect()->back()->with('error', 'Enter dates!');
-        }
+        }*/
 
         $checkout = new Checkout($request);
-        $total = $checkout->getTotal();
-        $options = $checkout->apartment->options()->where('reference', '!=', 'person')->get()->toArray();
+        $options  = $checkout->apartment->options()->withoutPersons()->get();
 
-        $geo = (new GeoZone())->findState('Croatia');
-        $payment_methods = (new PaymentMethod())->findGeo($geo->id)->resolve();
+        CheckoutSession::hasAddress() ? $checkout->setAddress(CheckoutSession::getAddress()) : null;
+        CheckoutSession::hasPayment() ? $checkout->setPayment(CheckoutSession::getPayment()) : null;
 
-     //  dd($checkout, $checkout->getTotal(), $options, $payment_methods);
-
-        return view('front.checkout.checkout', compact('checkout', 'total', 'options', 'payment_methods'));
+        return view('front.checkout.checkout', compact('checkout', 'options'));
     }
 
 
@@ -55,11 +52,71 @@ class CheckoutController extends Controller
      */
     public function checkoutView(Request $request)
     {
-        // dd($request->toArray());
+        /*if ( ! $request->input('dates')) {
+            return redirect()->back()->with('error', 'Enter dates!');
+        }*/
+
+        $checkout = new Checkout($request);
+        $order = new Order();
+        $form = $order->createMissing($checkout)->resolvePaymentForm();
+
+        CheckoutSession::setAddress($checkout->setAddress());
+        CheckoutSession::setPayment($checkout->setPayment());
+        CheckoutSession::setCheckout(get_object_vars($checkout));
+        CheckoutSession::setOrder($order->id);
+
+        //dd(CheckoutSession::getCheckout(), $form->data);
+
+        return view('front.checkout.checkout-preview', compact('checkout', 'form'));
+    }
 
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function success(Request $request)
+    {
+        dd($request, CheckoutSession::getCheckout());
 
-        return view('front.checkout.success', compact('request'));
+        /**
+         *
+         */
+        $data['order'] = CheckoutSession::getOrder();
+
+        if ( ! $data['order']) {
+            return redirect()->route('front.checkout.checkout', ['step' => '']);
+        }
+
+        $order = \App\Models\Back\Orders\Order::where('id', $data['order']['id'])->first();
+
+        if ($order) {
+            dispatch(function () use ($order) {
+                Mail::to(config('mail.admin'))->send(new OrderReceived($order));
+                Mail::to($order->payment_email)->send(new OrderSent($order));
+            });
+
+            foreach ($order->products as $product) {
+                $product->real->decrement('quantity', $product->quantity);
+
+                if ( ! $product->real->quantity) {
+                    $product->real->update([
+                        'status' => 0
+                    ]);
+                }
+            }
+
+            CheckoutSession::forgetOrder();
+            CheckoutSession::forgetStep();
+            CheckoutSession::forgetPayment();
+            CheckoutSession::forgetShipping();
+            $this->shoppingCart()->flush();
+
+            $data['google_tag_manager'] = Seo::getGoogleDataLayer($order);
+
+            return view('front.checkout.success', compact('data'));
+        }
+
+        return redirect()->route('front.checkout.checkout');
     }
 
 
@@ -68,10 +125,12 @@ class CheckoutController extends Controller
 
 
 
+
+
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param Request $request
@@ -171,50 +230,6 @@ class CheckoutController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function success(Request $request)
-    {
-        $data['order'] = CheckoutSession::getOrder();
-
-        if ( ! $data['order']) {
-            return redirect()->route('front.checkout.checkout', ['step' => '']);
-        }
-
-        $order = \App\Models\Back\Orders\Order::where('id', $data['order']['id'])->first();
-
-        if ($order) {
-            dispatch(function () use ($order) {
-                Mail::to(config('mail.admin'))->send(new OrderReceived($order));
-                Mail::to($order->payment_email)->send(new OrderSent($order));
-            });
-
-            foreach ($order->products as $product) {
-                $product->real->decrement('quantity', $product->quantity);
-
-                if ( ! $product->real->quantity) {
-                    $product->real->update([
-                        'status' => 0
-                    ]);
-                }
-            }
-
-            CheckoutSession::forgetOrder();
-            CheckoutSession::forgetStep();
-            CheckoutSession::forgetPayment();
-            CheckoutSession::forgetShipping();
-            $this->shoppingCart()->flush();
-
-            $data['google_tag_manager'] = Seo::getGoogleDataLayer($order);
-
-            return view('front.checkout.success', compact('data'));
-        }
-
-        return redirect()->route('front.checkout.checkout', ['step' => '']);
-    }
-
-
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function error()
     {
         return view('front.checkout.error');
@@ -233,9 +248,8 @@ class CheckoutController extends Controller
     {
         if (CheckoutSession::hasAddress() && CheckoutSession::hasShipping() && CheckoutSession::hasPayment()) {
             return [
-                'address'  => CheckoutSession::getAddress(),
-                'shipping' => CheckoutSession::getShipping(),
-                'payment'  => CheckoutSession::getPayment()
+                'address' => CheckoutSession::getAddress(),
+                'payment' => CheckoutSession::getPayment()
             ];
         }
 

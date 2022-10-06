@@ -79,8 +79,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="d-flex h-100 align-items-center justify-content-end">
-                            @include('front.layouts.partials.currency-selector')
-                            @include('front.layouts.partials.language-selector')
+                            @if ( ! request()->routeIs(['checkout', 'checkout.view']))
+                                @include('front.layouts.partials.currency-selector')
+                                @include('front.layouts.partials.language-selector')
+                            @endif
                         </div>
                     </div>
                 </div>
