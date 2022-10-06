@@ -57,6 +57,12 @@
 
                 <div class="col-lg-7 order-lg-1 mt-0">
                     <h5 class="mt-2 mb-0 text-primary">{{ $checkout->apartment->title }}</h5>
+
+                    <div class="row">
+                        <div class="col-sm-12 mt-5">
+                            {!! $form !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
