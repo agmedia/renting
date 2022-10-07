@@ -1,6 +1,6 @@
-<form name="pay" class="w-100" action="{{ route('naplata') }}" method="POST">
+<form name="pay" class="w-100" action="{{ $data['action'] }}" method="POST">
 
-    {{--<input id="target" name="target" value="_top" type="hidden"/>
+   <input id="target" name="target" value="_top" type="hidden"/>
     <input id="mode" name="mode" value="form" type="hidden"/>
     <input type="hidden" name="store_id" value="{{ $data['shop_id'] }}">
     <input id="require_complete"  name="require_complete" value="true" type="hidden"/>
@@ -14,7 +14,7 @@
     <input type="hidden" name="cardholder_surname" value="{{ $data['lastname'] }}">
     <input type="hidden" name="cardholder_phone" value="{{ $data['telephone'] }}">
     <input type="hidden" name="cardholder_email" value="{{ $data['email'] }}">
-    <input type="hidden" name="payment_all" value="{{ $data['number_of_installments'] }}">--}}
+    <input type="hidden" name="payment_all" value="{{ $data['number_of_installments'] }}">
 
 
 
