@@ -26,7 +26,9 @@ class HomeController extends Controller
     {
         $apartments = Apartment::active()->search($request)->paginate(12);
 
-        return view('front.home', compact('apartments'));
+        $cities = Apartment::groupBy('city')->pluck('city');
+
+        return view('front.home', compact('apartments'), 'cities');
     }
 
 
@@ -41,6 +43,8 @@ class HomeController extends Controller
         $langs = LanguageHelper::resolveSelector($apartment);
 
         //dd($apartment->options()->withoutPersons()->get());
+
+
 
         return view('front.apartment', compact('apartment', 'dates', 'langs'));
     }

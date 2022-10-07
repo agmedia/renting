@@ -4,6 +4,32 @@
     <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
 @endpush
 
+@push('meta_tags')
+
+    <link rel="canonical" href="{{ env('APP_URL')}}" />
+    <meta property="og:locale" content="hr_HR" />
+    <meta property="og:type" content="product" />
+    <meta property="og:title" content="SelfCheckIns" />
+    <meta property="og:description" content="" />
+    <meta property="og:url" content="{{ env('APP_URL')}}"  />
+    <meta property="og:site_name" content="SelfCheckIns" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:secure_url" content="" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="SelfCheckIns" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SelfCheckInsi" />
+    <meta name="twitter:description" content="SelfCheckIns" />
+    <meta name="twitter:image" content="" />
+
+@endpush
+
+
+    @section ( 'title', 'SelfCheckIns' )
+@section ( 'description', '' )
+
 @section('content')
     <div class="full-row bg-white p-0">
         <div class="container-fluid">
@@ -49,9 +75,13 @@
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                                 <select class="form-control form-select" id="select-city">
                                                                     <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
-                                                                    <option >Zagreb</option>
-                                                                    <option>Split</option>
-                                                                    <option>Rijeka</option>
+
+                                                                    @foreach($cities as $city)
+
+                                                                    <option>{{ $city }}</option>
+
+                                                                    @endforeach
+
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -193,7 +223,7 @@
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
-                    pictureLabel.src = 'assets/images/map/house.png';
+                    pictureLabel.src = 'public/assets/images/map/house.png';
                     var boxText = document.createElement("div");
                     infoboxOptions = {
                         content: boxText,
@@ -205,14 +235,14 @@
                         boxClass: "infobox-wrapper",
                         enableEventPropagation: true,
                         closeBoxMargin: "0px 0px -8px 0px",
-                        closeBoxURL: "assets/images/map/close.png",
+                        closeBoxURL: "public/assets/images/map/close.png",
                         infoBoxClearance: new google.maps.Size(1, 1)
                     };
                     var marker = new MarkerWithLabel({
                         title: locations[i].title,
                         position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
                         map: map,
-                        icon: 'assets/images/map/marker.png',
+                        icon: 'public/assets/images/map/marker.png',
                         labelContent: pictureLabel,
                         labelAnchor: new google.maps.Point(50, 0),
                         labelClass: "marker-style"
@@ -224,7 +254,7 @@
                         '<div class="featured-thumb hover-zoomer shadow-one">' +
                         '<div class=" overflow-hidden position-relative">' +
                         '<a href="#">' +
-                        '<img src="' + locations[i].image + '" alt="">' +
+                        '<img src="public/' + locations[i].image + '" alt="">' +
                         '</a>' +
 
                         '<div class="price bg-primary text-white p-2">' + locations[i].price + ' <span>' + locations[i].for  + '</span></div>' +
@@ -250,7 +280,7 @@
                 }
                 var clusterStyles = [
                     {
-                        url: 'assets/images/map/cluster.png',
+                        url: 'public/assets/images/map/cluster.png',
                         height: 60,
                         width: 60,
                         textColor: '#fff',
