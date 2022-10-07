@@ -93,7 +93,7 @@ class Corvus
         $data['cancel'] = route('index');
         $data['method'] = 'POST';
 
-        {{ dd($data)}}
+         dd($data);
 
         return view('front.checkout.payment.corvus', compact('data'));
     }
