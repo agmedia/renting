@@ -40,21 +40,21 @@
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
                             <div class="row pb-0 mt-3">
-                                <div class="col-6 ">
+                                <div class="col-4 col-md-6">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
                                             <select class="form-control form-select bg-gray" id="select-sort">
-                                                <option value="0">Default Order</option>
-                                                <option value="new">Newest First</option>
-                                                <option value="old">Oldest First</option>
-                                                <option value="top">Top Rated</option>
-                                                <option value="popular">Most Popular</option>
+                                                <option value="0">{{ __('front/apartment.order_default') }}</option>
+                                                <option value="new">{{ __('front/apartment.order_newest') }}</option>
+                                                <option value="old">{{ __('front/apartment.order_oldest') }}</option>
+                                                <option value="top">{{ __('front/apartment.order_top') }}</option>
+                                                <option value="popular">{{ __('front/apartment.order_popular') }}</option>
                                             </select>
                                         </div>
-                                        <label>{{ $apartments->total() }} results</label>
+                                        <label>{{ $apartments->total() }} {{ __('pagination.results') }}</label>
                                     </form>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-8 col-md-6">
                                     <a class="checkbox-collapse btn btn-light bg-gray btn-sm float-end" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" title="Grid" class="active">
                                         <i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}
                                     </a>
@@ -73,7 +73,7 @@
                                                         <div class="col-md-6 mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select" id="select-city">
+                                                                <select class="form-control bg-gray form-select" id="select-city">
                                                                     <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
 
                                                                     @foreach($cities as $city)
@@ -89,14 +89,14 @@
                                                         <div class="col-md-6 mt-3">
                                                             <div class="input-group ">
                                                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                                                <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
+                                                                <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select" id="select-adults">
+                                                                <select class="form-control bg-gray form-select" id="select-adults">
                                                                     <option value="0">{{ __('front/apartment.adults_title') }}</option>
                                                                     @for ($i = 1; $i < 8; $i++)
                                                                         <option value="{{ $i }}">{{ $i }}</option>
@@ -108,7 +108,7 @@
                                                         <div class="col-md-4  mt-3">
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control form-select" id="select-children">
+                                                                <select class="form-control bg-gray form-select" id="select-children">
                                                                     <option value="0">{{ __('front/apartment.children_title') }}</option>
                                                                     @for ($i = 1; $i < 6; $i++)
                                                                         <option value="{{ $i }}">{{ $i }}</option>
@@ -142,12 +142,14 @@
                                                     <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}">{{ $apartment->title }}</a></h5>
                                                     <span class="location"><i class="fas fa-map-marker-alt text-primary"></i> {{ $apartment->address }}, {{ $apartment->city }}</span> </div>
                                                 <div class="ps-4 pb-2">
-                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} rooms - {{ $apartment->beds }} beds</span>
+                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} {{ __('front/apartment.rooms') }} - {{ $apartment->beds }} {{ __('front/apartment.beds') }}</span>
                                                 </div>
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
-                                                    <div class="float-start"><i class="fas fa-user text-primary me-1"></i> Apartments Repinc</div>
-                                                    <div class="float-end"><i class="far fa-calendar-alt text-primary me-1"></i> 2 Months Ago</div>
+                                                    <div class="float-start"><i class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }} </div>
+
+
+                                                    <div class="float-end"><i class="far fa-calendar-alt text-primary me-1"></i> {{ $apartment->created_at->diffForHumans() }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,11 +221,13 @@
                 var newMarkers = [];
                 let locations = {!! $apartments->toJson() !!}.data;
 
+
+
                 console.log(locations)
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
-                    pictureLabel.src = 'public/assets/images/map/house.png';
+                    pictureLabel.src = 'assets/images/map/house.png';
                     var boxText = document.createElement("div");
                     infoboxOptions = {
                         content: boxText,
@@ -235,14 +239,14 @@
                         boxClass: "infobox-wrapper",
                         enableEventPropagation: true,
                         closeBoxMargin: "0px 0px -8px 0px",
-                        closeBoxURL: "public/assets/images/map/close.png",
+                        closeBoxURL: "assets/images/map/close.png",
                         infoBoxClearance: new google.maps.Size(1, 1)
                     };
                     var marker = new MarkerWithLabel({
                         title: locations[i].title,
                         position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
                         map: map,
-                        icon: 'public/assets/images/map/marker.png',
+                        icon: 'assets/images/map/marker.png',
                         labelContent: pictureLabel,
                         labelAnchor: new google.maps.Point(50, 0),
                         labelClass: "marker-style"
@@ -253,15 +257,15 @@
                     boxText.innerHTML =
                         '<div class="featured-thumb hover-zoomer shadow-one">' +
                         '<div class=" overflow-hidden position-relative">' +
-                        '<a href="#">' +
-                        '<img src="public/' + locations[i].image + '" alt="">' +
+                        '<a href="{{current_locale()}}' + locations[i].url + '">' +
+                        '<img src="' + locations[i].image + '" alt="">' +
                         '</a>' +
 
-                        '<div class="price bg-primary text-white p-2">' + locations[i].price + ' <span>' + locations[i].for  + '</span></div>' +
+                        '<div class="price bg-primary text-white p-2">' + locations[i].price_text + ' <span>' + locations[i].for  + '</span></div>' +
                         '</div>' +
                         '<div class="featured-thumb-data">' +
                         '<div class="p-4">' +
-                        '<h5 class="text-secondary hover-text-primary mb-2"><a href="' + locations[i].url + '">' + locations[i].title + '</a></h5>' +
+                        '<h5 class="text-secondary hover-text-primary mb-2"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h5>' +
                         '<span class="location font-13"><i class="fas fa-map-marker-alt text-primary mr-1" aria-hidden="true"></i> ' + locations[i].address + '</span>' +
                         '</div>' +
                         '</div>' +
@@ -280,7 +284,7 @@
                 }
                 var clusterStyles = [
                     {
-                        url: 'public/assets/images/map/cluster.png',
+                        url: 'assets/images/map/cluster.png',
                         height: 60,
                         width: 60,
                         textColor: '#fff',

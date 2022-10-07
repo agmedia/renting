@@ -13,12 +13,21 @@ return [
     |
     */
 
+
     'reserve_title' => 'Reserve your apartment stay',
     'view_gallery' => 'View Full Gallery',
     'checkin_title' => 'Check-in -> Checkout',
     'adults_title' => 'Adults',
     'children_title' => 'Children',
     'reserve_btn_title' => 'Reserve',
+    'guests' => 'guests',
+    'rooms' => 'rooms',
+    'order_default' => 'Default Order',
+    'order_oldest' => 'Oldest First',
+    'order_top' => 'Top Rated',
+    'order_popular' => 'Most Popular',
+    'order_newest' => 'Newest First',
+    'beds' => 'beds',
     'search_title' => 'Search',
     'search_box_title' => 'Search Availability',
     'description_title' => 'Description',

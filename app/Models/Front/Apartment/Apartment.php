@@ -246,7 +246,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getUrlAttribute()
     {
-        return '#';
+        return $this->translation()->first()->url;
     }
 
 
