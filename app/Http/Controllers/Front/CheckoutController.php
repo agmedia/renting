@@ -31,9 +31,7 @@ class CheckoutController extends Controller
      */
     public function checkout(Request $request)
     {
-        /*if ( ! $request->input('dates')) {
-            return redirect()->back()->with('error', 'Enter dates!');
-        }*/
+        $this->validateCheckout($request);
 
         $checkout = new Checkout($request);
         $options  = $checkout->getOptions();
@@ -52,20 +50,18 @@ class CheckoutController extends Controller
      */
     public function checkoutView(Request $request)
     {
-        /*if ( ! $request->input('dates')) {
-            return redirect()->back()->with('error', 'Enter dates!');
-        }*/
+        $this->validateCheckout($request, true);
 
         $checkout = new Checkout($request);
-        $order = new Order();
-        $form = $order->createMissing($checkout)->resolvePaymentForm();
+        $order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
+        $order    = (new Order())->setId($order_id)
+                                 ->resolveMissing($checkout);
+        $form     = $order->resolvePaymentForm();
 
         CheckoutSession::setAddress($checkout->setAddress());
         CheckoutSession::setPayment($checkout->setPayment());
         CheckoutSession::setCheckout(get_object_vars($checkout));
         CheckoutSession::setOrder($order->id);
-
-        //dd(CheckoutSession::getCheckout(), $form->data);
 
         return view('front.checkout.checkout-preview', compact('checkout', 'form'));
     }
@@ -76,6 +72,10 @@ class CheckoutController extends Controller
      */
     public function success(Request $request)
     {
+        CheckoutSession::forgetOrder();
+        CheckoutSession::forgetPayment();
+        CheckoutSession::forgetCheckout();
+
         dd($request, CheckoutSession::getCheckout());
 
         /**
@@ -120,6 +120,28 @@ class CheckoutController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param bool    $view
+     *
+     * @return void
+     */
+    private function validateCheckout(Request $request, bool $view = false)
+    {
+        $request->validate([
+            'apartment_id' => 'required',
+            'dates'        => 'required',
+        ]);
+
+        if ($view) {
+            $request->validate([
+                'firstname' => 'required',
+                'lastname'  => 'required',
+                'phone'     => 'required',
+                'email'     => 'required',
+            ]);
+        }
+    }
 
 
 

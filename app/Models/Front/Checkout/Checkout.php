@@ -150,11 +150,10 @@ class Checkout
 
         foreach ($options as $option) {
             $response[$option->id] = $option->toArray();
+            $response[$option->id]['checked'] = 0;
 
             if ( ! empty($this->added_options)) {
                 foreach ($this->added_options as $added_option) {
-                    $response[$option->id]['checked'] = 0;
-
                     if ($option->id == $added_option['id']) {
                         $response[$option->id]['checked'] = 1;
                     }

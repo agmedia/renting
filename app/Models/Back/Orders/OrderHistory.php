@@ -59,6 +59,8 @@ class OrderHistory extends Model
      */
     public static function store(int $order_id, Request $request = null)
     {
+        self::where('order_id', $order_id)->delete();
+
         $id = self::insertGetId([
             'order_id'   => $order_id,
             'user_id'    => auth()->user()->id,

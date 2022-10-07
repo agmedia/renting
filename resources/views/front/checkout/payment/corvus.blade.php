@@ -1,4 +1,4 @@
-<form name="pay" class="w-100" action="#" method="POST">
+<form name="pay" class="w-100" action="{{ route('naplata') }}" method="POST">
 
     {{--<input id="target" name="target" value="_top" type="hidden"/>
     <input id="mode" name="mode" value="form" type="hidden"/>

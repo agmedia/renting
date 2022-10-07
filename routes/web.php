@@ -340,21 +340,24 @@ Route::group(
      * FRONT ROUTES
      */
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-    Route::post('/checkout-view', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
     Route::get('faq', [HomeController::class, 'faq'])->name('faq');
-    Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
+    //
+    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout-view', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
+    Route::get('/naplata', [CheckoutController::class, 'success'])->name('naplata');
     // SETUP ROUTES
     Route::get('cache/image', [SetupController::class, 'imageCache']);
     Route::get('cache/thumb', [SetupController::class, 'thumbCache']);
     Route::get('set/currency', [SetupController::class, 'setMainCurrency'])->name('set.currency');
-
+    //
+    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
+    Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
+    //
+    Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
 
 
     // OLD ROUTES... CHECK & DELETE
-    Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');
-   Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
 ////
 //    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
 //    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');

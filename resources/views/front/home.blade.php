@@ -25,7 +25,7 @@
                                                 <option value="popular">Most Popular</option>
                                             </select>
                                         </div>
-                                        <label>25 results</label>
+                                        <label>{{ $apartments->total() }} results</label>
                                     </form>
                                 </div>
                                 <div class="col-6">
@@ -128,18 +128,7 @@
                             <!--- pagination -->
                             <div class="row justify-content-center my-5">
                                 <div class="col-auto">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <li class="page-item disabled"> <span class="page-link">Previous</span> </li>
-                                            <li class="page-item active" aria-current="page"> <span class="page-link"> 1 <span class="sr-only">(current)</span> </span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">...</li>
-                                            <li class="page-item"><a class="page-link" href="#">45</a></li>
-                                            <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-                                        </ul>
-                                    </nav>
+                                    {{ $apartments->links() }}
                                 </div>
                             </div>
                         </div>

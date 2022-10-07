@@ -22,7 +22,10 @@ class Order extends Model
      */
     public $order = [];
 
-    public $id = 0;
+    /**
+     * @var int
+     */
+    public $order_id;
 
     /**
      * @var Checkout|null
@@ -38,11 +41,24 @@ class Order extends Model
     /**
      * Order constructor.
      *
-     * @param array $data
+     * @param int $order_id
      */
-    public function __construct(array $data = [])
+    public function __construct(array $data = null)
     {
         $this->order = $data;
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    public function setId(int $id)
+    {
+        $this->order_id = $id;
+
+        return $this;
     }
 
 
@@ -91,19 +107,19 @@ class Order extends Model
      *
      * @return $this
      */
-    public function createMissing(Checkout $checkout)
+    public function resolveMissing(Checkout $checkout)
     {
-        $this->checkout = $checkout;
+        $this->checkout                 = $checkout;
         $this->order['order_status_id'] = 0;
 
         $id = $this->insertForm();
 
         if ($id) {
-            $this->id = $id;
-            OrderHistory::store($this->id);
+            OrderHistory::store($id);
 
             foreach ($this->checkout->total['total'] as $key => $total) {
-                OrderTotal::insertRow($this->id, $total['code'], $total['total'], $key);
+                OrderTotal::where('order_id', $id)->delete();
+                OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
             }
         }
 
@@ -126,21 +142,40 @@ class Order extends Model
     }
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @return mixed
      */
     private function insertForm()
     {
+        if ($this->order_id) {
+            \App\Models\Back\Orders\Order::where('id', $this->order_id)->update(
+                $this->modelArray(true)
+            );
+
+            return $this->order_id;
+        }
+
+        return \App\Models\Back\Orders\Order::insertGetId(
+            $this->modelArray()
+        );
+    }
+
+
+    /**
+     * @param bool $update
+     *
+     * @return array
+     */
+    private function modelArray(bool $update = false): array
+    {
         $user_id = auth()->user() ? auth()->user()->id : 0;
-        $total = collect($this->checkout->total['total'])->where('code', 'total')->first()['total'];
+        $total   = collect($this->checkout->total['total'])->where('code', 'total')->first()['total'];
 
-        //dd($this->checkout);
-
-        return \App\Models\Back\Orders\Order::insertGetId([
+        $response = [
             'apartment_id'        => $this->checkout->apartment->id,
             'user_id'             => $user_id,
             'affiliate_id'        => 0,
@@ -166,15 +201,14 @@ class Order extends Model
             'comment'             => '',
             'approved'            => '',
             'approved_user_id'    => '',
-            'created_at'          => Carbon::now(),
             'updated_at'          => Carbon::now()
-        ]);
-    }
+        ];
 
+        if ( ! $update) {
+            $response['created_at'] = Carbon::now();
+        }
 
-    public function getArray()
-    {
-        return $this->toArray();
+        return $response;
     }
 
 
@@ -411,7 +445,6 @@ class Order extends Model
 
         return false;
     }
-
 
 
     /**
