@@ -28,7 +28,7 @@ class HomeController extends Controller
 
         $cities = Apartment::groupBy('city')->pluck('city');
 
-        return view('front.home', compact('apartments'), 'cities');
+        return view('front.home', compact('apartments', 'cities'));
     }
 
 
