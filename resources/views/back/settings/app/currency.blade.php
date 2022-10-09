@@ -150,12 +150,13 @@
                                 </div>
 
 <!--                                <div class="form-group">
-                                    <label class="css-control css-control-sm css-control-success css-switch res">
+                                    <label class="css-control css-control-sm css-control-success css-switch res hidden">
                                         <input type="checkbox" class="css-control-input" id="currency-main" name="main">
                                         <span class="css-control-indicator"></span> {{ __('back/app.currency.default_currency') }}
                                     </label>
                                 </div>-->
 
+<!--                                <input type="hidden" id="currency-main" name="main">-->
                                 <input type="hidden" id="currency-id" name="id" value="0">
                             </div>
                         </div>
@@ -251,6 +252,9 @@
 @push('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
+
+        var main_currency;
+
         $(() => {
             $('#currency-main-select').select2({
                 minimumResultsForSearch: Infinity
@@ -294,7 +298,7 @@
                 value: $('#currency-value').val(),
                 decimal_places: $('#currency-decimal-places').val(),
                 status: $('#currency-status')[0].checked,
-                main: $('#currency-main')[0].checked,
+                main: main_currency,
             };
 
             axios.post("{{ route('api.currencies.store') }}", { data: item })
@@ -371,7 +375,7 @@
             }
 
             if (item.main) {
-                $('#currency-main')[0].checked = item.main ? true : false;
+                main_currency = item.main;
             }
         }
     </script>

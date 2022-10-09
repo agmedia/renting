@@ -35,6 +35,8 @@ class CurrencyController extends Controller
     {
         $data = $request->data;
 
+        Log::alert($data);
+
         $setting = Settings::where('code', 'currency')->where('key', 'list')->first();
 
         $values = collect();
@@ -56,7 +58,7 @@ class CurrencyController extends Controller
                 $item->value = $data['value'];
                 $item->decimal_places = $data['decimal_places'];
                 $item->status = $data['status'];
-                $item->main = $data['main'];
+                $item->main = (isset($data['main']) && $data['main']) ? true : false;
 
                 return $item;
             });
