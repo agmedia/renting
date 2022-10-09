@@ -171,6 +171,7 @@ return [
             'default' => 0
         ]
     ],
+    //
     'apartment_price_by' => [
         1 => [
             'title' => [
@@ -194,7 +195,7 @@ return [
             'default' => 0
         ]
     ],
-
+    //
     'apartment_details' => [
         1 => [
             'id' => 1,

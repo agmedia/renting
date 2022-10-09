@@ -110,7 +110,7 @@ class Order extends Model
     public function resolveMissing(Checkout $checkout)
     {
         $this->checkout                 = $checkout;
-        $this->order['order_status_id'] = 0;
+        $this->order['order_status_id'] = config('settings.order.status.unfinished');
 
         $id = $this->insertForm();
 
