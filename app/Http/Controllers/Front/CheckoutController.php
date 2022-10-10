@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Helper;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
+use App\Mail\Order\SendToAdmin;
+use App\Mail\Order\SendToCustomer;
 use App\Mail\OrderReceived;
 use App\Mail\OrderSent;
 use App\Models\Back\Settings\Settings;
@@ -39,6 +41,8 @@ class CheckoutController extends Controller
         CheckoutSession::hasAddress() ? $checkout->setAddress(CheckoutSession::getAddress()) : null;
         CheckoutSession::hasPayment() ? $checkout->setPayment(CheckoutSession::getPayment()) : null;
 
+        CheckoutSession::setCheckout(get_object_vars($checkout));
+
         return view('front.checkout.checkout', compact('checkout', 'options'));
     }
 
@@ -58,8 +62,6 @@ class CheckoutController extends Controller
                                  ->resolveMissing($checkout);
         $form     = $order->resolvePaymentForm();
 
-      //  dd($order->order_id);
-
         CheckoutSession::setAddress($checkout->setAddress());
         CheckoutSession::setPayment($checkout->setPayment());
         CheckoutSession::setCheckout(get_object_vars($checkout));
@@ -74,50 +76,28 @@ class CheckoutController extends Controller
      */
     public function success(Request $request)
     {
-       // CheckoutSession::forgetOrder();
-      //  CheckoutSession::forgetPayment();
-      //  CheckoutSession::forgetCheckout();
-
-       // dd($request, CheckoutSession::getCheckout());
-
-        /**
-         *
-         */
-    $data['order'] = CheckoutSession::getOrder();
-
-        if ( ! $data['order']) {
-            return redirect()->route('checkout.view', ['step' => '']);
+        if ( ! CheckoutSession::hasOrder() || ! CheckoutSession::hasCheckout()) {
+            return redirect()->back()->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
         }
 
-       // dd($data['order']);
-
-        $order = \App\Models\Back\Orders\Order::where('id', $data['order'])->first();
+        $order = Order::where('id', CheckoutSession::getOrder())->first();
 
         if ($order) {
-            /*    dispatch(function () use ($order) {
-                  Mail::to(config('mail.admin'))->send(new OrderReceived($order));
-                  Mail::to($order->payment_email)->send(new OrderSent($order));
-              });
+            $checkout = CheckoutSession::getCheckout();
 
-            foreach ($order->products as $product) {
-                  $product->real->decrement('quantity', $product->quantity);
+            /*dispatch(function () use ($order, $checkout) {
+                Mail::to(config('mail.admin'))->send(new SendToAdmin($order, $checkout));
+                Mail::to($order->payment_email)->send(new SendToCustomer($order, $checkout));
+            });*/
+            sleep(1);
 
-                  if ( ! $product->real->quantity) {
-                      $product->real->update([
-                          'status' => 0
-                      ]);
-                  }
-              }*/
+            $order->updateStatus('new');
 
             $data['order'] = $order;
 
             CheckoutSession::forgetOrder();
-           // CheckoutSession::forgetStep();
+            CheckoutSession::forgetCheckout();
             CheckoutSession::forgetPayment();
-           // CheckoutSession::forgetShipping();
-           // $this->shoppingCart()->flush();
-
-           // $data['google_tag_manager'] = Seo::getGoogleDataLayer($order);
 
             return view('front.checkout.success', compact('data'));
         }

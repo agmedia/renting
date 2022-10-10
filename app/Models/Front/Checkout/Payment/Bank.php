@@ -38,8 +38,6 @@ class Bank
     {
         $data['order_id'] = $this->order->order_id;
 
-dd($this->order->checkout);
-
         $nhs_no = $this->order->order_id.'-'.date("ym");
 
         $pozivnabroj = $nhs_no;
@@ -74,8 +72,8 @@ dd($this->order->checkout);
                     'sender' =>
                         array (
                             'name' => $data['firstname'].' '.$data['lastname'],
-                            'street' => $data['address'],
-                            'place' => $data['postcode'].' '.$data['city'],
+                            'street' => '',//$data['address'],
+                            'place' => '',//$data['postcode'].' '.$data['city'],
 
                         ),
                     'receiver' =>
