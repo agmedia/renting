@@ -62,7 +62,7 @@ class Corvus
         }
 
         $total = number_format($this->order->checkout->total_amount,2, '.', '');
-        $_total = str_replace( ',', '', $total);
+        $_total =  $total;
         $data['currency'] = 'HRK';
 
       //  $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->order_id.':'.$_total.':'.$data['currency']);
@@ -101,10 +101,8 @@ class Corvus
         $string = 'amount'.$_total.'cardholder_email'.$data['email'].'cardholder_name'.$data['firstname'].'cardholder_phone'.$data['telephone'].'cardholder_surname'.$data['lastname'].'cartWeb shop kupnja '.$data['order_id'].'currency'.$data['currency'].'language'.$data['lang'].'order_number'.$data['order_id'].'payment_all'.$data['number_of_installments'].'require_completefalsestore_id'.$data['merchant'].'version1.3';
 
 
-        $keym = $payment_method->data->secret_key;
-
-
-        $hash = hash_hmac('sha256', $string, $keym);
+      $keym = $payment_method->data->secret_key;
+      $hash = hash_hmac('sha256', $string, $keym);
 
         $data['md5'] = $hash;
 
