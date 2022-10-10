@@ -64,7 +64,7 @@ class CheckoutController extends Controller
      */
     public function success()
     {
-        if ( ! CheckoutSession::hasOrder() || ! CheckoutSession::hasCheckout()) {
+        if ( ! CheckoutSession::hasOrder() && ! CheckoutSession::hasCheckout()) {
             return redirect()->route('index')->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
         }
 
@@ -77,7 +77,6 @@ class CheckoutController extends Controller
                 Mail::to(config('mail.admin'))->send(new SendToAdmin($order, $checkout));
                 Mail::to($order->payment_email)->send(new SendToCustomer($order, $checkout));
             });*/
-            sleep(1);
 
             $order->updateStatus('new');
 

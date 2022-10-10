@@ -21,6 +21,11 @@ class Order extends Model
     protected $fillable = ['order_status_id'];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['total_amount', 'total_text'];
+
+    /**
      * @var array
      */
     public $order = [];
@@ -84,6 +89,27 @@ class Order extends Model
     public function getStatusAttribute()
     {
         return $this->status($this->order_status_id);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTotalAmountAttribute()
+    {
+        return number_format(($this->total * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.');
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTotalTextAttribute(): string
+    {
+        $left = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
+        $right = $this->main_currency->symbol_right ? ' ' . $this->main_currency->symbol_right : '';
+
+        return $left . number_format(($this->total * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.') . $right;
     }
 
 
