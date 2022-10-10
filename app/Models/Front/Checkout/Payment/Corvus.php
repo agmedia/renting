@@ -90,7 +90,7 @@ class Corvus
         $data['plan'] = '01';
         $data['cc_name'] = 'VISA';//...??
 
-        $data['number_of_installments'] = 'Y0212';
+        $data['number_of_installments'] = 'Y0299';
 
         $data['rate'] = 1;
         $data['return'] = $payment_method->data->callback;
