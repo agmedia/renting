@@ -58,6 +58,8 @@ class CheckoutController extends Controller
                                  ->resolveMissing($checkout);
         $form     = $order->resolvePaymentForm();
 
+      //  dd($order->order_id);
+
         CheckoutSession::setAddress($checkout->setAddress());
         CheckoutSession::setPayment($checkout->setPayment());
         CheckoutSession::setCheckout(get_object_vars($checkout));
@@ -72,51 +74,53 @@ class CheckoutController extends Controller
      */
     public function success(Request $request)
     {
-        CheckoutSession::forgetOrder();
-        CheckoutSession::forgetPayment();
-        CheckoutSession::forgetCheckout();
+       // CheckoutSession::forgetOrder();
+      //  CheckoutSession::forgetPayment();
+      //  CheckoutSession::forgetCheckout();
 
-        dd($request, CheckoutSession::getCheckout());
+       // dd($request, CheckoutSession::getCheckout());
 
         /**
          *
          */
-        $data['order'] = CheckoutSession::getOrder();
+    $data['order'] = CheckoutSession::getOrder();
 
         if ( ! $data['order']) {
-            return redirect()->route('front.checkout.checkout', ['step' => '']);
+            return redirect()->route('checkout.view', ['step' => '']);
         }
 
-        $order = \App\Models\Back\Orders\Order::where('id', $data['order']['id'])->first();
+       // dd($data['order']);
+
+        $order = \App\Models\Back\Orders\Order::where('id', $data['order'])->first();
 
         if ($order) {
-            dispatch(function () use ($order) {
-                Mail::to(config('mail.admin'))->send(new OrderReceived($order));
-                Mail::to($order->payment_email)->send(new OrderSent($order));
-            });
+            /*    dispatch(function () use ($order) {
+                  Mail::to(config('mail.admin'))->send(new OrderReceived($order));
+                  Mail::to($order->payment_email)->send(new OrderSent($order));
+              });
 
             foreach ($order->products as $product) {
-                $product->real->decrement('quantity', $product->quantity);
+                  $product->real->decrement('quantity', $product->quantity);
 
-                if ( ! $product->real->quantity) {
-                    $product->real->update([
-                        'status' => 0
-                    ]);
-                }
-            }
+                  if ( ! $product->real->quantity) {
+                      $product->real->update([
+                          'status' => 0
+                      ]);
+                  }
+              }*/
 
             CheckoutSession::forgetOrder();
-            CheckoutSession::forgetStep();
+           // CheckoutSession::forgetStep();
             CheckoutSession::forgetPayment();
-            CheckoutSession::forgetShipping();
-            $this->shoppingCart()->flush();
+           // CheckoutSession::forgetShipping();
+           // $this->shoppingCart()->flush();
 
-            $data['google_tag_manager'] = Seo::getGoogleDataLayer($order);
+           // $data['google_tag_manager'] = Seo::getGoogleDataLayer($order);
 
             return view('front.checkout.success', compact('data'));
         }
 
-        return redirect()->route('front.checkout.checkout');
+        return redirect()->route('naplata');
     }
 
 

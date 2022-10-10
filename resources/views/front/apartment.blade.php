@@ -322,7 +322,7 @@
         const pickerres = new easepick.create({
             element:     document.getElementById('checkindate'),
             css:         [
-                'assets/css/reservation.css',
+                '{{ asset('assets/css/reservation.css') }}',
             ],
             grid:        1,
             calendars:   1,
@@ -355,7 +355,7 @@
         const picker = new easepick.create({
             element:     document.getElementById('datepicker'),
             css:         [
-                'assets/css/reservation.css',
+                '{{ asset('assets/css/reservation.css') }}',
             ],
             grid:        2,
             calendars:   2,

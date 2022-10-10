@@ -120,6 +120,10 @@ class Corvus
      */
     public function finishOrder(Order $order, Request $request): bool
     {
+
+        dd($request);
+
+        dd($order);
         $status = $request->input('Success') ? config('settings.order.status.paid') : config('settings.order.status.declined');
 
         $order->update([
