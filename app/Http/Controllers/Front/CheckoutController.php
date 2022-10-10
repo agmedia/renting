@@ -51,6 +51,7 @@ class CheckoutController extends Controller
     public function checkoutView(Request $request)
     {
         $this->validateCheckout($request, true);
+
         $checkout = new Checkout($request);
         $order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
         $order    = (new Order())->setId($order_id)
@@ -60,7 +61,7 @@ class CheckoutController extends Controller
         CheckoutSession::setAddress($checkout->setAddress());
         CheckoutSession::setPayment($checkout->setPayment());
         CheckoutSession::setCheckout(get_object_vars($checkout));
-        CheckoutSession::setOrder($order->id);
+        CheckoutSession::setOrder($order->order_id);
 
         return view('front.checkout.checkout-preview', compact('checkout', 'form'));
     }

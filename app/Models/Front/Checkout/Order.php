@@ -111,14 +111,14 @@ class Order extends Model
         $this->checkout                 = $checkout;
         $this->order['order_status_id'] = config('settings.order.status.unfinished');
 
-        $id = $this->insertForm();
+        $this->order_id = $this->insertForm();
 
-        if ($id) {
-            OrderHistory::store($id);
+        if ($this->order_id) {
+            OrderHistory::store($this->order_id);
 
             foreach ($this->checkout->total['total'] as $key => $total) {
-                OrderTotal::where('order_id', $id)->delete();
-                OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
+                OrderTotal::where('order_id', $this->order_id)->delete();
+                OrderTotal::insertRow($this->order_id, $total['code'], $total['total'], $key);
             }
         }
 
