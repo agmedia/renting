@@ -51,7 +51,6 @@ class CheckoutController extends Controller
     public function checkoutView(Request $request)
     {
         $this->validateCheckout($request, true);
-
         $checkout = new Checkout($request);
         $order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
         $order    = (new Order())->setId($order_id)
