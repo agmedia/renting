@@ -104,7 +104,7 @@ class Corvus
         $keym = $payment_method->data->secret_key;
 
 
-        $data['md5'] = hash_hmac('sha256', $string, $keym);
+        $hash = hash_hmac('sha256', $string, $keym);
 
         $data['md5'] = $hash;
 
