@@ -65,7 +65,7 @@ class Corvus
         $_total = str_replace( ',', '', $total);
         $data['currency'] = 'HRK';
 
-        $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->id.':'.$_total.':'.$data['currency']);
+        $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->order_id.':'.$_total.':'.$data['currency']);
 
 
         $data['action'] = $action;
