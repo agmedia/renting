@@ -65,7 +65,10 @@ class Corvus
         $_total = str_replace( ',', '', $total);
         $data['currency'] = 'HRK';
 
-        $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->order_id.':'.$_total.':'.$data['currency']);
+      //  $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->order_id.':'.$_total.':'.$data['currency']);
+
+
+
 
 
         $data['action'] = $action;
@@ -73,7 +76,7 @@ class Corvus
 
         $data['order_id'] = $this->order->order_id;
         $data['total'] = $total;
-        $data['md5'] = $hash;
+
 
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname'] = $this->order->checkout->lastname;
@@ -93,6 +96,17 @@ class Corvus
         $data['return'] = $payment_method->data->callback;
         $data['cancel'] = route('index');
         $data['method'] = 'POST';
+
+
+        $string = 'amount'.$_total.'cardholder_email'.$data['email'].'cardholder_name'.$data['firstname'].'cardholder_phone'.$data['telephone'].'cardholder_surname'.$data['lastname'].'cartWeb shop kupnja '.$data['order_id'].'currency'.$data['currency'].'language'.$data['lang'].'order_number'$data['order_id'].'payment_all'.$data['number_of_installments'].'require_completefalsestore_id'.$data['merchant'].'version1.3';
+
+
+
+
+
+        $data['md5'] = hash_hmac('sha256', $string, $keym);
+
+        $data['md5'] = $hash;
 
 
 
