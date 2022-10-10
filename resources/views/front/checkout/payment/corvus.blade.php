@@ -31,8 +31,6 @@
 
 <form name="pay" class="w-100" action="{{ $data['action'] }}" method="POST">
 
-   <input id="target" name="target" value="_top" type="hidden"/>
-    <input id="mode" name="mode" value="form" type="hidden"/>
     <input type="hidden" name="store_id" value="{{ $data['merchant'] }}">
     <input id="require_complete"  name="require_complete" value="false" hidden="true"/>
     <input type="hidden" name="order_number" value="{{ $data['order_id'] }}">
