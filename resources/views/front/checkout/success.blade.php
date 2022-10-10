@@ -37,16 +37,16 @@
                 <div class="card-body text-center">
                     <h2 class="h4 pb-3">{{ __('front/success.success_sub_title') }}</h2>
                     <p> {!!  __('front/success.success_text_line') !!} </p>
-                        @if (isset($data))
-                            @if($data['order']['payment_code'] == 'bank')
-                                <p>Uredno smo zaprimili Vašu narudžbu broj {{ $data['order']['id'] }} i zahvaljujemo Vam.</p><p>Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
+                        @if (isset($order))
+                            @if ($order->payment_code == 'bank')
+                                <p>Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p>Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
                                 <p> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
                                 <p> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
-                                <p>MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($data['order']['total'], 2)}} kn<br>
+                                <p>MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{ $order->total }}<br>
                                    IBAN RAČUN: HR3123600001101595832<br>
-                                   MODEL: 00 POZIV NA BROJ: {{ $data['order']['id'] }}-{{date('ym')}}</p>
+                                   MODEL: 00 POZIV NA BROJ: {{ $order->id }}-{{date('ym')}}</p>
                                 <p>ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
-                                <p><img src="{{ asset('media/img/qr/'.$data['order']['id']) }}.png"></p>
+                                <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png"></p>
                             @else
                                 <p class="fs-sm mb-2">Vaša je narudžba poslana i bit će obrađena u najkraćem mogućem roku.</p>
                                 <p class="fs-sm">Uskoro ćete primiti e-poštu s potvrdom narudžbe.</p>

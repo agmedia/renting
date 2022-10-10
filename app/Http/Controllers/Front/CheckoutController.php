@@ -2,26 +2,18 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Helpers\Helper;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Mail\Order\SendToAdmin;
 use App\Mail\Order\SendToCustomer;
-use App\Mail\OrderReceived;
-use App\Mail\OrderSent;
-use App\Models\Back\Settings\Settings;
 use App\Models\Front\AgCart;
-use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
 use App\Models\Seo;
 use App\Models\TagManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use App\Models\Front\Checkout\PaymentMethod;
-use App\Models\Front\Checkout\GeoZone;
 
 class CheckoutController extends Controller
 {
@@ -58,29 +50,25 @@ class CheckoutController extends Controller
 
         $checkout = new Checkout($request);
         $order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
-        $order    = (new Order())->setId($order_id)
-                                 ->resolveMissing($checkout);
+        $order    = (new Order())->setId($order_id)->resolveMissing($checkout);
         $form     = $order->resolvePaymentForm();
 
-        CheckoutSession::setAddress($checkout->setAddress());
-        CheckoutSession::setPayment($checkout->setPayment());
-        CheckoutSession::setCheckout(get_object_vars($checkout));
-        CheckoutSession::setOrder($order->order_id);
+        CheckoutSession::set($checkout, $order);
 
-        return view('front.checkout.checkout-preview', compact('checkout', 'form'));
+        return view('front.checkout.checkout-preview', compact('checkout', 'order', 'form'));
     }
 
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function success(Request $request)
+    public function success()
     {
         if ( ! CheckoutSession::hasOrder() || ! CheckoutSession::hasCheckout()) {
-            return redirect()->back()->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
+            return redirect()->route('index')->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
         }
 
-        $order = Order::where('id', CheckoutSession::getOrder())->first();
+        $order = Order::unfinished()->where('id', CheckoutSession::getOrder())->first();
 
         if ($order) {
             $checkout = CheckoutSession::getCheckout();
@@ -93,18 +81,20 @@ class CheckoutController extends Controller
 
             $order->updateStatus('new');
 
-            $data['order'] = $order;
+            CheckoutSession::forget();
 
-            CheckoutSession::forgetOrder();
-            CheckoutSession::forgetCheckout();
-            CheckoutSession::forgetPayment();
-
-            return view('front.checkout.success', compact('data'));
+            return view('front.checkout.success', compact('order', 'checkout'));
         }
 
-        return redirect()->route('naplata');
+        $apartment = $this->getRedirectData('apartment');
+
+        return redirect()->route('apartment', ['apartment' => $apartment])->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
     }
 
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param Request $request
@@ -130,124 +120,20 @@ class CheckoutController extends Controller
     }
 
 
-
-
-
-
-
-    /*******************************************************************************
-     *                                Copyright : AGmedia                           *
-     *                              email: filip@agmedia.hr                         *
-     *******************************************************************************/
-
     /**
-     * @param Request $request
+     * @param string $target
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return mixed|null
      */
-    public function cart(Request $request)
+    private function getRedirectData(string $target)
     {
-        return view('front.checkout.cart');
+        if ($target == 'apartment') {
+            $response = CheckoutSession::getCheckout()->apartment;
+        }
+
+        return $response ?: null;
     }
 
-
-    /**
-     * @param Request $request
-     * @param string  $step
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function checkout_orig(Request $request)
-    {
-        $step = '';
-
-        if ($request->has('step')) {
-            $step = $request->input('step');
-        }
-
-        return view('front.checkout.checkout', compact('step'));
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function view(Request $request)
-    {
-        $data = $this->checkSession();
-
-        if (empty($data)) {
-            if ( ! session()->has(config('session.cart'))) {
-                return redirect()->route('kosarica');
-            }
-
-            return redirect()->route('naplata', ['step' => 'podaci']);
-        }
-
-        $data = $this->collectData($data, config('settings.order.status.unfinished'));
-
-        $order = new Order();
-
-        if (CheckoutSession::hasOrder()) {
-            $data['id'] = CheckoutSession::getOrder()['id'];
-
-            $order->updateData($data);
-            $order->setData($data['id']);
-
-        } else {
-            $order->createFrom($data);
-        }
-
-        if ($order->isCreated()) {
-            CheckoutSession::setOrder($order->getData());
-        }
-
-        $data['payment_form'] = $order->resolvePaymentForm();
-
-        return view('front.checkout.view', compact('data'));
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function order(Request $request)
-    {
-        $order = new Order();
-
-        if ($request->has('provjera')) {
-            $order->setData($request->input('provjera'));
-        }
-
-        if ($request->has('ShoppingCartID')) {
-            $order->setData($request->input('ShoppingCartID'));
-        }
-
-        if ($order->finish($request)) {
-            return redirect()->route('checkout.success');
-        }
-
-        return redirect()->route('checkout.error');
-    }
-
-
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function error()
-    {
-        return view('front.checkout.error');
-    }
-
-
-    /*******************************************************************************
-     *                                Copyright : AGmedia                           *
-     *                              email: filip@agmedia.hr                         *
-     *******************************************************************************/
 
     /**
      * @return array
@@ -262,37 +148,6 @@ class CheckoutController extends Controller
         }
 
         return [];
-    }
-
-
-    /**
-     * @param array $data
-     * @param int   $order_status_id
-     *
-     * @return array
-     */
-    private function collectData(array $data, int $order_status_id): array
-    {
-        $shipping = Settings::getList('shipping')->where('code', $data['shipping'])->first();
-        $payment  = Settings::getList('payment')->where('code', $data['payment'])->first();
-
-        $response                    = [];
-        $response['address']         = $data['address'];
-        $response['shipping']        = $shipping;
-        $response['payment']         = $payment;
-        $response['cart']            = $this->shoppingCart()->get();
-        $response['order_status_id'] = $order_status_id;
-
-        return $response;
-    }
-
-
-    /**
-     * @return AgCart
-     */
-    private function shoppingCart(): AgCart
-    {
-        return new AgCart(session(config('session.cart')));
     }
 
 }

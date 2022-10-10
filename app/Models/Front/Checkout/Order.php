@@ -8,6 +8,7 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Product;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -83,6 +84,17 @@ class Order extends Model
     public function getStatusAttribute()
     {
         return $this->status($this->order_status_id);
+    }
+
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeUnfinished(Builder $query): Builder
+    {
+        return $query->where('status', config('settings.order.status.unfinished'));
     }
 
 

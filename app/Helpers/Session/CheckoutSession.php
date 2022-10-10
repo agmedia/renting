@@ -10,6 +10,34 @@ class CheckoutSession
      */
     private static $session_string = 'checkout';
 
+
+    /**
+     * @param $checkout
+     * @param $order
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function set($checkout, $order)
+    {
+        static::setAddress($checkout->setAddress());
+        static::setPayment($checkout->setPayment());
+        static::setCheckout(get_object_vars($checkout));
+
+        return static::setOrder($order->order_id);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function forget()
+    {
+        static::forgetOrder();
+        static::forgetCheckout();
+
+        return static::forgetPayment();
+    }
+
     /*******************************************************************************
      *                                Copyright : AGmedia                           *
      *                              email: filip@agmedia.hr                         *
