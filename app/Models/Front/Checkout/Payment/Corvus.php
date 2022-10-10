@@ -26,8 +26,8 @@ class Corvus
      * @var string[]
      */
     private $url = [
-        'test' => 'https://testcps.corvus.hr/redirect/',
-        'live' => 'https://cps.corvus.hr/redirect/'
+        'test' => 'https://test-wallet.corvuspay.com/checkout/',
+        'live' => 'https://wallet.corvuspay.com/checkout/'
     ];
 
 
@@ -86,7 +86,7 @@ class Corvus
         $data['postcode'] = '';
         $data['telephone'] = $this->order->checkout->phone;
         $data['email'] = $this->order->checkout->email;
-        $data['lang'] = 'HR';
+        $data['lang'] = 'hr';
         $data['plan'] = '01';
         $data['cc_name'] = 'VISA';//...??
 
