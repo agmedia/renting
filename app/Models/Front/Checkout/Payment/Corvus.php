@@ -118,7 +118,7 @@ class Corvus
      *
      * @return bool
      */
-    public function finishOrder(Order $order, Request $request): bool
+    public function finishOrder(Order $order, Get $request): bool
     {
 
         dd($request);
