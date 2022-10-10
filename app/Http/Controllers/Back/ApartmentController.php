@@ -3,18 +3,10 @@
 namespace App\Http\Controllers\Back;
 
 use App\Helpers\Image;
-use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Back\Apartment\ApartmentDetail;
 use App\Models\Back\Apartment\ApartmentImage;
-use App\Models\Back\Marketing\Gallery\Gallery;
-use App\Models\Back\Settings\System\Category;
 use App\Models\Back\Apartment\Apartment;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -42,7 +34,7 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        $data = (new Apartment())->getEditViewData();
+        $data    = (new Apartment())->getEditViewData();
         $js_lang = json_encode(Lang::get('back/apartment'));
 
         return view('back.apartment.edit', compact('js_lang', 'data'));
@@ -81,11 +73,9 @@ class ApartmentController extends Controller
      */
     public function edit(Apartment $apartman)
     {
-        $data = $apartman->getEditViewData();
-        $js_lang = json_encode(Lang::get('back/apartment'));
+        $data      = $apartman->getEditViewData();
+        $js_lang   = json_encode(Lang::get('back/apartment'));
         $apartment = $apartman;
-
-        //dd($apartman->options()->get()->toArray());
 
         return view('back.apartment.edit', compact('apartment', 'js_lang', 'data'));
     }
@@ -95,13 +85,13 @@ class ApartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param Apartment                  $apartment
+     * @param Apartment                $apartment
      *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Apartment $apartman)
     {
-        $updated = $apartman->validateRequest($request)->edit();
+        $updated   = $apartman->validateRequest($request)->edit();
         $apartment = $apartman;
 
         if ($updated) {
@@ -123,9 +113,6 @@ class ApartmentController extends Controller
      */
     public function destroy(Request $request, Apartment $apartman)
     {
-        /*ProductImage::where('product_id', $apartment->id)->delete();
-        ProductCategory::where('product_id', $apartment->id)->delete();*/
-
         Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $apartman->id);
 
         $destroyed = Apartment::destroy($apartman->id);
@@ -149,9 +136,6 @@ class ApartmentController extends Controller
     {
         if ($request->has('id')) {
             $id = $request->input('id');
-
-            /*ProductImage::where('product_id', $id)->delete();
-            ProductCategory::where('product_id', $id)->delete();*/
 
             Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $id);
 

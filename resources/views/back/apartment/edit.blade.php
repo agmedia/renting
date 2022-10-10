@@ -376,6 +376,19 @@
                                         </div>
                                     </div>
 
+                                    <h2 class="content-heading">Apartment Sync. URL
+<!--                                        <a class="btn btn-sm btn-secondary float-right" href="{{ route('actions.create') }}">
+                                            <i class="far fa-fw fa-plus-square"></i>
+                                        </a>-->
+                                    </h2>
+
+                                    <div class="form-group row justify-content-center push mb-0">
+                                        <div class="col-md-12 pt-2">
+                                            <label for="adults-input">AirBnB</label>
+                                            <input type="text" class="form-control" name="links['airbnb']" placeholder="" value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -619,6 +632,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div class="block">
                 <div class="block-content">

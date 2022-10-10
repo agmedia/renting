@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class Apartment extends Model
 {
@@ -33,7 +35,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'image', 'thumb'];
+    protected $appends = ['title', 'image', 'thumb', 'airbnb'];
 
     /**
      * @var string
@@ -132,6 +134,21 @@ class Apartment extends Model
     public function getThumbAttribute()
     {
         return 'test-thumb';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAirbnbAttribute(): string
+    {
+        foreach (unserialize($this->links) as $key => $link) {
+            if ($key = 'airbnb') {
+                return $link;
+            }
+        }
+
+        return '';
     }
 
 
@@ -262,6 +279,7 @@ class Apartment extends Model
             'target'         => $this->request->target,
             'longitude'      => $this->request->longitude,
             'latitude'       => $this->request->latitude,
+            'links'          => $this->serializeLinks(),
             'price_regular'  => $this->request->price_regular ?: 0,
             'price_weekends' => $this->request->price_weekends ?: 0,
             'price_per'      => $this->request->price_per ?: 1,
@@ -286,6 +304,19 @@ class Apartment extends Model
         }
 
         return $response;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    private function serializeLinks()
+    {
+        if (isset($this->request->links) && ! empty($this->request->links)) {
+            return serialize($this->request->links);
+        }
+
+        return null;
     }
 
 
