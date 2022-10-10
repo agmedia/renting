@@ -98,7 +98,7 @@ class Corvus
         $data['method'] = 'POST';
 
 
-        $string = 'amount'.$_total.'cardholder_email'.$data['email'].'cardholder_name'.$data['firstname'].'cardholder_phone'.$data['telephone'].'cardholder_surname'.$data['lastname'].'cartWeb shop kupnja '.$data['order_id'].'currency'.$data['currency'].'language'.$data['lang'].'order_number'$data['order_id'].'payment_all'.$data['number_of_installments'].'require_completefalsestore_id'.$data['merchant'].'version1.3';
+        $string = 'amount'.$_total.'cardholder_email'.$data['email'].'cardholder_name'.$data['firstname'].'cardholder_phone'.$data['telephone'].'cardholder_surname'.$data['lastname'].'cartWeb shop kupnja '.$data['order_id'].'currency'.$data['currency'].'language'.$data['lang'].'order_number'.$data['order_id'].'payment_all'.$data['number_of_installments'].'require_completefalsestore_id'.$data['merchant'].'version1.3';
 
 
 
