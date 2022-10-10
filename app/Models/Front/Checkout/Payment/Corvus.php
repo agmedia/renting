@@ -21,7 +21,6 @@ class Corvus
      */
     private $order;
 
-    dd($order);
 
     /**
      * @var string[]
@@ -62,7 +61,7 @@ class Corvus
             $action = $this->url['test'];
         }
 
-        $total = number_format($this->order->total_amount,2, '.', '');
+        $total = number_format($this->order->checkout->total_amount,2, '.', '');
         $_total = str_replace( ',', '', $total);
         $data['currency'] = 'HRK';
 
@@ -72,18 +71,18 @@ class Corvus
         $data['action'] = $action;
         $data['merchant'] = $payment_method->data->shop_id;
 
-        $data['order_id'] = $this->order->id;
+        $data['order_id'] = $this->order->order_id;
         $data['total'] = $total;
         $data['md5'] = $hash;
 
-        $data['firstname'] = $this->order->firstname;
-        $data['lastname'] = $this->order->lastname;
+        $data['firstname'] = $this->order->checkout->firstname;
+        $data['lastname'] = $this->order->checkout->lastname;
         $data['address'] = '';
         $data['city'] = '';
         $data['country'] = '';
         $data['postcode'] = '';
-        $data['telephone'] = $this->order->phone;
-        $data['email'] = $this->order->email;
+        $data['telephone'] = $this->order->checkout->phone;
+        $data['email'] = $this->order->checkout->email;
         $data['lang'] = 'HR';
         $data['plan'] = '01';
         $data['cc_name'] = 'VISA';//...??
