@@ -61,20 +61,19 @@
                             <div class="sidebar">
                                 <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
                                     {{ csrf_field() }}
-
-                                    <div class="mt-4 p-4 shadow-one reservationbox">
-                                        <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
-
+                                <div class="mt-4 p-4 shadow-one reservationbox">
+                                    <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
                                         <div class="row row-cols-1">
                                             <div class="col mt-3">
-                                                <div class="input-group">
+
+                                                <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
                                                     <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6 mt-3">
+                                            <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="adults">
@@ -102,27 +101,31 @@
                                                 <button type="submit" id="send" value="submit" class="btn btn-primary w-100">{{ __('front/apartment.reserve_btn_title') }}</button>
                                             </div>
                                         </div>
+                                </div>
 
-                                    </div>
 
-                                    <div class="mt-4 p-4 shadow-one reservationbox">
-                                        <h5 class="mt-2 mb-2 text-primary">Additional apartment options</h5>
 
-                                        <div class="row">
-                                            @foreach ($apartment->options()->withoutPersons()->get() as $option)
-                                                <div class="col-md-1">
-                                                    <input type="checkbox" name="additional[{{ $option->id }}]" id="additional[{{ $option->id }}]" value="{{ $option->price }}">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    {{ $option->title }}<br>
-                                                    <small>{{ $option->description }}</small>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    {{ $option->price_text }}
-                                                </div>
-                                            @endforeach
+                                    @if($apartment->options()->get()->isNotEmpty())
+
+                                        <div class="mt-4 p-4 shadow-one reservationbox">
+                                            <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.additional_apartment_options') }} </h5>
+
+                                            <div class="row">
+                                                @foreach ($apartment->options()->get() as $option)
+                                                    <div class="col-md-1">
+                                                        <input type="checkbox">
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        {{ $option->title }}<br>
+                                                        <small>{{ $option->description }}</small>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        {{ $option->price_text }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    </div>
+                                     @endif
                                 </form>
                             </div>
                         </div>
@@ -181,6 +184,7 @@
                                     <div class="col-md-12">
                                         <input class="form-control d-none" id="datepicker"/>
                                     </div>
+
                                 </div>
                                 <!--
                                                                 <div class="row mb-4">

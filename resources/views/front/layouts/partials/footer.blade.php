@@ -69,9 +69,6 @@
                                 <img class="ccard"  src="assets/images/cards/maestro.svg">
                                 <img class="ccard"  src="assets/images/cards/mastercard.svg">
                                 <img class="ccard"  src="assets/images/cards/diners.svg">
-
-                                <img class="ccard"  src="assets/images/cards/paypal.svg">
-
                             </div>
                         </div>
                     </div>

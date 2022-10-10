@@ -17,6 +17,7 @@ return [
     'reserve_title' => 'Reserve your apartment stay',
     'view_gallery' => 'View Full Gallery',
     'checkin_title' => 'Check-in -> Checkout',
+    'additional_apartment_options' => 'Additional apartment options',
     'adults_title' => 'Adults',
     'children_title' => 'Children',
     'reserve_btn_title' => 'Reserve',

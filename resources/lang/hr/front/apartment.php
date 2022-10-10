@@ -16,6 +16,7 @@ return [
     'reserve_title' => 'Rezervirajte svoj smještaj',
     'view_gallery' => 'Pogledajte cijelu galeriju',
     'checkin_title' => 'Prijava -> Odjava',
+    'additional_apartment_options' => 'Dodatne opcije',
     'adults_title' => 'Odraslih',
     'children_title' => 'Djece',
     'reserve_btn_title' => 'Rezerviraj',
