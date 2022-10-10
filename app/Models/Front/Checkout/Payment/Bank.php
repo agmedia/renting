@@ -38,17 +38,14 @@ class Bank
     {
         $data['order_id'] = $this->order->order_id;
 
+dd($this->order->checkout);
 
-
-        $nhs_no = $this->order->id.'-'.date("ym");
+        $nhs_no = $this->order->order_id.'-'.date("ym");
 
         $pozivnabroj = $nhs_no;
 
-        $total = number_format($this->order->total,2, ',', '');
-        $_total = str_replace( ',', '', $total);
+        $total = number_format($this->order->checkout->total_amount,2, '.', '');
 
-
-        $ukupnohub = number_format((float)$this->order->total, 2, '.', '');
 
 
         $data['firstname'] = $this->order->checkout->firstname;
@@ -73,10 +70,12 @@ class Bank
                 ),
             'data' =>
                 array (
-                    'amount' => floatval($ukupnohub),
+                    'amount' => floatval($total),
                     'sender' =>
                         array (
                             'name' => $data['firstname'].' '.$data['lastname'],
+                            'street' => $data['address'],
+                            'place' => $data['postcode'].' '.$data['city'],
 
                         ),
                     'receiver' =>
@@ -119,7 +118,7 @@ class Bank
         list(, $scimg)      = explode(',', $scimg);
         $scimg = base64_decode($scimg);
 
-        $path = $this->order->id.'.png';
+        $path = $this->order->order_id.'.png';
 
         Storage::disk('qr')->put($path,  $scimg);
 

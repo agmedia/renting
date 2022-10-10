@@ -109,6 +109,8 @@ class CheckoutController extends Controller
                   }
               }*/
 
+            $data['order'] = $order;
+
             CheckoutSession::forgetOrder();
            // CheckoutSession::forgetStep();
             CheckoutSession::forgetPayment();
