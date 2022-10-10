@@ -108,16 +108,16 @@
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.personal_info') }}</h4>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}" value="{{ $checkout->firstname }}">
+                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}" value="{{ $checkout->firstname }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}">
+                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.mobile_number') }}" value="{{ $checkout->phone }}">
+                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.mobile_number') }}" value="{{ $checkout->phone }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}">
+                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}" required>
                                     </div>
                                 </div>
                             </div>

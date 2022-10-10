@@ -36,7 +36,9 @@ class Bank
      */
     public function resolveFormView($payment_method = null)
     {
-        $data['order_id'] = $this->order->id;
+        $data['order_id'] = $this->order->order_id;
+
+
 
         $nhs_no = $this->order->id.'-'.date("ym");
 
@@ -49,14 +51,11 @@ class Bank
         $ukupnohub = number_format((float)$this->order->total, 2, '.', '');
 
 
-        $data['firstname'] = $this->order->payment_fname;
-        $data['lastname'] = $this->order->payment_lname;
-        $data['address'] = $this->order->payment_address;
-        $data['city'] = $this->order->payment_city;
-        $data['country'] = $this->order->payment_state;
-        $data['postcode'] = $this->order->payment_zip;
-        $data['phone'] = $this->order->payment_phone;
-        $data['email'] = $this->order->payment_email;
+        $data['firstname'] = $this->order->checkout->firstname;
+        $data['lastname'] = $this->order->checkout->lastname;
+
+        $data['telephone'] = $this->order->checkout->phone;
+        $data['email'] = $this->order->checkout->email;
 
 
       //  $data['text_message'] = sprintf($this->language->get('text_bank'), $order_id, $total, $pozivnabroj);
@@ -78,8 +77,7 @@ class Bank
                     'sender' =>
                         array (
                             'name' => $data['firstname'].' '.$data['lastname'],
-                            'street' => $data['address'],
-                            'place' => $data['postcode'].' '.$data['city'],
+
                         ),
                     'receiver' =>
                         array (

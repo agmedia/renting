@@ -1,3 +1,34 @@
+
+
+<h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.personal_info') }}</h4>
+<table class="table table-striped mb-5">
+    <tbody>
+    <tr>
+        <th scope="row">{{ __('front/checkout.name') }}</th>
+        <td>{{ $data['firstname'] }}</td>
+
+    </tr>
+    <tr>
+        <th scope="row">{{ __('front/checkout.surname') }}</th>
+        <td>{{ $data['lastname'] }}</td>
+
+    </tr>
+    <tr>
+        <th scope="row">{{ __('front/checkout.mobile_number') }}</th>
+        <td>{{ $data['telephone'] }}</td>
+    </tr>
+    <tr>
+        <th scope="row">{{ __('front/checkout.email_address') }}</th>
+        <td>{{ $data['email'] }}</td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
 <form name="pay" class="w-100" action="{{ $data['action'] }}" method="POST">
 
    <input id="target" name="target" value="_top" type="hidden"/>
