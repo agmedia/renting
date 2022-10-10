@@ -31,7 +31,6 @@ class Order extends Model
      * @var Checkout|null
      */
     public $checkout = null;
-
     /**
      * @var null|array
      */
