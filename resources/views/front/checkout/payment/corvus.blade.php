@@ -34,7 +34,7 @@
    <input id="target" name="target" value="_top" type="hidden"/>
     <input id="mode" name="mode" value="form" type="hidden"/>
     <input type="hidden" name="store_id" value="{{ $data['merchant'] }}">
-    <input id="require_complete"  name="require_complete" value="true" type="hidden"/>
+    <input id="require_complete"  name="require_complete" value="false" hidden="true"/>
     <input type="hidden" name="order_number" value="{{ $data['order_id'] }}">
     <input type="hidden" name="amount" value="{{ $data['total'] }}">
     <input type="hidden" name="hash" value="{{ $data['md5'] }}">
@@ -46,6 +46,7 @@
     <input type="hidden" name="cardholder_phone" value="{{ $data['telephone'] }}">
     <input type="hidden" name="cardholder_email" value="{{ $data['email'] }}">
     <input type="hidden" name="payment_all" value="{{ $data['number_of_installments'] }}">
+    <input type="hidden" name="version" value="1.3">
 
 
 
