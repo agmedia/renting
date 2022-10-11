@@ -23,70 +23,6 @@ class OrderController extends Controller
      */
     public function index(Request $request, Order $order)
     {
-        if ($request->has('insert_count')) {
-            $count = intval($request->input('insert_count'));
-            $from  = Carbon::now()->subWeek();
-            $to    = Carbon::now()->addDays(3);
-
-            for ($i = 0; $i < $count; $i++) {
-                $total = 1550;
-
-                $id = Order::insertGetId([
-                    'apartment_id'        => 2,
-                    'user_id'             => 0,
-                    'affiliate_id'        => 0,
-                    'order_status_id'     => 1,
-                    'invoice'             => null,
-                    'total'               => $total,
-                    'date_from'           => $from,
-                    'date_to'             => $to,
-                    'payment_fname'       => 'Ime',
-                    'payment_lname'       => 'Prezima',
-                    'payment_address'     => 'Neka adresa',
-                    'payment_zip'         => '10000',
-                    'payment_city'        => 'Zagreb',
-                    /*'payment_state'       => 'Croatia',*/
-                    'payment_phone'       => '9999999999',
-                    'payment_email'       => 'ime.prezima@test.hr',
-                    'payment_method'      => 'wspay',
-                    'payment_code'        => '',
-                    'payment_card'        => 'VISA',
-                    'payment_installment' => 0,
-                    'company'             => '',
-                    'oib'                 => '',
-                    'approved'            => false,
-                    'approved_user_id'    => 0,
-                    'created_at'          => Carbon::now(),
-                    'updated_at'          => Carbon::now()
-                ]);
-
-                $from     = $to->addDay();
-                $to       = $from->addDays(10);
-                $subtotal = $total / 1.25;
-
-                $totals = [
-                    'subtotal' => $subtotal,
-                    'tax'      => $total - $subtotal,
-                    'total'    => $total
-                ];
-
-                $itt = 0;
-
-                foreach ($totals as $key => $total) {
-                    OrderTotal::insertGetId([
-                        'order_id'   => $id,
-                        'code'       => $key,
-                        'value'      => $total,
-                        'sort_order' => $itt,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now()
-                    ]);
-
-                    $itt++;
-                }
-            }
-        }
-
         $orders = $order->filter($request)->paginate(config('settings.pagination.back'));
 
         $statuses = Settings::get('order', 'statuses');
@@ -200,6 +136,8 @@ class OrderController extends Controller
      */
     public function api_status_change(Request $request)
     {
+        Log::info($request);
+
         if ($request->has('orders')) {
             $orders = explode(',', substr($request->input('orders'), 1, -1));
 

@@ -83,7 +83,7 @@
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Datum</th>
                             <th>Apartman</th>
-                            <th>Status</th>
+                            <th class="text-center">Status</th>
                             <th class="text-right">Detalji</th>
                         </tr>
                         </thead>
@@ -102,8 +102,8 @@
                                     <strong>{{ $order->id }}</strong>
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
-                                <td class="text-center">{{ $order->count() }}</td>
-                                <td class="font-size-base">
+                                <td>{{ $order->apartment->title }}</td>
+                                <td class="font-size-base text-center">
                                     <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
                                 </td>
                                 <td class="text-right font-size-base">
@@ -160,7 +160,8 @@
 
                 axios.get('{{ route('api.order.status.change') }}' + '?selected=' + selected + '&orders=' + orders)
                 .then((r) => {
-                    location.reload();
+                    console.log(r)
+                    //location.reload();
                 })
                 .catch((e) => {
                     console.log(e)
