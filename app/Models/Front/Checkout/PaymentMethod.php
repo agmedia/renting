@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
+use App\Models\Front\Checkout\Order;
+
 /**
  * Class ShippingMethod
  * @package App\Models\Front\Checkout
