@@ -145,7 +145,7 @@ class Apartment extends Model
         if ($this->links) {
             foreach (unserialize($this->links) as $key => $link) {
                 if ($key = 'airbnb') {
-                    return $link;
+                    return $link ?: '';
                 }
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Checkout;
 
+use App\Helpers\CurrencyHelper;
 use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
@@ -41,15 +42,20 @@ class Order extends Model
      */
     public $checkout = null;
 
+    /**
+     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    protected $main_currency;
+
 
     /**
-     * Order constructor.
-     *
-     * @param int $order_id
+     * @param array $attributes
      */
-    public function __construct(array $data = null)
+    public function __construct(array $attributes = [])
     {
-        $this->order = $data;
+        parent::__construct($attributes);
+
+        $this->main_currency = CurrencyHelper::mainSession();
     }
 
 
