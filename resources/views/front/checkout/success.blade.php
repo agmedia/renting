@@ -41,7 +41,7 @@
                             @if ($order->payment_code == 'bank')
                                 <p>{{ __('front/success.success_text') }} {{ $order->id }} .</p>
                             {!!   __('front/success.success_html_text') !!}
-                                <p>{{ __('front/success.payment_text') }}  {{ $order->total }}<br>
+                                <p>{{ __('front/success.payment_text') }}  {{ $order->total_text }}<br>
                                    IBAN: HR4723900011101317916<br>
                                    MODEL: 00 {{ __('front/success.reference_number') }}: {{ $order->id }}-{{date('ym')}}</p>
                                 <p>{{ __('front/success.scant_text') }}</p>
