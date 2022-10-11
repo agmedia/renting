@@ -33,4 +33,8 @@ return [
     'email_validate' => 'Please enter your email address!',
     'mobile_validate' => 'Please enter your mobile number!',
     'message_validate' => 'Please enter your message!',
+    'footer_text' => 'Self check-in means guests can access a place without needing the Host to be there. Any time after their designated check-in time on their arrival date, guests can conveniently gain access to lockbox',
+    'legal' => 'Legal Info',
+    'support' => 'Support',
+    'copy_text' => '© 2022 SelfCheckIns. All right reserved.',
 ];
