@@ -120,7 +120,7 @@ class Order extends Model
      */
     public function scopeUnfinished(Builder $query): Builder
     {
-        return $query->where('status', config('settings.order.status.unfinished'));
+        return $query->where('order_status_id', config('settings.order.status.unfinished'));
     }
 
 
