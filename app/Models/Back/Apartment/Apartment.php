@@ -142,9 +142,11 @@ class Apartment extends Model
      */
     public function getAirbnbAttribute(): string
     {
-        foreach (unserialize($this->links) as $key => $link) {
-            if ($key = 'airbnb') {
-                return $link;
+        if ($this->links) {
+            foreach (unserialize($this->links) as $key => $link) {
+                if ($key = 'airbnb') {
+                    return $link;
+                }
             }
         }
 
