@@ -39,7 +39,7 @@ class PaymentMethod
      */
     public function __construct(string $code = null)
     {
-        $this->methods = $this->list();
+        $this->methods          = $this->list();
         $this->response_methods = collect();
 
         if ($code) {
@@ -163,9 +163,9 @@ class PaymentMethod
 
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param $order
@@ -176,7 +176,7 @@ class PaymentMethod
     {
         if ($this->method->count()) {
             $provider = $this->providers($this->method->first()->code);
-            $payment = new $provider($order);
+            $payment  = new $provider($order);
 
             return $payment->resolveFormView($this->method->collect());
         }
@@ -190,11 +190,11 @@ class PaymentMethod
      *
      * @return mixed|null
      */
-    public function finish(\App\Models\Back\Orders\Order $order, Request $request)
+    public function finish(Order $order, Request $request)
     {
         if ($this->method->count()) {
             $provider = $this->providers($this->method->first()->code);
-            $payment = new $provider($order);
+            $payment  = new $provider($order);
 
             return $payment->finishOrder($order, $request);
         }
@@ -221,10 +221,9 @@ class PaymentMethod
 
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
-
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @return \Darryldecode\Cart\CartCondition|false
@@ -232,7 +231,7 @@ class PaymentMethod
      */
     public static function condition($cart = null)
     {
-        $payment = false;
+        $payment   = false;
         $condition = false;
 
         if (CheckoutSession::hasPayment()) {
@@ -247,13 +246,13 @@ class PaymentMethod
             }
 
             $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'Naknada za pouzeće',
-                'type' => 'payment',
-                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => '+' . $value ?: 0,
+                'name'       => 'Naknada za pouzeće',
+                'type'       => 'payment',
+                'target'     => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value'      => '+' . $value ?: 0,
                 'attributes' => [
                     'description' => $payment->data->short_description ?: '',
-                    'geo_zone' => $payment->geo_zone ?: 0
+                    'geo_zone'    => $payment->geo_zone ?: 0
                 ]
             ));
         }

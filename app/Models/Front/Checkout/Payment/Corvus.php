@@ -2,7 +2,7 @@
 
 namespace App\Models\Front\Checkout\Payment;
 
-use App\Models\Back\Orders\Order;
+use App\Models\Front\Checkout\Order;
 use App\Models\Back\Orders\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,7 +21,6 @@ class Corvus
      */
     private $order;
 
-
     /**
      * @var string[]
      */
@@ -36,7 +35,7 @@ class Corvus
      *
      * @param $order
      */
-    public function __construct( $order)
+    public function __construct($order)
     {
         $this->order = $order;
     }
@@ -61,52 +60,37 @@ class Corvus
             $action = $this->url['test'];
         }
 
-        $total = number_format($this->order->checkout->total_amount,2, '.', '');
-        $_total =  $total;
-        $data['currency'] = 'HRK';
+        $total = number_format($this->order->checkout->total_amount, 2, '.', '');
 
-      //  $hash  = SHA1($payment_method->data->secret_key.':'.$this->order->order_id.':'.$_total.':'.$data['currency']);
-
-
-
-
-
-        $data['action'] = $action;
-        $data['merchant'] = $payment_method->data->shop_id;
-
-        $data['order_id'] = $this->order->order_id;
-        $data['total'] = $total;
-
-
+        $data['currency']  = 'HRK';
+        $data['action']    = $action;
+        $data['merchant']  = $payment_method->data->shop_id;
+        $data['order_id']  = $this->order->order_id;
+        $data['total']     = $total;
         $data['firstname'] = $this->order->checkout->firstname;
-        $data['lastname'] = $this->order->checkout->lastname;
-        $data['address'] = '';
-        $data['city'] = '';
-        $data['country'] = '';
-        $data['postcode'] = '';
+        $data['lastname']  = $this->order->checkout->lastname;
+        $data['address']   = '';
+        $data['city']      = '';
+        $data['country']   = '';
+        $data['postcode']  = '';
         $data['telephone'] = $this->order->checkout->phone;
-        $data['email'] = $this->order->checkout->email;
-        $data['lang'] = 'hr';
-        $data['plan'] = '01';
-        $data['cc_name'] = 'VISA';//...??
+        $data['email']     = $this->order->checkout->email;
+        $data['lang']      = 'hr';
+        $data['plan']      = '01';
+        $data['cc_name']   = 'VISA';//...??
+        $data['rate']      = 1;
+        $data['return']    = $payment_method->data->callback;
+        $data['cancel']    = route('index');
+        $data['method']    = 'POST';
 
         $data['number_of_installments'] = 'Y0299';
 
-        $data['rate'] = 1;
-        $data['return'] = $payment_method->data->callback;
-        $data['cancel'] = route('index');
-        $data['method'] = 'POST';
+        $string = 'amount' . $total . 'cardholder_email' . $data['email'] . 'cardholder_name' . $data['firstname'] . 'cardholder_phone' . $data['telephone'] . 'cardholder_surname' . $data['lastname'] . 'cartWeb shop kupnja ' . $data['order_id'] . 'currency' . $data['currency'] . 'language' . $data['lang'] . 'order_number' . $data['order_id'] . 'payment_all' . $data['number_of_installments'] . 'require_completefalsestore_id' . $data['merchant'] . 'version1.3';
 
-
-        $string = 'amount'.$_total.'cardholder_email'.$data['email'].'cardholder_name'.$data['firstname'].'cardholder_phone'.$data['telephone'].'cardholder_surname'.$data['lastname'].'cartWeb shop kupnja '.$data['order_id'].'currency'.$data['currency'].'language'.$data['lang'].'order_number'.$data['order_id'].'payment_all'.$data['number_of_installments'].'require_completefalsestore_id'.$data['merchant'].'version1.3';
-
-
-      $keym = $payment_method->data->secret_key;
-      $hash = hash_hmac('sha256', $string, $keym);
+        $keym = $payment_method->data->secret_key;
+        $hash = hash_hmac('sha256', $string, $keym);
 
         $data['md5'] = $hash;
-
-
 
         return view('front.checkout.payment.corvus', compact('data'));
     }
@@ -118,12 +102,10 @@ class Corvus
      *
      * @return bool
      */
-    public function finishOrder(Order $order, Get $request): bool
+    public function finishOrder(Order $order, Request $request): bool
     {
 
-        dd($request);
-
-        dd($order);
+        dd($request, $order);
 
         $status = $request->input('Success') ? config('settings.order.status.paid') : config('settings.order.status.declined');
 
@@ -133,42 +115,42 @@ class Corvus
 
         if ($request->input('Success')) {
             Transaction::insert([
-                'order_id' => $order->id,
-                'success' => 1,
-                'amount' => $request->input('Amount'),
-                'signature' => $request->input('Signature'),
-                'payment_type' => $request->input('PaymentType'),
-                'payment_plan' => $request->input('PaymentPlan'),
+                'order_id'        => $order->id,
+                'success'         => 1,
+                'amount'          => $request->input('Amount'),
+                'signature'       => $request->input('Signature'),
+                'payment_type'    => $request->input('PaymentType'),
+                'payment_plan'    => $request->input('PaymentPlan'),
                 'payment_partner' => $request->input('Partner'),
-                'datetime' => $request->input('DateTime'),
-                'approval_code' => $request->input('ApprovalCode'),
-                'pg_order_id' => $request->input('CorvusOrderId'),
-                'lang' => $request->input('Lang'),
-                'stan' => $request->input('STAN'),
-                'error' => $request->input('ErrorMessage'),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'datetime'        => $request->input('DateTime'),
+                'approval_code'   => $request->input('ApprovalCode'),
+                'pg_order_id'     => $request->input('CorvusOrderId'),
+                'lang'            => $request->input('Lang'),
+                'stan'            => $request->input('STAN'),
+                'error'           => $request->input('ErrorMessage'),
+                'created_at'      => Carbon::now(),
+                'updated_at'      => Carbon::now()
             ]);
 
             return true;
         }
 
         Transaction::insert([
-            'order_id' => $order->id,
-            'success' => 0,
-            'amount' => $request->input('Amount'),
-            'signature' => $request->input('Signature'),
-            'payment_type' => $request->input('PaymentType'),
-            'payment_plan' => $request->input('PaymentPlan'),
+            'order_id'        => $order->id,
+            'success'         => 0,
+            'amount'          => $request->input('Amount'),
+            'signature'       => $request->input('Signature'),
+            'payment_type'    => $request->input('PaymentType'),
+            'payment_plan'    => $request->input('PaymentPlan'),
             'payment_partner' => null,
-            'datetime' => $request->input('DateTime'),
-            'approval_code' => $request->input('ApprovalCode'),
-            'pg_order_id' => null,
-            'lang' => $request->input('Lang'),
-            'stan' => null,
-            'error' => $request->input('ErrorMessage'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'datetime'        => $request->input('DateTime'),
+            'approval_code'   => $request->input('ApprovalCode'),
+            'pg_order_id'     => null,
+            'lang'            => $request->input('Lang'),
+            'stan'            => null,
+            'error'           => $request->input('ErrorMessage'),
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now()
         ]);
 
         return false;

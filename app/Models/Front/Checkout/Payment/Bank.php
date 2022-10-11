@@ -3,6 +3,7 @@
 namespace App\Models\Front\Checkout\Payment;
 
 use App\Models\Back\Orders\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -37,55 +38,46 @@ class Bank
     public function resolveFormView($payment_method = null)
     {
         $data['order_id'] = $this->order->order_id;
-
-        $nhs_no = $this->order->order_id.'-'.date("ym");
-
-        $pozivnabroj = $nhs_no;
-
-        $total = number_format($this->order->checkout->total_amount,2, '.', '');
-
-
+        $nhs_no           = $this->order->order_id . '-' . date("ym");
+        $pozivnabroj      = $nhs_no;
+        $total            = number_format($this->order->checkout->total_amount, 2, '.', '');
 
         $data['firstname'] = $this->order->checkout->firstname;
-        $data['lastname'] = $this->order->checkout->lastname;
-
+        $data['lastname']  = $this->order->checkout->lastname;
         $data['telephone'] = $this->order->checkout->phone;
-        $data['email'] = $this->order->checkout->email;
+        $data['email']     = $this->order->checkout->email;
 
-
-      //  $data['text_message'] = sprintf($this->language->get('text_bank'), $order_id, $total, $pozivnabroj);
-
-        $hubstring = array (
+        $hubstring = array(
             'renderer' => 'image',
-            'options' =>
-                array (
-                    "format" => "jpg",
-                    "scale" =>  3,
-                    "ratio" =>  3,
-                    "color" =>  "#2c3e50",
+            'options'  =>
+                array(
+                    "format"  => "jpg",
+                    "scale"   => 3,
+                    "ratio"   => 3,
+                    "color"   => "#2c3e50",
                     "bgColor" => "#fff",
                     "padding" => 20
                 ),
-            'data' =>
-                array (
-                    'amount' => floatval($total),
-                    'sender' =>
-                        array (
-                            'name' => $data['firstname'].' '.$data['lastname'],
+            'data'     =>
+                array(
+                    'amount'      => floatval($total),
+                    'sender'      =>
+                        array(
+                            'name'   => $data['firstname'] . ' ' . $data['lastname'],
                             'street' => '',//$data['address'],
-                            'place' => '',//$data['postcode'].' '.$data['city'],
+                            'place'  => '',//$data['postcode'].' '.$data['city'],
 
                         ),
-                    'receiver' =>
-                        array (
-                            'name' => 'SelfCheckIns LTD',
-                            'street' => '20-22 Wenlock Road',
-                            'place' => 'N1 7GU London',
-                            'iban' => 'HR4723900011101317916',
-                            'model' => '00',
+                    'receiver'    =>
+                        array(
+                            'name'      => 'SelfCheckIns LTD',
+                            'street'    => '20-22 Wenlock Road',
+                            'place'     => 'N1 7GU London',
+                            'iban'      => 'HR4723900011101317916',
+                            'model'     => '00',
                             'reference' => $pozivnabroj,
                         ),
-                    'purpose' => 'CMDT',
+                    'purpose'     => 'CMDT',
                     'description' => 'SelfCheckIns',
                 ),
         );
@@ -93,12 +85,12 @@ class Bank
         $postString = json_encode($hubstring);
 
         $url = 'https://hub3.bigfish.software/api/v1/barcode';
-        $ch = curl_init($url);
+        $ch  = curl_init($url);
 
         # Setting our options
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 20);
         # Get the response
@@ -106,71 +98,38 @@ class Bank
         $response = curl_exec($ch);
         curl_close($ch);
 
+        $response = base64_encode($response);
 
+        $data['uplatnica'] = $response;
+        $scimg             = 'data:image/png;base64,' . $response;
 
-            $response = base64_encode($response);
-
-              $data['uplatnica'] = $response;
-        $scimg = 'data:image/png;base64,'.$response;
         list($type, $scimg) = explode(';', $scimg);
-        list(, $scimg)      = explode(',', $scimg);
+        list(, $scimg) = explode(',', $scimg);
+
         $scimg = base64_decode($scimg);
+        $path  = $this->order->order_id . '.png';
 
-        $path = $this->order->order_id.'.png';
-
-        Storage::disk('qr')->put($path,  $scimg);
-
+        Storage::disk('qr')->put($path, $scimg);
 
         return view('front.checkout.payment.bank', compact('data'));
     }
 
 
     /**
-     * @param Order $order
-     * @param null  $request
+     * @param Order   $order
+     * @param Request $request
      *
      * @return bool
      */
-    public function finishOrder(Order $order, $request = null): bool
+    public function finishOrder(Order $order, Request $request): bool
     {
-        $updated = $order->update([
-            'order_status_id' => config('settings.order.status.new')
-        ]);
+        $updated = true;
 
         if ($updated) {
             return true;
         }
 
         return false;
-    }
-
-    public function mod11INI(string $nb)
-    {
-        $i = 0;
-        $v = 0;
-        $p = 2;
-        $c = ' ';
-
-        for ($i = strlen($nb); $i >= 1 ; $i--) {
-            $c = substr($nb, $i - 1, 1);
-
-            if ('0' <= $c && $c <= '9' && $v >= 0) {
-                $v = $v + $p * $c;
-                $p = $p + 1;
-            } else {
-                $v = -1;
-            }
-        }
-
-        if ($v >= 0) {
-            $v = 11 - ($v%11);
-
-            if ($v > 9) {
-                $v = 0;
-            }
-        }
-
-        return $v;
     }
 
 }

@@ -8,6 +8,7 @@ use App\Models\Back\Settings\Settings;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Product;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -106,7 +107,7 @@ class Order extends Model
      */
     public function getTotalTextAttribute(): string
     {
-        $left = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
+        $left  = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
         $right = $this->main_currency->symbol_right ? ' ' . $this->main_currency->symbol_right : '';
 
         return $left . number_format(($this->total * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.') . $right;
@@ -178,18 +179,35 @@ class Order extends Model
 
 
     /**
-     * @param string $status
-     *                      [ 'new', 'unfinished', 'declined', 'paid', 'send']
+     * @param string $status [ 'new', 'unfinished', 'declined', 'paid', 'send']
      * @param int    $order_id
      *
-     * @return bool
+     * @return $this
      */
     public function updateStatus(string $status, int $order_id = 0)
     {
-        if ($order_id) {
+        if ($order_id) {}
+
+        $this->update(['order_status_id' => config('settings.order.status.' . $status)]);
+
+        return $this;
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed|null
+     */
+    public function finish(Request $request)
+    {
+        if ($this->payment_code) {
+            $method = new PaymentMethod($this->payment_code);
+
+            return $method->finish($this, $request);
         }
 
-        return $this->update(['order_status_id' => config('settings.order.status.' . $status)]);
+        return null;
     }
 
     /*******************************************************************************

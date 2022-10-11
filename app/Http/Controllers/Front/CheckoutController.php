@@ -62,7 +62,7 @@ class CheckoutController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function success()
+    public function success(Request $request)
     {
         if ( ! CheckoutSession::hasOrder() && ! CheckoutSession::hasCheckout()) {
             return redirect()->route('index')->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
@@ -78,7 +78,7 @@ class CheckoutController extends Controller
                 Mail::to($order->payment_email)->send(new SendToCustomer($order, $checkout));
             });*/
 
-            $order->updateStatus('new');
+            $order->updateStatus('new')->finish($request);
 
             CheckoutSession::forget();
 
