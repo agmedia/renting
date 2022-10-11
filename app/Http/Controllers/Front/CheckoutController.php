@@ -127,7 +127,7 @@ class CheckoutController extends Controller
     private function getRedirectData(string $target)
     {
         if ($target == 'apartment') {
-            $response = CheckoutSession::getCheckout()->apartment;
+            $response = CheckoutSession::getCheckout()['apartment'];
         }
 
         return $response ?: null;
