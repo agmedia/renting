@@ -320,7 +320,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
     public function dates()
     {
         $response = [];
-        $orders = Order::where('apartment_id', $this->id)->where('date_to', '>', now())->get();
+        $orders = Order::active()->where('apartment_id', $this->id)->where('date_to', '>', now())->get();
 
         foreach ($orders as $order) {
             $response[] = [Carbon::make($order->date_from)->format('Y-m-d'), Carbon::make($order->date_to)->format('Y-m-d')];

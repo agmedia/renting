@@ -132,6 +132,19 @@ class Order extends Model
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('order_status_id', config('settings.order.status.new'))
+                     ->where('order_status_id', config('settings.order.status.pending'))
+                     ->where('order_status_id', config('settings.order.status.paid'));
+    }
+
+
+    /**
      * @param int $id
      *
      * @return void

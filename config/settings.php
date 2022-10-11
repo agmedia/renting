@@ -56,7 +56,7 @@ return [
             'unfinished' => 8,
             'declined' => 7,
             'paid' => 3,
-            'send' => 4,
+            'pending' => 2
         ]
     ],
 
