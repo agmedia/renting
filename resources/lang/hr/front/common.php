@@ -35,7 +35,7 @@ return [
     'message_validate' => 'Molimo unesite svoju poruku!',
 
 
-    'footer_text' => 'Samostalna prijava znači da gosti mogu pristupiti apartmanu bez potrebe da domaćin bude tamo. Na dan dolaska gosti mogu jednostavno dobiti pristup preko digitalne brave i šifre.',
+    'footer_text' => 'Samostalna prijava znači da gosti mogu pristupiti apartmanu preko digitalne brave i šifre, što znači da nema  potrebe da domaćin bude tamo. ',
     'legal' => 'Informacije',
     'support' => 'Podrška',
     'copy_text' => '© 2022 SelfCheckIns. Sva prava pridržana.',
