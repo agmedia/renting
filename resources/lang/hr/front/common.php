@@ -20,5 +20,21 @@ return [
     'contact' => 'Kontaktirajte nas',
     'home' => 'Nalovnica',
     'additional_info' => 'Dodatne informacije',
+    'enquiry_form' => 'Kontakt obrazac',
+    'address' => 'Adresa',
+    'email' => 'Email adresa',
+    'call' => 'Nazovite nas',
+
+    'name' => 'Ime',
+    'mobile' => 'Broj mobitela',
+    'message' => 'Vaš upit',
+    'submit' => 'Pošaljite upit',
+    'name_validate' => 'Molimo unesite svoje ime!',
+    'email_validate' => 'Molimo unesite svoju email adresu!',
+    'mobile_validate' => 'Molimo unesite svoj broj mobitela!',
+    'message_validate' => 'Molimo unesite svoju poruku!',
+
+
+
 
 ];

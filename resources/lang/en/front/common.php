@@ -20,4 +20,17 @@ return [
     'contact' => 'Contact us',
     'home' => 'Home',
     'additional_info' => 'Aditional Info',
+    'enquiry_form' => 'Enquiry Form',
+    'address' => 'Address',
+    'email' => 'Email address',
+    'call' => 'Call Us',
+
+    'name' => 'Name',
+    'mobile' => 'Mobile number',
+    'message' => 'Message',
+    'submit' => 'Submit form',
+    'name_validate' => 'Please enter your name!',
+    'email_validate' => 'Please enter your email address!',
+    'mobile_validate' => 'Please enter your mobile number!',
+    'message_validate' => 'Please enter your message!',
 ];

@@ -73,6 +73,7 @@
                                         <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
                                     @endforeach
                                     <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
+                                        <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                 </ul>
                             </div>
                         </div>
