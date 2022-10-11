@@ -78,15 +78,15 @@ class Bank
                         ),
                     'receiver' =>
                         array (
-                            'name' => 'Fortuna d.o.o.',
-                            'street' => 'Palmotićeva 28',
-                            'place' => '10000 Zagreb',
-                            'iban' => 'HR3123600001101595832',
+                            'name' => 'SelfCheckIns LTD',
+                            'street' => '20-22 Wenlock Road',
+                            'place' => 'N1 7GU London',
+                            'iban' => 'HR4723900011101317916',
                             'model' => '00',
                             'reference' => $pozivnabroj,
                         ),
                     'purpose' => 'CMDT',
-                    'description' => 'Web narudžba Antikvarijat Biblos',
+                    'description' => 'SelfCheckIns',
                 ),
         );
 

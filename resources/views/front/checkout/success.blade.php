@@ -39,17 +39,13 @@
                     <p> {!!  __('front/success.success_text_line') !!} </p>
                         @if (isset($order))
                             @if ($order->payment_code == 'bank')
-                                <p>Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p>Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
-                                <p> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
-                                <p> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
-                                <p>MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{ $order->total }}<br>
-                                   IBAN RAČUN: HR3123600001101595832<br>
-                                   MODEL: 00 POZIV NA BROJ: {{ $order->id }}-{{date('ym')}}</p>
-                                <p>ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
-                                <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png"></p>
-                            @else
-                                <p class="fs-sm mb-2">Vaša je narudžba poslana i bit će obrađena u najkraćem mogućem roku.</p>
-                                <p class="fs-sm">Uskoro ćete primiti e-poštu s potvrdom narudžbe.</p>
+                                <p>{{ __('front/success.success_text') }} {{ $order->id }} .</p>
+                            {!!   __('front/success.success_html') !!}}
+                                <p>{{ __('front/success.payment_text') }}  {{ $order->total }}<br>
+                                   IBAN: HR4723900011101317916<br>
+                                   MODEL: 00 {{ __('front/success.reference_number') }}: {{ $order->id }}-{{date('ym')}}</p>
+                                <p>{{ __('front/success.scant_text') }}</p>
+                                <p class="text-center"><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:320px"></p>
                             @endif
                         @endif
                     <a class="btn btn-secondary mt-3 me-3" href="{{ route('index') }}">{{ __('front/success.success_btn') }}</a>
