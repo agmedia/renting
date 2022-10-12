@@ -27,18 +27,14 @@ class Order extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
+     * @var string[]
+     */
+    protected $appends = ['checkout'];
+
+    /**
      * @var Request
      */
     protected $request;
-
-
-    /**
-     * @return mixed
-     */
-    public function getStatusAttribute()
-    {
-        return $this->status($this->order_status_id);
-    }
 
 
     /**
@@ -148,6 +144,24 @@ class Order extends Model
         $this->setRequest($request);
 
         return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getStatusAttribute()
+    {
+        return $this->status($this->order_status_id);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCheckoutAttribute()
+    {
+        return unserialize($this->options);
     }
 
 

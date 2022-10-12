@@ -133,7 +133,8 @@ class CheckoutCalculator
             'code'       => 'regular_days',
             'title'      => 'Regular days',
             'count'      => $this->checkout->regular_days,
-            'amount'     => $this->currencyValue($this->apartment->price_regular),
+            'price'      => $this->apartment->price_regular,
+            'price_text' => $this->currencyValue($this->apartment->price_regular),
             'total'      => $this->checkout->regular_days * $this->apartment->price_regular,
             'total_text' => $this->currencyValue($this->checkout->regular_days * $this->apartment->price_regular),
         ];
@@ -151,7 +152,8 @@ class CheckoutCalculator
             'code'       => 'weekends',
             'title'      => 'Weekends',
             'count'      => $this->checkout->weekends,
-            'amount'     => $this->currencyValue($this->apartment->price_weekends),
+            'price'      => $this->apartment->price_weekends,
+            'price_text' => $this->currencyValue($this->apartment->price_weekends),
             'total'      => $this->checkout->weekends * $this->apartment->price_weekends,
             'total_text' => $this->currencyValue($this->checkout->weekends * $this->apartment->price_weekends),
         ];
@@ -163,15 +165,25 @@ class CheckoutCalculator
      */
     private function additionalPersons()
     {
-        $this->total_amount += $this->checkout->additional_persons * $this->checkout->additional_persons_price;
+        $person = $this->checkout->additional_person_object->first();
+        $price  = $this->checkout->additional_persons_price;
+        $total  = $this->checkout->additional_persons * $this->checkout->additional_persons_price;
+
+        if ($person->price_per == 'day') {
+            $price = $this->checkout->additional_persons_price * $this->checkout->total_days;
+            $total = ($this->checkout->additional_persons * $this->checkout->total_days) * $this->checkout->additional_persons_price;
+        }
+
+        $this->total_amount += $total;
 
         return [
             'code'       => 'additional_person',
-            'title'      => $this->checkout->additional_person_object->first()->title,
+            'title'      => $person->title,
             'count'      => $this->checkout->additional_persons,
-            'amount'     => $this->currencyValue($this->checkout->additional_persons_price),
-            'total'      => $this->checkout->additional_persons * $this->checkout->additional_persons_price,
-            'total_text' => $this->currencyValue($this->checkout->additional_persons * $this->checkout->additional_persons_price),
+            'price'      => $price,
+            'price_text' => $this->currencyValue($price),
+            'total'      => $total,
+            'total_text' => $this->currencyValue($total),
         ];
     }
 
@@ -195,7 +207,8 @@ class CheckoutCalculator
             'code'       => 'additional_options',
             'title'      => $option['title'],
             'count'      => $count,
-            'amount'     => $this->currencyValue($option['price']),
+            'price'      => $option['price'],
+            'price_text' => $this->currencyValue($option['price']),
             'total'      => $option['price'] * $count,
             'total_text' => $this->currencyValue($option['price'] * $count),
         ];

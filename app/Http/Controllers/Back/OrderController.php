@@ -136,8 +136,6 @@ class OrderController extends Controller
      */
     public function api_status_change(Request $request)
     {
-        Log::info($request);
-
         if ($request->has('orders')) {
             $orders = explode(',', substr($request->input('orders'), 1, -1));
 

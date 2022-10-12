@@ -37,15 +37,15 @@
                                         @foreach ($checkout->total['items'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                                 <div>
-                                                    <h6 class="my-0">{{  $item['amount'] }} {{ $checkout->main_currency->symbol_right  }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
+                                                    <h6 class="my-0">{{  $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
                                                 </div>
-                                                <span class="text-muted">{{ $item['total'] }}  {{ $checkout->main_currency->symbol_right  }}</span>
+                                                <span class="text-muted">{{ $item['total_text'] }}</span>
                                             </li>
                                         @endforeach
                                         @foreach ($checkout->total['total'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
                                                 <h5 class="my-0">{{ $item['title'] }} </h5>
-                                                <strong> {{ $checkout->main_currency->symbol_left  }} {{ $item['total'] }} {{ $checkout->main_currency->symbol_right  }}</strong>
+                                                <strong>{{ $item['total_text'] }}</strong>
                                             </li>
                                         @endforeach
                                     </ul>

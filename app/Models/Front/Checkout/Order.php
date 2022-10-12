@@ -139,8 +139,8 @@ class Order extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('order_status_id', config('settings.order.status.new'))
-                     ->where('order_status_id', config('settings.order.status.pending'))
-                     ->where('order_status_id', config('settings.order.status.paid'));
+                     ->orWhere('order_status_id', config('settings.order.status.pending'))
+                     ->orWhere('order_status_id', config('settings.order.status.paid'));
     }
 
 
@@ -241,6 +241,8 @@ class Order extends Model
     private function insertForm()
     {
         if ($this->order_id) {
+            OrderHistory::where('order_id', $this->order_id)->delete();
+
             \App\Models\Back\Orders\Order::where('id', $this->order_id)->update(
                 $this->modelArray(true)
             );
@@ -286,8 +288,8 @@ class Order extends Model
             'payment_installment' => '',
             'company'             => '',
             'oib'                 => '',
-            'options'             => serialize($this->checkout->added_options),
-            'comment'             => serialize($this->checkout->cleanData()),
+            'options'             => serialize($this->checkout->cleanData()),
+            'comment'             => isset($this->checkout->request->message) ? $this->checkout->request->message : '',
             'approved'            => '',
             'approved_user_id'    => '',
             'updated_at'          => Carbon::now()
