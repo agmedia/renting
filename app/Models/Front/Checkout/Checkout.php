@@ -71,7 +71,7 @@ class Checkout
 
     public $payment;
 
-    private $request;
+    public $request;
 
 
     /**
@@ -162,6 +162,32 @@ class Checkout
         }
 
         return $response;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function cleanData(): array
+    {
+        return [
+            'total_days' => $this->total_days,
+            'regular_days' => $this->regular_days,
+            'weekends' => $this->weekends,
+            'fridays' => $this->fridays,
+            'saturdays' => $this->saturdays,
+            'adults' => $this->adults,
+            'children' => $this->children,
+            'additional_persons' => $this->additional_persons,
+            'additional_persons_price' => $this->additional_persons_price,
+            'additional_persons_obj' => $this->additional_person_object,
+            'added_options' => $this->added_options,
+            'total' => $this->total,
+            'apartment_id' => $this->apartment->id ?: 0,
+            'main_currency' => $this->main_currency,
+            'payment' => $this->payment ?: null,
+            'request' => $this->request->toArray()
+        ];
     }
 
 

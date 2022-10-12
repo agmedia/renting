@@ -170,10 +170,11 @@ class Order extends Model
         $this->order_id = $this->insertForm();
 
         if ($this->order_id) {
-            OrderHistory::store($this->order_id);
+            OrderHistory::store($this->order_id, $this->resolveHistoryRequest());
+
+            OrderTotal::where('order_id', $this->order_id)->delete();
 
             foreach ($this->checkout->total['total'] as $key => $total) {
-                OrderTotal::where('order_id', $this->order_id)->delete();
                 OrderTotal::insertRow($this->order_id, $total['code'], $total['total'], $key);
             }
         }
@@ -286,7 +287,7 @@ class Order extends Model
             'company'             => '',
             'oib'                 => '',
             'options'             => serialize($this->checkout->added_options),
-            'comment'             => '',
+            'comment'             => serialize($this->checkout->cleanData()),
             'approved'            => '',
             'approved_user_id'    => '',
             'updated_at'          => Carbon::now()
@@ -297,6 +298,18 @@ class Order extends Model
         }
 
         return $response;
+    }
+
+
+    /**
+     * @return Request
+     */
+    private function resolveHistoryRequest()
+    {
+        return new Request([
+            'status' => $this->order['order_status_id'],
+            'comment' => $this->checkout->request->comment
+        ]);
     }
 
 }

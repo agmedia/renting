@@ -132,6 +132,14 @@ return [
             'id' => 6,
             'reference' => 'service'
         ],
+        7 => [
+            'title' => [
+                'en' => 'Other',
+                'hr' => 'Ostalo',
+            ],
+            'id' => 7,
+            'reference' => 'other'
+        ]
     ],
     //
     'apartment_types' => [

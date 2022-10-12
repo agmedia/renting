@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderHistory extends Model
 {
@@ -19,7 +20,7 @@ class OrderHistory extends Model
     /**
      * @var array
      */
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id'];
 
 
     /**
@@ -57,14 +58,17 @@ class OrderHistory extends Model
      *
      * @return bool
      */
-    public static function store(int $order_id, Request $request = null)
+    public static function store(int $order_id, Request $request = null, string $status = 'new')
     {
         self::where('order_id', $order_id)->delete();
+
+        Log::info($order_id);
+        Log::info($request);
 
         $id = self::insertGetId([
             'order_id'   => $order_id,
             'user_id'    => auth()->user()->id,
-            'status'     => $request ? $request->input('status') : config('settings.order.status.new'),
+            'status'     => $request ? $request->input('status') : config('settings.order.status.' . $status),
             'comment'    => $request ? ($request->input('status') ? 'Status promijenjen... ' . $request->input('comment') : $request->input('comment')) : 'Narudžba napravljena.',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

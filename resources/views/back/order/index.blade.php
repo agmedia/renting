@@ -155,17 +155,23 @@
                     }
                 }
 
+                let item = {
+                    selected: selected,
+                    orders: orders
+                };
+
                 console.log('Selected ID: ' + selected);
                 console.log('Orders ID: ' + orders);
 
-                axios.get('{{ route('api.order.status.change') }}' + '?selected=' + selected + '&orders=' + orders)
-                .then((r) => {
-                    console.log(r)
-                    //location.reload();
-                })
-                .catch((e) => {
-                    console.log(e)
-                })
+                axios.post("{{ route('api.order.status.change') }}", { selected: selected, orders: orders })
+                .then(response => {
+                    console.log(response)
+                    if (response.status == 200) {
+                        location.reload();
+                    } else {
+                        return errorToast.fire(response.data.message);
+                    }
+                });
             });
         });
 

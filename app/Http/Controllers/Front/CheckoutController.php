@@ -33,7 +33,7 @@ class CheckoutController extends Controller
         CheckoutSession::hasAddress() ? $checkout->setAddress(CheckoutSession::getAddress()) : null;
         CheckoutSession::hasPayment() ? $checkout->setPayment(CheckoutSession::getPayment()) : null;
 
-        CheckoutSession::setCheckout(get_object_vars($checkout));
+        CheckoutSession::setCheckout(serialize($checkout->cleanData()));
 
         return view('front.checkout.checkout', compact('checkout', 'options'));
     }

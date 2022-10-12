@@ -21,7 +21,7 @@ class CheckoutSession
     {
         static::setAddress($checkout->setAddress());
         static::setPayment($checkout->setPayment());
-        static::setCheckout(get_object_vars($checkout));
+        static::setCheckout(serialize($checkout->cleanData()));
 
         return static::setOrder($order->order_id);
     }

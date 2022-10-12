@@ -130,7 +130,7 @@
                                         <div class="col-md-6 mt-2">
                                             <label for="reference-select">Reference</label>
                                             <select class="form-control" id="reference-select" name="reference">
-                                                <option value="other" {{ (isset($option) and 'other' == $option->reference) ? 'selected="selected"' : '' }}>Other</option>
+                                                {{--<option value="other" {{ (isset($option) and 'other' == $option->reference) ? 'selected="selected"' : '' }}>Other</option>--}}
                                                 @foreach (config('settings.option_references') as $item)
                                                     <option value="{{ $item['reference'] }}" {{ (isset($option) and $item['reference'] == $option->reference) ? 'selected="selected"' : '' }}>{{ $item['title'][current_locale()] }}</option>
                                                 @endforeach
