@@ -59,7 +59,7 @@
 <p style="text-align: right;font-size: 10px;"> PDV uključen u cijenu. Od toga
     @foreach ($checkout['total']['total'] as $total)
         @if($total->code == 'subtotal')
-            <strong>{{ number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn PDV
+            <strong>{{ number_format($total['value'] - ($total['value'] / 1.25 ), 2, ',', '.') }}</strong>  kn PDV
         @endif
     @endforeach
 </p>
