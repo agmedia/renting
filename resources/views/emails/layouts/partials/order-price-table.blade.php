@@ -51,8 +51,8 @@
     @foreach ($checkout['total']['total'] as  $item)
         <tr>
 
-            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}">{{ $item['title'] }}</td>
-            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}" width="20%">{{ $item['total_text'] }}</td>
+            <td style="border-left: none; text-align: right; ">{{ $item['title'] }}</td>
+            <td style="border-left: none; text-align: right;" width="20%">{{ $item['total_text'] }}</td>
         </tr>
     @endforeach
 </table>
