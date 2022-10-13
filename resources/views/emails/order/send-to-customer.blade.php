@@ -24,22 +24,13 @@
                 @if ($order->payment_code == 'bank')
                     <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
 
-                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p style="font-size:12px">Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
-
-                    <p style="font-size:12px"> Rok za uplatu je maksimalno 48h tijekom koga robu koju ste naručili držimo rezerviranu za vas.</p>
-
-                    <p style="font-size:12px"> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu narudžbu.</p>
-
-                    <p style="font-size:12px">MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($order->total, 2)}} kn</p>
-
-
-                    <p style="font-size:12px"> IBAN RAČUN: HR4723900011101317916<br>
-                        MODEL: 00 POZIV NA BROJ: {{ $order->id }}-{{date('ym')}}</p>
-
-
-                    <p style="font-size:12px">ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
-
-                    <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:80%; border:1px solid #ccc; height:auto"></p>
+                    <p>{{ __('front/success.success_text') }} {{ $order->id }} .</p>
+                    {!!   __('front/success.success_html_text') !!}
+                    <p>{{ __('front/success.payment_text') }}  {{ $order->total_text }}<br>
+                        IBAN: HR4723900011101317916<br>
+                        MODEL: 00 {{ __('front/success.reference_number') }}: {{ $order->id }}-{{date('ym')}}</p>
+                    <p>{{ __('front/success.scant_text') }}</p>
+                    <p class="text-center"><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:320px"></p>
 
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>

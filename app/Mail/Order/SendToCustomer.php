@@ -46,7 +46,7 @@ class SendToCustomer extends Mailable
      */
     public function build()
     {
-        return $this->subject('Hvala vam za narudžbu sa Antikvarijata Biblos')
+        return $this->subject('SelfCheckins - Reservation')
                     ->view('emails.order.send-to-customer');
     }
 }
