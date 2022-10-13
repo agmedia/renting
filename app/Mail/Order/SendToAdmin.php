@@ -2,7 +2,7 @@
 
 namespace App\Mail\Order;
 
-use App\Models\Back\Orders\Order;
+use App\Models\Front\Checkout\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
