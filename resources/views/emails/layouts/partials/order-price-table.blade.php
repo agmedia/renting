@@ -39,7 +39,7 @@
         <th style="text-align: right;" width="25%">Ukupno</th>
     </tr>
 
-    {{ dd($checkout) }}
+
     @foreach ($checkout->total['items'] as $item)
         <tr>
             <td>{{ $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }}</td>
