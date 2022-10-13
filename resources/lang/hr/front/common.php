@@ -47,4 +47,5 @@ return [
     'order_num' => 'Narudžba broj',
     'regards' => 'Lijep pozdrav',
     'bank' => 'Općom uplatnicom / Virmanom / Internet bankarstvom',
+    'details' => 'Detalji narudžbe',
 ];

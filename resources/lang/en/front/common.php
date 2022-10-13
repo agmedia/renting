@@ -44,4 +44,5 @@ return [
     'order_num' => 'Order Number',
     'regards' => 'Best regards',
     'bank' => 'Bank transfer',
+    'details' => 'Order details',
 ];
