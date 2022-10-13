@@ -26,7 +26,7 @@
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
-            background-color: #152c18;
+            background-color: #163c68;
             color: white;
         }
     </style>
@@ -56,6 +56,5 @@
     @endforeach
 </table>
 
-<p style="text-align: right;font-size: 10px;"> PDV od 25% uključen u cijenu.
-</p>
+
 

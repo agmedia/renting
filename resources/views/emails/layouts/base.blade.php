@@ -236,9 +236,9 @@
 	3. mso conditional: For Windows 10 Mail
 -->
 <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f7f7f7;">
-<center style="width: 100%; background-color: #152c18;">
+<center style="width: 100%; background-color: #163c68;">
     <!--[if mso | IE]>
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #152c18;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #163c68;">
         <tr>
             <td>
     <![endif]-->
@@ -260,7 +260,7 @@
         <!-- Email Header : BEGIN -->
         <tr>
             <td style="padding: 20px 0 15px 0; text-align: center">
-                <label class="large bold" style="color: white;">   <img src="https://selfcheckins.agmedia.rocks/assets/images/logo.svg" alt=" SelfCheckIns" border="0" style="max-width:200px;height: auto;"></label>
+                <label class="large bold" style="color: white;">   <img src="https://selfcheckins.agmedia.rocks/assets/images/logo.svg" alt="SelfCheckIns" border="0" style="max-width:200px;height: auto;"></label>
             </td>
         </tr>
         <!-- Email Header : END -->
