@@ -74,8 +74,8 @@ class CheckoutController extends Controller
             $checkout = CheckoutSession::getCheckout();
 
             dispatch(function () use ($order, $checkout) {
-                Mail::to(config('mail.admin'))->send(new SendToAdmin($order, unserialized($checkout)));
-                Mail::to($order->payment_email)->send(new SendToCustomer($order, unserialized($checkout)));
+                Mail::to(config('mail.admin'))->send(new SendToAdmin($order, unserialize($checkout)));
+                Mail::to($order->payment_email)->send(new SendToCustomer($order, unserialize($checkout)));
             });
 
             $order->updateStatus('new')->finish($request);
