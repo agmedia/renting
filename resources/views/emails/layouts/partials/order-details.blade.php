@@ -16,11 +16,11 @@
 
     <tr>
         <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
-        <td>{{ $checkout->from->format('d.m.Y') }} – {{ $checkout->to->format('d.m.Y') }}</td>
+        <td>{{ $checkout['request']['dates'] }}</td>
     </tr>
     <tr>
         <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
-        <td>{{ $checkout->adults + $checkout->children }} {{ __('front/checkout.guests') }}</td>
+        <td>{{ $checkout['request']['adults'] + $checkout['request']['children'] }} {{ __('front/checkout.guests') }}</td>
     </tr>
 
 </table>
