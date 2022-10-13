@@ -35,7 +35,6 @@
 <table id="products">
     <tr>
         <th>Apartman</th>
-        <th style="text-align: center;" width="15%">#</th>
         <th style="text-align: right;" width="25%">Ukupno</th>
     </tr>
 
@@ -58,6 +57,10 @@
 </table>
 
 <p style="text-align: right;font-size: 10px;"> PDV uključen u cijenu. Od toga
-
+    @foreach ($checkout['total']['total'] as $total)
+        @if($total->code == 'subtotal')
+            <strong>{{ number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn PDV
+        @endif
+    @endforeach
 </p>
 
