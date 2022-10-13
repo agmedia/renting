@@ -24,32 +24,16 @@
                 @if ($order->payment_code == 'bank')
                     <b>{{ __('Općom uplatnicom / Virmanom / Internet bankarstvom') }}</b>
 
-                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p><p style="font-size:12px">Molimo vas da izvršite uplatu po sljedećim uputama za plaćanje.</p>
-
-                    <p style="font-size:12px"> Rok za uplatu je maksimalno 48h.</p>
-
-                    <p style="font-size:12px"> Ukoliko u tom roku ne zaprimimo uplatu, nažalost moramo poništiti ovu rezervaciju.</p>
-
-                    <p style="font-size:12px">MOLIMO IZVRŠITE UPLATU U IZNOSU OD  {{number_format($order->total, 2)}} kn</p>
-
-
-                    <p style="font-size:12px"> IBAN RAČUN: HR4723900011101317916<br>
-                        MODEL: 00 POZIV NA BROJ: {{ $order->id }}-{{date('ym')}}</p>
-
-
-                    <p style="font-size:12px">ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD</p>
-
-                    <p><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:80%; border:1px solid #ccc; height:auto"></p>
 
                 @elseif ($order->payment_code == 'cod')
                     <b>{{ __('Gotovinom prilikom pouzeća') }}</b>
-                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
+
                 @elseif ($order->payment_code == 'corvus')
                     <b>{{ __('Corvus Pay') }}</b>
-                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
+
                 @else
                     <b>{{ __('Plaćanje prilikom preuzimanja') }}</b>
-                    <p style="font-size:12px">Uredno smo zaprimili Vašu narudžbu broj {{ $order->id }} i zahvaljujemo Vam.</p>
+
                 @endif
                 <br><br>
 

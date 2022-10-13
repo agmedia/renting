@@ -37,4 +37,11 @@ return [
     'legal' => 'Legal Info',
     'support' => 'Support',
     'copy_text' => '© 2022 SelfCheckIns. All right reserved.',
+    'terms' => 'Terms and Conditions',
+    'apartment' => 'Apartman',
+    'total' => 'Total',
+    'payment' => 'Payment Method',
+    'order_num' => 'Order Number',
+    'regards' => 'Best regards',
+    'bank' => 'Bank transfer',
 ];

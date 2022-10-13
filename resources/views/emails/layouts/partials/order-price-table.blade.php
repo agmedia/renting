@@ -34,8 +34,8 @@
 
 <table id="products">
     <tr>
-        <th>Apartman</th>
-        <th style="text-align: right;" width="25%">Ukupno</th>
+        <th>{{ __('front/common.apartment') }}</th>
+        <th style="text-align: right;" width="25%">{{ __('front/common.total') }}</th>
     </tr>
 
 

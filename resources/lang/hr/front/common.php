@@ -40,6 +40,11 @@ return [
     'support' => 'Podrška',
     'copy_text' => '© 2022 SelfCheckIns. Sva prava pridržana.',
 
-
-
+    'terms' => 'Uvjeti korištenja',
+    'apartment' => 'Apartment',
+    'total' => 'Ukupno',
+    'payment' => 'Način plaćanja',
+    'order_num' => 'Narudžba broj',
+    'regards' => 'Lijep pozdrav',
+    'bank' => 'Općom uplatnicom / Virmanom / Internet bankarstvom',
 ];
