@@ -73,10 +73,10 @@ class CheckoutController extends Controller
         if ($order) {
             $checkout = CheckoutSession::getCheckout();
 
-            /*dispatch(function () use ($order, $checkout) {
+            dispatch(function () use ($order, $checkout) {
                 Mail::to(config('mail.admin'))->send(new SendToAdmin($order, $checkout));
                 Mail::to($order->payment_email)->send(new SendToCustomer($order, $checkout));
-            });*/
+            });
 
             $order->updateStatus('new')->finish($request);
 
