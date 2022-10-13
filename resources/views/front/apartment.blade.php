@@ -105,27 +105,7 @@
 
 
 
-                                    @if($apartment->options()->get()->isNotEmpty())
 
-                                        <div class="mt-4 p-4 shadow-one reservationbox">
-                                            <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.additional_apartment_options') }} </h5>
-
-                                            <div class="row">
-                                                @foreach ($apartment->options()->get() as $option)
-                                                    <div class="col-md-1">
-                                                        <input type="checkbox">
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        {{ $option->title }}<br>
-                                                        <small>{{ $option->description }}</small>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        {{ $option->price_text }}
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                     @endif
                                 </form>
                             </div>
                         </div>
