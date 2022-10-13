@@ -34,38 +34,28 @@
 
 <table id="products">
     <tr>
-        <th>Proizvod</th>
-        <th style="text-align: center;" width="15%">Kol.</th>
-        <th style="text-align: right;" width="20%">Cijena</th>
+        <th>Apartman</th>
+        <th style="text-align: center;" width="15%">#</th>
         <th style="text-align: right;" width="25%">Ukupno</th>
     </tr>
-    @foreach ($order->products as $product)
+    @foreach ($checkout->total['items'] as $item)
         <tr>
-            <td>{{ $product->name }} - {{ $product->product->sku}}</td>
-            <td style="text-align: center;">{{ $product->quantity }}</td>
-            <td style="text-align: right;">{{ number_format($product->price, 2, ',', '.') }}</td>
-            <td style="text-align: right;">{{ number_format($product->total, 2, ',', '.') }}</td>
+            <td>{{ $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }}</td>
+            <td style="text-align: right;">{{ $item['total_text'] }}</td>
         </tr>
     @endforeach
 </table>
 <table id="totals">
-    @foreach ($order->totals as $total)
+    @foreach ($checkout->total['total'] as  $item)
         <tr>
-            <td style="border-right: none; border-top: none;"></td>
-            <td style="border-left: none; border-right: none;"></td>
-            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}">{{ $total->title }}</td>
-            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}" width="20%">{{ number_format($total->value, 2, ',', '.') }}</td>
+
+            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}">{{ $item['title'] }}</td>
+            <td style="border-left: none; text-align: right; {{ $total->code == 'shipping' ? '' : 'font-weight: bold;' }}" width="20%">{{ $item['total_text'] }}</td>
         </tr>
     @endforeach
 </table>
 
 <p style="text-align: right;font-size: 10px;"> PDV uključen u cijenu. Od toga
-    @foreach ($order->totals as $total)
-        @if($total->code == 'subtotal')
-        <strong>{{ number_format($total->value - ($total->value / 1.05 ), 2, ',', '.') }}</strong>  kn PDV knjige i
-    @elseif ($total->code == 'shipping')
-        <strong>{{number_format($total->value - ($total->value / 1.25 ), 2, ',', '.') }}</strong>  kn PDV dostava
-    @endif
-    @endforeach
+
 </p>
 
