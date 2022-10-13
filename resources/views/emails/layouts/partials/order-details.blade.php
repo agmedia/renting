@@ -13,4 +13,14 @@
         <td><b>{{ ($order->payment_phone) ? $order->payment_phone : '' }}</b></td>
     </tr>
 
+
+    <tr>
+        <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
+        <td>{{ $checkout->from->format('d.m.Y') }} – {{ $checkout->to->format('d.m.Y') }}</td>
+    </tr>
+    <tr>
+        <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
+        <td>{{ $checkout->adults + $checkout->children }} {{ __('front/checkout.guests') }}</td>
+    </tr>
+
 </table>
