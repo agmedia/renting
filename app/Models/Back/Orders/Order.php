@@ -215,7 +215,7 @@ class Order extends Model
             'affiliate_id'     => 0,
             'order_status_id'  => config('settings.order.status.paid'),
             'invoice'          => '',
-            'total'            => 0,
+            'total'            => $checkout->total_amount,
             'date_from'        => Carbon::make($event['start']),
             'date_to'          => Carbon::make($event['end']),
             'payment_fname'    => ($target == 'airbnb') ? 'Airbnb' : 'Booking',
