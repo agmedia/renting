@@ -21,6 +21,7 @@ return [
 
     'search_keyword' => 'pojam',
     'admin_input_currency' => 'HRK',
+    'default_admin_id' => 3,
 
     'images_domain' => 'https://images.antikvarijatbibl.lin73.host25.com/',
 

@@ -62,7 +62,7 @@ class OrderHistory extends Model
     {
         $id = self::insertGetId([
             'order_id'   => $order_id,
-            'user_id'    => auth()->user()->id,
+            'user_id'    => auth()->guest() ? config('settings.default_admin_id') : auth()->user()->id,
             'status'     => ($request && $request->has('status')) ? $request->input('status') : config('settings.order.status.' . $status),
             'comment'    => ($request && $request->has('status')) ? ($request->input('status') ? 'Status promijenjen... ' . $request->input('comment') : $request->input('comment')) : 'Narudžba napravljena.',
             'created_at' => Carbon::now(),

@@ -59,8 +59,6 @@ class iCal
 
         $this->makeArrayFromAirbnbString($string);
 
-        Log::info($this->events);
-
         return $this;
     }
 

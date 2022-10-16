@@ -85,8 +85,6 @@ class AmenitiesController extends Controller
             });
         }
 
-        //Log::info($values->toArray());
-
         if ( ! $setting) {
             $stored = Settings::insert('amenity', 'list', $values->toJson(), true);
         } else {
