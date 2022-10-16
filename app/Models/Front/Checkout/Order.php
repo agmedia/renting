@@ -3,6 +3,8 @@
 namespace App\Models\Front\Checkout;
 
 use App\Helpers\CurrencyHelper;
+use App\Mail\Order\SendToAdmin;
+use App\Mail\Order\SendToCustomer;
 use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class Order extends Model
 {
@@ -209,6 +212,22 @@ class Order extends Model
         if ($order_id) {}
 
         $this->update(['order_status_id' => config('settings.order.status.' . $status)]);
+
+        return $this;
+    }
+
+
+    /**
+     * @param $checkout
+     *
+     * @return $this
+     */
+    public function sendNewOrderEmails($checkout)
+    {
+        dispatch(function () use ($checkout) {
+            Mail::to(config('mail.admin'))->send(new SendToAdmin($this, unserialize($checkout)));
+            Mail::to($this->payment_email)->send(new SendToCustomer($this, unserialize($checkout)));
+        });
 
         return $this;
     }

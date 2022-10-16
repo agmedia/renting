@@ -6,7 +6,6 @@ use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Mail\Order\SendToAdmin;
 use App\Mail\Order\SendToCustomer;
-use App\Models\Front\AgCart;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
 use App\Models\Seo;
@@ -60,7 +59,9 @@ class CheckoutController extends Controller
 
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function success(Request $request)
     {
@@ -71,14 +72,9 @@ class CheckoutController extends Controller
         $order = Order::unfinished()->where('id', CheckoutSession::getOrder())->first();
 
         if ($order) {
-            $checkout = CheckoutSession::getCheckout();
-
-            dispatch(function () use ($order, $checkout) {
-                Mail::to(config('mail.admin'))->send(new SendToAdmin($order, unserialize($checkout)));
-                Mail::to($order->payment_email)->send(new SendToCustomer($order, unserialize($checkout)));
-            });
-
             $order->updateStatus('new')->finish($request);
+
+            $order->sendNewOrderEmails(CheckoutSession::getCheckout());
 
             CheckoutSession::forget();
 

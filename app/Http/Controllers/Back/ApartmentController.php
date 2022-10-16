@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ApartmentController extends Controller
 {
@@ -173,5 +174,26 @@ class ApartmentController extends Controller
         }
 
         return response()->json(['error' => 400]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function syncURL(Request $request, Apartment $apartment)
+    {
+        $vali = Validator::make($request->toArray(), [
+            'apartment' => 'required',
+            'target' => 'required',
+            'url' => 'required'
+        ]);
+
+        if ($vali->fails()) {
+            return response()->json($vali->errors());
+        }
+
+        return $apartment->syncUrlWith($request);
     }
 }

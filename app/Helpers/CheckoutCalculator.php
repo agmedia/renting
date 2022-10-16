@@ -130,6 +130,7 @@ class CheckoutCalculator
         $this->total_amount += $this->checkout->regular_days * $this->apartment->price_regular;
 
         return [
+            'id'         => 0,
             'code'       => 'regular_days',
             'title'      => 'Regular days',
             'count'      => $this->checkout->regular_days,
@@ -149,6 +150,7 @@ class CheckoutCalculator
         $this->total_amount += $this->checkout->weekends * $this->apartment->price_weekends;
 
         return [
+            'id'         => 0,
             'code'       => 'weekends',
             'title'      => 'Weekends',
             'count'      => $this->checkout->weekends,
@@ -177,6 +179,7 @@ class CheckoutCalculator
         $this->total_amount += $total;
 
         return [
+            'id'         => $person->id,
             'code'       => 'additional_person',
             'title'      => $person->title,
             'count'      => $this->checkout->additional_persons,
@@ -204,6 +207,7 @@ class CheckoutCalculator
         $this->total_amount += $option['price'] * $count;
 
         return [
+            'id'         => $option['id'],
             'code'       => 'additional_options',
             'title'      => $option['title'],
             'count'      => $count,

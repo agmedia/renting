@@ -10,6 +10,7 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
+                <h4><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span></h4>
             </div>
         </div>
     </div>
@@ -26,49 +27,109 @@
         @endif
 
         <!-- Products -->
-            <div class="block block-rounded" id="ag-order-products-app">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Apartment</h3>
-                </div>
-                <div class="block-content">
-                    <div class="row justify-content-center push">
-                        <div class="col-md-4">
-                            <img  class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="block block-rounded" id="ag-order-products-app">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Basic Order Info</h3>
                         </div>
-                        <div class="col-md-8">
-                            <h3>{{ $order->apartment->title }}</h3>
-                            <p>
-                                {{ $order->apartment->address }}, {{ $order->apartment->city }}
-                            </p>
-                            <table>
-<!--                                <tr>
-                                    <td>Type</td>
-                                    <td>{{ collect(config('settings.apartment_types'))->where('id', $order->apartment->type)->first()['title'][current_locale()] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Purpose</td>
-                                    <td>{{ collect(config('settings.apartment_targets'))->where('id', $order->apartment->target)->first()['title'][current_locale()] }}</td>
-                                </tr>-->
-                                <tr>
-                                    <td style="width: 40%;">Datum:</td>
-                                    <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Promijeni datum:</td>
-                                    <td>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                            <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="block-content">
+                            <div class="row justify-content-center push">
+                                <div class="col-md-5">
+                                    <img  class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
+                                </div>
+                                <div class="col-md-7">
+                                    <h3 class="mb-0">{{ $order->apartment->title }}</h3>
+                                    <p>
+                                        {{ $order->apartment->address }}, {{ $order->apartment->city }}
+                                    </p>
 
+                                    <table class="table-borderless" style="width: 100%;">
+                                        <tr>
+                                            <td class="font-weight-bold" style="width: 30%;">Korisnik:<br><br><br><br></td>
+                                            <td>{{ $order->payment_fname }} {{ $order->payment_lname }}<br>
+                                                {{ $order->payment_email }}<br>
+                                                {{ $order->payment_phone }}<br><br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Osoba:</td>
+                                            <td>{{ $order->checkout['adults'] }} Odraslih, {{ $order->checkout['children'] }} Djece</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Dani:<br><br></td>
+                                            <td>{{ $order->checkout['regular_days'] }} Regularnih dana, {{ $order->checkout['weekends'] }} Vikenda<br><br></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold">Datum:<br><br></td>
+                                            <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}<br><br></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-weight-bold" colspan="2">Promijeni datum:<br>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                                    <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="block block-rounded" id="ag-order-products-app">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Order Items & Total</h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="row justify-content-center push">
+                                <div class="col-md-12">
+                                    <table class="table-borderless" style="width: 100%;">
+                                        @foreach ($order->checkout['total']['items'] as $item)
+                                            <!-- Items -->
+                                            @if ($item['code'] != 'additional_person' && $item['code'] != 'additional_options')
+                                                <tr style="height: 36px;">
+                                                    <td style="width: 7%;"></td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td>{{ $item['total_text'] }}</td>
+                                                </tr>
+                                            @endif
+                                            @if ($item['code'] == 'additional_person')
+                                                <tr style="height: 36px;">
+                                                    <td>
+                                                        <input type="checkbox" checked="checked" name="persons">
+                                                    </td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td>{{ $item['total_text'] }}</td>
+                                                </tr>
+                                            @endif
+                                            @if ($item['code'] == 'additional_options')
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" checked="checked" name="options_{{ isset($item['id']) ? $item['id'] : '0' }}">
+                                                    </td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td>{{ $item['total_text'] }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                        <!-- Total -->
+                                        @foreach ($order->checkout['total']['total'] as $item)
+                                            <tr style="height: 36px;">
+                                                <td colspan="2" class="text-right pr-3">{{ $item['title'] }}</td>
+                                                <td>{{ $item['total_text'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END Products -->
 
             <!-- Customer -->
             <div class="row">
@@ -97,32 +158,13 @@
                                             <label for="lname-input">Prezime</label>
                                             <input type="text" class="form-control" id="lname-input" name="lname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
                                         </div>
-
-<!--                                        <div class="col-md-12">
-                                            <label for="address-input">Adresa</label>
-                                            <input type="text" class="form-control" id="address-input" name="address" placeholder="Upišite adresu kupca" value="{{ isset($order) ? $order->payment_address : old('address') }}">
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label for="zip-input">Poštanski br.</label>
-                                            <input type="text" class="form-control" id="zip-input" name="zip" placeholder="Upišite poštanski broj kupca" value="{{ isset($order) ? $order->payment_zip : old('zip') }}">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="city-input">Grad</label>
-                                            <input type="text" class="form-control" id="city-input" name="city" placeholder="Upišite grad kupca" value="{{ isset($order) ? $order->payment_city : old('city') }}">
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label for="state-input">Država</label>
-                                            <input type="text" class="form-control" id="state-input" name="state" placeholder="Upišite državu kupca" value="{{ isset($order) ? $order->payment_state : old('state') }}">
-                                        </div>
-
                                         <div class="col-md-6">
-                                            <label for="phone-input">Telefon</label>
-                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
-                                        </div>-->
-                                        <div class="col-md-12">
                                             <label for="email-input">Email</label>
                                             <input type="text" class="form-control" id="email-input" name="email" placeholder="Upišite email kupca" value="{{ isset($order) ? $order->payment_email : old('email') }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="phone-input">Phone</label>
+                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -158,9 +200,8 @@
                     </div>
                 </div>
             </div>
-            <!-- END Customer -->
 
-            <!-- Log Messages -->
+            <!-- History Messages -->
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Povijest narudžbe</h3>

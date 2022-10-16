@@ -105,7 +105,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //dd($request->toArray(), $order->toArray());
+        dd($request->toArray(), $order->toArray(), $order->checkout);
 
         $updated = $order->validateRequest($request)->store($order->id);
 

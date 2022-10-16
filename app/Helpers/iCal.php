@@ -21,16 +21,21 @@ class iCal
     public $event_count = 0;
 
     /**
-     * @var
+     * @var string
      */
-    public $cal;
+    public $target = 'airbnb';
 
 
     /**
      * @param string|null $filename
+     * @param string|null $target
      */
-    public function __construct(string $filename = null)
+    public function __construct(string $filename = null, string $target = null)
     {
+        if ($target) {
+            $this->target = $target;
+        }
+
         if ($filename) {
             return $this->url($filename);
         }
@@ -53,6 +58,8 @@ class iCal
         }
 
         $this->makeArrayFromAirbnbString($string);
+
+        Log::info($this->events);
 
         return $this;
     }

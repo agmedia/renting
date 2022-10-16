@@ -5,6 +5,7 @@ namespace App\Models\Back\Orders;
 use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
+use App\Models\Front\Checkout\Checkout;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -73,7 +74,7 @@ class Order extends Model
      */
     public function history()
     {
-        return $this->hasMany(OrderHistory::class, 'order_id')->orderBy('created_at');
+        return $this->hasMany(OrderHistory::class, 'order_id')->orderBy('created_at', 'desc');
     }
 
 
@@ -127,27 +128,6 @@ class Order extends Model
 
 
     /**
-     * @param Request $request
-     *
-     * @return $this
-     */
-    public function validateRequest(Request $request)
-    {
-        $request->validate([
-            'payment' => 'required',
-            //'dates'   => 'required',
-            'fname'   => 'required',
-            'lname'   => 'required',
-            'email'   => 'required',
-        ]);
-
-        $this->setRequest($request);
-
-        return $this;
-    }
-
-
-    /**
      * @return mixed
      */
     public function getStatusAttribute()
@@ -162,6 +142,28 @@ class Order extends Model
     public function getCheckoutAttribute()
     {
         return unserialize($this->options);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateRequest(Request $request)
+    {
+        $request->validate([
+            'payment' => 'required',
+            //'dates'   => 'required',
+            'fname'   => 'required',
+            'lname'   => 'required',
+            'email'   => 'required',
+            'phone'   => 'required',
+        ]);
+
+        $this->request = $request;
+
+        return $this;
     }
 
 
@@ -185,28 +187,62 @@ class Order extends Model
 
 
     /**
-     * @return bool
+     * @param string $target
+     * @param array  $event
+     * @param int    $apartment_id
+     *
+     * @return false|Order
      */
-    private function storeData()
+    public static function storeSyncData(string $target, array $event, int $apartment_id)
     {
-        $payment = Settings::get('payment', 'list.' . $this->request->payment)->first();
+        $has_uid = self::where('sync_uid', $event['uid'])->first();
 
-        $id = $this->insertGetId([
-            'payment_fname'  => $this->request->fname,
-            'payment_lname'  => $this->request->lname,
-            'payment_email'  => $this->request->email,
-            'payment_method' => $payment->code,
-            'payment_code'   => $payment->code,
-            'company'        => isset($this->request->company) ? $this->request->company : null,
-            'oib'            => isset($this->request->oib) ? $this->request->oib : null,
-            'created_at'     => Carbon::now(),
-            'updated_at'     => Carbon::now()
+        if ($has_uid) {
+            return false; // Treba li updejtati ako ima već taj UID $target narudžbe..?
+        }
+
+        $checkout = new Checkout(new Request([
+            'apartment_id' => $apartment_id,
+            'dates'        => $event['start'] . ' - ' . $event['end']
+        ]));
+
+        $clean_checkout               = $checkout->cleanData();
+        $clean_checkout['sync_event'] = $event;
+
+        $id = self::insertGetId([
+            'apartment_id'     => $apartment_id,
+            'user_id'          => 0,
+            'affiliate_id'     => 0,
+            'order_status_id'  => config('settings.order.status.paid'),
+            'invoice'          => '',
+            'total'            => 0,
+            'date_from'        => Carbon::make($event['start']),
+            'date_to'          => Carbon::make($event['end']),
+            'payment_fname'    => ($target == 'airbnb') ? 'Airbnb' : 'Booking',
+            'payment_lname'    => 'Sync',
+            'payment_email'    => ($target == 'airbnb') ? 'info@airbnb.com' : 'info@booking.com',
+            'payment_method'   => 'card',
+            'payment_code'     => 'corvus',
+            'company'          => '',
+            'oib'              => '',
+            'options'          => serialize($clean_checkout),
+            'comment'          => (($target == 'airbnb') ? 'Airbnb' : 'Booking') . ' synchronized order.',
+            'sync_uid'         => $event['uid'],
+            'approved'         => '',
+            'approved_user_id' => '',
+            'created_at'       => Carbon::now(),
+            'updated_at'       => Carbon::now()
         ]);
 
         if ($id) {
             OrderHistory::store($id);
 
-            return $this->find($id);
+            OrderTotal::where('order_id', $id)->delete();
+            foreach ($checkout->total['total'] as $key => $total) {
+                OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
+            }
+
+            return self::find($id);
         }
 
         return false;
@@ -265,28 +301,6 @@ class Order extends Model
 
 
     /**
-     * Set Model request variable.
-     *
-     * @param $request
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
-    }
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public static function getLatest($count = 15)
-    {
-        $query = (new Order())->newQuery();
-
-        return $query->with('status')->orderBy('id', 'desc')->limit($count)->get();
-    }
-
-
-    /**
      * @param Request $request
      *
      * @return Builder
@@ -319,7 +333,6 @@ class Order extends Model
      */
     public static function trashComplete($id)
     {
-        OrderProduct::where('order_id', $id)->delete();
         OrderTotal::where('order_id', $id)->delete();
         Transaction::where('order_id', $id)->delete();
 

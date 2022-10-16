@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Apartment;
 
+use App\Helpers\iCal;
 use App\Models\Back\Marketing\Action\Action;
 use App\Models\Back\Marketing\Gallery\Gallery;
 use App\Models\Back\Orders\Order;
@@ -35,7 +36,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'image', 'thumb', 'airbnb'];
+    protected $appends = ['title', 'image', 'thumb', 'airbnb', 'booking'];
 
     /**
      * @var string
@@ -144,8 +145,25 @@ class Apartment extends Model
     {
         if ($this->links) {
             foreach (unserialize($this->links) as $key => $link) {
-                if ($key = 'airbnb') {
-                    return $link ?: '';
+                if ($key == "'airbnb'") {
+                    return $link;
+                }
+            }
+        }
+
+        return '';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getBookingAttribute(): string
+    {
+        if ($this->links) {
+            foreach (unserialize($this->links) as $key => $link) {
+                if ($key == "'booking'") {
+                    return $link;
                 }
             }
         }
@@ -259,6 +277,33 @@ class Apartment extends Model
     public function storeImages()
     {
         return (new ApartmentImage())->store($this->find($this->id), $this->request);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function syncUrlWith(Request $request)
+    {
+        $ical = new iCal($request->input('url'));
+
+        if ( ! empty($ical->events)) {
+            foreach ($ical->events as $event) {
+                $order = Order::storeSyncData(
+                    $request->input('target'),
+                    $event,
+                    $request->input('apartment')
+                );
+
+                /*if ( ! $order) {
+                    return response()->json(['error' => 400, 'message' => 'Nešto je pošlo po krivu..!']);
+                }*/
+            }
+        }
+
+        return response()->json(['success' => 200, 'message' => 'Sve je OK prošlo..!']);
     }
 
 

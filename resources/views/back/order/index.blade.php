@@ -83,6 +83,7 @@
                             <th class="text-center" style="width: 36px;">Br.</th>
                             <th class="text-center">Datum</th>
                             <th>Apartman</th>
+                            <th>Kupac</th>
                             <th class="text-center">Status</th>
                             <th class="text-right">Detalji</th>
                         </tr>
@@ -103,6 +104,7 @@
                                 </td>
                                 <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
                                 <td>{{ $order->apartment->title }}</td>
+                                <td>{{ $order->payment_fname }} {{ $order->payment_lname }}</td>
                                 <td class="font-size-base text-center">
                                     <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
                                 </td>
@@ -117,7 +119,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="text-center font-size-sm" colspan="6">
+                                <td class="text-center font-size-sm" colspan="7">
                                     <label>Nema narudžbi...</label>
                                 </td>
                             </tr>

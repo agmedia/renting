@@ -231,6 +231,7 @@ Route::prefix('api/v2')->group(function () {
     // SEARCH
     Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('api.front.search');
 
+    Route::post('/apartments/sync-url', [ApartmentController::class, 'syncURL'])->name('api.apartments.sync.url');
     Route::get('/apartments/autocomplete', [\App\Http\Controllers\Api\v2\ProductController::class, 'autocomplete'])->name('apartments.autocomplete');
     Route::post('/apartments/image/delete', [ApartmentController::class, 'destroyImage'])->name('apartments.destroy.image');
     //Route::post('/apartments/change/status', [\App\Http\Controllers\Api\v2\ProductController::class, 'changeStatus'])->name('apartments.change.status');

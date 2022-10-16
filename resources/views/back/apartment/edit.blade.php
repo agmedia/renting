@@ -376,16 +376,26 @@
                                         </div>
                                     </div>
 
-                                    <h2 class="content-heading">Apartment Sync. URL
-<!--                                        <a class="btn btn-sm btn-secondary float-right" href="{{ route('actions.create') }}">
-                                            <i class="far fa-fw fa-plus-square"></i>
-                                        </a>-->
-                                    </h2>
+                                    <h2 class="content-heading">Apartment Sync. URL</h2>
 
                                     <div class="form-group row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
-                                            <label for="adults-input">AirBnB</label>
-                                            <input type="text" class="form-control" name="links['airbnb']" placeholder="" value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
+                                            <label for="airbnb-input">Airbnb</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="airbnb-input" name="links['airbnb']" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">Sync.</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 pt-2">
+                                            <label for="booking-input">Booking</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="booking-input" name="links['booking']" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking) ? $apartment->booking : '' }}">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">Sync.</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -396,7 +406,7 @@
                 </div>
             </div>
 
-
+            <!-- Location -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.lokacija') }}</h3>
@@ -455,7 +465,7 @@
                 </div>
             </div>
 
-
+            <!-- Prices -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.cijenetitle') }}</h3>
@@ -571,7 +581,7 @@
                 </div>
             </div>
 
-
+            <!-- Amenities -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.amenities') }}</h3>
@@ -601,7 +611,7 @@
                 </div>
             </div>
 
-
+            <!-- Details Input -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.dodatneinformacije') }}</h3>
@@ -619,7 +629,7 @@
                 </div>
             </div>
 
-
+            <!-- Gallery -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.galerijainfo') }}</h3>
@@ -633,7 +643,7 @@
                 </div>
             </div>
 
-
+            <!-- Submit -->
             <div class="block">
                 <div class="block-content">
                     <div class="row justify-content-center push">
@@ -714,6 +724,39 @@
     <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
 
     <script>
+        /**
+         *
+         * @param target
+         * @param url
+         * @param apartment
+         */
+        function syncUrlWith(target, url, apartment) {
+            let item = {
+                apartment: apartment,
+                target: target,
+                url:url
+            };
+
+            axios.post("{{ route('api.apartments.sync.url') }}", item)
+            .then(response => {
+                console.log(response.data)
+                if (response.data.message) {
+                    successToast.fire({
+                        timer: 1500,
+                        text: response.data.message,
+                    }).then(() => {
+                        location.reload();
+                    })
+
+                } else {
+                    return errorToast.fire(response.data.error);
+                }
+            });
+        }
+
+        /**
+         * @__constructor
+         */
         $(() => {
             initialize();
 
@@ -739,7 +782,14 @@
             $('#target-select').select2({ minimumResultsForSearch: Infinity });
             $('#price-by-select').select2({ minimumResultsForSearch: Infinity });
 
-        })
+            $('#airbnb-sync-btn').on('click', (e) => {
+                syncUrlWith('airbnb', $('#airbnb-input').val(), {{ isset($apartment) ? $apartment->id : 0 }});
+            });
+            $('#booking-sync-btn').on('click', (e) => {
+                syncUrlWith('booking', $('#booking-input').val(), {{ isset($apartment) ? $apartment->id : 0 }});
+            });
+
+        });
     </script>
 
     <script>
