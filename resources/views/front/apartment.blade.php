@@ -15,10 +15,10 @@
     <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="og:image" content="{{ $meta['image'] }}" />
     <meta property="og:image:secure_url" content="{{ $meta['image'] }}" />
-    <meta property="og:image:width" content="{{ $meta['width'] }}" />
-    <meta property="og:image:height" content="{{ $meta['height'] }}" />
-    <meta property="og:image:type" content="{{ $meta['type'] }}" />
-    <meta property="og:image:alt" content="{{ $meta['alt'] }}" />
+    <meta property="og:image:width" content="{{ $meta['image_width'] }}" />
+    <meta property="og:image:height" content="{{ $meta['image_height'] }}" />
+    <meta property="og:image:type" content="{{ $meta['image_type'] }}" />
+    <meta property="og:image:alt" content="{{ $meta['image_alt'] }}" />
 @endpush
 
 @section('title', $meta['title'])
