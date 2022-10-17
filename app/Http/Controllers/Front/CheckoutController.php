@@ -73,8 +73,9 @@ class CheckoutController extends Controller
 
         if ($order) {
             $order->updateStatus('new')->finish($request);
+            $checkout = CheckoutSession::getCheckout();
 
-            $order->sendNewOrderEmails(CheckoutSession::getCheckout());
+            $order->sendNewOrderEmails($checkout);
 
             CheckoutSession::forget();
 

@@ -24,6 +24,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $request->merge(['city' => 'Zagreb']);
+
         $apartments = Apartment::active()->search($request)->paginate(12);
 
         $cities = Apartment::groupBy('city')->pluck('city');

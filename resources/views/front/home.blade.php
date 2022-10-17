@@ -26,8 +26,7 @@
 
 @endpush
 
-
-    @section ( 'title', 'SelfCheckIns' )
+@section ( 'title', 'SelfCheckIns' )
 @section ( 'description', '' )
 
 @section('content')
@@ -456,10 +455,10 @@
             if (dates.length < 2) {
                 searchParams.delete('from');
                 searchParams.delete('to');
+            } else {
+                searchParams.set('from', dates[0]);
+                searchParams.set('to', dates[1]);
             }
-
-            searchParams.set('from', dates[0]);
-            searchParams.set('to', dates[1]);
 
             window.location.search = searchParams.toString();
         }
