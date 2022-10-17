@@ -76,24 +76,14 @@
                                             <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                    <select class="form-control form-select" name="adults">
-                                                        <option value="0">{{ __('front/apartment.adults_title') }}</option>
-                                                        @for ($i = 1; $i < 6; $i++)
-                                                            <option value="{{ $i }}">{{ $i }} {{ ($i == $apartment->adults) ? ' (Recomended)' : '' }}</option>
-                                                        @endfor
-                                                    </select>
+                                                    <select class="form-control form-select" name="adults" id="adults-select"></select>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                    <select class="form-control form-select" name="children">
-                                                        <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                        @for ($i = 1; $i < 6; $i++)
-                                                            <option value="{{ $i }}">{{ $i }} {{ ($i == $apartment->children) ? ' (Recomended)' : '' }}</option>
-                                                        @endfor
-                                                    </select>
+                                                    <select class="form-control form-select" name="children" id="children-select"></select>
                                                 </div>
                                             </div>
 
@@ -324,6 +314,60 @@
                 },
             }
         });
+
+
+        const max_persons = {{ $apartment->max_persons }};
+
+        /**
+         *
+         * @param max
+         */
+        function adults(max = max_persons) {
+            let sel = document.getElementById('adults-select');
+            sel.options.length = 0;
+
+            for (let i = 0; i < max; i++) {
+                let opt = document.createElement('option');
+                opt.setAttribute('value', i);
+                opt.innerText = i ? i : '{{ __('front/apartment.adults_title') }}';
+
+                sel.appendChild(opt);
+            }
+
+        }
+
+        /**
+         *
+         * @param max
+         */
+        function children(max = max_persons) {
+            let sel = document.getElementById('children-select');
+            sel.options.length = 0;
+
+            for (let i = 0; i < (max - 1); i++) {
+                let opt = document.createElement('option');
+                opt.setAttribute('value', i);
+                opt.innerText = i ? i : '{{ __('front/apartment.children_title') }}';
+
+                sel.appendChild(opt);
+            }
+
+        }
+
+        $(() => {
+            adults();
+            children();
+
+            $('#children-select').on('change', event => {
+                let count = event.currentTarget.value;
+                adults(max_persons - count);
+            });
+
+            $('#adults-select').on('change', event => {
+                let count = event.currentTarget.value;
+                children(max_persons - count + 1);
+            });
+        })
     </script>
 
 @endpush
