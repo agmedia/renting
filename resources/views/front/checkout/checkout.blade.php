@@ -116,7 +116,7 @@
                                         <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="phone" name="phone" class="form-control bg-gray mb-3" placeholder="" value="{{ $checkout->phone }}" required>
+                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray mb-3" placeholder="" value="{{ $checkout->phone }}" required>
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}" required>
@@ -194,8 +194,9 @@
             var input = document.querySelector("#phone");
             window.intlTelInput(input, {
             autoHideDialCode:false,
-            separateDialCode:true,
+                separateDialCode:true,
             initialCountry: "HR",
+                hiddenInput: "phone",
            // onlyCountries:  ["HR"],
             utilsScript: "{{ asset("assets/js/input-tel/utils.js") }}" // just for formatting/placeholders etc
         });
