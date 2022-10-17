@@ -5,6 +5,25 @@
     <link type="text/css" rel="stylesheet" href="{{ asset('assets/js/dist/css/lightgallery-bundle.css') }}"/>
 @endpush
 
+@push('meta_tags')
+    <link rel="canonical" href="{{ request()->url() }}" />
+    <meta property="og:locale" content="{{ current_locale(true) }}" />
+    <meta property="og:type" content="{{ $meta['type'] }}" />
+    <meta property="og:title" content="{{ $meta['title'] }}" />
+    <meta property="og:description" content="{{ $meta['description'] }}" />
+    <meta property="og:url" content="{{ request()->url() }}"  />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
+    <meta property="og:image" content="{{ $meta['image'] }}" />
+    <meta property="og:image:secure_url" content="{{ $meta['image'] }}" />
+    <meta property="og:image:width" content="{{ $meta['width'] }}" />
+    <meta property="og:image:height" content="{{ $meta['height'] }}" />
+    <meta property="og:image:type" content="{{ $meta['type'] }}" />
+    <meta property="og:image:alt" content="{{ $meta['alt'] }}" />
+@endpush
+
+@section('title', $meta['title'])
+@section('description', $meta['description'])
+
 @section('content')
     <div class="page-banner bg-white py-3">
         <div class="container">
@@ -61,8 +80,8 @@
                             <div class="sidebar">
                                 <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
                                     {{ csrf_field() }}
-                                <div class="mt-4 p-4 shadow-one reservationbox">
-                                    <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
+                                    <div class="mt-4 p-4 shadow-one reservationbox">
+                                        <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
                                         <div class="row row-cols-1">
                                             <div class="col mt-3">
 
@@ -91,11 +110,7 @@
                                                 <button type="submit" id="send" value="submit" class="btn btn-primary w-100">{{ __('front/apartment.reserve_btn_title') }}</button>
                                             </div>
                                         </div>
-                                </div>
-
-
-
-
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -170,7 +185,6 @@
                                         {!! __('front/apartment.html_block') !!}
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>

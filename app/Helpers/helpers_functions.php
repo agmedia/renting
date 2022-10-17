@@ -3,19 +3,23 @@
 /**
  *
  */
+
+use App\Helpers\CurrencyHelper;
+use App\Helpers\LanguageHelper;
+
 if ( ! function_exists('ag_lang')) {
     /**
-     * @param false $main
+     * @param bool $main
      *
      * @return mixed
      */
-    function ag_lang($main = false)
+    function ag_lang(bool $main = false)
     {
         if ($main) {
-            return \App\Helpers\LanguageHelper::getMain();
+            return LanguageHelper::getMain();
         }
 
-        return \App\Helpers\LanguageHelper::list();
+        return LanguageHelper::list();
     }
 }
 
@@ -24,11 +28,19 @@ if ( ! function_exists('ag_lang')) {
  */
 if ( ! function_exists('current_locale')) {
     /**
+     * @param bool $native
+     *
      * @return string
      */
-    function current_locale()
+    function current_locale(bool $native = false): string
     {
-        return \App\Helpers\LanguageHelper::getCurrentLocale();
+        $current = LanguageHelper::getCurrentLocale();
+
+        if ($native) {
+            return config('laravellocalization.supportedLocales.' . $current . '.regional');
+        }
+
+        return $current;
     }
 }
 
@@ -37,16 +49,16 @@ if ( ! function_exists('current_locale')) {
  */
 if ( ! function_exists('ag_currencies')) {
     /**
-     * @param false $main
+     * @param bool $main
      *
-     * @return mixed
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
      */
-    function ag_currencies($main = false)
+    function ag_currencies(bool $main = false)
     {
         if ($main) {
-            return \App\Helpers\CurrencyHelper::getMain();
+            return CurrencyHelper::getMain();
         }
 
-        return \App\Helpers\CurrencyHelper::list();
+        return CurrencyHelper::list();
     }
 }

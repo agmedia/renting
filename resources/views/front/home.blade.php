@@ -5,14 +5,13 @@
 @endpush
 
 @push('meta_tags')
-
-    <link rel="canonical" href="{{ env('APP_URL')}}" />
-    <meta property="og:locale" content="hr_HR" />
+    <link rel="canonical" href="{{ request()->url() }}" />
+    <meta property="og:locale" content="{{ current_locale(true) }}" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="SelfCheckIns" />
     <meta property="og:description" content="" />
-    <meta property="og:url" content="{{ env('APP_URL')}}"  />
-    <meta property="og:site_name" content="SelfCheckIns" />
+    <meta property="og:url" content="{{ request()->url() }}"  />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="og:image" content="" />
     <meta property="og:image:secure_url" content="" />
     <meta property="og:image:width" content="1920" />
@@ -23,7 +22,6 @@
     <meta name="twitter:title" content="SelfCheckInsi" />
     <meta name="twitter:description" content="SelfCheckIns" />
     <meta name="twitter:image" content="" />
-
 @endpush
 
 @section ( 'title', 'SelfCheckIns' )
@@ -73,7 +71,7 @@
                                                         <div class="input-group flex-nowrap select-arrow">
                                                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
                                                             <select class="form-control bg-gray form-select" id="select-city">
-                                                                <!--  <option value="0" selected>{{ __('front/apartment.select_city') }}</option> -->
+                                                                <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
                                                                 @foreach($cities as $city)
                                                                     <option @if ($loop->first) selected @endif >{{ $city }}</option>
                                                                 @endforeach
@@ -145,18 +143,13 @@
                                                         @foreach ($apartment->amenities() as  $items)
                                                             @foreach ($items as $detail)
                                                                 @if($detail['featured'])
-
                                                                     <span class="location list">
-                                                                   <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon list" /> {{ $detail['title'] }}
-                                                                   </span>
-
+                                                                        <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon list" /> {{ $detail['title'] }}
+                                                                    </span>
                                                                 @endif
                                                             @endforeach
                                                         @endforeach
-
                                                     </div>
-
-
                                                     <div class="float-end"> </div>
                                                 </div>
                                             </div>

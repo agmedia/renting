@@ -373,4 +373,22 @@ class Apartment extends Model implements LocalizedUrlRoutable
     }
 
 
+    /**
+     * @return array
+     */
+    public function meta()
+    {
+        return [
+            'type' => 'apartment',
+            'title' => config('app.name') . ' - ' . $this->title,
+            'description' => substr($this->description, 0, 100) . '...',
+            'image' => $this->image,
+            'image_height' => 800,
+            'image_width' => 1440,
+            'image_type' => 'image/webp',
+            'image_alt' => $this->title
+        ];
+    }
+
+
 }

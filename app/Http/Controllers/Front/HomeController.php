@@ -27,8 +27,7 @@ class HomeController extends Controller
         $request->merge(['city' => 'Zagreb']);
 
         $apartments = Apartment::active()->search($request)->paginate(12);
-
-        $cities = Apartment::groupBy('city')->pluck('city');
+        $cities     = Apartment::groupBy('city')->pluck('city');
 
         return view('front.home', compact('apartments', 'cities'));
     }
@@ -43,8 +42,9 @@ class HomeController extends Controller
     {
         $dates = $apartment->dates();
         $langs = LanguageHelper::resolveSelector($apartment);
+        $meta  = $apartment->meta();
 
-        return view('front.apartment', compact('apartment', 'dates', 'langs'));
+        return view('front.apartment', compact('apartment', 'dates', 'langs', 'meta'));
     }
 
 
