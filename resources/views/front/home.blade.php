@@ -74,11 +74,11 @@
                                                             <div class="input-group flex-nowrap select-arrow">
                                                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                                 <select class="form-control bg-gray form-select" id="select-city">
-                                                                    <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
+                                                                  <!--  <option value="0" selected>{{ __('front/apartment.select_city') }}</option> -->
 
                                                                     @foreach($cities as $city)
 
-                                                                    <option>{{ $city }}</option>
+                                                                    <option    @if ($loop->first) selected @endif >{{ $city }}</option>
 
                                                                     @endforeach
 
@@ -140,16 +140,29 @@
                                             <div class="featured-thumb-data shadow-one">
                                                 <div class="p-4 pb-2">
                                                     <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}">{{ $apartment->title }}</a></h5>
-                                                    <span class="location"><i class="fas fa-map-marker-alt text-primary"></i> {{ $apartment->address }}, {{ $apartment->city }}</span> </div>
+                                                  </div>
                                                 <div class="ps-4 pb-2">
-                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} {{ __('front/apartment.rooms') }} - {{ $apartment->beds }} {{ __('front/apartment.beds') }}</span>
+                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }} m² - {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }}</span>
                                                 </div>
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
-                                                    <div class="float-start"><i class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }} </div>
+                                                    <div class="float-start">
+                                                        @foreach ($apartment->amenities() as  $items)
+                                                            @foreach ($items as $detail)
+                                                                @if($detail['featured'])
+
+                                                                   <span class="location list">
+                                                                   <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon list" /> {{ $detail['title'] }}
+                                                                   </span>
+
+                                                                @endif
+                                                            @endforeach
+                                                        @endforeach
+
+                                                    </div>
 
 
-                                                    <div class="float-end"><i class="far fa-calendar-alt text-primary me-1"></i> {{ $apartment->created_at->diffForHumans() }}</div>
+                                                    <div class="float-end"> </div>
                                                 </div>
                                             </div>
                                         </div>

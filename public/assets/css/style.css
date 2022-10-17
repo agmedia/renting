@@ -192,6 +192,15 @@ img.ccard{
     margin-right:5px
 }
 
+.offer-icon.list{
+    width:18px;
+    margin-right:0px
+}
+.location.list{
+    text-transform: lowercase;
+    margin-right:5px
+}
+
 .w-60 {
     width: 60%
 }
