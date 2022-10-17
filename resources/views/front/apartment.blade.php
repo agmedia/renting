@@ -164,59 +164,12 @@
                                     <div class="col-md-12">
                                         <input class="form-control d-none" id="datepicker"/>
                                     </div>
-
                                 </div>
-                                <!--
-                                                                <div class="row mb-4">
-                                                                    <div class="col">
-                                                                        <h4 class="text-secondary my-4">User Reviews</h4>
-                                                                        <ul class="post-comments">
-                                                                            <li class="py-4 d-flex">
-                                                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
-                                                                                <div class="comment-detail">
-                                                                                    <div class="d-inline-block mb-3">
-                                                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
-                                                                                        <ul class="text-primary d-flex font-13">
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
-                                                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
-                                                                                    </p>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="py-4 d-flex">
-                                                                                <div class="avata"><img src="assets/images/flags/de.webp" alt=""></div>
-                                                                                <div class="comment-detail">
-                                                                                    <div class="d-inline-block mb-3">
-                                                                                        <h5 class="text-secondary">Rebecca D. Nagy</h5>
-                                                                                        <ul class="text-primary d-flex font-13">
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                            <li><i class="fas fa-star"></i></li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                    <div class="float-end"> <span class="me-4 text-ordinary">27-08-2022</span>  </div>
-                                                                                    <p>The apartment was nicely clean. We enjoyed the balcony view very much! The host was super helpful. We were missing tablets for the washing machine tho. Grocery store in the same bulding, a café 2 mins walk, Jarun lake 20 mins walk, tram stop 5 mins walk. We had a nice stay:)
-                                                                                    </p>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                -->
 
                                 <div class="row mb-4">
                                     <div class="col">
                                         <h4 class="text-secondary my-4 mb-2">{{ __('front/apartment.where_title') }}</h4>
                                         <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }} </span>
-
                                         <div id="map-single" class="single-map mt-4"></div>
                                     </div>
                                 </div>
@@ -341,6 +294,13 @@
             calendars:   2,
             inline:      true,
             plugins:     ['LockPlugin', 'RangePlugin'],
+            setup(picker) {
+                picker.on('select', (e) => {
+                    const range = pickerres.PluginManager.getInstance('RangePlugin');
+                    range.setStartDate(e.detail.start);
+                    range.setEndDate(e.detail.end);
+                });
+            },
             RangePlugin: {
                 tooltipNumber(num) {
                     return num - 1;
