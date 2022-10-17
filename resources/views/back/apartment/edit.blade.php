@@ -348,13 +348,17 @@
                                     <div class="row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
                                             <div class="form-group row items-push mb-0">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label for="adults-input">{{ __('back/apartment.adults') }}</label>
                                                     <input type="text" class="form-control" id="adults-input" name="adults" placeholder="" value="{{ isset($apartment) ? $apartment->adults : old('adults') }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label for="children-input">{{ __('back/apartment.children') }}</label>
                                                     <input type="text" class="form-control" id="children-input" name="children" placeholder="" value="{{ isset($apartment) ? $apartment->children : old('children') }}">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="max-persons-input">Max. Persons</label>
+                                                    <input type="text" class="form-control" id="max-persons-input" name="max_persons" placeholder="" value="{{ isset($apartment) ? $apartment->max_persons : old('max_persons') }}">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>

@@ -340,6 +340,7 @@ class Apartment extends Model
             'baths'          => $this->request->baths,
             'adults'         => $this->request->adults,
             'children'       => $this->request->children,
+            'max_persons'    => $this->request->max_persons,
             'sort_order'     => 0,
             'featured'       => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
             'status'         => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
