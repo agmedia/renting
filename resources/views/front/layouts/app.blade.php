@@ -37,7 +37,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/all.min.css") }}">
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/jquery-ui.css") }}">
     <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/color.css") }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("assets/css/style.css?v=1") }}">
 
     @if (config('app.env') == 'production')
         @yield('google_data_layer')
