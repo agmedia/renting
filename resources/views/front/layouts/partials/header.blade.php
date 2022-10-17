@@ -64,11 +64,12 @@
         <div class="top-header bg-white py-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-11 col-sm-10">
                         <div class="d-flex h-100 align-items-center justify-content-start">
-                            <!-- <div class="me-3"><a href="callto:012345678102" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>(012) 345 678 102</a></div>-->
-                            <div class="me-3"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
-                            <div class="dropdown hover-dropdown">
+                            <div class="me-2"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
+
+                            <div class="me-0"><a href="tel:+385 99 500 8000" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>+385 99 500 8000</a></div>
+                            <div class="dropdown hover-dropdown d-none d-md-block">
                                 <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
 
@@ -76,17 +77,15 @@
                                         <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
                                     @endforeach
                                     <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
-                                        <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
+                                    <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-1 col-sm-2">
                         <div class="d-flex h-100 align-items-center justify-content-end">
-                            @if ( ! request()->routeIs(['checkout', 'checkout.view']))
-                                @include('front.layouts.partials.currency-selector')
-                                @include('front.layouts.partials.language-selector')
-                            @endif
+                            @include('front.layouts.partials.currency-selector')
+                            @include('front.layouts.partials.language-selector')
                         </div>
                     </div>
                 </div>

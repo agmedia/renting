@@ -187,9 +187,7 @@
 @endsection
 
 @push('js_after')
-
     <script src="{{ asset("assets/js/input-tel/intlTelInput.js") }}"></script>
-
         <script>
             var input = document.querySelector("#phone");
             window.intlTelInput(input, {
@@ -198,10 +196,7 @@
             initialCountry: "HR",
                 hiddenInput: "phone",
            // onlyCountries:  ["HR"],
-            utilsScript: "{{ asset("assets/js/input-tel/utils.js") }}" // just for formatting/placeholders etc
+            utilsScript: "{{ asset("assets/js/input-tel/utils.js") }}"
         });
-
-
     </script>
-
 @endpush
