@@ -3501,9 +3501,7 @@ Responsive Media Query CSS
     .sub-title.w-60 {
         width: 100%
     }
-    .top-header {
-        display: none
-    }
+
     .nav-on-banner {
         position: static !important;
         background-color: var(--theme-secondary-color)

@@ -1,4 +1,4 @@
-<div class="currency">
+<div class="currency d-none d-sm-block">
     <div class="dropdown hover-dropdown">
         <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ \Illuminate\Support\Str::upper(ag_currencies(true)->code) }}</button>
         <ul class="dropdown-menu">
