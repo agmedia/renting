@@ -151,7 +151,7 @@
                                                             @foreach ($items as $detail)
 
 
-                                                                @if($detail['featured'] and $loop->index <=5)
+                                                                @if($detail['featured'] and $loop->index <=3)
 
                                                                    <span class="location list">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon list" /> {{ $detail['title'] }}
