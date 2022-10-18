@@ -18,7 +18,7 @@ return [
     'view_gallery' => 'View Full Gallery',
     'checkin_title' => 'Check-in -> Checkout',
     'additional_apartment_options' => 'Additional apartment options',
-    'adults_title' => 'Adults (12+ y)',
+    'adults_title' => 'Adults (12+y)',
     'children_title' => 'Children (3-11y)',
     'baby_title' => 'Baby (0-2y)',
     'reserve_btn_title' => 'Reserve',
