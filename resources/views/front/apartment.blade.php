@@ -373,12 +373,28 @@
 
         }
 
+
+        function baby(select, max = max_persons) {
+            select.options.length = 0;
+
+            for (let i = 0; i < (max - 1); i++) {
+                let opt = document.createElement('option');
+                opt.setAttribute('value', i);
+                opt.innerText = i ? i : '{{ __('front/apartment.baby_title') }}';
+
+                select.appendChild(opt);
+            }
+
+        }
+
         $(() => {
             let adults_select = document.getElementById('adults-select');
             let children_select = document.getElementById('children-select');
+            let baby_select = document.getElementById('baby-select');
 
             adults(adults_select);
             children(children_select);
+            baby(baby_select);
 
             $('#children-select').on('change', event => {
                 let count = event.currentTarget.value;
@@ -393,6 +409,14 @@
 
                 if (children_select.selectedIndex == 0) {
                     children(children_select, max_persons - count + 1);
+                }
+            });
+
+            $('#baby-select').on('change', event => {
+                let count = event.currentTarget.value;
+
+                if (baby_select.selectedIndex == 0) {
+                    baby(baby_select, max_persons - count + 1);
                 }
             });
         })
