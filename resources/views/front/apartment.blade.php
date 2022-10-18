@@ -332,54 +332,61 @@
 
         const max_persons = {{ $apartment->max_persons }};
 
+
         /**
          *
          * @param max
          */
-        function adults(max = max_persons) {
-            let sel = document.getElementById('adults-select');
-            sel.options.length = 0;
+        function adults(select, max = max_persons) {
+            select.options.length = 0;
 
             for (let i = 0; i < max; i++) {
                 let opt = document.createElement('option');
                 opt.setAttribute('value', i);
                 opt.innerText = i ? i : '{{ __('front/apartment.adults_title') }}';
 
-                sel.appendChild(opt);
+                select.appendChild(opt);
             }
-
         }
 
         /**
          *
          * @param max
          */
-        function children(max = max_persons) {
-            let sel = document.getElementById('children-select');
-            sel.options.length = 0;
+        function children(select, max = max_persons) {
+            select.options.length = 0;
 
             for (let i = 0; i < (max - 1); i++) {
                 let opt = document.createElement('option');
                 opt.setAttribute('value', i);
                 opt.innerText = i ? i : '{{ __('front/apartment.children_title') }}';
 
-                sel.appendChild(opt);
+                select.appendChild(opt);
             }
 
         }
 
         $(() => {
-            adults();
-            children();
+            let adults_select = document.getElementById('adults-select');
+            let children_select = document.getElementById('children-select');
+
+            adults(adults_select);
+            children(children_select);
 
             $('#children-select').on('change', event => {
                 let count = event.currentTarget.value;
-                adults(max_persons - count);
+
+                if (adults_select.selectedIndex == 0) {
+                    adults(adults_select, max_persons - count);
+                }
             });
 
             $('#adults-select').on('change', event => {
                 let count = event.currentTarget.value;
-                children(max_persons - count + 1);
+
+                if (children_select.selectedIndex == 0) {
+                    children(children_select, max_persons - count + 1);
+                }
             });
         })
     </script>
