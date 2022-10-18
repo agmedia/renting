@@ -35,6 +35,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="text-primary text-start h5 my-2 text-md-end">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+
+                    <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }}</span>
                 </div>
             </div>
             <div class="row mt-3">
