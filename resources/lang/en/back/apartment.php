@@ -41,7 +41,7 @@ return [
     'searchname' => 'Search by name',
     'cijenetitle' => 'Price, promotions and tax',
     'price_regular' => 'Price for regular days',
-    'price_weekends' => 'Price for weekends (Saturday & Sunday)',
+    'price_weekends' => 'Price for weekends (Friday & Saturday)',
     'priceprema' => 'Price according to',
     'tax' => 'Tax',
     'cijanapopust' => 'Discount Price',

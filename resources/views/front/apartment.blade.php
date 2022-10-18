@@ -92,7 +92,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6  mt-3">
+                                            <div class="col-md-12 mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="adults" id="adults-select"></select>
@@ -103,6 +103,13 @@
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="children" id="children-select"></select>
+                                                </div>
+                                            </div>
+
+                                       <div class="col-md-6  mt-3">
+                                                <div class="input-group flex-nowrap select-arrow">
+                                                    <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                    <select class="form-control form-select" name="baby" id="baby-select"></select>
                                                 </div>
                                             </div>
 

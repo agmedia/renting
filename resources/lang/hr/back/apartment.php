@@ -41,7 +41,7 @@ return [
     'searchname' => 'Pretraži po nazivu',
     'cijenetitle' => 'Cijena, akcije i porez',
     'price_regular' => 'Cijena za dane u tjednu',
-    'price_weekends' => 'Cijena za vikend (Subota & Nedjelja)',
+    'price_weekends' => 'Cijena za vikend (Petak & Subota)',
     'price' => 'Cijena',
     'priceprema' => 'Cijena prema',
     'tax' => 'Porez',
