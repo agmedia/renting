@@ -17,7 +17,7 @@ return [
     'view_gallery' => 'Pogledajte cijelu galeriju',
     'checkin_title' => 'Prijava -> Odjava',
     'additional_apartment_options' => 'Dodatne opcije',
-    'adults_title' => 'Odraslih (12+g)',
+    'adults_title' => 'Odraslih (+12g)',
     'children_title' => 'Djece (3-11g)',
     'baby_title' => 'Bebe (0-2g)',
     'reserve_btn_title' => 'Rezerviraj',
