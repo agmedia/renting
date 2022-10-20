@@ -264,7 +264,7 @@
                                 <div class="col-md-12">
                                     <div class="row mb-3">
                                         <div class="col-md-12 mt-3 mb-3" >
-                                            <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} <span class="text-danger">*</span>
+                                            <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} @include('back.layouts.partials.required-star')
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)
                                                         <li @if ($lang->code == current_locale()) class="active" @endif>
@@ -288,7 +288,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="type-select">{{ __('back/apartment.tip') }} <span class="text-danger">*</span></label>
+                                            <label for="type-select">{{ __('back/apartment.tip') }} @include('back.layouts.partials.required-star')</label>
                                             <select class="js-select2 form-control" id="type-select" name="type" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_types') as $select_item)
@@ -301,7 +301,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="target-select">{{ __('back/apartment.namjena') }}<span class="text-danger">*</span></label>
+                                            <label for="target-select">{{ __('back/apartment.namjena') }} @include('back.layouts.partials.required-star')</label>
                                             <select class="js-select2 form-control" id="target-select" name="target" style="width: 100%;">
                                                 <option></option>
                                                 @foreach (config('settings.apartment_targets') as $select_item)
@@ -316,6 +316,27 @@
                                         <div class="col-md-4">
                                             <label for="sku">{{ __('back/apartment.sifra') }}</label>
                                             <input type="text" class="form-control" name="sku" placeholder="" value="{{ isset($apartment) ? $apartment->sku : old('sku') }}">
+                                        </div>
+
+                                        <div class="col-sm-12 mt-4">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
+                                                    <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
+                                                    <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
+                                                    <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
+                                                    <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -345,37 +366,28 @@
                                         </div>
                                     </div>
 
+                                    <h2 class="content-heading">Regular & Max. Persons Setup</h2>
+
                                     <div class="row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
                                             <div class="form-group row items-push mb-0">
-                                                <div class="col-md-4">
-                                                    <label for="adults-input">{{ __('back/apartment.adults') }}</label>
-                                                    <input type="text" class="form-control" id="adults-input" name="adults" placeholder="" value="{{ isset($apartment) ? $apartment->adults : old('adults') }}">
+                                                <div class="col-md-3">
+                                                    <label for="regular-person-input">Regular number of persons @include('back.layouts.partials.required-star')</label>
+                                                    <input type="text" class="form-control" id="regular-person-input" name="regular_persons" placeholder="" value="{{ isset($apartment) ? $apartment->regular_persons : old('regular_persons') }}">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label for="children-input">{{ __('back/apartment.children') }}</label>
-                                                    <input type="text" class="form-control" id="children-input" name="children" placeholder="" value="{{ isset($apartment) ? $apartment->children : old('children') }}">
+                                                <div class="col-md-3">
+                                                    <label for="max-adults-input">Max. {{ __('back/apartment.adults') }} @include('back.layouts.partials.required-star')</label>
+                                                    <input type="text" class="form-control" id="max-adults-input" name="max_adults" placeholder="" value="{{ isset($apartment) ? $apartment->max_adults : old('max_adults') }}">
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <label for="max-persons-input">Max. Persons</label>
+                                                <div class="col-md-3">
+                                                    <label for="max-children-input">Max. {{ __('back/apartment.children') }} @include('back.layouts.partials.required-star')</label>
+                                                    <input type="text" class="form-control" id="max-children-input" name="max_children" placeholder="" value="{{ isset($apartment) ? $apartment->max_children : old('max_children') }}">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="max-persons-input">Max. Persons @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-persons-input" name="max_persons" placeholder="" value="{{ isset($apartment) ? $apartment->max_persons : old('max_persons') }}">
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
-                                                    <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
-                                                    <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
-                                                    <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
-                                                    <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
