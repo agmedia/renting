@@ -320,19 +320,19 @@
 
                                         <div class="col-sm-12 mt-4">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
                                                     <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
                                                     <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
                                                     <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
                                                     <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
                                                 </div>
@@ -366,25 +366,25 @@
                                         </div>
                                     </div>
 
-                                    <h2 class="content-heading">Regular & Max. Persons Setup</h2>
+                                    <h2 class="content-heading">{{ __('back/apartment.regularandmax') }}</h2>
 
                                     <div class="row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
                                             <div class="form-group row items-push mb-0">
-                                                <div class="col-md-3">
-                                                    <label for="regular-person-input">Regular number of persons @include('back.layouts.partials.required-star')</label>
+                                                <div class="col-md-6 col-xl-3">
+                                                    <label for="regular-person-input">{{ __('back/apartment.regular') }}@include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="regular-person-input" name="regular_persons" placeholder="" value="{{ isset($apartment) ? $apartment->regular_persons : old('regular_persons') }}">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="max-adults-input">Max. {{ __('back/apartment.adults') }} @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-adults-input" name="max_adults" placeholder="" value="{{ isset($apartment) ? $apartment->max_adults : old('max_adults') }}">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-6 col-xl-3">
                                                     <label for="max-children-input">Max. {{ __('back/apartment.children') }} @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-children-input" name="max_children" placeholder="" value="{{ isset($apartment) ? $apartment->max_children : old('max_children') }}">
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <label for="max-persons-input">Max. Persons @include('back.layouts.partials.required-star')</label>
+                                                <div class="col-md-6 col-xl-3">
+                                                    <label for="max-persons-input">{{ __('back/apartment.max') }}  @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-persons-input" name="max_persons" placeholder="" value="{{ isset($apartment) ? $apartment->max_persons : old('max_persons') }}">
                                                 </div>
 

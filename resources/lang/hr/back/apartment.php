@@ -116,5 +116,8 @@ return [
     'extra' => 'Naknada',
     'apo_title' => 'Opcije naplate apartmana',
 
+    'regular' => 'Regularan broj osoba',
+    'max' => 'Max. Osoba',
 
+    'regularandmax' => 'Postavke broja osoba',
 ];

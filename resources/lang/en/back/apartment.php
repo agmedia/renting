@@ -115,4 +115,8 @@ return [
     'title_discount' => 'Discount',
     'extra' => 'Extra',
     'apo_title' => 'Apartment Payable Options',
+
+    'regular' => 'Regular persons',
+    'max' => 'Max. Persons',
+    'regularandmax' => 'Regular & Max. Persons Setup',
 ];
