@@ -52,7 +52,7 @@
         </div>
 
         <div class="container">
-            <div class="mt-3 mb-5 text-dark">
+            <div class="mt-3 mb-5 text-dark titleformat">
                 {!! $page->description !!}
             </div>
         </div>
