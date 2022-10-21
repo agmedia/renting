@@ -30,7 +30,7 @@ return [
     'pay_with' => 'Odaberite način plaćanja',
     'additional_comments' => 'Dodatni komentari',
     'type_comments' => 'Upišite vaš komentar',
-    'agree' => 'Odabirom gumba ispod, slažem se s <a href="#" class="alert-link">Uvjetima pružanja usluge, Uvjetima pružanja usluge plaćanja i prihvaćam Pravila o privatnosti.</a>',
+    'agree' => 'Odabirom gumba ispod, slažem se s <a href="en/info/terms-and-conditions" class="alert-link">Uvjetima pružanja usluge, Uvjetima pružanja usluge plaćanja i prihvaćam Pravila o privatnosti.</a>',
     'confirm_and_pay' => 'Nastavi na plaćanje',
 
 

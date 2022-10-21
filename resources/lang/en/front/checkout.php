@@ -30,6 +30,6 @@ return [
     'pay_with' => 'Pay with',
     'additional_comments' => 'Additional Comments',
     'type_comments' => 'Type Comments...',
-    'agree' => 'By selecting the button below, I agree to the <a href="#" class="alert-link">updated Terms of Service, Payments Terms of Service, and I acknowledge the Privacy Policy.</a>',
+    'agree' => 'By selecting the button below, I agree to the <a href="en/info/terms-and-conditions" class="alert-link">updated Terms of Service, Payments Terms of Service, and I acknowledge the Privacy Policy.</a>',
     'confirm_and_pay' => 'Confirm and Pay',
 ];

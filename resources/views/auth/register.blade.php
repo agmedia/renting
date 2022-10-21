@@ -37,10 +37,7 @@
                                             <div class="flex items-center">
                                                 <x-jet-checkbox name="terms" id="terms"/>
                                                 <label>
-                                                    {{ __('auth.i_agree') }}  {!! __(' :terms_of_service', [
-                                                            'terms_of_service' => '<a target="_blank" href="'.route('catalog.route.page',['page' => 'opci-uvjeti-kupnje']).'" class="link-fx">'.__('auth.terms').'</a>',
-                                                            'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="link-fx">'.__('Privacy Policy').'</a>',
-                                                    ]) !!}
+                                                    {!! __('front/checkout.agree') !!}
                                                 </label>
                                             </div>
                                         </x-jet-label>
