@@ -9,7 +9,6 @@ use App\Models\Back\Settings\Options\OptionApartment;
 use App\Models\Front\Catalog\Action;
 use App\Models\Front\Catalog\Option;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;

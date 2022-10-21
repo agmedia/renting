@@ -6,19 +6,19 @@
 @endpush
 
 @push('meta_tags')
-    <link rel="canonical" href="{{ request()->url() }}" />
-    <meta property="og:locale" content="{{ current_locale(true) }}" />
-    <meta property="og:type" content="{{ $meta['type'] }}" />
-    <meta property="og:title" content="{{ $meta['title'] }}" />
-    <meta property="og:description" content="{{ $meta['description'] }}" />
-    <meta property="og:url" content="{{ request()->url() }}"  />
-    <meta property="og:site_name" content="{{ config('app.name') }}" />
-    <meta property="og:image" content="{{ $meta['image'] }}" />
-    <meta property="og:image:secure_url" content="{{ $meta['image'] }}" />
-    <meta property="og:image:width" content="{{ $meta['image_width'] }}" />
-    <meta property="og:image:height" content="{{ $meta['image_height'] }}" />
-    <meta property="og:image:type" content="{{ $meta['image_type'] }}" />
-    <meta property="og:image:alt" content="{{ $meta['image_alt'] }}" />
+    <link rel="canonical" href="{{ request()->url() }}"/>
+    <meta property="og:locale" content="{{ current_locale(true) }}"/>
+    <meta property="og:type" content="{{ $meta['type'] }}"/>
+    <meta property="og:title" content="{{ $meta['title'] }}"/>
+    <meta property="og:description" content="{{ $meta['description'] }}"/>
+    <meta property="og:url" content="{{ request()->url() }}"/>
+    <meta property="og:site_name" content="{{ config('app.name') }}"/>
+    <meta property="og:image" content="{{ $meta['image'] }}"/>
+    <meta property="og:image:secure_url" content="{{ $meta['image'] }}"/>
+    <meta property="og:image:width" content="{{ $meta['image_width'] }}"/>
+    <meta property="og:image:height" content="{{ $meta['image_height'] }}"/>
+    <meta property="og:image:type" content="{{ $meta['image_type'] }}"/>
+    <meta property="og:image:alt" content="{{ $meta['image_alt'] }}"/>
 @endpush
 
 @section('title', $meta['title'])
@@ -36,7 +36,8 @@
                 <div class="col-md-6">
                     <div class="text-primary text-start h5 my-2 text-md-end">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
-                    <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }}</span>
+                    <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i
+                                class="fas fa-users text-primary me-1"></i> {{ $apartment->adults + $apartment->adults }}  {{ __('front/apartment.guests') }}</span>
                 </div>
             </div>
             <div class="row mt-3">
@@ -108,7 +109,7 @@
                                                 </div>
                                             </div>
 
-                                       <div class="col-md-6  mt-3">
+                                            <div class="col-md-6  mt-3">
                                                 <div class="input-group flex-nowrap select-arrow">
                                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                     <select class="form-control form-select" name="baby" id="baby-select"></select>
@@ -246,26 +247,26 @@
     <script src="{{ asset('assets/js/map/property-map.js') }}"></script>
     <script>
         (function ($) {
-            var _latitude = {{ $apartment->latitude }};
+            var _latitude  = {{ $apartment->latitude }};
             var _longitude = {{ $apartment->longitude }};
             createPropertyGoogleMap(_latitude, _longitude);
         })(jQuery);
     </script>
 
     <script>
-        const DateTime = easepick.DateTime;
+        const DateTime    = easepick.DateTime;
         const bookedDates = {!! collect($dates)->toJson() !!}
         .map(d => {
             if (d instanceof Array) {
                 const start = new DateTime(d[0], 'YYYY-MM-DD');
-                const end = new DateTime(d[1], 'YYYY-MM-DD');
+                const end   = new DateTime(d[1], 'YYYY-MM-DD');
 
                 return [start, end];
             }
 
             return new DateTime(d, 'YYYY-MM-DD');
         });
-        const pickerres = new easepick.create({
+        const pickerres   = new easepick.create({
             element:     document.getElementById('checkindate'),
             css:         [
                 '{{ asset('assets/css/reservation.css') }}',
@@ -299,14 +300,14 @@
         });
 
         const picker = new easepick.create({
-            element:     document.getElementById('datepicker'),
-            css:         [
+            element:   document.getElementById('datepicker'),
+            css:       [
                 '{{ asset('assets/css/reservation.css') }}',
             ],
-            grid:        2,
-            calendars:   2,
-            inline:      true,
-            plugins:     ['LockPlugin', 'RangePlugin'],
+            grid:      2,
+            calendars: 2,
+            inline:    true,
+            plugins:   ['LockPlugin', 'RangePlugin'],
             setup(picker) {
                 picker.on('select', (e) => {
                     const range = pickerres.PluginManager.getInstance('RangePlugin');
@@ -337,90 +338,91 @@
                 },
             }
         });
+    </script>
 
+    <script>
+        var max_adults   = {{ $apartment->max_adults }};
+        var max_children = {{ $apartment->max_children }};
+        var max_persons  = {{ $apartment->max_persons }};
 
-        const max_persons = {{ $apartment->max_persons }};
+        var adults_title   = '{{ __('front/apartment.adults_title') }}';
+        var children_title = '{{ __('front/apartment.children_title') }}';
+        var baby_title     = '{{ __('front/apartment.baby_title') }}';
 
+        /**
+         *
+         * @param selected_count
+         * @param max_target
+         * @returns {number}
+         */
+        function countRemainingBeds(selected_count, max_target) {
+            let count = max_target;
+
+            if ((max_persons - selected_count) < max_target) {
+                count = max_persons - selected_count;
+            }
+
+            return count;
+        }
+
+        /**
+         *
+         * @param select
+         * @param max
+         * @param title
+         */
+        function changeSelect(select, max, title, index = 0) {
+            select.options.length = 0;
+            max_allowed           = getMaxPersons(max, title);
+
+            for (let i = 0; i < max_allowed; i++) {
+                let opt = document.createElement('option');
+                opt.setAttribute('value', i);
+                opt.innerText = i ? i : title;
+
+                select.appendChild(opt);
+                select.selectedIndex = index;
+            }
+        }
 
         /**
          *
          * @param max
+         * @param title
+         * @returns {number|*}
          */
-        function adults(select, max = max_persons) {
-            select.options.length = 0;
-
-            for (let i = 0; i < max; i++) {
-                let opt = document.createElement('option');
-                opt.setAttribute('value', i);
-                opt.innerText = i ? i : '{{ __('front/apartment.adults_title') }}';
-
-                select.appendChild(opt);
+        function getMaxPersons(max, title) {
+            if (title == baby_title && max > 0) {
+                return max;
             }
+
+            return max + 1;
         }
 
         /**
          *
-         * @param max
          */
-        function children(select, max = max_persons) {
-            select.options.length = 0;
-
-            for (let i = 0; i < (max - 1); i++) {
-                let opt = document.createElement('option');
-                opt.setAttribute('value', i);
-                opt.innerText = i ? i : '{{ __('front/apartment.children_title') }}';
-
-                select.appendChild(opt);
-            }
-
-        }
-
-
-        function baby(select, max = max_persons) {
-            select.options.length = 0;
-
-            for (let i = 0; i < (max - 1); i++) {
-                let opt = document.createElement('option');
-                opt.setAttribute('value', i);
-                opt.innerText = i ? i : '{{ __('front/apartment.baby_title') }}';
-
-                select.appendChild(opt);
-            }
-
-        }
-
         $(() => {
-            let adults_select = document.getElementById('adults-select');
+            let adults_select   = document.getElementById('adults-select');
             let children_select = document.getElementById('children-select');
-            let baby_select = document.getElementById('baby-select');
+            let baby_select     = document.getElementById('baby-select');
 
-            adults(adults_select);
-            children(children_select);
-            baby(baby_select);
+            changeSelect(adults_select, max_adults, adults_title);
+            changeSelect(children_select, max_children, children_title);
+            changeSelect(baby_select, max_children, baby_title);
 
             $('#children-select').on('change', event => {
-                let count = event.currentTarget.value;
+                let max = countRemainingBeds(event.currentTarget.value, max_adults);
 
-                if (adults_select.selectedIndex == 0) {
-                    adults(adults_select, max_persons - count);
-                }
+                changeSelect(adults_select, max, adults_title, adults_select.selectedIndex);
             });
 
             $('#adults-select').on('change', event => {
-                let count = event.currentTarget.value;
+                let max = countRemainingBeds(event.currentTarget.value, max_children);
 
-                if (children_select.selectedIndex == 0) {
-                    children(children_select, max_persons - count + 1);
-                }
+                changeSelect(children_select, max, children_title, children_select.selectedIndex);
             });
 
-            $('#baby-select').on('change', event => {
-                let count = event.currentTarget.value;
-
-                if (baby_select.selectedIndex == 0) {
-                    baby(baby_select, max_persons - count + 1);
-                }
-            });
         })
     </script>
 
