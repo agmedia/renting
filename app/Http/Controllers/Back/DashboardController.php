@@ -4,27 +4,12 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\Chart;
 use App\Helpers\Helper;
-use App\Helpers\Import;
-use App\Helpers\ProductHelper;
 use App\Http\Controllers\Controller;
-use App\Imports\ProductImport;
-use App\Mail\OrderReceived;
-use App\Mail\OrderSent;
-use App\Models\Back\Catalog\Author;
-use App\Models\Back\Catalog\Category;
-use App\Models\Back\Catalog\Mjerilo;
-use App\Models\Back\Catalog\Publisher;
+use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Orders\Order;
-use App\Models\Back\Orders\OrderProduct;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Bouncer;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class DashboardController extends Controller
 {
@@ -35,16 +20,15 @@ class DashboardController extends Controller
     public function index()
     {
         $data['today']      = Order::whereDate('created_at', Carbon::today())->count();
-        $data['proccess']   = Order::whereIn('order_status_id', [1, 2, 3])->count();
-        $data['finished']   = Order::whereIn('order_status_id', [4, 5, 6, 7])->count();
+        $data['proccess']   = Order::whereIn('order_status_id', [config('settings.order.status.new'), config('settings.order.status.pending')])->count();
+        $data['finished']   = Order::where('order_status_id', config('settings.order.status.paid'))->count();
         $data['this_month'] = Order::whereMonth('created_at', '=', Carbon::now()->month)->count();
 
-        $orders   = Order::last()->get();
-        /*$products = $orders->map(function ($item) {
-            return $item->products()->get();
-        })->flatten();*/
+        $orders   = Order::last()->take(10)->get();
+        $apartments = Apartment::query()->orderBy('created_at', 'desc')->take(10)->get();
 
         $chart     = new Chart();
+
         $this_year = json_encode($chart->setDataByYear(
             Order::chartData($chart->setQueryParams())
         ));
@@ -52,7 +36,9 @@ class DashboardController extends Controller
             Order::chartData($chart->setQueryParams(true))
         ));
 
-        return view('back.dashboard', compact('data', 'orders'/*, 'products'*/, 'this_year', 'last_year'));
+        //dd($orders->toArray());
+
+        return view('back.dashboard', compact('data', 'orders', 'apartments', 'this_year', 'last_year'));
     }
 
 

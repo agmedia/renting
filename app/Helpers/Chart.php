@@ -75,8 +75,6 @@ class Chart
     {
         $response = new Collection();
 
-
-
         foreach ($this->months as $key => $month) {
             if ( ! $data->has($month)) {
                 $response->put($month, [
@@ -84,7 +82,7 @@ class Chart
                     'value' => 0
                 ]);
             } else {
-                $sum = $this->sumOvjere($data[$month]);
+                $sum = $this->total($data[$month]);
 
                 $response->put($month, [
                     'title' => $this->month_names[$key],
@@ -102,7 +100,7 @@ class Chart
      *
      * @return int
      */
-    public function sumOvjere(Collection $items): int
+    public function total(Collection $items): int
     {
         $sum = 0;
 
@@ -113,21 +111,5 @@ class Chart
         return $sum;
     }
 
-
-    /**
-     * @param array $data
-     *
-     * @return int|mixed
-     */
-    public function total(array $data)
-    {
-        $sum = 0;
-
-        foreach ($data as $key => $month) {
-            $sum += $month['value'];
-        }
-
-        return $sum;
-    }
 
 }

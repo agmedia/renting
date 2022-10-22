@@ -88,13 +88,13 @@
             <div class="block-content block-content-full">
 {{--                Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js)--}}
 {{--                For more info and examples you can check out http://www.chartjs.org/docs/--}}
-                <div style="height: 420px;"><canvas class="js-chartjs-overview"></canvas></div>
+                <div style="height: 360px;"><canvas class="js-chartjs-overview"></canvas></div>
             </div>
         </div>
 
 
         <!-- Top Products and Latest Orders -->
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-xl-6">
                 <!-- Top Products -->
                 <div class="block block-rounded">
@@ -109,19 +109,23 @@
                     <div class="block-content">
                         <table class="table table-borderless table-striped table-vcenter font-size-sm">
                             <tbody>
-                            {{--@foreach ($products as $product)
+                            @foreach ($apartments as $apartment)
                                 <tr>
                                     <td class="text-center" style="width: 100px;">
-                                        <a class="font-w600" href="{{ route('apartments.edit', ['apartment' => $product->product_id]) }}">{{ $product->id }}</a>
+                                        <a class="font-w600" href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->id }}</a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('apartments.edit', ['apartment' => $product->product_id]) }}">{{ $product->name }}</a>
+                                        <a href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->title }}</a>
                                     </td>
-                                    <td class="font-w600 text-right">{{ number_format($product->price, 2, ',', '.') }} kn</td>
+                                    <td class="font-w600 text-right">{{ $apartment->price_text }}</td>
                                 </tr>
-                            @endforeach--}}
+                            @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="block-content block-content-full block-content-sm bg-body-light font-size-sm text-right">
+                        <a class="btn btn-sm btn-outline-secondary mr-2" href="{{ route('apartments.create') }}">Create New</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('apartments') }}">View All</a>
                     </div>
                 </div>
                 <!-- END Top Products -->
@@ -149,13 +153,16 @@
                                         <a href="{{ route('orders.edit', ['order' => $order]) }}">{{ $order->payment_fname . ' ' . $order->payment_lname }}</a>
                                     </td>
                                     <td>
-                                        <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title }}</span>
+                                        <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
                                     </td>
                                     <td class="font-w600 text-right">{{ number_format($order->total, 2, ',', '.') }} €</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="block-content block-content-full block-content-sm bg-body-light font-size-sm text-right">
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('orders') }}">View All</a>
                     </div>
                 </div>
                 <!-- END Latest Orders -->

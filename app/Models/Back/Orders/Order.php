@@ -2,6 +2,7 @@
 
 namespace App\Models\Back\Orders;
 
+use App\Helpers\Helper;
 use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Settings\Settings;
 use App\Models\Back\Users\Client;
@@ -105,7 +106,7 @@ class Order extends Model
      */
     public function scopeLast($query, $count = 9)
     {
-        return $query->whereIn('order_status_id', [4, 5, 6, 7])->orderBy('created_at', 'desc')->limit($count);
+        return $query->whereIn('order_status_id', Helper::getValidOrderStatuses())->orderBy('created_at', 'desc')->limit($count);
     }
 
 
@@ -115,14 +116,15 @@ class Order extends Model
      *
      * @return mixed
      */
-    public function scopeChartData($query, array $params)
+    public function scopeChartData(Builder $query, array $params)
     {
         return $query
-            ->whereBetween('created_at', [$params['from'], $params['to']])
-            ->orderBy('created_at')
+            ->whereBetween('date_to', [$params['from'], $params['to']])
+            ->orWhereBetween('date_from', [$params['from'], $params['to']])
+            ->orderBy('date_to')
             ->get()
             ->groupBy(function ($val) use ($params) {
-                return \Illuminate\Support\Carbon::parse($val->created_at)->format($params['group']);
+                return \Illuminate\Support\Carbon::parse($val->date_to)->format($params['group']);
             });
     }
 
