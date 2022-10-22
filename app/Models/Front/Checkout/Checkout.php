@@ -243,7 +243,7 @@ class Checkout
         $this->babies   = $this->resolveRegularPerson(intval($this->request->input('baby')), $this->apartment->max_children);
 
         $this->additional_adults   = $this->resolveAdditionalPerson($this->adults);
-        $this->additional_children = $this->resolveAdditionalPerson($this->children + $this->adults);
+        $this->additional_children = $this->resolveAdditionalPerson($this->children + $this->adults, true);
         $this->additional_persons  = $this->additional_adults + $this->additional_children;
 
         if ($this->additional_persons) {
@@ -278,12 +278,19 @@ class Checkout
 
 
     /**
-     * @param int $target
+     * @param int  $target
+     * @param bool $check_max
      *
      * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|int|mixed
      */
-    private function resolveAdditionalPerson(int $target)
+    private function resolveAdditionalPerson(int $target, bool $check_max = false)
     {
+        if ($check_max) {
+            if ($target > $this->apartment->max_persons) {
+                return $target - $this->apartment->max_persons;
+            }
+        }
+
         if ($target > $this->apartment->regular_persons) {
             return $target - $this->apartment->regular_persons;
         }
@@ -298,8 +305,8 @@ class Checkout
     private function checkSelectableOptions()
     {
         if (isset($this->request->additional) && is_array($this->request->additional)) {
-            foreach ($this->request->additional as $option_id => $additional) {
-                $option = Option::find($option_id);
+            foreach ($this->request->additional as $id => $additional) {
+                $option = Option::find($id);
                 array_push($this->added_options, $option->toArray());
             }
         }
