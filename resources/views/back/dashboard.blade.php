@@ -47,7 +47,6 @@
                         <div class="font-size-h3 font-w600 text-success mb-1">{{ $data['finished'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
                             {{ __('back/dashboard.narudzba_gotovo') }}
-
                         </p>
                     </div>
                 </a>
@@ -57,7 +56,7 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['today'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                           {{ __('back/dashboard.narudzba_danas') }}
+                            {{ __('back/dashboard.narudzba_danas') }}
                         </p>
                     </div>
                 </a>
@@ -67,7 +66,7 @@
                     <div class="block-content py-5">
                         <div class="font-size-h3 text-success font-w600 mb-1">{{ $data['this_month'] }}</div>
                         <p class="font-w600 font-size-sm text-muted text-uppercase mb-0">
-                             {{ __('back/dashboard.narudzba_mjesec') }}
+                            {{ __('back/dashboard.narudzba_mjesec') }}
                         </p>
                     </div>
                 </a>
@@ -86,9 +85,11 @@
                 </div>
             </div>
             <div class="block-content block-content-full">
-{{--                Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js)--}}
-{{--                For more info and examples you can check out http://www.chartjs.org/docs/--}}
-                <div style="height: 360px;"><canvas class="js-chartjs-overview"></canvas></div>
+                {{--                Chart.js is initialized in js/pages/be_pages_ecom_dashboard.min.js which was auto compiled from _js/pages/be_pages_ecom_dashboard.js)--}}
+                {{--                For more info and examples you can check out http://www.chartjs.org/docs/--}}
+                <div style="height: 333px;">
+                    <canvas class="js-chartjs-overview"></canvas>
+                </div>
             </div>
         </div>
 
@@ -197,18 +198,18 @@
             console.log(last_year.names, last_year.values, last_year.step, last_year.top)
 
             // Set Global Chart.js configuration
-            Chart.defaults.global.defaultFontColor              = '#495057';
-            Chart.defaults.scale.gridLines.color                = 'transparent';
-            Chart.defaults.scale.gridLines.zeroLineColor        = 'transparent';
-            Chart.defaults.scale.ticks.beginAtZero              = true;
-            Chart.defaults.global.elements.line.borderWidth     = 0;
-            Chart.defaults.global.elements.point.radius         = 0;
-            Chart.defaults.global.elements.point.hoverRadius    = 0;
-            Chart.defaults.global.tooltips.cornerRadius         = 3;
-            Chart.defaults.global.legend.labels.boxWidth        = 12;
+            Chart.defaults.global.defaultFontColor           = '#495057';
+            Chart.defaults.scale.gridLines.color             = 'transparent';
+            Chart.defaults.scale.gridLines.zeroLineColor     = 'transparent';
+            Chart.defaults.scale.ticks.beginAtZero           = true;
+            Chart.defaults.global.elements.line.borderWidth  = 0;
+            Chart.defaults.global.elements.point.radius      = 0;
+            Chart.defaults.global.elements.point.hoverRadius = 0;
+            Chart.defaults.global.tooltips.cornerRadius      = 3;
+            Chart.defaults.global.legend.labels.boxWidth     = 12;
 
             // Get Chart Container
-            let chartOverviewCon  = jQuery('.js-chartjs-overview');
+            let chartOverviewCon = jQuery('.js-chartjs-overview');
 
             // Set Chart Variables
             let chartOverview, chartOverviewOptions, chartOverviewData;
@@ -216,18 +217,18 @@
             // Overview Chart Options
             chartOverviewOptions = {
                 maintainAspectRatio: false,
-                scales: {
+                scales:              {
                     yAxes: [{
                         ticks: {
                             suggestedMax: this_year.top
                         }
                     }]
                 },
-                tooltips: {
+                tooltips:            {
                     intersect: false,
                     callbacks: {
-                        label: function(tooltipItems, data) {
-                            return  tooltipItems.yLabel + '€';
+                        label: function (tooltipItems, data) {
+                            return tooltipItems.yLabel + '€';
                         }
                     }
                 }
@@ -235,29 +236,29 @@
 
             // Overview Chart Data
             chartOverviewData = {
-                labels: this_year.names,
+                labels:   this_year.names,
                 datasets: [
                     {
-                        label: '{{ __('back/dashboard.ova_godina') }}',
-                        fill: true,
-                        backgroundColor: 'rgba(6, 101, 208, .5)',
-                        borderColor: 'transparent',
-                        pointBackgroundColor: 'rgba(6, 101, 208, 1)',
-                        pointBorderColor: '#fff',
+                        label:                     '{{ __('back/dashboard.ova_godina') }}',
+                        fill:                      true,
+                        backgroundColor:           'rgba(6, 101, 208, .5)',
+                        borderColor:               'transparent',
+                        pointBackgroundColor:      'rgba(6, 101, 208, 1)',
+                        pointBorderColor:          '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(6, 101, 208, 1)',
-                        data: this_year.values
+                        pointHoverBorderColor:     'rgba(6, 101, 208, 1)',
+                        data:                      this_year.values
                     },
                     {
-                        label: '{{ __('back/dashboard.zadnja_godina') }}',
-                        fill: true,
-                        backgroundColor: 'rgba(6, 101, 208, .2)',
-                        borderColor: 'transparent',
-                        pointBackgroundColor: 'rgba(6, 101, 208, .2)',
-                        pointBorderColor: '#fff',
+                        label:                     '{{ __('back/dashboard.zadnja_godina') }}',
+                        fill:                      true,
+                        backgroundColor:           'rgba(6, 101, 208, .2)',
+                        borderColor:               'transparent',
+                        pointBackgroundColor:      'rgba(6, 101, 208, .2)',
+                        pointBorderColor:          '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(6, 101, 208, .2)',
-                        data: last_year.values
+                        pointHoverBorderColor:     'rgba(6, 101, 208, .2)',
+                        data:                      last_year.values
                     }
                 ]
             };
@@ -265,8 +266,8 @@
             // Init Overview Chart
             if (chartOverviewCon.length) {
                 chartOverview = new Chart(chartOverviewCon, {
-                    type: 'line',
-                    data: chartOverviewData,
+                    type:    'line',
+                    data:    chartOverviewData,
                     options: chartOverviewOptions
                 });
             }
@@ -274,11 +275,11 @@
 
 
         function sort(data) {
-            let data_data = JSON.parse(data.replace(/&quot;/g,'"'));
-            let data_names = [];
+            let data_data   = JSON.parse(data.replace(/&quot;/g, '"'));
+            let data_names  = [];
             let data_values = [];
-            let top = 0;
-            let step_size = 100;
+            let top         = 0;
+            let step_size   = 100;
 
             for (let i = 0; i < data_data.length; i++) {
                 data_names.push(data_data[i].title + '.');
@@ -293,9 +294,9 @@
 
             return {
                 values: data_values,
-                names: data_names,
-                top: top,
-                step: step_size
+                names:  data_names,
+                top:    top,
+                step:   step_size
             };
         }
     </script>

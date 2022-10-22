@@ -24,10 +24,10 @@ class DashboardController extends Controller
         $data['finished']   = Order::where('order_status_id', config('settings.order.status.paid'))->count();
         $data['this_month'] = Order::whereMonth('created_at', '=', Carbon::now()->month)->count();
 
-        $orders   = Order::last()->take(10)->get();
+        $orders     = Order::last()->take(10)->get();
         $apartments = Apartment::query()->orderBy('created_at', 'desc')->take(10)->get();
 
-        $chart     = new Chart();
+        $chart = new Chart();
 
         $this_year = json_encode($chart->setDataByYear(
             Order::chartData($chart->setQueryParams())
@@ -35,8 +35,6 @@ class DashboardController extends Controller
         $last_year = json_encode($chart->setDataByYear(
             Order::chartData($chart->setQueryParams(true))
         ));
-
-        //dd($orders->toArray());
 
         return view('back.dashboard', compact('data', 'orders', 'apartments', 'this_year', 'last_year'));
     }
@@ -106,7 +104,5 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard');
     }
-
-
 
 }
