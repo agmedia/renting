@@ -108,4 +108,17 @@ class Helper
         return Cache::tags([$tag]);
     }
 
+
+    /**
+     * @return array
+     */
+    public static function getValidOrderStatuses(): array
+    {
+        return [
+            config('settings.order.status.new'),
+            config('settings.order.status.pending'),
+            config('settings.order.status.paid')
+        ];
+    }
+
 }

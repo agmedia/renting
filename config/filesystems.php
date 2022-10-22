@@ -74,6 +74,14 @@ return [
             'url' => 'assets/'
         ],
         //
+        'ics' => [
+            'driver' => 'local',
+            'root' => public_path('assets/ics/'),
+            'url' => 'assets/ics/'
+        ],
+        //
+        //
+        //
         'category' => [
             'driver' => 'local',
             'root' => public_path('media/img/category/'),

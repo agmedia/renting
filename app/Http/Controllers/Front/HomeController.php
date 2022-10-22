@@ -49,6 +49,26 @@ class HomeController extends Controller
 
 
     /**
+     * @param Apartment $apartment
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function apartmentICS(Apartment $apartment)
+    {
+        $str = $apartment->ics();
+        $path = config('filesystems.disks.ics.root') . $apartment->id . '-calendar.ics';
+        $file = file_put_contents($path, $str);
+
+        return response($str)->withHeaders([
+            'Content-Type' => 'text/calendar',
+            'Content-Disposition' => ' attachment; filename="' . $file . '"',
+            'Content-Length' => strlen($str),
+            'Connection' => 'close'
+        ]);
+    }
+
+
+    /**
      * @param Page $page
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -309,6 +310,7 @@ class Order extends Model
             'oib'                 => '',
             'options'             => serialize($this->checkout->cleanData()),
             'comment'             => isset($this->checkout->request->message) ? $this->checkout->request->message : '',
+            'sync_uid'            => Str::uuid()->toString() . config('app.suffix'),
             'approved'            => '',
             'approved_user_id'    => '',
             'updated_at'          => Carbon::now()

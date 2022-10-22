@@ -64,6 +64,40 @@ class iCal
 
 
     /**
+     * @param array $events
+     *
+     * @return string
+     */
+    public function createFrom(array $events): string
+    {
+        $str = "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\n";
+
+        foreach ($events as $event) {
+            $str .= "BEGIN:VEVENT\n";
+            $str .= "DTEND;VALUE=DATE:" . Carbon::make($event['to'])->format('Ymd') . "\n";
+            $str .= "DTSTART;VALUE=DATE:" . Carbon::make($event['from'])->format('Ymd') . "\n";
+            $str .= "UID:" . $event['uid'] . "\n";
+            $str .= "DESCRIPTION:Reservation\n";
+            $str .= "SUMMARY:Reserved\n";
+            $str .= "END:VEVENT\n";
+        }
+
+        $str .= "END:VCALENDAR\n";
+
+        return $str;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function returnEmpty(): string
+    {
+        return "BEGIN:VCALENDAR\nVERSION:2.0\nMETHOD:PUBLISH\nEND:VCALENDAR\n";
+    }
+
+
+    /**
      * @param string $string
      *
      * @return array

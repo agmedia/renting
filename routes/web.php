@@ -356,6 +356,7 @@ Route::group(
     Route::post('/kontakt/posalji', [HomeController::class, 'sendContactMessage'])->name('poruka');
     //
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
+    Route::get('apartment/ics/{apartment}', [HomeController::class, 'apartmentICS'])->name('apartment.ics');
 
 
     // OLD ROUTES... CHECK & DELETE

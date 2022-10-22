@@ -392,7 +392,11 @@
                                         </div>
                                     </div>
 
-                                    <h2 class="content-heading">Apartment Sync. URL</h2>
+                                    <h2 class="content-heading">Apartment Sync. URL
+                                        <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
+                                            <i class="far fa-fw fa-plus-square"></i> Copy Apartment ICS link
+                                        </a>
+                                    </h2>
 
                                     <div class="form-group row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
@@ -805,6 +809,18 @@
                 syncUrlWith('booking', $('#booking-input').val(), {{ isset($apartment) ? $apartment->id : 0 }});
             });
 
+        });
+    </script>
+
+    <script>
+        const copyBtn = document.querySelector('#copy-ics');
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
+                successToast.fire({
+                    timer: 1500,
+                    text: 'URL Copied..!',
+                })
+            });
         });
     </script>
 

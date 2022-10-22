@@ -13,9 +13,10 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'AGmedia'),
     //
     'description' => 'Najam apartmana...',
+    'suffix' => env('APP_SUFFIX', '@agmedia.hr'),
 
     /*
     |--------------------------------------------------------------------------
