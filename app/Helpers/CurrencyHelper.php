@@ -60,4 +60,23 @@ class CurrencyHelper
         return $main;
     }
 
+
+    /**
+     * @param $price
+     * @param $currency
+     *
+     * @return string
+     */
+    public static function getCurrencyText($price, $currency = null)
+    {
+        if ( ! $currency) {
+            $currency = self::mainSession();
+        }
+
+        $left  = $currency->symbol_left ? $currency->symbol_left . ' ' : '';
+        $right = $currency->symbol_right ? ' ' . $currency->symbol_right : '';
+
+        return $left . number_format(($price * $currency->value), $currency->decimal_places, ',', '.') . $right;
+    }
+
 }

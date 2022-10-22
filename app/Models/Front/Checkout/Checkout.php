@@ -39,6 +39,8 @@ class Checkout
 
     public $children = 0;
 
+    public $babies = 0;
+
     public $additional_adults = 0;
 
     public $additional_children = 0;
@@ -47,7 +49,7 @@ class Checkout
 
     public $additional_persons_price = 0.00;
 
-    public $additional_person_object;
+    public $additional_person_object = null;
 
     public $added_options = [];
 
@@ -80,7 +82,8 @@ class Checkout
     public function __construct(Request $request)
     {
         $this->request       = $request;
-        $this->main_currency = CurrencyHelper::mainSession();
+        $this->main_currency = ag_currencies(true);
+        $this->apartment     = $this->getApartment($this->request->input('apartment_id'));
 
         $this->resolveDays()
              ->checkAdditionalPersons()
@@ -104,21 +107,21 @@ class Checkout
     {
         if ($address) {
             $this->firstname = $address['firstname'];
-            $this->lastname = $address['lastname'];
-            $this->phone = $address['phone'];
-            $this->email = $address['email'];
+            $this->lastname  = $address['lastname'];
+            $this->phone     = $address['phone'];
+            $this->email     = $address['email'];
         } else {
             $this->firstname = $this->request->input('firstname');
-            $this->lastname = $this->request->input('lastname');
-            $this->phone = $this->request->input('phone');
-            $this->email = $this->request->input('email');
+            $this->lastname  = $this->request->input('lastname');
+            $this->phone     = $this->request->input('phone');
+            $this->email     = $this->request->input('email');
         }
 
         return [
             'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'phone' => $this->phone,
-            'email' => $this->email,
+            'lastname'  => $this->lastname,
+            'phone'     => $this->phone,
+            'email'     => $this->email,
         ];
     }
 
@@ -146,10 +149,10 @@ class Checkout
     public function getOptions()
     {
         $response = [];
-        $options = $this->apartment->options()->withoutPersons()->get();
+        $options  = $this->apartment->options()->withoutPersons()->get();
 
         foreach ($options as $option) {
-            $response[$option->id] = $option->toArray();
+            $response[$option->id]            = $option->toArray();
             $response[$option->id]['checked'] = 0;
 
             if ( ! empty($this->added_options)) {
@@ -171,22 +174,22 @@ class Checkout
     public function cleanData(): array
     {
         return [
-            'total_days' => $this->total_days,
-            'regular_days' => $this->regular_days,
-            'weekends' => $this->weekends,
-            'fridays' => $this->fridays,
-            'saturdays' => $this->saturdays,
-            'adults' => $this->adults,
-            'children' => $this->children,
-            'additional_persons' => $this->additional_persons,
+            'total_days'               => $this->total_days,
+            'regular_days'             => $this->regular_days,
+            'weekends'                 => $this->weekends,
+            'fridays'                  => $this->fridays,
+            'saturdays'                => $this->saturdays,
+            'adults'                   => $this->adults,
+            'children'                 => $this->children,
+            'additional_persons'       => $this->additional_persons,
             'additional_persons_price' => $this->additional_persons_price,
-            'additional_persons_obj' => $this->additional_person_object,
-            'added_options' => $this->added_options,
-            'total' => $this->total,
-            'apartment_id' => $this->apartment->id ?: 0,
-            'main_currency' => $this->main_currency,
-            'payment' => $this->payment ?: null,
-            'request' => $this->request->toArray()
+            'additional_persons_obj'   => $this->additional_person_object,
+            'added_options'            => $this->added_options,
+            'total'                    => $this->total,
+            'apartment_id'             => $this->apartment->id ?: 0,
+            'main_currency'            => $this->main_currency,
+            'payment'                  => $this->payment ?: null,
+            'request'                  => $this->request->toArray()
         ];
     }
 
@@ -235,26 +238,57 @@ class Checkout
      */
     private function checkAdditionalPersons()
     {
-        $this->apartment = Apartment::find($this->request->input('apartment_id'));
-        $this->adults    = intval($this->request->input('adults')) ?: $this->apartment->adults;
-        $this->children  = intval($this->request->input('children')) ?: $this->apartment->children;
+        $this->adults   = $this->resolveRegularPerson(intval($this->request->input('adults')), $this->apartment->max_adults, 1);
+        $this->children = $this->resolveRegularPerson(intval($this->request->input('children')), $this->apartment->max_children);
+        $this->babies   = $this->resolveRegularPerson(intval($this->request->input('baby')), $this->apartment->max_children);
 
-        $this->additional_person_object = $this->apartment->options()->where('reference', 'person')->get();
+        $this->additional_adults   = $this->resolveAdditionalPerson($this->adults);
+        $this->additional_children = $this->resolveAdditionalPerson($this->children + $this->adults);
+        $this->additional_persons  = $this->additional_adults + $this->additional_children;
 
-        if ($this->additional_person_object->count()) {
-            if ($this->adults > $this->apartment->adults) {
-                $this->additional_adults = $this->adults - $this->apartment->adults;
+        if ($this->additional_persons) {
+            $this->additional_person_object = $this->apartment->options()->where('reference', 'person')->orderBy('price')->first();
+
+            if ($this->additional_person_object) {
+                $this->additional_persons_price = $this->additional_person_object->price * $this->main_currency->value;
             }
-
-            if ($this->children > $this->apartment->children) {
-                $this->additional_children = $this->children - $this->apartment->children;
-            }
-
-            $this->additional_persons       = $this->additional_adults + $this->additional_children;
-            $this->additional_persons_price = $this->additional_person_object->first()->price * $this->main_currency->value;
         }
 
         return $this;
+    }
+
+
+    /**
+     * @param int $count
+     * @param int $max
+     * @param int $default
+     *
+     * @return int
+     */
+    private function resolveRegularPerson(int $count, int $max, int $default = 0)
+    {
+        $count = $count ?: $default;
+
+        if ($count > $max) {
+            $count = $max;
+        }
+
+        return $count;
+    }
+
+
+    /**
+     * @param int $target
+     *
+     * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|int|mixed
+     */
+    private function resolveAdditionalPerson(int $target)
+    {
+        if ($target > $this->apartment->regular_persons) {
+            return $target - $this->apartment->regular_persons;
+        }
+
+        return 0;
     }
 
 
@@ -279,7 +313,7 @@ class Checkout
      */
     private function getTotal(): array
     {
-        $calc = new CheckoutCalculator($this);
+        $calc  = new CheckoutCalculator($this);
         $items = $calc->payableItems();
         $total = $calc->totals();
 
@@ -289,6 +323,17 @@ class Checkout
             'items' => $items,
             'total' => $total
         ];
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    private function getApartment(int $id)
+    {
+        return Apartment::query()->where('id', $id)->first();
     }
 
 }

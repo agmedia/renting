@@ -21,11 +21,6 @@ class CheckoutCalculator
     private $apartment;
 
     /**
-     * @var \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
-     */
-    private $currency;
-
-    /**
      * @var array
      */
     private $items = [];
@@ -48,7 +43,6 @@ class CheckoutCalculator
     {
         $this->checkout  = $checkout;
         $this->apartment = $checkout->apartment;
-        $this->currency  = $checkout->main_currency;
     }
 
 
@@ -92,21 +86,21 @@ class CheckoutCalculator
             'code'       => 'subtotal',
             'title'      => 'Subtotal',
             'total'      => $subtotal,
-            'total_text' => $this->currencyValue($subtotal),
+            'total_text' => CurrencyHelper::getCurrencyText($subtotal, $this->checkout->main_currency),
         ];
 
         $this->totals[] = [
             'code'       => 'tax',
             'title'      => 'Tax',
             'total'      => $tax,
-            'total_text' => $this->currencyValue($tax),
+            'total_text' => CurrencyHelper::getCurrencyText($tax, $this->checkout->main_currency),
         ];
 
         $this->totals[] = [
             'code'       => 'total',
             'title'      => 'Total',
             'total'      => $this->total_amount,
-            'total_text' => $this->currencyValue($this->total_amount),
+            'total_text' => CurrencyHelper::getCurrencyText($this->total_amount, $this->checkout->main_currency),
         ];
 
         return $this->totals;
@@ -135,9 +129,9 @@ class CheckoutCalculator
             'title'      => 'Regular days',
             'count'      => $this->checkout->regular_days,
             'price'      => $this->apartment->price_regular,
-            'price_text' => $this->currencyValue($this->apartment->price_regular),
+            'price_text' => CurrencyHelper::getCurrencyText($this->apartment->price_regular, $this->checkout->main_currency),
             'total'      => $this->checkout->regular_days * $this->apartment->price_regular,
-            'total_text' => $this->currencyValue($this->checkout->regular_days * $this->apartment->price_regular),
+            'total_text' => CurrencyHelper::getCurrencyText($this->checkout->regular_days * $this->apartment->price_regular, $this->checkout->main_currency),
         ];
     }
 
@@ -155,9 +149,9 @@ class CheckoutCalculator
             'title'      => 'Weekends',
             'count'      => $this->checkout->weekends,
             'price'      => $this->apartment->price_weekends,
-            'price_text' => $this->currencyValue($this->apartment->price_weekends),
+            'price_text' => CurrencyHelper::getCurrencyText($this->apartment->price_weekends, $this->checkout->main_currency),
             'total'      => $this->checkout->weekends * $this->apartment->price_weekends,
-            'total_text' => $this->currencyValue($this->checkout->weekends * $this->apartment->price_weekends),
+            'total_text' => CurrencyHelper::getCurrencyText($this->checkout->weekends * $this->apartment->price_weekends, $this->checkout->main_currency),
         ];
     }
 
@@ -167,7 +161,7 @@ class CheckoutCalculator
      */
     private function additionalPersons()
     {
-        $person = $this->checkout->additional_person_object->first();
+        $person = $this->checkout->additional_person_object;
         $price  = $this->checkout->additional_persons_price;
         $total  = $this->checkout->additional_persons * $this->checkout->additional_persons_price;
 
@@ -184,9 +178,9 @@ class CheckoutCalculator
             'title'      => $person->title,
             'count'      => $this->checkout->additional_persons,
             'price'      => $price,
-            'price_text' => $this->currencyValue($price),
+            'price_text' => CurrencyHelper::getCurrencyText($price, $this->checkout->main_currency),
             'total'      => $total,
-            'total_text' => $this->currencyValue($total),
+            'total_text' => CurrencyHelper::getCurrencyText($total, $this->checkout->main_currency),
         ];
     }
 
@@ -212,24 +206,10 @@ class CheckoutCalculator
             'title'      => $option['title'],
             'count'      => $count,
             'price'      => $option['price'],
-            'price_text' => $this->currencyValue($option['price']),
+            'price_text' => CurrencyHelper::getCurrencyText($option['price'], $this->checkout->main_currency),
             'total'      => $option['price'] * $count,
-            'total_text' => $this->currencyValue($option['price'] * $count),
+            'total_text' => CurrencyHelper::getCurrencyText($option['price'] * $count, $this->checkout->main_currency),
         ];
-    }
-
-
-    /**
-     * @param $price
-     *
-     * @return float|int
-     */
-    private function currencyValue($price)
-    {
-        $left  = $this->currency->symbol_left ? $this->currency->symbol_left . ' ' : '';
-        $right = $this->currency->symbol_right ? ' ' . $this->currency->symbol_right : '';
-
-        return $left . number_format(($price * $this->currency->value), $this->currency->decimal_places, ',', '.') . $right;
     }
 
 }
