@@ -50,7 +50,7 @@ class ActionController extends Controller
     {
         $action = new Action();
 
-        $stored = $action->validateRequest($request)->create();
+        $stored = $action->setRequest($request)->create();
 
         if ($stored) {
             return redirect()->route('actions.edit', ['action' => $stored])->with(['success' => 'Action was succesfully saved!']);
@@ -86,7 +86,7 @@ class ActionController extends Controller
      */
     public function update(Request $request, Action $action)
     {
-        $updated = $action->validateRequest($request)->edit();
+        $updated = $action->setRequest($request)->edit();
 
         if ($updated) {
             return redirect()->route('actions.edit', ['action' => $updated])->with(['success' => 'Action was succesfully saved!']);
