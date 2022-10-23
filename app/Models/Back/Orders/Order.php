@@ -205,7 +205,10 @@ class Order extends Model
 
         $checkout = new Checkout(new Request([
             'apartment_id' => $apartment_id,
-            'dates'        => $event['start'] . ' - ' . $event['end']
+            'dates'        => $event['start'] . ' - ' . $event['end'],
+            'adults'       => 1,
+            'children'     => 0,
+            'baby'         => 0
         ]));
 
         $clean_checkout               = $checkout->cleanData();

@@ -7,6 +7,7 @@ use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Marketing\Action\Action;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class SetActions extends Command
 {
@@ -41,7 +42,11 @@ class SetActions extends Command
      */
     public function handle()
     {
-        $actions = $this->actions()->get();
+        $start = microtime(true);
+
+        $actions = Action::query()->select('id', 'date_start', 'date_end', 'status')
+                         ->where('status', 1)
+                         ->get();
         // Prvo setati akcije prema datumu, jesu status 1 ili 0.
         foreach ($actions as $action) {
             $start = $action->date_start ? Carbon::make($action->date_start) : null;
@@ -54,7 +59,12 @@ class SetActions extends Command
             }
         }
 
-        $actions = $this->actions()->get();
+        // Delete all actions on apartments.
+        Apartment::query()->update(['action_id' => 0]);
+
+        $actions = Action::query()->select('id', 'date_start', 'date_end', 'status')
+                         ->where('status', 1)
+                         ->get();
         // Prvo setati gdje su svi apartmani odabrani.
         foreach ($actions as $action) {
             if ($action->group == 'all') {
@@ -70,17 +80,12 @@ class SetActions extends Command
             }
         }
 
-        return response()->json(['status' => 200, 'message' => 'All actions succesfully reseted.']);
-    }
+        sleep(5);
 
+        $end = microtime(true);
+        Log::info('__Set:Actions - Total Execution Time: ' . number_format(($end - $start), 2, ',', '.') . ' sec.');
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    private function actions()
-    {
-        return Action::query()->select('id', 'date_start', 'date_end', 'status')
-                              ->where('status', 1);
+        return 1;
     }
 
 }

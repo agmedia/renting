@@ -165,23 +165,29 @@ class CheckoutCalculator
         $price  = $this->checkout->additional_persons_price;
         $total  = $this->checkout->additional_persons * $this->checkout->additional_persons_price;
 
-        if ($person->price_per == 'day') {
-            $price = $this->checkout->additional_persons_price * $this->checkout->total_days;
-            $total = ($this->checkout->additional_persons * $this->checkout->total_days) * $this->checkout->additional_persons_price;
+        if (isset($person->price_per)) {
+            if ($person->price_per == 'day') {
+                $price = $this->checkout->additional_persons_price * $this->checkout->total_days;
+                $total = ($this->checkout->additional_persons * $this->checkout->total_days) * $this->checkout->additional_persons_price;
+            }
         }
 
         $this->total_amount += $total;
 
-        return [
-            'id'         => $person->id,
-            'code'       => 'additional_person',
-            'title'      => $person->title,
-            'count'      => $this->checkout->additional_persons,
-            'price'      => $price,
-            'price_text' => CurrencyHelper::getCurrencyText($price, $this->checkout->main_currency),
-            'total'      => $total,
-            'total_text' => CurrencyHelper::getCurrencyText($total, $this->checkout->main_currency),
-        ];
+        if (isset($person->price_per)) {
+            return [
+                'id'         => $person->id,
+                'code'       => 'additional_person',
+                'title'      => $person->title,
+                'count'      => $this->checkout->additional_persons,
+                'price'      => $price,
+                'price_text' => CurrencyHelper::getCurrencyText($price, $this->checkout->main_currency),
+                'total'      => $total,
+                'total_text' => CurrencyHelper::getCurrencyText($total, $this->checkout->main_currency),
+            ];
+        }
+
+        return [];
     }
 
 

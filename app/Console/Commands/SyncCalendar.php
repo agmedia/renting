@@ -66,6 +66,6 @@ class SyncCalendar extends Command
             Log::info('__Sync:Calendars - Total Execution Time: ' . number_format(($end - $start), 2, ',', '.') . ' sec.');
         }
 
-        return 0;
+        return 1;
     }
 }
