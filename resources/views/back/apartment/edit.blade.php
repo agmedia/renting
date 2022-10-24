@@ -393,9 +393,11 @@
                                     </div>
 
                                     <h2 class="content-heading">Apartment Sync. URL
-                                        <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
-                                            <i class="far fa-fw fa-plus-square"></i> Copy Apartment ICS link
-                                        </a>
+                                        @if (isset($apartment))
+                                            <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
+                                                <i class="far fa-fw fa-plus-square"></i> Copy Apartment ICS link
+                                            </a>
+                                        @endif
                                     </h2>
 
                                     <div class="form-group row justify-content-center push mb-0">
@@ -529,35 +531,37 @@
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-12 table-responsive">
                                     <table class="table table-borderless table-striped table-vcenter">
-                                        @foreach ($apartment->action()->get() as $action)
-                                            <tr>
-                                                <td>
-                                                    <strong>{{ $action->title }}</strong><br>
-                                                    <small>{{ __('back/apartment.duration') }}:</small> {{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : 'From Begining' }} - {{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : 'To Indefinitly' }}
-                                                </td>
-                                                <td>
-                                                    <small>{{ __('back/apartment.amount') }}:</small>
-                                                    @if ($action->type == 'P')
-                                                        @if ($action->discount > 0)
-                                                            <strong>-{{ number_format($action->discount) }}%</strong> {{ __('back/apartment.title_discount') }}
-                                                        @else
-                                                            <strong>+{{ number_format($action->extra) }}%</strong> {{ __('back/apartment.extra') }}
+                                        @if (isset($apartment))
+                                            @foreach ($apartment->action()->get() as $action)
+                                                <tr>
+                                                    <td>
+                                                        <strong>{{ $action->title }}</strong><br>
+                                                        <small>{{ __('back/apartment.duration') }}:</small> {{ $action->date_start ? \Illuminate\Support\Carbon::make($action->date_start)->format('d.m.Y') : 'From Begining' }} - {{ $action->date_end ? \Illuminate\Support\Carbon::make($action->date_end)->format('d.m.Y') : 'To Indefinitly' }}
+                                                    </td>
+                                                    <td>
+                                                        <small>{{ __('back/apartment.amount') }}:</small>
+                                                        @if ($action->type == 'P')
+                                                            @if ($action->discount > 0)
+                                                                <strong>-{{ number_format($action->discount) }}%</strong> {{ __('back/apartment.title_discount') }}
+                                                            @else
+                                                                <strong>+{{ number_format($action->extra) }}%</strong> {{ __('back/apartment.extra') }}
+                                                            @endif
                                                         @endif
-                                                    @endif
-                                                    @if ($action->type == 'F')
-                                                        <strong>{{ number_format(($action->discount > 0) ? $action->discount : $action->extra, 2) }} kn</strong> Fixed
-                                                    @endif
-                                                    <br>
-                                                    <small>Status: </small>
-                                                    @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
-                                                </td>
-                                                <td class="text-right">
-                                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
-                                                        <i class="fa fa-fw fa-pencil-alt"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                        @if ($action->type == 'F')
+                                                            <strong>{{ number_format(($action->discount > 0) ? $action->discount : $action->extra, 2) }} kn</strong> Fixed
+                                                        @endif
+                                                        <br>
+                                                        <small>Status: </small>
+                                                        @include('back.layouts.partials.status', ['status' => $action->status, 'simple' => true])
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <a class="btn btn-sm btn-alt-secondary" href="{{ route('actions.edit', ['action' => $action]) }}">
+                                                            <i class="fa fa-fw fa-pencil-alt"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </table>
                                 </div>
                             </div>
@@ -572,27 +576,29 @@
                             <div class="form-group row items-push mb-3">
                                 <div class="col-md-12 table-responsive">
                                     <table class="table table-borderless table-striped table-vcenter">
-                                        @foreach ($apartment->options()->get() as $item)
-                                            <tr>
-                                                <td>
-                                                    <strong>{{ $item->title }}</strong><br>
-                                                </td>
-                                                <td>
-                                                    <small>{{ __('back/apartment.price') }}:</small>
-                                                    {{ number_format($item->price, 2, ',', '.') }}
-                                                    <br>
-                                                    <small>{{ __('back/apartment.status') }}: </small>
-                                                    @include('back.layouts.partials.status', ['status' => $item->status, 'simple' => true])
-                                                    <small>{{ __('back/apartment.featured') }}: </small>
-                                                    @include('back.layouts.partials.status', ['status' => $item->featured, 'simple' => true])
-                                                </td>
-                                                <td class="text-right">
-                                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('options.edit', ['option' => $item]) }}">
-                                                        <i class="fa fa-fw fa-pencil-alt"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        @if (isset($apartment))
+                                            @foreach ($apartment->options()->get() as $item)
+                                                <tr>
+                                                    <td>
+                                                        <strong>{{ $item->title }}</strong><br>
+                                                    </td>
+                                                    <td>
+                                                        <small>{{ __('back/apartment.price') }}:</small>
+                                                        {{ number_format($item->price, 2, ',', '.') }}
+                                                        <br>
+                                                        <small>{{ __('back/apartment.status') }}: </small>
+                                                        @include('back.layouts.partials.status', ['status' => $item->status, 'simple' => true])
+                                                        <small>{{ __('back/apartment.featured') }}: </small>
+                                                        @include('back.layouts.partials.status', ['status' => $item->featured, 'simple' => true])
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <a class="btn btn-sm btn-alt-secondary" href="{{ route('options.edit', ['option' => $item]) }}">
+                                                            <i class="fa fa-fw fa-pencil-alt"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </table>
                                 </div>
                             </div>
