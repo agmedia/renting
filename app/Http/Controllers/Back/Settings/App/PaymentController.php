@@ -50,7 +50,7 @@ class PaymentController extends Controller
 
 
     /**
-     * Check for new files in ..payment/modals directory.
+     * Check for new files in payment/modals directory.
      * Install payment if new files exist.
      */
     private function checkForNewFiles(): void

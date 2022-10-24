@@ -143,6 +143,30 @@ class Settings extends Model
      *
      * @return bool|mixed
      */
+    public static function reset(string $code, string $key, $value, bool $json = true)
+    {
+        $setting = Settings::where('code', $code)->where('key', $key)->first();
+
+        if ($json) {
+            $value = json_encode([$value]);
+        }
+
+        if ($setting) {
+            return self::edit($setting->id, $code, $key, $value, $json);
+        }
+
+        return self::insert($code, $key, $value, $json);
+    }
+
+
+    /**
+     * @param string $code
+     * @param string $key
+     * @param        $value
+     * @param bool   $json
+     *
+     * @return bool|mixed
+     */
     public static function setListItem(string $code, string $key, $value)
     {
         $updated = false;
@@ -155,41 +179,6 @@ class Settings extends Model
         }
 
         return $updated ?: false;
-    }
-
-
-    /**
-     * @param string $key
-     * @param mixed  $value
-     * @param bool   $json
-     *
-     * @return mixed
-     */
-    public static function setProduct(string $key, $value, bool $json = true)
-    {
-        $styles = Settings::where('code', 'product')->where('key', $key)->first();
-
-        if ($styles) {
-            if ($json) {
-                $values = collect(json_decode($styles->value));
-
-                if ( ! $values->contains($value)) {
-                    $values->push($value);
-                }
-
-                $value = json_encode($values);
-            }
-
-            return self::edit($styles->id, 'product', $key, $value, $json);
-        }
-
-        if ($json) {
-            $values = [$value];
-
-            $value = json_encode($values);
-        }
-
-        return self::insert('product', $key, $value, $json);
     }
 
 

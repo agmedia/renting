@@ -23,7 +23,7 @@ return [
     'admin_input_currency' => 'HRK',
     'default_admin_id' => 3,
 
-    'images_domain' => 'https://images.antikvarijatbibl.lin73.host25.com/',
+    'images_domain' => '#',
 
     'sorting_list' => [
         0 => [
@@ -63,21 +63,13 @@ return [
 
     'payment' => [
         'providers' => [
-            'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
-            'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
+            //'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
+            //'payway' => \App\Models\Front\Checkout\Payment\Payway::class,
             'corvus' => \App\Models\Front\Checkout\Payment\Corvus::class,
             //'cod' => \App\Models\Front\Checkout\Payment\Cod::class,
             'bank' => \App\Models\Front\Checkout\Payment\Bank::class,
             //'pickup' => \App\Models\Front\Checkout\Payment\Pickup::class
         ]
-    ],
-
-    'sitemap' => [
-        0 => 'pages',
-        1 => 'categories',
-        2 => 'products',
-        3 => 'authors',
-        4 => 'publishers'
     ],
 
     /**

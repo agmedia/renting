@@ -9,6 +9,7 @@ use App\Http\Controllers\Back\Catalog\AuthorController;
 use App\Http\Controllers\Back\Marketing\ReviewController;
 use App\Http\Controllers\Back\Settings\OptionController;
 use App\Http\Controllers\Back\Settings\System\AmenitiesController;
+use App\Http\Controllers\Back\Settings\System\ApplicationController;
 use App\Http\Controllers\Back\Settings\System\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
@@ -175,6 +176,9 @@ Route::group(
                 Route::patch('category/{category}', [CategoryController::class, 'update'])->name('category.update');
                 Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
+                // APPLICATION SETTINGS
+                Route::get('application', [ApplicationController::class, 'index'])->name('application.settings');
+
                 // INFO PAGES
                 Route::get('pages', [PageController::class, 'index'])->name('pages');
                 Route::get('stranica/create', [PageController::class, 'create'])->name('pages.create');
@@ -265,6 +269,10 @@ Route::prefix('api/v2')->group(function () {
             Route::prefix('amenities')->group(function () {
                 Route::post('store', [AmenitiesController::class, 'store'])->name('api.amenities.store');
                 Route::post('destroy', [AmenitiesController::class, 'destroy'])->name('api.amenities.destroy');
+            });
+            // APPLICATION
+            Route::prefix('application')->group(function () {
+                Route::post('basic/store', [ApplicationController::class, 'basicInfoStore'])->name('api.application.basic.store');
             });
         });
 
