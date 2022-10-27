@@ -155,10 +155,10 @@ class ApartmentDetail extends Model
                 'apartment_id' => $id,
                 'value'        => 0,
                 'group'        => $amenity_id,
-                'icon'         => $amenity['icon'],
+                'icon'         => $amenity->icon,
                 'gallery_id'   => 0,
                 'amenity'      => 1,
-                'favorite'     => $amenity['featured'],
+                'favorite'     => $amenity->featured,
                 'status'       => 1,
                 'created_at'   => Carbon::now(),
                 'updated_at'   => Carbon::now()
