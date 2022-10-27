@@ -115,8 +115,8 @@
                                     <div class="col-lg-6">
                                         <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}" required>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray mb-3" placeholder="" value="{{ $checkout->phone }}" required>
+                                    <div class="col-lg-6 mb-3">
+                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray " placeholder="" value="{{ $checkout->phone }}" required>
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}" required>
