@@ -29,11 +29,11 @@
         <div class="container">
             @include('front.layouts.partials.session')
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <h1 class="mt-2 h3 text-secondary">{{ $apartment->title }}  </h1>
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="text-primary text-start h5 my-2 text-md-end">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                     <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i
