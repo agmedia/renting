@@ -64,9 +64,9 @@ class ApartmentDetailTranslation extends Model
             $saved = self::insertGetId([
                 'apartment_detail_id' => $id,
                 'lang'                => $lang->code,
-                'title'               => $amenity['title'][$lang->code],
-                'subtitle'            => isset($amenity['description'][$lang->code]) ? $amenity['description'][$lang->code] : '',
-                'group_title'         => $amenity['group_title'][$lang->code],
+                'title'               => $amenity->title->{$lang->code},
+                'subtitle'            => isset($amenity->description->{$lang->code}) ? $amenity->description->{$lang->code} : '',
+                'group_title'         => $amenity->group_title->{$lang->code},
                 'created_at'          => Carbon::now(),
                 'updated_at'          => Carbon::now()
             ]);
