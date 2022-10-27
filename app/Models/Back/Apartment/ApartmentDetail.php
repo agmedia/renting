@@ -146,7 +146,7 @@ class ApartmentDetail extends Model
             return false;
         }
 
-        $list = collect(config('settings.apartment_details'));
+        $list = Settings::get('amenity', 'list');
 
         foreach ($request->amenity as $amenity_id => $null) {
             $amenity = $list->where('id', $amenity_id)->first();
