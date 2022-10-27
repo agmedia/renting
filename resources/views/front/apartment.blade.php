@@ -30,7 +30,7 @@
             @include('front.layouts.partials.session')
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="mt-2 h3 text-secondary">{{ $apartment->title }}  </h1>
+                    <h1 class="mt-2 h4 text-secondary">{{ $apartment->title }}  </h1>
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
                 <div class="col-md-4">
