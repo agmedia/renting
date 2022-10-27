@@ -242,10 +242,16 @@
             @endif
 
 
+
+
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
                     <div class="block-options">
+
+                        <button type="submit" class="btn btn-hero-success my-2">
+                            <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
+                        </button>
                         <div class="custom-control custom-switch custom-control-info block-options-item ml-4">
                             <input type="checkbox" class="custom-control-input" id="featured-switch" name="featured" @if (isset($apartment) and $apartment->featured) checked @endif>
                             <label class="custom-control-label" style="padding-top: 2px;" for="featured-switch">{{ __('back/apartment.featured') }}</label>
