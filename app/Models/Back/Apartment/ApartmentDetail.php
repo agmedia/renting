@@ -3,6 +3,7 @@
 namespace App\Models\Back\Apartment;
 
 use App\Helpers\ProductHelper;
+use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -198,23 +199,24 @@ class ApartmentDetail extends Model
         $locale = current_locale();
         $response = [];
 
-        $amenities_by_groups = collect(config('settings.apartment_details'))->groupBy('group');
+        //$amenities_by_groups = collect(config('settings.apartment_details'))->groupBy('group');
+        $amenities_by_groups = Settings::get('amenity', 'list')->groupBy('group');
         $existing = self::where('apartment_id', $id)->where('amenity', 1)->get();
 
         foreach ($amenities_by_groups as $group => $amenities) {
             foreach ($amenities as $amenity) {
-                $response[$amenity['id']] = [
-                    'id' => $amenity['id'],
-                    'icon' => $amenity['icon'],
-                    'group' => $amenity['group_title'][$locale],
-                    'title' => $amenity['title'][$locale],
+                $response[$amenity->id] = [
+                    'id' => $amenity->id,
+                    'icon' => $amenity->icon,
+                    'group' => $amenity->group_title->{$locale},
+                    'title' => $amenity->title->{$locale},
                     'status' => 0
                 ];
 
-                $has = $existing->where('group', $amenity['id'])->first();
+                $has = $existing->where('group', $amenity->id)->first();
 
                 if ($has) {
-                    $response[$amenity['id']]['status'] = 1;
+                    $response[$amenity->id]['status'] = 1;
                 }
             }
         }
