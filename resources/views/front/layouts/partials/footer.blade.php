@@ -57,8 +57,10 @@
                         </div>
 
                         <div class="col-lg-12">
-                            <div class="payments-card text-center" >
+                            <div class="payments-card text-center text-sm-left" >
                                 <img class="ccard"  src="assets/images/cards/CorvusPay.svg">
+                            </div>
+                            <div class="payments-card text-center text-sm-left" >
                                 <img class="ccard" src="assets/images/cards/visa.svg">
                                 <img class="ccard"  src="assets/images/cards/maestro.svg">
                                 <img class="ccard"  src="assets/images/cards/mastercard.svg">
