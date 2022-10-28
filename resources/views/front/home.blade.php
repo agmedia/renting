@@ -122,8 +122,6 @@
 
                             <!---listings -->
                             <div class="row mt-0 row-cols-md-2 row-cols-1 g-4">
-
-
                                     @foreach ($apartments->sortByDesc('featured') as $apartment)
                                     <div class="col">
                                         <div class="featured-thumb hover-zoomer">
