@@ -122,13 +122,18 @@
 
                             <!---listings -->
                             <div class="row mt-0 row-cols-md-2 row-cols-1 g-4">
-                                @foreach ($apartments as $apartment)
+
+
+                                    @foreach ($apartments->sortByDesc('featured') as $apartment)
                                     <div class="col">
                                         <div class="featured-thumb hover-zoomer">
                                             <div class="overflow-hidden position-relative">
                                                 <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
                                                 <div class="featured bg-primary text-white">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+
+                                                @if ($apartment->featured)
                                                 <div class="starmark text-white"><i class="far fa-star"></i></div>
+                                                @endif
                                             </div>
                                             <div class="featured-thumb-data shadow-one">
                                                 <div class="p-4 pb-2">
