@@ -89,6 +89,7 @@
                         <thead>
                         <tr>
                             <th class="text-center" style="width: 36px;">{{ __('back/apartment.br') }}</th>
+                            <th class="text-left"></th>
                             <th class="text-left">{{ __('back/apartment.nazivapartmana') }}</th>
                             <th>{{ __('back/apartment.grad') }}</th>
                             <th>{{ __('back/apartment.action') }}</th>
@@ -101,6 +102,10 @@
                         @forelse ($apartments as $apartment)
                             <tr>
                                 <td class="font-size-sm">{{ $loop->iteration }}</td>
+                                <td class="text-left">
+                                    <a href="{{ route('apartments.edit', ['apartman' => $apartment]) }}"> <img src="{{ asset($apartment->image) }}" style="max-height:100px" alt="{{ $apartment->title }}"></a>
+                                </td>
+
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->title }}</a>
                                 </td>
