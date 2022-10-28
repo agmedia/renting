@@ -126,7 +126,9 @@
                                     <div class="col">
                                         <div class="featured-thumb hover-zoomer">
                                             <div class="overflow-hidden position-relative">
+                                                @if(isset($apartment->image))
                                                 <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
+                                                @endif
                                                 <div class="featured bg-primary text-white">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                                                 @if ($apartment->featured)
