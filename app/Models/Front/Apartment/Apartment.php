@@ -272,11 +272,11 @@ class Apartment extends Model implements LocalizedUrlRoutable
         if ($request->has('city')) {
             $query->where('city', $request->input('city'));
         }
-        if ($request->has('adults')) {
-            $query->where('adults', '>=', $request->input('adults'));
+        if ($request->has('max_adults')) {
+            $query->where('max_adults', '>=', $request->input('max_adults'));
         }
-        if ($request->has('children')) {
-            $query->where('children', '>=', $request->input('children'));
+        if ($request->has('max_children')) {
+            $query->where('max_children', '>=', $request->input('max_children'));
         }
 
         if ($request->has('from') || $request->has('to')) {
