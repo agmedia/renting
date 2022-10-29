@@ -51,9 +51,27 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="mt-3 mb-5 text-dark titleformat">
-                {!! $page->description !!}
+        <div class="full-row bg-white pt-3 pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="navigation_link_widget mb-5 bg-gray p-4">
+                            <h5 class="double-down-line-left text-secondary position-relative pb-4 mb-4">{{ __('front/common.additional_info') }}</h5>
+                            <ul>
+                                @foreach($pages as $page)
+                                    <li>
+                                        <a href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="mt-3 mb-5 text-dark titleformat">
+                            {!! $page->description !!}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
