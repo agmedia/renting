@@ -89,7 +89,7 @@
                                                     <div class="col-md-4 mt-3">
                                                         <div class="input-group flex-nowrap select-arrow">
                                                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                            <select class="form-control bg-gray form-select" id="select-adults">
+                                                            <select class="form-control bg-gray form-select" id="select-max_adults">
                                                                 <option value="0">{{ __('front/apartment.adults_title') }}</option>
                                                                 @for ($i = 1; $i < 8; $i++)
                                                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -101,7 +101,7 @@
                                                     <div class="col-md-4  mt-3">
                                                         <div class="input-group flex-nowrap select-arrow">
                                                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                            <select class="form-control bg-gray form-select" id="select-children">
+                                                            <select class="form-control bg-gray form-select" id="select-max_children">
                                                                 <option value="0">{{ __('front/apartment.children_title') }}</option>
                                                                 @for ($i = 1; $i < 6; $i++)
                                                                     <option value="{{ $i }}">{{ $i }}</option>
