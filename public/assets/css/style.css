@@ -120,6 +120,10 @@ img {
     width: 100%
 }
 
+.titleformat img{
+    width:unset;
+}
+
 button,
 button:focus {
     border: none;
