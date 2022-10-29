@@ -60,7 +60,7 @@
                                     </div>
                                 @endforeach
 
-                                @foreach ($apartment->images()->where('default', 0)->skip(5)->take(10)->get() as $image)
+                                @foreach ($apartment->images()->where('default', 0)->skip(5)->take(40)->get() as $image)
                                     <a href="{{ asset($image->image) }}" class="link d-none">
                                         <img src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}"/>
                                     </a>
