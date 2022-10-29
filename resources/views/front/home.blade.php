@@ -350,7 +350,7 @@
          *
          * @type {string[]}
          */
-        var selectParams = ['city', 'adults', 'children', 'sort'];
+        var selectParams = ['city', 'max_adults', 'max_children', 'sort'];
         /**
          *
          * @type {P.DateTime|*}
