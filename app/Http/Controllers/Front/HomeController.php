@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         $request->merge(['city' => 'Zagreb']);
 
-        $apartments = Apartment::active()->search($request)->paginate(12);
+        $apartments = Apartment::active()->search($request)->paginate(30);
         $cities     = Apartment::groupBy('city')->pluck('city');
 
         return view('front.home', compact('apartments', 'cities'));
