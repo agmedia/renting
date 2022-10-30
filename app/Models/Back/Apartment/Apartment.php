@@ -125,7 +125,13 @@ class Apartment extends Model
      */
     public function getImageAttribute()
     {
-        return $this->images()->where('published', 1)->where('default', 1)->first()->image;
+        $main = $this->images()->where('published', 1)->where('default', 1)->first();
+
+        if ($main) {
+            return $main->image;
+        }
+
+        return $this->images()->where('published', 1)->first()->image ?: config('settings.default_apartment_image');
     }
 
 
