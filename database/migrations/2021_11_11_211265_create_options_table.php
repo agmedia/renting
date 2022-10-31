@@ -21,6 +21,7 @@ class CreateOptionsTable extends Migration
             $table->string('price_per')->nullable();
             $table->text('links')->nullable();
             $table->string('badge')->nullable();
+            $table->boolean('auto_insert')->default(false);
             $table->integer('sort_order')->default(0);
             $table->boolean('featured')->default(false);
             $table->boolean('status')->default(true);

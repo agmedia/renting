@@ -136,6 +136,13 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-12 mt-4">
+                                            <div class="custom-control custom-switch custom-control-info" id="show-insert-switch">
+                                                <input type="checkbox" class="custom-control-input" id="auto-insert-switch" name="auto_insert" @if (isset($option) and $option->auto_insert) checked @endif>
+                                                <label class="custom-control-label" for="auto-insert-switch">Insert it automatically on every order!</label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -184,7 +191,23 @@
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 
     <script>
+
+        /**
+         * 
+         * @param reference
+         * @param target
+         */
+        function showAutoInsert(reference, target) {
+            if (reference == 'person') {
+                target.hide();
+            } else {
+                target.show();
+            }
+        }
+
         $(() => {
+
+            showAutoInsert($('#reference-select').val(), $('#show-insert-switch'));
             /**
              *
              */
@@ -203,6 +226,11 @@
                 minimumResultsForSearch: Infinity
             });
 
+            $('#reference-select').on('change', e => {
+                showAutoInsert(e.currentTarget.value, $('#show-insert-switch'));
+            })
+
+
             Livewire.on('list_full', () => {
                 $('#group-select').attr("disabled", true);
             });
@@ -210,7 +238,7 @@
                 $('#group-select').attr("disabled", false);
             });
 
-            @if (isset($option))
+            @if (isset($option) && $option->group != 'all')
                 $('#group-select').attr("disabled", true);
             @endif
         })

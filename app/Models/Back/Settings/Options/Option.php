@@ -165,16 +165,17 @@ class Option extends Model
         }
 
         $response = [
-            'group'      => $this->request->group,
-            'reference'  => $this->request->reference,
-            'price'      => $this->request->price,
-            'price_per'  => $this->request->price_per,
-            'links'      => $this->links->flatten()->toJson(),
-            'price'      => $this->request->price,
-            'sort_order' => $this->request->sort_order ?: 0,
-            'featured'   => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'     => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at' => Carbon::now()
+            'group'       => $this->request->group,
+            'reference'   => $this->request->reference,
+            'price'       => $this->request->price,
+            'price_per'   => $this->request->price_per,
+            'links'       => $this->links->flatten()->toJson(),
+            'price'       => $this->request->price,
+            'auto_insert' => (isset($this->request->auto_insert) and $this->request->auto_insert == 'on') ? 1 : 0,
+            'sort_order'  => $this->request->sort_order ?: 0,
+            'featured'    => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'      => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'  => Carbon::now()
         ];
 
         if ($method == 'insert') {
@@ -196,7 +197,5 @@ class Option extends Model
 
         return true;
     }
-
-
 
 }
