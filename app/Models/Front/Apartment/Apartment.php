@@ -204,7 +204,9 @@ class Apartment extends Model implements LocalizedUrlRoutable
             return $main->image;
         }
 
-        return $this->images()->where('published', 1)->first()->image ?: config('settings.default_apartment_image');
+        $other = $this->images()->where('published', 1)->first();
+
+        return $other ? $other->image : config('settings.default_apartment_image');
     }
 
 
