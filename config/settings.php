@@ -24,7 +24,7 @@ return [
     'default_admin_id' => 3,
 
     'images_domain' => '#',
-    'default_apartment_image' => 'default_img.jpg',
+    'default_apartment_image' => 'media/default_img.jpg',
 
     'sorting_list' => [
         0 => [
