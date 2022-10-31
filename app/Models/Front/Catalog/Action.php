@@ -85,7 +85,7 @@ class Action extends Model
      */
     public function scopeBasic(Builder $query): Builder
     {
-        return $query->select('id', 'type', 'discount', 'extra', 'date_start', 'date_end', 'badge');
+        return $query->select('id', 'type', 'discount', 'extra', 'price_regular', 'price_weekends', 'date_start', 'date_end', 'badge');
     }
 
 

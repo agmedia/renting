@@ -233,10 +233,11 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getPriceTextAttribute(): string
     {
-        $left = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
+        return CurrencyHelper::getCurrencyText($this->resolvePrice(), $this->main_currency);
+        /*$left = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
         $right = $this->main_currency->symbol_right ? ' ' . $this->main_currency->symbol_right : '';
 
-        return $left . number_format(($this->resolvePrice() * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.') . $right;
+        return $left . number_format(($this->resolvePrice() * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.') . $right;*/
     }
 
 
@@ -339,17 +340,17 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getPriceByDay()
+    public function isWeekend(): bool
     {
         $now = now();
 
         if ($now->isFriday() || $now->isSaturday()) {
-            return $this->price_weekends;
+            return true;
         }
 
-        return $this->price_regular;
+        return false;
     }
 
 
@@ -358,7 +359,11 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function resolvePrice()
     {
-        $price = $this->getPriceByDay();
+        $price = $this->price_regular;
+
+        if ($this->isWeekend()) {
+            $price = $this->price_weekends;
+        }
 
         $action = $this->action()->first();
 
@@ -373,7 +378,11 @@ class Apartment extends Model implements LocalizedUrlRoutable
             }
 
             if ($action->type == 'F') {
-                $price = ($action->discount > 0) ? $action->discount : $action->extra;
+                $price = $action->price_regular;
+
+                if ($this->isWeekend()) {
+                    $price = $action->price_weekends;
+                }
             }
         }
 
