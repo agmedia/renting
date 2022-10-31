@@ -327,20 +327,32 @@
                                         <div class="col-sm-12 mt-4">
                                             <div class="row">
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }}</label>
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.m2') }} <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="m2-input" name="m2" placeholder="" value="{{ isset($apartment) ? $apartment->m2 : old('m2') }}">
+                                                    @error('m2')
+                                                    <span class="text-danger font-italic">ERROR M2</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }}</label>
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojsoba') }} <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="rooms-input" name="rooms" placeholder="" value="{{ isset($apartment) ? $apartment->rooms : old('rooms') }}">
+                                                    @error('m2')
+                                                    <span class="text-danger font-italic">ERROR ROOMS</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }}</label>
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkreveta') }} <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="beds-input" name="beds" placeholder="" value="{{ isset($apartment) ? $apartment->beds : old('beds') }}">
+                                                    @error('m2')
+                                                    <span class="text-danger font-italic">ERROR BEDS</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }}</label>
+                                                    <label for="dm-post-edit-title">{{ __('back/apartment.brojkupaonica') }} <span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="baths-input" name="baths" placeholder="" value="{{ isset($apartment) ? $apartment->baths : old('baths') }}">
+                                                    @error('m2')
+                                                    <span class="text-danger font-italic">ERROR BATHS</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>

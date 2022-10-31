@@ -213,7 +213,11 @@ class Apartment extends Model
             'regular_persons' => 'required',
             'max_adults'      => 'required',
             'max_children'    => 'required',
-            'max_persons'     => 'required'
+            'm2'     => 'required',
+            'rooms'     => 'required',
+            'beds'     => 'required',
+            'baths'     => 'required'
+
         ]);
 
         // Set Product Model request variable
