@@ -82,20 +82,30 @@
                                         </div>
                                     </div>
                                     <div class="form-group row items-push mb-2">
-                                        <div class="col-md-8">
+                                        <div class="col-md-4" id="price-regular-view">
+                                            <label for="price-regular-input">Price for Regular Days</label>
+                                            <input type="text" class="form-control" id="price-regular-input" name="price_regular" placeholder="Price for regular week days" value="{{ isset($action) ? $action->price_regular : old('price_regular') }}">
+                                        </div>
+                                        <div class="col-md-4" id="price-weekends-view">
+                                            <label for="price-weekends-input">Price for Weekends</label>
+                                            <input type="text" class="form-control" id="price-weekends-input" name="price_weekends" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? $action->price_weekends : old('price_weekends') }}">
+                                        </div>
+
+                                        <div class="col-md-8" id="price-discount-view">
                                             <label for="discount-input">{!! __('back/action.action') !!} @include('back.layouts.partials.required-star')</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="discount-input" name="discount" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? substr($action->amount, 0, -1) : old('discount') }}">
+                                                <input type="text" class="form-control" id="discount-input" name="discount" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? substr($action->amount, 0, -1) : old('amount') }}">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="discount-append-badge">%</span>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <label for="type-select">{{ __('back/action.action_type') }} <span class="text-danger">*</span></label>
                                             <select class="form-control" id="type-select" name="type">
                                                 @foreach ($types as $type)
-                                                    <option value="{{ $type->id }}" {{ (isset($action) and $type->id == 'P') ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
+                                                    <option value="{{ $type->id }}" {{ (isset($action) and $type->id == $action->type) ? 'selected="selected"' : '' }}>{{ $type->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -175,7 +185,25 @@
     <script>jQuery(function(){Dashmix.helpers(['datepicker']);});</script>
 
     <script>
+
+        function setActionTypeView(type) {
+            if (type == 'F') {
+                $('#price-discount-view').hide();
+                $('#price-regular-view').show();
+                $('#price-weekends-view').show();
+            } else {
+                $('#price-regular-view').hide();
+                $('#price-weekends-view').hide();
+                $('#price-discount-view').show();
+            }
+        }
+
+        /**
+         *
+         */
         $(() => {
+
+            setActionTypeView('{{ isset($action) ? $action->type : 'P' }}')
             /**
              *
              */
@@ -200,16 +228,13 @@
                 placeholder: '-- {{ __('back/action.please_select') }} --',
                 minimumResultsForSearch: Infinity
             });
+            //
             $('#type-select').on('change', function (e) {
-                if (e.currentTarget.value == 'F') {
-                    $('#discount-append-badge').text('kn');
-                } else {
-                    $('#discount-append-badge').text('%');
-                }
+                setActionTypeView(e.currentTarget.value);
             });
 
-            @if (isset($action))
-            $('#group-select').attr("disabled", true);
+            @if (isset($action) && $action->group != 'all')
+                $('#group-select').attr("disabled", true);
             @endif
 
         })

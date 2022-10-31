@@ -141,10 +141,11 @@ class Action extends Model
     public function validateData()
     {
         $this->request->validate([
-            'title.*'  => 'required',
-            'type'     => 'required',
-            'group'    => 'required',
-            'discount' => 'required'
+            'title.*'       => 'required',
+            'type'          => 'required',
+            'group'         => 'required',
+            'discount'      => 'required_if:price_regular,""',
+            'price_regular' => 'required_if:discount,""'
         ]);
 
         if ($this->listRequired()) {
@@ -222,17 +223,19 @@ class Action extends Model
         $this->resolveDiscount();
 
         $response = [
-            'type'       => $this->request->type,
-            'discount'   => $this->request->discount,
-            'extra'      => $this->request->extra,
-            'group'      => $this->request->group,
-            'links'      => $this->links->flatten()->toJson(),
-            'date_start' => $this->date_start,
-            'date_end'   => $this->date_end,
-            'status'     => $this->status,
-            'repeat'     => (isset($this->request->repeat) and $this->request->repeat == 'on') ? 1 : 0,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'type'           => $this->request->type,
+            'discount'       => $this->request->discount,
+            'extra'          => $this->request->extra,
+            'price_regular'  => $this->request->price_regular,
+            'price_weekends' => $this->request->price_weekends,
+            'group'          => $this->request->group,
+            'links'          => $this->links->flatten()->toJson(),
+            'date_start'     => $this->date_start,
+            'date_end'       => $this->date_end,
+            'status'         => $this->status,
+            'repeat'         => (isset($this->request->repeat) and $this->request->repeat == 'on') ? 1 : 0,
+            'created_at'     => Carbon::now(),
+            'updated_at'     => Carbon::now()
         ];
 
         if ($method == 'insert') {
@@ -248,17 +251,31 @@ class Action extends Model
      */
     private function resolveDiscount(): void
     {
-        $discount = $this->request->discount;
+        $discount                = $this->request->discount;
+        $this->request->discount = 0;
+        $this->request->extra    = 0;
 
-        if (in_array(substr($discount, 0, 1), ['+', '-'])) {
-            $this->request->discount = 0;
-            $this->request->extra    = 0;
-
+        if ($discount) {
             if (substr($discount, 0, 1) == '-') {
                 $this->request->discount = intval(substr($discount, 1));
+            } else {
+                if (substr($discount, 0, 1) == '+') {
+                    $this->request->extra = intval(substr($discount, 1));
+                } else {
+                    $this->request->extra = $discount;
+                }
             }
+        }
 
-            $this->request->extra = intval(substr($discount, 1));
+        if ($this->request->discount || $this->request->extra) {
+            $this->request->price_regular  = 0;
+            $this->request->price_weekends = 0;
+        }
+
+        if ($this->request->price_regular) {
+            if ( ! $this->request->price_weekends) {
+                $this->request->price_weekends = $this->request->price_regular;
+            }
         }
     }
 

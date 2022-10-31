@@ -19,6 +19,8 @@ class CreateApartmentActionsTable extends Migration
             $table->string('type');
             $table->decimal('discount', 15, 4)->nullable();
             $table->decimal('extra', 15, 4)->nullable();
+            $table->decimal('price_regular', 15, 4)->nullable();
+            $table->decimal('price_weekends', 15, 4)->nullable();
             $table->string('group');
             $table->text('links')->nullable();
             $table->timestamp('date_start')->nullable();
