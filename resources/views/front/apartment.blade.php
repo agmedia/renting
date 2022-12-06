@@ -241,7 +241,7 @@
     </script>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoB-nFyi-8EGpAmsNFREAWk3XzUK3RTOA"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7hOSRQTL76Yb5ffPF7ecWG-K-nz6Jmek"></script>
     <script src="{{ asset('assets/js/map/markerwithlabel_packed.js') }}"></script>
     <script src="{{ asset('assets/js/map/infobox.js') }}"></script>
     <script src="{{ asset('assets/js/map/property-map.js') }}"></script>
