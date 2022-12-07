@@ -11,12 +11,18 @@ class ActionHelper
 {
 
     /**
+     * @var bool
+     */
+    private static $extra = false;
+
+
+    /**
      * @param $date_start
      * @param $date_end
      *
      * @return bool
      */
-    public static function isActiveByDates($date_start, $date_end): bool
+    public static function isActiveByDates($date_start, $date_end, $day = null): bool
     {
         if ( ! $date_start && ! $date_end) {
             return true;
@@ -24,7 +30,7 @@ class ActionHelper
 
         $start = ! $date_start; // Same as ...( ! $date_start) ? true : false;
         $end   = ! $date_end;
-        $now   = now();
+        $now   = ! $day ? now() : Carbon::make($day);
 
         if ($date_start && $date_start <= $now) {
             $start = true;
@@ -88,5 +94,78 @@ class ActionHelper
 
         return 1;
     }
+
+
+    /**
+     * @param Action $action
+     * @param array  $reservation_days
+     *
+     * @return array
+     */
+    public static function resolveCheckoutData(\App\Models\Front\Catalog\Action $action, array $reservation_days, \App\Models\Front\Apartment\Apartment $apartment): array
+    {
+        $days = [];
+        $prices = [];
+
+        foreach ($reservation_days as $reservation_day) {
+            if (static::isActiveByDates($action->date_start, $action->date_end, $reservation_day)) {
+                array_push($days, $reservation_day);
+                array_push($prices, static::resolvePrice($action, $apartment, $reservation_day));
+            }
+        }
+
+        return [
+            'action' => $action->toArray(),
+            'extra' => static::$extra,
+            'days' => $days,
+            'prices' => $prices
+        ];
+    }
+
+
+    /**
+     * @param \App\Models\Front\Catalog\Action      $action
+     * @param \App\Models\Front\Apartment\Apartment $apartment
+     * @param string                                $day
+     *
+     * @return float|mixed
+     */
+    public static function resolvePrice(\App\Models\Front\Catalog\Action $action, \App\Models\Front\Apartment\Apartment $apartment, string $day)
+    {
+        if ($action->type == 'F') {
+            if (Helper::isWeekend($day)) {
+                if ($action->price_weekends > $apartment->price_weekends) {
+                    static::$extra = true;
+                }
+
+                return $action->price_weekends - $apartment->price_weekends;
+            }
+
+            if ($action->price_regular > $apartment->price_regular) {
+                static::$extra = true;
+            }
+
+            return $action->price_regular - $apartment->price_regular;
+        }
+
+        if (Helper::isWeekend($day)) {
+            if ($action->discount) {
+                return Helper::calculateDiscountPrice($apartment->price_weekends, $action->discount);
+            }
+
+            static::$extra = true;
+
+            return Helper::calculateDiscountPrice($apartment->price_weekends, $action->extra, true);
+        }
+
+        if ($action->discount) {
+            return Helper::calculateDiscountPrice($apartment->price_regular, $action->discount);
+        }
+
+        static::$extra = true;
+
+        return Helper::calculateDiscountPrice($apartment->price_regular, $action->extra, true);
+    }
+
 
 }

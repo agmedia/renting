@@ -130,20 +130,4 @@ class CheckoutController extends Controller
         return $response ?: null;
     }
 
-
-    /**
-     * @return array
-     */
-    private function checkSession(): array
-    {
-        if (CheckoutSession::hasAddress() && CheckoutSession::hasShipping() && CheckoutSession::hasPayment()) {
-            return [
-                'address' => CheckoutSession::getAddress(),
-                'payment' => CheckoutSession::getPayment()
-            ];
-        }
-
-        return [];
-    }
-
 }

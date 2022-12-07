@@ -55,8 +55,16 @@ class CheckoutCalculator
             $this->items[] = $this->regularDays();
         }
 
+        if ($this->checkout->action_regular_days) {
+            $this->items[] = $this->actionRegularDays();
+        }
+
         if ($this->checkout->weekends) {
             $this->items[] = $this->weekends();
+        }
+
+        if ($this->checkout->action_weekends) {
+            $this->items[] = $this->actionWeekends();
         }
 
         if ($this->checkout->additional_persons) {
@@ -139,6 +147,33 @@ class CheckoutCalculator
     /**
      * @return array
      */
+    private function actionRegularDays()
+    {
+        $price = $this->apartment->price_regular;
+        $action = collect($this->checkout->actions)->first();
+
+        if ($action['action']['type'] == 'F') {
+            $price = intval($action['action']['price_regular']);
+        }
+
+        $this->total_amount += $this->checkout->action_regular_days * $price;
+
+        return [
+            'id'         => 0,
+            'code'       => 'action_regular_days',
+            'title'      => 'Regular days on Special price',
+            'count'      => $this->checkout->action_regular_days,
+            'price'      => $price,
+            'price_text' => CurrencyHelper::getCurrencyText($price, $this->checkout->main_currency),
+            'total'      => $this->checkout->action_regular_days * $price,
+            'total_text' => CurrencyHelper::getCurrencyText($this->checkout->action_regular_days * $price, $this->checkout->main_currency),
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
     private function weekends()
     {
         $this->total_amount += $this->checkout->weekends * $this->apartment->price_weekends;
@@ -152,6 +187,33 @@ class CheckoutCalculator
             'price_text' => CurrencyHelper::getCurrencyText($this->apartment->price_weekends, $this->checkout->main_currency),
             'total'      => $this->checkout->weekends * $this->apartment->price_weekends,
             'total_text' => CurrencyHelper::getCurrencyText($this->checkout->weekends * $this->apartment->price_weekends, $this->checkout->main_currency),
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    private function actionWeekends()
+    {
+        $price = $this->apartment->price_weekends;
+        $action = collect($this->checkout->actions)->first();
+
+        if ($action['action']['type'] == 'F') {
+            $price = intval($action['action']['price_weekends']);
+        }
+
+        $this->total_amount += $this->checkout->action_weekends * $price;
+
+        return [
+            'id'         => 0,
+            'code'       => 'action_weekends',
+            'title'      => 'Weekends on Special price',
+            'count'      => $this->checkout->action_weekends,
+            'price'      => $price,
+            'price_text' => CurrencyHelper::getCurrencyText($price, $this->checkout->main_currency),
+            'total'      => $this->checkout->action_weekends * $price,
+            'total_text' => CurrencyHelper::getCurrencyText($this->checkout->action_weekends * $price, $this->checkout->main_currency),
         ];
     }
 

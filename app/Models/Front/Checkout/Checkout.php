@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Checkout;
 
+use App\Helpers\ActionHelper;
 use App\Helpers\CheckoutCalculator;
 use App\Helpers\CurrencyHelper;
 use App\Helpers\Helper;
@@ -25,15 +26,21 @@ class Checkout
 
     public $to;
 
+    public $days = [];
+
     public $total_days = 0;
 
     public $regular_days = 0;
 
     public $weekends = 0;
 
-    public $fridays;
+    public $action_regular_days = 0;
 
-    public $saturdays;
+    public $action_weekends = 0;
+
+    public $fridays = [];
+
+    public $saturdays = [];
 
     public $adults = 0;
 
@@ -52,6 +59,8 @@ class Checkout
     public $additional_person_object = null;
 
     public $added_options = [];
+
+    public $actions = [];
 
     public $total = [];
 
@@ -86,7 +95,9 @@ class Checkout
         $this->apartment     = $this->getApartment($this->request->input('apartment_id'));
 
         $this->resolveDays()
+             ->resolveActions()
              ->checkAdditionalPersons()
+             ->checkAutoInsertOptions()
              ->checkSelectableOptions()
              ->getPaymentMethodsList();
 
@@ -223,11 +234,39 @@ class Checkout
 
         $this->from         = Carbon::make($dates[0]);
         $this->to           = Carbon::make($dates[1]);
+        $this->days         = Helper::getDaysInRange($dates[0], $dates[1]);
         $this->total_days   = $this->from->diffInDays($this->to);
         $this->fridays      = Helper::getDaysInRange($dates[0], $dates[1], 'friday');
         $this->saturdays    = Helper::getDaysInRange($dates[0], $dates[1], 'saturday');
         $this->regular_days = $this->total_days - count($this->fridays) - count($this->saturdays);
         $this->weekends     = $this->total_days - $this->regular_days;
+
+        return $this;
+    }
+
+
+    /**
+     * @return $this
+     */
+    private function resolveActions()
+    {
+        $actions = $this->apartment->hasActiveActions($this->from, $this->to);
+
+        if ($actions->count()) {
+            $weekends = collect($this->fridays)->concat($this->saturdays);
+
+            foreach ($actions as $action) {
+                $this->actions[$action->id]                              = ActionHelper::resolveCheckoutData($action, $this->days, $this->apartment);
+                $this->actions[$action->id]['weekends'][$action->id]     = $weekends->intersect($this->actions[$action->id]['days'])->toArray();
+                $this->actions[$action->id]['regular_days'][$action->id] = collect($this->actions[$action->id]['days'])->diff($this->actions[$action->id]['weekends'][$action->id])->toArray();
+
+                $this->action_regular_days += count($this->actions[$action->id]['regular_days'][$action->id]);
+                $this->action_weekends     += count($this->actions[$action->id]['weekends'][$action->id]);
+            }
+
+            $this->regular_days = $this->regular_days - $this->action_regular_days;
+            $this->weekends     = $this->weekends - $this->action_weekends;
+        }
 
         return $this;
     }
@@ -296,6 +335,23 @@ class Checkout
         }
 
         return 0;
+    }
+
+
+    /**
+     * @return $this
+     */
+    private function checkAutoInsertOptions()
+    {
+        $options = $this->apartment->options()->withoutPersons()->where('auto_insert', 1)->get();
+
+        if ($options->count()) {
+            foreach ($options as $option) {
+                array_push($this->added_options, $option->toArray());
+            }
+        }
+
+        return $this;
     }
 
 

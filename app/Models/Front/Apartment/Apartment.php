@@ -340,28 +340,13 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
-     * @return bool
-     */
-    public function isWeekend(): bool
-    {
-        $now = now();
-
-        if ($now->isFriday() || $now->isSaturday()) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    /**
      * @return float|\Illuminate\Database\Eloquent\HigherOrderBuilderProxy|mixed|null
      */
     public function resolvePrice()
     {
         $price = $this->price_regular;
 
-        if ($this->isWeekend()) {
+        if (Helper::isWeekend()) {
             $price = $this->price_weekends;
         }
 
@@ -380,7 +365,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
             if ($action->type == 'F') {
                 $price = $action->price_regular;
 
-                if ($this->isWeekend()) {
+                if (Helper::isWeekend()) {
                     $price = $action->price_weekends;
                 }
             }
@@ -437,6 +422,27 @@ class Apartment extends Model implements LocalizedUrlRoutable
         }
 
         return $ical->returnEmpty();
+    }
+
+
+    /**
+     * @param Carbon $from
+     * @param Carbon $to
+     *
+     * @return false|Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function hasActiveActions(Carbon $from, Carbon $to)
+    {
+        return Action::query()
+            ->where(function ($query) use ($from, $to) {
+                $query->where('links', 'LIKE', '%"all"%')->orWhere('links', 'LIKE', '%"' . $this->id . '"%');
+            })
+            ->where(function ($query) use ($from, $to) {
+                $query->where('date_start', null)->orWhere('date_start', '<=', $from);
+                $query->where('date_end', null)->orWhere('date_end', '>', $to);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
 
