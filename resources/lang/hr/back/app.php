@@ -138,6 +138,10 @@ return [
 
     ],
 
+    // GENERALS
+    'save_success' => 'Uspješno snimljeno!',
+    'save_failure' => 'Oops..! Greška prilikom snimanja. Pokušajte ponovo ili kontaktirajte administratora!',
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',

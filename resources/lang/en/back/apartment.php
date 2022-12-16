@@ -1,18 +1,7 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
+    //
     'title' => 'Unit',
     'titles' => 'Units',
     'new' => 'New Unit',
@@ -95,18 +84,16 @@ return [
     'select_all' => 'All',
     'select_active' => 'Active',
     'select_inactive' => 'Inactive',
-    'select_discounted' => 'With discount',
-    'select_not_discounted' => 'Not on discount',
+    'select_with_action' => 'With discount',
+    'select_without_action' => 'Not on discount',
 
     'sort' => 'Sort',
     'sort_new' => 'Newest',
     'sort_old' => 'Oldest',
-    'sort_price_low' => 'Price Low',
-    'sort_price_high' => 'Price High',
-
-    'sort_A_Z' => 'From A to Ž',
-
-    'sort_Z_A' => 'From Ž to A',
+    'sort_price_up' => 'Price Low',
+    'sort_price_down' => 'Price High',
+    'sort_az' => 'From A to Ž',
+    'sort_za' => 'From Ž to A',
 
     'children' => 'Children',
     'adults' => 'Adults',
@@ -118,5 +105,6 @@ return [
 
     'regular' => 'Regular Persons',
     'max' => 'Max. Persons',
+    'empty' => 'No Apartments Entered',
     'regularandmax' => 'Regular & Max. Persons Setup',
 ];

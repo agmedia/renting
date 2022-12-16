@@ -22,7 +22,7 @@ class ApartmentController extends Controller
      */
     public function index(Request $request, Apartment $apartman)
     {
-        $apartments = $apartman->paginate(20)->appends(request()->query());
+        $apartments = $apartman->filter($request)->paginate(20)->appends(request()->query());
 
         return view('back.apartment.index', compact('apartments'));
     }
@@ -58,10 +58,10 @@ class ApartmentController extends Controller
         if ($stored) {
             $stored->storeImages();
 
-            return redirect()->route('apartments.edit', ['apartman' => $stored])->with(['success' => 'Apartman je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartman' => $stored])->with(['success' => __('back/app.save_success')]);
         }
 
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+        return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 
 
@@ -93,15 +93,14 @@ class ApartmentController extends Controller
     public function update(Request $request, Apartment $apartman)
     {
         $updated   = $apartman->validateRequest($request)->edit();
-        $apartment = $apartman;
 
         if ($updated) {
             $updated->storeImages();
 
-            return redirect()->route('apartments.edit', ['apartman' => $updated])->with(['success' => 'Apartment je uspješno snimljen!']);
+            return redirect()->route('apartments.edit', ['apartman' => $updated])->with(['success' => __('back/app.save_success')]);
         }
 
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+        return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 
 
@@ -119,10 +118,10 @@ class ApartmentController extends Controller
         $destroyed = Apartment::destroy($apartman->id);
 
         if ($destroyed) {
-            return redirect()->route('apartments')->with(['success' => 'Artikl je uspješno snimljen!']);
+            return redirect()->route('apartments')->with(['success' => __('back/app.save_success')]);
         }
 
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+        return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 
 

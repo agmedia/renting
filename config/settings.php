@@ -49,6 +49,9 @@ return [
         ],
     ],
 
+    'apartment_select_status' => ['active', 'inactive'/*, 'with_action', 'without_action'*/],
+    'apartment_select_sort' => ['new', 'old', 'price_up', 'price_down'/*, 'az', 'za'*/],
+
     'calendar_colors' => ['3c90df', '2177C7', 'DF8B3C' , '3CDFDC'],
 
     'order' => [

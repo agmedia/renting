@@ -141,10 +141,11 @@ return [
         'long_desc_label' => '(If required. Displayed if payment is selected during purchase.)',
         'chars' => 'chars',
         'select_geo' => 'Select geo zone',
-
-
-
     ],
+
+    // GENERALS
+    'save_success' => 'Successfully saved!',
+    'save_failure' => 'Oops..! There has been error with saving. Try again or contact your administrator!',
 
     'title' => 'Apartman',
     'titles' => 'Apartmani',

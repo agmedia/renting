@@ -1,18 +1,7 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
+    //
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',
@@ -96,18 +85,17 @@ return [
     'select_all' => 'Svi',
     'select_active' => 'Aktivni',
     'select_inactive' => 'Neaktivni',
-    'select_discounted' => 'Sa popustom',
-    'select_not_discounted' => 'Bez akcijam',
+    'select_with_action' => 'Sa popustom',
+    'select_without_action' => 'Bez akcijam',
 
     'sort' => 'Sortiraj',
     'sort_new' => 'Najnovije',
     'sort_old' => 'Najstarije',
-    'sort_price_low' => 'Cijena od manje',
-    'sort_price_high' => 'Cijena od više',
+    'sort_price_up' => 'Cijena od manje',
+    'sort_price_down' => 'Cijena od više',
+    'sort_az' => 'Od A do Ž',
+    'sort_za' => 'Od Ž do A',
 
-    'sort_A_Z' => 'Od A do Ž',
-
-    'sort_Z_A' => 'Od Ž do A',
     'children' => 'Djeca',
     'adults' => 'Odrasli',
     'duration' => 'Trajanje',
@@ -118,6 +106,6 @@ return [
 
     'regular' => 'Regularan broj osoba',
     'max' => 'Max. Osoba',
-
+    'empty' => 'Nema Upisanih Apartmana',
     'regularandmax' => 'Postavke broja osoba',
 ];

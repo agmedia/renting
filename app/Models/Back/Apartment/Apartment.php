@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class Apartment extends Model
@@ -89,7 +88,16 @@ class Apartment extends Model
             return $this->hasMany(ApartmentTranslation::class, 'apartment_id');
         }
 
-        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $this->locale)->first();
+        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', current_locale())->first();
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translation_search()
+    {
+        return $this->hasMany(ApartmentTranslation::class, 'apartment_id')->where('lang', current_locale());
     }
 
 
@@ -322,6 +330,69 @@ class Apartment extends Model
         return response()->json(['success' => 200, 'message' => 'Sve je OK prošlo..!']);
     }
 
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function filter(Request $request): Builder
+    {
+        $query = $this->newQuery();
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->whereHas('translation_search', function ($subquery) use ($request) {
+                $subquery->where('title', 'like', '%' . $request->input('search') . '%');
+            });
+        }
+
+        if ($request->has('status')) {
+            $status = $request->has('status');
+
+            if ($status == 'active') {
+                $query->where('status', 1);
+            }
+            if ($status == 'inactive') {
+                $query->where('status', 0);
+            }
+        }
+
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
+
+            if ($sort == 'new') {
+                $query->orderBy('created_at', 'desc');
+            }
+            if ($sort == 'old') {
+                $query->orderBy('created_at');
+            }
+            if ($sort == 'price_up') {
+                $query->orderBy('price_regular');
+            }
+            if ($sort == 'price_down') {
+                $query->orderBy('price_regular', 'desc');
+            }
+            if ($sort == 'az') {
+                $query->with(['translation_search' => function ($subquery) {
+                    $subquery->orderBy('apartment_id', 'desc');
+                }]);
+            }
+            if ($sort == 'za') {
+                $query->whereHas('translation_search', function ($subquery) {
+                    $subquery->orderBy('title', 'desc');
+                });
+            }
+        }
+
+
+        return $query;
+    }
+
+
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
 
     /**
      * @param string $method
