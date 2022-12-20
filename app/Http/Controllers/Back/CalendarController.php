@@ -36,33 +36,7 @@ class CalendarController extends Controller
 
         //dd($calendars->toArray());
 
-        /*if ($request->has('status')) {
-            if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
-                $calendars = collect();
-                $temps = Calendar::all();
-
-                if ($request->input('status') == 'with_action') {
-                    foreach ($temps as $calendar) {
-                        if ($calendar->special()) {
-                            $calendars->push($calendar);
-                        }
-                    }
-                }
-
-                if ($request->input('status') == 'without_action') {
-                    foreach ($temps as $calendar) {
-                        if ( ! $calendar->special()) {
-                            $calendars->push($calendar);
-                        }
-                    }
-                }
-
-                $calendars = $this->paginateColl($calendars);
-            }
-        }*/
-        /*$authors    = Author::all()->pluck('title', 'id');
-        $publishers = Publisher::all()->pluck('title', 'id');*/
-        $counts = [];//Calendar::setCounts($query);
+        $counts = [];
 
         return view('back.calendar.index', compact('calendars', 'counts'));
     }
@@ -119,7 +93,7 @@ class CalendarController extends Controller
     {
         $data = $calendar->getRelationsData();
 
-        return view('back.catalog.Calendar.edit', compact('Calendar', 'data'));
+        return view('back.catalog.Calendar.edit', compact('calendar', 'data'));
     }
 
 

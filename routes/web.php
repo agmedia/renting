@@ -79,14 +79,6 @@ Route::group(
         Route::patch('apartment/{apartman}', [ApartmentController::class, 'update'])->name('apartments.update');
         Route::delete('apartment/{apartman}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
 
-        // NARUDŽBE
-        Route::get('orders', [OrderController::class, 'index'])->name('orders');
-        Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
-        Route::post('order', [OrderController::class, 'store'])->name('orders.store');
-        Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
-        Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-        Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
-
         // KALENDAR
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
         Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
@@ -94,6 +86,14 @@ Route::group(
         Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
         Route::patch('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
         Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+
+        // NARUDŽBE
+        Route::get('orders', [OrderController::class, 'index'])->name('orders');
+        Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('order', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
 
         // MARKETING
         Route::prefix('marketing')->group(function () {

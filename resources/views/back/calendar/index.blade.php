@@ -54,9 +54,9 @@
 
                     <!-- Event List -->
                     <ul id="js-events" class="list list-events">
-                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Čišćenje</div></li>
-                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Uređenje okučnice</div></li>
-                        <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-info">Održavanje bazena</div></li>
+                        @foreach (config('settings.calendar_add_events') as $event)
+                            <li><div class="js-event p-2 text-white font-size-sm font-w500 bg-warning">{{ $event['title'][current_locale()] }}</div></li>
+                        @endforeach
                     </ul>
                     <div class="text-center">
                         <em class="font-size-sm text-muted">
@@ -80,8 +80,48 @@
         </div>
     </div>
     <!-- END Page Content -->
-
 @endsection
+
+@push('modals')
+    <div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-labelledby="status--modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-popout" role="document">
+            <div class="modal-content rounded">
+                <div class="block block-themed block-transparent mb-0">
+                    <div class="block-header bg-primary">
+                        <h3 class="block-title">{{ __('back/app.statuses.main_title') }}</h3>
+                        <div class="block-options">
+                            <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="block-content">
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-11">
+                                <div class="row mb-3">
+                                    <div class="col-md-4" id="apartment-image"></div>
+                                    <div class="col-md-8" id="order-info"></div>
+                                </div>
+                                <table class="table table-sm" id="order-table" style="width: 100%;"></table>
+                                <div class="row mb-2 mt-4">
+                                    <div class="col-md-4" id="order-edit-btn"></div>
+                                    <div class="col-md-4" id="apartment-edit-btn"></div>
+                                    <div class="col-md-4" id="order-delete-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
+                            {{ __('back/app.statuses.cancel') }} <i class="fa fa-times ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endpush
 
 @push('js_after')
     <script src="{{ asset('js/ag-input-field.js') }}"></script>
@@ -160,7 +200,9 @@
                         start: item.start,
                         end: item.end,
                         allDay: true,
-                        color: item.color
+                        color: item.color,
+                        order: item.order,
+                        order_options: item.order_options
                     });
                 });
 
@@ -184,13 +226,99 @@
                         alert(info.event.title + " was dropped on " + info.event.start.toISOString());
                     },
                     eventClick: function(info) {
-                        console.log(info)
-                        alert('You clicked on: ' + info.event.title);
+                        pageCompCalendar.showOrder(
+                            info.event.extendedProps.order,
+                            info.event.extendedProps.order_options
+                        );
+                    },
+                    prev: function(view) {
+                        console.log(view);
+                        //console.log($('#js-calenda').fullCalendar('getDate'));
                     },
                     events: zauzetost
                 });
 
                 calendar.render();
+            }
+
+            /**
+             *
+             * @param order
+             * @param options
+             */
+            static showOrder(order, options) {
+                $('#status-modal').modal('show');
+
+                let base_url = window.location.origin;
+                let address = order.apartment.address + ', ' + order.apartment.city;
+
+                let order_description = '<h4 class="font-w400">' + order.apartment.title + ' - <small class="text-gray-dark">' + address + '</small></h4>';
+
+                order_description += `<address>
+                                        <strong>` + order.payment_fname + ' ' + order.payment_lname + `</strong><br>
+                                        <abbr title="Email">E:</abbr> ` + order.payment_email + `<br>
+                                        <abbr title="Phone">P:</abbr> ` + order.payment_phone + `
+                                    </address>`;
+                order_description += `<address>
+                                        <strong>od: </strong> ` + new Date(order.date_from).toLocaleDateString() + `, <strong>do: </strong> ` + new Date(order.date_to).toLocaleDateString() + `<br>
+                                        Ukupno: ` + options.total_days + ` dana<br>
+                                        Odraslih ` + options.adults + `, Djece ` + options.children + `
+                                    </address>`;
+
+                let order_table = '';
+
+                for (let i = 0; i < options.total.items.length; i++) {
+                    order_table += this.orderRowItemView(options.total.items[i]);
+                }
+                for (let i = 0; i < options.total.total.length; i++) {
+                    order_table += this.orderRowTotalView(options.total.total[i]);
+                }
+
+                let order_edit_btn = document.createElement('a');
+                order_edit_btn.setAttribute('class', 'btn btn-info btn-block');
+                order_edit_btn.setAttribute('href', base_url + '/{{ current_locale() }}/admin/order/' + order.id + '/edit');
+                order_edit_btn.text = 'Edit Order'
+
+                let order_delete_btn = document.createElement('a');
+                order_delete_btn.setAttribute('class', 'btn btn-danger btn-block');
+                order_delete_btn.setAttribute('href', base_url + '/{{ current_locale() }}/admin/order/' + order.id + '/delete');
+                order_delete_btn.text = 'Delete Order';
+
+                let apartment_edit_btn = document.createElement('a');
+                apartment_edit_btn.setAttribute('class', 'btn btn-secondary btn-block');
+                apartment_edit_btn.setAttribute('href', base_url + '/{{ current_locale() }}/admin/apartment/' + order.apartment_id + '/edit');
+                apartment_edit_btn.text = 'Edit Apartment';
+
+                $('#apartment-image').html('<img class="img-thumbnail" src="' + base_url + '/' + order.apartment.image + '" alt="">');
+                $('#order-info').html(order_description);
+                $('#order-table').html(order_table);
+                $('#order-edit-btn').html(order_edit_btn);
+                $('#order-delete-btn').html(order_delete_btn);
+                $('#apartment-edit-btn').html(apartment_edit_btn);
+            }
+
+            /**
+             *
+             * @param item
+             * @returns {string}
+             */
+            static orderRowItemView(item) {
+                return `<tr style="height: 36px;">
+                            <td>` + item.price_text + ' * ' + item.count + ' ' + item.title + `</td>
+                            <td>` + item.total_text + `</td>
+                        </tr>`
+            }
+
+            /**
+             *
+             * @param item
+             * @returns {string}
+             */
+            static orderRowTotalView(item) {
+                return `<tr style="height: 36px;">
+                            <td class="text-right pr-3">` + item.title + `</td>
+                            <td>` + item.total_text + `</td>
+                        </tr>`
             }
 
             /*

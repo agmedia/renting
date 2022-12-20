@@ -24,6 +24,33 @@ class ApartmentController extends Controller
     {
         $apartments = $apartman->filter($request)->paginate(20)->appends(request()->query());
 
+        // TESTING
+        //
+        /*if ($request->has('status')) {
+            if ($request->input('status') == 'with_action' || $request->input('status') == 'without_action') {
+                $calendars = collect();
+                $temps = Calendar::all();
+
+                if ($request->input('status') == 'with_action') {
+                    foreach ($temps as $calendar) {
+                        if ($calendar->special()) {
+                            $calendars->push($calendar);
+                        }
+                    }
+                }
+
+                if ($request->input('status') == 'without_action') {
+                    foreach ($temps as $calendar) {
+                        if ( ! $calendar->special()) {
+                            $calendars->push($calendar);
+                        }
+                    }
+                }
+
+                $calendars = $this->paginateColl($calendars);
+            }
+        }*/
+
         return view('back.apartment.index', compact('apartments'));
     }
 

@@ -29,7 +29,9 @@ class Helper
                     'title' => $calendar->apartment->title,
                     'start' => $calendar->date_from,
                     'end'   => $calendar->date_to,
-                    'color' => $color
+                    'color' => $color,
+                    'order' => $calendar->toArray(),
+                    'order_options' => unserialize($calendar->options)
                 ];
             }
 

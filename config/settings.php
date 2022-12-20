@@ -53,6 +53,26 @@ return [
     'apartment_select_sort' => ['new', 'old', 'price_up', 'price_down'/*, 'az', 'za'*/],
 
     'calendar_colors' => ['3c90df', '2177C7', 'DF8B3C' , '3CDFDC'],
+    'calendar_add_events' => [
+        1 => [
+            'title' => [
+                'en' => 'Cleaning',
+                'hr' => 'Čišćenje',
+            ],
+        ],
+        2 => [
+            'title' => [
+                'en' => 'Landscape maintenance',
+                'hr' => 'Uređenje okučnice',
+            ],
+        ],
+        3 => [
+            'title' => [
+                'en' => 'Pool maintenance',
+                'hr' => 'Održavanje bazena',
+            ],
+        ],
+    ],
 
     'order' => [
         'made_text' => 'Narudžba napravljena.',
