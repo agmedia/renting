@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
 use App\Models\Back\Calendar\Calendar;
@@ -11,11 +12,14 @@ use App\Models\Back\Catalog\Product\ProductAction;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
+use App\Models\Back\Orders\Order;
+use App\Models\Front\Checkout\Checkout;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CalendarController extends Controller
@@ -29,32 +33,12 @@ class CalendarController extends Controller
     public function index(Request $request, Calendar $calendar)
     {
         $query = $calendar->filter($request);
-
         $calendars = $query->with('apartment')->get()/*->appends(request()->query())*/;
-
         $calendars = Helper::getCalendarBackViewData($calendars);
-
-        //dd($calendars->toArray());
-
+        $apartments = Apartment::query()->where('status', 1)->get();
         $counts = [];
 
-        return view('back.calendar.index', compact('calendars', 'counts'));
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $calendar = new Calendar();
-
-        $data = $calendar->getRelationsData();
-        $active_actions = ProductAction::active()->get();
-
-        return view('back.Calendar.edit', compact('data', 'active_actions'));
+        return view('back.calendar.index', compact('calendars', 'apartments', 'counts'));
     }
 
 
@@ -65,20 +49,24 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function move(Request $request)
     {
-        $calendar = new Calendar();
+        if ( ! isset($request['data']['extendedProps']['order']['id'])) {
+            if (isset($request['data']['type']) && $request['data']['type'] == 'service') {
+                return $this->storeService($request);
+            }
 
-        $stored = $calendar->validateRequest($request)->create();
-
-        if ($stored) {
-            $calendar->checkSettings()
-                    ->storeImages($stored);
-
-            return redirect()->route('products.edit', ['Calendar' => $stored])->with(['success' => 'Artikl je uspješno snimljen!']);
+            response()->json(['error' => 300, 'message' => __('back/app.save_failure')]);
         }
 
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+        $calendar = new Calendar();
+        $updated  = $calendar->updateOrder($request);
+
+        if ($updated) {
+            return response()->json(['success' => 200, 'message' => __('back/app.save_success')]);
+        }
+
+        return response()->json(['error' => 300, 'message' => __('back/app.save_failure')]);
     }
 
 
@@ -89,61 +77,19 @@ class CalendarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Calendar $calendar)
+    public function storeService(Request $request)
     {
-        $data = $calendar->getRelationsData();
-
-        return view('back.catalog.Calendar.edit', compact('calendar', 'data'));
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param Calendar                  $calendar
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Calendar $calendar)
-    {
-        $updated = $calendar->validateRequest($request)->edit();
+        $calendar = new Calendar();
+        $updated  = $calendar->storeServiceOrder($request);
 
         if ($updated) {
-            $calendar->checkSettings()
-                    ->storeImages($updated);
-
-            $calendar->addHistoryData('change');
-
-            return redirect()->route('products.edit', ['Calendar' => $updated])->with(['success' => 'Artikl je uspješno snimljen!']);
+            return response()->json(['success' => 200, 'message' => __('back/app.save_success')]);
         }
 
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
+        return response()->json(['error' => 300, 'message' => __('back/app.save_failure')]);
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, Calendar $calendar)
-    {
-        ProductImage::where('product_id', $calendar->id)->delete();
-        ProductCategory::where('product_id', $calendar->id)->delete();
-
-        Storage::deleteDirectory(config('filesystems.disks.products.root') . $calendar->id);
-
-        $destroyed = Calendar::destroy($calendar->id);
-
-        if ($destroyed) {
-            return redirect()->route('products')->with(['success' => 'Artikl je uspješno snimljen!']);
-        }
-
-        return redirect()->back()->with(['error' => 'Ops..! Greška prilikom snimanja.']);
-    }
 
 
     /**
@@ -157,7 +103,7 @@ class CalendarController extends Controller
     {
         if ($request->has('id')) {
             $id = $request->input('id');
-            
+
             ProductImage::where('product_id', $id)->delete();
             ProductCategory::where('product_id', $id)->delete();
 
@@ -184,8 +130,9 @@ class CalendarController extends Controller
      */
     public function paginateColl($items, $perPage = 20, $page = null, $options = []): LengthAwarePaginator
     {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $page  = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
+
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

@@ -2,29 +2,18 @@
 
 namespace App\Models\Back\Calendar;
 
-use App\Helpers\Helper;
-use App\Helpers\ProductHelper;
 use App\Models\Back\Apartment\Apartment;
-use App\Models\Back\Catalog\Author;
-use App\Models\Back\Catalog\Category;
-use App\Models\Back\Catalog\Publisher;
-use App\Models\Back\Settings\Settings;
+use App\Models\Back\Orders\Order;
+use App\Models\Back\Orders\OrderHistory;
+use App\Models\Front\Checkout\Checkout;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Bouncer;
-use Illuminate\Validation\ValidationException;
 
 class Calendar extends Model
 {
-
-    use HasFactory;
 
     /**
      * @var string
@@ -36,15 +25,100 @@ class Calendar extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+
     /**
-     * @var Request
+     * @return HasOne
      */
-    protected $request;
-
-
-    public function apartment()
+    public function apartment(): HasOne
     {
         return $this->hasOne(Apartment::class, 'id', 'apartment_id');
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    public function updateOrder(Request $request)
+    {
+        $data = $request['data']['extendedProps'];
+
+        $sorted_request = new Request([
+            'apartment_id' => $data['order']['apartment_id'],
+            'dates'        => Carbon::make($request['data']['start'])->format('Y-m-d') . ' - ' . Carbon::make($request['data']['end'])->format('Y-m-d'),
+            'adults'       => $data['order_options']['adults'],
+            'children'     => $data['order_options']['children'],
+            'firstname'    => $data['order']['payment_fname'],
+            'lastname'     => $data['order']['payment_lname'],
+            'phone'        => $data['order']['payment_phone'],
+            'email'        => $data['order']['payment_email'],
+            'payment_type' => $data['order']['payment_method']
+        ]);
+
+        $order    = Order::find($data['order']['id']);
+        $checkout = new Checkout($sorted_request);
+
+        return $order->setCheckoutData($checkout)->store($order->id);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return false
+     */
+    public function storeServiceOrder(Request $request): bool
+    {
+        $id = Order::insertGetId([
+            'apartment_id'     => $request['data']['apartment_id'],
+            'user_id'          => 0,
+            'affiliate_id'     => 0,
+            'order_status_id'  => config('settings.order.status.paid'),
+            'invoice'          => 'service',
+            'total'            => 0,
+            'date_from'        => Carbon::make($request['data']['date']),
+            'date_to'          => Carbon::make($request['data']['date'])->addDay(),
+            'payment_fname'    => 'Service',
+            'payment_lname'    => 'Service',
+            'payment_email'    => 'service@service.com',
+            'payment_phone'    => '00000000',
+            'payment_method'   => 'cod',
+            'payment_code'     => 'service',
+            'company'          => '',
+            'oib'              => '',
+            'options'          => '',
+            'comment'          => 'Service',
+            'sync_uid'         => '',
+            'approved'         => '',
+            'approved_user_id' => '',
+            'created_at'       => Carbon::now(),
+            'updated_at'       => Carbon::now()
+        ]);
+
+        if ($id) {
+            OrderHistory::store($id);
+
+            $order = Order::find($id);
+
+            $sorted_request = new Request([
+                'apartment_id' => $order->apartment_id,
+                'dates'        => Carbon::make($order->date_from)->format('Y-m-d') . ' - ' . Carbon::make($order->date_to)->format('Y-m-d'),
+                'adults'       => 1,
+                'children'     => 0,
+                'firstname'    => 'Service',
+                'lastname'     => 'Service',
+                'phone'        => '00000000',
+                'email'        => 'service@service.com',
+                'payment_type' => 'bank'
+            ]);
+
+            $checkout = new Checkout($sorted_request);
+
+            return $order->setCheckoutData($checkout)->store($order->id);
+        }
+
+        return false;
     }
 
 
@@ -57,70 +131,7 @@ class Calendar extends Model
     {
         $query = (new Calendar())->newQuery();
 
-        /*if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%')
-                  ->orWhere('sku', 'like', '%' . $request->input('search') . '%')
-                  ->orWhere('polica', 'like', '%' . $request->input('search') . '%')
-                  ->orWhere('year', 'like', '' . $request->input('search') . '');
-        }
-
-        if ($request->has('category') && ! empty($request->input('category'))) {
-            $query->whereHas('categories', function ($query) use ($request) {
-                $query->where('id', $request->input('category'));
-            });
-        }
-
-        if ($request->has('status')) {
-            if ($request->input('status') == 'active') {
-                $query->where('status', 1);
-            }
-            if ($request->input('status') == 'inactive') {
-                $query->where('status', 0);
-            }
-        }
-
-        if ($request->has('sort')) {
-            if ($request->input('sort') == 'new') {
-                $query->orderBy('created_at', 'desc');
-            }
-            if ($request->input('sort') == 'old') {
-                $query->orderBy('created_at', 'asc');
-            }
-            if ($request->input('sort') == 'price_up') {
-                $query->orderBy('price', 'asc');
-            }
-            if ($request->input('sort') == 'price_down') {
-                $query->orderBy('price', 'desc');
-            }
-            if ($request->input('sort') == 'az') {
-                $query->orderBy('name', 'asc');
-            }
-            if ($request->input('sort') == 'za') {
-                $query->orderBy('name', 'desc');
-            }
-            if ($request->input('sort') == 'qty_up') {
-                $query->orderBy('quantity', 'asc');
-            }
-            if ($request->input('sort') == 'qty_down') {
-                $query->orderBy('quantity', 'desc');
-            }
-        } else {
-            $query->orderBy('updated_at', 'desc');
-
-        }*/
-
         return $query;
-    }
-
-
-    /**
-     * Set Product Model request variable.
-     *
-     * @param $request
-     */
-    private function setRequest($request)
-    {
-        $this->request = $request;
     }
 
 }

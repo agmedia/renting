@@ -147,6 +147,9 @@ return [
     'save_success' => 'Successfully saved!',
     'save_failure' => 'Oops..! There has been error with saving. Try again or contact your administrator!',
 
+    // CALENDAR
+    'calendar_make_apartment_error' => 'Select Apartment!',
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',

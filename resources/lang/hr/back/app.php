@@ -142,6 +142,9 @@ return [
     'save_success' => 'Uspješno snimljeno!',
     'save_failure' => 'Oops..! Greška prilikom snimanja. Pokušajte ponovo ili kontaktirajte administratora!',
 
+    // CALENDAR
+    'calendar_make_apartment_error' => 'Postavite Apartman!',
+
     'title' => 'Apartman',
     'titles' => 'Apartmani',
     'new' => 'Novi apartman',

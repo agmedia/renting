@@ -249,6 +249,9 @@ Route::prefix('api/v2')->group(function () {
     Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
+    // CALENDAR
+    Route::post('/calendar/move', [CalendarController::class, 'move'])->name('api.calendar.move');
+
     // FILTER
     Route::prefix('filter')->group(function () {
         Route::post('/getCategories', [FilterController::class, 'categories']);

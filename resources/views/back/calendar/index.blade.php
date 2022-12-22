@@ -42,7 +42,7 @@
                 <!-- Side Content -->
                 <div id="side-content" class="d-none d-xl-block push">
                     <!-- Add Event Form -->
-                    <form class="js-form-add-event push">
+                    <form class="js-form-add-event push mb-2">
                         <div class="input-group">
                             <input type="text" class="js-add-event form-control border-0" placeholder="Add Event..">
                             <div class="input-group-append">
@@ -50,7 +50,17 @@
                             </div>
                         </div>
                     </form>
-                    <!-- END Add Event Form -->
+
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <select class="js-select2 form-control" id="apartment-select" style="width: 100%;" data-placeholder="To apartment...">
+                                <option></option>
+                                @foreach ($apartments as $apartment)
+                                    <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- Event List -->
                     <ul id="js-events" class="list list-events">
@@ -195,12 +205,17 @@
 
                 let zauzetost = [];
                 {!! $calendars->toJson() !!}.forEach((item) => {
+                    let color = item.color;
+                    if (item.order.invoice == 'service') {
+                        color = '#ffb119';
+                    }
+
                     zauzetost.push({
                         title: item.title,
                         start: item.start,
                         end: item.end,
                         allDay: true,
-                        color: item.color,
+                        color: color,
                         order: item.order,
                         order_options: item.order_options
                     });
@@ -213,17 +228,19 @@
                     droppable: true,
                     headerToolbar: {
                         left: 'title',
-                        right: 'prev,next dayGridMonth,listWeek'
+                        right: 'prev,next dayGridMonth'
                     },
                     drop: function(info) {
-                        alert(info.draggedEl.innerText + " was put on " + info.dateStr.toLocaleString());
-                        info.draggedEl.parentNode.remove();
+                        pageCompCalendar.makeOrder(info);
+                        //console.log(info)
+                        //alert(info.draggedEl.innerText + " was put on " + info.dateStr.toLocaleString());
+                        //info.draggedEl.parentNode.remove();
                     },
                     eventResize: function(info) {
-                        alert(info.event.title + " end is now " + info.event.end.toLocaleString());
+                        pageCompCalendar.moveOrder(info.event);
                     },
                     eventDrop: function(info) {
-                        alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+                        pageCompCalendar.moveOrder(info.event);
                     },
                     eventClick: function(info) {
                         pageCompCalendar.showOrder(
@@ -231,14 +248,39 @@
                             info.event.extendedProps.order_options
                         );
                     },
-                    prev: function(view) {
-                        console.log(view);
-                        //console.log($('#js-calenda').fullCalendar('getDate'));
-                    },
                     events: zauzetost
                 });
 
                 calendar.render();
+            }
+
+            static makeOrder(data) {
+                if (!$('#apartment-select').val()) {
+                    return errorToast.fire('{{ __('back/app.calendar_make_apartment_error') }}');
+                }
+
+                let item = {
+                    type: 'service',
+                    apartment_id: $('#apartment-select').val(),
+                    date: data.dateStr,
+                };
+
+                this.moveOrder(item);
+            }
+
+            /**
+             *
+             * @param data
+             */
+            static moveOrder(data) {
+                axios.post("{{ route('api.calendar.move') }}", {data: data})
+                .then(response => {
+                    if (response.data.success) {
+                        return successToast.fire(response.data.message);
+                    } else {
+                        return errorToast.fire(response.data.message);
+                    }
+                });
             }
 
             /**
@@ -333,7 +375,11 @@
         }
 
         // Initialize when page loads
-        jQuery(() => { pageCompCalendar.init(); });
+        jQuery(() => {
+            pageCompCalendar.init();
+
+            $('#apartment-select').select2({});
+        });
     </script>
 
 @endpush
