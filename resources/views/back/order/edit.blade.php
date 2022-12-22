@@ -37,6 +37,16 @@
                             <div class="row justify-content-center push">
                                 <div class="col-md-5">
                                     <img  class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
+<!--                                    <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <select class="js-select2 form-control" id="apartment-select" name="apartment_id" style="width: 100%;" data-placeholder="Odaberite drugi apartman...">
+                                                <option></option>
+                                                @foreach ($apartments as $apartment)
+                                                    <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>-->
                                 </div>
                                 <div class="col-md-7">
                                     <h3 class="mb-0">{{ $order->apartment->title }}</h3>
@@ -61,12 +71,12 @@
                                             <td>{{ $order->checkout['regular_days'] }} Regularnih dana, {{ $order->checkout['weekends'] }} Vikenda<br><br></td>
                                         </tr>
                                         <tr>
-                                            <td class="font-weight-bold">Datum:<br><br></td>
-                                            <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}<br><br></td>
+                                            <td class="font-weight-bold">Datum:<br><br><br></td>
+                                            <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}<br><br><br></td>
                                         </tr>
                                         <tr>
                                             <td class="font-weight-bold" colspan="2">Promijeni datum:<br>
-                                                <div class="input-group">
+                                                <div class="input-group mt-2 mb-3">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
                                                 </div>
@@ -79,61 +89,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5">
-                    <div class="block block-rounded" id="ag-order-products-app">
-                        <div class="block-header block-header-default">
-                            <h3 class="block-title">Order Items & Total</h3>
-                        </div>
-                        <div class="block-content">
-                            <div class="row justify-content-center push">
-                                <div class="col-md-12">
-                                    <table class="table-borderless" style="width: 100%;">
-                                        @foreach ($order->checkout['total']['items'] as $item)
-                                            <!-- Items -->
-                                            @if ($item['code'] != 'additional_person' && $item['code'] != 'additional_options')
-                                                <tr style="height: 36px;">
-                                                    <td style="width: 7%;"></td>
-                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
-                                                    <td>{{ $item['total_text'] }}</td>
-                                                </tr>
-                                            @endif
-                                            @if ($item['code'] == 'additional_person')
-                                                <tr style="height: 36px;">
-                                                    <td>
-                                                        <input type="checkbox" checked="checked" name="persons">
-                                                    </td>
-                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
-                                                    <td>{{ $item['total_text'] }}</td>
-                                                </tr>
-                                            @endif
-                                            @if ($item['code'] == 'additional_options')
-                                                <tr>
-                                                    <td>
-                                                        <input type="checkbox" checked="checked" name="options_{{ isset($item['id']) ? $item['id'] : '0' }}">
-                                                    </td>
-                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
-                                                    <td>{{ $item['total_text'] }}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                        <!-- Total -->
-                                        @foreach ($order->checkout['total']['total'] as $item)
-                                            <tr style="height: 36px;">
-                                                <td colspan="2" class="text-right pr-3">{{ $item['title'] }}</td>
-                                                <td>{{ $item['total_text'] }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Customer -->
-            <div class="row">
-                <div class="col-sm-7">
+                <div class="col-sm-5">
                     <!-- Billing Address -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
@@ -149,14 +106,14 @@
                         <div class="block-content">
                             <div class="row justify-content-center push">
                                 <div class="col-md-11">
-                                    <div class="form-group row items-push">
+                                    <div class="form-group row items-push mb-0">
                                         <div class="col-md-6">
                                             <label for="fname-input">Ime</label>
-                                            <input type="text" class="form-control" id="fname-input" name="fname" placeholder="Upišite ime kupca" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
+                                            <input type="text" class="form-control" id="fname-input" name="firstname" placeholder="Upišite ime kupca" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="lname-input">Prezime</label>
-                                            <input type="text" class="form-control" id="lname-input" name="lname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
+                                            <input type="text" class="form-control" id="lname-input" name="lastname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="email-input">Email</label>
@@ -166,14 +123,28 @@
                                             <label for="phone-input">Phone</label>
                                             <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
                                         </div>
+                                        <div class="col-md-6 mt-4 mb-0">
+                                            <div class="form-group row">
+                                                <label class="col-sm-7 col-form-label" for="adults-input">Adults <small>({{ $order->apartment->max_adults }})</small></label>
+                                                <div class="col-sm-5">
+                                                    <input type="number" class="form-control" id="adults-input" name="adults" value="{{ isset($order) ? $order->checkout['adults'] : old('adults') }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-4 mb-0">
+                                            <div class="form-group row">
+                                                <label class="col-sm-7 col-form-label" for="children-input">Children <small>({{ $order->apartment->max_children }})</small></label>
+                                                <div class="col-sm-5">
+                                                    <input type="number" class="form-control" id="children-input" name="children" value="{{ isset($order) ? $order->checkout['children'] : old('children') }}">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- END Billing Address -->
-                </div>
-                <div class="col-sm-5">
+
                     <!-- Payments -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
@@ -183,17 +154,62 @@
                             <div class="row mb-4">
                                 <div class="col-md-8">
                                     <label for="payment-select">Plaćanje</label>
-                                    <select class="js-select2 form-control" id="payment-select" name="payment" style="width: 100%;" data-placeholder="Odaberite način plaćanja...">
+                                    <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="Odaberite način plaćanja...">
                                         <option></option>
                                         @foreach ($payments as $payment)
-                                           <option value="{{ $payment->code }}" {{ ((isset($order)) and ($order->payment_code == $payment->code)) ? 'selected' : '' }}>{{ $payment->title->{current_locale()} }}</option>
+                                            <option value="{{ $payment->code }}" {{ ((isset($order)) and ($order->payment_code == $payment->code)) ? 'selected' : '' }}>{{ $payment->title->{current_locale()} }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="payment-amount-input">Iznos</label>
                                     <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->total : old('payment_amount') }}">
-<!--                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">-->
+                                    <!--                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="block block-rounded" id="ag-order-products-app">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">Order Items & Total</h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="row justify-content-center push">
+                                <div class="col-md-11">
+                                    <table class="table" style="width: 100%;">
+                                        @foreach ($order->checkout['total']['items'] as $item)
+                                            <!-- Items -->
+                                            @if ($item['code'] != 'additional_options')
+                                                <tr style="height: 36px;">
+                                                    <td style="width: 4%;"></td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td class="text-right">{{ $item['total_text'] }}</td>
+                                                </tr>
+                                            @endif
+                                            @if ($item['code'] == 'additional_options')
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" checked="checked" name="options_{{ isset($item['id']) ? $item['id'] : '0' }}">
+                                                    </td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td class="text-right">{{ $item['total_text'] }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                        <!-- Total -->
+                                        @foreach ($order->checkout['total']['total'] as $item)
+                                            <tr style="height: 36px;">
+                                                <td colspan="2" class="text-right pr-3">{{ $item['title'] }}</td>
+                                                <td class="text-right">{{ $item['total_text'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +343,7 @@
     <script>
         $(() => {
             $('#payment-select').select2({});
-
+            $('#apartment-select').select2({});
             $('#status-select').select2({});
 
             $('#btn-add-comment').on('click', () => {

@@ -204,6 +204,10 @@ class Checkout
         ];
     }
 
+    /*******************************************************************************
+    *                                Copyright : AGmedia                           *
+    *                              email: filip@agmedia.hr                         *
+    *******************************************************************************/
 
     /**
      * @param string $state
@@ -394,7 +398,7 @@ class Checkout
      *
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    private function getApartment(int $id)
+    private function getApartment(int $id = null)
     {
         return Apartment::query()->where('id', $id)->first();
     }

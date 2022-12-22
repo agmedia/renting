@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Back;
 
 use App\Helpers\Country;
 use App\Http\Controllers\Controller;
+use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Checkout\Checkout;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -53,13 +55,13 @@ class OrderController extends Controller
     {
         $order = new Order();
 
-        $stored = $order->validateRequest($request)->store();
+        /*$stored = $order->validateRequest($request)->store();
 
         if ($stored) {
-            return redirect()->route('orders.edit', ['order' => $stored])->with(['success' => 'Narudžba je snimljena!']);
-        }
+            return redirect()->route('orders.edit', ['order' => $stored])->with(['success' => __('back/app.save_success')]);
+        }*/
 
-        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
+        return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 
 
@@ -87,11 +89,12 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $countries = Country::list();
-        $statuses  = Settings::get('order', 'statuses');
-        $payments  = Settings::getList('payment');
+        $countries  = Country::list();
+        $statuses   = Settings::get('order', 'statuses');
+        $payments   = Settings::getList('payment');
+        $apartments = Apartment::query()->where('status', 1)->get();
 
-        return view('back.order.edit', compact('order', 'countries', 'statuses', 'payments'));
+        return view('back.order.edit', compact('order', 'countries', 'statuses', 'payments', 'apartments'));
     }
 
 
@@ -105,15 +108,19 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        dd($request->toArray(), $order->toArray(), $order->checkout);
+        //dd($request->toArray());
+        $order->validateRequest($request)->checkDates();
 
-        $updated = $order->validateRequest($request)->store($order->id);
+        $checkout = new Checkout($request);
+        $updated  = $order->setCheckoutData($checkout)->store($order->id);
+
+        //dd($checkout, $request->toArray(), $checkout->cleanData());
 
         if ($updated) {
-            return redirect()->route('orders.edit', ['order' => $updated])->with(['success' => 'Narudžba je snimljena!']);
+            return redirect()->route('orders.edit', ['order' => $updated])->with(['success' => __('back/app.save_success')]);
         }
 
-        return redirect()->back()->with(['error' => 'Oops..! Dogodila se greška prilikom snimanja.']);
+        return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 
 
@@ -143,7 +150,7 @@ class OrderController extends Controller
                 'order_status_id' => $request->input('selected')
             ]);
 
-            return response()->json(['message' => 'Statusi su uspješno promijenjeni..!']);
+            return response()->json(['message' => __('back/app.save_success')]);
         }
 
         if ($request->has('order_id')) {
@@ -155,9 +162,9 @@ class OrderController extends Controller
 
             OrderHistory::store($request->input('order_id'), $request);
 
-            return response()->json(['message' => 'Status je uspješno promijenjen..!']);
+            return response()->json(['message' => __('back/app.save_success')]);
         }
 
-        return response()->json(['error' => 'Greška..! Molimo pokušajte ponovo ili kontaktirajte administratora..']);
+        return response()->json(['error' => __('back/app.save_failure')]);
     }
 }

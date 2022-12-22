@@ -38,6 +38,11 @@ class Order extends Model
      */
     protected $request;
 
+    /**
+     * @var Checkout
+     */
+    protected $checkout;
+
 
     /**
      * @param int $id
@@ -155,15 +160,43 @@ class Order extends Model
     public function validateRequest(Request $request)
     {
         $request->validate([
-            'payment' => 'required',
-            //'dates'   => 'required',
-            'fname'   => 'required',
-            'lname'   => 'required',
-            'email'   => 'required',
-            'phone'   => 'required',
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'phone'     => 'required',
+            'email'     => 'required',
         ]);
 
+        if ( ! $request->input('apartment_id')) {
+            $request->merge(['apartment_id' => $this->apartment_id]);
+        }
+
         $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * @return $this
+     */
+    public function checkDates()
+    {
+        if ( ! $this->request->dates) {
+            $this->request->merge(['dates' => Carbon::make($this->date_from)->format('Y-m-d') . ' - ' . Carbon::make($this->date_to)->format('Y-m-d')]);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @param Checkout $checkout
+     *
+     * @return $this
+     */
+    public function setCheckoutData(Checkout $checkout)
+    {
+        $this->checkout = $checkout;
 
         return $this;
     }
@@ -179,14 +212,24 @@ class Order extends Model
         $order = $id ? $this->updateData($id) : $this->storeData();
 
         if ($order) {
-            //OrderTotal::store(json_decode($this->request->sums), $order->id);
+            OrderTotal::where('order_id', $id)->delete();
 
-            return $order;
+            foreach ($this->checkout->total['total'] as $key => $total) {
+                OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
+            }
+
+            //$this->where('id', $id)->update(['total' => $total]);
+
+            return $this;
         }
 
         return false;
     }
 
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param string $target
@@ -253,55 +296,42 @@ class Order extends Model
         return false;
     }
 
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    private function storeData(bool $service = false)
+    {
+
+    }
 
     /**
      * @param $id
      *
-     * @return bool
+     * @return mixed
      */
     private function updateData($id)
     {
-        $payment = Settings::get('payment', 'list.' . $this->request->payment)->first();
-
-        if ($this->request->dates) {
-            $dates = explode(' - ', $this->request->dates);
-            $from  = Carbon::make($dates[0]);
-            $to    = Carbon::make($dates[1]);
-
-            $this->where('id', $id)->update([
-                'date_from' => $from,
-                'date_to'   => $to,
-            ]);
-        }
-
-        //dd($payment, $this->request);
-
-        $updated = $this->where('id', $id)->update([
-            'total'          => $this->request->payment_amount,
-            'payment_fname'  => $this->request->fname,
-            'payment_lname'  => $this->request->lname,
-            'payment_email'  => $this->request->email,
-            'payment_method' => $payment->code,
-            'payment_code'   => $payment->code,
-            'company'        => isset($this->request->company) ? $this->request->company : null,
-            'oib'            => isset($this->request->oib) ? $this->request->oib : null,
-            'updated_at'     => Carbon::now()
+        return $this->where('id', $id)->update([
+            'apartment_id'    => $this->checkout->apartment->id,
+            'total'           => $this->checkout->total_amount,
+            'date_from'       => $this->checkout->from,
+            'date_to'         => $this->checkout->to,
+            'payment_fname'   => $this->checkout->firstname,
+            'payment_lname'   => $this->checkout->lastname,
+            'payment_address' => '',
+            'payment_zip'     => '',
+            'payment_city'    => '',
+            'payment_phone'   => $this->checkout->phone,
+            'payment_email'   => $this->checkout->email,
+            'payment_method'  => $this->checkout->payment->code,
+            'payment_code'    => $this->checkout->payment->code,
+            'company'         => isset($this->request->company) ? $this->request->company : null,
+            'oib'             => isset($this->request->oib) ? $this->request->oib : null,
+            'options'         => serialize($this->checkout->cleanData()),
+            'updated_at'      => Carbon::now()
         ]);
-
-        if ($updated) {
-            $order = $this->find($id);
-
-            /*$request = new Request([
-                'status'  => 0,
-                'comment' => 'Izmjenjeni podaci narudžbe.!'
-            ]);
-
-            OrderHistory::store($id, $request);*/
-
-            return $order;
-        }
-
-        return false;
     }
 
 
