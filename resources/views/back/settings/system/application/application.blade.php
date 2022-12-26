@@ -92,6 +92,27 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="block">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Google Maps API Key</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row justify-content-center mb-2">
+                            <div class="col-md-10 mt-1">
+                                <div class="form-group">
+                                    <label for="email-input">Key @include('back.layouts.partials.required-star')</label>
+                                    <input type="text" class="form-control" id="api-key-input" name="api_key" placeholder="" value="{{ isset($data['google_maps_key']) ? $data['google_maps_key']->key : old('api_key') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full text-right bg-light">
+                        <button type="button" class="btn btn-sm btn-success" onclick="event.preventDefault(); storeGoogleMapsApiKey();">
+                            {{ __('back/layout.btn.save') }} <i class="fa fa-save ml-2"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -118,6 +139,23 @@
             let item = {main: $('#currency-main-select').val()};
 
             axios.post("{{ route('api.currencies.store.main') }}", {data: item})
+            .then(response => {
+                console.log(response.data)
+                if (response.data.success) {
+                    return successToast.fire(response.data.success);
+                } else {
+                    return errorToast.fire(response.data.message);
+                }
+            });
+        }
+
+        /**
+         *
+         */
+        function storeGoogleMapsApiKey() {
+            let item = {key: $('#api-key-input').val()};
+
+            axios.post("{{ route('api.application.google-api.store.key') }}", {data: item})
             .then(response => {
                 console.log(response.data)
                 if (response.data.success) {

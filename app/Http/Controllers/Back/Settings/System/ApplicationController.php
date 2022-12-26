@@ -29,6 +29,7 @@ class ApplicationController extends Controller
         $items = Settings::query()->where('code', 'app')->get();
 
         $data['basic'] = json_decode($items->where('key', 'basic')->first()->value)[0];
+        $data['google_maps_key'] = json_decode($items->where('key', 'google.maps')->first()->value)[0];
         $data['currencies'] = Settings::get('currency', 'list')->sortBy('sort_order');
         $data['currency_main'] = $data['currencies']->where('main', 1)->first();
 
@@ -64,6 +65,25 @@ class ApplicationController extends Controller
         }
 
         return response()->json(['error' => 'Whoops.!! Pokušajte ponovo ili kontaktirajte administratora!']);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function storeGoogleMapsApiKey(Request $request): JsonResponse
+    {
+        if ($request->has('data')) {
+            $set = Settings::reset('app', 'google.maps', $request->input('data'));
+
+            if ($set) {
+                return response()->json(['success' => __('back/app.save_success')]);
+            }
+
+            return response()->json(['error' => __('back/app.save_failure')]);
+        }
     }
 
 

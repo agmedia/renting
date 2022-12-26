@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Back\Settings\Settings;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Category;
@@ -35,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('pages', $pages);
         //
 
+        $maps_key = Settings::get('app', 'google.maps')->first()->key;
+        Config::set(['google' => ['maps-key' => $maps_key]]);
 
 
         /*$uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
