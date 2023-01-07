@@ -159,6 +159,7 @@
                                     </label>
                                 </div>
 
+                                <input type="hidden" id="currency-main" name="main">
                                 <input type="hidden" id="currency-id" name="id" value="0">
                             </div>
                         </div>
@@ -254,9 +255,6 @@
 @push('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
-
-        var main_currency;
-
         $(() => {
             $('#currency-main-select').select2({
                 minimumResultsForSearch: Infinity
@@ -301,7 +299,7 @@
                 decimal_places: $('#currency-decimal-places').val(),
                 sort_order: $('#sort-order-value').val(),
                 status: $('#currency-status')[0].checked,
-                main: main_currency,
+                main: $('#currency-main').val(),
             };
 
             axios.post("{{ route('api.currencies.store') }}", { data: item })
@@ -367,6 +365,7 @@
             $('#currency-value').val(item.value);
             $('#currency-decimal-places').val(item.decimal_places);
             $('#sort-order-value').val(item.sort_order);
+            $('#currency-main').val(item.main);
 
             {!! ag_lang() !!}.forEach((lang) => {
                 if (typeof item.title[lang.code] !== undefined) {
@@ -376,10 +375,6 @@
 
             if (item.status) {
                 $('#currency-status')[0].checked = item.status ? true : false;
-            }
-
-            if (item.main) {
-                main_currency = item.main;
             }
         }
     </script>

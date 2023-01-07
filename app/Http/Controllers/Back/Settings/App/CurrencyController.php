@@ -38,6 +38,8 @@ class CurrencyController extends Controller
 
         $data = $request->data;
 
+        Log::debug($data);
+
         $setting = Settings::where('code', 'currency')->where('key', 'list')->first();
 
         $values = collect();
@@ -60,7 +62,7 @@ class CurrencyController extends Controller
                 $item->decimal_places = $data['decimal_places'];
                 $item->sort_order = $data['sort_order'] ?: '0';
                 $item->status = $data['status'];
-                $item->main = (isset($data['main']) && $data['main']) ? true : false;
+                $item->main = ($data['main'] == 'true') ? true : false;
 
                 return $item;
             });
@@ -162,5 +164,10 @@ class CurrencyController extends Controller
     public function clearCurrencyCache()
     {
         Cache::forget('curr_list');
+
+        Cache::forget('currency_list');
+        Cache::forget('currency_main');
+        Cache::forget('currency_secondary');
+        Cache::forget('currency_secondary_show');
     }
 }
