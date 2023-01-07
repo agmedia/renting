@@ -62,7 +62,7 @@ class Corvus
 
         $total = number_format($this->order->checkout->total_amount, 2, '.', '');
 
-        $data['currency']  = 'HRK';
+        $data['currency']  = 'EUR';
         $data['action']    = $action;
         $data['merchant']  = $payment_method->data->shop_id;
         $data['order_id']  = $this->order->order_id;
