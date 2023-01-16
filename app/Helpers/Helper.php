@@ -165,4 +165,10 @@ class Helper
         ];
     }
 
+
+    public static function crypt()
+    {
+
+    }
+
 }

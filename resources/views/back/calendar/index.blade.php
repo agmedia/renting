@@ -26,7 +26,7 @@
     <!-- Full Calendar (functionality is initialized in js/pages/be_comp_calendar.min.js which was auto compiled from _js/pages/be_comp_calendar.js ) -->
     <!-- For more info and examples you can check out https://fullcalendar.io/ -->
     <div class="row no-gutters flex-xl-10-auto">
-        @include('back.layouts.partials.session')
+
 
         <div class="col-xl-3">
             <div class="content">
@@ -80,6 +80,7 @@
         </div>
         <div class="col-xl-9 bg-body-dark">
             <div class="content">
+                @include('back.layouts.partials.session')
                 <div class="block block-rounded">
                     <div class="block-content block-content-full">
                         <!-- Calendar Container -->

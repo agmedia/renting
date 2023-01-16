@@ -94,6 +94,7 @@ Route::group(
         Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
         Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
         Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+        Route::get('order/{order}/delete', [OrderController::class, 'destroy'])->name('orders.destroy');
 
         // MARKETING
         Route::prefix('marketing')->group(function () {
@@ -356,8 +357,8 @@ Route::group(
     Route::get('info/{page}', [HomeController::class, 'page'])->name('page');
     Route::get('faq', [HomeController::class, 'faq'])->name('faq');
     //
-    Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-    Route::post('/checkout-view', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
+    Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('/naplata', [CheckoutController::class, 'success'])->name('naplata');
     // SETUP ROUTES
     Route::get('cache/image', [SetupController::class, 'imageCache']);

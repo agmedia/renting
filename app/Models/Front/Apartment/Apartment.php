@@ -2,7 +2,7 @@
 
 namespace App\Models\Front\Apartment;
 
-use App\Helpers\CurrencyHelper;
+use App\Helpers\Currency;
 use App\Helpers\Helper;
 use App\Helpers\iCal;
 use App\Models\Front\Checkout\Order;
@@ -61,7 +61,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
         parent::__construct($attributes);
 
         $this->locale = current_locale();
-        $this->main_currency = CurrencyHelper::mainSession();
+        $this->main_currency = Currency::session();
     }
 
 
@@ -233,11 +233,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getPriceTextAttribute(): string
     {
-        return CurrencyHelper::getCurrencyText($this->resolvePrice(), $this->main_currency);
-        /*$left = $this->main_currency->symbol_left ? $this->main_currency->symbol_left . ' ' : '';
-        $right = $this->main_currency->symbol_right ? ' ' . $this->main_currency->symbol_right : '';
-
-        return $left . number_format(($this->resolvePrice() * $this->main_currency->value), $this->main_currency->decimal_places, ',', '.') . $right;*/
+        return currency_main($this->resolvePrice(), true);
     }
 
 

@@ -98,11 +98,11 @@ class CheckoutController extends Controller
      *
      * @return void
      */
-    private function validateCheckout(Request $request, bool $view = false)
+    private function validateCheckout(Request $request, bool $view = false): void
     {
         $request->validate([
-            'apartment_id' => 'required',
-            'dates'        => 'required',
+            'aid'   => 'required',
+            'dates' => 'required',
         ]);
 
         if ($view) {
@@ -112,6 +112,12 @@ class CheckoutController extends Controller
                 'phone'     => 'required',
                 'email'     => 'required',
             ]);
+
+            $request->merge(['apartment_id' => $request->input('aid')]);
+        }
+
+        if ( ! $view) {
+            $request->merge(['apartment_id' => decrypt_apartment($request->input('aid'))]);
         }
     }
 

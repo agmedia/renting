@@ -2,7 +2,7 @@
 
 namespace App\Models\Front\Checkout;
 
-use App\Helpers\CurrencyHelper;
+use App\Helpers\Currency;
 use App\Mail\Order\SendToAdmin;
 use App\Mail\Order\SendToCustomer;
 use App\Models\Back\Orders\OrderHistory;
@@ -59,7 +59,7 @@ class Order extends Model
     {
         parent::__construct($attributes);
 
-        $this->main_currency = CurrencyHelper::mainSession();
+        $this->main_currency = Currency::session();
     }
 
 

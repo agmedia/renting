@@ -125,14 +125,17 @@ class OrderController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified order from storage.
      *
-     * @param Request $request
+     * @param Order $order
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Order $order)
     {
+        $order->completeDelete();
+
+        return redirect()->back()->with(['success' => __('back/app.save_success')]);
     }
 
 

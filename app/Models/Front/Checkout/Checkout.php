@@ -4,7 +4,6 @@ namespace App\Models\Front\Checkout;
 
 use App\Helpers\ActionHelper;
 use App\Helpers\CheckoutCalculator;
-use App\Helpers\CurrencyHelper;
 use App\Helpers\Helper;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\Apartment\Apartment;

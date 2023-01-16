@@ -32,8 +32,7 @@ return [
     'type_comments' => 'Upišite vaš komentar',
     'agree' => 'Odabirom gumba ispod, slažem se s <a href="en/info/terms-and-conditions" class="alert-link">Uvjetima pružanja usluge, Uvjetima pružanja usluge plaćanja i prihvaćam Pravila o privatnosti.</a>',
     'confirm_and_pay' => 'Nastavi na plaćanje',
-
-
-
-
+    'subtotal' => 'Ukupno',
+    'tax' => 'Porez <small class="text-muted">(PDV 25%)</small>',
+    'total' => 'Sveukupno'
 ];

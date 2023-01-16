@@ -44,7 +44,7 @@
                                         @endforeach
                                         @foreach ($checkout->total['total'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
-                                                <h5 class="my-0">{{ $item['title'] }} </h5>
+                                                <h5 class="my-0">{!! $item['title'] !!}</h5>
                                                 <strong>{{ $item['total_text'] }}</strong>
                                             </li>
                                         @endforeach
