@@ -1,0 +1,1 @@
+INSERT INTO `renting`.`settings` (`id`, `user_id`, `code`, `key`, `value`, `json`, `created_at`, `updated_at`) VALUES ('18', '0', 'currency', 'show.second', '1', '0', '2022-12-26 19:41:28', '2022-12-26 19:41:28');
