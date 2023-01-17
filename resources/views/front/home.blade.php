@@ -33,7 +33,7 @@
             <div class="row">
 
                 <!-- listings -->
-                <div class="col-xl-6 ">
+                <div class="col-xl-6">
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
                             <div class="row pb-0 mt-3">
@@ -177,7 +177,7 @@
                 </div>
 
                 <!--map -->
-                <div class="col-xl-6  pe-0 2">
+                <div class="col-xl-6 pe-0" id="map-holder">
                     <div id="map" class="map-2"></div>
                 </div>
 
@@ -406,6 +406,14 @@
             });
 
             setInputParams();
+
+            $('.property-search').scroll((e) => {
+                let div = e.currentTarget;
+
+                if (div.scrollTop > (div.scrollHeight - div.offsetHeight)) {
+                    document.body.style.removeProperty('overflow');
+                }
+            });
         });
 
         /**
