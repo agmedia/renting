@@ -46,7 +46,7 @@
                         <div class="input-group">
                             <input type="text" class="js-add-event form-control border-0" placeholder="Add Event..">
                             <div class="input-group-append">
-                                <span class="input-group-text border-0 bg-white"><i class="fa fa-fw fa-plus-circle"></i></span>
+                                <span id="add-event-btn" class="input-group-text border-0 bg-white"><i class="fa fa-fw fa-plus-circle"></i></span>
                             </div>
                         </div>
                     </form>
@@ -155,22 +155,32 @@
             static addEvent() {
                 let eventInput      = jQuery('.js-add-event');
                 let eventInputVal   = '';
+                let possible_inputs = ['rent', 'book', 'najam'];
 
                 // When the add event form is submitted
                 jQuery('.js-form-add-event').on('submit', e => {
-                    // Get input value
-                    eventInputVal = eventInput.prop('value');
+                    if (this.isApartmentSelected()) {
+                        let color = 'warning';
+                        // Get input value
+                        eventInputVal = eventInput.prop('value');
 
-                    // Check if the user entered something
-                    if (eventInputVal) {
-                        // Add it to the events list
-                        jQuery('#js-events')
-                        .prepend('<li>' + '<div class="js-event p-2 text-white font-size-sm font-w500 bg-info">' +
-                            jQuery('<div />').text(eventInputVal).html() +
-                            '</div>' + '</li>');
+                        if (eventInputVal == '' || possible_inputs.indexOf(eventInputVal) != -1) {
+                            let el = $('#apartment-select')[0];
+                            eventInputVal = el.options[el.selectedIndex].innerText;
+                            color = 'success';
+                        }
 
-                        // Clear input field
-                        eventInput.prop('value', '');
+                        // Check if the user entered something
+                        if (eventInputVal) {
+                            // Add it to the events list
+                            jQuery('#js-events')
+                            .prepend('<li>' + '<div class="js-event p-2 text-white font-size-sm font-w500 bg-' + color + '">' +
+                                jQuery('<div />').text(eventInputVal).html() +
+                                '</div>' + '</li>');
+
+                            // Clear input field
+                            eventInput.prop('value', '');
+                        }
                     }
 
                     return false;
@@ -231,11 +241,13 @@
                         left: 'title',
                         right: 'prev,next dayGridMonth'
                     },
+                    eventDragStop: function(event, jsEvent) {
+                        if (!pageCompCalendar.isApartmentSelected()) {
+                            event.el.remove();
+                        }
+                    },
                     drop: function(info) {
                         pageCompCalendar.makeOrder(info);
-                        //console.log(info)
-                        //alert(info.draggedEl.innerText + " was put on " + info.dateStr.toLocaleString());
-                        //info.draggedEl.parentNode.remove();
                     },
                     eventResize: function(info) {
                         pageCompCalendar.moveOrder(info.event);
@@ -255,18 +267,22 @@
                 calendar.render();
             }
 
+            /**
+             *
+             * @param data
+             */
             static makeOrder(data) {
-                if (!$('#apartment-select').val()) {
-                    return errorToast.fire('{{ __('back/app.calendar_make_apartment_error') }}');
+                if (this.isApartmentSelected()) {
+                    console.log(data)
+                    let item = {
+                        type: 'service',
+                        apartment_id: $('#apartment-select').val(),
+                        date: data.dateStr,
+                        title: data.draggedEl.innerText
+                    };
+
+                    this.moveOrder(item);
                 }
-
-                let item = {
-                    type: 'service',
-                    apartment_id: $('#apartment-select').val(),
-                    date: data.dateStr,
-                };
-
-                this.moveOrder(item);
             }
 
             /**
@@ -362,6 +378,20 @@
                             <td class="text-right pr-3">` + item.title + `</td>
                             <td>` + item.total_text + `</td>
                         </tr>`
+            }
+
+            /**
+             *
+             * @returns {boolean}
+             */
+            static isApartmentSelected() {
+                if (!$('#apartment-select').val()) {
+                    errorToast.fire('{{ __('back/app.calendar_make_apartment_error') }}');
+
+                    return false;
+                }
+
+                return true;
             }
 
             /*

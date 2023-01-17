@@ -9,8 +9,12 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
-                <h4><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span></h4>
+                @if (isset($order))
+                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
+                    <h4><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span></h4>
+                @else
+                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Napravi Novu Narudžbu</h1>
+                @endif
             </div>
         </div>
     </div>

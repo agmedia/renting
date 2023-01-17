@@ -313,6 +313,12 @@ class Order extends Model
      */
     private function updateData($id)
     {
+        if ( ! $this->checkout->lastname == 'Service') {
+            $this->where('id', $id)->update([
+                'invoice' => '',
+            ]);
+        }
+
         return $this->where('id', $id)->update([
             'apartment_id'    => $this->checkout->apartment->id,
             'total'           => $this->checkout->total_amount,

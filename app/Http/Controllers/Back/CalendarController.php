@@ -51,6 +51,7 @@ class CalendarController extends Controller
      */
     public function move(Request $request)
     {
+        Log::info($request->toArray());
         if ( ! isset($request['data']['extendedProps']['order']['id'])) {
             if (isset($request['data']['type']) && $request['data']['type'] == 'service') {
                 return $this->storeService($request);

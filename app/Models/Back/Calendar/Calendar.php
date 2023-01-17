@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Calendar extends Model
 {
@@ -70,6 +71,14 @@ class Calendar extends Model
      */
     public function storeServiceOrder(Request $request): bool
     {
+        $name = 'Service';
+
+        if (isset($request['data']['title'])) {
+            $name = $request['data']['title'];
+        }
+
+        Log::info($name);
+
         $id = Order::insertGetId([
             'apartment_id'     => $request['data']['apartment_id'],
             'user_id'          => 0,
@@ -79,7 +88,7 @@ class Calendar extends Model
             'total'            => 0,
             'date_from'        => Carbon::make($request['data']['date']),
             'date_to'          => Carbon::make($request['data']['date'])->addDay(),
-            'payment_fname'    => 'Service',
+            'payment_fname'    => $name,
             'payment_lname'    => 'Service',
             'payment_email'    => 'service@service.com',
             'payment_phone'    => '00000000',
@@ -106,7 +115,7 @@ class Calendar extends Model
                 'dates'        => Carbon::make($order->date_from)->format('Y-m-d') . ' - ' . Carbon::make($order->date_to)->format('Y-m-d'),
                 'adults'       => 1,
                 'children'     => 0,
-                'firstname'    => 'Service',
+                'firstname'    => $name,
                 'lastname'     => 'Service',
                 'phone'        => '00000000',
                 'email'        => 'service@service.com',
@@ -115,7 +124,9 @@ class Calendar extends Model
 
             $checkout = new Checkout($sorted_request);
 
-            return $order->setCheckoutData($checkout)->store($order->id);
+            $order->setCheckoutData($checkout)->store($order->id);
+
+            return true;
         }
 
         return false;
