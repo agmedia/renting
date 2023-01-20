@@ -36,7 +36,7 @@
                 <div class="col-xl-6">
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
-                            <div class="row pb-0 mt-3">
+                            <div class="row pb-0 mt-3" style="position: sticky;top: 0;z-index: 100;background-color: #fff;padding-bottom: 7px !important;">
                                 <div class="col-4 col-md-6">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
@@ -56,69 +56,71 @@
                                         <i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}
                                     </a>
                                 </div>
-                            </div>
 
-                            <!---filters -->
-                            <div class="row">
-                                <div class="col">
-                                    <div class="collapse font-14" id="multiCollapseExample1">
-                                        <div class="card card-body pb-0 px-0 border-0">
-                                            <div class="mb-0 p-4 shadow-one reservationbox">
-                                                <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.search_box_title') }}</h5>
-                                                <div class="row row-cols-1">
+                                <!---filters -->
 
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="input-group flex-nowrap select-arrow">
-                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
-                                                            <select class="form-control bg-gray form-select" id="select-city">
-                                                                <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
-                                                                @foreach($cities as $city)
-                                                                    <option @if ($loop->first) selected @endif >{{ $city }}</option>
-                                                                @endforeach
-                                                            </select>
+                                    <div class="col">
+                                        <div class="collapse font-14" id="multiCollapseExample1">
+                                            <div class="card card-body pb-0 px-0 border-0">
+                                                <div class="mb-0 p-4 shadow-one reservationbox">
+                                                    <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.search_box_title') }}</h5>
+                                                    <div class="row row-cols-1">
+
+                                                        <div class="col-md-6 mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
+                                                                <select class="form-control bg-gray form-select" id="select-city">
+                                                                    <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
+                                                                    @foreach($cities as $city)
+                                                                        <option @if ($loop->first) selected @endif >{{ $city }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-md-6 mt-3">
-                                                        <div class="input-group ">
-                                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                                            <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
+                                                        <div class="col-md-6 mt-3">
+                                                            <div class="input-group ">
+                                                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                                                <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-md-4 mt-3">
-                                                        <div class="input-group flex-nowrap select-arrow">
-                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                            <select class="form-control bg-gray form-select" id="select-max_adults">
-                                                                <option value="0">{{ __('front/apartment.adults_title') }}</option>
-                                                                @for ($i = 1; $i < 8; $i++)
-                                                                    <option value="{{ $i }}">{{ $i }}</option>
-                                                                @endfor
-                                                            </select>
+                                                        <div class="col-md-4 mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                                <select class="form-control bg-gray form-select" id="select-max_adults">
+                                                                    <option value="0">{{ __('front/apartment.adults_title') }}</option>
+                                                                    @for ($i = 1; $i < 8; $i++)
+                                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-md-4  mt-3">
-                                                        <div class="input-group flex-nowrap select-arrow">
-                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                            <select class="form-control bg-gray form-select" id="select-max_children">
-                                                                <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                                @for ($i = 1; $i < 6; $i++)
-                                                                    <option value="{{ $i }}">{{ $i }}</option>
-                                                                @endfor
-                                                            </select>
+                                                        <div class="col-md-4  mt-3">
+                                                            <div class="input-group flex-nowrap select-arrow">
+                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                                <select class="form-control bg-gray form-select" id="select-max_children">
+                                                                    <option value="0">{{ __('front/apartment.children_title') }}</option>
+                                                                    @for ($i = 1; $i < 6; $i++)
+                                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-md-4 mt-3">
-                                                        <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
+                                                        <div class="col-md-4 mt-3">
+                                                            <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </div>
+
+
 
                             <!---listings -->
                             <div class="row mt-0 row-cols-md-2 row-cols-1 g-4">
