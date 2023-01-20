@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Helpers\CurrencyHelper;
+use App\Helpers\Currency;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Models\Sitemap;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
 class SetupController extends Controller
@@ -20,7 +21,8 @@ class SetupController extends Controller
     public function setMainCurrency(Request $request)
     {
         if ($request->has('currency')) {
-            CurrencyHelper::mainSession($request->input('currency'));
+            //CurrencyHelper::mainSession($request->input('currency'));
+            Currency::session($request->input('currency'));
         }
 
         return redirect()->back();

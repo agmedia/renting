@@ -313,6 +313,12 @@ class Order extends Model
      */
     private function updateData($id)
     {
+        if ( ! $this->checkout->lastname == 'Service') {
+            $this->where('id', $id)->update([
+                'invoice' => '',
+            ]);
+        }
+
         return $this->where('id', $id)->update([
             'apartment_id'    => $this->checkout->apartment->id,
             'total'           => $this->checkout->total_amount,
@@ -362,15 +368,14 @@ class Order extends Model
 
 
     /**
-     * @param $id
-     *
      * @return mixed
      */
-    public static function trashComplete($id)
+    public function completeDelete()
     {
-        OrderTotal::where('order_id', $id)->delete();
-        Transaction::where('order_id', $id)->delete();
+        OrderTotal::where('order_id', $this->id)->delete();
+        OrderHistory::where('order_id', $this->id)->delete();
+        Transaction::where('order_id', $this->id)->delete();
 
-        return self::where('id', $id)->delete();
+        return self::where('id', $this->id)->delete();
     }
 }

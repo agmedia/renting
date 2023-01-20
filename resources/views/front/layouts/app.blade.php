@@ -85,7 +85,7 @@
 
 
 <!-- Body-->
-<body class="handheld-toolbar-enabled">
+<body class="handheld-toolbar-enabled" @if (request()->routeIs('index'))style="overflow: hidden;"@endif>
 
 @if (config('app.env') == 'production')
     <!-- Google Tag Manager (noscript) -->

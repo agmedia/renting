@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/plugins/slim/slim.css') }}">
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDb7BR7bJL5O1ABqq9q3ZACc1Rt7eLCii8&libraries=places" ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('google.maps-key') }}&libraries=places" ></script>
     <script type="text/javascript">
 
         var map;

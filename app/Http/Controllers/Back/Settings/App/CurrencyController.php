@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CurrencyController extends Controller
@@ -18,7 +19,7 @@ class CurrencyController extends Controller
     public function index(Request $request)
     {
         $items = Settings::get('currency', 'list')->sortBy('sort_order');
-        $main = $items->where('main', 1)->first();
+        $main = $items->where('main', '=', true)->first();
 
         return view('back.settings.app.currency', compact('items', 'main'));
     }
@@ -33,7 +34,11 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->clearCurrencyCache();
+
         $data = $request->data;
+
+        Log::debug($data);
 
         $setting = Settings::where('code', 'currency')->where('key', 'list')->first();
 
@@ -55,8 +60,9 @@ class CurrencyController extends Controller
                 $item->symbol_right = $data['symbol_right'];
                 $item->value = $data['value'];
                 $item->decimal_places = $data['decimal_places'];
+                $item->sort_order = $data['sort_order'] ?: '0';
                 $item->status = $data['status'];
-                $item->main = (isset($data['main']) && $data['main']) ? true : false;
+                $item->main = ($data['main'] == 'true') ? true : false;
 
                 return $item;
             });
@@ -83,6 +89,8 @@ class CurrencyController extends Controller
      */
     public function storeMain(Request $request)
     {
+        $this->clearCurrencyCache();
+
         $data = $request->data;
 
         $setting = Settings::where('code', 'currency')->where('key', 'list')->first();
@@ -126,6 +134,8 @@ class CurrencyController extends Controller
      */
     public function destroy(Request $request)
     {
+        $this->clearCurrencyCache();
+
         $data = $request->data;
 
         if ($data['id']) {
@@ -145,5 +155,19 @@ class CurrencyController extends Controller
         }
 
         return response()->json(['message' => 'Server error! Pokušajte ponovo ili kontaktirajte administratora!']);
+    }
+
+
+    /**
+     * @return void
+     */
+    public function clearCurrencyCache()
+    {
+        Cache::forget('curr_list');
+
+        Cache::forget('currency_list');
+        Cache::forget('currency_main');
+        Cache::forget('currency_secondary');
+        Cache::forget('currency_secondary_show');
     }
 }

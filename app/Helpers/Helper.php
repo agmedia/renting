@@ -36,6 +36,10 @@ class Helper
             }
 
             $count++;
+
+            if ($count >= count(config('settings.calendar_colors'))) {
+                $count = 0;
+            }
         }
 
         return collect($response);
@@ -163,6 +167,12 @@ class Helper
             config('settings.order.status.pending'),
             config('settings.order.status.paid')
         ];
+    }
+
+
+    public static function crypt()
+    {
+
     }
 
 }

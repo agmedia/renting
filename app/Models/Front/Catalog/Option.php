@@ -2,7 +2,7 @@
 
 namespace App\Models\Front\Catalog;
 
-use App\Helpers\CurrencyHelper;
+use App\Helpers\Currency;
 use App\Models\Back\Settings\Options\OptionTranslation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,7 +48,7 @@ class Option extends Model
         parent::__construct($attributes);
 
         $this->locale = current_locale();
-        $this->main_currency = CurrencyHelper::mainSession();
+        $this->main_currency = Currency::session();
     }
 
 

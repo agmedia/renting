@@ -23,7 +23,7 @@
     <!--============== Get In Touch Section Start ==============-->
     <div class="full-row bg-white pt-0">
         <div class="container">
-
+            @include('front.layouts.partials.session')
             <div class="row">
                 <div class="col-lg-4 offset-lg-1 order-lg-2 content">
                     <div class="sidebar">
@@ -46,7 +46,7 @@
                                         @endforeach
                                         @foreach ($checkout->total['total'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
-                                                <h5 class="my-0">{{ $item['title'] }} </h5>
+                                                <h5 class="my-0">{!! $item['title'] !!}</h5>
                                                 <strong>{{ $item['total_text'] }}</strong>
                                             </li>
                                         @endforeach
@@ -60,7 +60,7 @@
                 <div class="col-lg-7 order-lg-1 mt-0">
                     <form id="checkout-view-form" class="" action="{{ route('checkout.view') }}" method="post">
                         {{ csrf_field() }}
-                        <input type="hidden" name="apartment_id" value="{{ $checkout->apartment->id }}">
+                        <input type="hidden" name="aid" value="{{ $checkout->apartment->id }}">
                         <input type="hidden" name="dates" value="{{ $checkout->from->format('Y-m-d') . ' - ' . $checkout->to->format('Y-m-d') }}">
                         <input type="hidden" name="adults" value="{{ $checkout->adults }}">
                         <input type="hidden" name="children" value="{{ $checkout->children }}">

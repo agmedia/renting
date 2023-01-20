@@ -29,11 +29,11 @@
                     <thead class="thead-light">
                     <tr>
                         <th style="width: 5%;">{{ __('back/layout.br') }}</th>
-                        <th style="width: 50%;">{{ __('back/settings.amenities.table_title') }}</th>
+                        <th style="width: 45%;">{{ __('back/settings.amenities.table_title') }}</th>
                         <th>{{ __('back/settings.amenities.group_title') }}</th>
-                        <th style="width: 15%;" class="text-center">{{ __('back/settings.amenities.icon_title') }}</th>
+                        <th class="text-center">{{ __('back/settings.amenities.icon_title') }}</th>
                         <th class="text-center">{{ __('back/apartment.featured') }}</th>
-                        <th class="text-right">{{ __('back/layout.btn.edit') }}</th>
+                        <th style="width: 10%;" class="text-right">{{ __('back/layout.btn.edit') }}</th>
                     </tr>
                     </thead>
                     <tbody>

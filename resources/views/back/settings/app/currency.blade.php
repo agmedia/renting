@@ -107,9 +107,19 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group mb-4">
-                                    <label for="currency-code">{{ __('back/app.currency.code') }}</label>
-                                    <input type="text" class="form-control" id="currency-code" name="code">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="currency-code">{{ __('back/app.currency.code') }}</label>
+                                            <input type="text" class="form-control" id="currency-code" name="code">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="currency-value">{{ __('back/app.currency.value') }}</label>
+                                            <input type="text" class="form-control" id="currency-value" name="value">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
@@ -130,14 +140,14 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="currency-value">{{ __('back/app.currency.value') }}</label>
-                                            <input type="text" class="form-control" id="currency-value" name="value">
+                                            <label for="currency-decimal-places">{{ __('back/app.currency.decimal') }}</label>
+                                            <input type="text" class="form-control" id="currency-decimal-places" name="decimal_places">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="currency-decimal-places">{{ __('back/app.currency.decimal') }}</label>
-                                            <input type="text" class="form-control" id="currency-decimal-places" name="decimal_places">
+                                            <label for="sort-order-value">{{ __('back/app.currency.sort_order') }}</label>
+                                            <input type="text" class="form-control" id="sort-order-value" name="sort_order">
                                         </div>
                                     </div>
                                 </div>
@@ -149,14 +159,7 @@
                                     </label>
                                 </div>
 
-<!--                                <div class="form-group">
-                                    <label class="css-control css-control-sm css-control-success css-switch res hidden">
-                                        <input type="checkbox" class="css-control-input" id="currency-main" name="main">
-                                        <span class="css-control-indicator"></span> {{ __('back/app.currency.default_currency') }}
-                                    </label>
-                                </div>-->
-
-<!--                                <input type="hidden" id="currency-main" name="main">-->
+                                <input type="hidden" id="currency-main" name="main">
                                 <input type="hidden" id="currency-id" name="id" value="0">
                             </div>
                         </div>
@@ -252,9 +255,6 @@
 @push('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
-
-        var main_currency;
-
         $(() => {
             $('#currency-main-select').select2({
                 minimumResultsForSearch: Infinity
@@ -297,8 +297,9 @@
                 symbol_right: $('#currency-symbol-right').val(),
                 value: $('#currency-value').val(),
                 decimal_places: $('#currency-decimal-places').val(),
+                sort_order: $('#sort-order-value').val(),
                 status: $('#currency-status')[0].checked,
-                main: main_currency,
+                main: $('#currency-main').val(),
             };
 
             axios.post("{{ route('api.currencies.store') }}", { data: item })
@@ -363,6 +364,8 @@
             $('#currency-symbol-right').val(item.symbol_right);
             $('#currency-value').val(item.value);
             $('#currency-decimal-places').val(item.decimal_places);
+            $('#sort-order-value').val(item.sort_order);
+            $('#currency-main').val(item.main);
 
             {!! ag_lang() !!}.forEach((lang) => {
                 if (typeof item.title[lang.code] !== undefined) {
@@ -372,10 +375,6 @@
 
             if (item.status) {
                 $('#currency-status')[0].checked = item.status ? true : false;
-            }
-
-            if (item.main) {
-                main_currency = item.main;
             }
         }
     </script>

@@ -34,7 +34,10 @@
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-primary text-start h5 my-2 text-md-end">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    <div class="text-primary text-start h5 my-2 text-md-end">{{ currency_main($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    @if (show_secondary_currency())
+                        <div class="text-secondary text-sm-start my-2 text-md-end">{{ currency_secondary($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    @endif
 
                     <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i
                                 class="fas fa-users text-primary me-1"></i> {{ $apartment->regular_persons }}  {{ __('front/apartment.guests') }}</span>
@@ -81,16 +84,15 @@
                     <div class="row">
                         <div class="col-lg-4 order-lg-2 content">
                             <div class="sidebar">
-                                <form class="bg-gray-input d-inline-block" action="{{ route('checkout') }}" method="post">
-                                    {{ csrf_field() }}
+                                <form class="bg-gray-input d-inline-block" action="{{ \LaravelLocalization::localizeURL('/checkout') }}" method="get">
+                                    <input type="hidden" name="aid" value="{{ crypt_apartment((int)$apartment->id) }}">
+
                                     <div class="mt-4 p-4 shadow-one reservationbox">
                                         <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.reserve_title') }}</h5>
                                         <div class="row row-cols-1">
                                             <div class="col mt-3">
-
                                                 <div class="input-group ">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                                    <input type="hidden" name="apartment_id" value="{{ $apartment->id }}">
                                                     <input class="form-control" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
                                                 </div>
                                             </div>
@@ -241,7 +243,7 @@
     </script>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7hOSRQTL76Yb5ffPF7ecWG-K-nz6Jmek"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('google.maps-key') }}"></script>
     <script src="{{ asset('assets/js/map/markerwithlabel_packed.js') }}"></script>
     <script src="{{ asset('assets/js/map/infobox.js') }}"></script>
     <script src="{{ asset('assets/js/map/property-map.js') }}"></script>
