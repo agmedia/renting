@@ -36,7 +36,7 @@
                 <div class="col-xl-6">
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
-                            <div class="row pb-0 mt-3" style="position: sticky;top: 0;z-index: 100;background-color: #fff;padding-bottom: 7px !important;">
+                            <div class="row pb-0 mt-1" style="position: sticky;top: 0;z-index: 100;background-color: #fff;padding-top:5px;padding-bottom: 7px !important;">
                                 <div class="col-4 col-md-6">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
