@@ -34,10 +34,10 @@
                     <span class="d-block"><i class="fas fa-map-marker-alt text-primary font-12"></i> {{ $apartment->address }}, {{ $apartment->city }}</span>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-primary text-start h5 my-2 text-md-end">{{ currency_main($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
-                    @if (show_secondary_currency())
+                    <div class="text-primary text-start h5 my-2 text-md-end">{{ currency_main($apartment->resolvePrice(), true) }}/{{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                    {{-- @if (show_secondary_currency())
                         <div class="text-secondary text-sm-start my-2 text-md-end">{{ currency_secondary($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
-                    @endif
+                    @endif--}}
 
                     <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i
                                 class="fas fa-users text-primary me-1"></i> {{ $apartment->regular_persons }}  {{ __('front/apartment.guests') }}</span>
