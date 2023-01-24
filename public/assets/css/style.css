@@ -2422,14 +2422,11 @@ Map Style
 }
 
 .map-2 {
-    height: calc(100vh - 155px);
+    height: 500px;
     width: 100%;
 }
 
-.property-search {
-    height: calc(100vh - 155px);
-    overflow: scroll;
-}
+
 
 .map-widget {
     height: 500px;
