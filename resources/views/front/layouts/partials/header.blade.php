@@ -45,6 +45,7 @@
                             </button>
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
+
                                     @foreach($pages as $page)
                                         <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a></li>
                                     @endforeach
@@ -52,6 +53,7 @@
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
                                 </ul>
+                                <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> {{ __('front/common.login_register') }}</a>
                             </div>
                         </nav>
                     </div>
