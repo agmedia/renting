@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-1 col-sm-2">
                         <div class="d-flex h-100 align-items-center justify-content-end">
-                            @include('front.layouts.partials.currency-selector')
+
                             @include('front.layouts.partials.language-selector')
                         </div>
                     </div>
