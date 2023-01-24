@@ -87,8 +87,8 @@ class CheckoutCalculator
      */
     public function totals()
     {
-        $subtotal = $this->total_amount / 1.25;
-        $tax      = $this->total_amount - $subtotal;
+        $subtotal = $this->total_amount;
+        //$tax      = $this->total_amount - $subtotal;
 
         $this->totals[] = [
             'code'       => 'subtotal',
@@ -97,12 +97,12 @@ class CheckoutCalculator
             'total_text' => currency_main($subtotal, true),
         ];
 
-        $this->totals[] = [
+      /*  $this->totals[] = [
             'code'       => 'tax',
             'title'      => __('front/checkout.tax'),
             'total'      => currency_main($tax),
             'total_text' => currency_main($tax, true),
-        ];
+        ];*/
 
         $this->totals[] = [
             'code'       => 'total',
