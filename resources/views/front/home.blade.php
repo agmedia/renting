@@ -33,10 +33,10 @@
             <div class="row">
 
                 <!-- listings -->
-                <div class="col-xl-6">
+                <div class="col-12 ">
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
-                            <div class="row pb-0 mt-1" style="position: sticky;top: 0;z-index: 100;background-color: #fff;padding-top:5px;padding-bottom: 7px !important;">
+                          <!--  <div class="row pb-0 mt-3">
                                 <div class="col-4 col-md-6">
                                     <form class="selecting-command d-flex flex-wrap" method="get">
                                         <div class="select-arrow me-30 d-none d-sm-block">
@@ -56,88 +56,81 @@
                                         <i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}
                                     </a>
                                 </div>
+                            </div>-->
 
-                                <!---filters -->
+                            <!---filters -->
+                            <div class="row">
+                                <div class="col">
 
-                                    <div class="col">
-                                        <div class="collapse font-14" id="multiCollapseExample1">
-                                            <div class="card card-body pb-0 px-0 border-0">
-                                                <div class="mb-0 p-4 shadow-one reservationbox">
-                                                    <h5 class="mt-2 mb-2 text-primary">{{ __('front/apartment.search_box_title') }}</h5>
-                                                    <div class="row row-cols-1">
+                                        <div class="card card-body pb-0 px-0 border-0">
+                                            <div class="mb-0 p-4 pt-2 shadow-one reservationbox">
 
-                                                        <div class="col-md-6 mt-3">
-                                                            <div class="input-group flex-nowrap select-arrow">
-                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
-                                                                <select class="form-control bg-gray form-select" id="select-city">
-                                                                    <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
-                                                                    @foreach($cities as $city)
-                                                                        <option @if ($loop->first) selected @endif >{{ $city }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
+                                                <div class="row row-cols-1">
+
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="input-group flex-nowrap select-arrow">
+                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
+                                                            <select class="form-control bg-gray form-select" id="select-city">
+                                                                <option value="0" selected>{{ __('front/apartment.select_city') }}</option>
+                                                                @foreach($cities as $city)
+                                                                    <option @if ($loop->first) selected @endif >{{ $city }}</option>
+                                                                @endforeach
+                                                            </select>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="col-md-6 mt-3">
-                                                            <div class="input-group ">
-                                                                <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
-                                                                <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
-                                                            </div>
+                                                    <div class="col-md-6 mt-3">
+                                                        <div class="input-group ">
+                                                            <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                                                            <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
                                                         </div>
+                                                    </div>
 
-                                                        <div class="col-md-4 mt-3">
-                                                            <div class="input-group flex-nowrap select-arrow">
-                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control bg-gray form-select" id="select-max_adults">
-                                                                    <option value="0">{{ __('front/apartment.adults_title') }}</option>
-                                                                    @for ($i = 1; $i < 8; $i++)
-                                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
+                                                    <div class="col-md-4 mt-3">
+                                                        <div class="input-group flex-nowrap select-arrow">
+                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                            <select class="form-control bg-gray form-select" id="select-max_adults">
+                                                                <option value="0">{{ __('front/apartment.adults_title') }}</option>
+                                                                @for ($i = 1; $i < 8; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                @endfor
+                                                            </select>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="col-md-4  mt-3">
-                                                            <div class="input-group flex-nowrap select-arrow">
-                                                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                                                                <select class="form-control bg-gray form-select" id="select-max_children">
-                                                                    <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                                    @for ($i = 1; $i < 6; $i++)
-                                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                                    @endfor
-                                                                </select>
-                                                            </div>
+                                                    <div class="col-md-4  mt-3">
+                                                        <div class="input-group flex-nowrap select-arrow">
+                                                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
+                                                            <select class="form-control bg-gray form-select" id="select-max_children">
+                                                                <option value="0">{{ __('front/apartment.children_title') }}</option>
+                                                                @for ($i = 1; $i < 6; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                @endfor
+                                                            </select>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="col-md-4 mt-3">
-                                                            <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_title') }}</button>
-                                                        </div>
+                                                    <div class="col-md-4 mt-3">
+                                                        <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
+                                </div>
                             </div>
 
-
-
                             <!---listings -->
-                            <div class="row mt-0 row-cols-md-2 row-cols-1 g-4">
-                                    @foreach ($apartments->sortByDesc('featured') as $apartment)
+                            <div class="row mt-0 row-cols-md-4 row-cols-1 g-4">
+                                @foreach ($apartments->sortByDesc('featured') as $apartment)
                                     <div class="col">
                                         <div class="featured-thumb hover-zoomer">
                                             <div class="overflow-hidden position-relative">
                                                 <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
-                                                <div class="featured bg-primary text-white">
-                                                    {{ currency_main($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}
-                                                    @if (show_secondary_currency())
-                                                        <br>{{ currency_secondary($apartment->resolvePrice(), true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}
-                                                    @endif
-                                                </div>
+                                                <div class="featured bg-primary text-white">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                                                 @if ($apartment->featured)
-                                                <div class="starmark text-white"><i class="far fa-star"></i></div>
+                                                    <div class="starmark text-white"><i class="far fa-star"></i></div>
                                                 @endif
                                             </div>
                                             <div class="featured-thumb-data shadow-one">
@@ -179,15 +172,14 @@
                 </div>
 
                 <!--map -->
-                <div class="col-xl-6 pe-0" id="map-holder">
-                    <div id="map" class="map-2"></div>
+                <div class="col-12  pe-0 2">
+                    <div id="map" class="map-2" style="max-height:500px"></div>
                 </div>
 
             </div>
         </div>
     </div>
 @endsection
-
 @push('js_after')
     <script src="{{ asset('https://maps.googleapis.com/maps/api/js?key=' . config('google.maps-key')) }}"></script>
     <script src="{{ asset('assets/js/map/markerwithlabel_packed.js') }}"></script>
@@ -409,13 +401,13 @@
 
             setInputParams();
 
-            $('.property-search').scroll((e) => {
+          /*  $('.property-search').scroll((e) => {
                 let div = e.currentTarget;
 
                 if (div.scrollTop > (div.scrollHeight - div.offsetHeight)) {
                     document.body.style.removeProperty('overflow');
                 }
-            });
+            });*/
         });
 
         /**

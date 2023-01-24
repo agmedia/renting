@@ -1,6 +1,6 @@
 
 @if (\Illuminate\Support\Facades\Route::is('index'))
-    <header id="header" class="transparent-header-modern fixed-header-bg-white w-100 shadow">
+   <header id="header" class="transparent-header-modern bg-white w-100 shadow">
         <div class="top-header bg-white py-2">
             <div class="container-fluid">
                 <div class="row">
@@ -53,7 +53,7 @@
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
                                 </ul>
-                                
+
                                 <a class="btn btn-primary d-none d-xl-block" href="{{ route('login') }}"><i class="fas fa-user text-white me-1"></i> {{ __('front/common.login_register') }}</a>
                             </div>
                         </nav>
