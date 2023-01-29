@@ -127,6 +127,17 @@ class Option extends Model
      *
      * @return Builder
      */
+    public function scopeWithoutAutoInsert(Builder $query): Builder
+    {
+        return $query->where('auto_insert', '==', 0);
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
     public function scopeBasic(Builder $query): Builder
     {
         return $query->select('id', 'reference', 'price', 'featured', 'status');

@@ -143,18 +143,26 @@ return [
         ],
         6 => [
             'title' => [
-                'en' => 'Service',
-                'hr' => 'Uslužne Djelatnosti',
+                'en' => 'Cleaning',
+                'hr' => 'Čišćenje',
             ],
             'id' => 6,
             'reference' => 'service'
         ],
-        7 => [
+        /*7 => [
+            'title' => [
+                'en' => 'Service',
+                'hr' => 'Uslužne Djelatnosti',
+            ],
+            'id' => 7,
+            'reference' => 'service'
+        ],*/
+        8 => [
             'title' => [
                 'en' => 'Other',
                 'hr' => 'Ostalo',
             ],
-            'id' => 7,
+            'id' => 8,
             'reference' => 'other'
         ]
     ],

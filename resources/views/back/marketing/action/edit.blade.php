@@ -84,11 +84,21 @@
                                     <div class="form-group row items-push mb-2">
                                         <div class="col-md-4" id="price-regular-view">
                                             <label for="price-regular-input">Price for Regular Days</label>
-                                            <input type="text" class="form-control" id="price-regular-input" name="price_regular" placeholder="Price for regular week days" value="{{ isset($action) ? $action->price_regular : old('price_regular') }}">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="price-regular-input" name="price_regular" placeholder="Price for regular week days" value="{{ isset($action) ? $action->price_regular : old('price_regular') }}">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">{{ currency_main()->code }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4" id="price-weekends-view">
                                             <label for="price-weekends-input">Price for Weekends</label>
-                                            <input type="text" class="form-control" id="price-weekends-input" name="price_weekends" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? $action->price_weekends : old('price_weekends') }}">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="price-weekends-input" name="price_weekends" placeholder="{{ __('back/action.enter_action') }}" value="{{ isset($action) ? $action->price_weekends : old('price_weekends') }}">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">{{ currency_main()->code }}</span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="col-md-8" id="price-discount-view">

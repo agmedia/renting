@@ -107,7 +107,7 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="price-input" name="price" value="{{ isset($option) ? $option->price : old('price') }}">
                                                 <div class="input-group-append">
-                                                    <span class="input-group-text" id="discount-append-badge">kn</span>
+                                                    <span class="input-group-text" id="discount-append-badge">{{ currency_main()->code }}</span>
                                                 </div>
                                             </div>
                                         </div>

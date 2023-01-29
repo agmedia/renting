@@ -5,13 +5,11 @@ namespace App\Models\Front\Checkout;
 use App\Helpers\ActionHelper;
 use App\Helpers\CheckoutCalculator;
 use App\Helpers\Helper;
-use App\Models\Back\Settings\Settings;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -159,7 +157,7 @@ class Checkout
     public function getOptions()
     {
         $response = [];
-        $options  = $this->apartment->options()->withoutPersons()->get();
+        $options  = $this->apartment->options()->withoutPersons()->withoutAutoInsert()->get();
 
         foreach ($options as $option) {
             $response[$option->id]            = $option->toArray();

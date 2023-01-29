@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Silber\Bouncer\Bouncer;
 
 class Role extends Model
 {
@@ -90,9 +91,10 @@ class Role extends Model
     public static function selectList()
     {
         $query = (new Role())->newQuery();
+        //Bouncer::allow('admin')->to('*');
 
         // if user is NOT super-admin, remove all super-admin users.
-        if ( ! Auth::user()->can('*')) {
+        if (Auth::user()->isAn('admin')) {
             $query->where('name', '!=', 'admin');
         }
 

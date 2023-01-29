@@ -372,19 +372,47 @@
          * @param select
          * @param max
          * @param title
+         * @param index
          */
         function changeSelect(select, max, title, index = 0) {
             select.options.length = 0;
             max_allowed           = getMaxPersons(max, title);
 
-            for (let i = 0; i < max_allowed; i++) {
-                let opt = document.createElement('option');
-                opt.setAttribute('value', i);
-                opt.innerText = i ? i : title;
+            let opt = makeSelectOption(0, title);
+            select.appendChild(opt);
 
-                select.appendChild(opt);
-                select.selectedIndex = index;
+            for (let i = 0; i < max_allowed; i++) {
+                let opt = makeSelectOption(i);
+
+                if (title == adults_title) {
+                    if (i != 0) {
+                        select.appendChild(opt);
+                    }
+                } else {
+                    select.appendChild(opt);
+                }
             }
+
+            select.selectedIndex = index;
+        }
+
+        /**
+         *
+         * @param i
+         * @param title
+         * @returns {*}
+         */
+        function makeSelectOption(i, title = null) {
+            let opt = document.createElement('option');
+            opt.setAttribute('value', i);
+
+            if (title) {
+                opt.innerText = title;
+            } else {
+                opt.innerText = i;
+            }
+
+            return opt;
         }
 
         /**

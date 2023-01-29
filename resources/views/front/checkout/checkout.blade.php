@@ -84,7 +84,7 @@
                                 </div>
                             </div>
 
-                            @if($options)
+                            @if ($options)
                                 <div class="col-12">
                                     <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_options') }}</h4>
                                     <ul class="list-group mb-4">
@@ -136,7 +136,7 @@
                                                 >
                                                 {{ $item->title->{current_locale()} }}
                                             </label>
-                                            @if($item->code=='bank')
+                                            @if ($item->code=='bank')
                                                 <div class="ms-4" style="float:right">
                                                     <i class="fas fa-university fa-2x"></i>
                                                 </div>
@@ -149,7 +149,7 @@
                                                     <i class="far fa-credit-card fa-2x"></i>
                                                 </div>
                                             @endif
-                                            @if($item->data->short_description)
+                                            @if ($item->data->short_description)
                                                 <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
                                             @endif
                                         </li>
