@@ -1,6 +1,6 @@
 
 @if (\Illuminate\Support\Facades\Route::is('index'))
-   <header id="header" class="transparent-header-modern bg-white w-100 shadow">
+   <header  class="transparent-header-modern bg-white w-100 shadow">
         <div class="top-header bg-white py-2">
             <div class="container-fluid">
                 <div class="row">
@@ -58,7 +58,7 @@
         </div>
     </header>
 @else
-    <header id="header" class="fixed-header-bg-white">
+    <header  class="fixed-header-bg-white">
         <div class="top-header bg-white py-2">
             <div class="container">
                 <div class="row">
