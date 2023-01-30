@@ -79,8 +79,8 @@ class UserDetail extends Model
             'city'       => $request->city,
             'phone'      => $request->phone,
             'bio'        => $request->bio,
-            'company'    => $request->company,
-            'oib'        => $request->oib,
+            /*'company'    => $request->company,
+            'oib'        => $request->oib,*/
             'updated_at' => Carbon::now()
         ]);
     }

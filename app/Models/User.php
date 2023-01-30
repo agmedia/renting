@@ -156,8 +156,9 @@ class User extends Authenticatable
             'city'       => $this->request->city,
             'state'      => $this->request->state,
             'phone'      => $this->request->phone,
-            'company'      => $this->request->company,
-            'oib'      => $this->request->oib,
+            //'company'      => $this->request->company,
+            //'oib'      => $this->request->oib,
+            'affiliate'  => '',
             'avatar'     => 'media/avatars/avatar1.jpg',
             'bio'        => '',
             'social'     => '',
@@ -186,8 +187,6 @@ class User extends Authenticatable
             ]);
         }
 
-
-
         if ($this->id) {
             if (!isset($this->request->role)){
                 $this->request->role = 'customer';
@@ -206,8 +205,9 @@ class User extends Authenticatable
                 'city'       => $this->request->city,
                 'state'      => $this->request->state,
                 'phone'      => $this->request->phone,
-                'company'    => $this->request->company,
-                'oib'        => $this->request->oib,
+                //'company'    => $this->request->company,
+                //'oib'        => $this->request->oib,
+                'affiliate'  => '',
                 'avatar'     => 'media/avatars/avatar1.jpg',
                 'bio'        => '',
                 'social'     => '',
