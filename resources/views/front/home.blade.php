@@ -138,7 +138,7 @@
                                                     <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}">{{ $apartment->title }}</a></h5>
                                                 </div>
                                                 <div class="ps-4 pb-2">
-                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->regular_persons }}  {{ __('front/apartment.guests') }}</span>
+                                                    <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->max_persons }}  {{ __('front/apartment.guests') }}</span>
                                                 </div>
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
