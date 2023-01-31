@@ -1230,6 +1230,10 @@ Top Header CSS
     font-size: 13px;
 }
 
+.top-header .dropdown-menu {
+    right:0!important;
+}
+
 .top-header .dropdown.hover-dropdown .dropdown-toggle.text-white::after {
     color: var(--theme-primary-color);
 }
