@@ -103,7 +103,7 @@
                                                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                                                             <select class="form-control bg-gray form-select" id="select-max_children">
                                                                 <option value="0">{{ __('front/apartment.children_title') }}</option>
-                                                                @for ($i = 1; $i < 6; $i++)
+                                                                @for ($i = 0; $i < 6; $i++)
                                                                     <option value="{{ $i }}">{{ $i }}</option>
                                                                 @endfor
                                                             </select>

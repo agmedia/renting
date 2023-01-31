@@ -138,6 +138,17 @@ class Option extends Model
      *
      * @return Builder
      */
+    public function scopeAutoInsertOnly(Builder $query): Builder
+    {
+        return $query->where('auto_insert', '==', 1)->where('reference', '==', 'person');
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
     public function scopeBasic(Builder $query): Builder
     {
         return $query->select('id', 'reference', 'price', 'featured', 'status');

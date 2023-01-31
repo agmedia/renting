@@ -179,6 +179,23 @@ class Checkout
     /**
      * @return array
      */
+    public function getAutoInsertOptions()
+    {
+        $response = [];
+        $options  = $this->apartment->options()->autoInsertOnly()->get();
+
+        foreach ($options as $option) {
+            $response[$option->id]            = $option->toArray();
+            $response[$option->id]['checked'] = 0;
+        }
+
+        return $response;
+    }
+
+
+    /**
+     * @return array
+     */
     public function cleanData(): array
     {
         return [

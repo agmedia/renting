@@ -4,15 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
-use App\Mail\Order\SendToAdmin;
-use App\Mail\Order\SendToCustomer;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
-use App\Models\Seo;
 use App\Models\TagManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -28,13 +24,14 @@ class CheckoutController extends Controller
 
         $checkout = new Checkout($request);
         $options  = $checkout->getOptions();
+        $auto_options = $checkout->getAutoInsertOptions();
 
         CheckoutSession::hasAddress() ? $checkout->setAddress(CheckoutSession::getAddress()) : null;
         CheckoutSession::hasPayment() ? $checkout->setPayment(CheckoutSession::getPayment()) : null;
 
         CheckoutSession::setCheckout(serialize($checkout->cleanData()));
 
-        return view('front.checkout.checkout', compact('checkout', 'options'));
+        return view('front.checkout.checkout', compact('checkout', 'options', 'auto_options'));
     }
 
 
