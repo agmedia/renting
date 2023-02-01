@@ -16,7 +16,7 @@
 
         function initialize() {
             var myOptions = {
-                center: new google.maps.LatLng({{ isset($apartment) ? $apartment->latitude : '45.8059448' }}, {{ isset($apartment) ? $apartment->longitude : '15.9787596' }} ),
+                center: new google.maps.LatLng({{ (isset($apartment) && $apartment->latitude) ? $apartment->latitude : '45.8059448' }}, {{ (isset($apartment) && $apartment->longitude) ? $apartment->longitude : '15.9787596' }} ),
                 zoom: 15,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
@@ -24,7 +24,7 @@
             geocoder = new google.maps.Geocoder();
             var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-            CurrentLocation = new google.maps.LatLng({{ isset($apartment) ? $apartment->latitude : '45.8059448' }}, {{ isset($apartment) ? $apartment->longitude : '15.9787596' }});
+            CurrentLocation = new google.maps.LatLng({{ (isset($apartment) && $apartment->latitude) ? $apartment->latitude : '45.8059448' }}, {{ (isset($apartment) && $apartment->longitude) ? $apartment->longitude : '15.9787596' }});
 
             defaultMarker(CurrentLocation);
 
