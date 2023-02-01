@@ -269,7 +269,7 @@
                             <div class="form-group row items-push">
                                 <div class="col-md-12">
                                     <div class="row mb-3">
-                                        <div class="col-md-12 mt-3 mb-3" >
+                                        <div class="col-md-12 mt-3 mb-3">
                                             <label for="dm-post-edit-title" class="w-100" >{{ __('back/apartment.nazivapartmana') }} @include('back.layouts.partials.required-star')
                                                 <ul class="nav nav-pills float-right">
                                                     @foreach(ag_lang() as $lang)

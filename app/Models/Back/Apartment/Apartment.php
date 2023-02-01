@@ -223,10 +223,16 @@ class Apartment extends Model
             'regular_persons' => 'required',
             'max_adults'      => 'required',
             'max_children'    => 'required',
-            'm2'     => 'required',
-            'rooms'     => 'required',
-            'beds'     => 'required',
-            'baths'     => 'required'
+            'address'         => 'required',
+            'city'            => 'required',
+            'zip'             => 'required',
+            'state'           => 'required',
+            'latitude'        => 'required',
+            'longitude'       => 'required',
+            'm2'              => 'required',
+            'rooms'           => 'required',
+            'beds'            => 'required',
+            'baths'           => 'required'
 
         ]);
 
