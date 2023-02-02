@@ -143,9 +143,21 @@ return [
         'select_geo' => 'Select geo zone',
     ],
 
+    'calendar' => [
+        'options' => 'Calendar Options',
+        'drag' => 'Drag and drop events on the calendar',
+        'from' => 'od',
+        'to' => 'do',
+    ],
+
     // GENERALS
     'save_success' => 'Successfully saved!',
     'save_failure' => 'Oops..! There has been error with saving. Try again or contact your administrator!',
+    'select_status' => 'Select Status',
+    'sort' => 'Sort',
+    'type_error' => 'Please, check input!',
+    'total' => 'Total',
+    'days' => 'Days',
 
     // CALENDAR
     'calendar_make_apartment_error' => 'Select Apartment!',

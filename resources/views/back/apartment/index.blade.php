@@ -37,41 +37,36 @@
             </div>
             <div class="collapse" id="apartments-filter">
                 <div class="block-content bg-body-dark">
-<!--                    <form action="{{ route('apartments') }}" method="get">-->
-
-                        <div class="form-group row items-push mb-0">
-                            <div class="col-md-6 mb-0">
-                                <div class="form-group">
-                                    <div class="input-group flex-nowrap">
-                                        <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/apartment.searchname') }}">
-                                        <button type="submit" id="btn-search" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val(), true);"><i class="fa fa-search"></i> </button>
-                                    </div>
+                    <div class="form-group row items-push mb-0">
+                        <div class="col-md-6 mb-0">
+                            <div class="form-group">
+                                <div class="input-group flex-nowrap">
+                                    <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/apartment.searchname') }}">
+                                    <button type="submit" id="btn-search" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val(), true);"><i class="fa fa-search"></i> </button>
                                 </div>
                             </div>
-
-                            <div class="col-md-3 mb-0">
-                                <div class="form-group">
-                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="{{ __('back/apartment.select_status') }}">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach (config('settings.apartment_select_status') as $status)
-                                            <option value="{{ $status }}" {{ $status == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_' . $status) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-0">
-                                <div class="form-group">
-                                    <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="{{ __('back/apartment.sort') }}">
-                                        <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                        @foreach (config('settings.apartment_select_sort') as $sort)
-                                            <option value="{{ $sort }}" {{ $sort == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_' . $sort) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
-<!--                    </form>-->
+                        <div class="col-md-3 mb-0">
+                            <div class="form-group">
+                                <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="{{ __('back/apartment.select_status') }}">
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    @foreach (config('settings.apartment_select_status') as $status)
+                                        <option value="{{ $status }}" {{ $status == request()->input('status') ? 'selected' : '' }}>{{ __('back/apartment.select_' . $status) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="form-group">
+                                <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="{{ __('back/apartment.sort') }}">
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    @foreach (config('settings.apartment_select_sort') as $sort)
+                                        <option value="{{ $sort }}" {{ $sort == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_' . $sort) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="block-content">
@@ -145,11 +140,11 @@
     <script>
         $(() => {
             $('#status-select').select2({
-                placeholder: 'Odaberite status',
+                placeholder: '{{ __('back/app.select_status') }}',
                 allowClear: true
             });
             $('#sort-select').select2({
-                placeholder: 'Sortiraj artikle',
+                placeholder: '{{ __('back/app.sort') }}',
                 allowClear: true
             });
 

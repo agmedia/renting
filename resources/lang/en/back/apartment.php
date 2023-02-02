@@ -97,6 +97,7 @@ return [
 
     'children' => 'Children',
     'adults' => 'Adults',
+    'person' => 'Person',
     'duration' => 'Duration',
     'amount' => 'Amount',
     'title_discount' => 'Discount',
@@ -104,7 +105,10 @@ return [
     'apo_title' => 'Apartment Payable Options',
 
     'regular' => 'Regular Persons',
-    'max' => 'Max. Persons',
+    'max' => 'Max',
     'empty' => 'No Apartments Entered',
     'regularandmax' => 'Regular & Max. Persons Setup',
+    'sync' => 'Sync.',
+    'sync_url' => 'Sync. URL Apartmana',
+    'copy_ics_link' => 'Kopiraj ICS link Apartmana',
 ];

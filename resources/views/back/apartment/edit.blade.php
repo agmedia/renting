@@ -28,7 +28,6 @@
 
             defaultMarker(CurrentLocation);
 
-
             google.maps.event.addListener(map, 'click', function(event) {
                 placeMarker(event.latLng);
                 // Clear out the old markers.
@@ -100,14 +99,15 @@
 
             var marker;
             function placeMarker(location) {
-                if(marker){ //on vérifie si le marqueur existe
+                if (marker) { //on vérifie si le marqueur existe
                     marker.setPosition(location); //on change sa position
-                }else{
+                } else {
                     marker = new google.maps.Marker({ //on créé le marqueur
                         position: location,
                         map: map
                     });
                 }
+
                 document.getElementById('txtLat').value=location.lat().toFixed(7);
                 document.getElementById('txtLng').value=location.lng().toFixed(7);
                 getAddress(location);
@@ -116,19 +116,20 @@
 
             var marker;
             function defaultMarker(location) {
-                if(marker){ //on vérifie si le marqueur existe
+                if (marker) { //on vérifie si le marqueur existe
                     marker.setPosition(location); //on change sa position
-                }else{
+                } else {
                     marker = new google.maps.Marker({ //on créé le marqueur
                         position: location,
                         map: map
                     });
                 }
-
             }
 
-
-
+            /**
+             *
+             * @param latLng
+             */
             function getAddress(latLng) {
                 geocoder.geocode( {'latLng': latLng},
                     function(results, status) {
@@ -234,16 +235,11 @@
     <div class="content content-full">
         @include('back.layouts.partials.session')
 
-
         <form action="{{ isset($apartment) ? route('apartments.update', ['apartman' => $apartment]) : route('apartments.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (isset($apartment))
                 {{ method_field('PATCH') }}
             @endif
-
-
-
-
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
@@ -302,7 +298,7 @@
                                                 @endforeach
                                             </select>
                                             @error('type')
-                                            <span class="text-danger font-italic">ERROR TYPE</span>
+                                            <span class="text-danger font-italic">{{ __('back/app.type_error') }}</span>
                                             @enderror
                                         </div>
 
@@ -315,7 +311,7 @@
                                                 @endforeach
                                             </select>
                                             @error('target')
-                                            <span class="text-danger font-italic">ERROR TARGET</span>
+                                            <span class="text-danger font-italic">{{ __('back/app.type_error') }}</span>
                                             @enderror
                                         </div>
 
@@ -382,19 +378,19 @@
                                         <div class="col-md-12 pt-2">
                                             <div class="form-group row items-push mb-0">
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="regular-person-input">{{ __('back/apartment.regular') }}@include('back.layouts.partials.required-star')</label>
+                                                    <label for="regular-person-input">{{ __('back/apartment.regular') }} @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="regular-person-input" name="regular_persons" placeholder="" value="{{ isset($apartment) ? $apartment->regular_persons : old('regular_persons') }}">
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="max-adults-input">Max. {{ __('back/apartment.adults') }} @include('back.layouts.partials.required-star')</label>
+                                                    <label for="max-adults-input">{{ __('back/apartment.max') }}. {{ __('back/apartment.adults') }} @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-adults-input" name="max_adults" placeholder="" value="{{ isset($apartment) ? $apartment->max_adults : old('max_adults') }}">
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="max-children-input">Max. {{ __('back/apartment.children') }} @include('back.layouts.partials.required-star')</label>
+                                                    <label for="max-children-input">{{ __('back/apartment.max') }}. {{ __('back/apartment.children') }} @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-children-input" name="max_children" placeholder="" value="{{ isset($apartment) ? $apartment->max_children : old('max_children') }}">
                                                 </div>
                                                 <div class="col-md-6 col-xl-3">
-                                                    <label for="max-persons-input">{{ __('back/apartment.max') }}  @include('back.layouts.partials.required-star')</label>
+                                                    <label for="max-persons-input">{{ __('back/apartment.max') }}. {{ __('back/apartment.person') }}  @include('back.layouts.partials.required-star')</label>
                                                     <input type="text" class="form-control" id="max-persons-input" name="max_persons" placeholder="" value="{{ isset($apartment) ? $apartment->max_persons : old('max_persons') }}">
                                                 </div>
 
@@ -402,10 +398,10 @@
                                         </div>
                                     </div>
 
-                                    <h2 class="content-heading">Apartment Sync. URL
+                                    <h2 class="content-heading">{{ __('back/apartment.sync_url') }}
                                         @if (isset($apartment))
                                             <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
-                                                <i class="far fa-fw fa-plus-square"></i> Copy Apartment ICS link
+                                                <i class="far fa-fw fa-plus-square"></i> {{ __('back/apartment.copy_ics_link') }}
                                             </a>
                                         @endif
                                     </h2>
@@ -416,7 +412,7 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="airbnb-input" name="links['airbnb']" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
                                                 <div class="input-group-append">
-                                                    <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">Sync.</button>
+                                                    <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,7 +421,7 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="booking-input" name="links['booking']" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking) ? $apartment->booking : '' }}">
                                                 <div class="input-group-append">
-                                                    <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">Sync.</button>
+                                                    <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -511,14 +507,14 @@
                                     <label for="dm-post-edit-title">{{ __('back/apartment.price_regular') }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="price-regular-input" name="price_regular" placeholder="" value="{{ isset($apartment) ? $apartment->price_regular : old('price_regular') }}">
                                     @error('price')
-                                    <span class="text-danger font-italic">ERROR PRICE REGULAR</span>
+                                    <span class="text-danger font-italic">{{ __('back/app.type_error') }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-md-5">
                                     <label for="dm-post-edit-title">{{ __('back/apartment.price_weekends') }} <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="price-weekends-input" name="price_weekends" placeholder="" value="{{ isset($apartment) ? $apartment->price_weekends : old('price_weekends') }}">
                                     @error('price')
-                                    <span class="text-danger font-italic">ERROR PRICE WEEKENDS</span>
+                                    <span class="text-danger font-italic">{{ __('back/app.type_error') }}</span>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">
@@ -775,7 +771,6 @@
 
             axios.post("{{ route('api.apartments.sync.url') }}", item)
             .then(response => {
-                console.log(response.data)
                 if (response.data.message) {
                     successToast.fire({
                         timer: 1500,

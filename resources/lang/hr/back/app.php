@@ -138,9 +138,19 @@ return [
 
     ],
 
+    'calendar' => [
+        'options' => 'Opcije Kalendara',
+        'drag' => 'Odvuci i Postavi događaj na kalendar'
+    ],
+
     // GENERALS
     'save_success' => 'Uspješno snimljeno!',
     'save_failure' => 'Oops..! Greška prilikom snimanja. Pokušajte ponovo ili kontaktirajte administratora!',
+    'select_status' => 'Selektiraj Status',
+    'sort' => 'Sortiraj',
+    'type_error' => 'Molimo, provjerite unos!',
+    'total' => 'Ukupno',
+    'days' => 'Dana',
 
     // CALENDAR
     'calendar_make_apartment_error' => 'Postavite Apartman!',

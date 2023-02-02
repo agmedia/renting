@@ -55,12 +55,6 @@ class OrderController extends Controller
     {
         $order = new Order();
 
-        /*$stored = $order->validateRequest($request)->store();
-
-        if ($stored) {
-            return redirect()->route('orders.edit', ['order' => $stored])->with(['success' => __('back/app.save_success')]);
-        }*/
-
         return redirect()->back()->with(['error' => __('back/app.save_failure')]);
     }
 

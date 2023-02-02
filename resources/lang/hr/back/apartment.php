@@ -98,6 +98,7 @@ return [
 
     'children' => 'Djeca',
     'adults' => 'Odrasli',
+    'person' => 'Osoba',
     'duration' => 'Trajanje',
     'amount' => 'Iznos',
     'title_discount' => 'Popust',
@@ -105,7 +106,10 @@ return [
     'apo_title' => 'Opcije naplate apartmana',
 
     'regular' => 'Regularan broj osoba',
-    'max' => 'Max. Osoba',
+    'max' => 'Max',
     'empty' => 'Nema Upisanih Apartmana',
     'regularandmax' => 'Postavke broja osoba',
+    'sync' => 'Sync.',
+    'sync_url' => 'Apartment Sync. URL',
+    'copy_ics_link' => 'Copy Apartment ICS link',
 ];

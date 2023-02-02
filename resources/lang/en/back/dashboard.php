@@ -22,5 +22,8 @@ return [
     'zadnje_dodane_rezervacije' => 'Recent Reservations',
     'ova_godina' => 'This Year',
     'zadnja_godina' => 'Last Year',
+    //
+    'create_new' => 'Create New',
+    'view_all' => 'View All',
 
 ];

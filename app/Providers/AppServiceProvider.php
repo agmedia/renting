@@ -40,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
         $maps_key = Settings::get('app', 'google.maps')->first()->key;
         Config::set(['google' => ['maps-key' => $maps_key]]);
 
+        $currency = currency_main();
+        $main_currency_symbol = $currency->symbol_right ?: $currency->symbol_left;
+        View::share('main_currency_symbol', $main_currency_symbol);
 
         /*$uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
         View::share('uvjeti_kupnje', $uvjeti_kupnje);

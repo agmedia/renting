@@ -118,15 +118,15 @@
                                     <td>
                                         <a href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->title }}</a>
                                     </td>
-                                    <td class="font-w600 text-right">{{ $apartment->price_text }}</td>
+                                    <td class="font-w600 text-right">{{ currency_main($apartment->price_regular, true) }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="block-content block-content-full block-content-sm bg-body-light font-size-sm text-right">
-                        <a class="btn btn-sm btn-outline-secondary mr-2" href="{{ route('apartments.create') }}">Create New</a>
-                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('apartments') }}">View All</a>
+                        <a class="btn btn-sm btn-outline-secondary mr-2" href="{{ route('apartments.create') }}">{{ __('back/dashboard.create_new') }}</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('apartments') }}">{{ __('back/dashboard.view_all') }}</a>
                     </div>
                 </div>
                 <!-- END Top Products -->
@@ -156,14 +156,14 @@
                                     <td>
                                         <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
                                     </td>
-                                    <td class="font-w600 text-right">{{ number_format($order->total, 2, ',', '.') }} €</td>
+                                    <td class="font-w600 text-right">{{ currency_main($order->total, true) }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="block-content block-content-full block-content-sm bg-body-light font-size-sm text-right">
-                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('orders') }}">View All</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ route('orders') }}">{{ __('back/dashboard.view_all') }}</a>
                     </div>
                 </div>
                 <!-- END Latest Orders -->
@@ -228,7 +228,7 @@
                     intersect: false,
                     callbacks: {
                         label: function (tooltipItems, data) {
-                            return tooltipItems.yLabel + '€';
+                            return tooltipItems.yLabel + ' {{ $main_currency_symbol }}';
                         }
                     }
                 }

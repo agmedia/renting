@@ -27,15 +27,12 @@
     <!-- For more info and examples you can check out https://fullcalendar.io/ -->
     <div class="row no-gutters flex-xl-10-auto">
 
-
         <div class="col-xl-3">
             <div class="content">
                 <!-- Toggle Side Content -->
                 <div class="d-xl-none push">
                     <!-- Class Toggle, functionality initialized in Helpers.coreToggleClass() -->
-                    <button type="button" class="btn btn-block btn-alt-primary" data-toggle="class-toggle" data-target="#side-content" data-class="d-none">
-                        Calendar Options
-                    </button>
+                    <button type="button" class="btn btn-block btn-alt-primary" data-toggle="class-toggle" data-target="#side-content" data-class="d-none">{{ __('back/app.calendar.options') }}</button>
                 </div>
                 <!-- END Toggle Side Content -->
 
@@ -70,7 +67,7 @@
                     </ul>
                     <div class="text-center">
                         <em class="font-size-sm text-muted">
-                            <i class="fa fa-arrows-alt"></i> Drag and drop events on the calendar
+                            <i class="fa fa-arrows-alt"></i> {{ __('back/app.calendar.drag') }}
                         </em>
                     </div>
                     <!-- END Event List -->
@@ -319,9 +316,9 @@
                                         <abbr title="Phone">P:</abbr> ` + order.payment_phone + `
                                     </address>`;
                 order_description += `<address>
-                                        <strong>od: </strong> ` + new Date(order.date_from).toLocaleDateString() + `, <strong>do: </strong> ` + new Date(order.date_to).toLocaleDateString() + `<br>
-                                        Ukupno: ` + options.total_days + ` dana<br>
-                                        Odraslih ` + options.adults + `, Djece ` + options.children + `
+                                        <strong>{{ __('back/app.calendar.from') }}: </strong> ` + new Date(order.date_from).toLocaleDateString() + `, <strong>{{ __('back/app.calendar.to') }}: </strong> ` + new Date(order.date_to).toLocaleDateString() + `<br>
+                                        {{ __('back/app.total') }}: ` + options.total_days + ` {{ __('back/app.days') }}<br>
+                                        {{ __('back/apartment.adults') }} ` + options.adults + `, {{ __('back/apartment.children') }} ` + options.children + `
                                     </address>`;
 
                 let order_table = '';

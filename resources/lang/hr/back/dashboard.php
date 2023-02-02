@@ -22,4 +22,7 @@ return [
     'zadnje_dodane_rezervacije' => 'Zadnje rezervacije',
     'ova_godina' => 'Ova godina',
     'zadnja_godina' => 'Zadnja godina',
+    //
+    'create_new' => 'Napravi Novi',
+    'view_all' => 'Pogledaj Sve',
 ];
