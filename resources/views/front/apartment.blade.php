@@ -28,6 +28,8 @@
     <div class="page-banner bg-white py-3">
         <div class="container">
             @include('front.layouts.partials.session')
+
+
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="mt-2 h4 text-secondary">{{ $apartment->title }}  </h1>
@@ -133,6 +135,47 @@
                                     <div class="col">
                                         <h4 class="text-secondary my-4">{{ __('front/apartment.description_title') }}</h4>
                                         {!! $apartment->description !!}
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <h4 class="text-secondary my-4">{{ __('front/apartment.prices_title') }}</h4>
+                                        <div>
+                                            <table class="table table-striped">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>{{ __('front/apartment.price_regular') }}:</td>
+                                                    <td>{{ currency_main($apartment->price_regular, true) }}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>{{ __('front/apartment.price_weekends') }}:</td>
+                                                    <td>{{ currency_main($apartment->price_weekends, true) }}</td>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>{{ __('front/apartment.price_additional_person') }}:</td>
+                                                    <td>{{ currency_main($apartment->options()->personOption()->first()->price, true) }}</td>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>{{ __('front/apartment.price_cleaning') }}:</td>
+                                                    <td>{{ currency_main($apartment->options()->cleaningOption()->first()->price, true) }}</td>
+
+                                                </tr>
+
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
                                     </div>
                                 </div>
 
