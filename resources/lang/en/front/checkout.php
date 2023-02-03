@@ -21,6 +21,7 @@ return [
     'dates' => 'Dates',
     'Guests' => 'Guests',
     'guests' => 'guests',
+    'options' => 'Apartment Options',
     'additional_options' => 'Additional Options',
     'personal_info' => 'Personal Info',
     'name' => 'Name',

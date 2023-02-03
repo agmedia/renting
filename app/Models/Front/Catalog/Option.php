@@ -140,7 +140,7 @@ class Option extends Model
      */
     public function scopeAutoInsertOnly(Builder $query): Builder
     {
-        return $query->where('auto_insert', '==', 1)->where('reference', '==', 'person');
+        return $query->where('auto_insert', '=', 1)->where('reference', '!=', 'person');
     }
 
 

@@ -84,6 +84,25 @@
                                 </div>
                             </div>
 
+                            @if ($auto_options)
+                                <div class="col-12">
+                                    <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.options') }}</h4>
+                                    <ul class="list-group mb-4">
+                                        @foreach ($auto_options as $item)
+                                            <li class="list-group-item p-3">
+                                                <label>
+                                                    {{ $item['title'] }}
+                                                </label>
+                                                <div class="ms-4" style="float:right">
+                                                    {{ $item['price_text'] }}
+                                                </div>
+                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             @if ($options)
                                 <div class="col-12">
                                     <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_options') }}</h4>
