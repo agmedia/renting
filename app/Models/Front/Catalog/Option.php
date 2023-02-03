@@ -127,6 +127,28 @@ class Option extends Model
      *
      * @return Builder
      */
+    public function scopePersonOption(Builder $query): Builder
+    {
+        return $query->where('reference', '=', 'person');
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeCleaningOption(Builder $query): Builder
+    {
+        return $query->where('reference', '=', 'service');
+    }
+
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
     public function scopeWithoutAutoInsert(Builder $query): Builder
     {
         return $query->where('auto_insert', '==', 0);
