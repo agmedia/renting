@@ -156,21 +156,22 @@
                                                     <td>{{ currency_main($apartment->price_weekends, true) }}</td>
 
                                                 </tr>
-
+                                                @if(isset($apartment->options()->personOption()->first()->price))
                                                 <tr>
                                                     <th scope="row">3</th>
                                                     <td>{{ __('front/apartment.price_additional_person') }}:</td>
                                                     <td>{{ currency_main($apartment->options()->personOption()->first()->price, true) }}</td>
 
                                                 </tr>
-
+                                                @endif
+                                                @if(isset($apartment->options()->cleaningOption()->first()->price))
                                                 <tr>
                                                     <th scope="row">3</th>
                                                     <td>{{ __('front/apartment.price_cleaning') }}:</td>
                                                     <td>{{ currency_main($apartment->options()->cleaningOption()->first()->price, true) }}</td>
 
                                                 </tr>
-
+                                                @endif
                                                 </tbody>
 
                                             </table>
