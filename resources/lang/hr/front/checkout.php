@@ -21,7 +21,7 @@ return [
     'dates' => 'datumi',
     'Guests' => 'Osoba',
     'guests' => 'osoba',
-    'options' => 'Opcije apartmana',
+    'options' => 'Fiksne naknade',
     'additional_options' => 'Dodatne opcije',
     'personal_info' => 'Osobni podaci',
     'name' => 'Ime',
