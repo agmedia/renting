@@ -142,6 +142,20 @@ return [
         'options' => 'Opcije Kalendara',
         'drag' => 'Odvuci i Postavi događaj na kalendar'
     ],
+    //
+    'order' => [
+        'orders' => 'Narudžbe',
+        'list' => 'Lista Narudžbi',
+        'change_status' => 'Promjeni Status Narudžbe',
+        'filter' => 'Filter',
+        'all' => 'Sve Narudžbe',
+        'search_placeholder' => 'Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...',
+        'no_orders' => 'Nemate trenutno narudžbi...',
+        'date' => 'Datum',
+        'apartment' => 'Apartman',
+        'customer' => 'Kupac',
+        'details' => 'Detalji',
+    ],
 
     // GENERALS
     'save_success' => 'Uspješno snimljeno!',

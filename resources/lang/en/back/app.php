@@ -149,6 +149,20 @@ return [
         'from' => 'od',
         'to' => 'do',
     ],
+    //
+    'order' => [
+        'orders' => 'Orders',
+        'list' => 'Orders List',
+        'change_status' => 'Change Order Status',
+        'filter' => 'Filter',
+        'all' => 'All Orders',
+        'search_placeholder' => 'Search by order number, customer name, lastname or email...',
+        'no_orders' => 'You have no current orders..',
+        'date' => 'Date',
+        'apartment' => 'Apartment',
+        'customer' => 'Customer',
+        'details' => 'Details',
+    ],
 
     // GENERALS
     'save_success' => 'Successfully saved!',

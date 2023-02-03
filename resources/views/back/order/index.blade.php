@@ -11,7 +11,7 @@
     <div class="bg-body-light">
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžbe</h1>
+                <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.orders') }}</h1>
 <!--                <a class="btn btn-hero-success my-2" href="{{ route('orders.create') }}">
                     <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/layout.btn.new') }}</span>
                 </a>-->
@@ -26,10 +26,10 @@
     <!-- All Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Lista narudžbi <small class="font-weight-light">{{ $orders->total() }}</small></h3>
+                <h3 class="block-title">{{ __('back/app.order.list') }} <small class="font-weight-light">{{ $orders->total() }}</small></h3>
                 <div class="block-options d-none d-xl-block">
                     <div class="form-group mb-0 mr-2">
-                        <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
+                        <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="{{ __('back/app.order.change_status') }}">
                             <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
                             @foreach ($statuses as $status)
                                 <option value="{{ $status->id }}">{{ $status->title->{current_locale()} }}</option>
@@ -40,13 +40,11 @@
                 <div class="block-options">
                     <div class="dropdown">
                         <button type="button" class="btn btn-light" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filtriraj
+                            {{ __('back/app.order.filter') }}
                             <i class="fa fa-angle-down ml-1"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', 0)">
-                                Sve narudžbe
-                            </a>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', 0)">{{ __('back/app.order.all') }}</a>
                             @foreach ($statuses as $status)
                                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', {{ $status->id }})">
                                     <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title->{current_locale()} }}</span>
@@ -62,7 +60,7 @@
                     <div class="form-group">
                         <div class="form-group">
                             <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...">
+                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/app.order.search_placeholder') }}">
                                 <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
                             </div>
                         </div>
@@ -83,12 +81,12 @@
                                     </div>
                                 </div>
                             </th>
-                            <th class="text-center" style="width: 36px;">Br.</th>
-                            <th class="text-center">Datum</th>
-                            <th>Apartman</th>
-                            <th>Kupac</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-right">Detalji</th>
+                            <th class="text-center" style="width: 36px;">{{ __('back/layout.br') }}</th>
+                            <th class="text-center">{{ __('back/app.order.date') }}</th>
+                            <th>{{ __('back/app.order.apartment') }}</th>
+                            <th>{{ __('back/app.order.customer') }}</th>
+                            <th class="text-center">{{ __('back/layout.status') }}</th>
+                            <th class="text-right">{{ __('back/app.order.details') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -123,7 +121,7 @@
                         @empty
                             <tr>
                                 <td class="text-center font-size-sm" colspan="7">
-                                    <label>Nema narudžbi...</label>
+                                    <label>{{ __('back/app.order.no_orders') }}</label>
                                 </td>
                             </tr>
                         @endforelse
@@ -144,7 +142,7 @@
     <script>
         $(() => {
             $('#status-select').select2({
-                placeholder: 'Promjenite status'
+                placeholder: '{{ __('back/app.order.change_status') }}'
             });
 
             $('#status-select').on('change', (e) => {
@@ -159,14 +157,6 @@
                         orders += checkedBoxes[i].value + ','
                     }
                 }
-
-                let item = {
-                    selected: selected,
-                    orders: orders
-                };
-
-                console.log('Selected ID: ' + selected);
-                console.log('Orders ID: ' + orders);
 
                 axios.post("{{ route('api.order.status.change') }}", { selected: selected, orders: orders })
                 .then(response => {

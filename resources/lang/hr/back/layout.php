@@ -16,7 +16,7 @@ return [
     'dashboard' => 'Nadzorna ploča',
     'list' => 'Lista',
     'br' => 'Br.',
-
+    'status' => 'Status',
     /*
      * Buttons
      */

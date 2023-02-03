@@ -16,7 +16,7 @@ return [
     'dashboard' => 'Dashboard',
     'list' => 'Lis',
     'br' => 'No.',
-
+    'status' => 'Status',
     /*
      * Buttons
      */
