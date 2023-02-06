@@ -61,6 +61,7 @@ class Bank
             'data'     =>
                 array(
                     'amount'      => floatval($total),
+                    'currency' => 'EUR',
                     'sender'      =>
                         array(
                             'name'   => $data['firstname'] . ' ' . $data['lastname'],
