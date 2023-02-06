@@ -40,7 +40,8 @@ class Bank
         $data['order_id'] = $this->order->order_id;
         $nhs_no           = $this->order->order_id . '-' . date("ym");
         $pozivnabroj      = $nhs_no;
-        $total            = number_format($this->order->checkout->total_amount, 2, '.', '');
+
+        $total            = str_replace('.', '', number_format($this->order->checkout->total_amount, 2, '.', ''));
 
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname']  = $this->order->checkout->lastname;
@@ -85,7 +86,7 @@ class Bank
 
         $postString = json_encode($hubstring);
 
-        $url = 'https://hub3.bigfish.software/api/v1/barcode';
+        $url = 'https://hub3.bigfish.software/api/v2/barcode';
         $ch  = curl_init($url);
 
         # Setting our options
