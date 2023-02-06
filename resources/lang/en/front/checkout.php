@@ -35,5 +35,9 @@ return [
     'confirm_and_pay' => 'Confirm and Pay',
     'subtotal' => 'Subtotal',
     'tax' => 'Tax <small class="text-muted">(PDV 25%)</small>',
-    'total' => 'Total'
+    'total' => 'Total',
+    'regulardays' => 'Regular days',
+    'regulardaysspecial' => 'Regular days on Special price',
+    'weekends' => 'Weekends',
+    'weekendsspecial' => 'Weekends on Special price',
 ];

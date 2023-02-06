@@ -135,7 +135,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'regular_days',
-            'title'      => 'Regular days',
+            'title'      => __('front/checkout.regulardays'),
             'count'      => $this->checkout->regular_days,
             'price'      => currency_main($this->apartment->price_regular),
             'price_text' => currency_main($this->apartment->price_regular, true),
@@ -163,7 +163,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'action_regular_days',
-            'title'      => 'Regular days on Special price',
+            'title'      => __('front/checkout.regulardaysspecial'),
             'count'      => $this->checkout->action_regular_days,
             'price'      => currency_main($price),
             'price_text' => currency_main($price, true),
@@ -184,7 +184,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'weekends',
-            'title'      => 'Weekends',
+            'title'      => __('front/checkout.weekends'),
             'count'      => $this->checkout->weekends,
             'price'      => currency_main($this->apartment->price_weekends),
             'price_text' => currency_main($this->apartment->price_weekends, true),
@@ -212,7 +212,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'action_weekends',
-            'title'      => 'Weekends on Special price',
+            'title'      => __('front/checkout.weekendsspecial'),
             'count'      => $this->checkout->action_weekends,
             'price'      => currency_main($price),
             'price_text' => currency_main($price, true),

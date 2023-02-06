@@ -35,5 +35,9 @@ return [
     'confirm_and_pay' => 'Nastavi na plaćanje',
     'subtotal' => 'Ukupno',
     'tax' => 'Porez <small class="text-muted">(PDV 25%)</small>',
-    'total' => 'Sveukupno'
+    'total' => 'Sveukupno',
+    'regulardays' => 'Dani u tjednu',
+    'regulardaysspecial' => 'Dani u tjednu na popustu',
+    'weekends' => 'Dani vikendom',
+    'weekendsspecial' => 'Dani vikendom na popustu',
 ];
