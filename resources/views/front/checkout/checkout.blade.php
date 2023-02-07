@@ -1,9 +1,7 @@
 @extends('front.layouts.app')
 
 @push('css_after')
-
     <link rel="stylesheet" href="{{ asset("assets/css/intlTelInput.css") }}">
-
 @endpush
 
 @section('content')
@@ -12,15 +10,13 @@
         <div class="container">
             <div class="row row-cols-md-2 row-cols-1 g-3">
                 <div class="col">
-                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.main_title') }}</h3>
+                    <h3 class="page-name text-secondary m-0"><a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.main_title') }}</h3>
                 </div>
 
             </div>
         </div>
     </div>
-    <!--============== Banner Section End ==============-->
 
-    <!--============== Get In Touch Section Start ==============-->
     <div class="full-row bg-white pt-0">
         <div class="container">
             @include('front.layouts.partials.session')
@@ -28,7 +24,7 @@
                 <div class="col-lg-4 offset-lg-1 order-lg-2 content">
                     <div class="sidebar">
                         <div class="mt-lg-4 p-4 mb-4 shadow-one reservationbox ">
-                            <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="{{ asset($checkout->apartment->image) }}" alt="{{ $checkout->apartment->title }}"  title="{{ $checkout->apartment->title }}"></div>
+                            <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="{{ asset($checkout->apartment->image) }}" alt="{{ $checkout->apartment->title }}" title="{{ $checkout->apartment->title }}"></div>
                             <h5 class="mt-2 mb-0 text-primary">{{ $checkout->apartment->title }}</h5>
                             <p class="mb-0">{{ __('front/checkout.entire_rental_unit') }}</p>
                             <div class="clearfix"></div>
@@ -72,7 +68,7 @@
                                     <table class="tab-table w-100 text-secondary">
                                         <tbody>
                                         <tr>
-                                            <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
+                                            <td><strong>{{ __('front/checkout.dates') }}</strong></td>
                                             <td>{{ $checkout->from->format('d.m.Y') }} – {{ $checkout->to->format('d.m.Y') }}</td>
                                         </tr>
                                         <tr>
@@ -110,9 +106,8 @@
                                         @foreach ($options as $item)
                                             <li class="list-group-item p-3">
                                                 <label>
-                                                    <input class="form-check-input me-1 mt-2" type="checkbox"  name="additional[{{ $item['id'] }}]" id="additional[{{ $item['id'] }}]" value="{{ $item['price_text'] }}"
-                                                           @if ($item['checked']) checked="checked" @endif
-                                                    >
+                                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="additional[{{ $item['id'] }}]" id="additional[{{ $item['id'] }}]" value="{{ $item['price_text'] }}"
+                                                           @if ($item['checked']) checked="checked" @endif>
                                                     {{ $item['title'] }}
                                                 </label>
                                                 <div class="ms-4" style="float:right">
@@ -151,8 +146,7 @@
                                         <li class="list-group-item p-3">
                                             <label>
                                                 <input class="form-check-input me-1 mt-2" type="radio" name="payment_type" value="{{ $item->code }}" aria-label="..."
-                                                       @if (isset($checkout->payment->code) && $checkout->payment->code == $item->code) checked="checked" @endif
-                                                >
+                                                       @if (isset($checkout->payment->code) && $checkout->payment->code == $item->code) checked="checked" @endif>
                                                 {{ $item->title->{current_locale()} }}
                                             </label>
                                             @if ($item->code=='bank')
@@ -176,8 +170,6 @@
 
                                 </ul>
                             </div>
-
-
 
                             <div class="col-12">
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.additional_comments') }}</h4>
@@ -207,14 +199,14 @@
 
 @push('js_after')
     <script src="{{ asset("assets/js/input-tel/intlTelInput.js") }}"></script>
-        <script>
-            var input = document.querySelector("#phone");
-            window.intlTelInput(input, {
-            autoHideDialCode:false,
-                separateDialCode:true,
-            initialCountry: "HR",
-                hiddenInput: "phone",
-           // onlyCountries:  ["HR"],
+    <script>
+        var input = document.querySelector("#phone");
+        window.intlTelInput(input, {
+            autoHideDialCode: false,
+            separateDialCode: true,
+            initialCountry:   "HR",
+            hiddenInput:      "phone",
+            // onlyCountries:  ["HR"],
             utilsScript: "{{ asset("assets/js/input-tel/utils.js") }}"
         });
     </script>

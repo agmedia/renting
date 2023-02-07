@@ -20,9 +20,7 @@
     <!-- Contact detail cards-->
     <section class="container pt-grid-gutter">
         <div class="row">
-
             @include('front.layouts.partials.success-session')
-
         </div>
     </section>
 
@@ -37,17 +35,17 @@
                         <li class="d-flex mb-4"> <i class="fas fa-map-marker-alt text-primary me-2 font-13 mt-2"></i>
                             <div class="contact-address">
                                 <h5 class="text-secondary">{{ __('front/common.address') }}</h5>
-                                <span>SelfCheckIns LTD<br> 20-22 Wenlock Road<br>London, England, N1 7GU</span> </div>
+                                <span>{{ $owner->title }}<br>{{ $owner->address }}<br>{{ $owner->city }}, {{ $owner->state }}, {{ $owner->zip }}</span> </div>
                         </li>
                         <li class="d-flex mb-4"> <i class="fas fa-phone-alt text-primary me-2 font-13 mt-2"></i>
                             <div class="contact-address">
                                 <h5 class="text-secondary">{{ __('front/common.call') }}</h5>
-                                <span class="d-table">+385 98 1885 137</span> </div>
+                                <span class="d-table">{{ $owner->phone }}</span> </div>
                         </li>
                         <li class="d-flex mb-4"> <i class="fas fa-envelope text-primary me-2 font-13 mt-2"></i>
                             <div class="contact-address">
                                 <h5 class="text-secondary">{{ __('front/common.email') }}</h5>
-                                <span>info@selfcheckins.com</span> </div>
+                                <span>{{ $owner->email }}</span> </div>
                         </li>
                     </ul>
                 </div>

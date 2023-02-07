@@ -63,7 +63,7 @@ class CheckoutController extends Controller
     public function success(Request $request)
     {
         if ( ! CheckoutSession::hasOrder() && ! CheckoutSession::hasCheckout()) {
-            return redirect()->route('index')->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
+            return redirect()->route('index')->with('error', __('front/common.message_error'));
         }
 
         $order = Order::unfinished()->where('id', CheckoutSession::getOrder())->first();
@@ -81,7 +81,7 @@ class CheckoutController extends Controller
 
         $apartment = $this->getRedirectData('apartment');
 
-        return redirect()->route('apartment', ['apartment' => $apartment])->with('error', 'Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.');
+        return redirect()->route('apartment', ['apartment' => $apartment])->with('error', __('front/common.message_error'));
     }
 
     /*******************************************************************************

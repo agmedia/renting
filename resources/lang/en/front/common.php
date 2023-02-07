@@ -2,17 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Authentication Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
     'help_and_support' => 'Help and Support',
     'faq' => 'Faq',
     'login' => 'Login',
@@ -24,7 +13,6 @@ return [
     'address' => 'Address',
     'email' => 'Email address',
     'call' => 'Call Us',
-
     'name' => 'Name',
     'mobile' => 'Mobile number',
     'message' => 'Message',
@@ -45,4 +33,6 @@ return [
     'regards' => 'Best regards',
     'bank' => 'Bank transfer',
     'details' => 'Order details',
+    //
+    'message_error' => 'Oops..! Something has gone wrong. Please try again or contact the administrator!',
 ];

@@ -12,16 +12,12 @@
                 <div class="col">
                     <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>Checkout Preview</h3>
                 </div>
-
             </div>
         </div>
     </div>
-    <!--============== Banner Section End ==============-->
 
-    <!--============== Get In Touch Section Start ==============-->
     <div class="full-row bg-white pt-0">
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-4 offset-lg-1 order-lg-2 content">
                     <div class="sidebar">

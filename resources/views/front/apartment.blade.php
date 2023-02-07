@@ -29,7 +29,6 @@
         <div class="container">
             @include('front.layouts.partials.session')
 
-
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="mt-2 h4 text-secondary">{{ $apartment->title }}  </h1>
@@ -189,9 +188,9 @@
                                                     @foreach ($items as $detail)
                                                         @if($detail['featured'])
                                                             <li class="mb-3 col-md-6">
-                                                                   <span class="text-secondary font-weight-bold">
-                                                                   <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
-                                                                   </span>
+                                                                <span class="text-secondary font-weight-bold">
+                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
+                                                                </span>
                                                             </li>
                                                         @endif
                                                     @endforeach
@@ -207,9 +206,9 @@
                                                     <ul class="row mb-3 mt-2">
                                                         @foreach ($items as $detail)
                                                             <li class="mb-3 col-md-4">
-                                                                   <span class="text-secondary font-weight-bold">
+                                                                <span class="text-secondary font-weight-bold">
                                                                    <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon"/> {{ $detail['title'] }}
-                                                                   </span>
+                                                                </span>
                                                             </li>
                                                         @endforeach
                                                     </ul>

@@ -196,6 +196,14 @@ Route::group(
                 Route::patch('faq/{faq}', [FaqController::class, 'update'])->name('faqs.update');
                 Route::delete('faq/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
 
+                // CHUNKS
+                Route::get('chunks', [FaqController::class, 'index'])->name('chunks');
+                Route::get('chunk/create', [FaqController::class, 'create'])->name('chunks.create');
+                Route::post('chunk', [FaqController::class, 'store'])->name('chunks.store');
+                Route::get('chunk/{chunk}/edit', [FaqController::class, 'edit'])->name('chunks.edit');
+                Route::patch('chunk/{chunk}', [FaqController::class, 'update'])->name('chunks.update');
+                Route::delete('chunk/{chunk}', [FaqController::class, 'destroy'])->name('chunks.destroy');
+
             });
 
             // LOCALE SETTINGS
@@ -371,20 +379,7 @@ Route::group(
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
     Route::get('apartment/ics/{apartment}', [HomeController::class, 'apartmentICS'])->name('apartment.ics');
 
-
-    // OLD ROUTES... CHECK & DELETE
-////
-//    Route::get('/kosarica', [CheckoutController::class, 'cart'])->name('kosarica');
-//    Route::get('/naplata', [CheckoutController::class, 'checkout'])->name('naplata');
-//    Route::get('/pregled', [CheckoutController::class, 'view'])->name('pregled');
-//    //Route::get('/narudzba', [CheckoutController::class, 'order'])->name('checkout');
-//    Route::get('/uspjeh', [CheckoutController::class, 'success'])->name('checkout.success');
-//    Route::get('/greska', [CheckoutController::class, 'error'])->name('checkout.error');
-////
-//    Route::get('pretrazi', [CatalogRouteController::class, 'search'])->name('pretrazi');
-//
-    Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
-//
+    //Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
     /**
      * Sitemap routes
      */
@@ -397,21 +392,9 @@ Route::group(
     Route::post('forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
     Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-    /*
-     * Groups, Categories and Products routes resolver.
-     * https://www.antikvarijat-biblos.hr/kategorija-proizvoda/knjige/
+    /**
+     *
      */
-//    Route::get('proizvod/{prod?}/', [CatalogRouteController::class, 'resolveOldUrl']);
-//    Route::get('kategorija-proizvoda/{group?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'resolveOldCategoryUrl']);
-////
-//    Route::get(config('settings.author_path') . '/{author?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'author'])->name('catalog.route.author');
-//    Route::get(config('settings.publisher_path') . '/{publisher?}/{cat?}/{subcat?}', [CatalogRouteController::class, 'publisher'])->name('catalog.route.publisher');
-////
-//    Route::get('snizenja/{cat?}/{subcat?}', [CatalogRouteController::class, 'actions'])->name('catalog.route.actions');
-////
-//    Route::get('{group}/{cat?}/{subcat?}/{prod?}', [CatalogRouteController::class, 'resolve'])->name('catalog.route');
-
-
     Route::fallback(function () {
         return view('front.404');
     });

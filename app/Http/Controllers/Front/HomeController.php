@@ -7,6 +7,7 @@ use App\Helpers\Recaptcha;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
+use App\Models\Back\Settings\Settings;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Catalog\Page;
 use App\Models\Front\Faq;
@@ -103,7 +104,9 @@ class HomeController extends Controller
      */
     public function contact(Request $request)
     {
-        return view('front.contact');
+        $owner = Settings::get('app', 'basic')->first();
+
+        return view('front.contact', compact('owner'));
     }
 
 
