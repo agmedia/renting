@@ -263,13 +263,12 @@
                             '<a href="{{current_locale()}}' + locations[i].url + '">' +
                             '<img src="' + locations[i].image + '" alt="">' +
                             '</a>' +
-
                             '<div class="price bg-primary text-white p-2">' + locations[i].price_text + '</div>' +
                             '</div>' +
                             '<div class="featured-thumb-data">' +
                             '<div class="p-3">' +
                             '<h6 class="text-secondary hover-text-primary mb-2"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h6>' +
-                            '<span class="location font-13"><i class="fas fa-map-marker-alt text-primary mr-1" aria-hidden="true"></i> ' + locations[i].address + '</span>' +
+
                             '</div>' +
                             '</div>' +
                             '</div>';
