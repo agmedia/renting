@@ -235,7 +235,7 @@
                     infoboxOptions = {
                         content: boxText,
                         disableAutoPan: false,
-                        maxWidth: 150,
+                       // maxWidth: 150,
                         pixelOffset: new google.maps.Size(-100, 0),
                         zIndex: null,
                         alignBottom: true,
@@ -266,7 +266,7 @@
                             '<div class="price bg-primary text-white p-2">' + locations[i].price_text + '</div>' +
                             '</div>' +
                             '<div class="featured-thumb-data">' +
-                            '<div class="p-3 bg-white">' +
+                            '<div class="p-2 bg-white">' +
                             '<h6 class="text-secondary hover-text-primary mb-0"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h6>' +
 
                             '</div>' +
