@@ -230,7 +230,7 @@
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
-                    pictureLabel.src = 'public/assets/images/map/house.png';
+                    pictureLabel.src = 'assets/images/map/house.png';
                     var boxText = document.createElement("div");
                     infoboxOptions = {
                         content: boxText,
@@ -249,7 +249,7 @@
                         title: locations[i].title,
                         position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
                         map: map,
-                        icon: 'public/assets/images/map/marker.png',
+                        icon: 'assets/images/map/marker.png',
                         labelContent: pictureLabel,
                         labelAnchor: new google.maps.Point(50, 0),
                         labelClass: "marker-style"
@@ -287,7 +287,7 @@
                 }
                 var clusterStyles = [
                     {
-                        url: 'public/assets/images/map/cluster.png',
+                        url: 'assets/images/map/cluster.png',
                         height: 60,
                         width: 60,
                         textColor: '#fff',
@@ -361,7 +361,7 @@
         var pickerres = new easepick.create({
             element:     document.getElementById('checkindate'),
             css:         [
-                'public/assets/css/reservation.css',
+                'assets/css/reservation.css',
             ],
             grid:        1,
             calendars:   1,
