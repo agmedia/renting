@@ -2171,12 +2171,16 @@ Thumbnails Block
     bottom: 20px;
     left: 20px;
     z-index: 99;
-    font-size: 21px;
+    font-size: 16px;
 }
 
 .featured-thumb .price.right {
     left: inherit;
     right: 20px
+}
+
+.featured-thumb h6 {
+  font-size:.9rem
 }
 
 .featured-thumb .price span {
@@ -3031,8 +3035,7 @@ Contact page
 
 .infobox-wrapper {
     background: var(--theme-white-color);
-    ;
-    width: 300px !important;
+    width: 220px !important;
     margin-bottom: 85px;
     margin-left: -48px;
     position: relative
