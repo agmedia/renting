@@ -121,10 +121,10 @@
                             </div>
 
                             <!---listings -->
-                            <div class="row mt-0 row-cols-md-4 row-cols-1 g-4">
+                            <div class="row mt-0  row-cols-xl-4 row-cols-md-4 row-cols-1 g-4">
                                 @foreach ($apartments->sortByDesc('featured') as $apartment)
-                                    <div class="col">
-                                        <div class="featured-thumb hover-zoomer">
+                                    <div class="col" >
+                                        <div class="featured-thumb hover-zoomer ">
                                             <div class="overflow-hidden position-relative">
                                                 <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
                                                 <div class="featured bg-primary text-white">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
@@ -230,12 +230,12 @@
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
-                    pictureLabel.src = 'assets/images/map/house.png';
+                    pictureLabel.src = 'public/assets/images/map/house.png';
                     var boxText = document.createElement("div");
                     infoboxOptions = {
                         content: boxText,
                         disableAutoPan: false,
-                        //maxWidth: 150,
+                        maxWidth: 150,
                         pixelOffset: new google.maps.Size(-100, 0),
                         zIndex: null,
                         alignBottom: true,
@@ -249,7 +249,7 @@
                         title: locations[i].title,
                         position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
                         map: map,
-                        icon: 'assets/images/map/marker.png',
+                        icon: 'public/assets/images/map/marker.png',
                         labelContent: pictureLabel,
                         labelAnchor: new google.maps.Point(50, 0),
                         labelClass: "marker-style"
@@ -257,22 +257,22 @@
 
 
                     newMarkers.push(marker);
-                    boxText.innerHTML =
-                        '<div class="featured-thumb hover-zoomer shadow-one">' +
-                        '<div class=" overflow-hidden position-relative">' +
-                        '<a href="{{current_locale()}}' + locations[i].url + '">' +
-                        '<img src="' + locations[i].image + '" alt="">' +
-                        '</a>' +
+                        boxText.innerHTML =
+                            '<div class="featured-thumb hover-zoomer shadow-one">' +
+                            '<div class=" overflow-hidden position-relative">' +
+                            '<a href="{{current_locale()}}' + locations[i].url + '">' +
+                            '<img src="' + locations[i].image + '" alt="">' +
+                            '</a>' +
 
-                        '<div class="price bg-primary text-white p-2">' + locations[i].price_text + ' <span>' + locations[i].for  + '</span></div>' +
-                        '</div>' +
-                        '<div class="featured-thumb-data">' +
-                        '<div class="p-4">' +
-                        '<h5 class="text-secondary hover-text-primary mb-2"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h5>' +
-                        '<span class="location font-13"><i class="fas fa-map-marker-alt text-primary mr-1" aria-hidden="true"></i> ' + locations[i].address + '</span>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>';
+                            '<div class="price bg-primary text-white p-2">' + locations[i].price_text + '</div>' +
+                            '</div>' +
+                            '<div class="featured-thumb-data">' +
+                            '<div class="p-3">' +
+                            '<h6 class="text-secondary hover-text-primary mb-2"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h6>' +
+                            '<span class="location font-13"><i class="fas fa-map-marker-alt text-primary mr-1" aria-hidden="true"></i> ' + locations[i].address + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
                     //Define the infobox
                     newMarkers[i].infobox = new InfoBox(infoboxOptions);
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -287,7 +287,7 @@
                 }
                 var clusterStyles = [
                     {
-                        url: 'assets/images/map/cluster.png',
+                        url: 'public/assets/images/map/cluster.png',
                         height: 60,
                         width: 60,
                         textColor: '#fff',
@@ -361,7 +361,7 @@
         var pickerres = new easepick.create({
             element:     document.getElementById('checkindate'),
             css:         [
-                'assets/css/reservation.css',
+                'public/assets/css/reservation.css',
             ],
             grid:        1,
             calendars:   1,
