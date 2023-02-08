@@ -267,7 +267,7 @@
                             '</div>' +
                             '<div class="featured-thumb-data">' +
                             '<div class="p-3 bg-white">' +
-                            '<h6 class="text-secondary hover-text-primary mb-2"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h6>' +
+                            '<h6 class="text-secondary hover-text-primary mb-0"><a href="{{current_locale()}}' + locations[i].url + '">' + locations[i].title + '</a></h6>' +
 
                             '</div>' +
                             '</div>' +
