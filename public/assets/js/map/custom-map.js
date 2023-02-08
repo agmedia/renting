@@ -45,6 +45,15 @@ var mapStyles = [
         ]
     },
     {
+        "featureType": "poi",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
         "featureType": "water",
         "elementType": "all",
         "stylers": [
