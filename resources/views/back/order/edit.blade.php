@@ -10,10 +10,10 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 @if (isset($order))
-                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Narudžba edit <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
+                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.edit') }} <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
                     <h4><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span></h4>
                 @else
-                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">Napravi Novu Narudžbu</h1>
+                    <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.new') }}</h1>
                 @endif
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <div class="col-sm-7">
                     <div class="block block-rounded" id="ag-order-products-app">
                         <div class="block-header block-header-default">
-                            <h3 class="block-title">Basic Order Info</h3>
+                            <h3 class="block-title">{{ __('back/app.order.info') }}</h3>
                         </div>
                         <div class="block-content">
                             <div class="row justify-content-center push">
@@ -60,26 +60,26 @@
 
                                     <table class="table-borderless" style="width: 100%;">
                                         <tr>
-                                            <td class="font-weight-bold" style="width: 30%;">Korisnik:<br><br><br><br></td>
+                                            <td class="font-weight-bold" style="width: 30%;">{{ __('back/app.order.customer') }}:<br><br><br><br></td>
                                             <td>{{ $order->payment_fname }} {{ $order->payment_lname }}<br>
                                                 {{ $order->payment_email }}<br>
                                                 {{ $order->payment_phone }}<br><br>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="font-weight-bold">Osoba:</td>
-                                            <td>{{ $order->checkout['adults'] }} Odraslih, {{ $order->checkout['children'] }} Djece</td>
+                                            <td class="font-weight-bold">{{ __('back/app.order.persons') }}:</td>
+                                            <td>{{ $order->checkout['adults'] }} {{ __('back/app.order.adults') }}, {{ $order->checkout['children'] }} {{ __('back/app.order.children') }}</td>
                                         </tr>
                                         <tr>
                                             <td class="font-weight-bold">Dani:<br><br></td>
-                                            <td>{{ $order->checkout['regular_days'] }} Regularnih dana, {{ $order->checkout['weekends'] }} Vikenda<br><br></td>
+                                            <td>{{ $order->checkout['regular_days'] }} {{ __('back/app.order.regular_days') }}, {{ $order->checkout['weekends'] }} {{ __('back/app.order.weekends') }}<br><br></td>
                                         </tr>
                                         <tr>
-                                            <td class="font-weight-bold">Datum:<br><br><br></td>
+                                            <td class="font-weight-bold">{{ __('back/app.order.date') }}:<br><br><br></td>
                                             <td>{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} – {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}<br><br><br></td>
                                         </tr>
                                         <tr>
-                                            <td class="font-weight-bold" colspan="2">Promijeni datum:<br>
+                                            <td class="font-weight-bold" colspan="2">{{ __('back/app.order.change_date') }}:<br>
                                                 <div class="input-group mt-2 mb-3">
                                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                     <input class="form-control" id="checkindate" name="dates" placeholder="Check-in -> Checkout" type="text">
@@ -98,12 +98,12 @@
                     <!-- Billing Address -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
-                            <h3 class="block-title">Kupac</h3>
+                            <h3 class="block-title">{{ __('back/app.order.customer') }}</h3>
                             <div class="block-options">
                                 @if (isset($order) && $order->user_id)
-                                    <span class="small text-gray mr-3">Kupac je registriran</span><i class="fa fa-user text-success"></i>
+                                    <span class="small text-gray mr-3">{{ __('back/app.order.customer_registered') }}</span><i class="fa fa-user text-success"></i>
                                 @else
-                                    <span class="small font-weight-light mr-3">Kupac nije registriran</span><i class="fa fa-user text-danger-light"></i>
+                                    <span class="small font-weight-light mr-3">{{ __('back/app.order.customer_not_registered') }}</span><i class="fa fa-user text-danger-light"></i>
                                 @endif
                             </div>
                         </div>
@@ -112,24 +112,24 @@
                                 <div class="col-md-11">
                                     <div class="form-group row items-push mb-0">
                                         <div class="col-md-6">
-                                            <label for="fname-input">Ime</label>
-                                            <input type="text" class="form-control" id="fname-input" name="firstname" placeholder="Upišite ime kupca" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
+                                            <label for="fname-input">{{ __('back/app.order.name') }}</label>
+                                            <input type="text" class="form-control" id="fname-input" name="firstname" placeholder="{{ __('back/app.order.name') }}" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="lname-input">Prezime</label>
-                                            <input type="text" class="form-control" id="lname-input" name="lastname" placeholder="Upišite prezime kupca" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
+                                            <label for="lname-input">{{ __('back/app.order.lastname') }}</label>
+                                            <input type="text" class="form-control" id="lname-input" name="lastname" placeholder="{{ __('back/app.order.lastname') }}" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="email-input">Email</label>
-                                            <input type="text" class="form-control" id="email-input" name="email" placeholder="Upišite email kupca" value="{{ isset($order) ? $order->payment_email : old('email') }}">
+                                            <label for="email-input">{{ __('back/app.order.email') }}</label>
+                                            <input type="text" class="form-control" id="email-input" name="email" placeholder="{{ __('back/app.order.email') }}" value="{{ isset($order) ? $order->payment_email : old('email') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="phone-input">Phone</label>
-                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="Upišite telefon kupca" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
+                                            <label for="phone-input">{{ __('back/app.order.phone') }}</label>
+                                            <input type="text" class="form-control" id="phone-input" name="phone" placeholder="{{ __('back/app.order.phone') }}" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
                                         </div>
                                         <div class="col-md-6 mt-4 mb-0">
                                             <div class="form-group row">
-                                                <label class="col-sm-7 col-form-label" for="adults-input">Adults <small>({{ $order->apartment->max_adults }})</small></label>
+                                                <label class="col-sm-7 col-form-label" for="adults-input">{{ __('back/app.order.adults') }} <small>({{ $order->apartment->max_adults }})</small></label>
                                                 <div class="col-sm-5">
                                                     <input type="number" class="form-control" id="adults-input" name="adults" value="{{ isset($order) ? $order->checkout['adults'] : old('adults') }}">
                                                 </div>
@@ -137,7 +137,7 @@
                                         </div>
                                         <div class="col-md-6 mt-4 mb-0">
                                             <div class="form-group row">
-                                                <label class="col-sm-7 col-form-label" for="children-input">Children <small>({{ $order->apartment->max_children }})</small></label>
+                                                <label class="col-sm-7 col-form-label" for="children-input">{{ __('back/app.order.children') }} <small>({{ $order->apartment->max_children }})</small></label>
                                                 <div class="col-sm-5">
                                                     <input type="number" class="form-control" id="children-input" name="children" value="{{ isset($order) ? $order->checkout['children'] : old('children') }}">
                                                 </div>
@@ -152,13 +152,13 @@
                     <!-- Payments -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
-                            <h3 class="block-title">Način plaćanja</h3>
+                            <h3 class="block-title">{{ __('back/app.payments.title') }}</h3>
                         </div>
                         <div class="block-content">
                             <div class="row mb-4">
                                 <div class="col-md-8">
-                                    <label for="payment-select">Plaćanje</label>
-                                    <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="Odaberite način plaćanja...">
+                                    <label for="payment-select">{{ __('back/app.order.payments') }}</label>
+                                    <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="{{ __('back/app.order.select_payments') }}">
                                         <option></option>
                                         @foreach ($payments as $payment)
                                             <option value="{{ $payment->code }}" {{ ((isset($order)) and ($order->payment_code == $payment->code)) ? 'selected' : '' }}>{{ $payment->title->{current_locale()} }}</option>
@@ -166,9 +166,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="payment-amount-input">Iznos</label>
+                                    <label for="payment-amount-input">{{ __('back/app.order.amount') }}</label>
                                     <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->total : old('payment_amount') }}">
-                                    <!--                                    <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ (isset($order) && $order->totals()->where('code', 'total')->first()) ? $order->totals()->where('code', 'total')->first()->value : old('payment_amount') }}">-->
                                 </div>
                             </div>
                         </div>
@@ -181,7 +180,7 @@
                 <div class="col-sm-12">
                     <div class="block block-rounded" id="ag-order-products-app">
                         <div class="block-header block-header-default">
-                            <h3 class="block-title">Order Items & Total</h3>
+                            <h3 class="block-title">{{ __('back/app.order.items_title') }}</h3>
                         </div>
                         <div class="block-content">
                             <div class="row justify-content-center push">
@@ -209,7 +208,7 @@
                                         <!-- Total -->
                                         @foreach ($order->checkout['total']['total'] as $item)
                                             <tr style="height: 36px;">
-                                                <td colspan="2" class="text-right pr-3">{{ $item['title'] }}</td>
+                                                <td colspan="2" class="text-right pr-3">{!! $item['title'] !!}</td>
                                                 <td class="text-right">{{ $item['total_text'] }}</td>
                                             </tr>
                                         @endforeach
@@ -224,14 +223,14 @@
             <!-- History Messages -->
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Povijest narudžbe</h3>
+                    <h3 class="block-title">{{ __('back/app.order.history') }}</h3>
                     <div class="block-options">
                         <div class="dropdown">
                             <button type="button" class="btn btn-alt-secondary" id="btn-add-comment">
-                                Dodaj komentar
+                                {{ __('back/app.order.add_comment') }}
                             </button>
                             <button type="button" class="btn btn-light" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Promjeni status
+                                {{ __('back/app.order.change_status') }}
                                 <i class="fa fa-angle-down ml-1"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
@@ -254,11 +253,11 @@
                                     @if ($record->status)
                                         <span class="badge badge-pill badge-{{ $record->status->color }}">{{ $record->status->title->{current_locale()} }}</span>
                                     @else
-                                        <small>Komentar</small>
+                                        <small>{{ __('back/app.order.comment') }}</small>
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="font-w600">{{ \Illuminate\Support\Carbon::make($record->created_at)->locale('hr_HR')->diffForHumans() }}</span> /
+                                    <span class="font-w600">{{ \Illuminate\Support\Carbon::make($record->created_at)->locale(current_locale(true))->diffForHumans() }}</span> /
                                     <span class="font-weight-light">{{ \Illuminate\Support\Carbon::make($record->created_at)->format('d.m.Y - h:i') }}</span>
                                 </td>
                                 <td>
@@ -277,7 +276,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-hero-success mb-3">
-                                <i class="fas fa-save mr-1"></i> Snimi
+                                <i class="fas fa-save mr-1"></i> {{ __('back/layout.btn.save') }}
                             </button>
                         </div>
                     </div>
@@ -296,7 +295,7 @@
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Dodaj komentar</h3>
+                        <h3 class="block-title">{{ __('back/app.order.add_comment') }}</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>
@@ -307,9 +306,9 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-10">
                                 <div class="form-group mb-4">
-                                    <label for="status-select">Promjeni status</label>
-                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="Promjeni status narudžbe">
-                                        <option value="0">Bez Promjene statusa...</option>
+                                    <label for="status-select">{{ __('back/app.order.change_status') }}</label>
+                                    <select class="js-select2 form-control" id="status-select" name="status" style="width: 100%;" data-placeholder="{{ __('back/app.order.change_status') }}..">
+                                        <option value="0">{{ __('back/app.order.no_change_status') }}...</option>
                                         @foreach ($statuses as $status)
                                             <option value="{{ $status->id }}">{{ $status->title->{current_locale()} }}</option>
                                         @endforeach
@@ -317,7 +316,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="comment-input">Komentar</label>
+                                    <label for="comment-input">{{ __('back/app.order.comment') }}</label>
                                     <textarea class="form-control" name="comment" id="comment-input" rows="7"></textarea>
                                 </div>
 
@@ -327,10 +326,10 @@
                     </div>
                     <div class="block-content block-content-full text-right bg-light">
                         <a class="btn btn-sm btn-light" data-dismiss="modal" aria-label="Close">
-                            Odustani <i class="fa fa-times ml-2"></i>
+                            {{ __('back/layout.btn.discard') }} <i class="fa fa-times ml-2"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-primary" onclick="event.preventDefault(); changeStatus();">
-                            Snimi <i class="fa fa-arrow-right ml-2"></i>
+                            {{ __('back/layout.btn.save') }} <i class="fa fa-arrow-right ml-2"></i>
                         </button>
                     </div>
                 </div>
