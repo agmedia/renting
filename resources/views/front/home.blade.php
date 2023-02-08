@@ -173,7 +173,7 @@
 
                 <!--map -->
                 <div class="col-12  pe-0 2">
-                    <div id="map" class="map-2" style="max-height:500px"></div>
+                    <div id="map" class="map-2" style="max-height:600px"></div>
                 </div>
 
             </div>
