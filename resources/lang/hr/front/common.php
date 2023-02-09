@@ -21,7 +21,7 @@ return [
     'email_validate' => 'Molimo unesite svoju email adresu!',
     'mobile_validate' => 'Molimo unesite svoj broj mobitela!',
     'message_validate' => 'Molimo unesite svoju poruku!',
-    'footer_text' => 'Samostalna prijava znači da gosti mogu pristupiti apartmanu preko digitalne brave i šifre, što znači da nema  potrebe da domaćin bude tamo. ',
+    'footer_text' => 'SelfCheckIns - Samostalan i fleksibilan ulazak i izlazak gostiju iz apartmana pomoću pametnih brava ili šifre. ',
     'legal' => 'Informacije',
     'support' => 'Podrška',
     'copy_text' => '© 2022 SelfCheckIns. Sva prava pridržana.',

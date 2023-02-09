@@ -48,8 +48,9 @@ return [
                                             <div class="col-md-4 mb-4">
                                                 <h5 class="text-secondary">House rules</h5>
                                                 <ul>
-                                                    <li> <i class="far fa-clock font-13 text-primary me-1"></i> Check-in: 5:00 PM - 2:00 AM</li>
-                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 10:00 AM</li>
+
+                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 10:00 AM (0 €)</li>
+                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 14:00 AM (30 €)</li>
                                                     <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Self check-in with lockbox</li>
                                                     <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> No smoking</li>
 
@@ -68,7 +69,7 @@ return [
                                             <div class="col-md-4 ">
                                                 <h5 class="text-secondary">Cancellation policy</h5>
                                                 <ul>
-                                                    <li>Free cancellation for 48 hours.</li>
+                                                    <li>Free cancellation </li>
                                                     <li>Review the Host’s full cancellation policy which applies even if you cancel for illness or disruptions caused by COVID-19.</li>
 
                                                 </ul>

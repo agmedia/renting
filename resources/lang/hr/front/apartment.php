@@ -47,8 +47,9 @@ return [
                     <div class="col-md-4 mb-4">
                       <h5 class="text-secondary">Kućna pravila</h5>
                            <ul>
-                                                    <li> <i class="far fa-clock font-13 text-primary me-1"></i> Prijava: 5:00 PM - 2:00 AM</li>
-                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 10:00 AM</li>
+
+                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 10:00 (0 €)</li>
+                                                     <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 14:00 (30€)</li>
                                                     <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Samostalna prijava šifrom </li>
                                                     <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> Zabranjeno pušenje</li>
 
@@ -67,7 +68,7 @@ return [
                      <div class="col-md-4 ">
                                                 <h5 class="text-secondary">Politika otkazivanja</h5>
                                                 <ul>
-                                                   <li>Besplatno otkazivanje za 48 sati.</li>
+                                                   <li>Besplatno otkazivanje u bilo kojem trenutku ukoliko apartman popunimo novom rezervacijom.</li>
                                                     <li>Pregledajte potpuna pravila o otkazivanju domaćina koja se primjenjuju čak i ako otkažete zbog bolesti ili poremećaja uzrokovanih COVID-19.</li>
 
                                                 </ul>
