@@ -24,7 +24,7 @@ return [
     'footer_text' => 'SelfCheckIns - Samostalan i fleksibilan ulazak i izlazak gostiju iz apartmana pomoću pametnih brava ili šifre. ',
     'legal' => 'Informacije',
     'support' => 'Podrška',
-    'copy_text' => '© 2022 SelfCheckIns. Sva prava pridržana.',
+    'copy_text' => '© 2023 SelfCheckIns. Sva prava pridržana.',
     'terms' => 'Uvjeti korištenja',
     'apartment' => 'Apartment',
     'total' => 'Ukupno',

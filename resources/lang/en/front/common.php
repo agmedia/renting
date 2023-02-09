@@ -24,7 +24,7 @@ return [
     'footer_text' => 'Self check-in means guests can access a place without needing the Host to be there. Any time after their designated check-in time on their arrival date, guests can conveniently gain access to lockbox',
     'legal' => 'Legal Info',
     'support' => 'Support',
-    'copy_text' => '© 2022 SelfCheckIns. All right reserved.',
+    'copy_text' => '© 2023 SelfCheckIns. All right reserved.',
     'terms' => 'Terms and Conditions',
     'apartment' => 'Apartman',
     'total' => 'Total',
