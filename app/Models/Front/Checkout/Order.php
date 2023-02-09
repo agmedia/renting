@@ -303,7 +303,7 @@ class Order extends Model
             'payment_phone'       => $this->checkout->phone,
             'payment_email'       => $this->checkout->email,
             'payment_method'      => $this->checkout->payment->code,
-            'payment_code'        => $this->checkout->payment->code,
+            'payment_code'        => $this->checkout->payment->code ?: 'corvus',
             'payment_card'        => '',
             'payment_installment' => '',
             'company'             => '',
