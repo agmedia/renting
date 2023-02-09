@@ -111,7 +111,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 mt-3">
-                                                        <button type="button" onclick="updateQueryParams()" id="send" value="submit" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}</button>
+                                                        <button type="button" onclick="updateQueryParams()" id="send" class="btn btn-primary w-100"><i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -223,10 +223,6 @@
                 var i;
                 var newMarkers = [];
                 let locations = {!! $apartments->toJson() !!}.data;
-
-
-
-                console.log(locations)
 
                 for (i = 0; i < locations.length; i++) {
                     var pictureLabel = document.createElement("img");
@@ -348,7 +344,7 @@
          *
          * @type {string[]}
          */
-        var selectParams = ['city', 'max_adults', 'max_children', 'sort'];
+        var selectParams = ['city', 'max_adults', 'max_children'];
         /**
          *
          * @type {P.DateTime|*}
@@ -467,6 +463,7 @@
          * @param param
          */
         function resolveSelectParam(param) {
+            console.log(param)
             let target = document.getElementById('select-' + param);
             target = target.options[target.selectedIndex].value;
 
