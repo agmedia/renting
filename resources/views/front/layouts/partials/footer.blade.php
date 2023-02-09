@@ -44,7 +44,7 @@
                                     <div class="footer-widget">
                                         <h4 class="widget-title text-secondary double-down-line-left position-relative">{{ __('front/common.contact') }}</h4>
                                         <ul>
-                                            <li>helpline@selfcheckins.com</li>
+                                            <li>selfcheckins@gmail.com</li>
                                         </ul>
                                     </div>
                                     <div class="footer-widget media-widget mt-3 text-secondary hover-text-primary">
