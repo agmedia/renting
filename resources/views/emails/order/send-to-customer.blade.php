@@ -21,7 +21,7 @@
                 {{ __('front/common.payment') }}:
                 @if ($order->payment_code == 'bank')
                     <b>{{ __('front/common.bank') }}</b>
-
+                    <p> {!!  __('front/success.success_text_line') !!} </p>
                     <p>{{ __('front/success.success_text') }} {{ $order->id }} .</p>
                     {!!   __('front/success.success_html_text') !!}
                     <p>{{ __('front/success.payment_text') }}  {{ $order->total_text }}<br>

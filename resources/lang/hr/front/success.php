@@ -20,9 +20,9 @@ return [
     'success_home' => 'Naslovnica',
     'success_btn' => 'Nastavite pregled stranice',
     'success_text' => 'Uredno smo zaprimili Vašu narudžbu broj',
-    'success_html_text' => '    <p>Please make the payment according to the following payment instructions.</p>
-                                <p> The deadline for payment is until the apartment is paid for by another guest.</p>
-                                <p> If you are paying later, please check the availability of the apartment before paying.</p>',
+    'success_html_text' => '    <p>Molimo izvršite plaćanje prema sljedećim uputama za plaćanje.</p>
+                                <p> Rok za plaćanje je dok drugi gost ne uplati apartman.</p>
+                                <p> Ukoliko plaćate kasnije, molimo provjerite raspoloživost apartmana prije plaćanja.</p>',
     'payment_text' =>'MOLIMO IZVRŠITE UPLATU U IZNOSU OD',
     'refference_number' =>'POZIV NA BROJ',
     'scant_text' =>'ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD',
