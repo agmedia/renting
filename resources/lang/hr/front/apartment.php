@@ -69,7 +69,7 @@ return [
                                                 <h5 class="text-secondary">Politika otkazivanja</h5>
                                                 <ul>
                                                    <li>Besplatno otkazivanje u bilo kojem trenutku ukoliko apartman popunimo novom rezervacijom.</li>
-                                                    <li>Pregledajte potpuna pravila o otkazivanju domaćina koja se primjenjuju čak i ako otkažete zbog bolesti ili poremećaja uzrokovanih COVID-19.</li>
+
 
                                                 </ul>
                                             </div>

@@ -69,8 +69,8 @@ return [
                                             <div class="col-md-4 ">
                                                 <h5 class="text-secondary">Cancellation policy</h5>
                                                 <ul>
-                                                    <li>Free cancellation </li>
-                                                    <li>Review the Host’s full cancellation policy which applies even if you cancel for illness or disruptions caused by COVID-19.</li>
+                                                    <li>Free cancellation at any time if we fill the apartment with a new reservation. </li>
+
 
                                                 </ul>
                                             </div>
