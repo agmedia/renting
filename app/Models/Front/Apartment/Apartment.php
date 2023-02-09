@@ -285,16 +285,15 @@ class Apartment extends Model implements LocalizedUrlRoutable
         }
 
         if ($request->has('from') || $request->has('to')) {
-            $query->whereHas('orders', function ($query) use ($request) {
-                /*$query->where(function ($query) use ($request) {
-                    $query->where('date_from', '<=', date($request->input('from')))->where('date_to', '>=', date($request->input('to')));
-                });*/
-                $query->orWhere(function ($query) use ($request) {
-                    $query->where('date_from', '<', date($request->input('from')))->where('date_to', '>=', date($request->input('to')));
-                });
-                $query->orWhere(function ($query) use ($request) {
-                    $query->where('date_from', '>=', date($request->input('from')))->where('date_to', '<', date($request->input('to')));
-                });
+            $query->whereDoesntHave('orders', function ($query) use ($request) {
+                //
+                $query->where([
+                    ['date_from', '<', date($request->input('from'))],
+                    ['date_to', '>=', date($request->input('from'))]
+                ])->orWhere([
+                    ['date_from', '>', date($request->input('to'))],
+                    ['date_to', '<=', date($request->input('to'))]
+                ]);
             });
         }
 
