@@ -262,7 +262,7 @@
                             '<div class="price bg-primary text-white p-2">' + locations[i].price_text + '</div>' +
                             '</div>' +
                             '<div class="featured-thumb-data">' +
-                            '<div class="p-3 bg-white">' +
+                            '<div class="p-0 bg-white">' +
 
 
                             '</div>' +
