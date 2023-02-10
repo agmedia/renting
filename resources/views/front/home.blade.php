@@ -38,27 +38,7 @@
                 <div class="col-12 ">
                     <div class="row property-search mt-2 mt-0">
                         <div class="col-md-12">
-                          <!--  <div class="row pb-0 mt-3">
-                                <div class="col-4 col-md-6">
-                                    <form class="selecting-command d-flex flex-wrap" method="get">
-                                        <div class="select-arrow me-30 d-none d-sm-block">
-                                            <select class="form-control form-select bg-gray" id="select-sort">
-                                                <option value="0">{{ __('front/apartment.order_default') }}</option>
-                                                <option value="new">{{ __('front/apartment.order_newest') }}</option>
-                                                <option value="old">{{ __('front/apartment.order_oldest') }}</option>
-                                                <option value="top">{{ __('front/apartment.order_top') }}</option>
-                                                <option value="popular">{{ __('front/apartment.order_popular') }}</option>
-                                            </select>
-                                        </div>
-                                        <label>{{ $apartments->total() }} {{ __('pagination.results') }}</label>
-                                    </form>
-                                </div>
-                                <div class="col-8 col-md-6">
-                                    <a class="checkbox-collapse btn btn-light bg-gray btn-sm float-end" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" title="Grid" class="active">
-                                        <i class="fa fa-search" aria-hidden="true"></i> {{ __('front/apartment.search_box_title') }}
-                                    </a>
-                                </div>
-                            </div>-->
+
 
                             <!---filters -->
                             <div class="row">
@@ -119,6 +99,28 @@
                                             </div>
                                         </div>
 
+                                </div>
+                            </div>
+
+                            <div class="row pb-0 mt-3">
+                                <div class="col-4 col-md-6">
+                                    <form class="selecting-command d-flex flex-wrap" method="get">
+                                        <div class="select-arrow me-30 d-none d-sm-block">
+                                            <select class="form-control form-select bg-gray" id="select-sort">
+                                                <option value="0">{{ __('front/apartment.order_default') }}</option>
+                                                <option value="new">{{ __('front/apartment.order_newest') }}</option>
+                                                <option value="old">{{ __('front/apartment.order_oldest') }}</option>
+                                                <option value="top">{{ __('front/apartment.order_top') }}</option>
+                                                <option value="popular">{{ __('front/apartment.order_popular') }}</option>
+                                            </select>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="col-8 col-md-6">
+                                    <a class="checkbox-collapse btn btn-light bg-gray btn-sm float-end" >
+                                        {{ $apartments->total() }} {{ __('pagination.results') }}
+                                    </a>
                                 </div>
                             </div>
 
