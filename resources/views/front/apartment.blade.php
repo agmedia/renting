@@ -13,8 +13,8 @@
     <meta property="og:description" content="{{ $meta['description'] }}"/>
     <meta property="og:url" content="{{ request()->url() }}"/>
     <meta property="og:site_name" content="{{ config('app.name') }}"/>
-    <meta property="og:image" content="{{ $meta['image'] }}"/>
-    <meta property="og:image:secure_url" content="{{ $meta['image'] }}"/>
+    <meta property="og:image" content="{{ asset($apartment->image()) }}"/>
+    <meta property="og:image:secure_url" content="{{ asset($apartment->image()) }}"/>
     <meta property="og:image:width" content="{{ $meta['image_width'] }}"/>
     <meta property="og:image:height" content="{{ $meta['image_height'] }}"/>
     <meta property="og:image:type" content="{{ $meta['image_type'] }}"/>
