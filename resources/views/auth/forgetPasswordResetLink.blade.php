@@ -13,9 +13,9 @@
                             <!-- Header -->
                             <div class="mb-2 text-center">
                                 <a class="link-fx font-w700 font-size-h2" href="{{ route('index') }}">
-                                    <span class="text-dark">Antikvarijat</span> <span class="text-primary">Biblos</span>
+                                    <span class="text-dark">Self</span><span class="text-primary">Checkins</span>
                                 </a>
-                                <p class="text-uppercase font-w700 font-size-sm text-muted">Reset lozinke</p>
+                                <p class="text-uppercase font-w700 font-size-sm text-muted">Reset password</p>
                             </div>
 
                             <x-jet-validation-errors class="mb-4" />
@@ -53,17 +53,15 @@
                         <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
                             <div class="media">
                                 <a class="img-link mr-3" href="{{ route('index') }}">
-                                    <img class="img-avatar img-avatar-thumb" src="{{ asset('media/img/faviconbiblos.png') }}" alt="Antikvarijat Biblos">
+                                    <img class="img-avatar img-avatar-thumb" src="{{ asset('media/img/logo_self.png') }}" alt="SelfCheckIns Apartments">
                                 </a>
                                 <div class="media-body">
-                                    <p class="text-white font-w600 mb-1">
-                                        Knjige, vedute & zemljovidi
-                                    </p>
-                                    <a class="text-white-75 font-w600" href="{{ route('index') }}">Antikvarijat Biblos</a>
+                                    <h2 class="mt-3"><a class="text-white font-w600" href="{{ route('index') }}">SelfCheckIns</a></h2>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <!-- END Sign In Block -->
