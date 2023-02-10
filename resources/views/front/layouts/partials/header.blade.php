@@ -9,7 +9,7 @@
                             <div class="me-2"><a href="mailto:selfcheckins@gmail.com" class="text-primary"><i class="fas fa-envelope text-primary me-1"></i>selfcheckins@gmail.com</a></div>
                             <div class="me-0"><a href="tel:+385 99 500 8000" class="text-primary"><i class="fas fa-phone-alt text-primary me-1"></i>+385 99 500 8000</a></div>
                             <div class="dropdown hover-dropdown d-none d-sm-block">
-                                <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
+                                <button class="dropdown-toggle text-primary" type="button" >{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
                                     @foreach($pages as $page)
                                         <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->title }}</a></li>
