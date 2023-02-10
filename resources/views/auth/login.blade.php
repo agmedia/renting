@@ -44,11 +44,9 @@
                                 </div>
                             </form>
                             <div class="mb-2 text-center">
-                                @if (Route::has('password.request'))
-                                    <a class="link-fx font-size-sm" href="{{ route('password.request') }}">
-                                        {{ __('auth.forgot') }}
-                                    </a>
-                                @endif
+                                <a class="link-fx font-size-sm" href="{{ route('forget.password.get') }}">
+                                    {{ __('auth.forgot') }}
+                                </a>
                             </div>
                             <div class="mb-2 text-center">
                                 <a class="link-fx font-size-sm" href="{{ route('register') }}">
