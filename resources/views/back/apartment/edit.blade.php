@@ -241,9 +241,10 @@
                 {{ method_field('PATCH') }}
             @endif
 
-            <div class="block block-mode-hidden">
+            <div id="main-content-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
+                    <h3 class="block-title" > <a href="#" onclick="Dashmix.block('content_toggle', '#main-content-block');">{{ __('back/apartment.osnovneinformacije') }}</a></h3>
+
                     <div class="block-options">
                         <button type="submit" class="btn btn-hero-success my-2">
                             <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
@@ -263,7 +264,7 @@
                     </div>
                 </div>
 
-                <div class="block-content">
+                <div  class="block-content">
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
                             <div class="form-group row items-push">
@@ -439,9 +440,9 @@
             </div>
 
             <!-- Location -->
-            <div class="block block-mode-hidden">
+            <div id="location-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default ">
-                    <h3 class="block-title">{{ __('back/apartment.lokacija') }}</h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#location-block');">{{ __('back/apartment.lokacija') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
@@ -504,9 +505,9 @@
             </div>
 
             <!-- Prices -->
-            <div class="block block-mode-hidden">
+            <div id="prices-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">{{ __('back/apartment.cijenetitle') }}</h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#prices-block');">{{ __('back/apartment.cijenetitle') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
@@ -629,9 +630,9 @@
             </div>
 
             <!-- Amenities -->
-            <div class="block block-mode-hidden">
+            <div id="amenities-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">{{ __('back/apartment.amenities') }}</h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#amenities-block');">{{ __('back/apartment.amenities') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
@@ -664,9 +665,9 @@
             </div>
 
             <!-- Details Input -->
-            <div class="block block-mode-hidden">
+            <div id="details-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">{{ __('back/apartment.dodatneinformacije') }}</h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#details-block');">{{ __('back/apartment.dodatneinformacije') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
@@ -687,9 +688,9 @@
             </div>
 
             <!-- Gallery -->
-            <div class="block block-mode-hidden">
+            <div id="gallery-block" class="block block-mode-hidden">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">{{ __('back/apartment.galerijainfo') }}</h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#gallery-block');">{{ __('back/apartment.galerijainfo') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
