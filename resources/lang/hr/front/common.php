@@ -35,4 +35,6 @@ return [
     'details' => 'Detalji narudžbe',
     //
     'message_error' => 'Oops..! Nešto je pošlo po zlu, molimo pokušajte ponovo ili kontaktirajte administratora.',
+
+    'home_description' => 'SelfCheckIns - Rezervirajte svoj apartman. Samostalan i fleksibilan ulazak i izlazak gostiju iz apartmana pomoću pametnih brava ili šifre. ',
 ];

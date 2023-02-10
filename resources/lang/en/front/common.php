@@ -35,4 +35,6 @@ return [
     'details' => 'Order details',
     //
     'message_error' => 'Oops..! Something has gone wrong. Please try again or contact the administrator!',
+
+    'home_description' => 'SelfCheckIns - Self check-in means guests can access a place without needing the Host to be there. Any time after their designated check-in time on their arrival date, guests can conveniently gain access to lockbox. ',
 ];

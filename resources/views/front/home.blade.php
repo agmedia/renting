@@ -9,11 +9,11 @@
     <meta property="og:locale" content="{{ current_locale(true) }}" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="SelfCheckIns" />
-    <meta property="og:description" content="" />
+    <meta property="og:description" content="{{ __('front/common.home_description') }}" />
     <meta property="og:url" content="{{ request()->url() }}"  />
     <meta property="og:site_name" content="{{ config('app.name') }}" />
-    <meta property="og:image" content="" />
-    <meta property="og:image:secure_url" content="" />
+    <meta property="og:image" content="{{ asset('media/img/apartment/2/jacuzzi-garage-flex-selfcheckins-20-star-ceiling-gzCM.jpg') }}" />
+    <meta property="og:image:secure_url" content="{{ asset('media/img/apartment/2/jacuzzi-garage-flex-selfcheckins-20-star-ceiling-gzCM.jpg') }}" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="720" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -21,11 +21,13 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="SelfCheckInsi" />
     <meta name="twitter:description" content="SelfCheckIns" />
-    <meta name="twitter:image" content="" />
+    <meta name="twitter:image" content="{{ asset('media/img/apartment/2/jacuzzi-garage-flex-selfcheckins-20-star-ceiling-gzCM.jpg') }}" />
+
+
 @endpush
 
 @section ( 'title', 'SelfCheckIns' )
-@section ( 'description', '' )
+@section ( 'description', __('front/common.home_description') )
 
 @section('content')
     <div class="full-row bg-white p-0">
