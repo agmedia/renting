@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        $pages = Page::all();
+        $pages = Page::with('translation')->get();
         View::share('pages', $pages);
         //
 

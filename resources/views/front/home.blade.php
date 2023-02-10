@@ -122,12 +122,12 @@
 
                             <!---listings -->
                             <div class="row mt-0  row-cols-xl-4 row-cols-md-4 row-cols-1 g-4">
-                                @foreach ($apartments->sortByDesc('featured') as $apartment)
+                                @foreach ($apartments as $apartment)
                                     <div class="col" >
                                         <div class="featured-thumb hover-zoomer ">
                                             <div class="overflow-hidden position-relative">
-                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}"> <img src="{{ asset($apartment->image) }}" alt="{{ $apartment->title }}"></a>
-                                                <div class="featured bg-primary text-white">{{ $apartment->price_text }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
+                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}"> <img src="{{ asset($apartment->image()) }}" alt="{{ $apartment->title }}"></a>
+                                                <div class="featured bg-primary text-white">{{ currency_main($apartment->price_regular, true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                                                 @if ($apartment->featured)
                                                     <div class="starmark text-white"><i class="far fa-star"></i></div>
@@ -135,7 +135,7 @@
                                             </div>
                                             <div class="featured-thumb-data shadow-one">
                                                 <div class="p-4 pb-2">
-                                                    <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation()->first()->slug]) }}">{{ $apartment->title }}</a></h5>
+                                                    <h5 class="text-secondary hover-text-primary mb-2"><a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}">{{ $apartment->title }}</a></h5>
                                                 </div>
                                                 <div class="ps-4 pb-2">
                                                     <span class="location"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i class="fas fa-users text-primary me-1"></i> {{ $apartment->max_persons }}  {{ __('front/apartment.guests') }}</span>
@@ -143,14 +143,10 @@
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
                                                     <div class="float-start">
-                                                        @foreach ($apartment->amenities() as  $items)
-                                                            @foreach ($items as $detail)
-                                                                @if($detail['featured'])
-                                                                    <span class="location list">
-                                                                        <img src="{{ asset('media/icons') }}/{{ $detail['icon'] }}" class="offer-icon list" /> {{ $detail['title'] }}
-                                                                    </span>
-                                                                @endif
-                                                            @endforeach
+                                                        @foreach ($apartment->amenity()->take(4)->get() as $item)
+                                                            <span class="location list">
+                                                                <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" /> {{ $item->title }}
+                                                            </span>
                                                         @endforeach
                                                     </div>
                                                     <div class="float-end"> </div>

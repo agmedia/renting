@@ -22,7 +22,7 @@
 
                                             @foreach($pages as $page)
                                                 <li>
-                                                    <a href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a>
+                                                    <a href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->title }}</a>
                                                 </li>
                                             @endforeach
 

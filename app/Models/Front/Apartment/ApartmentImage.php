@@ -57,7 +57,7 @@ class ApartmentImage extends Model
             return $this->hasOne(ApartmentImageTranslation::class, 'apartment_image_id')->where('lang', $lang)->first();
         }
 
-        return $this->hasOne(ApartmentImageTranslation::class, 'apartment_image_id')->where('lang', $this->locale)->first();
+        return $this->hasOne(ApartmentImageTranslation::class, 'apartment_image_id')->where('lang', $this->locale)/*->first()*/;
     }
 
 
@@ -75,8 +75,7 @@ class ApartmentImage extends Model
      */
     public function getTitleAttribute()
     {
-        //dd($this->translation()->toArray());
-        return (isset($this->translation()->title) && $this->translation()->title) ? $this->translation()->title : '';
+        return (isset($this->translation->title) && $this->translation->title) ? $this->translation->title : '';
     }
 
 
@@ -85,7 +84,7 @@ class ApartmentImage extends Model
      */
     public function getAltAttribute()
     {
-        return (isset($this->translation()->alt) && $this->translation()->alt) ? $this->translation()->alt : '';
+        return (isset($this->translation->alt) && $this->translation->alt) ? $this->translation->alt : '';
     }
 
 }

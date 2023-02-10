@@ -33,7 +33,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'description', 'image', 'thumb', 'price', 'price_text', 'for', 'url'];
+    protected $appends = ['title', 'description'/*, 'image'*/, 'thumb'/*, 'price', 'price_text'*/, 'for', 'url'];
 
     /**
      * @var string
@@ -124,6 +124,19 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function amenity()
+    {
+        return $this->hasMany(ApartmentDetail::class, 'apartment_id')
+                    ->select('id', 'amenity', 'favorite', 'icon')
+                    ->with('translation')
+                    ->where('amenity', 1)
+                    ->where('favorite', 1);
+    }
+
+
+    /**
      * @param null  $lang
      * @param false $all
      *
@@ -139,7 +152,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
             return $this->hasMany(ApartmentTranslation::class, 'apartment_id');
         }
 
-        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')->where('lang', $this->locale)/*->first()*/;
+        return $this->hasOne(ApartmentTranslation::class, 'apartment_id')/*->select('id', 'slug', 'url')*/->where('lang', $this->locale)/*->first()*/;
     }
 
 
@@ -180,7 +193,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getTitleAttribute()
     {
-        return $this->translation()->first()->title;
+        return $this->translation->title;
     }
 
 
@@ -189,14 +202,14 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getDescriptionAttribute()
     {
-        return $this->translation()->first()->description;
+        return $this->translation->description;
     }
 
 
     /**
      * @return string
      */
-    public function getImageAttribute()
+    /*public function getImageAttribute()
     {
         $main = $this->images()->where('published', 1)->where('default', 1)->first();
 
@@ -207,6 +220,13 @@ class Apartment extends Model implements LocalizedUrlRoutable
         $other = $this->images()->where('published', 1)->first();
 
         return $other ? $other->image : config('settings.default_apartment_image');
+    }*/
+
+
+    public function image()
+    {
+        return $this->hasOne(ApartmentImage::class, 'apartment_id')->select('id', 'image')
+                    ->where('default', 1)->first()->image ?: config('settings.default_apartment_image');
     }
 
 
@@ -251,7 +271,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getUrlAttribute()
     {
-        return $this->translation()->first()->url;
+        return $this->translation->url;
     }
 
 

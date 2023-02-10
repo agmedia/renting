@@ -49,8 +49,8 @@
                     <div class="row" id="gallery">
                         <!-- Slide 1-->
                         <div class="col-xs-12 col-md-6 p-1 pe-0 overflow-hidden featured-thumb position-relative">
-                            <a href="{{ asset($apartment->image) }}" class="link">
-                                <img src="{{ asset($apartment->image) }}" class="ls-bg" alt=""/>
+                            <a href="{{ asset($apartment->image()) }}" class="link">
+                                <img src="{{ asset($apartment->image()) }}" class="ls-bg" alt=""/>
                                 <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> {{ __('front/apartment.view_gallery') }} ({{ $apartment->images()->where('published', 1)->count() }})</div>
                             </a>
                         </div>

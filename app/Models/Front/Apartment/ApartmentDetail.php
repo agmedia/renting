@@ -60,7 +60,7 @@ class ApartmentDetail extends Model
             return $this->hasMany(ApartmentDetailTranslation::class, 'apartment_detail_id');
         }
 
-        return $this->hasOne(ApartmentDetailTranslation::class, 'apartment_detail_id')->where('lang', $this->locale)->first();
+        return $this->hasOne(ApartmentDetailTranslation::class, 'apartment_detail_id')->where('lang', $this->locale)/*->first()*/;
     }
 
 
@@ -69,7 +69,7 @@ class ApartmentDetail extends Model
      */
     public function getTitleAttribute()
     {
-        return $this->translation()->title;
+        return $this->translation->title;
     }
 
 
