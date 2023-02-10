@@ -126,7 +126,7 @@
                                     <div class="col" >
                                         <div class="featured-thumb hover-zoomer ">
                                             <div class="overflow-hidden position-relative">
-                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}"> <img src="{{ asset($apartment->image()) }}" alt="{{ $apartment->title }}"></a>
+                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}"> <img id="apartment-image-{{ $apartment->id }}" src="{{ asset($apartment->image()) }}" alt="{{ $apartment->title }}"></a>
                                                 <div class="featured bg-primary text-white">{{ currency_main($apartment->price_regular, true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                                                 @if ($apartment->featured)
@@ -247,6 +247,9 @@
                         labelClass: "marker-style"
                     });
 
+                    locations[i].image = $('#apartment-image-' + locations[i].id).attr('src');
+
+                    console.log(locations[i])
 
                     newMarkers.push(marker);
                         boxText.innerHTML =
@@ -255,7 +258,7 @@
                             '<a href="{{current_locale()}}' + locations[i].url + '">' +
                             '<img src="' + locations[i].image + '" alt="">' +
                             '</a>' +
-                            '<div class="price bg-primary text-white p-2">' + locations[i].price_text + '</div>' +
+                            '<div class="price bg-primary text-white p-2">' + Number(locations[i].price_regular).toFixed(2) + '</div>' +
                             '</div>' +
                             '<div class="featured-thumb-data">' +
                             '<div class="p-0 bg-white">' +
