@@ -29,12 +29,8 @@ class HomeController extends Controller
             $request->merge(['city' => 'Zagreb']);
         }
 
-        $apartments = Apartment::active()->search($request)->with('translation')->orderBy('featured', 'desc')->paginate(30);
+        $apartments = Apartment::active()->onlyListData()->search($request)->with('translation')->orderBy('featured', 'desc')->paginate(30);
         $cities     = Apartment::groupBy('city')->pluck('city');
-
-        /*foreach ($apartments as $apartment) {
-            dd($apartment->translation);
-        }*/
 
         return view('front.home', compact('apartments', 'cities'));
     }
