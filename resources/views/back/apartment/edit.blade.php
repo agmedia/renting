@@ -240,10 +240,17 @@
             @if (isset($apartment))
                 {{ method_field('PATCH') }}
             @endif
+
+
+
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
                     <div class="block-options">
+
+
+
+
 
                         <button type="submit" class="btn btn-hero-success my-2">
                             <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
@@ -256,6 +263,13 @@
                             <input type="checkbox" class="custom-control-input" id="status-switch" name="status" @if (isset($apartment) and $apartment->status) checked @endif>
                             <label class="custom-control-label"style="padding-top: 2px;" for="status-switch">{{ __('back/apartment.status') }}</label>
                         </div>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -438,6 +452,14 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.lokacija') }}</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -497,6 +519,14 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.cijenetitle') }}</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -617,6 +647,14 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.amenities') }}</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -647,6 +685,14 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.dodatneinformacije') }}</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="block-content block-content-full">
@@ -665,6 +711,14 @@
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.galerijainfo') }}</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
+
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
+                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
+                            <i class="si si-close"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="block-content block-content-full">
                     <div class="row justify-content-center">
