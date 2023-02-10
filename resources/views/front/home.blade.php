@@ -145,7 +145,7 @@
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
                                                     <div class="float-start">
-                                                        @foreach ($apartment->amenity()->take(4)->get() as $item)
+                                                        @foreach ($apartment->amenity()->take(6)->get() as $item)
                                                             <span class="location list">
                                                                 <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" /> {{ $item->title }}
                                                             </span>
