@@ -34,10 +34,12 @@ class CreateNewUser implements CreatesNewUsers
         ])->validate();
 
         // Recaptcha
-        $recaptcha = (new Recaptcha())->check($input);
+        if (config('app.env') == 'production') {
+            $recaptcha = (new Recaptcha())->check($input);
 
-        if ( ! $recaptcha->ok()) {
-            return back()->withErrors(['error' => 'ReCaptcha Error! Kontaktirajte administratora!']);
+            if ( ! $recaptcha->ok()) {
+                return back()->withErrors(['error' => 'ReCaptcha Error! Kontaktirajte administratora!']);
+            }
         }
 
         $public_user = User::create([
