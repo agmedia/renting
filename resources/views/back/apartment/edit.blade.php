@@ -241,17 +241,10 @@
                 {{ method_field('PATCH') }}
             @endif
 
-
-
-            <div class="block">
+            <div class="block block-mode-hidden">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.osnovneinformacije') }}</h3>
                     <div class="block-options">
-
-
-
-
-
                         <button type="submit" class="btn btn-hero-success my-2">
                             <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
                         </button>
@@ -266,14 +259,11 @@
 
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
 
-                <div class="block-content block-content-full">
+                <div class="block-content">
                     <div class="row justify-content-center push">
                         <div class="col-md-11">
                             <div class="form-group row items-push">
@@ -449,16 +439,14 @@
             </div>
 
             <!-- Location -->
-            <div class="block">
-                <div class="block-header block-header-default">
+            <div class="block block-mode-hidden">
+                <div class="block-header block-header-default ">
                     <h3 class="block-title">{{ __('back/apartment.lokacija') }}</h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
+
                     </div>
                 </div>
 
@@ -516,16 +504,13 @@
             </div>
 
             <!-- Prices -->
-            <div class="block">
+            <div class="block block-mode-hidden">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.cijenetitle') }}</h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
 
@@ -644,16 +629,13 @@
             </div>
 
             <!-- Amenities -->
-            <div class="block">
+            <div class="block block-mode-hidden">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.amenities') }}</h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
 
@@ -682,16 +664,13 @@
             </div>
 
             <!-- Details Input -->
-            <div class="block">
+            <div class="block block-mode-hidden">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.dodatneinformacije') }}</h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
 
@@ -708,16 +687,13 @@
             </div>
 
             <!-- Gallery -->
-            <div class="block">
+            <div class="block block-mode-hidden">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('back/apartment.galerijainfo') }}</h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
 
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="content_toggle"></button>
-                        <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="close">
-                            <i class="si si-close"></i>
-                        </button>
+                        <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
                 <div class="block-content block-content-full">
@@ -733,18 +709,20 @@
             <div class="block">
                 <div class="block-content">
                     <div class="row justify-content-center push">
-                        <div class="col-md-5">
-                            <button type="submit" class="btn btn-hero-success my-2">
-                                <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
-                            </button>
-                        </div>
-                        <div class="col-md-6 text-right">
+
+                        <div class="col-md-6 ">
                             @if (isset($apartment))
                                 <a href="{{ route('apartments.destroy', ['apartman' => $apartment]) }}" type="submit" class="btn btn-hero-danger my-2 js-tooltip-enabled" data-toggle="tooltip" title="" data-original-title="Obriši" onclick="event.preventDefault(); document.getElementById('delete-gallery-form{{ $apartment->id }}').submit();">
                                     <i class="fa fa-trash-alt"></i> {{ __('back/apartment.delete') }}
                                 </a>
                             @endif
                         </div>
+                        <div class="col-md-6 text-right">
+                            <button type="submit" class="btn btn-hero-success my-2">
+                                <i class="fas fa-save mr-1"></i> {{ __('back/apartment.btnsnimi') }}
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
