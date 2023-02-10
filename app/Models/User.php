@@ -113,11 +113,8 @@ class User extends Authenticatable
         $request->validate([
             'fname' => ['required', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'zip' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255']
+            'email' => ['required', 'string', 'email', 'max:255']
+
         ]);
 
         $this->request = $request;

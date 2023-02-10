@@ -56,67 +56,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Adresa dostave</h2>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="mb-3">
-                                    <label class="form-label" for="checkout-address">Adresa</label>
-                                    <input class="form-control @error('address') is-invalid @enderror" type="text" name="address" value="{{ $user->details->address }}">
-                                    @error('address') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="checkout-city">Grad</label>
-                                <input class="form-control @error('city') is-invalid @enderror" type="text" name="city" value="{{ $user->details->city }}">
-                                @error('city') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="checkout-zip">Poštanski broj</label>
-                                <input class="form-control @error('zip') is-invalid @enderror" type="text" name="zip" value="{{ $user->details->zip }}">
-                                @error('zip') <div id="val-username-error" class="invalid-feedback animated fadeIn">Ime je obvezno</div> @enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="mb-3" wire:ignore>
-                                <label class="form-label" for="checkout-country">Država</label>
-                                <select class="form-select g @error('state') is-invalid @enderror" id="checkout-country" name="state">
-                                    <option value=""></option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country['name'] }}" {{ $country['name'] == $user->details->state ? 'selected' : '' }}>{{ $country['name'] }}</option>
-                                    @endforeach
-                                </select>
-                                @error('state') <div id="val-username-error" class="invalid-feedback animated fadeIn">Država je obvezna</div> @enderror
-                            </div>
-                        </div>
-                    </div>
+
 
                     <div class="row mt-3">
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label class="form-label" for="checkout-company">Tvrtka</label>
-                                <input class="form-control" type="text" name="company" value="{{ $user->details->company }}">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="mb-3">
-                                <div class="mb-3">
-                                    <label class="form-label" for="checkout-oib">OIB</label>
-                                    <input class="form-control" type="text" name="oib" value="{{ $user->details->oib }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-primary d-block w-100">Snimi</button>
                         </div>
