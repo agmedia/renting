@@ -262,7 +262,7 @@
                             '<a href="{{current_locale()}}' + locations[i].url + '">' +
                             '<img src="' + locations[i].image + '" alt="">' +
                             '</a>' +
-                            '<div class="price bg-primary text-white p-2">' + Number(locations[i].price_regular).toFixed(2) + '</div>' +
+                            '<div class="price bg-primary text-white p-2">' + Number(locations[i].price_regular).toFixed(2) + ' {{ $main_currency_symbol }}</div>' +
                             '</div>' +
                             '<div class="featured-thumb-data">' +
                             '<div class="p-0 bg-white">' +
