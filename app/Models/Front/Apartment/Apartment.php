@@ -287,6 +287,17 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
 
     /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    public function scopeOnlyListData(Builder $query): Builder
+    {
+        return $query->select('id', 'price_regular', 'longitude', 'latitude', 'price_per', 'featured', 'status', 'm2', 'rooms', 'max_persons', 'target');
+    }
+
+
+    /**
      * @param Builder $query
      * @param Request $request
      *
@@ -297,13 +308,26 @@ class Apartment extends Model implements LocalizedUrlRoutable
         if ($request->has('city')) {
             $query->where('city', $request->input('city'));
         }
+
         if ($request->has('max_adults')) {
-            $query->where('max_adults', '>=', $request->input('max_adults'));
-        }
-        if ($request->has('max_children')) {
-            $query->where('max_children', '>=', $request->input('max_children'));
+            $query->where(function ($subquery) use ($request) {
+                $subquery->where('max_adults', '>=', $request->input('max_adults'))
+                         ->orWhere('max_persons', '>=', $request->input('max_adults'));
+            });
         }
 
+        if ($request->has('max_children')) {
+            $query->where(function ($subquery) use ($request) {
+                $subquery->where('max_children', '>=', $request->input('max_children'))
+                         ->orWhere('max_persons', '>=', $request->input('max_children'));
+            });
+        }
+
+        if ($request->has('max_adults') && $request->has('max_children')) {
+            $query->where('max_persons', '>=', intval($request->input('max_adults') + $request->input('max_children')));
+        }
+
+        // Dates
         if ($request->has('from') || $request->has('to')) {
             $query->whereDoesntHave('orders', function ($query) use ($request) {
                 //
@@ -317,6 +341,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
             });
         }
 
+        // Sorting
         if ($request->has('sort')) {
             $sort = $request->input('sort');
 
