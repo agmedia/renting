@@ -86,5 +86,7 @@
 @endsection
 
 @push('js_after')
-    @include('front.layouts.partials.recaptcha-js')
+    @if (config('app.env') == 'production')
+        @include('front.layouts.partials.recaptcha-js')
+    @endif
 @endpush

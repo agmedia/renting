@@ -76,3 +76,9 @@
     </div>
 
 @endsection
+
+@push('js_after')
+    @if (config('app.env') == 'production')
+        @include('front.layouts.partials.recaptcha-js')
+    @endif
+@endpush
