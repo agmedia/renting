@@ -19,14 +19,11 @@
                                     <div class="footer-widget footer-nav">
                                         <h4 class="widget-title text-secondary double-down-line-left position-relative">{{ __('front/common.legal') }}</h4>
                                         <ul>
-
                                             @foreach($pages as $page)
                                                 <li>
-                                                    <a href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->title }}</a>
+                                                    <a href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a>
                                                 </li>
                                             @endforeach
-
-
                                         </ul>
                                     </div>
                                 </div>
