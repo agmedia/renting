@@ -41,7 +41,7 @@
                     @endif--}}
 
                     <span class="d-block  text-md-end"><i class="fas fa-star text-primary"></i> {{ $apartment->m2 }}m² <i class="fas fa-door-open text-primary"></i> {{ $apartment->rooms }} {{ __('front/apartment.rooms') }}   <i
-                                class="fas fa-users text-primary me-1"></i> {{ $apartment->regular_persons }}  {{ __('front/apartment.guests') }}</span>
+                                class="fas fa-users text-primary me-1"></i> {{ $apartment->max_persons }}  {{ __('front/apartment.guests') }}</span>
                 </div>
             </div>
             <div class="row mt-3">
