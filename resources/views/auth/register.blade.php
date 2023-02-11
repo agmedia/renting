@@ -27,9 +27,15 @@
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-alt" id="password" name="password" placeholder="{{ __('auth.pass') }}">
+                                    @if ($errors->has('password'))
+                                        <span class="ml-2 font-size-sm text-danger">{{ $errors->first('password') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-alt" id="password-confirmation" name="password_confirmation" placeholder="{{ __('auth.passconfirm') }}">
+                                    @if ($errors->has('password'))
+                                        <span class="ml-2 font-size-sm text-danger">{{ $errors->get('password')[1] }}</span>
+                                    @endif
                                 </div>
                                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                                     <div class="form-group">
@@ -41,6 +47,9 @@
                                                 </label>
                                             </div>
                                         </x-jet-label>
+                                        @if ($errors->has('terms'))
+                                            <span class="font-size-sm text-danger">{{ $errors->first('terms') }}</span>
+                                        @endif
                                     </div>
                                 @endif
                                 {{--<div class="form-group">

@@ -4,12 +4,6 @@
 
     <div class="row no-gutters justify-content-center bg-body-dark bckimagelogin">
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
-
         <div class="hero-static col-sm-10 col-md-8 col-xl-8 col-xxl-6 d-flex align-items-center p-2 px-sm-0" style="max-width:900px">
             <!-- Sign In Block -->
             <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image" style="background-image: url({{ asset('media/img/login-bck.jpg') }});">
@@ -22,6 +16,9 @@
                                     <span class="text-dark">Self</span><span class="text-primary">Checkins</span>
                                 </a>
                                 <p class="text-uppercase font-w700 font-size-sm text-muted">{{ __('auth.prijava') }}</p>
+                                @if ($errors->has('email'))
+                                    <span class="ml-2 font-size-sm text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
