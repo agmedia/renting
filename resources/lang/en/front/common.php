@@ -21,7 +21,7 @@ return [
     'email_validate' => 'Please enter your email address!',
     'mobile_validate' => 'Please enter your mobile number!',
     'message_validate' => 'Please enter your message!',
-    'footer_text' => 'Self check-in means guests can access a place without needing the Host to be there. Any time after their designated check-in time on their arrival date, guests can conveniently gain access to lockbox',
+    'footer_text' => ' SelfCheckIns - Independent and flexible entry and exit of guests from the apartment using smart locks or codes.',
     'legal' => 'Legal Info',
     'support' => 'Support',
     'copy_text' => '© 2023 SelfCheckIns. All right reserved.',
@@ -36,5 +36,5 @@ return [
     //
     'message_error' => 'Oops..! Something has gone wrong. Please try again or contact the administrator!',
 
-    'home_description' => 'SelfCheckIns - Self check-in means guests can access a place without needing the Host to be there. Any time after their designated check-in time on their arrival date, guests can conveniently gain access to lockbox. ',
+    'home_description' => 'SelfCheckIns - Reserve your apartment. SelfCheckIns - Independent and flexible entry and exit of guests from the apartment using smart locks or codes.',
 ];
