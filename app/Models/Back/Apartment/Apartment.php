@@ -304,9 +304,13 @@ class Apartment extends Model
     /**
      * @return bool|mixed
      */
-    public function storeImages()
+    public function storeImages(Request $request = null)
     {
-        return (new ApartmentImage())->store($this->find($this->id), $this->request);
+        if ( ! $request) {
+            $request = $this->request;
+        }
+
+        return (new ApartmentImage())->store($this->find($this->id), $request);
     }
 
 

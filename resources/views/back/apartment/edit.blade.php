@@ -403,6 +403,7 @@
                                         </div>
                                     </div>
 
+
                                     <h2 class="content-heading">{{ __('back/apartment.sync_url') }}
                                         @if (isset($apartment))
                                             <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
@@ -416,18 +417,22 @@
                                             <label for="airbnb-input">Airbnb</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="airbnb-input" name="links['airbnb']" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">{{ __('back/apartment.sync') }}</button>
-                                                </div>
+                                                @if (isset($apartment))
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">{{ __('back/apartment.sync') }}</button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-md-12 pt-2">
                                             <label for="booking-input">Booking</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="booking-input" name="links['booking']" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking) ? $apartment->booking : '' }}">
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">{{ __('back/apartment.sync') }}</button>
-                                                </div>
+                                                @if (isset($apartment))
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">{{ __('back/apartment.sync') }}</button>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -857,6 +862,7 @@
     </script>
 
     <script>
+        @if (isset($apartment))
         const copyBtn = document.querySelector('#copy-ics');
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
@@ -866,6 +872,7 @@
                 })
             });
         });
+        @endif
     </script>
 
     <script>

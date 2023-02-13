@@ -56,7 +56,7 @@ class ApartmentController extends Controller
         $stored = $apartment->validateRequest($request)->create();
 
         if ($stored) {
-            $stored->storeImages();
+            $stored->storeImages($request);
 
             return redirect()->route('apartments.edit', ['apartman' => $stored])->with(['success' => __('back/app.save_success')]);
         }
@@ -92,7 +92,7 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, Apartment $apartman)
     {
-        $updated   = $apartman->validateRequest($request)->edit();
+        $updated = $apartman->validateRequest($request)->edit();
 
         if ($updated) {
             $updated->storeImages();
