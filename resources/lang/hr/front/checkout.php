@@ -25,7 +25,7 @@ return [
     'additional_options' => 'Dodatne opcije',
     'personal_info' => 'Osobni podaci',
     'name' => 'Ime',
-    'prezime' => 'Prezime',
+    'surname' => 'Prezime',
     'mobile_number' => 'Broj mobilnog telefona',
     'email_address' => 'E-mail adresa',
     'pay_with' => 'Odaberite način plaćanja',
