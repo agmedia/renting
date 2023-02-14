@@ -68,7 +68,12 @@
                                         </tr>
                                         <tr>
                                             <td class="font-weight-bold">{{ __('back/app.order.persons') }}:</td>
-                                            <td>{{ $order->checkout['adults'] }} {{ __('back/app.order.adults') }}, {{ $order->checkout['children'] }} {{ __('back/app.order.children') }}</td>
+                                            <td>{{ $order->checkout['adults'] }} {{ __('back/app.order.adults') }},<br>
+                                                {{ $order->checkout['children'] }} {{ __('back/app.order.children') }}
+                                                @if (isset($order->checkout['babies']))
+                                                    <br>{{ $order->checkout['babies'] }} {{ __('back/app.order.babies') }}
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="font-weight-bold">Dani:<br><br></td>
@@ -143,6 +148,16 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if (isset($order->checkout['babies']))
+                                            <div class="col-md-6 mt-4 mb-0">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-7 col-form-label" for="babies-input">{{ __('back/app.order.babies') }}</label>
+                                                    <div class="col-sm-5">
+                                                        <input type="number" class="form-control" id="babies-input" name="babies" value="{{ isset($order) ? $order->checkout['babies'] : old('babies') }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

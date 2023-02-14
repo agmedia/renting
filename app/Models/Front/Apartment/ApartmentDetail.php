@@ -74,11 +74,12 @@ class ApartmentDetail extends Model
 
 
     /**
-     * @param int $id
+     * @param int  $id
+     * @param bool $group_result
      *
      * @return array
      */
-    public static function getAmenitiesByApartment(int $id): array
+    public static function getAmenitiesByApartment(int $id, bool $group_result = true): array
     {
         $locale = current_locale();
         $response = [];
@@ -103,7 +104,11 @@ class ApartmentDetail extends Model
             }
         }
 
-        return collect($response)->groupBy('group')->toArray();
+        if ($group_result) {
+            return collect($response)->groupBy('group')->toArray();
+        }
+
+        return collect($response)->toArray();
     }
 
 

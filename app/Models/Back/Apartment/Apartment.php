@@ -47,6 +47,8 @@ class Apartment extends Model
      */
     protected $request;
 
+    protected $featured_amenities;
+
 
     /**
      * Gallery constructor.
@@ -253,6 +255,8 @@ class Apartment extends Model
         $id = $this->insertGetId($this->createModelArray());
 
         if ($id) {
+            $this->resolveFeaturedAmenities($id);
+
             ApartmentTranslation::create($id, $this->request);
             ApartmentDetail::createAmenities($id, $this->request);
             ApartmentDetail::createDetails($id, $this->request);
@@ -274,6 +278,8 @@ class Apartment extends Model
         $updated = $this->update($this->createModelArray('update'));
 
         if ($updated) {
+            $this->resolveFeaturedAmenities();
+
             ApartmentTranslation::edit($this->id, $this->request);
             ApartmentDetail::editAmenities($this->id, $this->request);
             ApartmentDetail::editDetails($this->id, $this->request);
@@ -311,6 +317,44 @@ class Apartment extends Model
         }
 
         return (new ApartmentImage())->store($this->find($this->id), $request);
+    }
+
+
+    /**
+     * @param int|null $id
+     *
+     * @return mixed
+     */
+    public function resolveFeaturedAmenities(int $id = null)
+    {
+        if ( ! $id) {
+            $id = $this->id;
+        }
+
+        $amenities = collect(\App\Models\Front\Apartment\ApartmentDetail::getAmenitiesByApartment($id, false));
+        $new = [];
+
+        $all = Settings::get('amenity', 'list')->where('featured', 1);
+
+        foreach ($all as $item) {
+            $has = $amenities->where('id', $item->id)->first();
+
+            if ($has) {
+                $arr = [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'icon' => $item->icon
+                ];
+
+                array_push($new, $arr);
+            }
+        }
+
+        $updated = $this->where('id', $id)->update([
+            'featured_amenities' => json_encode($new),
+        ]);
+
+        return $updated;
     }
 
 
@@ -394,15 +438,14 @@ class Apartment extends Model
             }
         }
 
-
         return $query;
     }
 
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
 
     /**
      * @param string $method
@@ -411,38 +454,41 @@ class Apartment extends Model
      */
     private function createModelArray(string $method = 'insert'): array
     {
+        Log::info('createModelArray');
+        Log::info($this->featured_amenities);
+
         $response = [
             /*'action_id'    => $this->request->action ?: 0,*/
-            'sku'             => $this->request->sku,
-            'address'         => $this->request->address,
-            'zip'             => $this->request->zip,
-            'city'            => $this->request->city,
+            'sku'                => $this->request->sku,
+            'address'            => $this->request->address,
+            'zip'                => $this->request->zip,
+            'city'               => $this->request->city,
             //'region'       => $this->request->region,
-            'state'           => $this->request->state,
-            'type'            => $this->request->type,
-            'target'          => $this->request->target,
-            'longitude'       => $this->request->longitude,
-            'latitude'        => $this->request->latitude,
-            'links'           => $this->serializeLinks(),
-            'price_regular'   => $this->request->price_regular ?: 0,
-            'price_weekends'  => $this->request->price_weekends ?: 0,
-            'price_per'       => $this->request->price_per ?: 1,
-            'tax_id'          => $this->request->tax_id ?: 1,
-            'special'         => $this->request->special,
-            'special_from'    => $this->request->special_from,
-            'special_to'      => $this->request->special_to,
-            'm2'              => $this->request->m2,
-            'beds'            => $this->request->beds,
-            'rooms'           => $this->request->rooms,
-            'baths'           => $this->request->baths,
-            'regular_persons' => $this->request->regular_persons,
-            'max_adults'      => $this->request->max_adults,
-            'max_children'    => $this->request->max_children,
-            'max_persons'     => $this->request->max_persons,
-            'sort_order'      => 0,
-            'featured'        => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'          => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'      => Carbon::now()
+            'state'              => $this->request->state,
+            'type'               => $this->request->type,
+            'target'             => $this->request->target,
+            'longitude'          => $this->request->longitude,
+            'latitude'           => $this->request->latitude,
+            'links'              => $this->serializeLinks(),
+            'price_regular'      => $this->request->price_regular ?: 0,
+            'price_weekends'     => $this->request->price_weekends ?: 0,
+            'price_per'          => $this->request->price_per ?: 1,
+            'tax_id'             => $this->request->tax_id ?: 1,
+            'special'            => $this->request->special,
+            'special_from'       => $this->request->special_from,
+            'special_to'         => $this->request->special_to,
+            'm2'                 => $this->request->m2,
+            'beds'               => $this->request->beds,
+            'rooms'              => $this->request->rooms,
+            'baths'              => $this->request->baths,
+            'regular_persons'    => $this->request->regular_persons,
+            'max_adults'         => $this->request->max_adults,
+            'max_children'       => $this->request->max_children,
+            'max_persons'        => $this->request->max_persons,
+            'sort_order'         => 0,
+            'featured'           => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'             => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'         => Carbon::now()
         ];
 
         if ($method == 'insert') {

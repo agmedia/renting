@@ -189,6 +189,15 @@ class Checkout
             $response[$option->id]['checked'] = 0;
         }
 
+        if ($this->additional_persons) {
+            $persons  = $this->apartment->options()->personOption()->get();
+
+            foreach ($persons as $option) {
+                $response[$option->id]            = $option->toArray();
+                $response[$option->id]['checked'] = 0;
+            }
+        }
+
         return $response;
     }
 
@@ -206,6 +215,7 @@ class Checkout
             'saturdays'                => $this->saturdays,
             'adults'                   => $this->adults,
             'children'                 => $this->children,
+            'babies'                   => $this->babies,
             'additional_persons'       => $this->additional_persons,
             'additional_persons_price' => $this->additional_persons_price,
             'additional_persons_obj'   => $this->additional_person_object,

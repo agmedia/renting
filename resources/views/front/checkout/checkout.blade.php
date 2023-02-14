@@ -60,6 +60,7 @@
                         <input type="hidden" name="dates" value="{{ $checkout->from->format('Y-m-d') . ' - ' . $checkout->to->format('Y-m-d') }}">
                         <input type="hidden" name="adults" value="{{ $checkout->adults }}">
                         <input type="hidden" name="children" value="{{ $checkout->children }}">
+                        <input type="hidden" name="baby" value="{{ $checkout->babies }}">
 
                         <div class="row mb-4">
                             <div class="col-12">
@@ -124,16 +125,16 @@
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.personal_info') }}</h4>
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}" value="{{ $checkout->firstname }}" required>
+                                        <input type="text" id="name" name="firstname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.name') }}" value="{{ auth()->guest() ? $checkout->firstname : auth()->user()->details->fname }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ $checkout->lastname }}" required>
+                                        <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ auth()->guest() ? $checkout->lastname : auth()->user()->details->lname }}" required>
                                     </div>
                                     <div class="col-lg-6 mb-3">
-                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray " placeholder="" value="{{ $checkout->phone }}" required>
+                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray " placeholder="" value="{{ auth()->guest() ? $checkout->phone : auth()->user()->details->phone }}" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ $checkout->email }}" required>
+                                        <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ auth()->guest() ? $checkout->email : auth()->user()->email }}" required>
                                     </div>
                                 </div>
                             </div>

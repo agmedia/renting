@@ -165,7 +165,7 @@
                                                 @endif
                                                 @if(isset($apartment->options()->cleaningOption()->first()->price))
                                                 <tr>
-                                                    <th scope="row">3</th>
+                                                    <th scope="row">{{ isset($apartment->options()->personOption()->first()->price) ? '4' : '3' }}</th>
                                                     <td>{{ __('front/apartment.price_cleaning') }}:</td>
                                                     <td>{{ currency_main($apartment->options()->cleaningOption()->first()->price, true) }}</td>
 

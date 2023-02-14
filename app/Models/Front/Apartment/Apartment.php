@@ -293,7 +293,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function scopeOnlyListData(Builder $query): Builder
     {
-        return $query->select('id', 'price_regular', 'longitude', 'latitude', 'price_per', 'featured', 'status', 'm2', 'rooms', 'max_persons', 'target');
+        return $query->select('id', 'price_regular', 'longitude', 'latitude', 'price_per', 'featured', 'status', 'm2', 'rooms', 'max_persons', 'target', 'featured_amenities');
     }
 
 
