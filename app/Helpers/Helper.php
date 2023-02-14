@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class Helper
 {
@@ -83,6 +84,30 @@ class Helper
             }
 
             array_pop($dates);
+        }
+
+        return $dates;
+    }
+
+
+    /**
+     * @param string $from_date
+     * @param string $to_date
+     * @param string $day
+     *
+     * @return array
+     */
+    public static function getWeekends(string $from_date, string $to_date, string $day): array
+    {
+        $dates = [];
+        $function = 'is' . Str::title($day);
+
+        $range = CarbonPeriod::create($from_date, Carbon::make($to_date)->subDay());
+
+        foreach ($range as $date) {
+            if ($date->{$function}()) {
+                $dates[] = $date->format('Y-m-d');
+            }
         }
 
         return $dates;

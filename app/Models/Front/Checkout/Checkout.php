@@ -264,8 +264,8 @@ class Checkout
         $this->to           = Carbon::make($dates[1]);
         $this->days         = Helper::getDaysInRange($dates[0], $dates[1]);
         $this->total_days   = $this->from->diffInDays($this->to);
-        $this->fridays      = Helper::getDaysInRange($dates[0], $dates[1], 'friday');
-        $this->saturdays    = Helper::getDaysInRange($dates[0], $dates[1], 'saturday');
+        $this->fridays      = Helper::getWeekends($dates[0], $dates[1], 'friday');
+        $this->saturdays    = Helper::getWeekends($dates[0], $dates[1], 'saturday');
         $this->regular_days = $this->total_days - count($this->fridays) - count($this->saturdays);
         $this->weekends     = $this->total_days - $this->regular_days;
 
@@ -278,7 +278,7 @@ class Checkout
      */
     private function resolveActions()
     {
-        $actions = $this->apartment->hasActiveActions($this->from, $this->to);
+        $actions = $this->apartment->hasActiveActions($this->from, $this->to, $this->days);
 
         if ($actions->count()) {
             $weekends = collect($this->fridays)->concat($this->saturdays);

@@ -472,18 +472,44 @@ class Apartment extends Model implements LocalizedUrlRoutable
      *
      * @return false|Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function hasActiveActions(Carbon $from, Carbon $to)
+    public function hasActiveActions(Carbon $from, Carbon $to, $days = null)
     {
-        return Action::query()
+        $actions = Action::query()
+            ->where('status', 1)
             ->where(function ($query) use ($from, $to) {
                 $query->where('links', 'LIKE', '%"all"%')->orWhere('links', 'LIKE', '%"' . $this->id . '"%');
             })
             ->where(function ($query) use ($from, $to) {
-                $query->where('date_start', null)->orWhere('date_start', '<=', $from);
-                $query->where('date_end', null)->orWhere('date_end', '>', $to);
+                $query->where(function ($subquery) use ($from, $to) {
+                    $subquery->where('date_start', null)->orWhereBetween('date_start', [$from, $to])->orWhere('date_start', '<=', $from);
+                });
+
+                $query->orWhere(function ($subquery) use ($from, $to) {
+                    $subquery->where('date_end', null)->orWhereBetween('date_end', [$from, $to])->orWhere('date_end', '>', $to);
+                });
             })
             ->orderBy('created_at', 'desc')
             ->get();
+
+        $has_active = false;
+        $response_actions = [];
+
+        if ($actions->count()) {
+            foreach ($actions as $action) {
+                foreach ($days as $day) {
+                    if (ActionHelper::isActiveByDates($action->date_start, $action->date_end, $day)) {
+                        $has_active = true;
+                        $response_actions[$action->id] = $action;
+                    }
+                }
+            }
+        }
+
+        if ($has_active) {
+            return collect($response_actions);
+        }
+
+        return false;
     }
 
 
