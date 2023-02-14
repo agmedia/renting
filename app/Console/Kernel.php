@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sync:calendar')->hourly();
         $schedule->command('set:actions')->dailyAt('00:05');
+        $schedule->command('set:apartment-featured-amenities')->dailyAt('00:10');
     }
 
     /**

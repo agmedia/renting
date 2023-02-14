@@ -147,13 +147,8 @@
 
                                                 <div class="px-4 pb-4 d-inline-block w-100">
                                                     <div class="float-start">
-                                                        {{--@foreach ($apartment->amenity()->take(6)->get() as $item)
-                                                            <span class="location list">
-                                                                <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" /> {{ $item->title }}
-                                                            </span>
-                                                        @endforeach--}}
                                                         @if (collect(json_decode($apartment->featured_amenities))->count())
-                                                            @foreach (collect(json_decode($apartment->featured_amenities))->random(3) as $item)
+                                                            @foreach (collect(json_decode($apartment->featured_amenities))->random(config('settings.amenities_list_count')) as $item)
                                                                 <span class="location list">
                                                                     <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" /> {{ $item->title->{current_locale()} }}
                                                                 </span>

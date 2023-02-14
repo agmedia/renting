@@ -334,20 +334,32 @@ class Apartment extends Model
         $amenities = collect(\App\Models\Front\Apartment\ApartmentDetail::getAmenitiesByApartment($id, false));
         $new = [];
 
-        $all = Settings::get('amenity', 'list')->where('featured', 1);
+        $featured = Settings::get('amenity', 'list')->where('featured', 1);
 
-        foreach ($all as $item) {
+        foreach ($featured as $item) {
             $has = $amenities->where('id', $item->id)->first();
 
             if ($has) {
-                $arr = [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'icon' => $item->icon
-                ];
-
-                array_push($new, $arr);
+                array_push($new, $this->setViewAmenity($item));
             }
+        }
+
+        if (count($new) < config('settings.amenities_list_count')) {
+            $all = Settings::get('amenity', 'list')->where('featured', 0);
+
+            foreach ($all as $item) {
+                if (count($new) < config('settings.amenities_list_count')) {
+                    $has = $amenities->where('id', $item->id)->first();
+
+                    if ($has) {
+                        array_push($new, $this->setViewAmenity($item));
+                    }
+                }
+            }
+        }
+
+        if (count($new) > config('settings.amenities_list_count')) {
+            array_slice($new, 0, config('settings.amenities_list_count') - 1);
         }
 
         $updated = $this->where('id', $id)->update([
@@ -447,6 +459,14 @@ class Apartment extends Model
      *                              email: filip@agmedia.hr                         *
      *******************************************************************************/
 
+    private function setViewAmenity($item): array
+    {
+        return [
+            'id'    => $item->id,
+            'title' => $item->title,
+            'icon'  => $item->icon
+        ];
+    }
     /**
      * @param string $method
      *

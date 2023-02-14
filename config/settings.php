@@ -22,6 +22,7 @@ return [
     'search_keyword' => 'pojam',
     'admin_input_currency' => 'HRK',
     'default_admin_id' => 3,
+    'amenities_list_count' => 6,
 
     'images_domain' => '#',
     'default_apartment_image' => 'media/default_img.jpg',
