@@ -163,7 +163,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'action_regular_days',
-            'title'      => __('front/checkout.regulardaysspecial'),
+            'title'      => __('front/checkout.regulardays') . '<br><span class="text-primary">' . $action['action']['title'] . '</span>',
             'count'      => $this->checkout->action_regular_days,
             'price'      => currency_main($price),
             'price_text' => currency_main($price, true),
@@ -212,7 +212,7 @@ class CheckoutCalculator
         return [
             'id'         => 0,
             'code'       => 'action_weekends',
-            'title'      => __('front/checkout.weekendsspecial'),
+            'title'      => __('front/checkout.weekends') . '<br><span class="text-primary">' . $action['action']['title'] . '</span>',
             'count'      => $this->checkout->action_weekends,
             'price'      => currency_main($price),
             'price_text' => currency_main($price, true),

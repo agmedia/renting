@@ -33,7 +33,7 @@
                                         @foreach ($checkout->total['items'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                                 <div>
-                                                    <h6 class="my-0">{{  $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }} </h6>
+                                                    <h6 class="my-0">{{  $item['price_text'] }} x {{ $item['count'] }} {!! $item['title'] !!} </h6>
                                                 </div>
                                                 <span class="text-muted">{{ $item['total_text'] }}</span>
                                             </li>

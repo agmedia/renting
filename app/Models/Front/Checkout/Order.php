@@ -179,7 +179,7 @@ class Order extends Model
             OrderTotal::where('order_id', $this->order_id)->delete();
 
             foreach ($this->checkout->total['total'] as $key => $total) {
-                OrderTotal::insertRow($this->order_id, $total['code'], $total['total'], $key);
+                OrderTotal::insertRow($this->order_id, $total['code'], $checkout->total_amount, $key);
             }
         }
 

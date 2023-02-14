@@ -2,6 +2,7 @@
 
 namespace App\Models\Front\Apartment;
 
+use App\Helpers\ActionHelper;
 use App\Helpers\Currency;
 use App\Helpers\Helper;
 use App\Helpers\iCal;
@@ -392,7 +393,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
         $action = $this->action()->first();
 
-        if ($action) {
+        if (ActionHelper::isActiveByDates(Carbon::make($action->date_start), Carbon::make($action->date_end))) {
             if ($action->type == 'P') {
                 if ($action->discount > 0) {
                     $price = Helper::calculateDiscountPrice($price, number_format($action->discount));
