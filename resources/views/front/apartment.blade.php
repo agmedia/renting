@@ -300,7 +300,7 @@
 
     <script>
         const reservation_dates = {!! collect($reservation_session)->toJson() !!};
-        console.log(reservation_dates)
+        
         const DateTime    = easepick.DateTime;
         const bookedDates = {!! collect($dates)->toJson() !!}
         .map(d => {
@@ -395,7 +395,9 @@
          * @returns {*}
          */
         function startDate() {
-
+            if (Object.prototype.toString.call(reservation_dates) != '[object Array]') {
+                return new DateTime(reservation_dates.from, 'YYYY-MM-DD');
+            }
         }
 
         /**
@@ -403,7 +405,9 @@
          * @returns {*}
          */
         function endDate() {
-            
+            if (Object.prototype.toString.call(reservation_dates) != '[object Array]') {
+                return new DateTime(reservation_dates.to, 'YYYY-MM-DD');
+            }
         }
     </script>
 
