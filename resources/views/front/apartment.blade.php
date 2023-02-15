@@ -328,6 +328,8 @@
                     one:   'night',
                     other: 'nights',
                 },
+                startDate: startDate(),
+                endDate: endDate()
             },
             LockPlugin:  {
                 minDate:     new Date(),
@@ -368,6 +370,8 @@
                     one:   'night',
                     other: 'nights',
                 },
+                startDate: startDate(),
+                endDate: endDate()
             },
             LockPlugin:  {
                 minDate:     new Date(),
@@ -383,6 +387,26 @@
                 },
             }
         });
+
+        /**
+         *
+         * @returns {*}
+         */
+        function startDate() {
+            if ({{ isset($reservation_session['from']) }}) {
+                return new DateTime('{{ $reservation_session['from'] }}', 'YYYY-MM-DD');
+            }
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function endDate() {
+            if ({{ isset($reservation_session['to']) }}) {
+                return new DateTime('{{ $reservation_session['to'] }}', 'YYYY-MM-DD');
+            }
+        }
     </script>
 
     <script>

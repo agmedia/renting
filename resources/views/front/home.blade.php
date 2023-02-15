@@ -255,8 +255,6 @@
 
                     locations[i].image = $('#apartment-image-' + locations[i].id).attr('src');
 
-                    console.log(locations[i])
-
                     newMarkers.push(marker);
                         boxText.innerHTML =
                             '<div class="featured-thumb hover-zoomer shadow-one">' +
@@ -468,7 +466,6 @@
          * @param param
          */
         function resolveSelectParam(param) {
-            console.log(param)
             let target = document.getElementById('select-' + param);
             target = target.options[target.selectedIndex].value;
 

@@ -393,7 +393,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
 
         $action = $this->action()->first();
 
-        if (ActionHelper::isActiveByDates(Carbon::make($action->date_start), Carbon::make($action->date_end))) {
+        if ($action && ActionHelper::isActiveByDates(Carbon::make($action->date_start), Carbon::make($action->date_end))) {
             if ($action->type == 'P') {
                 if ($action->discount > 0) {
                     $price = Helper::calculateDiscountPrice($price, number_format($action->discount));
@@ -509,7 +509,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
             return collect($response_actions);
         }
 
-        return false;
+        return collect();
     }
 
 

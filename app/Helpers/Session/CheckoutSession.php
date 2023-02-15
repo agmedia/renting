@@ -34,6 +34,7 @@ class CheckoutSession
     {
         static::forgetOrder();
         static::forgetCheckout();
+        static::forgetDates();
 
         return static::forgetPayment();
     }
@@ -248,5 +249,49 @@ class CheckoutSession
     public static function forgetCheckout()
     {
         return session()->forget(static::$session_string . '.checkout');
+    }
+
+    /*******************************************************************************
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * STEPS
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function getDates()
+    {
+        return session(static::$session_string . '.dates');
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function hasDates()
+    {
+        return session()->has(static::$session_string . '.dates');
+    }
+
+
+    /**
+     * @param array|string $value
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
+     */
+    public static function setDates($value)
+    {
+        return session([static::$session_string . '.dates' => $value]);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public static function forgetDates()
+    {
+        return session()->forget(static::$session_string . '.dates');
     }
 }

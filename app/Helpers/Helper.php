@@ -195,9 +195,18 @@ class Helper
     }
 
 
-    public static function crypt()
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return string[]
+     */
+    public static function setSessionDates(string $from, string $to): array
     {
-
+        return [
+            'from' => $from,
+            'to'   => $to
+        ];
     }
 
 }

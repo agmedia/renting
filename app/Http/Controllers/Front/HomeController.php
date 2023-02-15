@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Helper;
 use App\Helpers\LanguageHelper;
 use App\Helpers\Recaptcha;
+use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Mail\ContactFormMessage;
@@ -29,6 +31,10 @@ class HomeController extends Controller
             $request->merge(['city' => 'Zagreb']);
         }
 
+        if ($request->has('from') || $request->has('to')) {
+            CheckoutSession::setDates(Helper::setSessionDates($request->input('from'), $request->input('to')));
+        }
+
         $apartments = Apartment::active()->onlyListData()->search($request)->with('translation')->orderBy('featured', 'desc')->paginate(30);
         $cities     = Apartment::groupBy('city')->pluck('city');
 
@@ -47,7 +53,13 @@ class HomeController extends Controller
         $langs = LanguageHelper::resolveSelector($apartment);
         $meta  = $apartment->meta();
 
-        return view('front.apartment', compact('apartment', 'dates', 'langs', 'meta'));
+        $reservation_session = null;
+
+        if (CheckoutSession::hasDates()) {
+            $reservation_session = CheckoutSession::getDates();
+        }
+
+        return view('front.apartment', compact('apartment', 'dates', 'langs', 'meta', 'reservation_session'));
     }
 
 
