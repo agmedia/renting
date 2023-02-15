@@ -148,9 +148,9 @@
                                                 <div class="px-4 pb-4 d-inline-block w-100">
                                                     <div class="float-start">
                                                         @if (collect(json_decode($apartment->featured_amenities))->count())
-                                                            @foreach (collect(json_decode($apartment->featured_amenities))->random(config('settings.amenities_list_count')) as $item)
+                                                            @foreach (collect(json_decode($apartment->featured_amenities))->all() as $item)
                                                                 <span class="location list">
-                                                                    <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" /> {{ $item->title->{current_locale()} }}
+                                                                    <img src="{{ asset('media/icons') }}/{{ $item->icon }}" class="offer-icon list" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ $item->title->{current_locale()} }}" style="margin-right: 5px;" />
                                                                 </span>
                                                             @endforeach
                                                         @endif

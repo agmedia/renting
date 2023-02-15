@@ -344,7 +344,7 @@ class Apartment extends Model
             }
         }
 
-        if (count($new) < config('settings.amenities_list_count')) {
+        /*if (count($new) < config('settings.amenities_list_count')) {
             $all = Settings::get('amenity', 'list')->where('featured', 0);
 
             foreach ($all as $item) {
@@ -360,7 +360,7 @@ class Apartment extends Model
 
         if (count($new) > config('settings.amenities_list_count')) {
             array_slice($new, 0, config('settings.amenities_list_count') - 1);
-        }
+        }*/
 
         $updated = $this->where('id', $id)->update([
             'featured_amenities' => json_encode($new),

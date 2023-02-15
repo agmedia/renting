@@ -300,7 +300,7 @@
 
     <script>
         const reservation_dates = {!! collect($reservation_session)->toJson() !!};
-        
+
         const DateTime    = easepick.DateTime;
         const bookedDates = {!! collect($dates)->toJson() !!}
         .map(d => {
