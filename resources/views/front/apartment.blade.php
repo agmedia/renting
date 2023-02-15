@@ -299,6 +299,8 @@
     </script>
 
     <script>
+        const reservation_dates = {!! collect($reservation_session)->toJson() !!};
+        console.log(reservation_dates)
         const DateTime    = easepick.DateTime;
         const bookedDates = {!! collect($dates)->toJson() !!}
         .map(d => {
@@ -393,9 +395,7 @@
          * @returns {*}
          */
         function startDate() {
-            if ({{ isset($reservation_session['from']) }}) {
-                return new DateTime('{{ $reservation_session['from'] }}', 'YYYY-MM-DD');
-            }
+
         }
 
         /**
@@ -403,9 +403,7 @@
          * @returns {*}
          */
         function endDate() {
-            if ({{ isset($reservation_session['to']) }}) {
-                return new DateTime('{{ $reservation_session['to'] }}', 'YYYY-MM-DD');
-            }
+            
         }
     </script>
 
