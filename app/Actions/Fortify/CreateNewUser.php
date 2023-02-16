@@ -3,10 +3,12 @@
 namespace App\Actions\Fortify;
 
 use App\Helpers\Recaptcha;
+use App\Mail\UserRegistered;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -67,6 +69,8 @@ class CreateNewUser implements CreatesNewUsers
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        Mail::to($public_user)->send(new UserRegistered($public_user));
 
         return $public_user;
     }

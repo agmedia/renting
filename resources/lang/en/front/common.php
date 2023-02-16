@@ -37,4 +37,8 @@ return [
     'message_error' => 'Oops..! Something has gone wrong. Please try again or contact the administrator!',
 
     'home_description' => 'SelfCheckIns - Reserve your apartment. SelfCheckIns - Independent and flexible entry and exit of guests from the apartment using smart locks or codes.',
+
+    'mail' => [
+        'registration' => 'SelfCheckins - Thanks for Your Registration',
+    ]
 ];
