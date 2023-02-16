@@ -93,6 +93,15 @@ class ApartmentImage extends Model
 
 
     /**
+     * @param Model $resource
+     */
+    public function setResource(Model $resource): void
+    {
+        $this->resource = $resource;
+    }
+
+
+    /**
      * @param $resource
      * @param $request
      *
@@ -147,6 +156,8 @@ class ApartmentImage extends Model
             'created_at'   => Carbon::now(),
             'updated_at'   => Carbon::now()
         ]);
+
+        $this->isDefaultImage($new_image, $path);
 
         if ($id) {
             ApartmentImageTranslation::create($id, $title);
@@ -203,11 +214,29 @@ class ApartmentImage extends Model
             'image' => config('filesystems.disks.apartment.url') . $new_path
         ]);
 
+        $this->isDefaultImage($image, $new_path);
+
         if ( ! $updated) {
             return false;
         }
 
         return true;
+    }
+
+
+    /**
+     * @param array  $image
+     * @param string $path
+     *
+     * @return void
+     */
+    public function isDefaultImage(array $image, string $path)
+    {
+        if (isset($image['default']) && $image['default']) {
+            return Apartment::where('id', $this->resource->id)->update([
+                'image' => config('filesystems.disks.apartment.url') . $path
+            ]);
+        }
     }
 
     /*******************************************************************************

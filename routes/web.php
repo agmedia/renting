@@ -78,6 +78,7 @@ Route::group(
         Route::get('apartment/{apartman}/edit', [ApartmentController::class, 'edit'])->name('apartments.edit');
         Route::patch('apartment/{apartman}', [ApartmentController::class, 'update'])->name('apartments.update');
         Route::delete('apartment/{apartman}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
+        Route::get('apartment/{apartman}/image/fix', [ApartmentController::class, 'imageFix'])->name('apartments.image.fix');
 
         // KALENDAR
         Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');

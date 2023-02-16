@@ -695,10 +695,10 @@
             <!-- Gallery -->
             <div id="gallery-block" class="block ">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#gallery-block');">{{ __('back/apartment.galerijainfo') }}</a></h3>
+                    <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#gallery-block');">{{ __('back/apartment.galerijainfo') }}</a><span class="text-sm ml-3">{{ count($data['images']) }}</span></h3>
                     <div class="block-options">
+                        <a href="{{ route('apartments.image.fix', ['apartman' => $apartment]) }}" class="btn btn-sm btn-alt-info mr-3">Fix Images</a>
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-
                         <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>

@@ -6,7 +6,9 @@ use App\Helpers\Image;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Apartment\ApartmentImage;
 use App\Models\Back\Apartment\Apartment;
+use App\Models\Back\Orders\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +117,18 @@ class ApartmentController extends Controller
     {
         Storage::deleteDirectory(config('filesystems.disks.apartment.root') . $apartman->id);
 
+        DB::table('option_to_apartment')->where('apartment_id', $apartman->id)->delete();
+
+        $orders = Order::query()->where('apartment_id', $apartman->id)->get();
+
+        foreach ($orders as $order) {
+            DB::table('order_total')->where('order_id', $order->id)->delete();
+            DB::table('order_history')->where('order_id', $order->id)->delete();
+            DB::table('order_transactions')->where('order_id', $order->id)->delete();
+        }
+
+        Order::query()->where('apartment_id', $apartman->id)->delete();
+
         $destroyed = Apartment::destroy($apartman->id);
 
         if ($destroyed) {
@@ -185,8 +199,8 @@ class ApartmentController extends Controller
     {
         $vali = Validator::make($request->toArray(), [
             'apartment' => 'required',
-            'target' => 'required',
-            'url' => 'required'
+            'target'    => 'required',
+            'url'       => 'required'
         ]);
 
         if ($vali->fails()) {
@@ -194,5 +208,52 @@ class ApartmentController extends Controller
         }
 
         return $apartment->syncUrlWith($request);
+    }
+
+
+    /**
+     * @param Apartment $apartman
+     *
+     * @return void
+     */
+    public function imageFix(Apartment $apartman)
+    {
+        $images = $apartman->images()->get();
+
+        foreach ($images as $image) {
+            $img = \Intervention\Image\Facades\Image::make($image->image);
+            $new = [
+                'image' => collect(['output' => [
+                    'image' => \Intervention\Image\Facades\Image::make($img)->encode('data-url')->getEncoded()
+                ]])->toJson()
+            ];
+
+            $image->setResource($apartman);
+            $image->replace($image->id, $new);
+
+            if ($image->default) {
+                $apartman->update([
+                    'image' => $image->image
+                ]);
+            }
+        }
+
+        $images = $apartman->images()->get();
+        $existing = [];
+        $all = Storage::disk('apartment')->allFiles($apartman->id);
+
+        foreach ($images as $image) {
+            $clean = Image::cleanPath('apartment', $apartman->id, $image->image);
+
+            array_push($existing, $apartman->id . '/' . $clean);
+            array_push($existing, $apartman->id . '/' . str_replace('.jpg', '.webp', $clean));
+            array_push($existing, $apartman->id . '/' . str_replace('.jpg', '-thumb.webp', $clean));
+        }
+
+        foreach (array_diff($all, $existing) as $item) {
+            Storage::disk('apartment')->delete($item);
+        }
+
+        return redirect()->back()->with(['success' => __('back/app.save_success')]);
     }
 }

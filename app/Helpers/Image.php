@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -34,6 +35,26 @@ class Image
 
 
     /**
+     * @param        $image
+     * @param string $target
+     *
+     * @return int
+     */
+    public static function setPreferedWidth($image, string $target = 'image'): int
+    {
+        $ratio = explode('x', config('settings.' . $target . '_size_ratio'));
+
+        $width = $ratio[0];
+
+        if ($image->getWidth() < $image->getHeight()) {
+            $width = $ratio[1];
+        }
+
+        return intval($width);
+    }
+
+
+    /**
      * @param string $disk
      * @param string $new_image
      * @param        $resource
@@ -46,6 +67,10 @@ class Image
         $time  = Str::random(4);
         $img   = \Intervention\Image\Facades\Image::make(self::makeImageFromBase($image->output->image));
 
+        $img = $img->resize(self::setPreferedWidth($img), null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
         $path = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '.';
 
         $path_jpg = $path . 'jpg';
@@ -57,9 +82,9 @@ class Image
         // Thumb creation
         $path_thumb = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '-thumb.';
 
-        $img = $img->resize(null, 300, function ($constraint) {
+        $img = $img->resize(self::setPreferedWidth($img, 'thumb'), null, function ($constraint) {
             $constraint->aspectRatio();
-        })->resizeCanvas(250, null);
+        })/*->resizeCanvas(250, null)*/;
 
         $path_webp_thumb = $path_thumb . 'webp';
         Storage::disk($disk)->put($path_webp_thumb, $img->encode('webp'));

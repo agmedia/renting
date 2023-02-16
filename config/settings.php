@@ -25,6 +25,8 @@ return [
     'amenities_list_count' => 6,
 
     'images_domain' => '#',
+    'image_size_ratio' => '1440x960',
+    'thumb_size_ratio' => '400x267',
     'default_apartment_image' => 'media/default_img.jpg',
 
     'sorting_list' => [
