@@ -225,17 +225,12 @@ class ApartmentController extends Controller
             $new = [
                 'image' => collect(['output' => [
                     'image' => \Intervention\Image\Facades\Image::make($img)->encode('data-url')->getEncoded()
-                ]])->toJson()
+                ]])->toJson(),
+                'default' => intval($image->default)
             ];
 
             $image->setResource($apartman);
             $image->replace($image->id, $new);
-
-            if ($image->default) {
-                $apartman->update([
-                    'image' => $image->image
-                ]);
-            }
         }
 
         $images = $apartman->images()->get();
