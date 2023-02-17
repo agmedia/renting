@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Bouncer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
 use Mcamara\LaravelLocalization\Interfaces\LocalizedUrlRoutable;
 
 class Apartment extends Model implements LocalizedUrlRoutable
@@ -34,7 +35,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'description'/*, 'image'*/, 'thumb'/*, 'price', 'price_text'*/, 'for', 'url'];
+    protected $appends = ['title', 'description'/*, 'image'*/, 'webp', 'thumb'/*, 'price', 'price_text'*/, 'for', 'url'];
 
     /**
      * @var string
@@ -224,10 +225,19 @@ class Apartment extends Model implements LocalizedUrlRoutable
     }*/
 
 
-    public function image()
+    /*public function image()
     {
         return $this->hasOne(ApartmentImage::class, 'apartment_id')->select('id', 'image')
                     ->where('default', 1)->first()->image ?: config('settings.default_apartment_image');
+    }*/
+
+
+    /**
+     * @return string
+     */
+    public function getWebpAttribute()
+    {
+        return str_replace('.jpg', '.webp', $this->image);
     }
 
 
@@ -236,7 +246,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getThumbAttribute()
     {
-        return 'test-thumb';
+        return str_replace('.jpg', '-thumb.webp', $this->image);
     }
 
 
@@ -294,7 +304,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function scopeOnlyListData(Builder $query): Builder
     {
-        return $query->select('id', 'price_regular', 'longitude', 'latitude', 'price_per', 'featured', 'status', 'm2', 'rooms', 'max_persons', 'target', 'featured_amenities');
+        return $query->select('id', 'image', 'price_regular', 'longitude', 'latitude', 'price_per', 'featured', 'status', 'm2', 'rooms', 'max_persons', 'target', 'featured_amenities');
     }
 
 

@@ -24,7 +24,7 @@
                 <div class="col-lg-4 offset-lg-1 order-lg-2 content">
                     <div class="sidebar">
                         <div class="mt-lg-4 p-4 mb-4 shadow-one reservationbox ">
-                            <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="{{ asset($checkout->apartment->image()) }}" alt="{{ $checkout->apartment->title }}" title="{{ $checkout->apartment->title }}"></div>
+                            <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="{{ asset($checkout->apartment->thumb) }}" alt="{{ $checkout->apartment->title }}" title="{{ $checkout->apartment->title }}"></div>
                             <h5 class="mt-2 mb-0 text-primary">{{ $checkout->apartment->title }}</h5>
                             <p class="mb-0">{{ __('front/checkout.entire_rental_unit') }}</p>
                             <div class="clearfix"></div>
