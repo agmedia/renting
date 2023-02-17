@@ -40,17 +40,22 @@ class Image
      *
      * @return int
      */
-    public static function setPreferedWidth($image, string $target = 'image'): int
+    public static function setPreferedWidth($image, string $target = 'image'): array
     {
         $ratio = explode('x', config('settings.' . $target . '_size_ratio'));
 
-        $width = $ratio[0];
+        $width  = $ratio[0];
+        $height = $ratio[1];
 
         if ($image->getWidth() < $image->getHeight()) {
-            $width = $ratio[1];
+            $width  = $ratio[1];
+            $height = $ratio[0];
         }
 
-        return intval($width);
+        return [
+            'width'  => $width,
+            'height' => $height
+        ];
     }
 
 
@@ -64,14 +69,16 @@ class Image
     public static function save(string $disk, array $new_image, $resource): string
     {
         $image = json_decode($new_image['image']);
-        $time  = Str::random(4);
         $img   = \Intervention\Image\Facades\Image::make(self::makeImageFromBase($image->output->image));
 
-        $img = $img->resize(self::setPreferedWidth($img), null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        // Image creation
+        $time      = Str::random(4);
+        $img_ratio = static::setPreferedWidth($img);
+        $path      = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '.';
 
-        $path = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '.';
+        $img = $img->resize($img_ratio['width'], null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->resizeCanvas($img_ratio['width'], $img_ratio['height']);
 
         $path_jpg = $path . 'jpg';
         Storage::disk($disk)->put($path_jpg, $img->encode('jpg'));
@@ -80,11 +87,12 @@ class Image
         Storage::disk($disk)->put($path_webp, $img->encode('webp'));
 
         // Thumb creation
-        $path_thumb = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '-thumb.';
+        $thumb_ratio = static::setPreferedWidth($img, 'thumb');
+        $path_thumb  = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '-thumb.';
 
-        $img = $img->resize(self::setPreferedWidth($img, 'thumb'), null, function ($constraint) {
+        $img = $img->resize($thumb_ratio['width'], null, function ($constraint) {
             $constraint->aspectRatio();
-        })/*->resizeCanvas(250, null)*/;
+        })->resizeCanvas($thumb_ratio['width'], $thumb_ratio['height']);
 
         $path_webp_thumb = $path_thumb . 'webp';
         Storage::disk($disk)->put($path_webp_thumb, $img->encode('webp'));
