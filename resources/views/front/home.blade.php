@@ -130,7 +130,7 @@
                                     <div class="col" >
                                         <div class="featured-thumb hover-zoomer ">
                                             <div class="overflow-hidden position-relative">
-                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}"> <img id="apartment-image-{{ $apartment->id }}" src="{{ $apartment->thumb }}" alt="{{ $apartment->title }}"></a>
+                                                <a href="{{ route('apartment', ['apartment' => $apartment->translation->slug]) }}"> <img id="apartment-image-{{ $apartment->id }}" src="{{ asset($apartment->thumb) }}" alt="{{ $apartment->title }}"></a>
                                                 <div class="featured bg-primary text-white">{{ currency_main($apartment->price_regular, true) }} / {{ config('settings.apartment_price_by')[$apartment->price_per]['title'][current_locale()] }}</div>
 
                                                 @if ($apartment->featured)
