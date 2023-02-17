@@ -1,19 +1,15 @@
-@extends('errors.container')
+@extends('front.layouts.app')
+
+@section ( 'title', '503 Maintenance')
 
 @section('content')
-    <div id="page-container" class="main-content-boxed">
-        <main id="main-container">
-            <div class="hero bg-white bg-pattern" style="background-image: url({{ asset('media/various/bg-pattern-inverse.png') }});">
-                <div class="hero-inner">
-                    <div class="content content-full">
-                        <div class="py-30 text-center">
-                            <i class="si si-chemistry text-primary display-3"></i>
-                            <h1 class="h2 font-w700 mt-30 mb-10">We’ll be back soon!</h1>
-                            <h2 class="h3 font-w400 text-muted mb-50">We’re currently down for maintenance..</h2>
-                        </div>
-                    </div>
-                </div>
+    <div class="container py-5 mb-lg-3">
+        <div class="row justify-content-center pt-lg-4 text-center">
+            <div class="col-lg-5 col-md-7 col-sm-9">
+                <h1 class="display-404 py-lg-3">Maintenance</h1>
+                <h2 class="h3 mb-4">We’ll be back soon!</h2>
+                <p class="fs-md mb-4">We’re currently down for maintenance..</p>
             </div>
-        </main>
+        </div>
     </div>
 @endsection
