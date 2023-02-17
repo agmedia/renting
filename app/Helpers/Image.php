@@ -68,11 +68,11 @@ class Image
      */
     public static function save(string $disk, array $new_image, $resource): string
     {
+        $time  = Str::random(4);
         $image = json_decode($new_image['image']);
         $img   = \Intervention\Image\Facades\Image::make(self::makeImageFromBase($image->output->image));
 
         // Image creation
-        $time      = Str::random(4);
         $img_ratio = static::setPreferedWidth($img);
         $path      = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '.';
 
@@ -80,10 +80,10 @@ class Image
             $constraint->aspectRatio();
         })->resizeCanvas($img_ratio['width'], $img_ratio['height']);
 
-        $path_jpg = $path . 'jpg';
-        Storage::disk($disk)->put($path_jpg, $img->encode('jpg'));
-
+        $path_jpg  = $path . 'jpg';
         $path_webp = $path . 'webp';
+
+        Storage::disk($disk)->put($path_jpg, $img->encode('jpg'));
         Storage::disk($disk)->put($path_webp, $img->encode('webp'));
 
         // Thumb creation
