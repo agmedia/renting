@@ -137,7 +137,7 @@
                                         <div class="row">
                                             <div class="col-md-12 text-right mb-2">
                                                 <div class="custom-control custom-radio mb-1">
-                                                    <input type="radio" class="custom-control-input" id="radio-default" name="slim[default]" value="{{ $image['id'] }}" @if ($image['default']) checked @endif>
+                                                    <input type="radio" class="custom-control-input" id="radio-default" name="slim[{{ $image['id'] }}][default]" value="{{ $image['id'] }}" @if ($image['default']) checked @endif>
                                                     <label class="custom-control-label" for="radio-default">Glavna fotografija</label>
                                                 </div>
                                             </div>
