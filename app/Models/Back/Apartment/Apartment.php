@@ -225,18 +225,24 @@ class Apartment extends Model
             'regular_persons' => 'required',
             'max_adults'      => 'required',
             'max_children'    => 'required',
-            /*'address'         => 'required',
-            'city'            => 'required',
-            'zip'             => 'required',
-            'state'           => 'required',
-            'latitude'        => 'required',
-            'longitude'       => 'required',*/
+            //
             'm2'              => 'required',
             'rooms'           => 'required',
             'beds'            => 'required',
             'baths'           => 'required'
 
         ]);
+
+        if (config('app.env') == 'production') {
+            $request->validate([
+                'address'   => 'required',
+                'city'      => 'required',
+                'zip'       => 'required',
+                'state'     => 'required',
+                'latitude'  => 'required',
+                'longitude' => 'required'
+            ]);
+        }
 
         // Set Product Model request variable
         $this->setRequest($request);
@@ -332,7 +338,7 @@ class Apartment extends Model
         }
 
         $amenities = collect(\App\Models\Front\Apartment\ApartmentDetail::getAmenitiesByApartment($id, false));
-        $new = [];
+        $new       = [];
 
         $featured = Settings::get('amenity', 'list')->where('featured', 1);
 
@@ -467,6 +473,8 @@ class Apartment extends Model
             'icon'  => $item->icon
         ];
     }
+
+
     /**
      * @param string $method
      *
@@ -479,36 +487,36 @@ class Apartment extends Model
 
         $response = [
             /*'action_id'    => $this->request->action ?: 0,*/
-            'sku'                => $this->request->sku,
-            'address'            => $this->request->address,
-            'zip'                => $this->request->zip,
-            'city'               => $this->request->city,
+            'sku'             => $this->request->sku,
+            'address'         => $this->request->address,
+            'zip'             => $this->request->zip,
+            'city'            => $this->request->city,
             //'region'       => $this->request->region,
-            'state'              => $this->request->state,
-            'type'               => $this->request->type,
-            'target'             => $this->request->target,
-            'longitude'          => $this->request->longitude,
-            'latitude'           => $this->request->latitude,
-            'links'              => $this->serializeLinks(),
-            'price_regular'      => $this->request->price_regular ?: 0,
-            'price_weekends'     => $this->request->price_weekends ?: 0,
-            'price_per'          => $this->request->price_per ?: 1,
-            'tax_id'             => $this->request->tax_id ?: 1,
-            'special'            => $this->request->special,
-            'special_from'       => $this->request->special_from,
-            'special_to'         => $this->request->special_to,
-            'm2'                 => $this->request->m2,
-            'beds'               => $this->request->beds,
-            'rooms'              => $this->request->rooms,
-            'baths'              => $this->request->baths,
-            'regular_persons'    => $this->request->regular_persons,
-            'max_adults'         => $this->request->max_adults,
-            'max_children'       => $this->request->max_children,
-            'max_persons'        => $this->request->max_persons,
-            'sort_order'         => 0,
-            'featured'           => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
-            'status'             => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
-            'updated_at'         => Carbon::now()
+            'state'           => $this->request->state,
+            'type'            => $this->request->type,
+            'target'          => $this->request->target,
+            'longitude'       => $this->request->longitude,
+            'latitude'        => $this->request->latitude,
+            'links'           => $this->serializeLinks(),
+            'price_regular'   => $this->request->price_regular ?: 0,
+            'price_weekends'  => $this->request->price_weekends ?: 0,
+            'price_per'       => $this->request->price_per ?: 1,
+            'tax_id'          => $this->request->tax_id ?: 1,
+            'special'         => $this->request->special,
+            'special_from'    => $this->request->special_from,
+            'special_to'      => $this->request->special_to,
+            'm2'              => $this->request->m2,
+            'beds'            => $this->request->beds,
+            'rooms'           => $this->request->rooms,
+            'baths'           => $this->request->baths,
+            'regular_persons' => $this->request->regular_persons,
+            'max_adults'      => $this->request->max_adults,
+            'max_children'    => $this->request->max_children,
+            'max_persons'     => $this->request->max_persons,
+            'sort_order'      => 0,
+            'featured'        => (isset($this->request->featured) and $this->request->featured == 'on') ? 1 : 0,
+            'status'          => (isset($this->request->status) and $this->request->status == 'on') ? 1 : 0,
+            'updated_at'      => Carbon::now()
         ];
 
         if ($method == 'insert') {
