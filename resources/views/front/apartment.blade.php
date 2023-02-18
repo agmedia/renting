@@ -13,8 +13,8 @@
     <meta property="og:description" content="{{ $meta['description'] }}"/>
     <meta property="og:url" content="{{ request()->url() }}"/>
     <meta property="og:site_name" content="{{ config('app.name') }}"/>
-    <meta property="og:image" content="{{ asset($apartment->webp) }}"/>
-    <meta property="og:image:secure_url" content="{{ asset($apartment->webp) }}"/>
+    <meta property="og:image" content="{{ $apartment->webp }}"/>
+    <meta property="og:image:secure_url" content="{{ $apartment->webp }}"/>
     <meta property="og:image:width" content="{{ $meta['image_width'] }}"/>
     <meta property="og:image:height" content="{{ $meta['image_height'] }}"/>
     <meta property="og:image:type" content="{{ $meta['image_type'] }}"/>
@@ -49,8 +49,8 @@
                     <div class="row" id="gallery">
                         <!-- Slide 1-->
                         <div class="col-xs-12 col-md-6 p-1 pe-0 overflow-hidden featured-thumb position-relative">
-                            <a href="{{ asset($apartment->webp) }}" class="link">
-                                <img src="{{ asset($apartment->thumb) }}" class="ls-bg" alt=""/>
+                            <a href="{{ $apartment->webp }}" class="link">
+                                <img src="{{$apartment->thumb }}" class="ls-bg" alt=""/>
                                 <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> {{ __('front/apartment.view_gallery') }} ({{ $apartment->images()->where('published', 1)->count() }})</div>
                             </a>
                         </div>
@@ -58,15 +58,15 @@
                             <div class="row my-0">
                                 @foreach ($apartment->images()->where('default', 0)->take(4)->get() as $image)
                                     <div class="col-md-6 mb-3 pe-2">
-                                        <a href="{{ asset($image->webp) }}" class="link">
-                                            <img src="{{ asset($image->thumb) }}" class="ls-bg" alt="{{ $image->alt }}"/>
+                                        <a href="{{ $image->webp }}" class="link">
+                                            <img src="{{ $image->thumb }}" class="ls-bg" alt="{{ $image->alt }}"/>
                                         </a>
                                     </div>
                                 @endforeach
 
                                 @foreach ($apartment->images()->where('default', 0)->skip(5)->take(40)->get() as $image)
-                                    <a href="{{ asset($image->webp) }}" class="link d-none">
-                                        <img src="{{ asset($image->image) }}" class="ls-bg" alt="{{ $image->alt }}"/>
+                                    <a href="{{ $image->webp }}" class="link d-none">
+                                        <img src="{{ $image->thumb }}" class="ls-bg" alt="{{ $image->alt }}"/>
                                     </a>
                                 @endforeach
                             </div>

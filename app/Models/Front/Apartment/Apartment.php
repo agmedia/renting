@@ -211,33 +211,9 @@ class Apartment extends Model implements LocalizedUrlRoutable
     /**
      * @return string
      */
-    /*public function getImageAttribute()
-    {
-        $main = $this->images()->where('published', 1)->where('default', 1)->first();
-
-        if ($main) {
-            return $main->image;
-        }
-
-        $other = $this->images()->where('published', 1)->first();
-
-        return $other ? $other->image : config('settings.default_apartment_image');
-    }*/
-
-
-    /*public function image()
-    {
-        return $this->hasOne(ApartmentImage::class, 'apartment_id')->select('id', 'image')
-                    ->where('default', 1)->first()->image ?: config('settings.default_apartment_image');
-    }*/
-
-
-    /**
-     * @return string
-     */
     public function getWebpAttribute()
     {
-        return str_replace('.jpg', '.webp', $this->image);
+        return asset(str_replace('.jpg', '.webp', $this->image));
     }
 
 
@@ -246,7 +222,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
      */
     public function getThumbAttribute()
     {
-        return str_replace('.jpg', '-thumb.webp', $this->image);
+        return asset(str_replace('.jpg', '-thumb.webp', $this->image));
     }
 
 

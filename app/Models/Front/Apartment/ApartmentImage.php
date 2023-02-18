@@ -93,7 +93,7 @@ class ApartmentImage extends Model
      */
     public function getWebpAttribute()
     {
-        return str_replace('.jpg', '.webp', $this->image);
+        return asset(str_replace('.jpg', '.webp', $this->image));
     }
 
 
@@ -102,7 +102,7 @@ class ApartmentImage extends Model
      */
     public function getThumbAttribute()
     {
-        return str_replace('.jpg', '-thumb.webp', $this->image);
+        return asset(str_replace('.jpg', '-thumb.webp', $this->image));
     }
 
 }
