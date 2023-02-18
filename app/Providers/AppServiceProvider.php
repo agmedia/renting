@@ -32,47 +32,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $pages = Page::with('translation')->get();
-        View::share('pages', $pages);
-        //
-
         $maps_key = Settings::get('app', 'google.maps')->first()->key;
         Config::set(['google' => ['maps-key' => $maps_key]]);
 
         $currency = currency_main();
         $main_currency_symbol = $currency->symbol_right ?: $currency->symbol_left;
         View::share('main_currency_symbol', $main_currency_symbol);
-
-        /*$uvjeti_kupnje = Page::where('subgroup', 'Uvjeti kupnje')->get();
-        View::share('uvjeti_kupnje', $uvjeti_kupnje);
-
-        $nacini_placanja = Page::where('subgroup', 'Načini plaćanja')->get();
-        View::share('nacini_placanja', $nacini_placanja);
-
-        $products = Product::active()->hasStock()->count();
-        View::share('products', $products);
-
-        $users = User::count();
-        View::share('users', $users);
-
-        $knjige = Category::active()->topList('Knjige')->sortByName()->select('id', 'title', 'group', 'slug')->get();
-        View::share('knjige', $knjige);
-
-        $zemljovidi_vedute = Category::active()->topList('Zemljovidi i vedute')->select('id', 'title', 'group', 'slug')->sortByName()->get();
-        View::share('zemljovidi_vedute', $zemljovidi_vedute);*/
-
-        /*Route::bind('apartment', function ($value) {
-            return Apartment::whereHas('translation', function ($query) use ($value) {
-                $query->where('slug', $value);
-            })->firstOrFail();
-        });*/
-
-        /*Route::bind('page', function ($value) {
-            return Page::whereHas('translation', function ($query) use ($value) {
-                $query->where('slug', $value);
-            })->firstOrFail();
-        });*/
 
         Paginator::useBootstrap();
     }

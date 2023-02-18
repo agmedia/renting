@@ -21,7 +21,7 @@
                                         <ul>
                                             @foreach($pages as $page)
                                                 <li>
-                                                    <a href="{{ route('page', ['page' => $page->translation(current_locale())->slug]) }}">{{ $page->translation(current_locale())->title }}</a>
+                                                    <a href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
@@ -77,7 +77,7 @@
                 <div class="col">
                     <ul class="line-menu text-ordinary float-end">
                         <li>Web by: <a href="https://www.agmedia.hr">AG media</a></li>
-
+                    </ul>
                 </div>
             </div>
         </div>
