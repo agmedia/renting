@@ -378,8 +378,8 @@ Route::group(
     Route::post('/checkout', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('/naplata', [CheckoutController::class, 'success'])->name('naplata');
     // SETUP ROUTES
-    Route::get('cache/image', [SetupController::class, 'imageCache']);
-    Route::get('cache/thumb', [SetupController::class, 'thumbCache']);
+    Route::get('cache/image', [SetupController::class, 'imageCache'])->name('image.cache');
+    Route::get('cache/thumb', [SetupController::class, 'thumbCache'])->name('thumb.cache');
     Route::get('set/currency', [SetupController::class, 'setMainCurrency'])->name('set.currency');
     //
     Route::get('/kontakt', [HomeController::class, 'contact'])->name('kontakt');

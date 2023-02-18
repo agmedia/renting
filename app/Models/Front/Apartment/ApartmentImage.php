@@ -20,7 +20,7 @@ class ApartmentImage extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'alt'];
+    protected $appends = ['title', 'alt', 'webp', 'thumb'];
 
     /**
      * @var string
@@ -85,6 +85,24 @@ class ApartmentImage extends Model
     public function getAltAttribute()
     {
         return (isset($this->translation->alt) && $this->translation->alt) ? $this->translation->alt : '';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getWebpAttribute()
+    {
+        return asset(str_replace('.jpg', '.webp', $this->image));
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getThumbAttribute()
+    {
+        return asset(str_replace('.jpg', '-thumb.webp', $this->image));
     }
 
 }

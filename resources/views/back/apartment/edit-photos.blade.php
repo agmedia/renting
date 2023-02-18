@@ -179,6 +179,21 @@
             separator: el.data('separator') || '/',
             postText: el.data('post-text') || ''
         });*/
+
+        $(() => {
+            // Override for radio buttons unchecking
+            $('input[type="radio"]').click((e) => {
+                if (e.currentTarget.id == 'radio-default') {
+                    var matches = document.querySelectorAll('input[type="radio"]');
+
+                    for (match in matches) {
+                        if (e.currentTarget.value != matches[match].value) {
+                            matches[match].checked = false;
+                        }
+                    }
+                }
+            })
+        })
     </script>
 
     <script>
@@ -195,18 +210,36 @@
         fileDropArea.addEventListener('drop', handleDrop);
         fileInput.addEventListener('change', handleFileSelect);
 
+        /**
+         *
+         * @param e
+         */
         function handleDragOver(e) {
             e.preventDefault();
         }
+
+        /**
+         *
+         * @param e
+         */
         function handleDrop(e) {
             e.preventDefault();
             handleFileItems(e.dataTransfer.items || e.dataTransfer.files);
         }
+
+        /**
+         *
+         * @param e
+         */
         function handleFileSelect(e) {
             handleFileItems(e.target.files);
         }
 
-        // loops over a list of items
+        /**
+         * loops over a list of items
+         *
+         * @param items
+         */
         function handleFileItems(items) {
             let l = items.length;
             for (let i=0; i<l; i++) {
@@ -214,6 +247,10 @@
             }
         }
 
+        /**
+         *
+         * @param item
+         */
         function handleItem(item) {
             // get file from item
             let file = item;
@@ -224,12 +261,20 @@
             handleFile(file);
         }
 
-        // now we're sure each item is a file
+        /**
+         * now we're sure each item is a file
+         *
+         * @param file
+         */
         function handleFile(file) {
             createCropper(file);
         }
 
-        // create an Image Cropper for each passed file
+        /**
+         * create an Image Cropper for each passed file
+         *
+         * @param file
+         */
         function createCropper(file) {
             // create container element for cropper
             let holder = document.getElementById('new-images');
@@ -284,12 +329,21 @@
             created_id++;
         }
 
+        /**
+         *
+         * @param xhr
+         */
         function handleXHRRequest(xhr) {
             xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
 
             console.log(fileInput)
         }
 
+        /**
+         *
+         * @param data
+         * @param slim
+         */
         function removeImage(data, slim) {
             if (data.meta.hasOwnProperty('image_id')) {
                 axios.post("{{ $delete_url }}", { data: data.meta.image_id })
