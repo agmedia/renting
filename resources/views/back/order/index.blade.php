@@ -1,9 +1,7 @@
 @extends('back.layouts.backend')
+
 @push('css_before')
-
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-
-
 @endpush
 
 @section('content')
@@ -12,13 +10,12 @@
         <div class="content content-full">
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.orders') }}</h1>
-<!--                <a class="btn btn-hero-success my-2" href="{{ route('orders.create') }}">
-                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1"> {{ __('back/layout.btn.new') }}</span>
-                </a>-->
+                <button class="btn btn-hero-success my-2" onclick="event.preventDefault(); openNewModal();">
+                    <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">{{ __('back/app.currency.new') }}</span>
+                </button>
             </div>
         </div>
     </div>
-
 
     <!-- Page Content -->
     <div class="content">
@@ -137,6 +134,8 @@
 
 @endsection
 
+@include('back.order.new-order-modal')
+
 @push('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <script>
@@ -169,6 +168,7 @@
                 });
             });
         });
+
 
         /**
          *

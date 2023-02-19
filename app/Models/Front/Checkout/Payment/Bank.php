@@ -4,6 +4,7 @@ namespace App\Models\Front\Checkout\Payment;
 
 use App\Models\Front\Checkout\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -37,11 +38,11 @@ class Bank
      */
     public function resolveFormView($payment_method = null)
     {
-        $data['order_id'] = $this->order->order_id;
-        $nhs_no           = $this->order->order_id . '-' . date("ym");
+        $data['order_id'] = $this->order->id;
+        $nhs_no           = $this->order->id . '-' . date("ym");
         $pozivnabroj      = $nhs_no;
 
-        $total            = str_replace('.', '', number_format($this->order->checkout->total_amount, 2, '.', ''));
+        $total            = str_replace('.', '', number_format($this->order->total, 2, '.', ''));
 
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname']  = $this->order->checkout->lastname;
@@ -61,7 +62,7 @@ class Bank
                 ),
             'data'     =>
                 array(
-                    'amount'      => floatval($total),
+                    'amount'      => intval($total),
                     'currency' => 'EUR',
                     'sender'      =>
                         array(
@@ -109,7 +110,7 @@ class Bank
         list(, $scimg) = explode(',', $scimg);
 
         $scimg = base64_decode($scimg);
-        $path  = $this->order->order_id . '.png';
+        $path  = $this->order->id . '.png';
 
         Storage::disk('qr')->put($path, $scimg);
 

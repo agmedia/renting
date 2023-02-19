@@ -259,7 +259,8 @@ Route::prefix('api/v2')->group(function () {
     Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
-    // CALENDAR
+    // CALENDAR & ORDER
+    Route::post('/order/new', [OrderController::class, 'store_new'])->name('api.order.new');
     Route::post('/calendar/move', [CalendarController::class, 'move'])->name('api.calendar.move');
 
     // FILTER
@@ -377,6 +378,7 @@ Route::group(
     Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('/naplata', [CheckoutController::class, 'success'])->name('naplata');
+    Route::get('/checkout/special', [CheckoutController::class, 'checkoutSpecial'])->name('checkout.special');
     // SETUP ROUTES
     Route::get('cache/image', [SetupController::class, 'imageCache'])->name('image.cache');
     Route::get('cache/thumb', [SetupController::class, 'thumbCache'])->name('thumb.cache');

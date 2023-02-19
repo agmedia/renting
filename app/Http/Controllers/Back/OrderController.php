@@ -27,9 +27,11 @@ class OrderController extends Controller
     {
         $orders = $order->filter($request)->paginate(config('settings.pagination.back'));
 
-        $statuses = Settings::get('order', 'statuses');
+        $statuses   = Settings::get('order', 'statuses');
+        $payments   = Settings::getList('payment');
+        $apartments = Apartment::query()->where('status', 1)->get();
 
-        return view('back.order.index', compact('orders', 'statuses'));
+        return view('back.order.index', compact('orders', 'statuses', 'payments', 'apartments'));
     }
 
 
@@ -102,13 +104,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //dd($request->toArray());
         $order->validateRequest($request)->checkDates();
 
         $checkout = new Checkout($request);
         $updated  = $order->setCheckoutData($checkout)->store($order->id);
-
-        //dd($checkout, $request->toArray(), $checkout->cleanData());
 
         if ($updated) {
             return redirect()->route('orders.edit', ['order' => $updated])->with(['success' => __('back/app.save_success')]);
@@ -160,6 +159,32 @@ class OrderController extends Controller
             OrderHistory::store($request->input('order_id'), $request);
 
             return response()->json(['message' => __('back/app.save_success')]);
+        }
+
+        return response()->json(['error' => __('back/app.save_failure')]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store_new(Request $request)
+    {
+        $order = new Order();
+
+        $order->validateSpecialRequest($request);
+
+        if ($order->isApartmentAvailable()) {
+            $checkout = new Checkout($request);
+            $checkout->setPayment($request->input('payment_type'));
+
+            $updated = $order->setCheckoutData($checkout)->store();
+
+            if ($updated) {
+                return response()->json(['success' => __('back/app.save_success')]);
+            }
         }
 
         return response()->json(['error' => __('back/app.save_failure')]);

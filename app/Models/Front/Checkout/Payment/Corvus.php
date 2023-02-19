@@ -60,12 +60,12 @@ class Corvus
             $action = $this->url['test'];
         }
 
-        $total = number_format($this->order->checkout->total_amount, 2, '.', '');
+        $total = number_format($this->order->total, 2, '.', '');
 
         $data['currency']  = 'EUR';
         $data['action']    = $action;
         $data['merchant']  = $payment_method->data->shop_id;
-        $data['order_id']  = $this->order->order_id;
+        $data['order_id']  = $this->order->id;
         $data['total']     = $total;
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname']  = $this->order->checkout->lastname;

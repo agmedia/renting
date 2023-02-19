@@ -40,4 +40,6 @@ return [
     'regulardaysspecial' => 'Regular days on Special price',
     'weekends' => 'Weekends',
     'weekendsspecial' => 'Weekends on Special price',
+    'preview' => 'Checkout Preview',
+    'special' => 'Special Checkout Preview',
 ];

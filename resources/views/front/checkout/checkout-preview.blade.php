@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row row-cols-md-2 row-cols-1 g-3">
                 <div class="col">
-                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>Checkout Preview</h3>
+                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.preview') }}</h3>
                 </div>
             </div>
         </div>

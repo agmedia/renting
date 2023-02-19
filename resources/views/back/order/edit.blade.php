@@ -1,4 +1,5 @@
 @extends('back.layouts.backend')
+
 @push('css_before')
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.0/dist/index.umd.min.js"></script>
@@ -117,45 +118,33 @@
                                 <div class="col-md-11">
                                     <div class="form-group row items-push mb-0">
                                         <div class="col-md-6">
-                                            <label for="fname-input">{{ __('back/app.order.name') }}</label>
+                                            <label for="fname-input">{{ __('back/app.order.name') }} @include('back.layouts.partials.required-star')</label>
                                             <input type="text" class="form-control" id="fname-input" name="firstname" placeholder="{{ __('back/app.order.name') }}" value="{{ isset($order) ? $order->payment_fname : old('fname') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="lname-input">{{ __('back/app.order.lastname') }}</label>
+                                            <label for="lname-input">{{ __('back/app.order.lastname') }} @include('back.layouts.partials.required-star')</label>
                                             <input type="text" class="form-control" id="lname-input" name="lastname" placeholder="{{ __('back/app.order.lastname') }}" value="{{ isset($order) ? $order->payment_lname : old('lname') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="email-input">{{ __('back/app.order.email') }}</label>
+                                            <label for="email-input">{{ __('back/app.order.email') }} @include('back.layouts.partials.required-star')</label>
                                             <input type="text" class="form-control" id="email-input" name="email" placeholder="{{ __('back/app.order.email') }}" value="{{ isset($order) ? $order->payment_email : old('email') }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="phone-input">{{ __('back/app.order.phone') }}</label>
+                                            <label for="phone-input">{{ __('back/app.order.phone') }} @include('back.layouts.partials.required-star')</label>
                                             <input type="text" class="form-control" id="phone-input" name="phone" placeholder="{{ __('back/app.order.phone') }}" value="{{ isset($order) ? $order->payment_phone : old('phone') }}">
                                         </div>
-                                        <div class="col-md-6 mt-4 mb-0">
-                                            <div class="form-group row">
-                                                <label class="col-sm-7 col-form-label" for="adults-input">{{ __('back/app.order.adults') }} <small>({{ $order->apartment->max_adults }})</small></label>
-                                                <div class="col-sm-5">
-                                                    <input type="number" class="form-control" id="adults-input" name="adults" value="{{ isset($order) ? $order->checkout['adults'] : old('adults') }}">
-                                                </div>
-                                            </div>
+                                        <div class="col-md-4">
+                                            <label for="adults-input">{{ __('back/app.order.adults') }} <small>({{ $order->apartment->max_adults }})</small></label>
+                                            <input type="number" class="form-control" id="adults-input" name="adults" value="{{ isset($order) ? $order->checkout['adults'] : old('adults') }}">
                                         </div>
-                                        <div class="col-md-6 mt-4 mb-0">
-                                            <div class="form-group row">
-                                                <label class="col-sm-7 col-form-label" for="children-input">{{ __('back/app.order.children') }} <small>({{ $order->apartment->max_children }})</small></label>
-                                                <div class="col-sm-5">
-                                                    <input type="number" class="form-control" id="children-input" name="children" value="{{ isset($order) ? $order->checkout['children'] : old('children') }}">
-                                                </div>
-                                            </div>
+                                        <div class="col-md-4">
+                                            <label for="children-input">{{ __('back/app.order.children') }} <small>({{ $order->apartment->max_children }})</small></label>
+                                            <input type="number" class="form-control" id="children-input" name="children" value="{{ isset($order) ? $order->checkout['children'] : old('children') }}">
                                         </div>
                                         @if (isset($order->checkout['babies']))
-                                            <div class="col-md-6 mt-4 mb-0">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-7 col-form-label" for="babies-input">{{ __('back/app.order.babies') }}</label>
-                                                    <div class="col-sm-5">
-                                                        <input type="number" class="form-control" id="babies-input" name="babies" value="{{ isset($order) ? $order->checkout['babies'] : old('babies') }}">
-                                                    </div>
-                                                </div>
+                                            <div class="col-md-4">
+                                                <label for="babies-input">{{ __('back/app.order.babies') }}</label>
+                                                <input type="number" class="form-control" id="babies-input" name="babies" value="{{ isset($order) ? $order->checkout['babies'] : old('babies') }}">
                                             </div>
                                         @endif
                                     </div>
@@ -163,14 +152,13 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Payments -->
                     <div class="block block-rounded">
                         <div class="block-header block-header-default">
                             <h3 class="block-title">{{ __('back/app.payments.title') }}</h3>
                         </div>
                         <div class="block-content">
-                            <div class="row mb-4">
+                            <div class="row mb-5 mt-2">
                                 <div class="col-md-8">
                                     <label for="payment-select">{{ __('back/app.order.payments') }}</label>
                                     <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="{{ __('back/app.order.select_payments') }}">
@@ -206,7 +194,7 @@
                                             @if ($item['code'] != 'additional_options')
                                                 <tr style="height: 36px;">
                                                     <td style="width: 4%;"></td>
-                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
+                                                    <td>{{ $item['price_text'] }} * {{ $item['count'] }} {!! $item['title'] !!}</td>
                                                     <td class="text-right">{{ $item['total_text'] }}</td>
                                                 </tr>
                                             @endif
@@ -227,7 +215,36 @@
                                                 <td class="text-right">{{ $item['total_text'] }}</td>
                                             </tr>
                                         @endforeach
+                                        <!-- Deposit -->
+                                        @if (isset($order->checkout['forced_paid_amount']) && $order->checkout['forced_paid_amount'])
+                                            <tr style="height: 36px;">
+                                                <td colspan="2" class="text-danger text-right pr-3">{{ __('back/app.order.paid_amount') }} - {{ number_format($order->checkout['paid_percentage'], 1) }} %</td>
+                                                <td class="text-danger text-right">{{ currency_main($order->checkout['forced_paid_amount'], true) }}</td>
+                                            </tr>
+                                        @endif
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="block block-rounded">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title">{{ __('back/app.order.payment_url') }}</h3>
+                        </div>
+                        <div class="block-content">
+                            <div class="row mb-4">
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="url-input" name="order_payment_url" value="{{ isset($order) ? route('checkout.special', ['generator' => $order->hash]) : old('fname') }}">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-secondary btn-block" onclick="event.preventDefault(); copyToClipboard();">
+                                        {{ __('back/layout.btn.copy') }} {{ __('back/app.order.payment_url') }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -379,6 +396,14 @@
             $('#comment-modal').modal('show');
             $('#status-select').val(status);
             $('#status-select').trigger('change');
+        }
+
+        function copyToClipboard() {
+            var textBox = document.getElementById("url-input");
+            textBox.select();
+            document.execCommand("copy");
+
+            return successToast.fire('OK');
         }
 
         /**

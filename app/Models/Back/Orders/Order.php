@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class Order extends Model
@@ -177,6 +179,66 @@ class Order extends Model
 
 
     /**
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateSpecialRequest(Request $request)
+    {
+        $request->validate([
+            'apartment_id'   => 'required',
+            'dates'          => 'required',
+            'payment_type'   => 'required',
+            'payment_amount' => 'required',
+            'firstname'      => 'required',
+            'lastname'       => 'required',
+            'email'          => 'required',
+            'adults'         => 'required'
+        ]);
+
+        if ( ! $request->input('phone')) {
+            $request->merge(['phone' => '000']);
+        }
+
+        if ($request->input('babies')) {
+            $request->merge(['baby' => $request->input('babies')]);
+        }
+
+        $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isApartmentAvailable()
+    {
+        $dates = explode(' - ', $this->request->input('dates'));
+
+        $orders = Order::query()
+                       ->where('apartment_id', $this->request->input('apartment_id'))
+                       ->where(function ($query) use ($dates) {
+                           $query->where([
+                               ['date_from', '<', date($dates[0])],
+                               ['date_to', '>=', date($dates[0])]
+                           ])->orWhere([
+                               ['date_from', '>', date($dates[1])],
+                               ['date_to', '<=', date($dates[1])]
+                           ]);
+                       })
+                       ->get();
+
+        if ($orders->count()) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
      * @return $this
      */
     public function checkDates()
@@ -211,6 +273,10 @@ class Order extends Model
     {
         $order = $id ? $this->updateData($id) : $this->storeData();
 
+        if ( ! $id && $order) {
+            $id = $order->id;
+        }
+
         if ($order) {
             OrderTotal::where('order_id', $id)->delete();
 
@@ -218,12 +284,52 @@ class Order extends Model
                 OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
             }
 
-            //$this->where('id', $id)->update(['total' => $total]);
+            $this->resolveForcedTotal($id);
+            $this->resolveHash($id);
 
             return $this;
         }
 
         return false;
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function filter(Request $request): Builder
+    {
+        $query = $this->newQuery();
+
+        if ($request->has('status')) {
+            $query->where('order_status_id', '=', $request->input('status'));
+        }
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->where(function ($query) use ($request) {
+                $query->where('id', 'like', '%' . $request->input('search') . '%')
+                      ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+            });
+        }
+
+        return $query->orderBy('created_at', 'desc');
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function completeDelete()
+    {
+        OrderTotal::where('order_id', $this->id)->delete();
+        OrderHistory::where('order_id', $this->id)->delete();
+        Transaction::where('order_id', $this->id)->delete();
+
+        return self::where('id', $this->id)->delete();
     }
 
     /*******************************************************************************
@@ -301,10 +407,42 @@ class Order extends Model
      *                              email: filip@agmedia.hr                         *
      *******************************************************************************/
 
-    private function storeData(bool $service = false)
+    /**
+     * @return false
+     */
+    private function storeData()
     {
+        $id = $this->insertGetId([
+            'apartment_id'    => $this->checkout->apartment->id,
+            'user_id'         => 0,
+            'order_status_id' => config('settings.order.status.new'),
+            'invoice'         => 'special',
+            'total'           => $this->checkout->total_amount,
+            'date_from'       => $this->checkout->from,
+            'date_to'         => $this->checkout->to,
+            'payment_fname'   => $this->checkout->firstname,
+            'payment_lname'   => $this->checkout->lastname,
+            'payment_address' => '',
+            'payment_zip'     => '',
+            'payment_city'    => '',
+            'payment_phone'   => $this->checkout->phone,
+            'payment_email'   => $this->checkout->email,
+            'payment_method'  => $this->checkout->payment->code,
+            'payment_code'    => $this->checkout->payment->code,
+            'company'         => isset($this->request->company) ? $this->request->company : '',
+            'oib'             => isset($this->request->oib) ? $this->request->oib : '',
+            'options'         => serialize($this->checkout->cleanData()),
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now()
+        ]);
 
+        if ($id) {
+            return $this->find($id);
+        }
+
+        return false;
     }
+
 
     /**
      * @param $id
@@ -314,7 +452,7 @@ class Order extends Model
     private function updateData($id)
     {
         if ( ! $this->checkout->lastname == 'Service') {
-            $this->where('id', $id)->update([
+            $this->where('id', $id)->where('invoice', '!=', 'special')->update([
                 'invoice' => '',
             ]);
         }
@@ -342,40 +480,36 @@ class Order extends Model
 
 
     /**
-     * @param Request $request
+     * @param $id
      *
-     * @return Builder
+     * @return $this
      */
-    public function filter(Request $request): Builder
+    private function resolveForcedTotal($id)
     {
-        $query = $this->newQuery();
-
-        if ($request->has('status')) {
-            $query->where('order_status_id', '=', $request->input('status'));
+        if ($this->checkout->force_paid_amount) {
+            $this->where('id', $id)->update(['total' => $this->checkout->force_paid_amount]);
         }
 
-        if ($request->has('search') && ! empty($request->input('search'))) {
-            $query->where(function ($query) use ($request) {
-                $query->where('id', 'like', '%' . $request->input('search') . '%')
-                      ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
-                      ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
-                      ->orWhere('payment_email', 'like', '%' . $request->input('search'));
-            });
-        }
-
-        return $query->orderBy('created_at', 'desc');
+        return $this;
     }
 
 
     /**
-     * @return mixed
+     * @param $id
+     *
+     * @return $this
      */
-    public function completeDelete()
+    private function resolveHash($id)
     {
-        OrderTotal::where('order_id', $this->id)->delete();
-        OrderHistory::where('order_id', $this->id)->delete();
-        Transaction::where('order_id', $this->id)->delete();
+        $this->where('id', $id)->update([
+            'hash' => crypt($id . '-' .
+                                 $this->apartment_id . '-' .
+                                 $this->total . '-' .
+                                 $this->date_from . '-' .
+                                 $this->date_to . '-' .
+                                 $this->created_at, config('app.name'))
+        ]);
 
-        return self::where('id', $this->id)->delete();
+        return $this;
     }
 }

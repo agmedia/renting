@@ -26,7 +26,8 @@ return [
         'edit' => 'Uredi',
         'discard' => 'Odustani',
         'save' => 'Snimi',
-        'delete' => 'Obriši'
+        'delete' => 'Obriši',
+        'copy' => 'Kopiraj'
     ],
     /*
      * Forms

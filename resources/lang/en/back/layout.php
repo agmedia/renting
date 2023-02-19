@@ -27,7 +27,8 @@ return [
         'edit' => 'Edit',
         'discard' => 'Cancel',
         'save' => 'Save',
-        'delete' => 'Delete'
+        'delete' => 'Delete',
+        'copy' => 'Copy'
     ],
     /*
      * Forms

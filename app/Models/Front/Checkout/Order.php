@@ -162,6 +162,17 @@ class Order extends Model
 
 
     /**
+     * @param Checkout|null $checkout
+     */
+    public function setCheckout(?Checkout $checkout)
+    {
+        $this->checkout = $checkout;
+
+        return $this;
+    }
+
+
+    /**
      * @param Checkout $checkout
      *
      * @return $this

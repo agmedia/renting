@@ -150,7 +150,7 @@ return [
         'filter' => 'Filter',
         'all' => 'Sve Narudžbe',
         'search_placeholder' => 'Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...',
-        'no_orders' => 'Nemate trenutno narudžbi...',
+        'no_orders' => 'Nemate trenutno narudžbi',
         'date' => 'Datum',
         'apartment' => 'Apartman',
         'customer' => 'Kupac',
@@ -166,6 +166,7 @@ return [
         'babies' => 'Beba',
         'regular_days' => 'Regularni dani',
         'weekends' => 'Vikendi',
+        'date' => 'Datum',
         'change_date' => 'Promjeni datum',
         'customer_registered' => 'Kupac je registriran',
         'customer_not_registered' => 'Kupac nije registriran',
@@ -174,7 +175,7 @@ return [
         'email' => 'Email',
         'phone' => 'Telefon',
         'payments' => 'Plačanja',
-        'select_payments' => 'Odaberi način plaćanja..',
+        'select_payments' => 'Odaberi način plaćanja',
         'amount' => 'Iznos',
         'items_title' => 'Stavke Narudžbe i Total',
         'history' => 'Povjest Narudžbe',
@@ -182,6 +183,8 @@ return [
         'add_comment' => 'Dodaj Komentar',
         'change_status' => 'Promjeni Status',
         'no_change_status' => 'Bez Promjene Statusa',
+        'paid_amount' => 'Plaćeni Iznos',
+        'payment_url' => 'URL za Plaćanje Narudžbe'
     ],
 
     // GENERALS

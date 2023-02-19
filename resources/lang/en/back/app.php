@@ -189,6 +189,8 @@ return [
         'add_comment' => 'Add Comment',
         'change_status' => 'Change Status',
         'no_change_status' => 'Dont Change Status',
+        'paid_amount' => 'Paid Amount',
+        'payment_url' => 'Order Payment URL'
     ],
 
     // GENERALS

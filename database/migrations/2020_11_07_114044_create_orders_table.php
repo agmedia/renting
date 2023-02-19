@@ -34,6 +34,7 @@ class CreateOrdersTable extends Migration
             $table->string('payment_code')->nullable();
             $table->string('payment_card')->nullable();
             $table->integer('payment_installment')->unsigned()->default(0);
+            $table->string('hash')->nullable();
             $table->string('company');
             $table->string('oib');
             $table->text('comment')->nullable();

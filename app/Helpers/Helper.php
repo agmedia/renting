@@ -168,6 +168,18 @@ class Helper
 
 
     /**
+     * @param $list_price
+     * @param $seling_price
+     *
+     * @return float|int
+     */
+    public static function calculateDiscount(float $list_price, float $seling_price)
+    {
+        return 100 - ((($list_price - $seling_price) / $list_price) * 100);
+    }
+
+
+    /**
      * @param string $tag
      *
      * @return \Illuminate\Cache\TaggedCache|mixed|object

@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Log;
 class Checkout
 {
 
+    // Days
+
     public $from;
 
     public $to;
@@ -39,6 +41,8 @@ class Checkout
 
     public $saturdays = [];
 
+    // Persons
+
     public $adults = 0;
 
     public $children = 0;
@@ -55,16 +59,6 @@ class Checkout
 
     public $additional_person_object = null;
 
-    public $added_options = [];
-
-    public $actions = [];
-
-    public $total = [];
-
-    public $total_amount = 0;
-
-    public $apartment;
-
     public $firstname = '';
 
     public $lastname = '';
@@ -72,6 +66,22 @@ class Checkout
     public $phone = '';
 
     public $email = '';
+
+    // Options & Totals
+
+    public $added_options = [];
+
+    public $actions = [];
+
+    public $force_paid_amount = null;
+
+    public $paid_amount_percentage = 0;
+
+    public $total = [];
+
+    public $total_amount = 0;
+
+    public $apartment;
 
     public $main_currency;
 
@@ -84,6 +94,7 @@ class Checkout
 
     /**
      * @param Request $request
+     *                        ['apartment_id', 'dates', 'firstname', 'lastname', 'email', 'phone']
      */
     public function __construct(Request $request)
     {
@@ -99,6 +110,8 @@ class Checkout
              ->getPaymentMethodsList();
 
         $this->total = $this->getTotal();
+
+        $this->isPaidAmountForced();
 
         if (isset($this->request->firstname) && $this->request->firstname != '') {
             $this->setAddress();
@@ -190,7 +203,7 @@ class Checkout
         }
 
         if ($this->additional_persons) {
-            $persons  = $this->apartment->options()->personOption()->get();
+            $persons = $this->apartment->options()->personOption()->get();
 
             foreach ($persons as $option) {
                 $response[$option->id]            = $option->toArray();
@@ -220,6 +233,8 @@ class Checkout
             'additional_persons_price' => $this->additional_persons_price,
             'additional_persons_obj'   => $this->additional_person_object,
             'added_options'            => $this->added_options,
+            'forced_paid_amount'       => $this->force_paid_amount,
+            'paid_percentage'          => $this->paid_amount_percentage,
             'total'                    => $this->total,
             'apartment_id'             => $this->apartment->id ?: 0,
             'main_currency'            => $this->main_currency,
@@ -229,9 +244,26 @@ class Checkout
     }
 
     /*******************************************************************************
-    *                                Copyright : AGmedia                           *
-    *                              email: filip@agmedia.hr                         *
-    *******************************************************************************/
+     *                                Copyright : AGmedia                           *
+     *                              email: filip@agmedia.hr                         *
+     *******************************************************************************/
+
+    /**
+     * @return $this
+     */
+    private function isPaidAmountForced()
+    {
+        if ($this->request->has('payment_amount')) {
+            // If differance between total and paid amount.
+            if ((int) $this->request->input('payment_amount') < (int) $this->total_amount) {
+                $this->force_paid_amount      = $this->request->input('payment_amount');
+                $this->paid_amount_percentage = Helper::calculateDiscount((float) $this->total_amount, (float) $this->force_paid_amount);
+            }
+        }
+
+        return $this;
+    }
+
 
     /**
      * @param string $state
