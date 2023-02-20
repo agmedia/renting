@@ -173,6 +173,7 @@
             axios.post("{{ route('api.order.new') }}", item)
             .then(response => {
                 console.log(response)
+                $('#new-modal').modal('hide');
                 /*if (response.data.success) {
                     location.reload();
                 } else {
