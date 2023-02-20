@@ -42,4 +42,8 @@ return [
     'weekendsspecial' => 'Weekends on Special price',
     'preview' => 'Checkout Preview',
     'special' => 'Special Checkout Preview',
+    'backbtn' => 'Back',
+    'backbtnpayment' => 'Back to payment',
+    'finishorder' => 'Finish order',
+    'finishshoping' => 'Finish payment',
 ];
