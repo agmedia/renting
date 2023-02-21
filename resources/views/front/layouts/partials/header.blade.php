@@ -11,9 +11,11 @@
                             <div class="dropdown hover-dropdown d-none d-sm-block">
                                 <button class="dropdown-toggle text-primary" type="button" >{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
-                                    @foreach($pages as $page)
-                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
-                                    @endforeach
+                                    @if (isset($pages) && $pages)
+                                        @foreach($pages as $page)
+                                            <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
+                                        @endforeach
+                                    @endif
                                     <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
                                         <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                 </ul>
@@ -42,9 +44,11 @@
                             </button>
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
-                                    @foreach($pages as $page)
-                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
-                                    @endforeach
+                                    @if (isset($pages) && $pages)
+                                        @foreach($pages as $page)
+                                            <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
+                                        @endforeach
+                                    @endif
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
@@ -74,9 +78,11 @@
                             <div class="dropdown hover-dropdown d-none d-md-block">
                                 <button class="dropdown-toggle text-primary" type="button" data-bs-toggle="dropdown">{{ __('front/common.help_and_support') }}</button>
                                 <ul class="dropdown-menu">
-                                    @foreach($pages as $page)
-                                        <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
-                                    @endforeach
+                                    @if (isset($pages) && $pages)
+                                        @foreach($pages as $page)
+                                            <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
+                                        @endforeach
+                                    @endif
                                     <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
                                     <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                 </ul>
@@ -104,9 +110,11 @@
                             </button>
                             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto ms-auto mt-3">
-                                    @foreach($pages as $page)
-                                        <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
-                                    @endforeach
+                                    @if (isset($pages) && $pages)
+                                        @foreach($pages as $page)
+                                            <li class="nav-item d-block d-sm-none"><a class="nav-link" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
+                                        @endforeach
+                                    @endif
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
                                     <li class="nav-item d-block d-sm-none"> <a class="nav-link" href="{{ route('login') }}">{{ __('front/common.login') }}</a> </li>
