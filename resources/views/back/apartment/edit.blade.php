@@ -416,24 +416,32 @@
                                         <div class="col-md-12 pt-2">
                                             <label for="airbnb-input">Airbnb</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="airbnb-input" name="links['airbnb']" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb) ? $apartment->airbnb : '' }}">
+                                                <input type="text" class="form-control" id="airbnb-input" name="links[airbnb]" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb['link']) ? $apartment->airbnb['link'] : '' }}">
                                                 @if (isset($apartment))
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                     </div>
                                                 @endif
                                             </div>
+                                            <p class="font-size-sm float-right">
+                                                {{ isset($apartment->airbnb['updated']) ? $apartment->airbnb['updated'] : '' }}
+                                                <i class="fa {{ isset($apartment->airbnb['icon']) ? $apartment->airbnb['icon'] : '' }} ml-2"></i>
+                                            </p>
                                         </div>
                                         <div class="col-md-12 pt-2">
                                             <label for="booking-input">Booking</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="booking-input" name="links['booking']" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking) ? $apartment->booking : '' }}">
+                                                <input type="text" class="form-control" id="booking-input" name="links[booking]" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking['link']) ? $apartment->booking['link'] : '' }}">
                                                 @if (isset($apartment))
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                     </div>
                                                 @endif
                                             </div>
+                                            <p class="font-size-sm float-right">
+                                                {{ isset($apartment->booking['updated']) ? $apartment->booking['updated'] : '' }}
+                                                <i class="fa {{ isset($apartment->booking['icon']) ? $apartment->booking['icon'] : '' }} ml-2"></i>
+                                            </p>
                                         </div>
                                     </div>
 
@@ -809,16 +817,13 @@
 
             axios.post("{{ route('api.apartments.sync.url') }}", item)
             .then(response => {
-                if (response.data.message) {
-                    successToast.fire({
-                        timer: 1500,
-                        text: response.data.message,
-                    }).then(() => {
+                if (response.data.success) {
+                    successToast.fire(response.data.success).then(() => {
                         location.reload();
                     })
 
                 } else {
-                    return errorToast.fire(response.data.error);
+                    errorToast.fire(response.data.error);
                 }
             });
         }

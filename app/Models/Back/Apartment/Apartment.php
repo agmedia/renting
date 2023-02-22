@@ -157,36 +157,20 @@ class Apartment extends Model
 
 
     /**
-     * @return string
+     * @return array
      */
-    public function getAirbnbAttribute(): string
+    public function getAirbnbAttribute(): array
     {
-        if ($this->links) {
-            foreach (unserialize($this->links) as $key => $link) {
-                if ($key == "'airbnb'") {
-                    return $link ?: '';
-                }
-            }
-        }
-
-        return '';
+        return $this->getLinks('airbnb', $this->links);
     }
 
 
     /**
-     * @return string
+     * @return array
      */
-    public function getBookingAttribute(): string
+    public function getBookingAttribute(): array
     {
-        if ($this->links) {
-            foreach (unserialize($this->links) as $key => $link) {
-                if ($key == "'booking'") {
-                    return $link ?: '';
-                }
-            }
-        }
-
-        return '';
+        return $this->getLinks('booking', $this->links);
     }
 
 
@@ -383,7 +367,14 @@ class Apartment extends Model
      */
     public function syncUrlWith(Request $request)
     {
-        $ical = new iCal($request->input('url'));
+        $ical   = new iCal($request->input('url'));
+        $passed = true;
+
+        $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
+        $links     = json_decode($apartment->links, true);
+
+        $links[$request->input('target')]['updated'] = now();
+        $links[$request->input('target')]['icon']    = 'fa-check text-success';
 
         if ( ! empty($ical->events)) {
             foreach ($ical->events as $event) {
@@ -393,13 +384,23 @@ class Apartment extends Model
                     $request->input('apartment')
                 );
 
-                /*if ( ! $order) {
-                    return response()->json(['error' => 400, 'message' => 'Nešto je pošlo po krivu..!']);
-                }*/
+                if ( ! $order) {
+                    $passed = false;
+
+                    $links[$request->input('target')]['icon'] = 'fa-warning text-danger';
+                }
             }
         }
 
-        return response()->json(['success' => 200, 'message' => 'Sve je OK prošlo..!']);
+        $apartment->update([
+            'links' => json_encode($links)
+        ]);
+
+        if ($passed) {
+            return response()->json(['success' => __('back/app.save_success')]);
+        }
+
+        return response()->json(['error' => 400, 'message' => __('back/app.save_failure')]);
     }
 
 
@@ -482,9 +483,6 @@ class Apartment extends Model
      */
     private function createModelArray(string $method = 'insert'): array
     {
-        Log::info('createModelArray');
-        Log::info($this->featured_amenities);
-
         $response = [
             /*'action_id'    => $this->request->action ?: 0,*/
             'sku'             => $this->request->sku,
@@ -497,7 +495,7 @@ class Apartment extends Model
             'target'          => $this->request->target,
             'longitude'       => $this->request->longitude,
             'latitude'        => $this->request->latitude,
-            'links'           => $this->serializeLinks(),
+            'links'           => $this->serializeLinks($this->request->links, 'update'),
             'price_regular'   => $this->request->price_regular ?: 0,
             'price_weekends'  => $this->request->price_weekends ?: 0,
             'price_per'       => $this->request->price_per ?: 1,
@@ -521,6 +519,7 @@ class Apartment extends Model
 
         if ($method == 'insert') {
             $response['created_at'] = Carbon::now();
+            $response['links']      = $this->serializeLinks($this->request->links);
         }
 
         return $response;
@@ -528,15 +527,81 @@ class Apartment extends Model
 
 
     /**
-     * @return string|null
+     * @param array  $links
+     * @param string $method
+     *
+     * @return false|string|null
      */
-    private function serializeLinks()
+    private function serializeLinks(array $links, string $method = 'insert')
     {
-        if (isset($this->request->links) && ! empty($this->request->links)) {
-            return serialize($this->request->links);
+        if ( ! empty($links)) {
+            $new  = [];
+            $time = now();
+            $icon = 'fa-check text-success';
+
+            foreach ($links as $target => $link) {
+                if ($method == 'update') {
+                    $existing = json_decode($this->links, true)[$target];
+
+                    if (isset($existing['updated'])) {
+                        $time = $existing['updated'];
+                    }
+                    if (isset($existing['icon'])) {
+                        $icon = $existing['icon'];
+                    }
+                }
+
+                $new[$target]['link']    = $link;
+                $new[$target]['updated'] = $time;
+                $new[$target]['icon']    = $icon;
+            }
+
+            return json_encode($new);
         }
 
         return null;
+    }
+
+
+    /**
+     * @param string $target
+     * @param        $links
+     *
+     * @return array
+     */
+    private function getLinks(string $target, $links): array
+    {
+        if ($links) {
+            // If old serialized links are still in DB
+            if (@unserialize($links) !== false) {
+                $this->update([
+                    'links' => $this->serializeLinks(@unserialize($links))
+                ]);
+
+                $this->getAirbnbAttribute();
+            }
+
+            if (is_array(json_decode($links, true))) {
+                $links = json_decode($links, true);
+
+                foreach ($links as $key => $link) {
+                    $key = str_replace("'", "", $key);
+
+                    if ($key == $target) {
+                        return [
+                            'link'    => $link['link'],
+                            'updated' => Carbon::make($link['updated'])->locale(current_locale())->diffForHumans(),
+                            'icon'    => isset($link['icon']) ? $link['icon'] : 'fa-check text-success'
+                        ];
+                    }
+                }
+            }
+        }
+
+        return [
+            'link'    => '',
+            'updated' => 0
+        ];
     }
 
 
