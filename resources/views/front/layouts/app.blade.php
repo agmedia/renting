@@ -83,6 +83,17 @@
 
 </head>
 
+@if (config('app.env') == 'production')
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKLJ86FLWH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LKLJ86FLWH');
+    </script>
+@endif
 
 <!-- Body-->
 <body class="handheld-toolbar-enabled" >
