@@ -27,7 +27,7 @@ class OrderTotal extends Model
      *
      * @return mixed
      */
-    public static function insertRow(int $order_id, string $code, float $value, int $sort_order)
+    public static function insertRow(int $order_id, string $code, $value, int $sort_order)
     {
         return self::insertGetId([
             'order_id'   => $order_id,

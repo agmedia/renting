@@ -36,18 +36,20 @@ class Bank
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function resolveFormView($payment_method = null)
+    public function resolveFormView($payment_method = null, array $options = null)
     {
-        $data['order_id'] = $this->order->id;
-        $nhs_no           = $this->order->id . '-' . date("ym");
-        $pozivnabroj      = $nhs_no;
+        $order_id = isset($options['order_number']) ? $options['order_number'] : $this->order->id;
+        $total    = isset($options['total']) ? $options['total'] : $this->order->total;
+        $total    = str_replace('.', '', number_format($total, 2, '.', ''));
 
-        $total            = str_replace('.', '', number_format($this->order->total, 2, '.', ''));
-
+        $data['order_id']  = $order_id;
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname']  = $this->order->checkout->lastname;
         $data['telephone'] = $this->order->checkout->phone;
         $data['email']     = $this->order->checkout->email;
+
+        $nhs_no      = $this->order->id . '-' . date("ym");
+        $pozivnabroj = $nhs_no;
 
         $hubstring = array(
             'renderer' => 'image',
@@ -63,7 +65,7 @@ class Bank
             'data'     =>
                 array(
                     'amount'      => intval($total),
-                    'currency' => 'EUR',
+                    'currency'    => 'EUR',
                     'sender'      =>
                         array(
                             'name'   => $data['firstname'] . ' ' . $data['lastname'],
@@ -110,7 +112,9 @@ class Bank
         list(, $scimg) = explode(',', $scimg);
 
         $scimg = base64_decode($scimg);
-        $path  = $this->order->id . '.png';
+        $path  = $order_id . '.png';
+
+        $data['image_path'] = $path;
 
         Storage::disk('qr')->put($path, $scimg);
 

@@ -12,7 +12,10 @@
             <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
                 @if (isset($order))
                     <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.edit') }} <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
-                    <h4><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span></h4>
+                    <h4 class="mb-1"><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }} {{ __('back/app.order.title') }}</span></h4>
+                    <button class="btn btn-hero-info my-2 ml-4" onclick="event.preventDefault(); openNewDepositModal();">
+                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">Create New Deposit</span>
+                    </button>
                 @else
                     <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.new') }}</h1>
                 @endif
@@ -159,7 +162,7 @@
                         </div>
                         <div class="block-content">
                             <div class="row mb-5 mt-2">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <label for="payment-select">{{ __('back/app.order.payments') }}</label>
                                     <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="{{ __('back/app.order.select_payments') }}">
                                         <option></option>
@@ -168,10 +171,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+<!--                                <div class="col-md-4">
                                     <label for="payment-amount-input">{{ __('back/app.order.amount') }}</label>
                                     <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->total : old('payment_amount') }}">
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -237,20 +240,74 @@
                             <h3 class="block-title">{{ __('back/app.order.payment_url') }}</h3>
                         </div>
                         <div class="block-content">
-                            <div class="row mb-4">
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="url-input" name="order_payment_url" value="{{ isset($order) ? route('checkout.special', ['generator' => $order->hash]) : old('fname') }}">
+                            <div class="row justify-content-center push mb-3">
+                                <div class="col-md-4">
+                                    <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($order->total, true) }}</h4>
+                                    <p>
+                                        {{ __('back/app.order.payments') }}: {{ $payments->where('code', $order->payment_code)->first()->title->{current_locale()} }}<br>
+                                        {{ __('back/app.order.comment') }}: {{ $order->comment }}
+                                    </p>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-secondary btn-block" onclick="event.preventDefault(); copyToClipboard();">
-                                        {{ __('back/layout.btn.copy') }} {{ __('back/app.order.payment_url') }}
+                                <div class="col-md-1 text-right">
+                                    <button type="button" class="btn btn-icon"
+                                            data-toggle="tooltip" data-placement="top" title="Copy"
+                                            onclick="event.preventDefault(); copyToClipboard('order-url-{{ $order->id }}');">
+                                        <i class="fa fa-copy fa-2x ml-1 text-info-light"></i>
                                     </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="font-size-sm" id="order-url-{{ $order->id }}">
+                                        {{ route('checkout.special', ['signature' => $order->hash]) }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            @if (isset($order) && $order->deposits->count())
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="block block-rounded">
+                            <div class="block-header block-header-default">
+                                <h3 class="block-title">Order Deposits</h3>
+                                <div class="block-options">
+                                    <button class="btn btn-sm btn-info" onclick="event.preventDefault(); openNewDepositModal();">
+                                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">Create New Deposit</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content">
+                                @foreach ($order->deposits as $deposit)
+                                    <div class="row justify-content-center push mb-3">
+                                        <div class="col-md-4">
+                                            <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($deposit->amount, true) }}</h4>
+                                            <p>
+                                                {{ __('back/app.order.payments') }}: {{ $payments->where('code', $deposit->payment_code)->first()->title->{current_locale()} }}<br>
+                                                {{ __('back/app.order.comment') }}: {{ $deposit->comment }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-1 text-right">
+                                            <button type="button" class="btn btn-icon"
+                                                    data-toggle="tooltip" data-placement="top" title="Copy"
+                                                    onclick="event.preventDefault(); copyToClipboard('deposit-url-{{ $deposit->id }}');">
+                                                <i class="fa fa-copy fa-2x ml-1 text-info-light"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="font-size-sm" id="deposit-url-{{ $deposit->id }}">
+                                                {{ route('checkout.special', ['signature' => $deposit->signature]) }}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-11"><hr></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <!-- History Messages -->
             <div class="block block-rounded">
@@ -320,6 +377,10 @@
     <!-- END Page Content -->
 
 @endsection
+
+@if (isset($order))
+    @include('back.order.new-deposit-modal')
+@endif
 
 @push('modals')
     <div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="comment--modal" aria-hidden="true">
@@ -398,12 +459,21 @@
             $('#status-select').trigger('change');
         }
 
-        function copyToClipboard() {
-            var textBox = document.getElementById("url-input");
-            textBox.select();
-            document.execCommand("copy");
+        /**
+         *
+         * @param tag_id
+         * @returns {*}
+         */
+        function copyToClipboard(tag_id = 'url-input') {
+            let text = document.getElementById(tag_id);
 
-            return successToast.fire('OK');
+            if (window.isSecureContext) {
+                navigator.clipboard.writeText(text.value)
+
+                return successToast.fire('OK');
+            }
+
+            return warningToast.fire('Whoops.!!');
         }
 
         /**

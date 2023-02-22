@@ -96,9 +96,17 @@
             })
 
             const errorToast = Swal.mixin({
-                type: 'error',
-                timer: 3000,
                 position: 'top-end',
+                icon: 'error',
+                timer: 3000,
+                showConfirmButton:false,
+                toast: true,
+            })
+
+            const warningToast = Swal.mixin({
+                position: 'top-end',
+                icon: 'warning',
+                timer: 3000,
                 showConfirmButton:false,
                 toast: true,
             })

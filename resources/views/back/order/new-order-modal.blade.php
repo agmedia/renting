@@ -20,7 +20,6 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-11 mt-3">
                                 <div class="form-group row items-push mb-0">
-
                                     <div class="col-md-12 mb-3">
                                         <select class="js-select2 form-control" id="apartment-select" style="width: 100%;" data-placeholder="To apartment...">
                                             <option></option>
@@ -39,9 +38,9 @@
                                     </div>
 
                                     <div class="col-md-7">
-                                        <h2 class="content-heading">{{ __('back/app.order.select_payments') }} & {{ __('back/app.order.amount') }} @include('back.layouts.partials.required-star')</h2>
+                                        <h2 class="content-heading">{{ __('back/app.order.select_payments') }} @include('back.layouts.partials.required-star')</h2>
                                         <div class="row mb-4">
-                                            <div class="col-md-8">
+                                            <div class="col-md-12">
                                                 <select class="js-select2 form-control" id="payment-select" name="payment_type" style="width: 100%;" data-placeholder="{{ __('back/app.order.payments') }}">
                                                     <option></option>
                                                     @foreach ($payments as $payment)
@@ -49,14 +48,14 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-4">
+<!--                                            <div class="col-md-4">
                                                 <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="120" value="{{ old('payment_amount') }}">
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
 
                                     <div class="col-md-12">
-                                        <h2 class="content-heading mb-0 pt-1">{{ __('back/app.order.info') }}</h2>
+                                        <h2 class="content-heading mb-0 pt-1">{{ __('back/app.order.customer') }}</h2>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="fname-input">{{ __('back/app.order.name') }} @include('back.layouts.partials.required-star')</label>
@@ -173,7 +172,7 @@
             axios.post("{{ route('api.order.new') }}", item)
             .then(response => {
                 console.log(response)
-                $('#new-modal').modal('hide');
+                //$('#new-modal').modal('hide');
                 /*if (response.data.success) {
                     location.reload();
                 } else {

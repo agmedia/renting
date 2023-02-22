@@ -40,7 +40,6 @@
     <input type="hidden" name="payment_all" value="{{ $data['number_of_installments'] }}">
     <input type="hidden" name="version" value="1.3">
 
-
     <div class="d-flex mt-3">
         <div class="w-50 pe-3"><a class="btn btn-secondary d-block w-100" href="{{ route('index') }}"><i class="ci-arrow-left  me-1"></i><span class="d-none d-sm-inline">{{ __('front/checkout.backbtnpayment') }}</span><span class="d-inline d-sm-none">{{ __('front/checkout.backbtn') }}</span></a></div>
         <div class="w-50 ps-2">

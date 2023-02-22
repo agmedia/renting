@@ -89,6 +89,15 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class, 'order_id')->orderBy('created_at', 'desc');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function totals()
     {
         return $this->hasMany(OrderTotal::class, 'order_id')->orderBy('sort_order');
@@ -186,14 +195,13 @@ class Order extends Model
     public function validateSpecialRequest(Request $request)
     {
         $request->validate([
-            'apartment_id'   => 'required',
-            'dates'          => 'required',
-            'payment_type'   => 'required',
-            'payment_amount' => 'required',
-            'firstname'      => 'required',
-            'lastname'       => 'required',
-            'email'          => 'required',
-            'adults'         => 'required'
+            'apartment_id' => 'required',
+            'dates'        => 'required',
+            'payment_type' => 'required',
+            'firstname'    => 'required',
+            'lastname'     => 'required',
+            'email'        => 'required',
+            'adults'       => 'required'
         ]);
 
         if ( ! $request->input('phone')) {
@@ -203,6 +211,24 @@ class Order extends Model
         if ($request->input('babies')) {
             $request->merge(['baby' => $request->input('babies')]);
         }
+
+        $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateDepositRequest(Request $request)
+    {
+        $request->validate([
+            'order_id'       => 'required',
+            'payment_type'   => 'required'
+        ]);
 
         $this->request = $request;
 
@@ -295,6 +321,15 @@ class Order extends Model
 
 
     /**
+     * @return mixed
+     */
+    public function storeDeposit()
+    {
+        return Deposit::create($this, $this->request);
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return Builder
@@ -349,10 +384,11 @@ class Order extends Model
         $has_uid = self::where('sync_uid', $event['uid'])->first();
 
         if ($has_uid) {
-            return false; // Treba li updejtati ako ima već taj UID $target narudžbe..?
+            return 1; // Treba li updejtati ako ima već taj UID $target narudžbe..?
         }
 
         $checkout = new Checkout(new Request([
+            'aid'          => $apartment_id,
             'apartment_id' => $apartment_id,
             'dates'        => $event['start'] . ' - ' . $event['end'],
             'adults'       => 1,
@@ -392,11 +428,49 @@ class Order extends Model
             OrderHistory::store($id);
 
             OrderTotal::where('order_id', $id)->delete();
+
             foreach ($checkout->total['total'] as $key => $total) {
                 OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
             }
 
             return self::find($id);
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @return false
+     */
+    public function storeDepositData()
+    {
+        $id = $this->insertGetId([
+            'apartment_id'    => $this->request->apartment_id ?: Apartment::first()->id,
+            'user_id'         => 0,
+            'order_status_id' => config('settings.order.status.new'),
+            'invoice'         => 'deposit',
+            'total'           => $this->request->payment_amount,
+            'date_from'       => now(),
+            'date_to'         => now(),
+            'payment_fname'   => $this->request->firstname,
+            'payment_lname'   => $this->request->lastname,
+            'payment_address' => '',
+            'payment_zip'     => '',
+            'payment_city'    => '',
+            'payment_phone'   => $this->request->phone,
+            'payment_email'   => $this->request->email,
+            'payment_method'  => $this->request->payment_type,
+            'payment_code'    => $this->request->payment_type,
+            'company'         => isset($this->request->company) ? $this->request->company : '',
+            'oib'             => isset($this->request->oib) ? $this->request->oib : '',
+            'options'         => '',
+            'created_at'      => Carbon::now(),
+            'updated_at'      => Carbon::now()
+        ]);
+
+        if ($id) {
+            return $this->find($id);
         }
 
         return false;
@@ -502,12 +576,7 @@ class Order extends Model
     private function resolveHash($id)
     {
         $this->where('id', $id)->update([
-            'hash' => crypt($id . '-' .
-                                 $this->apartment_id . '-' .
-                                 $this->total . '-' .
-                                 $this->date_from . '-' .
-                                 $this->date_to . '-' .
-                                 $this->created_at, config('app.name'))
+            'hash' => Helper::encryptor(now()->toISOString())
         ]);
 
         return $this;

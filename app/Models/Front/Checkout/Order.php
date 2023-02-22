@@ -5,6 +5,7 @@ namespace App\Models\Front\Checkout;
 use App\Helpers\Currency;
 use App\Mail\Order\SendToAdmin;
 use App\Mail\Order\SendToCustomer;
+use App\Models\Back\Orders\Deposit;
 use App\Models\Back\Orders\OrderHistory;
 use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
@@ -82,6 +83,15 @@ class Order extends Model
     public function apartment()
     {
         return $this->hasOne(Apartment::class, 'apartment_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class, 'order_id')->orderBy('created_at', 'desc');
     }
 
 
@@ -199,14 +209,17 @@ class Order extends Model
 
 
     /**
+     * @param array $form_options
+     *                           ['order_number', 'currency', 'lang', 'total', 'plan', 'cc_name', 'rate', 'return_url']
+     *
      * @return mixed|null
      */
-    public function resolvePaymentForm()
+    public function resolvePaymentForm(array $form_options = [])
     {
         if ($this->checkout) {
             $method = new PaymentMethod($this->checkout->payment->code);
 
-            return $method->resolveForm($this);
+            return $method->resolveForm($this, $form_options);
         }
 
         return null;

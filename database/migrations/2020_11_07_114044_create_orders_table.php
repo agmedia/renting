@@ -82,6 +82,25 @@ class CreateOrdersTable extends Migration
         });
 
 
+        Schema::create('order_deposit', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('order_id')->unsigned();
+            $table->decimal('amount', 10, 2);
+            $table->string('signature');
+            $table->string('payment_method');
+            $table->string('payment_code')->nullable();
+            $table->tinyInteger('paid')->default(0);
+            $table->dateTime('expire')->nullable();
+            $table->integer('status_id')->unsigned();
+            $table->string('invoice')->nullable();
+            $table->string('comment')->nullable();
+            $table->timestamps();
+
+            $table->foreign('order_id')
+                  ->references('id')->on('orders');
+        });
+
+
         Schema::create('order_history', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('order_id')->unsigned();
@@ -108,6 +127,7 @@ class CreateOrdersTable extends Migration
         Schema::dropIfExists('orders');
         Schema::dropIfExists('order_total');
         Schema::dropIfExists('order_transactions');
+        Schema::dropIfExists('order_deposit');
         Schema::dropIfExists('order_history');
     }
 }

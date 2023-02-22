@@ -144,6 +144,7 @@ return [
     ],
     //
     'order' => [
+        'title' => 'Narudžba',
         'orders' => 'Narudžbe',
         'list' => 'Lista Narudžbi',
         'change_status' => 'Promjeni Status Narudžbe',
@@ -174,7 +175,7 @@ return [
         'lastname' => 'Prezime',
         'email' => 'Email',
         'phone' => 'Telefon',
-        'payments' => 'Plačanja',
+        'payments' => 'Plačanje',
         'select_payments' => 'Odaberi način plaćanja',
         'amount' => 'Iznos',
         'items_title' => 'Stavke Narudžbe i Total',

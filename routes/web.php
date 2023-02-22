@@ -261,6 +261,7 @@ Route::prefix('api/v2')->group(function () {
 
     // CALENDAR & ORDER
     Route::post('/order/new', [OrderController::class, 'store_new'])->name('api.order.new');
+    Route::post('/order/deposit/new', [OrderController::class, 'store_deposit'])->name('api.order.new.deposit');
     Route::post('/calendar/move', [CalendarController::class, 'move'])->name('api.calendar.move');
 
     // FILTER
@@ -349,6 +350,10 @@ Route::get('forgot-password', [ForgotPasswordController::class, 'showForgetPassw
 Route::post('forgot-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+Route::get('/phpinfo', function () {
+    return phpinfo();
+})->name('index');
 
 /**
  * FRONT ROUTES LOCALIZED

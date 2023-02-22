@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontBaseController;
+use App\Models\Back\Orders\Deposit;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
@@ -58,16 +59,38 @@ class CheckoutController extends FrontBaseController
     }
 
 
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function checkoutSpecial(Request $request)
     {
-        if ( ! $request->has('generator')) {
+        if ( ! $request->has('signature')) {
             return redirect()->route('index');
         }
 
-        $order = Order::query()->where('hash', $request->input('generator'))->first();
+        $order = Order::query()->where('hash', $request->input('signature'))->first();
+        $deposit = null;
 
         if ( ! $order) {
-            return redirect()->route('index');
+            $deposit = Deposit::query()->where('signature', $request->input('signature'))->first();
+
+            if ( ! $deposit) {
+                return redirect()->route('index');
+            }
+
+            $order = Order::find($deposit->order_id);
+
+            if ( ! $order) {
+                return redirect()->route('index');
+            }
+
+            $order->total = $deposit->amount;
+            $order->payment_method = $deposit->payment_code;
+            $order->payment_code = $deposit->payment_code;
+            $order->deposit = $deposit;
+            $order->comment = $order->deposit->comment;
         }
 
         $apartment = Apartment::query()->where('id', $order->apartment_id)->first();
@@ -81,7 +104,15 @@ class CheckoutController extends FrontBaseController
 
         $checkout->setPayment($order->payment_method);
 
-        $form = $order->setCheckout($checkout)->resolvePaymentForm();
+        $order->identificator = $order->id;
+
+        $form_options = [];
+        if ($deposit) {
+            $form_options = ['order_number' => $order->id . '-' . $deposit->id];
+            $order->identificator = $order->id . '-' . $deposit->id;
+        }
+
+        $form = $order->setCheckout($checkout)->resolvePaymentForm($form_options);
 
         CheckoutSession::set($checkout, $order);
 
@@ -100,13 +131,15 @@ class CheckoutController extends FrontBaseController
             return redirect()->route('index')->with('error', __('front/common.message_error'));
         }
 
-        $order = Order::unfinished()->where('id', CheckoutSession::getOrder())->first();
+        $order = $this->resolveSuccessOrder($request);
 
         if ($order) {
-            $order->updateStatus('new')->finish($request);
             $checkout = CheckoutSession::getCheckout();
 
-            $order->sendNewOrderEmails($checkout);
+            if ( ! $order->is_deposit) {
+                $order->updateStatus('new')->finish($request);
+                $order->sendNewOrderEmails($checkout);
+            }
 
             CheckoutSession::forget();
 
@@ -116,6 +149,33 @@ class CheckoutController extends FrontBaseController
         $apartment = $this->getRedirectData('apartment');
 
         return redirect()->route('apartment', ['apartment' => $apartment])->with('error', __('front/common.message_error'));
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function resolveSuccessOrder(Request $request)
+    {
+        $order = Order::where('id', $request->input('order_number'))->first();
+        $order->is_deposit = false;
+
+        if ( ! $order) {
+            $ids = explode('-', $request->input('order_number'));
+
+            $order = Order::where('id', $ids[0])->first();
+
+            if ( ! $order) {
+                return false;
+            }
+
+            $order->is_deposit = true;
+            $order->deposit = Deposit::query()->where('id', $ids[1])->first();
+        }
+
+        return $order;
     }
 
     /*******************************************************************************
@@ -181,11 +241,11 @@ class CheckoutController extends FrontBaseController
      */
     private function getRedirectData(string $target)
     {
-        if ($target == 'apartment') {
-            $response = CheckoutSession::getCheckout()['apartment'];
+        if ($target == 'apartment' && isset(CheckoutSession::getCheckout()['apartment'])) {
+            return CheckoutSession::getCheckout()['apartment'];
         }
 
-        return $response ?: null;
+        return Apartment::query()->inRandomOrder()->first();
     }
 
 }

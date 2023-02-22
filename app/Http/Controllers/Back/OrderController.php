@@ -11,6 +11,7 @@ use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\Checkout\Checkout;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Faker\Generator as Faker;
@@ -137,7 +138,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function api_status_change(Request $request)
+    public function api_status_change(Request $request): JsonResponse
     {
         if ($request->has('orders')) {
             $orders = explode(',', substr($request->input('orders'), 1, -1));
@@ -170,7 +171,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store_new(Request $request)
+    public function store_new(Request $request): JsonResponse
     {
         $order = new Order();
 
@@ -184,6 +185,29 @@ class OrderController extends Controller
 
             if ($updated) {
                 return response()->json(['success' => __('back/app.save_success')]);
+            }
+        }
+
+        return response()->json(['error' => __('back/app.save_failure')]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function store_deposit(Request $request): JsonResponse
+    {
+        if ($request->has('order_id') && $request->input('order_id')) {
+            $order = Order::query()->where('id', $request->input('order_id'))->first();
+
+            if ($order) {
+                $deposit = $order->validateDepositRequest($request)->storeDeposit();
+
+                if ($deposit) {
+                    return response()->json(['success' => __('back/app.save_success')]);
+                }
             }
         }
 

@@ -174,13 +174,13 @@ class PaymentMethod
      *
      * @return mixed|null
      */
-    public function resolveForm($order)
+    public function resolveForm($order, array $options)
     {
         if ($this->method->count()) {
             $provider = $this->providers($this->method->first()->code);
             $payment  = new $provider($order);
 
-            return $payment->resolveFormView($this->method->collect());
+            return $payment->resolveFormView($this->method->collect(), $options);
         }
 
         return null;

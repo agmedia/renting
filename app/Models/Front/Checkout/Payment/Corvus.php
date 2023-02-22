@@ -46,7 +46,7 @@ class Corvus
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function resolveFormView(Collection $payment_method = null)
+    public function resolveFormView(Collection $payment_method = null, array $options = null)
     {
         if ( ! $payment_method) {
             return '';
@@ -62,11 +62,11 @@ class Corvus
 
         $total = number_format($this->order->total, 2, '.', '');
 
-        $data['currency']  = 'EUR';
+        $data['currency']  = isset($options['currency']) ? $options['currency'] : 'EUR';
         $data['action']    = $action;
         $data['merchant']  = $payment_method->data->shop_id;
-        $data['order_id']  = $this->order->id;
-        $data['total']     = $total;
+        $data['order_id']  = isset($options['order_number']) ? $options['order_number'] : $this->order->id;
+        $data['total']     = isset($options['total']) ? $options['total'] : $total;
         $data['firstname'] = $this->order->checkout->firstname;
         $data['lastname']  = $this->order->checkout->lastname;
         $data['address']   = '';
@@ -75,11 +75,11 @@ class Corvus
         $data['postcode']  = '';
         $data['telephone'] = $this->order->checkout->phone;
         $data['email']     = $this->order->checkout->email;
-        $data['lang']      = 'hr';
-        $data['plan']      = '01';
-        $data['cc_name']   = 'VISA';//...??
-        $data['rate']      = 1;
-        $data['return']    = $payment_method->data->callback;
+        $data['lang']      = isset($options['lang']) ? $options['lang'] : 'hr';
+        $data['plan']      = isset($options['plan']) ? $options['plan'] : '01';
+        $data['cc_name']   = isset($options['cc_name']) ? $options['cc_name'] : 'VISA';//...??
+        $data['rate']      = isset($options['rate']) ? $options['rate'] : 1;
+        $data['return']    = isset($options['return_url']) ? $options['return_url'] : $payment_method->data->callback;
         $data['cancel']    = route('index');
         $data['method']    = 'POST';
 

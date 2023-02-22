@@ -49,14 +49,16 @@
                             <div class="col-sm-12 mt-5 text-center">
                                 <p>{{ __('front/success.payment_text') }}  {{ $order->total_text }}<br>
                                     IBAN: HR4723900011101317916<br>
-                                    MODEL: 00 {{ __('front/success.reference_number') }}: {{ $order->id }}-{{date('ym')}}</p>
+                                    MODEL: 00 {{ __('front/success.reference_number') }}: {{ $order->identificator }}-{{date('ym')}}</p>
                                 <p>{{ __('front/success.scant_text') }}</p>
-                                <p class="text-center"><img src="{{ asset('media/img/qr/'.$order->id) }}.png" style="max-width:70%;"></p>
+                                <p class="text-center"><img src="{{ asset('media/img/qr/' . $order->identificator) }}.png" style="max-width:70%;"></p>
+                                <p>{{ $order->comment }}</p>
                             </div>
                         @endif
 
-                        @if ($order->payment_code == 'corvus')
+                        @if ($order->payment_code != 'bank')
                             <div class="col-sm-12 mt-5">
+                                <p>{{ $order->comment }}</p>
                                 {!! $form !!}
                             </div>
                         @endif

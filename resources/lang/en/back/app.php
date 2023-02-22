@@ -151,6 +151,7 @@ return [
     ],
     //
     'order' => [
+        'title' => 'Order',
         'orders' => 'Orders',
         'list' => 'Orders List',
         'change_status' => 'Change Order Status',
@@ -180,7 +181,7 @@ return [
         'lastname' => 'Surname',
         'email' => 'Email',
         'phone' => 'Phone',
-        'payments' => 'Payments',
+        'payments' => 'Payment',
         'select_payments' => 'Select payment method..',
         'amount' => 'Amount',
         'items_title' => 'Order Items & Total',
