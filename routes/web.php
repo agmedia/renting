@@ -40,11 +40,6 @@ use App\Http\Controllers\Front\SetupController;
 use Illuminate\Support\Facades\Route;
 
 
-/*Route::domain('https://images.antikvarijatbibl.lin73.host25.com/')->group(function () {
-    Route::get('media/img/apartments/{id}/{image}', function ($id, $image) {
-        \Illuminate\Support\Facades\Log::info($id . ' --- ' . $image);
-    });
-});*/
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -351,10 +346,6 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'submitForgetPa
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
-Route::get('/phpinfo', function () {
-    return phpinfo();
-})->name('index');
-
 /**
  * FRONT ROUTES LOCALIZED
  */
@@ -414,6 +405,6 @@ Route::group(
 /**
  *  TESTING ROUTES
  */
-Route::get('/phpinfo', function () {
+/*Route::get('/phpinfo', function () {
     return phpinfo();
-})->name('phpinfo');
+})->name('phpinfo');*/
