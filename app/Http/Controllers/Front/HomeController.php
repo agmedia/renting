@@ -33,7 +33,7 @@ class HomeController extends FrontBaseController
         }
 
         if ($request->has('from') || $request->has('to')) {
-            CheckoutSession::setDates(Helper::setSessionDates($request->input('from'), $request->input('to')));
+            CheckoutSession::setReservationData(Helper::setSessionReservationData($request));
         }
 
         $apartments = Apartment::active()->onlyListData()->search($request)->with('translation')->orderBy('featured', 'desc')->paginate(30);
@@ -56,8 +56,8 @@ class HomeController extends FrontBaseController
 
         $reservation_session = null;
 
-        if (CheckoutSession::hasDates()) {
-            $reservation_session = CheckoutSession::getDates();
+        if (CheckoutSession::hasReservationData()) {
+            $reservation_session = CheckoutSession::getReservationData();
         }
 
         return view('front.apartment', compact('apartment', 'dates', 'langs', 'meta', 'reservation_session'));

@@ -34,7 +34,7 @@ class CheckoutSession
     {
         static::forgetOrder();
         static::forgetCheckout();
-        static::forgetDates();
+        static::forgetReservationData();
 
         return static::forgetPayment();
     }
@@ -261,18 +261,18 @@ class CheckoutSession
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
      */
-    public static function getDates()
+    public static function getReservationData()
     {
-        return session(static::$session_string . '.dates');
+        return session(static::$session_string . '.reservation_data');
     }
 
 
     /**
      * @return bool
      */
-    public static function hasDates()
+    public static function hasReservationData()
     {
-        return session()->has(static::$session_string . '.dates');
+        return session()->has(static::$session_string . '.reservation_data');
     }
 
 
@@ -281,17 +281,17 @@ class CheckoutSession
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
      */
-    public static function setDates($value)
+    public static function setReservationData($value)
     {
-        return session([static::$session_string . '.dates' => $value]);
+        return session([static::$session_string . '.reservation_data' => $value]);
     }
 
 
     /**
      * @return bool
      */
-    public static function forgetDates()
+    public static function forgetReservationData()
     {
-        return session()->forget(static::$session_string . '.dates');
+        return session()->forget(static::$session_string . '.reservation_data');
     }
 }

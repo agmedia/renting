@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Carbon\CarbonPeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -208,20 +209,39 @@ class Helper
 
 
     /**
-     * @param string $from
-     * @param string $to
+     * @param Request $request
      *
-     * @return string[]
+     * @return array
      */
-    public static function setSessionDates(string $from, string $to): array
+    public static function setSessionReservationData(Request $request): array
     {
-        return [
-            'from' => $from,
-            'to'   => $to
-        ];
+        $response = [];
+
+        Log::info($request);
+
+        if ($request->has('from')) {
+            $response['from'] = $request->input('from');
+        }
+        if ($request->has('to')) {
+            $response['to'] = $request->input('to');
+        }
+        if ($request->has('max_adults')) {
+            $response['max_adults'] = $request->input('max_adults');
+        }
+        if ($request->has('max_children')) {
+            $response['max_children'] = $request->input('max_children');
+        }
+
+        return $response;
     }
 
 
+    /**
+     * @param string $string
+     * @param string $action
+     *
+     * @return false|string
+     */
     public static function encryptor(string $string, string $action = 'encrypt')
     {
         $output = false;

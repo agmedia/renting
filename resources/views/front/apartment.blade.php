@@ -409,6 +409,11 @@
                 return new DateTime(reservation_dates.to, 'YYYY-MM-DD');
             }
         }
+
+
+        $(() => {
+
+        });
     </script>
 
     <script>
@@ -509,18 +514,33 @@
             changeSelect(adults_select, max_adults, adults_title);
             changeSelect(children_select, max_children, children_title);
             changeSelect(baby_select, max_children, baby_title);
-
+            /**
+             *
+             */
             $('#children-select').on('change', event => {
                 let max = countRemainingBeds(event.currentTarget.value, max_adults);
 
                 changeSelect(adults_select, max, adults_title, adults_select.selectedIndex);
             });
-
+            //
             $('#adults-select').on('change', event => {
                 let max = countRemainingBeds(event.currentTarget.value, max_children);
 
                 changeSelect(children_select, max, children_title, children_select.selectedIndex);
             });
+            /**
+             *
+             */
+            if (Object.prototype.toString.call(reservation_dates) != '[object Array]') {
+                if (reservation_dates.hasOwnProperty('max_adults')) {
+                    $('#adults-select').val(reservation_dates.max_adults);
+                    $('#adults-select').trigger('change');
+                }
+                if (reservation_dates.hasOwnProperty('max_children')) {
+                    $('#children-select').val(reservation_dates.max_children);
+                    $('#children-select').trigger('change');
+                }
+            }
 
         })
     </script>
