@@ -51,6 +51,10 @@ class iCal
      */
     public function url(string $url)
     {
+        if ( ! filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
         $string = file_get_contents($url);
 
         if (stristr($string, 'BEGIN:VCALENDAR') === false) {

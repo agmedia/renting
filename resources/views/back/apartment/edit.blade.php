@@ -404,44 +404,42 @@
                                     </div>
 
 
-                                    <h2 class="content-heading">{{ __('back/apartment.sync_url') }}
-                                        @if (isset($apartment))
-                                            <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
-                                                <i class="far fa-fw fa-plus-square"></i> {{ __('back/apartment.copy_ics_link') }}
-                                            </a>
-                                        @endif
-                                    </h2>
+                                    <h2 class="content-heading">{{ __('back/apartment.sync_url') }}</h2>
 
                                     <div class="form-group row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
                                             <label for="airbnb-input">Airbnb</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="airbnb-input" name="links[airbnb]" placeholder="Airbnb ics or iCal URL..." value="{{ isset($apartment->airbnb['link']) ? $apartment->airbnb['link'] : '' }}">
-                                                @if (isset($apartment))
+                                                @if (isset($apartment->airbnb['link']) && $apartment->airbnb['link'] != '')
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-alt-dark" id="airbnb-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                     </div>
                                                 @endif
                                             </div>
-                                            <p class="font-size-sm float-right">
-                                                {{ isset($apartment->airbnb['updated']) ? $apartment->airbnb['updated'] : '' }}
-                                                <i class="fa {{ isset($apartment->airbnb['icon']) ? $apartment->airbnb['icon'] : '' }} ml-2"></i>
-                                            </p>
+                                            @if (isset($apartment->airbnb['link']) && $apartment->airbnb['link'] != '')
+                                                <p class="font-size-sm float-right">
+                                                    {{ isset($apartment->airbnb['updated']) ? $apartment->airbnb['updated'] : '' }}
+                                                    <i class="fa {{ isset($apartment->airbnb['icon']) ? $apartment->airbnb['icon'] : '' }} ml-2"></i>
+                                                </p>
+                                            @endif
                                         </div>
                                         <div class="col-md-12 pt-2">
                                             <label for="booking-input">Booking</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="booking-input" name="links[booking]" placeholder="Booking ics or iCal URL..." value="{{ isset($apartment->booking['link']) ? $apartment->booking['link'] : '' }}">
-                                                @if (isset($apartment))
+                                                @if (isset($apartment->booking['link']) && $apartment->booking['link'] != '')
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-alt-dark" id="booking-sync-btn">{{ __('back/apartment.sync') }}</button>
                                                     </div>
                                                 @endif
                                             </div>
-                                            <p class="font-size-sm float-right">
-                                                {{ isset($apartment->booking['updated']) ? $apartment->booking['updated'] : '' }}
-                                                <i class="fa {{ isset($apartment->booking['icon']) ? $apartment->booking['icon'] : '' }} ml-2"></i>
-                                            </p>
+                                            @if (isset($apartment->booking['link']) && $apartment->booking['link'] != '')
+                                                <p class="font-size-sm float-right">
+                                                    {{ isset($apartment->booking['updated']) ? $apartment->booking['updated'] : '' }}
+                                                    <i class="fa {{ isset($apartment->booking['icon']) ? $apartment->booking['icon'] : '' }} ml-2"></i>
+                                                </p>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -864,20 +862,6 @@
             });
 
         });
-    </script>
-
-    <script>
-        @if (isset($apartment))
-        const copyBtn = document.querySelector('#copy-ics');
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
-                successToast.fire({
-                    timer: 1500,
-                    text: 'URL Copied..!',
-                })
-            });
-        });
-        @endif
     </script>
 
     <script>

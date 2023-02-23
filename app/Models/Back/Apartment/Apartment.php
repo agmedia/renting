@@ -372,14 +372,15 @@ class Apartment extends Model
 
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
+        $target    = $request->input('target');
 
-        $links[$request->input('target')]['updated'] = now();
-        $links[$request->input('target')]['icon']    = 'fa-check text-success';
+        $links[$target]['updated'] = now();
+        $links[$target]['icon']    = 'fa-check text-success';
 
         if ( ! empty($ical->events)) {
             foreach ($ical->events as $event) {
                 $order = Order::storeSyncData(
-                    $request->input('target'),
+                    $target,
                     $event,
                     $request->input('apartment')
                 );
@@ -387,9 +388,13 @@ class Apartment extends Model
                 if ( ! $order) {
                     $passed = false;
 
-                    $links[$request->input('target')]['icon'] = 'fa-warning text-danger';
+                    $links[$target]['icon'] = 'fa-exclamation-triangle text-danger';
                 }
             }
+        }
+
+        if ( ! filter_var($links[$target]['link'], FILTER_VALIDATE_URL)) {
+            $links[$target]['icon'] = 'fa-exclamation-triangle text-danger';
         }
 
         $apartment->update([
@@ -556,6 +561,10 @@ class Apartment extends Model
                 $new[$target]['link']    = $link;
                 $new[$target]['updated'] = $time;
                 $new[$target]['icon']    = $icon;
+
+                if ( ! filter_var($link, FILTER_VALIDATE_URL)) {
+                    $new[$target]['icon'] = 'fa-exclamation-triangle text-danger';
+                }
             }
 
             return json_encode($new);
@@ -593,7 +602,7 @@ class Apartment extends Model
                         return [
                             'link'    => $link['link'],
                             'updated' => Carbon::make($link['updated'])->locale(current_locale())->diffForHumans(),
-                            'icon'    => isset($link['icon']) ? $link['icon'] : 'fa-check text-success'
+                            'icon'    => isset($link['icon']) ? $link['icon'] : (($link['link'] == '') ? 'fa-exclamation-triangle text-danger' : 'fa-check text-success')
                         ];
                     }
                 }
