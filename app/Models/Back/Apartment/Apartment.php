@@ -541,13 +541,15 @@ class Apartment extends Model
 
             foreach ($links as $target => $link) {
                 if ($method == 'update') {
-                    $existing = json_decode($this->links, true)[$target];
+                    if (isset(json_decode($this->links, true)[$target])) {
+                        $existing = json_decode($this->links, true)[$target];
 
-                    if (isset($existing['updated'])) {
-                        $time = $existing['updated'];
-                    }
-                    if (isset($existing['icon'])) {
-                        $icon = $existing['icon'];
+                        if (isset($existing['updated'])) {
+                            $time = $existing['updated'];
+                        }
+                        if (isset($existing['icon'])) {
+                            $icon = $existing['icon'];
+                        }
                     }
                 }
 
