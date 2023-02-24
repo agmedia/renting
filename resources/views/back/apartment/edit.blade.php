@@ -404,7 +404,13 @@
                                     </div>
 
 
-                                    <h2 class="content-heading">{{ __('back/apartment.sync_url') }}</h2>
+                                    <h2 class="content-heading">{{ __('back/apartment.sync_url') }}
+                                        @if (isset($apartment))
+                                            <a class="btn btn-sm btn-secondary float-right" id="copy-ics" data-text="{{ url('en/apartment/ics/' . $apartment->translation('en')->slug) }}">
+                                                <i class="far fa-fw fa-plus-square"></i> {{ __('back/apartment.copy_ics_link') }}
+                                            </a>
+                                        @endif
+                                    </h2>
 
                                     <div class="form-group row justify-content-center push mb-0">
                                         <div class="col-md-12 pt-2">
@@ -521,7 +527,6 @@
                     <h3 class="block-title"><a href="#" onclick="Dashmix.block('content_toggle', '#prices-block');">{{ __('back/apartment.cijenetitle') }}</a></h3>
                     <div class="block-options">
                         <button type="button" class="btn btn-sm btn-alt-secundary" data-toggle="block-option" data-action="fullscreen_toggle"></button>
-
                         <button type="button" class="btn btn-sm btn-success" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>
                 </div>
@@ -865,6 +870,23 @@
 
         });
     </script>
+
+    <script>
+        @if (isset($apartment))
+        //
+        const copyBtn = document.querySelector('#copy-ics');
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
+                successToast.fire({
+                    timer: 1500,
+                    text: 'URL Copied..!',
+                })
+            });
+        });
+        //
+        @endif
+    </script>
+
 
     <script>
 
