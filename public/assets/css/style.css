@@ -3719,6 +3719,13 @@ Responsive Media Query CSS
     }
 }
 
+@media screen and (max-width:375px) {
+    .top-header,
+    .top-header .form-select {
+        font-size: 11px;
+    }
+}
+
 @media screen and (max-width:575px) {
     .color-panel {
         display: none
