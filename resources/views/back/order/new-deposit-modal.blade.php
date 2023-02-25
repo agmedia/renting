@@ -91,13 +91,13 @@
 
             axios.post("{{ route('api.order.new.deposit') }}", item)
             .then(response => {
-                console.log(response)
-                //$('#new-modal').modal('hide');
-                /*if (response.data.success) {
+                if (response.data.success) {
+                    $('#new-deposit-modal').modal('hide');
+
                     location.reload();
                 } else {
                     return errorToast.fire(response.data.message);
-                }*/
+                }
             });
         }
     </script>

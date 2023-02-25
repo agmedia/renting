@@ -432,10 +432,8 @@
 @endpush
 
 @push('js_after')
-<!--    <script src="{{ asset('js/vue.js') }}"></script>
-    <script src="{{ asset('js/components/ag-order-products.js') }}"></script>-->
-
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+
     <script>
         $(() => {
             $('#payment-select').select2({});
@@ -468,7 +466,7 @@
             let text = document.getElementById(tag_id);
 
             if (window.isSecureContext) {
-                navigator.clipboard.writeText(text.value)
+                navigator.clipboard.writeText(text.innerText)
 
                 return successToast.fire('OK');
             }
