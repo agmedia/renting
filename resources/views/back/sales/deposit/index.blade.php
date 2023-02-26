@@ -109,13 +109,15 @@
                                 <td class="text-center">
                                     <a href="{{ route('orders.edit', ['order' => $deposit->order]) }}"><strong>{{ $deposit->order->id }}</strong></a>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($deposit->created_at)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ carbon($deposit->created_at)->format('d.m.Y') }}</td>
                                 <td>{{ $deposit->order->payment_fname }} {{ $deposit->order->payment_lname }}</td>
                                 <td>{{ $deposit->payment_method }}</td>
                                 <td>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</td>
                                 <td class="text-right">{{ currency_main($deposit->amount, true) }}</td>
                                 <td class="font-size-base text-center">
-                                    <span class="badge badge-pill badge-{{ $deposit->status->color }}">{{ $deposit->status->title->{current_locale()} }}</span>
+                                    <span class="badge badge-pill badge-{{ $statuses->where('id', $deposit->status_id)->first()->color }}">
+                                        {{ $statuses->where('id', $deposit->status_id)->first()->title->{current_locale()} }}
+                                    </span>
                                 </td>
                                 <td class="text-right font-size-base">
                                     <button type="button" class="btn btn-sm btn-alt-info"

@@ -88,7 +88,6 @@
                         </thead>
                         <tbody>
                         @forelse ($orders->sortByDesc('id') as $order)
-
                             <tr>
                                 <td class="text-center">
                                     <div class="form-group">
@@ -100,16 +99,15 @@
                                 <td class="text-center">
                                     <strong>{{ $order->id }}</strong>
                                 </td>
-                                <td class="text-center">{{ \Illuminate\Support\Carbon::make($order->date_from)->format('d.m.Y') }} - {{ \Illuminate\Support\Carbon::make($order->date_to)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ carbon($order->date_from)->format('d.m.Y') }} - {{ carbon($order->date_to)->format('d.m.Y') }}</td>
                                 <td>{{ $order->apartment->title }}</td>
                                 <td>{{ $order->payment_fname }} {{ $order->payment_lname }}</td>
                                 <td class="font-size-base text-center">
-                                    <span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }}</span>
+                                    <span class="badge badge-pill badge-{{ $statuses->where('id', $order->order_status_id)->first()->color }}">
+                                        {{ $statuses->where('id', $order->order_status_id)->first()->title->{current_locale()} }}
+                                    </span>
                                 </td>
                                 <td class="text-right font-size-base">
-<!--                                    <a class="btn btn-sm btn-alt-secondary" href="{{ route('orders.show', ['order' => $order]) }}">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>-->
                                     <a class="btn btn-sm btn-alt-info" href="{{ route('orders.edit', ['order' => $order]) }}">
                                         <i class="fa fa-fw fa-edit"></i>
                                     </a>

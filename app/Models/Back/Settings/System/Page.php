@@ -70,7 +70,7 @@ class Page extends Model
             return $this->hasMany(PageTranslation::class, 'page_id');
         }
 
-        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale)->first();
+        return $this->hasOne(PageTranslation::class, 'page_id')->where('lang', $this->locale);
     }
 
 
@@ -79,7 +79,7 @@ class Page extends Model
      */
     public function getTitleAttribute()
     {
-        return $this->translation()->title;
+        return $this->translation->title;
     }
 
 
@@ -88,7 +88,7 @@ class Page extends Model
      */
     public function getDescriptionAttribute()
     {
-        return $this->translation()->description;
+        return $this->translation->description;
     }
 
 

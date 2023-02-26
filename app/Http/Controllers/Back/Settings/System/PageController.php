@@ -20,9 +20,11 @@ class PageController extends Controller
         if ($request->has('search') && ! empty($request->search)) {
             $pages = Page::whereHas('translation', function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->search . '%');
-            })->paginate(12);
+            })->with('translation')
+              ->paginate(12);
+
         } else {
-            $pages = Page::paginate(12);
+            $pages = Page::with('translation')->paginate(12);
         }
 
         return view('back.settings.system.pages.index', compact('pages'));
@@ -51,7 +53,6 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         $page = new Page();
 
         $stored = $page->validateRequest($request)->create();

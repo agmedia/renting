@@ -57,7 +57,7 @@
                                 </a>
                             </td>-->
                             <td>
-                                <a href="{{ route('pages.edit', ['stranica' => $page]) }}">{{ isset($page->title->{current_locale()}) ? $page->title->{current_locale()} : $page->title }}</a>
+                                <a href="{{ route('pages.edit', ['stranica' => $page]) }}">{{ $page->title }}</a>
                             </td>
                             <td>{{ $page->group }}</td>
                             <td class="text-center">

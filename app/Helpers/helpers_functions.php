@@ -137,3 +137,22 @@ if ( ! function_exists('decrypt_apartment')) {
         return $number / 9;
     }
 }
+
+/**
+ *
+ */
+if ( ! function_exists('carbon')) {
+    /**
+     * @param int $number
+     *
+     * @return int
+     */
+    function carbon($date = null)
+    {
+        if ($date) {
+            return \Illuminate\Support\Carbon::make($date);
+        }
+
+        return \Illuminate\Support\Carbon::class;
+    }
+}

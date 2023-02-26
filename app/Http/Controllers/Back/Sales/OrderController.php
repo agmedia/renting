@@ -22,11 +22,11 @@ class OrderController extends Controller
      */
     public function index(Request $request, Order $order)
     {
-        $orders = $order->filter($request)->paginate(config('settings.pagination.back'));
+        $orders = $order->filter($request)->with('apartment')->paginate(config('settings.pagination.back'));
 
         $statuses   = Settings::get('order', 'statuses');
         $payments   = Settings::getList('payment');
-        $apartments = Apartment::query()->where('status', 1)->get();
+        $apartments = Apartment::query()->with('translation')->where('status', 1)->get();
 
         return view('back.sales.order.index', compact('orders', 'statuses', 'payments', 'apartments'));
     }
@@ -85,7 +85,7 @@ class OrderController extends Controller
         $countries  = Country::list();
         $statuses   = Settings::get('order', 'statuses');
         $payments   = Settings::getList('payment');
-        $apartments = Apartment::query()->where('status', 1)->get();
+        $apartments = Apartment::query()->with('translation')->where('status', 1)->get();
 
         return view('back.sales.order.edit', compact('order', 'countries', 'statuses', 'payments', 'apartments'));
     }

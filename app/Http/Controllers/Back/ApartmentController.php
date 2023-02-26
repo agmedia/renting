@@ -24,7 +24,7 @@ class ApartmentController extends Controller
      */
     public function index(Request $request, Apartment $apartman)
     {
-        $apartments = $apartman->filter($request)->paginate(20)->appends(request()->query());
+        $apartments = $apartman->filter($request)->with('translation')->paginate(20)->appends(request()->query());
 
         return view('back.apartment.index', compact('apartments'));
     }

@@ -20,7 +20,7 @@ class DepositController extends Controller
      */
     public function index(Request $request, Deposit $deposit)
     {
-        $deposits = $deposit->filter($request)->paginate(config('settings.pagination.back'));
+        $deposits = $deposit->filter($request)->with('order')->paginate(config('settings.pagination.back'));
 
         $statuses   = Settings::get('order', 'statuses');
         $payments   = Settings::getList('payment');

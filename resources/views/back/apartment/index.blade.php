@@ -90,7 +90,7 @@
                             <tr>
                                 <td class="font-size-sm">{{ $loop->iteration }}</td>
                                 <td class="text-left">
-                                    <a href="{{ route('apartments.edit', ['apartman' => $apartment]) }}"> <img src="{{ asset($apartment->image) }}" style="max-height:100px" alt="{{ $apartment->title }}"></a>
+                                    <a href="{{ route('apartments.edit', ['apartman' => $apartment]) }}"> <img src="{{ asset($apartment->thumb) }}" style="max-height:100px" alt="{{ $apartment->title }}"></a>
                                 </td>
                                 <td class="font-size-sm">
                                     <a class="font-w600" href="{{ route('apartments.edit', ['apartman' => $apartment]) }}">{{ $apartment->title }}</a>
