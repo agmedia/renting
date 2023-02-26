@@ -43,6 +43,8 @@ return [
     //
     'sidebar' => [
         'orders' => 'Narudžbe',
+        'sales' => 'Prodaja',
+        'deposits' => 'Plaćanja',
         'calendar' => 'Kalendar',
         'marketing' => 'Marketing',
         'actions' => 'Akcije',

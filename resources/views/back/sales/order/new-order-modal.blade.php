@@ -9,7 +9,7 @@
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Create New Order</h3>
+                        <h3 class="block-title">{{ __('back/app.order.new') }}</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>

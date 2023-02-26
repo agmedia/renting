@@ -14,7 +14,7 @@
                     <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.edit') }} <small class="font-weight-light">#_</small><strong>{{ $order->id }}</strong></h1>
                     <h4 class="mb-1"><span class="badge badge-pill badge-{{ $order->status->color }}">{{ $order->status->title->{current_locale()} }} {{ __('back/app.order.title') }}</span></h4>
                     <button class="btn btn-hero-info my-2 ml-4" onclick="event.preventDefault(); openNewDepositModal();">
-                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">Create New Deposit</span>
+                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">{{ __('back/app.deposit.new') }}</span>
                     </button>
                 @else
                     <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">{{ __('back/app.order.new') }}</h1>
@@ -29,12 +29,12 @@
         @include('back.layouts.partials.session')
 
         <form action="{{ isset($order) ? route('orders.update', ['order' => $order]) : route('orders.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @if (isset($order))
-            {{ method_field('PATCH') }}
-        @endif
+            @csrf
+            @if (isset($order))
+                {{ method_field('PATCH') }}
+            @endif
 
-        <!-- Products -->
+            <!-- Products -->
             <div class="row">
                 <div class="col-sm-7">
                     <div class="block block-rounded" id="ag-order-products-app">
@@ -44,17 +44,19 @@
                         <div class="block-content">
                             <div class="row justify-content-center push">
                                 <div class="col-md-5">
-                                    <img  class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
-<!--                                    <div class="row">
+                                    <img class="img-thumbnail" src="{{ asset($order->apartment->image) }}" alt="">
+                                    <!--                                    <div class="row">
                                         <div class="col-md-12 mt-3">
                                             <select class="js-select2 form-control" id="apartment-select" name="apartment_id" style="width: 100%;" data-placeholder="Odaberite drugi apartman...">
                                                 <option></option>
                                                 @foreach ($apartments as $apartment)
-                                                    <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>-->
+                                        <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+
+
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>-->
                                 </div>
                                 <div class="col-md-7">
                                     <h3 class="mb-0">{{ $order->apartment->title }}</h3>
@@ -171,7 +173,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-<!--                                <div class="col-md-4">
+                                <!--                                <div class="col-md-4">
                                     <label for="payment-amount-input">{{ __('back/app.order.amount') }}</label>
                                     <input type="text" class="form-control" id="payment-amount-input" name="payment_amount" placeholder="Upišite iznos" value="{{ isset($order) ? $order->total : old('payment_amount') }}">
                                 </div>-->
@@ -271,10 +273,10 @@
                     <div class="col-sm-12">
                         <div class="block block-rounded">
                             <div class="block-header block-header-default">
-                                <h3 class="block-title">Order Deposits</h3>
+                                <h3 class="block-title">{{ __('back/app.deposit.title') }}</h3>
                                 <div class="block-options">
                                     <button class="btn btn-sm btn-info" onclick="event.preventDefault(); openNewDepositModal();">
-                                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">Create New Deposit</span>
+                                        <i class="far fa-fw fa-plus-square"></i><span class="d-none d-sm-inline ml-1">{{ __('back/app.deposit.new') }}</span>
                                     </button>
                                 </div>
                             </div>
@@ -300,7 +302,9 @@
                                                 {{ route('checkout.special', ['signature' => $deposit->signature]) }}
                                             </p>
                                         </div>
-                                        <div class="col-md-11"><hr></div>
+                                        <div class="col-md-11">
+                                            <hr>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -379,7 +383,7 @@
 @endsection
 
 @if (isset($order))
-    @include('back.order.new-deposit-modal')
+    @include('back.sales.deposit.new-deposit-modal')
 @endif
 
 @push('modals')
@@ -480,8 +484,8 @@
         function changeStatus() {
             let item = {
                 order_id: {{ $order->id }},
-                comment: $('#comment-input').val(),
-                status: $('#status-select').val()
+                comment:  $('#comment-input').val(),
+                status:   $('#status-select').val()
             };
 
             axios.post("{{ route('api.order.status.change') }}", item)
@@ -492,7 +496,7 @@
 
                     successToast.fire({
                         timer: 1500,
-                        text: response.data.message,
+                        text:  response.data.message,
                     }).then(() => {
                         location.reload();
                     })
@@ -506,39 +510,39 @@
 
 
     <script>
-        const DateTime = easepick.DateTime;
+        const DateTime    = easepick.DateTime;
         const bookedDates = {!! collect($order->apartment->dates())->toJson() !!}
         .map(d => {
             if (d instanceof Array) {
                 const start = new DateTime(d[0], 'YYYY-MM-DD');
-                const end = new DateTime(d[1], 'YYYY-MM-DD');
+                const end   = new DateTime(d[1], 'YYYY-MM-DD');
 
                 return [start, end];
             }
 
             return new DateTime(d, 'YYYY-MM-DD');
         });
-        const pickerres = new easepick.create({
-            element: document.getElementById('checkindate'),
-            css: [
+        const pickerres   = new easepick.create({
+            element:     document.getElementById('checkindate'),
+            css:         [
                 '{{ config('app.url') }}assets/css/reservation.css',
             ],
-            grid: 1,
-            calendars: 1,
-            zIndex: 10,
-            plugins: ['LockPlugin','RangePlugin'],
+            grid:        1,
+            calendars:   1,
+            zIndex:      10,
+            plugins:     ['LockPlugin', 'RangePlugin'],
             RangePlugin: {
                 tooltipNumber(num) {
                     return num - 1;
                 },
                 locale: {
-                    one: 'night',
+                    one:   'night',
                     other: 'nights',
                 },
             },
-            LockPlugin: {
-                minDate: new Date(),
-                minDays: 2,
+            LockPlugin:  {
+                minDate:     new Date(),
+                minDays:     2,
                 inseparable: true,
                 filter(date, picked) {
                     if (picked.length === 1) {

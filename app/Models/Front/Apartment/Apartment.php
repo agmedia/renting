@@ -428,7 +428,7 @@ class Apartment extends Model implements LocalizedUrlRoutable
         $orders = Order::query()
                        ->where('apartment_id', $this->id)
                        ->where('created_at', '>', now()->subMonths(3))
-                       ->whereIn('order_status_id', Helper::getValidOrderStatuses())
+                       ->whereIn('order_status_id', Helper::getValidReservationOrderStatuses())
                        ->select('id', 'order_status_id', 'date_from', 'date_to', 'sync_uid', 'created_at')
                        ->get();
 

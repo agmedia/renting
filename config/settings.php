@@ -52,6 +52,47 @@ return [
         ],
     ],
 
+    'deposit_scopes' => [
+        1 => [
+            'title' => [
+                'en' => 'Deposit',
+                'hr' => 'Polog',
+            ],
+        ],
+        2 => [
+            'title' => [
+                'en' => 'Additional person',
+                'hr' => 'Dodatna osoba',
+            ],
+        ],
+        3 => [
+            'title' => [
+                'en' => 'Additional night',
+                'hr' => 'Dodatno nočenje',
+            ],
+        ],
+        4 => [
+            'title' => [
+                'en' => 'Check Out',
+                'hr' => 'Check Out',
+            ],
+        ],
+        5 => [
+            'title' => [
+                'en' => 'Check In',
+                'hr' => 'Check In',
+            ],
+        ],
+        6 => [
+            'title' => [
+                'en' => 'Other',
+                'hr' => 'Ostalo',
+            ],
+        ],
+    ],
+
+    'default_deposit_order_id' => 15,
+
     'apartment_select_status' => ['active', 'inactive'/*, 'with_action', 'without_action'*/],
     'apartment_select_sort' => ['new', 'old', 'price_up', 'price_down'/*, 'az', 'za'*/],
 

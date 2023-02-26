@@ -21,6 +21,7 @@ class CreateOrderDepositTable extends Migration
             $table->string('payment_method');
             $table->string('payment_code')->nullable();
             $table->tinyInteger('paid')->default(0);
+            $table->integer('scope_id')->default(1);
             $table->dateTime('expire')->nullable();
             $table->integer('status_id')->unsigned();
             $table->string('invoice')->nullable();

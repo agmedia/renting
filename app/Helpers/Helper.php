@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Back\Settings\Settings;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -198,13 +199,24 @@ class Helper
     /**
      * @return array
      */
-    public static function getValidOrderStatuses(): array
+    public static function getValidReservationOrderStatuses(): array
     {
         return [
             config('settings.order.status.new'),
             config('settings.order.status.pending'),
             config('settings.order.status.paid')
         ];
+    }
+
+
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public static function resolveOrderStatus(int $id)
+    {
+        return Settings::get('order', 'statuses')->where('id', $id)->first();
     }
 
 
@@ -216,8 +228,6 @@ class Helper
     public static function setSessionReservationData(Request $request): array
     {
         $response = [];
-
-        Log::info($request);
 
         if ($request->has('from')) {
             $response['from'] = $request->input('from');

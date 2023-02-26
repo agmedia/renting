@@ -345,7 +345,7 @@
                 apartment_edit_btn.setAttribute('href', base_url + '/{{ current_locale() }}/admin/apartment/' + order.apartment_id + '/edit');
                 apartment_edit_btn.text = 'Edit Apartment';
 
-                $('#apartment-image').html('<img class="img-thumbnail" src="' + base_url + '/' + order.apartment.image + '" alt="">');
+                $('#apartment-image').html('' + base_url + '<img class="img-thumbnail" src="/" alt="">' + order.apartment.image + '');
                 $('#order-info').html(order_description);
                 $('#order-table').html(order_table);
                 $('#order-edit-btn').html(order_edit_btn);

@@ -149,7 +149,7 @@ return [
         'list' => 'Lista Narudžbi',
         'change_status' => 'Promjeni Status Narudžbe',
         'filter' => 'Filter',
-        'all' => 'Sve Narudžbe',
+        'all' => 'Sve',
         'search_placeholder' => 'Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...',
         'no_orders' => 'Nemate trenutno narudžbi',
         'date' => 'Datum',
@@ -186,6 +186,15 @@ return [
         'no_change_status' => 'Bez Promjene Statusa',
         'paid_amount' => 'Plaćeni Iznos',
         'payment_url' => 'URL za Plaćanje Narudžbe'
+    ],
+
+    'deposit' => [
+        'new' => 'Novo Plaćanje',
+        'copy_url' => 'Kopiraj URL za Plaćanje',
+        'list' => 'Lista Plaćanja',
+        'scope' => 'Namjena',
+        'order_number' => 'Broj Narudžbe',
+        'no_deposits' => 'Trenutno nemate nikakvih plaćanja...',
     ],
 
     // GENERALS

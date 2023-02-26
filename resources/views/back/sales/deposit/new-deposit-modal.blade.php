@@ -9,7 +9,7 @@
             <div class="modal-content rounded">
                 <div class="block block-themed block-transparent mb-0">
                     <div class="block-header bg-primary">
-                        <h3 class="block-title">Create New Deposit</h3>
+                        <h3 class="block-title">{{ __('back/app.deposit.new') }}</h3>
                         <div class="block-options">
                             <a class="text-muted font-size-h3" href="#" data-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-times"></i>
@@ -20,6 +20,23 @@
                         <div class="row justify-content-center mb-3">
                             <div class="col-md-11">
                                 <div class="form-group row items-push mb-0">
+                                    <div class="col-md-4 mt-3">
+                                        <label for="order-input">{{ __('back/app.deposit.order_number') }}</label>
+                                        @if (isset($order))
+                                            <input type="text" class="form-control" id="order-input" name="order_id" value="{{ $order->id }}" disabled>
+                                        @else
+                                            <input type="text" class="form-control" id="order-input" name="order_id" placeholder="#" value="{{ old('order_id') }}">
+                                        @endif
+                                    </div>
+                                    <div class="col-md-8 mt-3">
+                                        <label for="deposit-scope-select">{{ __('back/app.deposit.scope') }}</label>
+                                        <select class="js-select2 form-control" id="deposit-scope-select" name="payment_deposit_type" style="width: 100%;">
+                                            @foreach (config('settings.deposit_scopes') as $scope_id => $scope)
+                                                <option value="{{ $scope_id }}">{{ $scope['title'][current_locale()] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="col-md-12">
                                         <h2 class="content-heading">{{ __('back/app.order.select_payments') }} & {{ __('back/app.order.amount') }} @include('back.layouts.partials.required-star')</h2>
                                         <div class="row mb-4">
@@ -32,15 +49,14 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="payment-deposit-amount-input" name="payment_deposit_amount" placeholder="120" value="{{ old('payment_amount') }}">
+                                                <input type="text" class="form-control" id="payment-deposit-amount-input" name="payment_deposit_amount" placeholder="{{ __('back/app.order.amount') }}" value="{{ old('payment_amount') }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label for="fname-input">Comment</label>
+                                        <label for="fname-input">{{ __('back/app.order.comment') }}</label>
                                         <textarea id="comment-textarea" class="form-control" name="deposit_comment" placeholder="Add comment to deposit payment..."></textarea>
                                     </div>
-                                    <input type="hidden" id="order-id-input" value="{{ $order->id }}">
                                 </div>
                             </div>
                         </div>
@@ -65,6 +81,7 @@
     <script>
         $(() => {
             $('#payment-deposit-select').select2({});
+            $('#deposit-scope-select').select2({});
         })
     </script>
 
@@ -83,7 +100,8 @@
          */
         function createNewOrderDeposit() {
             let item = {
-                order_id:       $('#order-id-input').val(),
+                order_id:       $('#order-input').val(),
+                scope_id:       $('#deposit-scope-select').val(),
                 payment_type:   $('#payment-deposit-select').val(),
                 payment_amount: $('#payment-deposit-amount-input').val(),
                 comment:        $('#comment-textarea').val()

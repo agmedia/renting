@@ -4,20 +4,17 @@ use App\Actions\Fortify\ForgotPasswordController;
 use App\Http\Controllers\Api\v2\CartController;
 use App\Http\Controllers\Api\v2\FilterController;
 use App\Http\Controllers\Back\ApartmentController;
-use App\Http\Controllers\Back\CalendarController;
 use App\Http\Controllers\Back\Catalog\AuthorController;
-use App\Http\Controllers\Back\Marketing\ReviewController;
-use App\Http\Controllers\Back\Settings\OptionController;
-use App\Http\Controllers\Back\Settings\System\AmenitiesController;
-use App\Http\Controllers\Back\Settings\System\ApplicationController;
-use App\Http\Controllers\Back\Settings\System\CategoryController;
 use App\Http\Controllers\Back\Catalog\ProductController;
 use App\Http\Controllers\Back\Catalog\PublisherController;
 use App\Http\Controllers\Back\DashboardController;
-use App\Http\Controllers\Back\Marketing\GalleryController;
-use App\Http\Controllers\Back\OrderController;
 use App\Http\Controllers\Back\Marketing\ActionController;
 use App\Http\Controllers\Back\Marketing\BlogController;
+use App\Http\Controllers\Back\Marketing\GalleryController;
+use App\Http\Controllers\Back\Marketing\ReviewController;
+use App\Http\Controllers\Back\Sales\CalendarController;
+use App\Http\Controllers\Back\Sales\DepositController;
+use App\Http\Controllers\Back\Sales\OrderController;
 use App\Http\Controllers\Back\Settings\App\CurrencyController;
 use App\Http\Controllers\Back\Settings\App\GeoZoneController;
 use App\Http\Controllers\Back\Settings\App\LanguagesController;
@@ -25,10 +22,14 @@ use App\Http\Controllers\Back\Settings\App\OrderStatusController;
 use App\Http\Controllers\Back\Settings\App\PaymentController;
 use App\Http\Controllers\Back\Settings\App\ShippingController;
 use App\Http\Controllers\Back\Settings\App\TaxController;
-use App\Http\Controllers\Back\Settings\System\FaqController;
 use App\Http\Controllers\Back\Settings\HistoryController;
-use App\Http\Controllers\Back\Settings\System\PageController;
+use App\Http\Controllers\Back\Settings\OptionController;
 use App\Http\Controllers\Back\Settings\QuickMenuController;
+use App\Http\Controllers\Back\Settings\System\AmenitiesController;
+use App\Http\Controllers\Back\Settings\System\ApplicationController;
+use App\Http\Controllers\Back\Settings\System\CategoryController;
+use App\Http\Controllers\Back\Settings\System\FaqController;
+use App\Http\Controllers\Back\Settings\System\PageController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\Back\Widget\WidgetController;
 use App\Http\Controllers\Back\Widget\WidgetGroupController;
@@ -38,8 +39,6 @@ use App\Http\Controllers\Front\CustomerController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\SetupController;
 use Illuminate\Support\Facades\Route;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -76,22 +75,25 @@ Route::group(
         Route::delete('apartment/{apartman}', [ApartmentController::class, 'destroy'])->name('apartments.destroy');
         Route::get('apartment/{apartman}/image/fix', [ApartmentController::class, 'imageFix'])->name('apartments.image.fix');
 
-        // KALENDAR
-        Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
-        Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
-        Route::post('calendar', [CalendarController::class, 'store'])->name('calendar.store');
-        Route::get('calendar/{calendar}/edit', [CalendarController::class, 'edit'])->name('calendar.edit');
-        Route::patch('calendar/{calendar}', [CalendarController::class, 'update'])->name('calendar.update');
-        Route::delete('calendar/{calendar}', [CalendarController::class, 'destroy'])->name('calendar.destroy');
+        // WIDGETS
+        Route::prefix('sales')->group(function () {
+            // KALENDAR
+            Route::get('calendar', [CalendarController::class, 'index'])->name('calendar');
+            Route::get('calendar/create', [CalendarController::class, 'create'])->name('calendar.create');
 
-        // NARUDŽBE
-        Route::get('orders', [OrderController::class, 'index'])->name('orders');
-        Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
-        Route::post('order', [OrderController::class, 'store'])->name('orders.store');
-        Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
-        Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-        Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
-        Route::get('order/{order}/delete', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+            // NARUDŽBE
+            Route::get('orders', [OrderController::class, 'index'])->name('orders');
+            Route::get('order/create', [OrderController::class, 'create'])->name('orders.create');
+            Route::post('order', [OrderController::class, 'store'])->name('orders.store');
+            Route::get('order/{order}', [OrderController::class, 'show'])->name('orders.show');
+            Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+            Route::patch('order/{order}', [OrderController::class, 'update'])->name('orders.update');
+            Route::get('order/{order}/delete', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+            // DEPOSIT - PAYMENTS
+            Route::get('deposits', [DepositController::class, 'index'])->name('deposits');
+        });
 
         // MARKETING
         Route::prefix('marketing')->group(function () {
@@ -255,9 +257,10 @@ Route::prefix('api/v2')->group(function () {
     Route::post('/gallery/destroy/image', [GalleryController::class, 'destroyImage'])->name('gallery.destroy.image');
     Route::post('/blogs/destroy/api', [BlogController::class, 'destroyApi'])->name('blogs.destroy.api');
 
-    // CALENDAR & ORDER
+    // CALENDAR & ORDER & DEPOSITS
     Route::post('/order/new', [OrderController::class, 'store_new'])->name('api.order.new');
-    Route::post('/order/deposit/new', [OrderController::class, 'store_deposit'])->name('api.order.new.deposit');
+    Route::post('/order/deposit/new', [DepositController::class, 'store_deposit'])->name('api.order.new.deposit');
+    Route::post('/order/deposit/change', [DepositController::class, 'api_status_change'])->name('api.deposit.status.change');
     Route::post('/calendar/move', [CalendarController::class, 'move'])->name('api.calendar.move');
 
     // FILTER

@@ -47,19 +47,6 @@ class Order extends Model
 
 
     /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function status(int $id)
-    {
-        $statuses = Settings::get('order', 'statuses');
-
-        return $statuses->where('id', $id)->first();
-    }
-
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
@@ -122,7 +109,7 @@ class Order extends Model
      */
     public function scopeLast($query, $count = 9)
     {
-        return $query->whereIn('order_status_id', Helper::getValidOrderStatuses())->orderBy('created_at', 'desc')->limit($count);
+        return $query->whereIn('order_status_id', Helper::getValidReservationOrderStatuses())->orderBy('created_at', 'desc')->limit($count);
     }
 
 
@@ -150,7 +137,7 @@ class Order extends Model
      */
     public function getStatusAttribute()
     {
-        return $this->status($this->order_status_id);
+        return Helper::resolveOrderStatus($this->order_status_id);
     }
 
 
@@ -211,24 +198,6 @@ class Order extends Model
         if ($request->input('babies')) {
             $request->merge(['baby' => $request->input('babies')]);
         }
-
-        $this->request = $request;
-
-        return $this;
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return $this
-     */
-    public function validateDepositRequest(Request $request)
-    {
-        $request->validate([
-            'order_id'       => 'required',
-            'payment_type'   => 'required'
-        ]);
 
         $this->request = $request;
 
@@ -317,15 +286,6 @@ class Order extends Model
         }
 
         return false;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function storeDeposit()
-    {
-        return Deposit::create($this, $this->request);
     }
 
 
@@ -434,43 +394,6 @@ class Order extends Model
             }
 
             return self::find($id);
-        }
-
-        return false;
-    }
-
-
-    /**
-     * @return false
-     */
-    public function storeDepositData()
-    {
-        $id = $this->insertGetId([
-            'apartment_id'    => $this->request->apartment_id ?: Apartment::first()->id,
-            'user_id'         => 0,
-            'order_status_id' => config('settings.order.status.new'),
-            'invoice'         => 'deposit',
-            'total'           => $this->request->payment_amount,
-            'date_from'       => now(),
-            'date_to'         => now(),
-            'payment_fname'   => $this->request->firstname,
-            'payment_lname'   => $this->request->lastname,
-            'payment_address' => '',
-            'payment_zip'     => '',
-            'payment_city'    => '',
-            'payment_phone'   => $this->request->phone,
-            'payment_email'   => $this->request->email,
-            'payment_method'  => $this->request->payment_type,
-            'payment_code'    => $this->request->payment_type,
-            'company'         => isset($this->request->company) ? $this->request->company : '',
-            'oib'             => isset($this->request->oib) ? $this->request->oib : '',
-            'options'         => '',
-            'created_at'      => Carbon::now(),
-            'updated_at'      => Carbon::now()
-        ]);
-
-        if ($id) {
-            return $this->find($id);
         }
 
         return false;

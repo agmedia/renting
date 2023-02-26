@@ -3,7 +3,9 @@
 namespace App\Models\Back\Orders;
 
 use App\Helpers\Helper;
+use App\Models\Back\Settings\Settings;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,33 +23,102 @@ class Deposit extends Model
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * @var Request
+     */
+    protected $request;
+
 
     /**
-     * @param Order   $order
-     * @param Request $request
-     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+
+    /**
      * @return mixed
      */
-    public static function create(Order $order, Request $request)
+    public function getStatusAttribute()
     {
-        $method = $request->payment_type;
-        if ( ! in_array($request->payment_type, ['bank', 'cod'])) {
-            $method = 'card';
+        return Helper::resolveOrderStatus($this->status_id);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function validateRequest(Request $request)
+    {
+        $request->validate([
+            'payment_type'   => 'required',
+            'payment_amount' => 'required'
+        ]);
+
+        if ( ! $request->input('order_id')) {
+            $request->merge(['order_id' => config('settings.default_deposit_order_id')]);
         }
 
-        return self::insertGetId([
-            'order_id'       => $order->id,
-            'amount'         => $request->payment_amount,
+        $this->request = $request;
+
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function create()
+    {
+        $method = in_array($this->request->payment_type, ['bank', 'cod']) ? $this->request->payment_type : 'card';
+
+        return $this->insertGetId([
+            'order_id'       => $this->request->order_id,
+            'amount'         => $this->request->payment_amount,
             'signature'      => Helper::encryptor(now()->toISOString()),
             'payment_method' => $method,
-            'payment_code'   => $request->payment_type,
+            'payment_code'   => $this->request->payment_type,
             'paid'           => 0,
             'expire'         => 0,
             'status_id'      => config('settings.order.status.new'),
             'invoice'        => '',
-            'comment'        => $request->comment,
+            'comment'        => $this->request->comment,
             'created_at'     => Carbon::now(),
             'updated_at'     => Carbon::now()
         ]);
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return Builder
+     */
+    public function filter(Request $request): Builder
+    {
+        $query = $this->newQuery();
+
+        if ($request->has('status')) {
+            $query->where('status_id', '=', $request->input('status'));
+        }
+
+        if ($request->has('search') && ! empty($request->input('search'))) {
+            $query->where(function ($query) use ($request) {
+                $query->where('id', 'like', '%' . $request->input('search') . '%');
+            });
+
+            $query->orWhereHas('order', function ($subquery) use ($request) {
+                $subquery->where('id', 'like', '%' . $request->input('search') . '%')
+                         ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
+                         ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
+                         ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+            });
+        }
+
+        return $query->orderBy('created_at', 'desc');
     }
 }

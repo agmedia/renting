@@ -44,6 +44,8 @@ return [
     //
     'sidebar' => [
         'orders' => 'Orders',
+        'sales' => 'Sales',
+        'deposits' => 'Payments',
         'calendar' => 'Calendar',
         'marketing' => 'Marketing',
         'actions' => 'Actions',

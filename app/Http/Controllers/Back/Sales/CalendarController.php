@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Back;
+namespace App\Http\Controllers\Back\Sales;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Apartment\Apartment;
+use App\Models\Back\Calendar\Calendar;
 use App\Models\Back\Catalog\Author;
 use App\Models\Back\Catalog\Category;
-use App\Models\Back\Calendar\Calendar;
 use App\Models\Back\Catalog\Product\ProductAction;
 use App\Models\Back\Catalog\Product\ProductCategory;
 use App\Models\Back\Catalog\Product\ProductImage;
 use App\Models\Back\Catalog\Publisher;
-use App\Models\Back\Orders\Order;
-use App\Models\Front\Checkout\Checkout;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class CalendarController extends Controller
@@ -38,7 +34,7 @@ class CalendarController extends Controller
         $apartments = Apartment::query()->where('status', 1)->get();
         $counts = [];
 
-        return view('back.calendar.index', compact('calendars', 'apartments', 'counts'));
+        return view('back.sales.calendar.index', compact('calendars', 'apartments', 'counts'));
     }
 
 

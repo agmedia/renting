@@ -65,22 +65,35 @@
                     </a>
                 </li>
 
-                <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->routeIs(['calendar', 'calendar.*']) ? ' active' : '' }}" href="{{ route('calendar') }}">
-                        <i class="nav-main-link-icon si si-calendar"></i>
-                        <span class="nav-main-link-name">{{ __('back/layout.sidebar.calendar') }}</span>
-                    </a>
-                </li>
-                {{--<li class="nav-main-heading">Various</li>--}}
-
-
-                <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->routeIs(['orders', 'orders.*']) ? ' active' : '' }}" href="{{ route('orders') }}">
+                <!-- SALES -->
+                <li class="nav-main-item{{ request()->is([current_locale() . '/admin/sales/*']) ? ' open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-basket-loaded"></i>
-                        <span class="nav-main-link-name">{{ __('back/layout.sidebar.orders') }}</span>
+                        <span class="nav-main-link-name">{{ __('back/layout.sidebar.sales') }}</span>
                     </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['orders', 'orders.*']) ? ' active' : '' }}" href="{{ route('orders') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.orders') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['deposits', 'deposits.*']) ? ' active' : '' }}" href="{{ route('deposits') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.deposits') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->routeIs(['calendar', 'calendar.*']) ? ' active' : '' }}" href="{{ route('calendar') }}">
+                                <span class="nav-main-link-name">{{ __('back/layout.sidebar.calendar') }}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
+
+                <!-- MARKETING -->
                 <li class="nav-main-item{{ request()->is([current_locale() . '/admin/marketing/*']) ? ' open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-bar-chart"></i>

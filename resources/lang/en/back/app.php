@@ -156,7 +156,7 @@ return [
         'list' => 'Orders List',
         'change_status' => 'Change Order Status',
         'filter' => 'Filter',
-        'all' => 'All Orders',
+        'all' => 'All',
         'search_placeholder' => 'Search by order number, customer name, lastname or email...',
         'no_orders' => 'You have no current orders..',
         'date' => 'Date',
@@ -165,7 +165,7 @@ return [
         'details' => 'Details',
         //
         'edit' => 'Edit Order',
-        'new' => 'Make New Order',
+        'new' => 'Create New Order',
         'info' => 'Basic Order Info',
         'customer' => 'Customer',
         'persons' => 'Persons',
@@ -192,6 +192,16 @@ return [
         'no_change_status' => 'Dont Change Status',
         'paid_amount' => 'Paid Amount',
         'payment_url' => 'Order Payment URL'
+    ],
+
+    'deposit' => [
+        'title' => 'Payments',
+        'new' => 'Create New Payment',
+        'copy_url' => 'Copy Payment URL',
+        'list' => 'Payments List',
+        'scope' => 'Purpose',
+        'order_number' => 'Order Number',
+        'no_deposits' => 'You have no current payments..'
     ],
 
     // GENERALS

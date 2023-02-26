@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Back;
+namespace App\Http\Controllers\Back\Sales;
 
 use App\Helpers\Country;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Orders\Order;
 use App\Models\Back\Orders\OrderHistory;
-use App\Models\Back\Orders\OrderTotal;
 use App\Models\Back\Settings\Settings;
 use App\Models\Front\Checkout\Checkout;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Faker\Generator as Faker;
 
 class OrderController extends Controller
 {
@@ -32,7 +28,7 @@ class OrderController extends Controller
         $payments   = Settings::getList('payment');
         $apartments = Apartment::query()->where('status', 1)->get();
 
-        return view('back.order.index', compact('orders', 'statuses', 'payments', 'apartments'));
+        return view('back.sales.order.index', compact('orders', 'statuses', 'payments', 'apartments'));
     }
 
 
@@ -43,7 +39,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('back.order.edit');
+        return view('back.sales.order.edit');
     }
 
 
@@ -73,7 +69,7 @@ class OrderController extends Controller
     {
         $statuses = Settings::get('order', 'statuses');
 
-        return view('back.order.show', compact('order', 'statuses'));
+        return view('back.sales.order.show', compact('order', 'statuses'));
     }
 
 
@@ -91,7 +87,7 @@ class OrderController extends Controller
         $payments   = Settings::getList('payment');
         $apartments = Apartment::query()->where('status', 1)->get();
 
-        return view('back.order.edit', compact('order', 'countries', 'statuses', 'payments', 'apartments'));
+        return view('back.sales.order.edit', compact('order', 'countries', 'statuses', 'payments', 'apartments'));
     }
 
 
@@ -191,26 +187,4 @@ class OrderController extends Controller
         return response()->json(['error' => __('back/app.save_failure')]);
     }
 
-
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function store_deposit(Request $request): JsonResponse
-    {
-        if ($request->has('order_id') && $request->input('order_id')) {
-            $order = Order::query()->where('id', $request->input('order_id'))->first();
-
-            if ($order) {
-                $deposit = $order->validateDepositRequest($request)->storeDeposit();
-
-                if ($deposit) {
-                    return response()->json(['success' => __('back/app.save_success')]);
-                }
-            }
-        }
-
-        return response()->json(['error' => __('back/app.save_failure')]);
-    }
 }
