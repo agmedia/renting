@@ -74,7 +74,7 @@ class Image
 
         // Image creation
         $img_ratio = static::setPreferedWidth($img);
-        $path      = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '.';
+        $path      = $resource->id . '/' . Str::slug($resource->translation->title) . '-' . $time . '.';
 
         $img = $img->resize($img_ratio['width'], null, function ($constraint) {
             $constraint->aspectRatio();
@@ -88,7 +88,7 @@ class Image
 
         // Thumb creation
         $thumb_ratio = static::setPreferedWidth($img, 'thumb');
-        $path_thumb  = $resource->id . '/' . Str::slug($resource->translation()->title) . '-' . $time . '-thumb.';
+        $path_thumb  = $resource->id . '/' . Str::slug($resource->translation->title) . '-' . $time . '-thumb.';
 
         $img = $img->resize($thumb_ratio['width'], null, function ($constraint) {
             $constraint->aspectRatio();
