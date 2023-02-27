@@ -50,7 +50,7 @@
                         <!-- Slide 1-->
                         <div class="col-xs-12 col-md-6 p-1 pe-0 overflow-hidden featured-thumb position-relative">
                             <a href="{{ $apartment->webp }}" class="link">
-                                <img src="{{$apartment->thumb }}" class="ls-bg" alt=""/>
+                                <img src="{{$apartment->webp }}" class="ls-bg" alt=""/>
                                 <div class="sale bg-secondary text-white"><i class="fas fa-search-plus"></i> {{ __('front/apartment.view_gallery') }} ({{ $apartment->images()->where('published', 1)->count() }})</div>
                             </a>
                         </div>
