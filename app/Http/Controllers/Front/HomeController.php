@@ -141,7 +141,7 @@ class HomeController extends FrontBaseController
         $recaptcha = (new Recaptcha())->check($request->toArray());
 
         if ( ! $recaptcha->ok()) {
-            return back()->withErrors(['error' => 'ReCaptcha Error! Kontaktirajte administratora!']);
+            return back()->withErrors(['error' => __('front/common.recapta_error')]);
         }
 
         $message = $request->toArray();
@@ -150,7 +150,7 @@ class HomeController extends FrontBaseController
             Mail::to(config('mail.admin'))->send(new ContactFormMessage($message));
         });
 
-        return view('front.contact')->with(['success' => 'Vaša poruka je uspješno poslana.! Odgovoriti ćemo vam uskoro.']);
+        return redirect()->back()->with(['success' => __('front/common.message_success')]);
     }
 
 }

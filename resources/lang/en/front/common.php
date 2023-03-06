@@ -34,7 +34,10 @@ return [
     'bank' => 'Bank transfer',
     'details' => 'Order details',
     //
+    'recapta_error' => 'ReCaptcha Error! Please try again or contact the administrator!!',
+    //
     'message_error' => 'Oops..! Something has gone wrong. Please try again or contact the administrator!',
+    'message_success' => 'Your message was sent successfully.! We will reply promtly.',
 
     'home_description' => 'SelfCheckIns - Reserve your apartment. SelfCheckIns - Independent and flexible entry and exit of guests from the apartment using smart locks or codes.',
 
