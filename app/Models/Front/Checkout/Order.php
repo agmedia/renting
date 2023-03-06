@@ -185,9 +185,9 @@ class Order extends Model
     /**
      * @param Checkout $checkout
      *
-     * @return $this
+     * @return Order
      */
-    public function resolveMissing(Checkout $checkout)
+    public function resolveMissing(Checkout $checkout): Order
     {
         $this->checkout                 = $checkout;
         $this->order['order_status_id'] = config('settings.order.status.unfinished');
@@ -204,7 +204,10 @@ class Order extends Model
             }
         }
 
-        return $this;
+        $order = $this->newQuery()->find($this->order_id);
+        $order->setCheckout($checkout);
+
+        return $order;
     }
 
 
@@ -307,7 +310,7 @@ class Order extends Model
      */
     private function modelArray(bool $update = false): array
     {
-        $user_id = auth()->user() ? auth()->user()->id : 0;
+        $user_id = (auth()->user() && isset(auth()->user()->id)) ? auth()->user()->id : 0;
         $total   = collect($this->checkout->total['total'])->where('code', 'total')->first()['total'];
 
         $response = [

@@ -25,7 +25,7 @@
         IBAN: HR4723900011101317916<br>
         MODEL: 00 {{ __('front/success.reference_number') }}: {{ $data['order_id'] }}</p>
     <p>{{ __('front/success.scant_text') }}</p>
-    <p class="text-center"><img src="{{ asset('media/img/qr/' . $data['image_path']) }}.png" style="max-width:70%;"></p>
+    <p class="text-center"><img src="{{ asset('media/img/qr/' . $data['image_path']) }}" style="max-width:70%;"></p>
 </div>
 
 <form name="pay" class="w-100" action="{{ route('naplata') }}" method="GET">

@@ -40,11 +40,11 @@ return [
     'regulardaysspecial' => 'Dani u tjednu na popustu',
     'weekends' => 'Dani vikendom',
     'weekendsspecial' => 'Dani vikendom na popustu',
-
     'preview' => 'Pregled naplate',
     'special' => 'Poseban pregled naplate',
     'backbtn' => 'Povratak',
     'backbtnpayment' => 'Povratak na plaćanje',
     'finishorder' => 'Dovršite narudžbu',
     'finishshoping' => 'Dovršite Kupnju',
+    'register' => 'Registriraj se kao naš korisnik!'
 ];

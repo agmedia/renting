@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\Session\CheckoutSession;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontBaseController;
 use App\Models\Back\Orders\Deposit;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
 use App\Models\TagManager;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -47,11 +47,12 @@ class CheckoutController extends FrontBaseController
     public function checkoutView(Request $request)
     {
         $this->validateCheckout($request, true);
+        $this->checkIfUserWantsToRegister($request);
 
-        $checkout = new Checkout($request);
-        $order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
-        $order    = (new Order())->setId($order_id)->resolveMissing($checkout);
-        $form     = $order->resolvePaymentForm();
+        $checkout     = new Checkout($request);
+        $has_order_id = CheckoutSession::hasOrder() ? CheckoutSession::getOrder() : 0;
+        $order        = (new Order())->setId($has_order_id)->resolveMissing($checkout);
+        $form         = $order->resolvePaymentForm();
 
         CheckoutSession::set($checkout, $order);
 
@@ -70,7 +71,7 @@ class CheckoutController extends FrontBaseController
             return redirect()->route('index');
         }
 
-        $order = Order::query()->where('hash', $request->input('signature'))->first();
+        $order   = Order::query()->where('hash', $request->input('signature'))->first();
         $deposit = null;
 
         if ( ! $order) {
@@ -86,11 +87,11 @@ class CheckoutController extends FrontBaseController
                 return redirect()->route('index');
             }
 
-            $order->total = $deposit->amount;
+            $order->total          = $deposit->amount;
             $order->payment_method = $deposit->payment_code;
-            $order->payment_code = $deposit->payment_code;
-            $order->deposit = $deposit;
-            $order->comment = $order->deposit->comment;
+            $order->payment_code   = $deposit->payment_code;
+            $order->deposit        = $deposit;
+            $order->comment        = $order->deposit->comment;
         }
 
         $apartment = Apartment::query()->where('id', $order->apartment_id)->first();
@@ -108,7 +109,7 @@ class CheckoutController extends FrontBaseController
 
         $form_options = [];
         if ($deposit) {
-            $form_options = ['order_number' => $order->id . '-' . $deposit->id];
+            $form_options         = ['order_number' => $order->id . '-' . $deposit->id];
             $order->identificator = $order->id . '-' . $deposit->id;
         }
 
@@ -160,7 +161,10 @@ class CheckoutController extends FrontBaseController
     public function resolveSuccessOrder(Request $request)
     {
         $order = Order::where('id', $request->input('order_number'))->first();
-        $order->is_deposit = false;
+
+        if ($order) {
+            $order->is_deposit = false;
+        }
 
         if ( ! $order) {
             $ids = explode('-', $request->input('order_number'));
@@ -172,7 +176,7 @@ class CheckoutController extends FrontBaseController
             }
 
             $order->is_deposit = true;
-            $order->deposit = Deposit::query()->where('id', $ids[1])->first();
+            $order->deposit    = Deposit::query()->where('id', $ids[1])->first();
         }
 
         return $order;
@@ -210,6 +214,30 @@ class CheckoutController extends FrontBaseController
         if ( ! $view) {
             $request->merge(['apartment_id' => decrypt_apartment($request->input('aid'))]);
         }
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return false|null
+     */
+    private function checkIfUserWantsToRegister(Request $request)
+    {
+        if ($request->has('register_user') &&
+            $request->input('register_user') == 'on' &&
+            $request->has('terms') &&
+            $request->input('terms') == 'on') {
+
+            $user = new User();
+            $user = $user->setCheckoutRegisteredUser($request)->make();
+
+            auth()->login($user);
+
+            return $user;
+        }
+
+        return false;
     }
 
 

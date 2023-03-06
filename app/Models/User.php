@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\UserRegistered;
 use App\Models\Roles\Role;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,10 +11,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Bouncer;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable
@@ -124,9 +127,36 @@ class User extends Authenticatable
 
 
     /**
-     * Store new category.
+     * @param Request $request
+     */
+    public function setRequest(Request $request): void
+    {
+        $this->request = $request;
+    }
+
+
+    /**
+     * @param Request|null $request
      *
-     * @return false
+     * @return $this
+     */
+    public function setCheckoutRegisteredUser(Request $request = null): User
+    {
+        if ($request) {
+            $this->setRequest($request);
+        }
+
+        $request->merge(['fname' => $request->input('firstname')]);
+        $request->merge(['lname' => $request->input('lastname')]);
+        $request->merge(['username' => $request->input('firstname') . ' ' . $request->input('lastname')]);
+        $request->merge(['status' => 'on']);
+
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
      */
     public function make()
     {
@@ -134,6 +164,12 @@ class User extends Authenticatable
             $this->request->validate([
                 'password' => ['required', 'string', 'confirmed']
             ]);
+        }
+
+        $exist = User::query()->where('email', $this->request->email)->first();
+
+        if ($exist) {
+            return $exist;
         }
 
         $public_user = User::create([
@@ -148,10 +184,10 @@ class User extends Authenticatable
             'user_id'    => $public_user->id,
             'fname'      => $this->request->fname,
             'lname'      => $this->request->lname,
-            'address'    => $this->request->address,
-            'zip'        => $this->request->zip,
-            'city'       => $this->request->city,
-            'state'      => $this->request->state,
+            'address'    => $this->request->address ?: '',
+            'zip'        => $this->request->zip ?: '',
+            'city'       => $this->request->city ?: '',
+            'state'      => $this->request->state ?: '',
             'phone'      => $this->request->phone,
             //'company'      => $this->request->company,
             //'oib'      => $this->request->oib,
@@ -164,6 +200,8 @@ class User extends Authenticatable
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        Mail::to($public_user)->send(new UserRegistered($public_user));
 
         return $public_user;
     }

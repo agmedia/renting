@@ -75,7 +75,7 @@ class Corvus
         $data['postcode']  = '';
         $data['telephone'] = $this->order->checkout->phone;
         $data['email']     = $this->order->checkout->email;
-        $data['lang']      = isset($options['lang']) ? $options['lang'] : 'hr';
+        $data['lang']      = current_locale() ?: 'hr';
         $data['plan']      = isset($options['plan']) ? $options['plan'] : '01';
         $data['cc_name']   = isset($options['cc_name']) ? $options['cc_name'] : 'VISA';//...??
         $data['rate']      = isset($options['rate']) ? $options['rate'] : 1;

@@ -139,6 +139,52 @@
                                 </div>
                             </div>
 
+                            @if (auth()->guest())
+                                <div class="col-12">
+                                    <ul class="list-group mb-4">
+                                        <li class="list-group-item p-3">
+                                            <label>
+                                                <input class="form-check-input me-1 mt-2" type="checkbox" name="register_user" id="register-check">
+                                                {{ __('front/checkout.register') }}
+                                            </label>
+
+                                            <div class="row mt-3" id="password-row" style="display: none;">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-lg-8">
+                                                    <div class="form-group mb-3">
+                                                        <input type="password" class="form-control form-control-alt" id="password" name="password" placeholder="{{ __('auth.pass') }}">
+                                                        @if ($errors->has('password'))
+                                                            <span class="ml-2 font-size-sm text-danger">{{ $errors->first('password') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="password" class="form-control form-control-alt" id="password-confirmation" name="password_confirmation" placeholder="{{ __('auth.passconfirm') }}">
+                                                        @if ($errors->has('password'))
+                                                            <span class="ml-2 font-size-sm text-danger">{{ $errors->get('password')[1] }}</span>
+                                                        @endif
+                                                    </div>
+                                                    @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                                                        <div class="form-group mb-1 mt-3">
+                                                            <x-jet-label for="terms">
+                                                                <div class="flex items-center">
+                                                                    <x-jet-checkbox name="terms" id="terms"/>
+                                                                    <label>
+                                                                        {!! __('front/checkout.agree') !!}
+                                                                    </label>
+                                                                </div>
+                                                            </x-jet-label>
+                                                            @if ($errors->has('terms'))
+                                                                <span class="font-size-sm text-danger">{{ $errors->first('terms') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="col-12">
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.pay_with') }}</h4>
                                 <ul class="list-group mb-4">
@@ -209,6 +255,16 @@
             hiddenInput:      "phone",
             // onlyCountries:  ["HR"],
             utilsScript: "{{ asset("assets/js/input-tel/utils.js") }}"
+        });
+
+        $(() => {
+            $('#register-check').on('change', (e) => {
+                if ($('#register-check')[0].checked) {
+                    $('#password-row').show();
+                } else {
+                    $('#password-row').hide();
+                }
+            });
         });
     </script>
 @endpush

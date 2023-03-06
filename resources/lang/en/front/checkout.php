@@ -46,4 +46,5 @@ return [
     'backbtnpayment' => 'Back to payment',
     'finishorder' => 'Finish order',
     'finishshoping' => 'Finish payment',
+    'register' => 'Register as a new user!'
 ];
