@@ -130,6 +130,7 @@ return [
     ],
 
     'payment' => [
+        'default' => 'corvus',
         'providers' => [
             //'wspay' => \App\Models\Front\Checkout\Payment\Wspay::class,
             //'payway' => \App\Models\Front\Checkout\Payment\Payway::class,

@@ -189,11 +189,18 @@
                                 <h4 class="text-secondary my-4 mt-4">{{ __('front/checkout.pay_with') }}</h4>
                                 <ul class="list-group mb-4">
 
-                                    @foreach ($checkout->payments_list as  $item)
+                                    @foreach ($checkout->payments_list as $item)
                                         <li class="list-group-item p-3">
                                             <label>
-                                                <input class="form-check-input me-1 mt-2" type="radio" name="payment_type" value="{{ $item->code }}" aria-label="..."
-                                                       @if (isset($checkout->payment->code) && $checkout->payment->code == $item->code) checked="checked" @endif>
+                                                <input class="form-check-input me-1 mt-2"
+                                                       type="radio"
+                                                       name="payment_type"
+                                                       value="{{ $item->code }}"
+                                                       aria-label="{{ $item->title->{current_locale()} }}"
+                                                       @if (isset($checkout->payment->code) && $checkout->payment->code == $item->code || $loop->index == 0)
+                                                           checked="checked"
+                                                        @endif
+                                                >
                                                 {{ $item->title->{current_locale()} }}
                                             </label>
                                             @if ($item->code=='bank')

@@ -160,6 +160,10 @@ class Checkout
             $this->payment = $this->payments_list->where('code', $this->request->payment_type)->first();
         }
 
+        if ( ! isset($this->payment->code)) {
+            $this->payment = $this->payments_list->where('code', config('settings.payment.default'))->first();
+        }
+
         return $this->payment->code ?: null;
     }
 
@@ -276,7 +280,7 @@ class Checkout
 
         $this->payments_list = (new PaymentMethod())->findGeo($geo->id)->resolve();
 
-        if ($this->payments_list && (isset($this->request->payment_type) && $this->request->payment_type != '')) {
+        if ($this->payments_list) {
             $this->setPayment($this->request->payment_type);
         }
 
