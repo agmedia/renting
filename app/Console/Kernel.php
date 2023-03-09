@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sync:calendar')->hourly();
+        $schedule->command('sync:calendar')->everyTenMinutes();
         $schedule->command('set:actions')->dailyAt('00:05');
         $schedule->command('set:apartment-featured-amenities')->dailyAt('00:10');
     }
