@@ -122,6 +122,7 @@ return [
         'made_text' => 'Narudžba napravljena.',
         'status' => [
             'new' => 1,
+            'canceled' => 5,
             'unfinished' => 8,
             'declined' => 7,
             'paid' => 3,

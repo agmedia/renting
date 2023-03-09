@@ -6,6 +6,7 @@ use App\Helpers\iCal;
 use App\Models\Back\Apartment\Apartment;
 use App\Models\Back\Orders\Order;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class SyncCalendar extends Command
@@ -47,17 +48,25 @@ class SyncCalendar extends Command
             $start = microtime(true);
 
             foreach ($apartments as $apartment) {
-                $links = unserialize($apartment->links);
+                $links = json_decode($apartment->links, true);
 
                 if ($links && ! empty($links)) {
                     foreach ($links as $key => $link) {
-                        $ical = new iCal($link);
+                        $request = new Request([
+                            'apartment' => $apartment->id,
+                            'target' => $key,
+                            'url' => $link,
+                        ]);
+
+                        $apartment->syncUrlWith($request);
+
+                        /*$ical = new iCal($link);
 
                         if ( ! empty($ical->events)) {
                             foreach ($ical->events as $event) {
                                 Order::storeSyncData($key, $event, $apartment->id);
                             }
-                        }
+                        }*/
                     }
                 }
             }

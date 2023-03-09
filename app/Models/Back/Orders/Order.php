@@ -343,8 +343,14 @@ class Order extends Model
     {
         $has_uid = self::where('sync_uid', $event['uid'])->first();
 
-        if ($has_uid) {
+        if ($has_uid && $has_uid->order_status_id != config('settings.order.status.canceled')) {
             return 1; // Treba li updejtati ako ima već taj UID $target narudžbe..?
+        }
+
+        if ($has_uid && $has_uid->order_status_id == config('settings.order.status.canceled')) {
+            return $has_uid->update([
+                'order_status_id' => config('settings.order.status.paid')
+            ]);
         }
 
         $checkout = new Checkout(new Request([

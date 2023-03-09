@@ -381,6 +381,20 @@ class Apartment extends Model
                     $links[$target]['icon'] = 'fa-exclamation-triangle text-danger';
                 }
             }
+
+            $existing_orders = Order::query()
+                                    ->where('apartment_id', $request->input('apartment'))
+                                    ->where('sync_uid', '!=', '')
+                                    ->where('payment_email', 'info@' . $target . '.com')
+                                    ->pluck('sync_uid');
+
+            $sent = collect($ical->events)->random(2)->pluck('uid');
+
+            $diff = $existing_orders->diff($sent);
+
+            Order::query()->whereIn('sync_uid', $diff)->update([
+                'order_status_id' => config('settings.order.status.canceled')
+            ]);
         }
 
         if ( ! filter_var($links[$target]['link'], FILTER_VALIDATE_URL)) {
