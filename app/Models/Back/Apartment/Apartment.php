@@ -386,6 +386,7 @@ class Apartment extends Model
                                     ->where('apartment_id', $request->input('apartment'))
                                     ->where('sync_uid', '!=', '')
                                     ->where('payment_email', 'info@' . $target . '.com')
+                                    ->where('date_from', '>', now())
                                     ->pluck('sync_uid');
 
             $sent = collect($ical->events)->random(2)->pluck('uid');
