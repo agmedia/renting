@@ -360,6 +360,8 @@ class Apartment extends Model
         $ical   = new iCal($request->input('url'));
         $passed = true;
 
+        Log::info($request);
+
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
         $target    = $request->input('target');
@@ -368,6 +370,9 @@ class Apartment extends Model
         $links[$target]['icon']    = 'fa-check text-success';
 
         if ( ! empty($ical->events)) {
+
+            Log::info($ical->events);
+            
             foreach ($ical->events as $event) {
                 $order = Order::storeSyncData(
                     $target,
@@ -389,13 +394,24 @@ class Apartment extends Model
                                     ->where('date_from', '>', now())
                                     ->pluck('sync_uid');
 
-            $sent = collect($ical->events)->random(2)->pluck('uid');
+            $sent = collect($ical->events)/*->random(2)*/->pluck('uid');
 
             $diff = $existing_orders->diff($sent);
 
-            Order::query()->whereIn('sync_uid', $diff)->update([
-                'order_status_id' => config('settings.order.status.canceled')
-            ]);
+            Order::query()
+                 ->where('date_from', '>', now()->subDays())
+                 ->whereIn('sync_uid', $diff)
+                 ->update([
+                     'order_status_id' => config('settings.order.status.canceled')
+                 ]);
+
+        } else {
+            Order::query()
+                 ->where('date_from', '>', now()->subDays())
+                 ->where('sync_uid', '!=', '')
+                 ->update([
+                     'order_status_id' => config('settings.order.status.canceled')
+                 ]);
         }
 
         if ( ! filter_var($links[$target]['link'], FILTER_VALIDATE_URL)) {
