@@ -202,8 +202,8 @@ class Helper
     public static function getValidReservationOrderStatuses(): array
     {
         return [
-            config('settings.order.status.new'),
-            config('settings.order.status.pending'),
+            //config('settings.order.status.new'),
+            //config('settings.order.status.pending'),
             config('settings.order.status.paid')
         ];
     }
