@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Bouncer;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class Apartment extends Model
 {
@@ -361,6 +362,9 @@ class Apartment extends Model
         $passed = true;
 
         Log::info($request);
+        Log::info($request->input('target'));
+        Log::info();
+        Log::info(Str::camel($request->input('target')));
 
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
@@ -372,7 +376,7 @@ class Apartment extends Model
         if ( ! empty($ical->events)) {
 
             Log::info($ical->events);
-            
+
             foreach ($ical->events as $event) {
                 $order = Order::storeSyncData(
                     $target,
@@ -389,9 +393,9 @@ class Apartment extends Model
 
             $existing_orders = Order::query()
                                     ->where('apartment_id', $request->input('apartment'))
+                                    ->where('date_from', '>', now()->subDays())
                                     ->where('sync_uid', '!=', '')
                                     ->where('payment_email', 'info@' . $target . '.com')
-                                    ->where('date_from', '>', now())
                                     ->pluck('sync_uid');
 
             $sent = collect($ical->events)/*->random(2)*/->pluck('uid');
@@ -408,6 +412,7 @@ class Apartment extends Model
         } else {
             Order::query()
                  ->where('date_from', '>', now()->subDays())
+                 ->where('payment_email', 'info@' . $target . '.com')
                  ->where('sync_uid', '!=', '')
                  ->update([
                      'order_status_id' => config('settings.order.status.canceled')
