@@ -362,9 +362,6 @@ class Apartment extends Model
         $passed = true;
 
         Log::info($request);
-        Log::info($request->input('target'));
-        Log::info();
-        Log::info(Str::camel($request->input('target')));
 
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
