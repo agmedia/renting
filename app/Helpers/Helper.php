@@ -62,8 +62,8 @@ class Helper
         $dates = [];
 
         if ($day) {
-            $dateFrom = new\ DateTime($from_date);
-            $dateTo = new\ DateTime($to_date);
+            $dateFrom = new \DateTime($from_date);
+            $dateTo = new \DateTime($to_date);
 
             if ($dateFrom > $dateTo) {
                 return $dates;
