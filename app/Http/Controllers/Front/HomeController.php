@@ -117,7 +117,7 @@ class HomeController extends FrontBaseController
      */
     public function contact(Request $request)
     {
-        $owner = Settings::get('app', 'basic')->first();
+        $owner = Helper::getBasicInfo();
 
         return view('front.contact', compact('owner'));
     }
@@ -147,7 +147,7 @@ class HomeController extends FrontBaseController
         $message = $request->toArray();
 
         dispatch(function () use ($message) {
-            Mail::to(config('mail.admin'))->send(new ContactFormMessage($message));
+            Mail::to(Helper::getBasicInfo()->email)->send(new ContactFormMessage($message));
         });
 
         return redirect()->back()->with(['success' => __('front/common.message_success')]);

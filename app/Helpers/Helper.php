@@ -153,6 +153,17 @@ class Helper
 
 
     /**
+     * @return mixed
+     */
+    public static function getBasicInfo()
+    {
+        return Cache::rememberForever('basic', function () {
+            return Settings::get('app', 'basic')->first();
+        });
+    }
+
+
+    /**
      * @param float $price
      * @param int   $discount
      * @param bool  $extra
@@ -259,7 +270,7 @@ class Helper
         $encrypt_method = "AES-256-CBC";
         //pls set your unique hashing key
         $secret_key = config('app.name');
-        $secret_iv = config('mail.admin');
+        $secret_iv = self::getBasicInfo()->email;
 
         // hash
         $key = hash('sha256', $secret_key);

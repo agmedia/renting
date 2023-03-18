@@ -9,6 +9,7 @@ use App\Models\Back\Orders\Order;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DepositController extends Controller
 {
@@ -59,6 +60,8 @@ class DepositController extends Controller
      */
     public function store_deposit(Request $request, Deposit $deposit): JsonResponse
     {
+        Log::info($request->toArray());
+
         $saved = $deposit->validateRequest($request)->create();
 
         if ($saved) {

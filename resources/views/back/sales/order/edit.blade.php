@@ -287,7 +287,8 @@
                                             <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($deposit->amount, true) }}</h4>
                                             <p>
                                                 {{ __('back/app.order.payments') }}: {{ $payments->where('code', $deposit->payment_code)->first()->title->{current_locale()} }}<br>
-                                                {{ __('back/app.order.comment') }}: {{ $deposit->comment }}
+                                                {{ __('back/app.order.comment') }}: {{ $deposit->comment }}<br>
+                                                {{ __('back/app.deposit.scope') }}: <strong>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</strong><br>
                                             </p>
                                         </div>
                                         <div class="col-md-1 text-right">
@@ -301,6 +302,7 @@
                                             <p class="font-size-sm" id="deposit-url-{{ $deposit->id }}">
                                                 {{ route('checkout.special', ['signature' => $deposit->signature]) }}
                                             </p>
+                                            <p class="mb-1"><span class="badge badge-pill badge-{{ $deposit->status->color }}">{{ $deposit->status->title->{current_locale()} }}</span></p>
                                         </div>
                                         <div class="col-md-11">
                                             <hr>

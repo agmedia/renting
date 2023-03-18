@@ -85,7 +85,7 @@
                             <th class="text-center">{{ __('back/app.order.title') }}</th>
                             <th class="text-center">{{ __('back/app.order.date') }}</th>
                             <th>{{ __('back/app.order.customer') }}</th>
-                            <th>{{ __('back/app.payments.title') }}</th>
+                            <th>{{ __('back/app.order.apartment') }}</th>
                             <th>{{ __('back/app.deposit.scope') }}</th>
                             <th class="text-right">{{ __('back/app.order.amount') }}</th>
                             <th class="text-center">{{ __('back/layout.status') }}</th>
@@ -109,9 +109,9 @@
                                 <td class="text-center">
                                     <a href="{{ route('orders.edit', ['order' => $deposit->order]) }}"><strong>{{ $deposit->order->id }}</strong></a>
                                 </td>
-                                <td class="text-center">{{ carbon($deposit->created_at)->format('d.m.Y') }}</td>
+                                <td class="text-center">{{ carbon($deposit->order->date_from)->format('d.m.Y') }} - {{ carbon($deposit->order->date_to)->format('d.m.Y') }}</td>
                                 <td>{{ $deposit->order->payment_fname }} {{ $deposit->order->payment_lname }}</td>
-                                <td>{{ $deposit->payment_method }}</td>
+                                <td>{{ $deposit->order->apartment->title }}</td>
                                 <td>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</td>
                                 <td class="text-right">{{ currency_main($deposit->amount, true) }}</td>
                                 <td class="font-size-base text-center">

@@ -3,6 +3,7 @@
 namespace App\Models\Front\Checkout;
 
 use App\Helpers\Currency;
+use App\Helpers\Helper;
 use App\Mail\Order\SendToAdmin;
 use App\Mail\Order\SendToCustomer;
 use App\Models\Back\Orders\Deposit;
@@ -253,7 +254,7 @@ class Order extends Model
     public function sendNewOrderEmails($checkout)
     {
         dispatch(function () use ($checkout) {
-            Mail::to(config('mail.admin'))->send(new SendToAdmin($this, unserialize($checkout)));
+            Mail::to(Helper::getBasicInfo()->email)->send(new SendToAdmin($this, unserialize($checkout)));
             Mail::to($this->payment_email)->send(new SendToCustomer($this, unserialize($checkout)));
         });
 

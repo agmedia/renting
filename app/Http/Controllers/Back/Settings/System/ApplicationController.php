@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers\Back\Settings\System;
 
-use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Back\Apartment\ApartmentDetail;
 use App\Models\Back\Settings\Faq;
 use App\Models\Back\Settings\Settings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class ApplicationController extends Controller
 {

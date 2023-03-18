@@ -83,6 +83,7 @@ class Deposit extends Model
             'payment_method' => $method,
             'payment_code'   => $this->request->payment_type,
             'paid'           => 0,
+            'scope_id'       => $this->request->scope_id,
             'expire'         => 0,
             'status_id'      => config('settings.order.status.new'),
             'invoice'        => '',
