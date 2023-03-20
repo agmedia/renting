@@ -400,6 +400,7 @@ class Apartment extends Model
             $diff = $existing_orders->diff($sent);
 
             Order::query()
+                 ->where('apartment_id', $request->input('apartment'))
                  ->where('date_from', '>', now()->subDays())
                  ->whereIn('sync_uid', $diff)
                  ->update([
@@ -408,6 +409,7 @@ class Apartment extends Model
 
         } else {
             Order::query()
+                 ->where('apartment_id', $request->input('apartment'))
                  ->where('date_from', '>', now()->subDays())
                  ->where('payment_email', 'info@' . $target . '.com')
                  ->where('sync_uid', '!=', '')
