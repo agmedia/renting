@@ -52,21 +52,15 @@ class SyncCalendar extends Command
 
                 if ($links && ! empty($links)) {
                     foreach ($links as $key => $link) {
-                        $request = new Request([
-                            'apartment' => $apartment->id,
-                            'target' => $key,
-                            'url' => $link,
-                        ]);
+                        if (isset($link['link']) && $link['link']) {
+                            $request = new Request([
+                                'apartment' => $apartment->id,
+                                'target' => $key,
+                                'url' => $link['link'],
+                            ]);
 
-                        $apartment->syncUrlWith($request);
-
-                        /*$ical = new iCal($link);
-
-                        if ( ! empty($ical->events)) {
-                            foreach ($ical->events as $event) {
-                                Order::storeSyncData($key, $event, $apartment->id);
-                            }
-                        }*/
+                            $apartment->syncUrlWith($request);
+                        }
                     }
                 }
             }
