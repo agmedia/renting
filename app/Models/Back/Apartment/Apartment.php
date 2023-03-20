@@ -403,7 +403,7 @@ class Apartment extends Model
                  ->where('date_from', '>', now()->subDays())
                  ->whereIn('sync_uid', $diff)
                  ->update([
-                     'order_status_id' => config('settings.order.status.canceled')
+                     'order_status_id' => config('settings.order.status.paid')
                  ]);
 
         } else {
