@@ -393,6 +393,7 @@ Route::group(
     //
     Route::get('/{apartment}', [HomeController::class, 'apartment'])->name('apartment');
     Route::get('apartment/ics/{apartment}', [HomeController::class, 'apartmentICS'])->name('apartment.ics');
+    // http://rent.agm/en/apartment/ics/flexibile-apartment-zagreb-selfcheckins-30
 
     //Route::get('blog/{blog?}', [CatalogRouteController::class, 'blog'])->name('catalog.route.blog');
     /**

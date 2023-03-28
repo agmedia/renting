@@ -358,10 +358,10 @@ class Apartment extends Model
      */
     public function syncUrlWith(Request $request)
     {
-        $ical   = new iCal($request->input('url'));
+        $ical   = new iCal($request->input('url'), $request->input('target'));
         $passed = true;
 
-        Log::info($request);
+        //Log::info($request);
 
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
@@ -372,7 +372,7 @@ class Apartment extends Model
 
         if ( ! empty($ical->events)) {
 
-            Log::info($ical->events);
+            //Log::info($ical->events);
 
             foreach ($ical->events as $event) {
                 $order = Order::storeSyncData(
@@ -389,28 +389,26 @@ class Apartment extends Model
             }
 
             $existing_orders = Order::query()
-                                    ->where('apartment_id', $request->input('apartment'))
-                                    ->where('date_from', '>', now()->subDays())
+                                    ->where('apartment_id', $apartment->id)
+                                    //->where('date_from', '>', now())
                                     ->where('sync_uid', '!=', '')
                                     ->where('payment_email', 'info@' . $target . '.com')
                                     ->pluck('sync_uid');
 
-            $sent = collect($ical->events)/*->random(2)*/->pluck('uid');
+            $sent = collect($ical->events)->pluck('uid');
 
             $diff = $existing_orders->diff($sent);
 
             Order::query()
-                 ->where('apartment_id', $request->input('apartment'))
-                 ->where('date_from', '>', now()->subDays())
+                 ->where('apartment_id', $apartment->id)
                  ->whereIn('sync_uid', $diff)
                  ->update([
-                     'order_status_id' => config('settings.order.status.paid')
+                     'order_status_id' => config('settings.order.status.canceled')
                  ]);
 
         } else {
             Order::query()
-                 ->where('apartment_id', $request->input('apartment'))
-                 ->where('date_from', '>', now()->subDays())
+                 ->where('apartment_id', $apartment->id)
                  ->where('payment_email', 'info@' . $target . '.com')
                  ->where('sync_uid', '!=', '')
                  ->update([

@@ -318,12 +318,14 @@ class Apartment extends Model implements LocalizedUrlRoutable
         if ($request->has('from') || $request->has('to')) {
             $query->whereDoesntHave('orders', function ($query) use ($request) {
                 //
+                $query->where('order_status_id', config('settings.order.status.paid'));
+                //
                 $query->where([
-                    ['date_from', '<', date($request->input('from'))],
-                    ['date_to', '>=', date($request->input('from'))]
+                    ['date_from', '<=', Carbon::make($request->input('from'))],
+                    ['date_to', '>', Carbon::make($request->input('from'))]
                 ])->orWhere([
-                    ['date_from', '>', date($request->input('to'))],
-                    ['date_to', '<=', date($request->input('to'))]
+                    ['date_from', '>', Carbon::make($request->input('to'))],
+                    ['date_to', '<=', Carbon::make($request->input('to'))]
                 ]);
             });
         }

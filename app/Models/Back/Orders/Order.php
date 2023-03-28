@@ -341,7 +341,11 @@ class Order extends Model
      */
     public static function storeSyncData(string $target, array $event, int $apartment_id)
     {
-        $has_uid = self::where('sync_uid', $event['uid'])->first();
+        $has_uid = self::where('sync_uid', $event['uid'])->where('apartment_id', $apartment_id)->first();
+
+        if (Carbon::make($event['start'])->addDays(3) > now()->addMonths(3)) {
+            return 1;
+        }
 
         if ($has_uid && $has_uid->order_status_id != config('settings.order.status.canceled')) {
             return 1; // Treba li updejtati ako ima već taj UID $target narudžbe..?
