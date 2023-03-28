@@ -36,7 +36,13 @@ class HomeController extends FrontBaseController
             CheckoutSession::setReservationData(Helper::setSessionReservationData($request));
         }
 
-        $apartments = Apartment::active()->onlyListData()->search($request)->with('translation')->orderBy('featured', 'desc')->paginate(30);
+        $apartments = Apartment::active()
+                               ->onlyListData()
+                               ->search($request)
+                               ->with('translation')
+                               ->orderBy('featured', 'desc')
+                               ->paginate(config('settings.pagination.front'));
+
         $cities     = Apartment::groupBy('city')->pluck('city');
 
         return view('front.home', compact('apartments', 'cities'));
