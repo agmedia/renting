@@ -320,13 +320,20 @@ class Apartment extends Model implements LocalizedUrlRoutable
                 //
                 $query->where('order_status_id', config('settings.order.status.paid'));
                 //
-                $query->where([
+                /*$query->where([
                     ['date_from', '<=', Carbon::make($request->input('from'))],
                     ['date_to', '>', Carbon::make($request->input('from'))]
                 ])->orWhere([
                     ['date_from', '>', Carbon::make($request->input('to'))],
                     ['date_to', '<=', Carbon::make($request->input('to'))]
-                ]);
+                ]);*/
+
+                /*$query->whereBetween('date_from',[Carbon::make($request->input('from')), Carbon::make($request->input('to'))])
+                      ->orWhereBetween('date_to',[Carbon::make($request->input('from')), Carbon::make($request->input('to'))]);*/
+
+                $query->where('date_from', '<=', Carbon::make($request->input('to')))
+                      ->where('date_to', '>=', Carbon::make($request->input('from')));
+
             });
         }
 
