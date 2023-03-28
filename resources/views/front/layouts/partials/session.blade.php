@@ -4,7 +4,7 @@
         <div class="alert-icon">
             <i class="ci-check-circle"></i>
         </div>
-        <div>Uspjeh..! {{ session('success') }}</div>
+        <div>{{ session('success') }}</div>
     </div>
 @endif
 @if(session('error'))
@@ -12,7 +12,7 @@
         <div class="alert-icon">
             <i class="ci-close-circle"></i>
         </div>
-        <div>Greška..! {{ session('error') }}</div>
+        <div>{{ session('error') }}</div>
     </div>
 
 @endif
@@ -21,7 +21,7 @@
         <div class="alert-icon">
             <i class="ci-security-announcement"></i>
         </div>
-        <div>Upozorenje..! {{ session('warning') }}</div>
+        <div>{{ session('warning') }}</div>
     </div>
 @endif
 
