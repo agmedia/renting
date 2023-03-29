@@ -38,22 +38,31 @@
         <th style="text-align: right;" width="25%">{{ __('front/common.total') }}</th>
     </tr>
 
-
-    @foreach ($checkout['total']['items'] as $item)
+    @if ( ! isset($checkout['is_deposit']) && ! $checkout['is_deposit'])
+        @foreach ($checkout['total']['items'] as $item)
+            <tr>
+                <td>{{ $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }}</td>
+                <td style="text-align: right;">{{ $item['total_text'] }}</td>
+            </tr>
+        @endforeach
+    @else
         <tr>
-            <td>{{ $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }}</td>
-            <td style="text-align: right;">{{ $item['total_text'] }}</td>
+            <td>{{ config('settings.deposit_scopes')[$checkout['deposit']['scope_id']]['title'][current_locale()] }}</td>
+            <td style="text-align: right;">{{ currency_main($checkout['deposit']['amount']) }}</td>
         </tr>
-    @endforeach
+    @endif
+
 </table>
 <table id="totals">
-    @foreach ($checkout['total']['total'] as  $item)
-        <tr>
+    @if ( ! isset($checkout['is_deposit']) && ! $checkout['is_deposit'])
+        @foreach ($checkout['total']['total'] as  $item)
+            <tr>
+                <td style="border-left: none; text-align: right; ">{{ $item['title'] }}</td>
+                <td style="border-left: none; text-align: right;" width="20%">{{ $item['total_text'] }}</td>
+            </tr>
+        @endforeach
+    @endif
 
-            <td style="border-left: none; text-align: right; ">{{ $item['title'] }}</td>
-            <td style="border-left: none; text-align: right;" width="20%">{{ $item['total_text'] }}</td>
-        </tr>
-    @endforeach
 </table>
 
 

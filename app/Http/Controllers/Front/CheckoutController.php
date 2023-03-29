@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\FrontBaseController;
-use App\Models\Back\Orders\Deposit;
+use App\Models\Front\Checkout\Deposit;
 use App\Models\Front\Apartment\Apartment;
 use App\Models\Front\Checkout\Checkout;
 use App\Models\Front\Checkout\Order;
@@ -129,27 +129,40 @@ class CheckoutController extends FrontBaseController
     public function success(Request $request)
     {
         if ( ! CheckoutSession::hasOrder() && ! CheckoutSession::hasCheckout()) {
+            // Check if it's a deposit
+            $deposit = $this->checkResolveIfDeposit($request);
+
+            if ($deposit) {
+                return view('front.checkout.success');
+            }
+
             return redirect()->route('index')->with('error', __('front/common.message_error'));
         }
 
+        // Check if it's an order
         $order = $this->resolveSuccessOrder($request);
 
         if ($order) {
             $checkout = CheckoutSession::getCheckout();
 
-            if ( ! $order->is_deposit) {
-                $order->updateStatus('new')->finish($request);
-                $order->sendNewOrderEmails($checkout);
-            }
+            $order->updateStatus('new')->finish($request);
+            $order->sendNewOrderEmails($checkout);
 
             CheckoutSession::forget();
 
             return view('front.checkout.success', compact('order', 'checkout'));
         }
 
+        // Check if it's a deposit
+        $deposit = $this->checkResolveIfDeposit($request);
+
+        if ($deposit) {
+            return view('front.checkout.success');
+        }
+
         $apartment = $this->getRedirectData('apartment');
 
-        return redirect()->route('apartment', ['apartment' => $apartment])->with('error', __('front/common.message_error'));
+        return redirect()->route('apartment', ['apartment' => $apartment->translation->slug])->with('error', __('front/common.message_error'));
     }
 
 
@@ -160,32 +173,50 @@ class CheckoutController extends FrontBaseController
      */
     public function resolveSuccessOrder(Request $request)
     {
-        $order = Order::where('id', $request->input('order_number'))->first();
+        $ids = explode('-', $request->input('order_number'));
 
-        if ($order) {
-            $order->is_deposit = false;
+        if (isset($ids[1])) {
+            return false;
         }
 
-        if ( ! $order) {
-            $ids = explode('-', $request->input('order_number'));
-
-            $order = Order::where('id', $ids[0])->first();
-
-            if ( ! $order) {
-                return false;
-            }
-
-            $order->is_deposit = true;
-            $order->deposit    = Deposit::query()->where('id', $ids[1])->first();
-        }
-
-        return $order;
+        return Order::where('id', $request->input('order_number'))->first();
     }
 
     /*******************************************************************************
      *                                Copyright : AGmedia                           *
      *                              email: filip@agmedia.hr                         *
      *******************************************************************************/
+
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function checkResolveIfDeposit(Request $request)
+    {
+        $deposit = $this->resolveSuccessDeposit($request);
+
+        if ($deposit) {
+            $deposit->setStatus('pending')->finishTransaction($request)->sendEmails();
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    private function resolveSuccessDeposit(Request $request)
+    {
+        $ids     = explode('-', $request->input('order_number'));
+        return Deposit::query()->where('id', $ids[1])->where('order_id', $ids[0])->first();
+    }
+
 
     /**
      * @param Request $request

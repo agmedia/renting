@@ -13,14 +13,15 @@
         <td><b>{{ ($order->payment_phone) ? $order->payment_phone : '' }}</b></td>
     </tr>
 
-
-    <tr>
-        <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
-        <td>{{ $checkout['request']['dates'] }}</td>
-    </tr>
-    <tr>
-        <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
-        <td>{{ $checkout['request']['adults'] + $checkout['request']['children'] }} {{ __('front/checkout.guests') }}</td>
-    </tr>
+    @if ( ! isset($checkout['is_deposit']) && ! $checkout['is_deposit'])
+        <tr>
+            <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
+            <td>{{ $checkout['request']['dates'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
+            <td>{{ $checkout['request']['adults'] + $checkout['request']['children'] }} {{ __('front/checkout.guests') }}</td>
+        </tr>
+    @endif
 
 </table>

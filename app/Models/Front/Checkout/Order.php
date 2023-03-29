@@ -66,19 +66,6 @@ class Order extends Model
 
 
     /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function status(int $id)
-    {
-        $statuses = Settings::get('order', 'statuses');
-
-        return $statuses->where('id', $id)->first();
-    }
-
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function apartment()
@@ -110,7 +97,7 @@ class Order extends Model
      */
     public function getStatusAttribute()
     {
-        return $this->status($this->order_status_id);
+        return Helper::resolveOrderStatus($this->order_status_id);
     }
 
 
@@ -338,7 +325,7 @@ class Order extends Model
             'oib'                 => '',
             'options'             => serialize($this->checkout->cleanData()),
             'comment'             => isset($this->checkout->request->message) ? $this->checkout->request->message : '',
-            'sync_uid'            => Str::uuid()->toString() . config('app.suffix'),
+            'sync_uid'            => '', // Str::uuid()->toString() . config('app.suffix'),
             'approved'            => '',
             'approved_user_id'    => '',
             'updated_at'          => Carbon::now()
