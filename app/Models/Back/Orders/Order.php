@@ -300,6 +300,8 @@ class Order extends Model
 
         if ($request->has('status')) {
             $query->where('order_status_id', '=', $request->input('status'));
+        } else {
+            $query->where('order_status_id', '!=', config('settings.order.status.unfinished'));
         }
 
         if ($request->has('search') && ! empty($request->input('search'))) {

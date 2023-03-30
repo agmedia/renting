@@ -144,7 +144,9 @@ class CheckoutController extends FrontBaseController
 
         if ($order) {
             $checkout = CheckoutSession::getCheckout();
+            $checkout = unserialize($checkout);
             $checkout['is_deposit'] = false;
+            $checkout = serialize($checkout);
 
             $order->updateStatus('new')->finish($request);
             $order->sendNewOrderEmails($checkout);

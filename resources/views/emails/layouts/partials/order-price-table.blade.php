@@ -38,7 +38,7 @@
         <th style="text-align: right;" width="25%">{{ __('front/common.total') }}</th>
     </tr>
 
-    @if ( ! isset($checkout['is_deposit']) && ! $checkout['is_deposit'])
+    @if ( ! $checkout['is_deposit'])
         @foreach ($checkout['total']['items'] as $item)
             <tr>
                 <td>{{ $item['price_text'] }} x {{ $item['count'] }} {{ $item['title'] }}</td>
@@ -54,7 +54,7 @@
 
 </table>
 <table id="totals">
-    @if ( ! isset($checkout['is_deposit']) && ! $checkout['is_deposit'])
+    @if ( ! $checkout['is_deposit'])
         @foreach ($checkout['total']['total'] as  $item)
             <tr>
                 <td style="border-left: none; text-align: right; ">{{ $item['title'] }}</td>
