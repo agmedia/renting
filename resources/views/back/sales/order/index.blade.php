@@ -322,8 +322,7 @@
                 endDate: endDate()
             },
             LockPlugin:  {
-                minDate:     new Date(),
-                minDays:     2,
+                minDays:     1,
                 inseparable: true
             }
         });
