@@ -95,6 +95,9 @@ return [
     'sort_price_down' => 'Cijena od više',
     'sort_az' => 'Od A do Ž',
     'sort_za' => 'Od Ž do A',
+    //
+    'sort_in' => 'Check In',
+    'sort_out' => 'Check Out',
 
     'children' => 'Djeca',
     'adults' => 'Odrasli',

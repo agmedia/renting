@@ -94,6 +94,9 @@ return [
     'sort_price_down' => 'Price High',
     'sort_az' => 'From A to Ž',
     'sort_za' => 'From Ž to A',
+    //
+    'sort_in' => 'Check In',
+    'sort_out' => 'Check Out',
 
     'children' => 'Children',
     'adults' => 'Adults',

@@ -127,7 +127,14 @@ return [
             'declined' => 7,
             'paid' => 3,
             'pending' => 2
-        ]
+        ],
+        'origin' => [
+            0 => 'all',
+            1 => 'selfcheckins',
+            2 => 'booking',
+            3 => 'airbnb'
+        ],
+        'sort' => ['new', 'old', 'in', 'out'],
     ],
 
     'payment' => [

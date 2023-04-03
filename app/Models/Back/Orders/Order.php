@@ -311,9 +311,49 @@ class Order extends Model
                       ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
                       ->orWhere('payment_email', 'like', '%' . $request->input('search'));
             });
+
+            $query->orWhere(function ($query) use ($request) {
+                $query->whereHas('apartment', function ($subquery) use ($request) {
+                    $subquery->whereHas('translation_search', function ($sub_subquery) use ($request) {
+                        $sub_subquery->where('title', 'like', '%' . $request->input('search') . '%');
+                    });
+                });
+            });
         }
 
-        return $query->orderBy('created_at', 'desc');
+        if ($request->has('dates') && ! empty($request->input('dates'))) {
+            $dates = explode(' - ', $request->input('dates'));
+
+            $query->where('date_from', '>=', Carbon::make($dates[0]))->where('date_to', '<=', Carbon::make($dates[1]));
+        }
+
+        if ($request->has('origin') && ! empty($request->input('origin')) && $request->input('origin') != 'all') {
+            if ($request->input('origin') == 'selfcheckins') {
+                $query->whereNotIn('payment_fname', ['Booking', 'Airbnb']);
+            }else {
+                $query->where('payment_fname', 'like', '%' . $request->input('origin'));
+            }
+        }
+
+        // Sort Order
+        if ($request->has('sort') && ! empty($request->input('sort'))) {
+            $sort = $request->input('sort');
+
+            if ($sort == 'in') {
+                $query->orderBy('date_from', 'desc');
+            }
+            if ($sort == 'out') {
+                $query->orderBy('date_to', 'desc');
+            }
+            if ($sort == 'old') {
+                $query->orderBy('created_at');
+            }
+            if ($sort == 'new') {
+                $query->orderBy('created_at', 'desc');
+            }
+        }
+
+        return $query;
     }
 
 

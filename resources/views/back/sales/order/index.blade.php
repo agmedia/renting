@@ -34,37 +34,69 @@
                         </select>
                     </div>
                 </div>
-                <div class="block-options">
-                    <div class="dropdown">
-                        <button type="button" class="btn btn-light" id="dropdown-ecom-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ __('back/app.order.filter') }}
-                            <i class="fa fa-angle-down ml-1"></i>
+                <div class="block-options d-none d-xl-block">
+                    <div class="form-group mb-0">
+                        <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#orders-filter" aria-expanded="false" aria-controls="orders-filter">
+                            <i class="fa fa-filter"></i> {{ __('back/layout.btn_filter') }}
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-ecom-filters">
-                            <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', 0)">{{ __('back/app.order.all') }}</a>
-                            @foreach ($statuses as $status)
-                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:setURL('status', {{ $status->id }})">
-                                    <span class="badge badge-pill badge-{{ $status->color }}">{{ $status->title->{current_locale()} }}</span>
-                                </a>
-                            @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse" id="orders-filter">
+                <div class="block-content bg-body-dark">
+                    <div class="form-group row items-push mb-0">
+                        <div class="col-12 col-md-6 mb-0">
+                            <!-- Search Form -->
+                            <form action="{{ route('orders') }}" method="GET">
+                                <div class="form-group">
+                                    <div class="input-group flex-nowrap">
+                                        <input type="text" class="form-control py-3" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/app.order.search_placeholder') }}">
+                                        <button type="button" class="btn btn-outline-info fs-base" id="btn-search" onclick="setURL('search', $('#search-input').val(), true);"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END Search Form -->
+                        </div>
+                        <div class="col-md-2 mb-0">
+                            <select class="js-select2 form-control" id="filter-origin-select" name="filter_origin" style="width: 100%;" data-placeholder="{{ __('back/app.order.origin_select') }}">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach (config('settings.order.origin') as $key => $origin)
+                                    <option value="{{ $origin }}" {{ $origin == request()->input('origin') ? 'selected' : '' }}>{{ __('back/app.order.' . $origin) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-0">
+                            <select class="js-select2 form-control" id="filter-status-select" name="filter_status" style="width: 100%;" data-placeholder="{{ __('back/app.order.status_select') }}">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->id }}" {{ $status->id == request()->input('status') ? 'selected' : '' }}>{{ $status->title->{current_locale()} }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2 mb-0">
+                            <select class="js-select2 form-control" id="sort-select" name="sort" style="width: 100%;" data-placeholder="{{ __('back/apartment.sort') }}">
+                                <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                @foreach (config('settings.order.sort') as $sort)
+                                    <option value="{{ $sort }}" {{ $sort == request()->input('sort') ? 'selected' : '' }}>{{ __('back/apartment.sort_' . $sort) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6 mb-0">
+                            <div class="input-group mt-2 mb-3">
+                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                <input class="form-control" id="search-dates" name="search_dates" placeholder="Search by Check-in -> Checkout" type="text">
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-0"></div>
+                        <div class="col-md-2 mb-0"></div>
+                        <div class="col-md-2 mb-0">
+                            <button type="button" class="btn btn-outline-info btn-block" id="btn-clear" onclick="setURL('clear', '');"><i class="fa fa-filter"></i> Clear</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="block-content bg-body-dark">
-                <!-- Search Form -->
-                <form action="{{ route('orders') }}" method="GET">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <div class="input-group flex-nowrap">
-                                <input type="text" class="form-control py-3 text-center" name="search" id="search-input" value="{{ request()->input('search') }}" placeholder="{{ __('back/app.order.search_placeholder') }}">
-                                <button type="submit" class="btn btn-primary fs-base" onclick="setURL('search', $('#search-input').val());"><i class="fa fa-search"></i> </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- END Search Form -->
-            </div>
+
             <div class="block-content">
                 <!-- All Orders Table -->
                 <div class="table-responsive">
@@ -142,6 +174,37 @@
                 placeholder: '{{ __('back/app.order.change_status') }}'
             });
 
+            $('#filter-origin-select').select2({
+                placeholder: '{{ __('back/app.order.origin_select') }}',
+                allowClear: true
+            });
+            $('#filter-origin-select').on('change', (e) => {
+                setURL('origin', e.currentTarget.selectedOptions[0]);
+            });
+            //
+            $('#filter-status-select').select2({
+                placeholder: '{{ __('back/app.order.status_select') }}',
+                allowClear: true
+            });
+            $('#filter-status-select').on('change', (e) => {
+                setURL('status', e.currentTarget.selectedOptions[0]);
+            });
+            //
+            $('#sort-select').select2({
+                placeholder: '{{ __('back/app.sort') }}',
+                allowClear: true
+            });
+            $('#sort-select').on('change', (e) => {
+                setURL('sort', e.currentTarget.selectedOptions[0]);
+            });
+            //
+            //
+            let url = new URL(location.href);
+            if (url.search != '') {
+                $('#orders-filter').collapse();
+            }
+            //
+            //
             $('#status-select').on('change', (e) => {
                 let selected = e.currentTarget.selectedOptions[0].value;
                 let orders = '[';
@@ -165,6 +228,13 @@
                     }
                 });
             });
+            //
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+            //
+            //
+
         });
 
 
@@ -173,7 +243,7 @@
          * @param type
          * @param search
          */
-        function setURL(type, search) {
+        function setURL(type, search, isValue = false) {
             let url = new URL(location.href);
             let params = new URLSearchParams(url.search);
             let keys = [];
@@ -185,23 +255,104 @@
             }
 
             keys.forEach((value) => {
-                if (params.has(value) || search == 0) {
+                if (params.has(value)) {
                     params.delete(value);
                 }
-            })
+            });
 
-            if (search) {
+            if (search.value) {
+                params.append(type, search.value);
+            }
+
+            if (isValue && search) {
                 params.append(type, search);
             }
 
             url.search = params;
+
+            if (type == 'clear') {
+                url.search = '';
+            }
+
             location.href = url;
         }
     </script>
+
     <script>
-        $("#checkAll").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
+        const reservation_dates = getReservationDates();
+
+        const picker   = new easepick.create({
+            element:     document.getElementById('search-dates'),
+            css:         [
+                '{{ asset('assets/css/reservation.css') }}',
+            ],
+            zIndex:      10,
+            autoApply: true,
+            plugins:     ['LockPlugin', 'RangePlugin'],
+            setup(picker) {
+                picker.on('select', (e) => {
+                    let start = new Date(e.detail.start);
+                    let start_str = start.getFullYear() + '-' + ("0"+(start.getMonth()+1)).slice(-2) + '-' + ("0"+(start.getDate())).slice(-2);
+                    let end = new Date(e.detail.end);
+                    let end_str = end.getFullYear() + '-' + ("0"+(end.getMonth()+1)).slice(-2) + '-' + ("0"+(end.getDate())).slice(-2);
+                    let date_string = start_str + ' - ' + end_str;
+
+                    setURL('dates', date_string, true);
+                });
+            },
+            RangePlugin: {
+                tooltipNumber(num) {
+                    return num - 1;
+                },
+                locale: {
+                    one:   'night',
+                    other: 'nights',
+                },
+                startDate: startDate(),
+                endDate: endDate()
+            },
+            LockPlugin:  {
+                minDate:     new Date(),
+                minDays:     2,
+                inseparable: true
+            }
         });
+
+        function getReservationDates() {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+
+            if (params.has('dates')) {
+                let dates = params.get('dates').split(' - ');
+
+                console.log(dates)
+
+                return {from: dates[0].replace('-', '/'), to: dates[1].replace('-', '/')};
+            }
+
+            return {from: '', to: ''};
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function startDate() {
+            if (reservation_dates.from != '') {
+                return new DateTime(reservation_dates.from, 'YYYY-MM-DD');
+            }
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function endDate() {
+            if (reservation_dates.to != '') {
+                return new DateTime(reservation_dates.to, 'YYYY-MM-DD');
+            }
+        }
+
     </script>
 
 @endpush

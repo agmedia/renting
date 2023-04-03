@@ -154,10 +154,9 @@ return [
         'title' => 'Order',
         'orders' => 'Orders',
         'list' => 'Orders List',
-        'change_status' => 'Change Order Status',
         'filter' => 'Filter',
         'all' => 'All',
-        'search_placeholder' => 'Search by order number, customer name, lastname or email...',
+        'search_placeholder' => 'Search by order number, customer, apartment or order date...',
         'no_orders' => 'You have no current orders..',
         'date' => 'Date',
         'apartment' => 'Apartment',
@@ -188,10 +187,15 @@ return [
         'history' => 'Order History',
         'comment' => 'Comment',
         'add_comment' => 'Add Comment',
-        'change_status' => 'Change Status',
+        'change_status' => 'Change Selected Statuses...',
         'no_change_status' => 'Dont Change Status',
         'paid_amount' => 'Paid Amount',
-        'payment_url' => 'Order Payment URL'
+        'payment_url' => 'Order Payment URL',
+        'origin_select' => 'Filter origin..',
+        'status_select' => 'Filter status..',
+        'selfcheckins' => 'SelfCheckins',
+        'booking' => 'Booking',
+        'airbnb' => 'Airbnb'
     ],
 
     'deposit' => [

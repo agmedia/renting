@@ -147,10 +147,9 @@ return [
         'title' => 'Narudžba',
         'orders' => 'Narudžbe',
         'list' => 'Lista Narudžbi',
-        'change_status' => 'Promjeni Status Narudžbe',
         'filter' => 'Filter',
         'all' => 'Sve',
-        'search_placeholder' => 'Pretraži po broju narudžbe, imenu, prezimenu ili emailu kupca...',
+        'search_placeholder' => 'Pretraži po broju narudžbe, kupcu, apartmanu ili datumu narudžbe...',
         'no_orders' => 'Nemate trenutno narudžbi',
         'date' => 'Datum',
         'apartment' => 'Apartman',
@@ -182,10 +181,15 @@ return [
         'history' => 'Povjest Narudžbe',
         'comment' => 'Komentar',
         'add_comment' => 'Dodaj Komentar',
-        'change_status' => 'Promjeni Status',
+        'change_status' => 'Promjeni Selektirane Statuse...',
         'no_change_status' => 'Bez Promjene Statusa',
         'paid_amount' => 'Plaćeni Iznos',
-        'payment_url' => 'URL za Plaćanje Narudžbe'
+        'payment_url' => 'URL za Plaćanje Narudžbe',
+        'origin_select' => 'Filter porjeklo..',
+        'status_select' => 'Filter status..',
+        'selfcheckins' => 'SelfCheckins',
+        'booking' => 'Booking',
+        'airbnb' => 'Airbnb'
     ],
 
     'deposit' => [
