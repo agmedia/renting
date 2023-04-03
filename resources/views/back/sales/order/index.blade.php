@@ -34,7 +34,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="block-options d-none d-xl-block">
+                <div class="block-options">
                     <div class="form-group mb-0">
                         <button class="btn btn-outline-primary mr-3" type="button" data-toggle="collapse" data-target="#orders-filter" aria-expanded="false" aria-controls="orders-filter">
                             <i class="fa fa-filter"></i> {{ __('back/layout.btn_filter') }}
