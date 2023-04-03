@@ -82,15 +82,25 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12 col-md-6 mb-0">
+                        <div class="col-12 col-md-4 mb-0">
                             <div class="input-group mt-2 mb-3">
                                 <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                <input class="form-control" id="search-dates" name="search_dates" placeholder="Search by Check-in -> Checkout" type="text">
+                                <input class="form-control" id="search-dates" placeholder="Search by Check-in -> Check-out" type="text" style="background-color: #f5f5f5;">
                             </div>
                         </div>
-                        <div class="col-md-2 mb-0"></div>
-                        <div class="col-md-2 mb-0"></div>
-                        <div class="col-md-2 mb-0">
+                        <div class="col-md-3 mb-0">
+                            <div class="input-group mt-2 mb-3">
+                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                <input class="form-control" id="from-date" placeholder="Search Check-in" type="text" style="background-color: #f5f5f5;">
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-0">
+                            <div class="input-group mt-2 mb-3">
+                                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                <input class="form-control" id="to-date" placeholder="Search Check-out" type="text" style="background-color: #f5f5f5;">
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-0 mt-2 mb-3">
                             <button type="button" class="btn btn-outline-info btn-block" id="btn-clear" onclick="setURL('clear', '');"><i class="fa fa-filter"></i> Clear</button>
                         </div>
                     </div>
@@ -220,7 +230,6 @@
 
                 axios.post("{{ route('api.order.status.change') }}", { selected: selected, orders: orders })
                 .then(response => {
-                    console.log(response)
                     if (response.status == 200) {
                         location.reload();
                     } else {
@@ -280,6 +289,7 @@
 
     <script>
         const reservation_dates = getReservationDates();
+        const reservation_date = getReservationDate();
 
         const picker   = new easepick.create({
             element:     document.getElementById('search-dates'),
@@ -318,6 +328,43 @@
             }
         });
 
+        const from_picker = new easepick.create({
+            element: "#from-date",
+            css: [
+                '{{ asset('assets/css/reservation.css') }}'
+            ],
+            zIndex: 10,
+            date: fromDate(),
+            setup(from_picker) {
+                from_picker.on('select', (e) => {
+                    let start = new Date(e.detail.date);
+                    let start_str = start.getFullYear() + '-' + ("0"+(start.getMonth()+1)).slice(-2) + '-' + ("0"+(start.getDate())).slice(-2);
+
+                    setURL('from', start_str, true);
+                });
+            },
+        })
+
+        const to_picker = new easepick.create({
+            element: "#to-date",
+            css: [
+                '{{ asset('assets/css/reservation.css') }}'
+            ],
+            zIndex: 10,
+            date: toDate(),
+            setup(to_picker) {
+                to_picker.on('select', (e) => {
+                    let end = new Date(e.detail.date);
+                    let end_str = end.getFullYear() + '-' + ("0"+(end.getMonth()+1)).slice(-2) + '-' + ("0"+(end.getDate())).slice(-2);
+
+                    setURL('to', end_str, true);
+                });
+            },
+        })
+
+        /**
+         *
+        */
         function getReservationDates() {
             let url = new URL(location.href);
             let params = new URLSearchParams(url.search);
@@ -325,12 +372,53 @@
             if (params.has('dates')) {
                 let dates = params.get('dates').split(' - ');
 
-                console.log(dates)
-
                 return {from: dates[0].replace('-', '/'), to: dates[1].replace('-', '/')};
             }
 
             return {from: '', to: ''};
+        }
+
+        /**
+         *
+        */
+        function getReservationDate() {
+            let url = new URL(location.href);
+            let params = new URLSearchParams(url.search);
+            let date = {from: '', to: ''};
+
+            if (params.has('from')) {
+                let from = params.get('from');
+
+                date.from = from;
+            }
+
+            if (params.has('to')) {
+                let to = params.get('to');
+
+                date.to = to;
+            }
+
+            return date;
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function fromDate() {
+            if (reservation_date.from != '') {
+                return new DateTime(reservation_date.from, 'YYYY-MM-DD');
+            }
+        }
+
+        /**
+         *
+         * @returns {*}
+         */
+        function toDate() {
+            if (reservation_date.to != '') {
+                return new DateTime(reservation_date.to, 'YYYY-MM-DD');
+            }
         }
 
         /**

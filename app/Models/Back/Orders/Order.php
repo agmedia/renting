@@ -327,6 +327,13 @@ class Order extends Model
             $query->where('date_from', '>=', Carbon::make($dates[0]))->where('date_to', '<=', Carbon::make($dates[1]));
         }
 
+        if ($request->has('from') && ! empty($request->input('from'))) {
+            $query->where('date_from', '=', Carbon::make($request->input('from')));
+        }
+        if ($request->has('to') && ! empty($request->input('to'))) {
+            $query->where('date_to', '=', Carbon::make($request->input('to')));
+        }
+
         if ($request->has('origin') && ! empty($request->input('origin')) && $request->input('origin') != 'all') {
             if ($request->input('origin') == 'selfcheckins') {
                 $query->whereNotIn('payment_fname', ['Booking', 'Airbnb']);
