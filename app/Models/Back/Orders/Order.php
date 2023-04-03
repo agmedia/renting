@@ -360,6 +360,11 @@ class Order extends Model
             }
         }
 
+        // Sort Order
+        if ( ! $request->has('sort')) {
+            $query->orderBy('created_at', 'desc');
+        }
+
         return $query;
     }
 

@@ -34,7 +34,7 @@ class Deposit extends Model
      */
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id', 'id');
+        return $this->belongsTo(Order::class, 'order_id', 'id')->with('apartment');
     }
 
 
@@ -114,12 +114,72 @@ class Deposit extends Model
 
             $query->orWhereHas('order', function ($subquery) use ($request) {
                 $subquery->where('id', 'like', '%' . $request->input('search') . '%')
-                         ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
-                         ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
-                         ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+                      ->orWhere('payment_fname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_lname', 'like', '%' . $request->input('search'))
+                      ->orWhere('payment_email', 'like', '%' . $request->input('search'));
+
+                $subquery->orWhere(function ($sub_subquery) use ($request) {
+                    $sub_subquery->whereHas('apartment', function ($subsub_subquery) use ($request) {
+                        $subsub_subquery->whereHas('translation_search', function ($subsubsub_subquery) use ($request) {
+                            $subsubsub_subquery->where('title', 'like', '%' . $request->input('search') . '%');
+                        });
+                    });
+                });
             });
         }
 
-        return $query->orderBy('created_at', 'desc');
+        $query->whereHas('order', function ($subquery) use ($request) {
+            if ($request->has('dates') && ! empty($request->input('dates'))) {
+                $dates = explode(' - ', $request->input('dates'));
+
+                $subquery->where('date_from', '>=', Carbon::make($dates[0]))->where('date_to', '<=', Carbon::make($dates[1]));
+            }
+
+            if ($request->has('from') && ! empty($request->input('from'))) {
+                $subquery->where('date_from', '=', Carbon::make($request->input('from')));
+            }
+            if ($request->has('to') && ! empty($request->input('to'))) {
+                $subquery->where('date_to', '=', Carbon::make($request->input('to')));
+            }
+
+            if ($request->has('origin') && ! empty($request->input('origin')) && $request->input('origin') != 'all') {
+                if ($request->input('origin') == 'selfcheckins') {
+                    $subquery->whereNotIn('payment_fname', ['Booking', 'Airbnb']);
+                }else {
+                    $subquery->where('payment_fname', 'like', '%' . $request->input('origin'));
+                }
+            }
+
+            // Sort Order
+            if ($request->has('sort') && ! empty($request->input('sort'))) {
+                $sort = $request->input('sort');
+
+                if ($sort == 'in') {
+                    $subquery->orderBy('date_from', 'desc');
+                }
+                if ($sort == 'out') {
+                    $subquery->orderBy('date_to', 'desc');
+                }
+            }
+        });
+
+        // Sort Order
+        if ($request->has('sort') && ! empty($request->input('sort'))) {
+            $sort = $request->input('sort');
+
+            if ($sort == 'old') {
+                $subquery->orderBy('created_at');
+            }
+            if ($sort == 'new') {
+                $subquery->orderBy('created_at', 'desc');
+            }
+        }
+
+        // Sort Order
+        if ( ! $request->has('sort')) {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        return $query;
     }
 }
