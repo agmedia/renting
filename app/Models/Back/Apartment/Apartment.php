@@ -390,7 +390,7 @@ class Apartment extends Model
 
             $existing_orders = Order::query()
                                     ->where('apartment_id', $apartment->id)
-                                    //->where('date_from', '>', now())
+                                    ->where('date_to', '>', now())
                                     ->where('sync_uid', '!=', '')
                                     ->where('payment_email', 'info@' . $target . '.com')
                                     ->pluck('sync_uid');
@@ -411,6 +411,7 @@ class Apartment extends Model
                  ->where('apartment_id', $apartment->id)
                  ->where('payment_email', 'info@' . $target . '.com')
                  ->where('sync_uid', '!=', '')
+                 ->where('date_to', '>', now())
                  ->update([
                      'order_status_id' => config('settings.order.status.canceled')
                  ]);
