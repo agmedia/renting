@@ -12,6 +12,8 @@ return [
     'enquiry_form' => 'Enquiry Form',
     'address' => 'Address',
     'email' => 'Email address',
+    'pass' => 'Password',
+    'pass_confirm' => 'Confirm Password',
     'call' => 'Call Us',
     'name' => 'Name',
     'mobile' => 'Mobile number',
@@ -43,5 +45,13 @@ return [
 
     'mail' => [
         'registration' => 'SelfCheckins - Thanks for Your Registration',
+        'contact_title' => 'Poruka s Web kontakt forme.',
+        'contact_received' => 'Dobili ste poruku s Web kontakt forme.',
+        'contact_name' => 'Ime',
+        'contact_phone' => 'Telefon',
+        'contact_btn_go' => 'Idi na Stranicu',
+        //
+        'pass_reset' => 'Resetiraj lozinku',
+        'pass_link' => 'Klikni na link i resetiraj lozinku'
     ]
 ];

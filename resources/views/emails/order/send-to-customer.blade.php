@@ -34,7 +34,7 @@
                     <b>{{ __('Corvus Pay') }}</b>
                     <p style="font-size:12px">{{ __('front/success.success_text') }} {{ $order->id }}.</p>
                 @else
-                    <b>{{ __('Plaćanje prilikom preuzimanja') }}</b>
+                    <b>___</b>
                     <p style="font-size:12px">{{ __('front/success.success_text') }} {{ $order->id }} .</p>
                 @endif
                 <br><br>

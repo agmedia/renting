@@ -4,12 +4,12 @@
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
             <td style="padding: 20px 20px 10px 20px; font-family: sans-serif; font-size: 18px; font-weight: bold; line-height: 20px; color: #555555; text-align: center;">
-                Reset password<br>
+                {{ __('front/common.mail.pass_reset') }}<br>
             </td>
         </tr>
         <tr>
             <td style="padding: 20px 20px 0 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-               Click on link and reset password
+                {{ __('front/common.mail.pass_link') }}
             </td>
         </tr>
         <tr>

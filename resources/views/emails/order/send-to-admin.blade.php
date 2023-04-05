@@ -8,6 +8,16 @@
         <tr>
             <td class="ag-mail-tableset"> <h3>Narudžba broj: {{ $order->id }} </h3></td>
         </tr>
+        @if ( ! $checkout['is_deposit'])
+            <tr>
+                <td ><strong>Datum: </strong></td>
+                <td>{{ $checkout['request']['dates'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Broj apartmana</strong></td>
+                <td>{{ $order->apartment->title }}</td>
+            </tr>
+        @endif
         <tr>
             <td class="ag-mail-tableset">
                 @include('emails.layouts.partials.order-details', ['order' => $order])

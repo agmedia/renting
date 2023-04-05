@@ -26,12 +26,10 @@
 
                             <form method="POST" action="{{ route('password.confirm') }}">
                                 @csrf
-
                                 <div>
                                     <x-jet-label for="password" value="{{ __('Password') }}" />
                                     <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
                                 </div>
-
                                 <div class="flex justify-end mt-4">
                                     <x-jet-button class="ml-4">
                                         {{ __('Potvrdi') }}
@@ -48,9 +46,6 @@
                                     <img class="img-avatar img-avatar-thumb" src="{{ asset('media/img/faviconbiblos.png') }}" alt="Antikvarijat Biblos">
                                 </a>
                                 <div class="media-body">
-                                    <p class="text-white font-w600 mb-1">
-                                        Knjige, vedute & zemljovidi
-                                    </p>
                                     <a class="text-white-75 font-w600" href="{{ route('index') }}">Antikvarijat Biblos</a>
                                 </div>
                             </div>

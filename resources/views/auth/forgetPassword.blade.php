@@ -38,7 +38,7 @@
 
                                 <div class="flex items-center justify-end mt-4">
                                     <x-jet-button>
-                                        {{ __('Email Password Reset Link') }}
+                                        {{ __('front/common.mail.pass_link') }}
                                     </x-jet-button>
                                 </div>
                             </form>

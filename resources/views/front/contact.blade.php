@@ -20,7 +20,7 @@
     <!-- Contact detail cards-->
     <section class="container pt-grid-gutter">
         <div class="row">
-            @include('front.layouts.partials.success-session')
+            @include('front.layouts.partials.session')
         </div>
     </section>
 

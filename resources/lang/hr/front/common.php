@@ -12,6 +12,8 @@ return [
     'enquiry_form' => 'Kontakt obrazac',
     'address' => 'Adresa',
     'email' => 'Email adresa',
+    'pass' => 'Lozinka',
+    'pass_confirm' => 'Potvrdi Lozinku',
     'call' => 'Nazovite nas',
     'name' => 'Ime',
     'mobile' => 'Broj mobitela',
@@ -43,5 +45,13 @@ return [
     //
     'mail' => [
         'registration' => 'SelfCheckins - Hvala Vam na Registraciji',
+        'contact_title' => 'Web form contact message.',
+        'contact_received' => 'You received a message from your contact form.',
+        'contact_name' => 'Name',
+        'contact_phone' => 'Phone',
+        'contact_btn_go' => 'Go to Web',
+        //
+        'pass_reset' => 'Reset password',
+        'pass_link' => 'Click on link and reset password',
     ]
 ];
