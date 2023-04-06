@@ -346,7 +346,7 @@ class Checkout
         $this->babies   = $this->resolveRegularPerson(intval($this->request->input('baby')), $this->apartment->max_children);
 
         $this->additional_adults   = $this->resolveAdditionalPerson($this->adults);
-        $this->additional_children = $this->resolveAdditionalPerson($this->children + $this->adults, true);
+        $this->additional_children = $this->resolveAdditionalPerson(($this->children + $this->adults), true);
         $this->additional_persons  = $this->additional_adults + $this->additional_children;
 
         if ($this->additional_persons) {
@@ -392,10 +392,10 @@ class Checkout
             if ($target > $this->apartment->max_persons) {
                 return $target - $this->apartment->max_persons;
             }
-        }
-
-        if ($target > $this->apartment->regular_persons) {
-            return $target - $this->apartment->regular_persons;
+        } else {
+            if ($target > $this->apartment->regular_persons) {
+                return $target - $this->apartment->regular_persons;
+            }
         }
 
         return 0;
