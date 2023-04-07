@@ -16,6 +16,7 @@ return [
     'pass_confirm' => 'Confirm Password',
     'call' => 'Call Us',
     'name' => 'Name',
+    'lname' => 'Lastname',
     'mobile' => 'Mobile number',
     'message' => 'Message',
     'submit' => 'Submit form',
@@ -45,13 +46,31 @@ return [
 
     'mail' => [
         'registration' => 'SelfCheckins - Thanks for Your Registration',
-        'contact_title' => 'Poruka s Web kontakt forme.',
-        'contact_received' => 'Dobili ste poruku s Web kontakt forme.',
-        'contact_name' => 'Ime',
-        'contact_phone' => 'Telefon',
-        'contact_btn_go' => 'Idi na Stranicu',
+        'contact_title' => 'Web form contact message.',
+        'contact_received' => 'You received a message from your contact form.',
+        'contact_name' => 'Name',
+        'contact_phone' => 'Phone',
+        'contact_btn_go' => 'Go to Web',
         //
-        'pass_reset' => 'Resetiraj lozinku',
-        'pass_link' => 'Klikni na link i resetiraj lozinku'
-    ]
+        'pass_reset' => 'Reset password',
+        'pass_link' => 'Click on link and reset password',
+    ],
+    //
+    //
+    'my_account' => 'My Account',
+    'homepage' => 'Homepage',
+    'navigation' => 'Navigation',
+    'my_data' => 'My Data',
+    'orders' => 'My Raservations',
+    'logout' => 'Logout',
+    'acc_edit' => 'Edit Your Personal Data',
+    'acc_basic' => 'Basic Info',
+    'name_error' => 'Name is mandatory.',
+    'lname_error' => 'Lastname is mandatory',
+    'email_error' => 'Email is mandatory',
+    'save' => 'Save',
+    'order_number' => 'Order number',
+    'no_orders' => 'You currently have no orders.',
+    'order_history' => 'History of your orders.',
+    'order_action' => 'Action'
 ];

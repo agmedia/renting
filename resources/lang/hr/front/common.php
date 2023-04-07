@@ -16,6 +16,7 @@ return [
     'pass_confirm' => 'Potvrdi Lozinku',
     'call' => 'Nazovite nas',
     'name' => 'Ime',
+    'lname' => 'Prezime',
     'mobile' => 'Broj mobitela',
     'message' => 'Vaš upit',
     'submit' => 'Pošaljite upit',
@@ -45,13 +46,31 @@ return [
     //
     'mail' => [
         'registration' => 'SelfCheckins - Hvala Vam na Registraciji',
-        'contact_title' => 'Web form contact message.',
-        'contact_received' => 'You received a message from your contact form.',
-        'contact_name' => 'Name',
-        'contact_phone' => 'Phone',
-        'contact_btn_go' => 'Go to Web',
+        'contact_title' => 'Poruka s Web kontakt forme.',
+        'contact_received' => 'Dobili ste poruku s Web kontakt forme.',
+        'contact_name' => 'Ime',
+        'contact_phone' => 'Telefon',
+        'contact_btn_go' => 'Idi na Stranicu',
         //
-        'pass_reset' => 'Reset password',
-        'pass_link' => 'Click on link and reset password',
-    ]
+        'pass_reset' => 'Resetiraj lozinku',
+        'pass_link' => 'Klikni na link i resetiraj lozinku'
+    ],
+    //
+    //
+    'my_account' => 'Moj Račun',
+    'homepage' => 'Naslovnica',
+    'navigation' => 'Navigacija',
+    'my_data' => 'Moji Podaci',
+    'orders' => 'Moje Rezervacije',
+    'logout' => 'Odjava',
+    'acc_edit' => 'Uredi svoje osobne podatke',
+    'acc_basic' => 'Osnovni info',
+    'name_error' => 'Ime je obvezno.',
+    'lname_error' => 'Prezime je obvezno.',
+    'email_error' => 'Email je obvezan',
+    'save' => 'Snimi',
+    'order_number' => 'Broj narudžbe',
+    'no_orders' => 'Trenutno nemate narudžbi.',
+    'order_history' => 'Povijest vaših narudžbi',
+    'order_action' => 'Akcija'
 ];

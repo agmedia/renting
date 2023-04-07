@@ -233,6 +233,27 @@ class Helper
 
     /**
      * @param Request $request
+     * @param array   $order
+     *
+     * @return Request
+     */
+    public static function setCheckoutRequest(Request $request, array $order): Request
+    {
+        return $request->merge([
+            'apartment_id' => $order['apartment_id'],
+            'aid'          => $order['apartment_id'],
+            'dates'        => Carbon::make($order['date_from'])->format('Y-m-d') . ' - ' . Carbon::make($order['date_to'])->format('Y-m-d'),
+            'firstname'    => $order['payment_fname'],
+            'lastname'     => $order['payment_lname'],
+            'phone'        => $order['payment_phone'],
+            'email'        => $order['payment_email'],
+            'payment_type' => $order['payment_method']
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
      *
      * @return array
      */

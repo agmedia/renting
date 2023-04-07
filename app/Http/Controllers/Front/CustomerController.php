@@ -20,18 +20,7 @@ class CustomerController extends FrontBaseController
      */
     public function index(Request $request)
     {
-        if (session()->has(config('session.cart'))) {
-            //dd($request->session()->previousUrl());
-            /*if ($request->session()->previousUrl() == config('app.url') . 'login') {
-                $cart = new AgCart(session(config('session.cart')));
-
-                if ($cart->get()['count'] > 0) {
-                    return redirect()->route('kosarica');
-                }
-            }*/
-        }
-
-        $user = auth()->user();
+        $user = $this->checkUser();
         $countries = Country::list();
 
         CheckoutSession::forgetAddress();
@@ -47,8 +36,14 @@ class CustomerController extends FrontBaseController
      */
     public function orders(Request $request)
     {
-        $user = auth()->user();
-        $orders = Order::where('user_id', $user->id)->orWhere('payment_email', $user->email)->paginate(config('settings.pagination.front'));
+        $user = $this->checkUser();
+        $orders = Order::query()
+                       ->where('user_id', $user->id)
+                       ->orWhere('payment_email', $user->email)
+                       ->with('apartment', 'deposits', 'totals')
+                       ->paginate(config('settings.pagination.front'));
+
+        //dd($orders->first()->reservation);
 
         return view('front.customer.moje-narudzbe', compact('user', 'orders'));
     }
@@ -62,6 +57,8 @@ class CustomerController extends FrontBaseController
      */
     public function save(Request $request, User $user)
     {
+        $this->checkUser();
+
         $updated = $user->validateFrontRequest($request)->edit();
 
         if ($updated) {
@@ -69,6 +66,19 @@ class CustomerController extends FrontBaseController
         }
 
         return redirect()->back()->with(['error' => 'Oops..! Greška prilikom snimanja.']);
+    }
+
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
+    private function checkUser()
+    {
+        if (auth()->guest()) {
+            return redirect()->route('index');
+        }
+
+        return auth()->user();
     }
 
 }

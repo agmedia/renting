@@ -31,7 +31,7 @@ class Order extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['total_amount', 'total_text'];
+    protected $appends = ['total_amount', 'total_text', 'reservation'];
 
     /**
      * @var array
@@ -70,7 +70,7 @@ class Order extends Model
      */
     public function apartment()
     {
-        return $this->hasOne(Apartment::class, 'apartment_id');
+        return $this->hasOne(Apartment::class, 'id', 'apartment_id');
     }
 
 
@@ -98,6 +98,15 @@ class Order extends Model
     public function getStatusAttribute()
     {
         return Helper::resolveOrderStatus($this->order_status_id);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getReservationAttribute()
+    {
+        return unserialize($this->options);
     }
 
 

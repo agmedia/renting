@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Helpers\Helper;
 use App\Helpers\Session\CheckoutSession;
 use App\Http\Controllers\FrontBaseController;
 use App\Models\Front\Checkout\Deposit;
@@ -100,7 +101,7 @@ class CheckoutController extends FrontBaseController
             return redirect()->route('index');
         }
 
-        $checkout_request = $this->setCheckoutRequest($request, $order->toArray());
+        $checkout_request = Helper::setCheckoutRequest($request, $order->toArray());
         $checkout         = new Checkout($checkout_request);
 
         $checkout->setPayment($order->payment_method);
@@ -272,27 +273,6 @@ class CheckoutController extends FrontBaseController
         }
 
         return false;
-    }
-
-
-    /**
-     * @param Request $request
-     * @param array   $order
-     *
-     * @return Request
-     */
-    private function setCheckoutRequest(Request $request, array $order): Request
-    {
-        return $request->merge([
-            'apartment_id' => $order['apartment_id'],
-            'aid'          => $order['apartment_id'],
-            'dates'        => Carbon::make($order['date_from'])->format('Y-m-d') . ' - ' . Carbon::make($order['date_to'])->format('Y-m-d'),
-            'firstname'    => $order['payment_fname'],
-            'lastname'     => $order['payment_lname'],
-            'phone'        => $order['payment_phone'],
-            'email'        => $order['payment_email'],
-            'payment_type' => $order['payment_method']
-        ]);
     }
 
 

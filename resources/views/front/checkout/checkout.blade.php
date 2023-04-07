@@ -23,16 +23,16 @@
             <div class="row">
                 <div class="col-lg-4 offset-lg-1 order-lg-2 content">
                     <div class="sidebar">
-                        <div class="mt-lg-4 p-4 mb-4 shadow-one reservationbox ">
+                        <div class="mt-lg-4 p-4 mb-4 shadow-one reservationbox">
                             <div class="img-80 float-start me-3 mb-4 rounded-circle"><img src="{{ $checkout->apartment->thumb }}" alt="{{ $checkout->apartment->title }}" title="{{ $checkout->apartment->title }}"></div>
                             <h5 class="mt-2 mb-0 text-primary">{{ $checkout->apartment->title }}</h5>
                             <p class="mb-0">{{ __('front/checkout.entire_rental_unit') }}</p>
                             <div class="clearfix"></div>
-                            <div class="row row-cols-1 ">
+                            <div class="row row-cols-1">
                                 <div class="col mt-0">
                                     <h4 class="mt-0 mb-2 text-primary">{{ __('front/checkout.price_details') }}</h4>
                                     <ul class="list-group mb-3">
-                                        @foreach ($checkout->total['items'] as  $item)
+                                        @foreach ($checkout->total['items'] as $item)
                                             <li class="list-group-item d-flex justify-content-between py-3 lh-sm">
                                                 <div>
                                                     <h6 class="my-0">{{ $item['price_text'] }} x {{ $item['count'] }} {!! $item['title'] !!} </h6>
@@ -40,7 +40,7 @@
                                                 <span class="text-muted">{{ $item['total_text'] }}</span>
                                             </li>
                                         @endforeach
-                                        @foreach ($checkout->total['total'] as  $item)
+                                        @foreach ($checkout->total['total'] as $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
                                                 <h5 class="my-0">{!! $item['title'] !!}</h5>
                                                 <strong>{{ $item['total_text'] }}</strong>
@@ -93,7 +93,7 @@
                                                 <div class="ms-4" style="float:right">
                                                     {{ $item['price_text'] }}
                                                 </div>
-                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
+                                                <div id="{{ $item['reference'] }}" class="form-text ps-4">{{ $item['description'] }}</div>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -114,7 +114,7 @@
                                                 <div class="ms-4" style="float:right">
                                                     {{ $item['price_text'] }}
                                                 </div>
-                                                <div id="{{ $item['reference'] }}" class="form-text ps-4 ">{{ $item['description'] }}</div>
+                                                <div id="{{ $item['reference'] }}" class="form-text ps-4">{{ $item['description'] }}</div>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -131,7 +131,7 @@
                                         <input type="text" id="lastname" name="lastname" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.surname') }}" value="{{ auth()->guest() ? $checkout->lastname : auth()->user()->details->lname }}" required>
                                     </div>
                                     <div class="col-lg-6 mb-3">
-                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray " placeholder="" value="{{ auth()->guest() ? $checkout->phone : auth()->user()->details->phone }}" required>
+                                        <input type="text" id="phone" name="main-phone" class="form-control bg-gray" placeholder="" value="{{ auth()->guest() ? $checkout->phone : auth()->user()->details->phone }}" required>
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="text" id="email" name="email" class="form-control bg-gray mb-3" placeholder="{{ __('front/checkout.email_address') }}" value="{{ auth()->guest() ? $checkout->email : auth()->user()->email }}" required>
@@ -217,7 +217,7 @@
                                                 </div>
                                             @endif
                                             @if ($item->data->short_description)
-                                                <div id="{{ $item->code }}" class="form-text ps-4 ">{{ $item->data->short_description->{current_locale()} }}</div>
+                                                <div id="{{ $item->code }}" class="form-text ps-4">{{ $item->data->short_description->{current_locale()} }}</div>
                                             @endif
                                         </li>
                                     @endforeach
