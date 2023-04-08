@@ -16,7 +16,7 @@ return [
     'success_main_title' => 'Rezervacija uspješna',
 
     'success_sub_title' => 'Vaša rezervacija je uspješno dovršena!',
-    'success_text_line' => 'Dobit ćete e-mail  s detaljnim podacima o rezervaciji.<br>Čim uplatite pošaljite nam potvrdu o uplati najbolje na Whatsapp: +385 99 500 8000 <br>Whatsapp LINK: <a href="https://wa.me/message/RJPBBSQGMQKVI1">https://wa.me/message/RJPBBSQGMQKVI1</a><br> Hvala Vam na povjerenju!',
+    'success_text_line' => 'Vaše plaćanje je uspješno dovršeno!<br><br>Dobit ćete e-mail s detaljnim podacima.<br>Javite nam se na mail: selfcheckins@gmail.com ili Whatsapp: +385 99 500 8000<br>Whatsapp LINK: <a href="https://wa.me/message/RJPBBSQGMQKVI1">https://wa.me/message/RJPBBSQGMQKVI1</a><br><br>Hvala Vam na povjerenju!',
     'success_home' => 'Naslovnica',
     'success_btn' => 'Nastavite pregled stranice',
     'success_text' => 'Uredno smo zaprimili Vašu narudžbu broj',

@@ -15,7 +15,7 @@ return [
 
     'success_main_title' => 'Reservation successful',
     'success_sub_title' => 'Your reservation has been successfully completed!',
-    'success_text_line' => 'You will receive an e-mail with detailed information about the reservation.<br>As soon as you have paid, send us a confirmation of payment, preferably on Whatsapp: +385 99 500 8000 <br>Whatsapp LINK: <a href="https:/ /wa.me/message/RJPBBSQGMQKVI1">https://wa.me/message/RJPBBSQGMQKVI1</a><br> Thank you for your trust!',
+    'success_text_line' => 'Your payment has been succesfully finished!<br><br>You will receive an e-mail with detailed information about the reservation.<br>As soon as you have paid, send us a confirmation of payment, preferably on Whatsapp: +385 99 500 8000 <br>Whatsapp LINK: <a href="https:/ /wa.me/message/RJPBBSQGMQKVI1">https://wa.me/message/RJPBBSQGMQKVI1</a><br><br>Thank you for your trust!',
     'success_home' => 'Home',
     'success_btn' => 'Continue browsing',
     'success_text' => 'We have successfully received your order number',
