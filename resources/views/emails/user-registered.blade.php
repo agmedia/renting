@@ -22,7 +22,7 @@
                     </tr>
                     @if ( ! empty($user->details->phone))
                         <tr>
-                            <td>{{ __('front/common.call') }}:</td>
+                            <td>{{ __('front/common.mobile') }}:</td>
                             <td><b>{{ $user->details->phone }}</b></td>
                         </tr>
                     @endif

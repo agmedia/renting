@@ -13,7 +13,7 @@
         <td><b>{{ ($order->payment_phone) ? $order->payment_phone : '' }}</b></td>
     </tr>
 
-    @if ( ! $checkout['is_deposit'])
+    @if ($checkout['is_deposit'])
         <tr>
             <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
             <td>{{ $checkout['request']['dates'] }}</td>
