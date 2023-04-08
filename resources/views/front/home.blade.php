@@ -363,6 +363,7 @@
             grid:        1,
             calendars:   1,
             zIndex:      10,
+            lang:        '{{ current_locale() }}',
             plugins:     ['LockPlugin', 'RangePlugin'],
             RangePlugin: {
                 tooltipNumber(num) {

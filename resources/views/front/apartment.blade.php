@@ -321,6 +321,7 @@
             grid:        1,
             calendars:   1,
             zIndex:      10,
+            lang:        '{{ current_locale() }}',
             plugins:     ['LockPlugin', 'RangePlugin'],
             RangePlugin: {
                 tooltipNumber(num) {
@@ -356,6 +357,7 @@
             grid:      2,
             calendars: 2,
             inline:    true,
+            lang:      '{{ current_locale() }}',
             plugins:   ['LockPlugin', 'RangePlugin'],
             setup(picker) {
                 picker.on('select', (e) => {
