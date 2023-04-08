@@ -35,6 +35,39 @@ class CreateNewUser implements CreatesNewUsers
             'terms'    => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
+        return $this->checkAndStoreUser($input);
+    }
+
+
+    /**
+     * @param array $input
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function register(array $input)
+    {
+        Validator::make($input, [
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => $this->passwordRules(),
+            'terms'    => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+        ])->validate();
+
+        if ( ! isset($input['name'])) {
+            $input['name'] = substr($input['email'], 0, strpos($input['email'], '@'));
+        }
+
+        return $this->checkAndStoreUser($input);
+    }
+
+
+    /**
+     * @param array $input
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function checkAndStoreUser(array $input)
+    {
         // Recaptcha
         if (config('app.env') == 'production') {
             $recaptcha = (new Recaptcha())->check($input);

@@ -70,7 +70,7 @@ return [
     'email_error' => 'Email je obvezan',
     'save' => 'Snimi',
     'order_number' => 'Broj narudžbe',
-    'no_orders' => 'Trenutno nemate narudžbi.',
-    'order_history' => 'Povijest vaših narudžbi',
+    'no_orders' => 'Trenutno nemate rezervacija.',
+    'order_history' => 'Povijest vaših rezervacija',
     'order_action' => 'Akcija'
 ];

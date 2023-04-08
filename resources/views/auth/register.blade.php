@@ -19,11 +19,14 @@
                             </div>
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-alt" id="name" name="name" placeholder="{{ __('auth.username') }}" value="{{ old('name') }}">
-                                </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <input type="text" class="form-control form-control-alt" id="name" name="name" placeholder="{{ __('auth.username') }}" value="{{ old('name') }}">--}}
+{{--                                </div>--}}
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-alt" id="email" name="email" placeholder="{{ __('auth.email') }}" value="{{ old('email') }}">
+                                    @if ($errors->has('email'))
+                                        <span class="ml-2 font-size-sm text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-alt" id="password" name="password" placeholder="{{ __('auth.pass') }}">
@@ -34,7 +37,7 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-alt" id="password-confirmation" name="password_confirmation" placeholder="{{ __('auth.passconfirm') }}">
                                     @if ($errors->has('password'))
-                                        <span class="ml-2 font-size-sm text-danger">{{ $errors->get('password')[1] }}</span>
+                                        <span class="ml-2 font-size-sm text-danger">{{ $errors->first('password') }}</span>
                                     @endif
                                 </div>
                                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

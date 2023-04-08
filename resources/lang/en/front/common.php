@@ -70,7 +70,7 @@ return [
     'email_error' => 'Email is mandatory',
     'save' => 'Save',
     'order_number' => 'Order number',
-    'no_orders' => 'You currently have no orders.',
-    'order_history' => 'History of your orders.',
+    'no_orders' => 'You currently have no raservations.',
+    'order_history' => 'History of your raservations.',
     'order_action' => 'Action'
 ];

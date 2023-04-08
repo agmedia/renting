@@ -72,7 +72,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
                 ->name('register');
         }
 
-        Route::post('/register', [RegisteredUserController::class, 'store'])
+        Route::post('/register', [\App\Actions\Fortify\RegisterController::class, 'store'])
             ->middleware(['guest:'.config('fortify.guard')]);
     }
 
