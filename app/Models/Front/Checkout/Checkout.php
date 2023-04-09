@@ -49,10 +49,6 @@ class Checkout
 
     public $babies = 0;
 
-    public $additional_adults = 0;
-
-    public $additional_children = 0;
-
     public $additional_persons = 0;
 
     public $additional_persons_price = 0.00;
@@ -345,9 +341,7 @@ class Checkout
         $this->children = $this->resolveRegularPerson(intval($this->request->input('children')), $this->apartment->max_children);
         $this->babies   = $this->resolveRegularPerson(intval($this->request->input('baby')), $this->apartment->max_children);
 
-        $this->additional_adults   = $this->resolveAdditionalPerson($this->adults);
-        $this->additional_children = $this->resolveAdditionalPerson(($this->children + $this->adults), true);
-        $this->additional_persons  = $this->additional_adults + $this->additional_children;
+        $this->additional_persons = $this->resolveAdditionalPerson($this->adults + $this->children + $this->babies);
 
         if ($this->additional_persons) {
             $this->additional_person_object = $this->apartment->options()->where('reference', 'person')->orderBy('price')->first();
@@ -381,24 +375,23 @@ class Checkout
 
 
     /**
-     * @param int  $target
-     * @param bool $check_max
+     * @param int $target
      *
      * @return \Illuminate\Database\Eloquent\HigherOrderBuilderProxy|int|mixed
      */
-    private function resolveAdditionalPerson(int $target, bool $check_max = false)
+    private function resolveAdditionalPerson(int $target)
     {
-        if ($check_max) {
-            if ($target > $this->apartment->max_persons) {
-                return $target - $this->apartment->max_persons;
-            }
-        } else {
-            if ($target > $this->apartment->regular_persons) {
-                return $target - $this->apartment->regular_persons;
-            }
+        $persons = 0;
+
+        if ($target > $this->apartment->regular_persons) {
+            $persons = $target - $this->apartment->regular_persons;
         }
 
-        return 0;
+        if ($persons > $this->apartment->max_persons) {
+            $persons = $target - $this->apartment->max_persons;
+        }
+
+        return $persons;
     }
 
 
