@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Back\Settings\Settings;
+use App\Models\Front\Checkout\Checkout;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -22,18 +23,18 @@ class Helper
     public static function getCalendarBackViewData(Collection $calendars): Collection
     {
         $response = [];
-        $count = 0;
+        $count    = 0;
 
         foreach ($calendars->groupBy('apartment_id') as $group) {
             $color = '#' . config('settings.calendar_colors')[$count];
 
             foreach ($group as $calendar) {
                 $response[] = [
-                    'title' => $calendar->apartment->title,
-                    'start' => $calendar->date_from,
-                    'end'   => $calendar->date_to,
-                    'color' => $color,
-                    'order' => $calendar->toArray(),
+                    'title'         => $calendar->apartment->title,
+                    'start'         => $calendar->date_from,
+                    'end'           => $calendar->date_to,
+                    'color'         => $color,
+                    'order'         => $calendar->toArray(),
                     'order_options' => unserialize($calendar->options)
                 ];
             }
@@ -63,7 +64,7 @@ class Helper
 
         if ($day) {
             $dateFrom = new \DateTime($from_date);
-            $dateTo = new \DateTime($to_date);
+            $dateTo   = new \DateTime($to_date);
 
             if ($dateFrom > $dateTo) {
                 return $dates;
@@ -101,7 +102,7 @@ class Helper
      */
     public static function getWeekends(string $from_date, string $to_date, string $day): array
     {
-        $dates = [];
+        $dates    = [];
         $function = 'is' . Str::title($day);
 
         $range = CarbonPeriod::create($from_date, Carbon::make($to_date)->subDay());
@@ -253,6 +254,40 @@ class Helper
 
 
     /**
+     * @param array $event
+     * @param int   $apartment_id
+     *
+     * @return Request
+     */
+    public static function setCheckoutSyncRequest(array $event, int $apartment_id): Request
+    {
+        return new Request([
+            'aid'          => $apartment_id,
+            'apartment_id' => $apartment_id,
+            'dates'        => $event['start'] . ' - ' . $event['end'],
+            'adults'       => 1,
+            'children'     => 0,
+            'baby'         => 0
+        ]);
+    }
+
+
+    /**
+     * @param array    $event
+     * @param Checkout $checkout
+     *
+     * @return array
+     */
+    public static function returnCheckoutCleanData(array $event, Checkout $checkout): array
+    {
+        $clean_checkout               = $checkout->cleanData();
+        $clean_checkout['sync_event'] = $event;
+
+        return $clean_checkout;
+    }
+
+
+    /**
      * @param Request $request
      *
      * @return array
@@ -291,7 +326,7 @@ class Helper
         $encrypt_method = "AES-256-CBC";
         //pls set your unique hashing key
         $secret_key = config('app.name');
-        $secret_iv = self::getBasicInfo()->email;
+        $secret_iv  = self::getBasicInfo()->email;
 
         // hash
         $key = hash('sha256', $secret_key);
@@ -300,13 +335,14 @@ class Helper
         $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
         //do the encyption given text/string/number
-        if( $action == 'encrypt' ) {
+        if ($action == 'encrypt') {
             $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
             $output = substr(base64_encode($output), 0, -1);
-        }
-        else if( $action == 'decrypt' ){
-            //decrypt the given text/string/number
-            $output = openssl_decrypt(base64_decode($string . '='), $encrypt_method, $key, 0, $iv);
+        } else {
+            if ($action == 'decrypt') {
+                //decrypt the given text/string/number
+                $output = openssl_decrypt(base64_decode($string . '='), $encrypt_method, $key, 0, $iv);
+            }
         }
 
         return $output;

@@ -10,17 +10,17 @@
     </tr>
     <tr>
         <td>{{ __('front/common.mobile') }}:</td>
-        <td><b>{{ ($order->payment_phone) ? $order->payment_phone : '' }}</b></td>
+        <td><b>{{ ($order->payment_phone) ?: '' }}</b></td>
     </tr>
 
     @if ($checkout['is_deposit'])
         <tr>
-            <td ><strong>{{ __('front/checkout.dates') }}</strong></td>
-            <td>{{ $checkout['request']['dates'] }}</td>
+            <td><strong>{{ __('front/checkout.dates') }}</strong></td>
+            <td>{{ $order['reservation']['request']['dates'] }}</td>
         </tr>
         <tr>
             <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
-            <td>{{ $checkout['request']['adults'] + $checkout['request']['children'] }} {{ __('front/checkout.guests') }}</td>
+            <td>{{ $order['reservation']['request']['adults'] + $order['reservation']['request']['children'] }} {{ __('front/checkout.guests') }}</td>
         </tr>
     @endif
 

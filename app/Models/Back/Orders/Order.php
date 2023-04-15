@@ -337,7 +337,7 @@ class Order extends Model
         if ($request->has('origin') && ! empty($request->input('origin')) && $request->input('origin') != 'all') {
             if ($request->input('origin') == 'selfcheckins') {
                 $query->whereNotIn('payment_fname', ['Booking', 'Airbnb']);
-            }else {
+            } else {
                 $query->where('payment_fname', 'like', '%' . $request->input('origin'));
             }
         }
@@ -395,33 +395,39 @@ class Order extends Model
      */
     public static function storeSyncData(string $target, array $event, int $apartment_id)
     {
-        $has_uid = self::where('sync_uid', $event['uid'])->where('apartment_id', $apartment_id)->first();
-
+        // Escape Airbnb 3 month advance constant reservation.
         if (Carbon::make($event['start'])->addDays(3) > now()->addMonths(3)) {
             return 1;
         }
 
-        if ($has_uid && $has_uid->order_status_id != config('settings.order.status.canceled')) {
-            return 1; // Treba li updejtati ako ima već taj UID $target narudžbe..?
+        $existing_order = self::where('sync_uid', $event['uid'])->where('apartment_id', $apartment_id)->first();
+
+        // If order exist and status is paid. (not canceled)
+        if ($existing_order && $existing_order->order_status_id != config('settings.order.status.canceled')) {
+            // Check if dates have changed
+            if (carbon($existing_order->date_from)->ne(carbon($event['start'])) || carbon($existing_order->date_to)->ne(carbon($event['end']))) {
+                $checkout = new Checkout(Helper::setCheckoutSyncRequest($event, $apartment_id));
+
+                $existing_order->update([
+                    'total'      => $checkout->total_amount,
+                    'date_from'  => Carbon::make($event['start']),
+                    'date_to'    => Carbon::make($event['end']),
+                    'options'    => serialize(Helper::returnCheckoutCleanData($event, $checkout)),
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+
+            return 1;
         }
 
-        if ($has_uid && $has_uid->order_status_id == config('settings.order.status.canceled')) {
-            return $has_uid->update([
+        // If existing order has been paid.
+        if ($existing_order && $existing_order->order_status_id == config('settings.order.status.canceled')) {
+            return $existing_order->update([
                 'order_status_id' => config('settings.order.status.paid')
             ]);
         }
 
-        $checkout = new Checkout(new Request([
-            'aid'          => $apartment_id,
-            'apartment_id' => $apartment_id,
-            'dates'        => $event['start'] . ' - ' . $event['end'],
-            'adults'       => 1,
-            'children'     => 0,
-            'baby'         => 0
-        ]));
-
-        $clean_checkout               = $checkout->cleanData();
-        $clean_checkout['sync_event'] = $event;
+        $checkout = new Checkout(Helper::setCheckoutSyncRequest($event, $apartment_id));
 
         $id = self::insertGetId([
             'apartment_id'     => $apartment_id,
@@ -439,7 +445,7 @@ class Order extends Model
             'payment_code'     => 'corvus',
             'company'          => '',
             'oib'              => '',
-            'options'          => serialize($clean_checkout),
+            'options'          => serialize(Helper::returnCheckoutCleanData($event, $checkout)),
             'comment'          => (($target == 'airbnb') ? 'Airbnb' : 'Booking') . ' synchronized order.',
             'sync_uid'         => $event['uid'],
             'approved'         => '',
@@ -449,15 +455,7 @@ class Order extends Model
         ]);
 
         if ($id) {
-            OrderHistory::store($id);
-
-            OrderTotal::where('order_id', $id)->delete();
-
-            foreach ($checkout->total['total'] as $key => $total) {
-                OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
-            }
-
-            return self::find($id);
+            return static::storeOrderSyncData($id, $checkout);
         }
 
         return false;
@@ -467,6 +465,26 @@ class Order extends Model
      *                                Copyright : AGmedia                           *
      *                              email: filip@agmedia.hr                         *
      *******************************************************************************/
+
+    /**
+     * @param int      $id
+     * @param Checkout $checkout
+     *
+     * @return mixed
+     */
+    private function storeOrderSyncData(int $id, Checkout $checkout)
+    {
+        OrderHistory::store($id);
+
+        OrderTotal::where('order_id', $id)->delete();
+
+        foreach ($checkout->total['total'] as $key => $total) {
+            OrderTotal::insertRow($id, $total['code'], $total['total'], $key);
+        }
+
+        return self::find($id);
+    }
+
 
     /**
      * @return false
