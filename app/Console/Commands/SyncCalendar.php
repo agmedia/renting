@@ -52,14 +52,20 @@ class SyncCalendar extends Command
 
                 if ($links && ! empty($links)) {
                     foreach ($links as $key => $link) {
-                        if (isset($link['link']) && $link['link']) {
-                            $request = new Request([
-                                'apartment' => $apartment->id,
-                                'target' => $key,
-                                'url' => $link['link'],
-                            ]);
+                        $time = Carbon::now();
+                        $from = Carbon::create($time->year, $time->month, $time->day, 21, 59, 0);
+                        $to = Carbon::create($time->year, $time->month, $time->day, 23, 59, 0);
 
-                            $apartment->syncUrlWith($request);
+                        if ($time->between($from, $to, false) && $key != 'airbnb') {
+                            if (isset($link['link']) && $link['link']) {
+                                $request = new Request([
+                                    'apartment' => $apartment->id,
+                                    'target' => $key,
+                                    'url' => $link['link'],
+                                ]);
+
+                                $apartment->syncUrlWith($request);
+                            }
                         }
                     }
                 }

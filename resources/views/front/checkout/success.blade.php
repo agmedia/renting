@@ -35,7 +35,7 @@
             <div class="card py-3 mt-sm-3">
                 <div class="card-body text-center">
                     <h2 class="h4 pb-3">{{ __('front/success.success_sub_title') }}</h2>
-                    <p> {!!  __('front/success.success_text_line') !!} </p>
+{{--                    <p> {!!  __('front/success.success_text_line') !!} </p>--}}
                         @if (isset($order))
                             @if ($order->payment_code == 'bank')
                                 <p>{{ __('front/success.success_text') }} {{ $order->id }} .</p>

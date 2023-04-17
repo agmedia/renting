@@ -22,6 +22,10 @@
             <td><strong>{{ __('front/checkout.Guests') }}</strong></td>
             <td>{{ $order['reservation']['request']['adults'] + $order['reservation']['request']['children'] }} {{ __('front/checkout.guests') }}</td>
         </tr>
+        <tr>
+            <td><strong>{{ __('front/common.apartment') }}</strong></td>
+            <td>{{ $order->apartment->title }}</td>
+        </tr>
     @endif
 
 </table>
