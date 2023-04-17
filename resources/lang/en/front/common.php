@@ -29,7 +29,7 @@ return [
     'support' => 'Support',
     'copy_text' => '© 2023 SelfCheckIns. All right reserved.',
     'terms' => 'Terms and Conditions',
-    'apartment' => 'Apartman',
+    'apartment' => 'Apartment',
     'total' => 'Total',
     'payment' => 'Payment Method',
     'order_num' => 'Order Number',

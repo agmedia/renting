@@ -29,7 +29,7 @@ return [
     'support' => 'Podrška',
     'copy_text' => '© 2023 SelfCheckIns. Sva prava pridržana.',
     'terms' => 'Uvjeti korištenja',
-    'apartment' => 'Apartment',
+    'apartment' => 'Apartman',
     'total' => 'Ukupno',
     'payment' => 'Način plaćanja',
     'order_num' => 'Narudžba broj',
