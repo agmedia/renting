@@ -56,7 +56,9 @@ class SyncCalendar extends Command
                         $from = Carbon::create($time->year, $time->month, $time->day, 21, 59, 0);
                         $to = Carbon::create($time->year, $time->month, $time->day, 23, 59, 0);
 
-                        if ($time->between($from, $to, false) && $key != 'airbnb') {
+                        if ($time->between($from, $to, true) && $key == 'airbnb') {
+                            //...
+                        } else {
                             if (isset($link['link']) && $link['link']) {
                                 $request = new Request([
                                     'apartment' => $apartment->id,
