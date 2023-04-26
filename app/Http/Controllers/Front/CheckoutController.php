@@ -122,6 +122,67 @@ class CheckoutController extends FrontBaseController
     }
 
 
+    public function checkoutArbitrary()
+    {
+        return view('front.checkout.checkout-arbitrary-1');
+    }
+
+    public function checkoutArbitrarySelect(Request $request)
+    {
+        $request->validate([
+            'dates' => 'required',
+            'source' => 'required'
+        ]);
+
+        $dates = explode(' - ', $request->input('dates'));
+
+        $orders = Order::query()->with('apartment')
+                       ->where('date_from', $dates[0])
+                       ->where('date_to', $dates[1])
+                       ->where('payment_email', 'info@' . $request->input('source') . '.com')
+                       ->get();
+
+        //dd($orders->toArray());
+
+        return view('front.checkout.checkout-arbitrary-2', compact('orders'));
+    }
+
+    public function checkoutArbitraryInfo(Order $order)
+    {
+        return view('front.checkout.checkout-arbitrary-3', compact('order'));
+    }
+
+    public function checkoutArbitraryPay(Request $request)
+    {
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'mobile' => 'required',
+            'email' => 'required',
+            'scope_id' => 'required',
+            'amount' => 'required',
+            'order_id' => 'required'
+        ]);
+
+        $comment = $request->input('firstname') . ' ' . $request->input('lastname') . '<br>' . $request->input('email') . '<br>' . $request->input('mobile') . '<br>' . $request->input('comment');
+
+        $request->merge(['payment_type' => 'card']);
+        $request->merge(['payment_amount' => $request->input('amount')]);
+        $request->merge(['comment' => $comment]);
+
+        $deposit = new \App\Models\Back\Orders\Deposit();
+        $saved = $deposit->validateRequest($request)->create();
+
+        if ($saved) {
+            $deposit = Deposit::find($saved);
+
+            return response()->redirectTo(route('checkout.special', ['signature' => $deposit->signature]));
+        }
+
+        return redirect()->back()->with('error', __('front/common.message_error'));
+    }
+
+
     /**
      * @param Request $request
      *

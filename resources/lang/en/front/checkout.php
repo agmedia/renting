@@ -46,5 +46,17 @@ return [
     'backbtnpayment' => 'Back to payment',
     'finishorder' => 'Finish order',
     'finishshoping' => 'Finish payment',
-    'register' => 'Register as a new user!'
+    'register' => 'Register as a new user!',
+    //
+    'select_source' => 'Select the source of your reservation...',
+    'dates_error' => 'Please select the dates of your reservation.',
+    'source_error' => 'Please select the source of your reservation.',
+    'arbitrary' => [
+        'title' => 'Please select the dates and source of Your reservation.',
+        'title2' => 'Molimo odaberite Vaš apartman.',
+        'price' => 'Purpose and amount info',
+        'select_scope' => 'Select purpose of payment...',
+        'amount' => 'Enter amount',
+        'btn_next' => 'Next'
+    ],
 ];

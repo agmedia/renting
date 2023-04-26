@@ -383,6 +383,11 @@ Route::group(
     Route::post('/checkout', [CheckoutController::class, 'checkoutView'])->name('checkout.view');
     Route::get('/naplata', [CheckoutController::class, 'success'])->name('naplata');
     Route::get('/checkout/special', [CheckoutController::class, 'checkoutSpecial'])->name('checkout.special');
+    //
+    Route::get('/checkout/arbitrary', [CheckoutController::class, 'checkoutArbitrary'])->name('checkout.arbitrary');
+    Route::post('/checkout/arbitrary/select', [CheckoutController::class, 'checkoutArbitrarySelect'])->name('checkout.arbitrary.select');
+    Route::get('/checkout/arbitrary/info/{order}', [CheckoutController::class, 'checkoutArbitraryInfo'])->name('checkout.arbitrary.info');
+    Route::post('/checkout/arbitrary/pay', [CheckoutController::class, 'checkoutArbitraryPay'])->name('checkout.arbitrary.pay');
     // SETUP ROUTES
     Route::get('cache/image', [SetupController::class, 'imageCache'])->name('image.cache');
     Route::get('cache/thumb', [SetupController::class, 'thumbCache'])->name('thumb.cache');

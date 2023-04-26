@@ -61,7 +61,7 @@
                                                     </div>
 
                                                     <div class="col-md-6 mt-3">
-                                                        <div class="input-group ">
+                                                        <div class="input-group">
                                                             <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
                                                             <input class="form-control bg-gray" id="checkindate" name="dates" placeholder="{{ __('front/apartment.checkin_title') }}" type="text">
                                                         </div>

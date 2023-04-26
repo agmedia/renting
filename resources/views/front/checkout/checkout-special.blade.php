@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row row-cols-md-2 row-cols-1 g-3">
                 <div class="col">
-                    <h3 class="page-name text-secondary m-0"> <a href="javascript:history.back()"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.special') }}</h3>
+                    <h3 class="page-name text-secondary m-0"> <a href="{{ route('index') }}"><i class="fas fa-angle-left me-5"></i></a>{{ __('front/checkout.special') }}</h3>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
 
                         @if ($order->payment_code != 'bank')
                             <div class="col-sm-12 mt-5">
-                                <p>{{ $order->comment }}</p>
+                                <p>{!! $order->comment !!}</p>
                                 {!! $form !!}
                             </div>
                         @endif

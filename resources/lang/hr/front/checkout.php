@@ -46,5 +46,17 @@ return [
     'backbtnpayment' => 'Povratak na plaćanje',
     'finishorder' => 'Dovršite narudžbu',
     'finishshoping' => 'Dovršite Kupnju',
-    'register' => 'Registriraj se kao naš korisnik!'
+    'register' => 'Registriraj se kao naš korisnik!',
+    //
+    'select_source' => 'Odaberi izvor rezervacije...',
+    'dates_error' => 'Molimo odaberite datume rezervacije.',
+    'source_error' => 'Molimo odaberite izvor rezervacije.',
+    'arbitrary' => [
+        'title' => 'Molimo odaberite datume i izvor Vaše rezervacije.',
+        'title2' => 'Molimo odaberite Vaš apartman.',
+        'price' => 'Detalji o namjeni i iznosu plaćanja',
+        'select_scope' => 'Odaberite namjenu plaćanja...',
+        'amount' => 'Upišite iznos',
+        'btn_next' => 'Dalje'
+    ],
 ];
