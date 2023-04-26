@@ -166,7 +166,7 @@ class CheckoutController extends FrontBaseController
 
         $comment = $request->input('firstname') . ' ' . $request->input('lastname') . '<br>' . $request->input('email') . '<br>' . $request->input('mobile') . '<br>' . $request->input('comment');
 
-        $request->merge(['payment_type' => 'card']);
+        $request->merge(['payment_type' => config('settings.payment.default')]);
         $request->merge(['payment_amount' => $request->input('amount')]);
         $request->merge(['comment' => $comment]);
 
