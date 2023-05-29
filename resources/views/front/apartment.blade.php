@@ -336,7 +336,7 @@
             },
             LockPlugin:  {
                 minDate:     new Date(),
-                minDays:     2,
+                minDays:     1,
                 inseparable: true,
                 filter(date, picked) {
                     if (picked.length === 1) {
@@ -379,7 +379,7 @@
             },
             LockPlugin:  {
                 minDate:     new Date(),
-                minDays:     2,
+                minDays:     1,
                 inseparable: true,
                 filter(date, picked) {
                     if (picked.length === 1) {
