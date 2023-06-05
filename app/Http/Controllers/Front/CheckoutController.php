@@ -274,12 +274,17 @@ class CheckoutController extends FrontBaseController
     /**
      * @param Request $request
      *
-     * @return Deposit
+     * @return Deposit|null
      */
-    private function resolveSuccessDeposit(Request $request): Deposit
+    private function resolveSuccessDeposit(Request $request)
     {
         $ids     = explode('-', $request->input('order_number'));
-        return Deposit::query()->where('id', $ids[1])->where('order_id', $ids[0])->first();
+
+        if (isset($ids[0]) && isset($ids[1])) {
+            return Deposit::query()->where('id', $ids[1])->where('order_id', $ids[0])->first();
+        }
+
+        return null;
     }
 
 
