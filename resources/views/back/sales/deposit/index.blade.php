@@ -149,7 +149,12 @@
                                 <td class="text-center">{{ carbon($deposit->order->date_from)->format('d.m.Y') }} - {{ carbon($deposit->order->date_to)->format('d.m.Y') }}</td>
                                 <td>{{ $deposit->order->payment_fname }} {{ $deposit->order->payment_lname }}</td>
                                 <td>{{ $deposit->order->apartment->title }}</td>
-                                <td>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</td>
+                                @if ($deposit->scope_id)
+                                    <td>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</td>
+                                @else
+                                    <td></td>
+                                @endif
+
                                 <td class="text-right">{{ currency_main($deposit->amount, true) }}</td>
                                 <td class="font-size-base text-center">
                                     <span class="badge badge-pill badge-{{ $statuses->where('id', $deposit->status_id)->first()->color }}">
