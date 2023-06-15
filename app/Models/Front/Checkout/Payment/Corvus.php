@@ -62,7 +62,7 @@ class Corvus
 
         $total = number_format($this->order->total, 2, '.', '');
 
-        $data['currency']  = isset($options['currency']) ? $options['currency'] : 'EUR';
+        $data['currency']  = 'EUR';
         $data['action']    = $action;
         $data['merchant']  = $payment_method->data->shop_id;
         $data['order_id']  = isset($options['order_number']) ? $options['order_number'] : $this->order->id;
