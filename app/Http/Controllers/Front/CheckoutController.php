@@ -307,6 +307,7 @@ class CheckoutController extends FrontBaseController
                 'lastname'  => 'required',
                 'phone'     => 'required',
                 'email'     => 'required',
+                'agree'     => 'required',
             ]);
 
             $request->merge(['apartment_id' => $request->input('aid')]);
