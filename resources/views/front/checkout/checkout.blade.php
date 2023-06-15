@@ -245,7 +245,7 @@
 
                             <div class="col-12 mt-3">
                                 <div class="alert alert-secondary" role="alert">
-                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="agree" id="agree">   {!! __('front/checkout.agree') !!}
+                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="agree" id="agree" required>   {!! __('front/checkout.agree') !!}
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
