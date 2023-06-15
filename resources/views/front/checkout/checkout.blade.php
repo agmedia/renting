@@ -6,6 +6,15 @@
 
 @section('content')
 
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                {!! __('front/checkout.termstext') !!}
+
+            </div>
+        </div>
+    </div>
+
     <div class="page-banner full-row bg-white py-5">
         <div class="container">
             <div class="row row-cols-md-2 row-cols-1 g-3">
@@ -236,7 +245,7 @@
 
                             <div class="col-12 mt-3">
                                 <div class="alert alert-secondary" role="alert">
-                                    {!! __('front/checkout.agree') !!}
+                                    <input class="form-check-input me-1 mt-2" type="checkbox" name="agree" id="agree">   {!! __('front/checkout.agree') !!}
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
@@ -249,7 +258,12 @@
         </div>
     </div>
 
+
+
 @endsection
+
+
+
 
 @push('js_after')
     <script src="{{ asset("assets/js/input-tel/intlTelInput.js") }}"></script>
@@ -270,6 +284,16 @@
                     $('#password-row').show();
                 } else {
                     $('#password-row').hide();
+                }
+            });
+        });
+
+        $(() => {
+            $('#agree').on('change', (e) => {
+                if ($('#agree')[0].checked) {
+                    $('#myModal').modal('show');
+                } else {
+                    $('#myModal').modal('hide');
                 }
             });
         });
