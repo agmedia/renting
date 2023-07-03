@@ -361,7 +361,8 @@ class Apartment extends Model
         $ical   = new iCal($request->input('url'), $request->input('target'));
         $passed = true;
 
-        //Log::info($request);
+        Log::info('syncUrlWith - $request');
+        Log::info($request->toArray());
 
         $apartment = Apartment::query()->where('id', $request->input('apartment'))->first();
         $links     = json_decode($apartment->links, true);
@@ -370,9 +371,12 @@ class Apartment extends Model
         $links[$target]['updated'] = now();
         $links[$target]['icon']    = 'fa-check text-success';
 
+        /*Log::info('syncUrlWith - $ical');
+        Log::info(print_r($ical));*/
+
         if ( ! empty($ical->events)) {
 
-            //Log::info($ical->events);
+            Log::info($ical->events);
 
             foreach ($ical->events as $event) {
                 $order = Order::storeSyncData(
@@ -424,6 +428,9 @@ class Apartment extends Model
         $apartment->update([
             'links' => json_encode($links)
         ]);
+
+        Log::info('syncUrlWith - $passed');
+        Log::info($passed);
 
         if ($passed) {
             return response()->json(['success' => __('back/app.save_success')]);

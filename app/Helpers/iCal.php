@@ -3,9 +3,6 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class iCal
 {
@@ -61,7 +58,13 @@ class iCal
             return false;
         }
 
-        $this->makeArrayFromAirbnbString($string);
+        if ($this->target == 'booking') {
+            $this->makeArrayFromBookingString($string);
+        }
+
+        if ($this->target == 'airbnb') {
+            $this->makeArrayFromAirbnbString($string);
+        }
 
         return $this;
     }
@@ -133,7 +136,31 @@ class iCal
             }
         }
 
-        return $this->setAirbnbArray($data);
+        return $this->setOrderArray($data);
+    }
+
+
+    /**
+     * @param string $string
+     *
+     * @return array
+     */
+    private function makeArrayFromBookingString(string $string): array
+    {
+        $data = [];
+        $total_entries = preg_split("/[\r\n]+/", $string);
+
+        foreach ($total_entries as $line) {
+            $get = ['UID:', 'DTSTART;VALUE=DATE:', 'DTEND;VALUE=DATE:', 'SUMMARY:'];
+
+            foreach ($get as $item) {
+                if (substr_count($line, $item)) {
+                    $data[$this->event_count][substr($item, 0, -1)] = substr($line, strpos($line, $item) + strlen($item));
+                }
+            }
+        }
+
+        return $this->setOrderArray($data);
     }
 
 
@@ -142,7 +169,7 @@ class iCal
      *
      * @return array
      */
-    private function setAirbnbArray(array $data): array
+    private function setOrderArray(array $data): array
     {
         foreach ($data as $key => $event) {
             $sup = [];
