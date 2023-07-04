@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class iCal
 {
@@ -148,15 +149,24 @@ class iCal
     private function makeArrayFromBookingString(string $string): array
     {
         $data = [];
-        $total_entries = preg_split("/[\r\n]+/", $string);
+        $count = 0;
+        $events = explode('BEGIN:VEVENT', $string);
 
-        foreach ($total_entries as $line) {
-            $get = ['UID:', 'DTSTART;VALUE=DATE:', 'DTEND;VALUE=DATE:', 'SUMMARY:'];
+        foreach ($events as $i => $event) {
+            if ($i) {
+                $total_entries = preg_split("/[\r\n]+/", $event);
 
-            foreach ($get as $item) {
-                if (substr_count($line, $item)) {
-                    $data[$this->event_count][substr($item, 0, -1)] = substr($line, strpos($line, $item) + strlen($item));
+                foreach ($total_entries as $line) {
+                    $get = ['UID:', 'DTSTART;VALUE=DATE:', 'DTEND;VALUE=DATE:', 'SUMMARY:'];
+
+                    foreach ($get as $item) {
+                        if (substr_count($line, $item)) {
+                            $data[$count][substr($item, 0, -1)] = substr($line, strpos($line, $item) + strlen($item));
+                        }
+                    }
                 }
+
+                $count++;
             }
         }
 
