@@ -190,6 +190,8 @@ class CheckoutController extends FrontBaseController
      */
     public function success(Request $request)
     {
+        Log::info($request->toArray());
+        
         if ( ! CheckoutSession::hasOrder() && ! CheckoutSession::hasCheckout()) {
             // Check if it's a deposit
             $deposit = $this->checkResolveIfDeposit($request);
