@@ -60,8 +60,6 @@ class DepositController extends Controller
      */
     public function store_deposit(Request $request, Deposit $deposit): JsonResponse
     {
-        Log::info($request->toArray());
-
         $saved = $deposit->validateRequest($request)->create();
 
         if ($saved) {

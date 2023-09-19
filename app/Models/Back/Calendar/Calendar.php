@@ -77,7 +77,7 @@ class Calendar extends Model
             $name = $request['data']['title'];
         }
 
-        Log::info($name);
+        //Log::info($name);
 
         $id = Order::insertGetId([
             'apartment_id'     => $request['data']['apartment_id'],

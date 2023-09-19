@@ -38,8 +38,6 @@ class CurrencyController extends Controller
 
         $data = $request->data;
 
-        Log::debug($data);
-
         $setting = Settings::where('code', 'currency')->where('key', 'list')->first();
 
         $values = collect();

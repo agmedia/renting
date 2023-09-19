@@ -18,23 +18,16 @@ class CheckLocaleSession
      */
     public function handle($request, Closure $next)
     {
-        Log::info('public function handle($request, Closure $next)');
-        Log::info(session('locale'));
-
         $locale = session('locale', false);
 
         if (empty($locale)) {
-            Log::info('else');
             $main = LanguageHelper::getMain();
             $locale = $main->code;
 
             session(['locale' => $locale]);
-            Log::info('else-over');
         }
 
         app()->setLocale($locale);
-
-        Log::info(app()->getLocale());
 
         return $next($request);
     }
