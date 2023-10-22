@@ -307,12 +307,12 @@ class Action extends Model
     private function updateApartmentsActions(): bool
     {
         if ($this->request->group == 'all') {
-            return Apartment::update(
+            return Apartment::query()->update(
                 ['action_id' => $this->id]
             );
 
         } else {
-            return Apartment::whereIn('id', $this->links)->update(
+            return Apartment::query()->whereIn('id', $this->links)->update(
                 ['action_id' => $this->id]
             );
         }
@@ -324,7 +324,7 @@ class Action extends Model
      */
     private function deleteApartmentActions()
     {
-        return Apartment::where('action_id', $this->id)->update([
+        return Apartment::query()->where('action_id', $this->id)->update([
             'action_id' => 0
         ]);
     }
