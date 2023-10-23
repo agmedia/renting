@@ -114,12 +114,40 @@ class ActionHelper
             }
         }
 
+        $action = $action->toArray();
+
+        if ($action['type'] == 'P') {
+            $action = static::updateActionDays($action, $apartment);
+        }
+
         return [
-            'action' => $action->toArray(),
+            'action' => $action,
             'extra' => static::$extra,
             'days' => $days,
             'prices' => $prices
         ];
+    }
+
+
+    /**
+     * @param array $action
+     * @param       $apartment
+     *
+     * @return array
+     */
+    private static function updateActionDays(array $action, $apartment): array
+    {
+        if (intval($action['discount'])) {
+            $action['price_regular'] = Helper::calculateDiscountPrice($apartment->price_regular, $action['discount']);
+            $action['price_weekends'] = Helper::calculateDiscountPrice($apartment->price_weekends, $action['discount']);
+        }
+
+        if (intval($action['extra'])) {
+            $action['price_regular'] = Helper::calculateDiscountPrice($apartment->price_regular, $action['extra'], true);
+            $action['price_weekends'] = Helper::calculateDiscountPrice($apartment->price_weekends, $action['extra'], true);
+        }
+
+        return $action;
     }
 
 
@@ -149,7 +177,7 @@ class ActionHelper
         }
 
         if (Helper::isWeekend($day)) {
-            if ($action->discount) {
+            if (intval($action->discount)) {
                 return Helper::calculateDiscountPrice($apartment->price_weekends, $action->discount);
             }
 
@@ -158,7 +186,7 @@ class ActionHelper
             return Helper::calculateDiscountPrice($apartment->price_weekends, $action->extra, true);
         }
 
-        if ($action->discount) {
+        if (intval($action->discount)) {
             return Helper::calculateDiscountPrice($apartment->price_regular, $action->discount);
         }
 

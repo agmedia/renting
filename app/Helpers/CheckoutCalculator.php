@@ -153,8 +153,8 @@ class CheckoutCalculator
         $price = $this->apartment->price_regular;
         $action = collect($this->checkout->actions)->first();
 
-        if ($action['action']['type'] == 'F') {
-            $price = intval($action['action']['price_regular']);
+        if (in_array($action['action']['type'], ['F', 'P'])) {
+            $price = floatval($action['action']['price_regular']);
         }
 
         $total = $this->checkout->action_regular_days * $price;
@@ -202,8 +202,8 @@ class CheckoutCalculator
         $price = $this->apartment->price_weekends;
         $action = collect($this->checkout->actions)->first();
 
-        if ($action['action']['type'] == 'F') {
-            $price = intval($action['action']['price_weekends']);
+        if (in_array($action['action']['type'], ['F', 'P'])) {
+            $price = floatval($action['action']['price_weekends']);
         }
 
         $total = $this->checkout->action_weekends * $price;
