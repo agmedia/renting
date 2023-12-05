@@ -36,7 +36,7 @@ class Apartment extends Model
     /**
      * @var string[]
      */
-    protected $appends = ['title', 'webp', 'thumb', 'airbnb', 'booking'];
+    protected $appends = ['title', 'webp', 'thumb', 'airbnb', 'booking', 'nokumo'];
 
     /**
      * @var string
@@ -162,6 +162,15 @@ class Apartment extends Model
     public function getBookingAttribute(): array
     {
         return $this->getLinks('booking', $this->links);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getNokumoAttribute(): array
+    {
+        return $this->getLinks('nokumo', $this->links);
     }
 
 

@@ -447,6 +447,24 @@
                                                 </p>
                                             @endif
                                         </div>
+
+                                        <div class="col-md-12 pt-2">
+                                            <label for="nokumo-input">Nokumo</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="nokumo-input" name="links[nokumo]" placeholder="Nokumo PropertyID:" value="{{ isset($apartment->nokumo['link']) ? $apartment->nokumo['link'] : '' }}">
+                                                @if (isset($apartment->nokumo['link']) && $apartment->nokumo['link'] != '')
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-alt-dark" id="nokumo-sync-btn">{{ __('back/apartment.sync') }}</button>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            @if (isset($apartment->nokumo['link']) && $apartment->nokumo['link'] != '')
+                                                <p class="font-size-sm float-right">
+                                                    {{ isset($apartment->nokumo['updated']) ? $apartment->nokumo['updated'] : '' }}
+                                                    <i class="fa {{ isset($apartment->nokumo['icon']) ? $apartment->nokumo['icon'] : '' }} ml-2"></i>
+                                                </p>
+                                            @endif
+                                        </div>
                                     </div>
 
                                 </div>
