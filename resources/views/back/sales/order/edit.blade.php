@@ -247,7 +247,7 @@
                                     <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($order->total, true) }}</h4>
                                     <p>
                                         {{ __('back/app.order.payments') }}: {{ $payments->where('code', $order->payment_code)->first()->title->{current_locale()} }}<br>
-                                        {{ __('back/app.order.comment') }}: {{ $order->comment }}
+                                        {{ __('back/app.order.comment') }}: {!! $deposit->comment !!}
                                     </p>
                                 </div>
                                 <div class="col-md-1 text-right">
@@ -287,7 +287,7 @@
                                             <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($deposit->amount, true) }}</h4>
                                             <p>
                                                 {{ __('back/app.order.payments') }}: {{ $payments->where('code', $deposit->payment_code)->first()->title->{current_locale()} }}<br>
-                                                {{ __('back/app.order.comment') }}: {{ $deposit->comment }}<br>
+                                                {{ __('back/app.order.comment') }}: {!! $deposit->comment !!}<br>
                                                 {{ __('back/app.deposit.scope') }}: <strong>{{ config('settings.deposit_scopes')[$deposit->scope_id]['title'][current_locale()] }}</strong><br>
                                             </p>
                                         </div>

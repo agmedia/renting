@@ -38,7 +38,7 @@
                     <p style="font-size:12px">{{ __('front/success.success_text') }} {{ $order->id }} .</p>
                 @endif
                 <br><br>
-
+                <p> {!!  __('front/success.whatsup_text') !!} </p>
                 {{ __('front/common.regards') }},<br> SelfCheckIns
             </td>
         </tr>

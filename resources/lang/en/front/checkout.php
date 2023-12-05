@@ -63,10 +63,12 @@ return [
     'source_error' => 'Please select the source of your reservation.',
     'arbitrary' => [
         'title' => 'Please select the dates and source of Your reservation.',
-        'title2' => 'Molimo odaberite Vaš apartman.',
+        'title2' => 'Please select your apartment.',
         'price' => 'Purpose and amount info',
         'select_scope' => 'Select purpose of payment...',
-        'amount' => 'Enter amount',
+        'amount' => 'Enter amount in Euro (€)',
         'btn_next' => 'Next'
     ],
+    'day' => 'Daily payment',
+    'onetime' => 'Onetime payment'
 ];

@@ -55,8 +55,8 @@ return [
     'deposit_scopes' => [
         1 => [
             'title' => [
-                'en' => 'Deposit',
-                'hr' => 'Polog',
+                'en' => 'Security deposit',
+                'hr' => 'Sigurnosni polog',
             ],
         ],
         2 => [
@@ -68,19 +68,19 @@ return [
         3 => [
             'title' => [
                 'en' => 'Additional night',
-                'hr' => 'Dodatno nočenje',
+                'hr' => 'Dodatno noćenje',
             ],
         ],
         4 => [
             'title' => [
-                'en' => 'Check Out',
-                'hr' => 'Check Out',
+                'en' => 'Late Check Out',
+                'hr' => 'Kasni Check Out',
             ],
         ],
         5 => [
             'title' => [
-                'en' => 'Check In',
-                'hr' => 'Check In',
+                'en' => 'Early Check In',
+                'hr' => 'Rani Check In',
             ],
         ],
         6 => [

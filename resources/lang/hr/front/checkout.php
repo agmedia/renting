@@ -66,7 +66,9 @@ return [
         'title2' => 'Molimo odaberite Vaš apartman.',
         'price' => 'Detalji o namjeni i iznosu plaćanja',
         'select_scope' => 'Odaberite namjenu plaćanja...',
-        'amount' => 'Upišite iznos',
+        'amount' => 'Upišite iznos u Eurima (€)',
         'btn_next' => 'Dalje'
     ],
+    'day' => 'Plaćanje po danu',
+    'onetime' => 'Jednokratno plaćanje'
 ];

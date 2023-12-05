@@ -100,7 +100,8 @@
                                                     {{ $item['title'] }}
                                                 </label>
                                                 <div class="ms-4" style="float:right">
-                                                    {{ $item['price_text'] }}
+                                                    {{ $item['price_text'] }}<br>
+                                                    <span class="font-size-sm text-muted">{{ __('front/checkout.' . $item['price_per']) }}</span>
                                                 </div>
                                                 <div id="{{ $item['reference'] }}" class="form-text ps-4">{{ $item['description'] }}</div>
                                             </li>
@@ -121,7 +122,8 @@
                                                     {{ $item['title'] }}
                                                 </label>
                                                 <div class="ms-4" style="float:right">
-                                                    {{ $item['price_text'] }}
+                                                    {{ $item['price_text'] }}<br>
+                                                    <span class="font-size-sm text-muted">{{ __('front/checkout.' . $item['price_per']) }}</span>
                                                 </div>
                                                 <div id="{{ $item['reference'] }}" class="form-text ps-4">{{ $item['description'] }}</div>
                                             </li>

@@ -26,4 +26,5 @@ return [
     'payment_text' =>'MOLIMO IZVRŠITE UPLATU U IZNOSU OD',
     'refference_number' =>'POZIV NA BROJ',
     'scant_text' =>'ILI JEDNOSTAVNO POSKENIRAJTE 2D BARKOD',
+    'whatsup_text' => 'Predlažemo da nam se javite na Whatsapp: +385 99 500 8000<br>Whatsapp LINK: https://wa.me/message/RJPBBSQGMQKVI1'
 ];

@@ -341,7 +341,7 @@ class Checkout
         $this->children = $this->resolveRegularPerson(intval($this->request->input('children')), $this->apartment->max_children);
         $this->babies   = $this->resolveRegularPerson(intval($this->request->input('baby')), $this->apartment->max_children);
 
-        $this->additional_persons = $this->resolveAdditionalPerson($this->adults + $this->children + $this->babies);
+        $this->additional_persons = $this->resolveAdditionalPerson($this->adults + $this->children);
 
         if ($this->additional_persons) {
             $this->additional_person_object = $this->apartment->options()->where('reference', 'person')->orderBy('price')->first();

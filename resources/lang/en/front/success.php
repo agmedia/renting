@@ -25,6 +25,6 @@ return [
     'payment_text' =>'PLEASE MAKE A PAYMENT IN THE AMOUNT OF',
     'reference_number' =>'CALL TO NUMBER',
     'scant_text' =>'OR SIMPLY SCAN THE 2D BARCODE',
-
+    'whatsup_text' => 'We suggest You contact us on Whatsapp: +385 99 500 8000<br>Whatsapp LINK: https://wa.me/message/RJPBBSQGMQKVI1'
 
 ];

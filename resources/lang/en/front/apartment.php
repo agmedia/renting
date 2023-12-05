@@ -50,7 +50,7 @@ return [
                                                 <ul>
 
                                                     <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 10:00 AM (0 €)</li>
-                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 14:00 AM (30 €)</li>
+                                                    <li><i class="far fa-clock font-13 text-primary me-1"></i> Checkout: 13:00 AM (30 €)</li>
                                                     <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Self check-in with lockbox</li>
                                                     <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> No smoking</li>
 

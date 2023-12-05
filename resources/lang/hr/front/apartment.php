@@ -49,7 +49,7 @@ return [
                            <ul>
 
                                                     <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 10:00 (0 €)</li>
-                                                     <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 14:00 (30€)</li>
+                                                     <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 13:00 (30€)</li>
                                                     <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Samostalna prijava šifrom </li>
                                                     <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> Zabranjeno pušenje</li>
 
