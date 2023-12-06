@@ -4,6 +4,7 @@ return [
 
     'help_and_support' => 'Help and Support',
     'faq' => 'Faq',
+    'arbitrary' => 'Additional payments',
     'login' => 'Login',
     'login_register' => 'Login / Register',
     'contact' => 'Contact us',

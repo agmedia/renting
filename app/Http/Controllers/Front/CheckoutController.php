@@ -136,11 +136,17 @@ class CheckoutController extends FrontBaseController
 
         $dates = explode(' - ', $request->input('dates'));
 
-        $orders = Order::query()->with('apartment')
+        $query = Order::query()->with('apartment')
                        ->where('date_from', $dates[0])
-                       ->where('date_to', $dates[1])
-                       ->where('payment_email', 'info@' . $request->input('source') . '.com')
-                       ->get();
+                       ->where('date_to', $dates[1]);
+
+        if (in_array($request->input('source'), ['airbnb', 'booking'])) {
+            $query->where('payment_email', 'info@' . $request->input('source') . '.com');
+        } else {
+            $query->whereNotIn('payment_email', ['info@airbnb.com', 'info@booking.com']);
+        }
+
+        $orders = $query->get();
 
         //dd($orders->toArray());
 

@@ -39,8 +39,9 @@
                                     <span class="input-group-text" id="addon-wrapping"><i class="fas fa-map-marker-alt"></i></span>
                                     <select class="form-control bg-gray form-select" id="select-source" name="source">
                                         <option value="0" selected>{{ __('front/checkout.select_source') }}</option>
-                                        <option value="airbnb">Airbnb</option>
-                                        <option value="booking">Booking</option>
+                                        <option value="airbnb">Airbnb.com</option>
+                                        <option value="booking">Booking.com</option>
+                                        <option value="selfcheckins">SelfCheckins.com</option>
                                     </select>
                                     @if ($errors->has('source'))
                                         <span class="ml-2 font-size-sm text-danger">{{ __('front/checkout.source_error') }}</span>

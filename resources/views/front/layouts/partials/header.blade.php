@@ -16,8 +16,9 @@
                                             <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
                                         @endforeach
                                     @endif
-                                    <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
-                                        <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
+                                        <li><a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('checkout.arbitrary') }}">{{ __('front/common.arbitrary') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -83,8 +84,9 @@
                                             <li><a class="dropdown-item" href="{{ route('page', ['page' => $page->translation->slug]) }}">{{ $page->translation->title }}</a></li>
                                         @endforeach
                                     @endif
-                                    <li> <a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a> </li>
-                                    <li > <a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a> </li>
+                                        <li><a class="dropdown-item" href="{{ route('faq') }}">{{ __('front/common.faq') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('checkout.arbitrary') }}">{{ __('front/common.arbitrary') }}</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('kontakt') }}">{{ __('front/common.contact') }}</a></li>
                                 </ul>
                             </div>
                         </div>

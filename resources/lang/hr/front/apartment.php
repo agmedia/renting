@@ -52,7 +52,7 @@ return [
                                                      <li><i class="far fa-clock font-13 text-primary me-1"></i> Odjava: 13:00 (30€)</li>
                                                     <li><i class="fas fa-door-closed font-13 text-primary me-1"></i> Samostalna prijava šifrom </li>
                                                     <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> Zabranjeno pušenje</li>
-
+                                                    <li><i class="fas fa-smoking-ban font-13 text-primary me-1"></i> Zabranjeni kućni ljubimci</li>
                                                     <li><i class="fas fa-users-slash font-13 text-primary me-1"></i> Zabranjeno održavanje zabava</li>
                                                 </ul>
                      </div>

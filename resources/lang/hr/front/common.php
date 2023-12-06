@@ -4,6 +4,7 @@ return [
 
     'help_and_support' => 'Pomoć i podrška',
     'faq' => 'Česta pitanja',
+    'arbitrary' => 'Dodatna plaćanja',
     'login' => 'Prijava',
     'login_register' => 'Prijava / Registracija',
     'contact' => 'Kontaktirajte nas',
