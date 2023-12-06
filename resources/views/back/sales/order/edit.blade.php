@@ -247,7 +247,6 @@
                                     <h4 class="mb-1">{{ __('back/app.order.amount') }}: {{ currency_main($order->total, true) }}</h4>
                                     <p>
                                         {{ __('back/app.order.payments') }}: {{ $payments->where('code', $order->payment_code)->first()->title->{current_locale()} }}<br>
-                                        {{ __('back/app.order.comment') }}: {!! $deposit->comment !!}
                                     </p>
                                 </div>
                                 <div class="col-md-1 text-right">
