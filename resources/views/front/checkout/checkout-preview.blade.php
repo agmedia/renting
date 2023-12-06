@@ -35,13 +35,13 @@
                                                 <div>
                                                     <h6 class="my-0">{{  $item['price_text'] }} x {{ $item['count'] }} {!! $item['title'] !!} </h6>
                                                 </div>
-                                                <span class="text-muted">{{ $item['total_text'] }}</span>
+                                                <span class="text-muted">{{ (isset($item['total_text']) && is_string($item['total_text'])) ? $item['total_text'] : '' }}</span>
                                             </li>
                                         @endforeach
                                         @foreach ($checkout->total['total'] as  $item)
                                             <li class="list-group-item d-flex justify-content-between bg-light">
                                                 <h5 class="my-0">{!! $item['title'] !!}</h5>
-                                                <strong>{{ $item['total_text'] }}</strong>
+                                                <strong>{{ (isset($item['total_text']) && is_string($item['total_text'])) ? $item['total_text'] : '' }}</strong>
                                             </li>
                                         @endforeach
                                     </ul>
