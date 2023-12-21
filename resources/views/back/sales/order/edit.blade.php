@@ -209,7 +209,7 @@
                                                         <input type="checkbox" checked="checked" name="options_{{ isset($item['id']) ? $item['id'] : '0' }}">
                                                     </td>
                                                     <td>{{ $item['price_text'] }} * {{ $item['count'] }} {{ $item['title'] }}</td>
-                                                    <td class="text-right">{{ $item['total_text'] }}</td>
+                                                    <td class="text-right">{{ (is_string($item['total_text']) ? $item['total_text'] : '') }}</td>
                                                 </tr>
                                             @endif
                                         @endforeach
